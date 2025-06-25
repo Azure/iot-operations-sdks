@@ -1,23 +1,33 @@
 DataTypes:
 - UADataType: [ MTConnect.v2:2618, MTConnect.v2:AssetEventDataType ]
+  DisplayName: "AssetEventDataType"
+  Description: "A special gls{Variable} data type for asset change with a mtmodel{AssetType} and mtmodel{AssetId}."
   Fields:
     AssetId: [ String, 0 ]
     AssetType: [ String, 0 ]
 - UADataType: [ MTConnect.v2:2634, MTConnect.v2:MTCategoryType ]
+  DisplayName: "MTCategoryType"
+  Description: "Represents the gls{category} attribute of the MTConnect gls{MTDataItem}."
   Enums:
     EVENT: 0
     CONDITION: 1
     SAMPLE: 2
 - UADataType: [ MTConnect.v2:2635, MTConnect.v2:MTCoordinateSystemType ]
+  DisplayName: "MTCoordinateSystemType"
+  Description: "Represents the mtmodel{coordinateSystem} attribute of the MTConnect gls{MTDataItem}. It is a reference system that associates a unique set of n parameters with each point in an n-dimensional space. Ref: ISO 10303-218:2004"
   Enums:
     MACHINE: 0
     WORK: 1
 - UADataType: [ MTConnect.v2:2633, MTConnect.v2:MTRepresentationType ]
+  DisplayName: "MTRepresentationType"
+  Description: "Represents the mtmodel{representation} attribute of the MTConnect gls{MTDataItem}."
   Enums:
     DISCRETE: 0
     TIME_SERIES: 1
     VALUE: 2
 - UADataType: [ MTConnect.v2:2636, MTConnect.v2:MTResetTriggerType ]
+  DisplayName: "MTResetTriggerType"
+  Description: "These need to become uamodel{Good_} status code in OPC UA. resettrigger is an optional XML element that identifies the type of event that may cause a reset to occur. It is additional information regarding the meaning of the data that establishes an understanding of the time frame that the data represents so that the data may be correctly understood by a client software application."
   Enums:
     ACTION_COMPLETE: 0
     ANNUAL: 1
@@ -29,6 +39,8 @@ DataTypes:
     SHIFT: 7
     WEEK: 8
 - UADataType: [ MTConnect.v2:2659, MTConnect.v2:MTStatisticType ]
+  DisplayName: "MTStatisticType"
+  Description: ""
   Enums:
     AVERAGE: 0
     MAXIMUM: 1
@@ -39,44 +51,62 @@ DataTypes:
     ROOT_MEAN_SQUARE: 6
     STANDARD_DEVIATION: 7
 - UADataType: [ MTConnect.v2:2653, MTConnect.v2:MessageDataType ]
+  DisplayName: "MessageDataType"
+  Description: ""
   Fields:
     NativeCode: [ String, 0 ]
     Text: [ String, 0 ]
 - UADataType: [ MTConnect.v2:2637, MTConnect.v2:ThreeSpaceSampleDataType ]
+  DisplayName: "ThreeSpaceSampleDataType"
+  Description: "Represents a position in a three space coordinate system. The positions must be given in millimeters."
   Fields:
     X: [ Double, 0 ]
     Y: [ Double, 0 ]
     Z: [ Double, 0 ]
 - UADataType: [ MTConnect.v2:2669, MTConnect.v2:MTSeverityDataType ]
+  DisplayName: "MTSeverityDataType"
+  Description: ""
   Enums:
     FAULT: 0
     NORMAL: 1
     WARNING: 2
 - UADataType: [ MTConnect.v2:2668, MTConnect.v2:QualifierDataType ]
+  DisplayName: "QualifierDataType"
+  Description: ""
   Enums:
     HIGH: 0
     LOW: 1
 - UADataType: [ MTConnect.v2:2197, MTConnect.v2:ActiveStateDataType ]
+  DisplayName: "ActiveStateDataType"
+  Description: ""
   Enums:
     ACTIVE: 0
     INACTIVE: 1
 - UADataType: [ MTConnect.v2:2198, MTConnect.v2:AvailabilityDataType ]
+  DisplayName: "AvailabilityDataType"
+  Description: ""
   Enums:
     AVAILABLE: 0
     UNAVAILABLE: 1
 - UADataType: [ MTConnect.v2:2199, MTConnect.v2:AxisCouplingDataType ]
+  DisplayName: "AxisCouplingDataType"
+  Description: ""
   Enums:
     MASTER: 0
     SLAVE: 1
     SYNCHRONOUS: 2
     TANDEM: 3
 - UADataType: [ MTConnect.v2:2200, MTConnect.v2:AxisStateDataType ]
+  DisplayName: "AxisStateDataType"
+  Description: ""
   Enums:
     HOME: 0
     PARKED: 1
     STOPPED: 2
     TRAVEL: 3
 - UADataType: [ MTConnect.v2:2202, MTConnect.v2:CompositionStateDataType ]
+  DisplayName: "CompositionStateDataType"
+  Description: ""
   Enums:
     ACTIVE: 0
     CLOSED: 1
@@ -91,6 +121,8 @@ DataTypes:
     UNLATCHED: 10
     UP: 11
 - UADataType: [ MTConnect.v2:2203, MTConnect.v2:ControllerModeDataType ]
+  DisplayName: "ControllerModeDataType"
+  Description: ""
   Enums:
     AUTOMATIC: 0
     EDIT: 1
@@ -98,16 +130,22 @@ DataTypes:
     MANUAL_DATA_INPUT: 3
     SEMI_AUTOMATIC: 4
 - UADataType: [ MTConnect.v2:2205, MTConnect.v2:DirectionDataType ]
+  DisplayName: "DirectionDataType"
+  Description: ""
   Enums:
     CLOCKWISE: 0
     COUNTER_CLOCKWISE: 1
     NEGATIVE: 2
     POSITIVE: 3
 - UADataType: [ MTConnect.v2:2207, MTConnect.v2:EmergencyStopDataType ]
+  DisplayName: "EmergencyStopDataType"
+  Description: ""
   Enums:
     ARMED: 0
     TRIGGERED: 1
 - UADataType: [ MTConnect.v2:2262, MTConnect.v2:ExecutionDataType ]
+  DisplayName: "ExecutionDataType"
+  Description: ""
   Enums:
     ACTIVE: 0
     FEED_HOLD: 1
@@ -118,6 +156,8 @@ DataTypes:
     PROGRAM_STOPPED: 6
     STOPPED: 7
 - UADataType: [ MTConnect.v2:2208, MTConnect.v2:FunctionalModeDataType ]
+  DisplayName: "FunctionalModeDataType"
+  Description: ""
   Enums:
     MAINTENANCE: 0
     PRODUCTION: 1
@@ -125,6 +165,8 @@ DataTypes:
     SETUP: 3
     TEARDOWN: 4
 - UADataType: [ MTConnect.v2:2234, MTConnect.v2:InterfaceStateDataType ]
+  DisplayName: "InterfaceStateDataType"
+  Description: ""
   Enums:
     ACTIVE: 0
     COMPLETE: 1
@@ -132,35 +174,49 @@ DataTypes:
     NOT_READY: 4
     READY: 5
 - UADataType: [ MTConnect.v2:2230, MTConnect.v2:InterfaceStatusDataType ]
+  DisplayName: "InterfaceStatusDataType"
+  Description: ""
   Enums:
     DISABLED: 0
     ENABLED: 1
 - UADataType: [ MTConnect.v2:2204, MTConnect.v2:OnOffDataType ]
+  DisplayName: "OnOffDataType"
+  Description: ""
   Enums:
     OFF: 0
     ON: 1
 - UADataType: [ MTConnect.v2:2201, MTConnect.v2:OpenStateDataType ]
+  DisplayName: "OpenStateDataType"
+  Description: ""
   Enums:
     CLOSED: 0
     OPEN: 1
     UNLATCHED: 2
 - UADataType: [ MTConnect.v2:2209, MTConnect.v2:PathModeDataType ]
+  DisplayName: "PathModeDataType"
+  Description: ""
   Enums:
     INDEPENDENT: 0
     MASTER: 1
     MIRROR: 2
     SYNCHRONOUS: 3
 - UADataType: [ MTConnect.v2:2210, MTConnect.v2:ProgramEditDataType ]
+  DisplayName: "ProgramEditDataType"
+  Description: ""
   Enums:
     ACTIVE: 0
     NOT_READY: 1
     READY: 2
 - UADataType: [ MTConnect.v2:2211, MTConnect.v2:RotaryModeDataType ]
+  DisplayName: "RotaryModeDataType"
+  Description: ""
   Enums:
     CONTOUR: 0
     INDEX: 1
     SPINDLE: 2
 - UADataType: [ MTConnect.v2:2206, MTConnect.v2:YesNoDataType ]
+  DisplayName: "YesNoDataType"
+  Description: ""
   Enums:
     NO: 0
     YES: 1
@@ -169,69 +225,101 @@ DefinedTypes:
 
   MTConnect.v2:MTChannelType:
   - [ UAObjectType, MTConnect.v2:2059, MTConnect.v2:MTChannelType ]
+  - DisplayName: "MTChannelType"
+  - Description: "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2063, MTConnect.v2:CalibrationDate, UtcTime, -1, 0 ]
+    - DisplayName: "CalibrationDate"
+    - Description: "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2065, MTConnect.v2:CalibrationInitials, String, -1, 0 ]
+    - DisplayName: "CalibrationInitials"
+    - Description: "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2062, MTConnect.v2:MTDescription, String, -1, 0 ]
+    - DisplayName: "MTDescription"
+    - Description: "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2061, MTConnect.v2:Name, String, -1, 0 ]
+    - DisplayName: "Name"
+    - Description: "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2064, MTConnect.v2:NextCalibrationDate, UtcTime, -1, 0 ]
+    - DisplayName: "NextCalibrationDate"
+    - Description: "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2060, MTConnect.v2:Number, Int32, -1, 0 ]
+    - DisplayName: "Number"
+    - Description: "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:MTComponentType:
   - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
+  - DisplayName: "MTComponentType"
+  - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2023, MTConnect.v2:Name, String, -1, 0 ]
+    - DisplayName: "Name"
+    - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2024, MTConnect.v2:NativeName, String, -1, 0 ]
+    - DisplayName: "NativeName"
+    - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2027, MTConnect.v2:SampleInterval, Float, -1, 0 ]
+    - DisplayName: "SampleInterval"
+    - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2026, MTConnect.v2:SampleRate, Float, -1, 0 ]
+    - DisplayName: "SampleRate"
+    - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2025, MTConnect.v2:Uuid, String, -1, 0 ]
+    - DisplayName: "Uuid"
+    - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2022, MTConnect.v2:XmlId, String, -1, 0 ]
+    - DisplayName: "XmlId"
+    - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, MTConnect.v2:2028, MTConnect.v2:Description ]
+    - DisplayName: "Description"
+    - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
     - HasTypeDefinition:
       - [ UAObjectType, MTConnect.v2:2053, MTConnect.v2:MTDescriptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, MTConnect.v2:2029, MTConnect.v2:Configuration ]
+    - DisplayName: "Configuration"
+    - Description: "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment."
     - HasTypeDefinition:
       - [ UAObjectType, MTConnect.v2:2044, MTConnect.v2:MTConfigurationType ]
     - HasModellingRule:
@@ -239,379 +327,543 @@ DefinedTypes:
 
   MTConnect.v2:MTDeviceType:
   - [ UAObjectType, MTConnect.v2:2015, MTConnect.v2:MTDeviceType ]
+  - DisplayName: "MTDeviceType"
+  - Description: "See DeviceType.tex. The primary container element for each piece of equipment. device is organized within the devices container."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2017, MTConnect.v2:Iso841Class, String, -1, 0 ]
+    - DisplayName: "Iso841Class"
+    - Description: "See DeviceType.tex. The primary container element for each piece of equipment. device is organized within the devices container."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2016, MTConnect.v2:Version, String, -1, 0 ]
+    - DisplayName: "Version"
+    - Description: "See DeviceType.tex. The primary container element for each piece of equipment. device is organized within the devices container."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   MTConnect.v2:MTCompositionType:
   - [ UAObjectType, MTConnect.v2:2067, MTConnect.v2:MTCompositionType ]
+  - DisplayName: "MTCompositionType"
+  - Description: "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2069, MTConnect.v2:MTTypeName, String, -1, 0 ]
+    - DisplayName: "MTTypeName"
+    - Description: "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2071, MTConnect.v2:Name, String, -1, 0 ]
+    - DisplayName: "Name"
+    - Description: "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2070, MTConnect.v2:Uuid, String, -1, 0 ]
+    - DisplayName: "Uuid"
+    - Description: "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2068, MTConnect.v2:XmlId, String, -1, 0 ]
+    - DisplayName: "XmlId"
+    - Description: "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:MTConfigurationType:
   - [ UAObjectType, MTConnect.v2:2044, MTConnect.v2:MTConfigurationType ]
+  - DisplayName: "MTConfigurationType"
+  - Description: "The abstract mtuatype{MTConfigurationType} currently has only one sub-type, mtuatype{MTSensorConfigurationType}. In the future, the configurations will also contain component and device configuration information as sub-types. An XML element that contains technical information about a piece of equipment describing its physical layout or functional characteristics."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   MTConnect.v2:MTSensorConfigurationType:
   - [ UAObjectType, MTConnect.v2:2046, MTConnect.v2:MTSensorConfigurationType ]
+  - DisplayName: "MTSensorConfigurationType"
+  - Description: "An MTConnect Sensor Configuration associated with the Component. See SensorConfigurationType in type-specifications. An element that can contain descriptive content defining the configuration information for sensor."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2044, MTConnect.v2:MTConfigurationType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2048, MTConnect.v2:CalibrationDate, UtcTime, -1, 0 ]
+    - DisplayName: "CalibrationDate"
+    - Description: "An MTConnect Sensor Configuration associated with the Component. See SensorConfigurationType in type-specifications. An element that can contain descriptive content defining the configuration information for sensor."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2050, MTConnect.v2:CalibrationInitials, String, -1, 0 ]
+    - DisplayName: "CalibrationInitials"
+    - Description: "An MTConnect Sensor Configuration associated with the Component. See SensorConfigurationType in type-specifications. An element that can contain descriptive content defining the configuration information for sensor."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2047, MTConnect.v2:FirwareVersion, String, -1, 0 ]
+    - DisplayName: "FirwareVersion"
+    - Description: "An MTConnect Sensor Configuration associated with the Component. See SensorConfigurationType in type-specifications. An element that can contain descriptive content defining the configuration information for sensor."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2049, MTConnect.v2:NextCalibrationDate, UtcTime, -1, 0 ]
+    - DisplayName: "NextCalibrationDate"
+    - Description: "An MTConnect Sensor Configuration associated with the Component. See SensorConfigurationType in type-specifications. An element that can contain descriptive content defining the configuration information for sensor."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   MTConnect.v2:MTDescriptionType:
   - [ UAObjectType, MTConnect.v2:2053, MTConnect.v2:MTDescriptionType ]
+  - DisplayName: "MTDescriptionType"
+  - Description: "An MTConnect Component Description. See the DescriptionType in the type-specifications. An XML element that can contain any descriptive content."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2057, MTConnect.v2:Data, String, -1, 0 ]
+    - DisplayName: "Data"
+    - Description: "An MTConnect Component Description. See the DescriptionType in the type-specifications. An XML element that can contain any descriptive content."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2056, MTConnect.v2:Manufacturer, String, -1, 0 ]
+    - DisplayName: "Manufacturer"
+    - Description: "An MTConnect Component Description. See the DescriptionType in the type-specifications. An XML element that can contain any descriptive content."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2055, MTConnect.v2:SerialNumber, String, -1, 0 ]
+    - DisplayName: "SerialNumber"
+    - Description: "An MTConnect Component Description. See the DescriptionType in the type-specifications. An XML element that can contain any descriptive content."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2054, MTConnect.v2:Station, String, -1, 0 ]
+    - DisplayName: "Station"
+    - Description: "An MTConnect Component Description. See the DescriptionType in the type-specifications. An XML element that can contain any descriptive content."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   MTConnect.v2:ActuatorType:
   - [ UAObjectType, MTConnect.v2:2074, MTConnect.v2:ActuatorType ]
+  - DisplayName: "ActuatorType"
+  - Description: "the information for an apparatus for moving or controlling a mechanism or system Redefined as a piece of equipment with the ability to be represented as a lower level component of a parent component element or as a composition element. See actuator type"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
   MTConnect.v2:AuxiliariesType:
   - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
+  - DisplayName: "AuxiliariesType"
+  - Description: "p {padding:0px; margin:0px;} &#160; An XML container used to organize information for lower level elements representing functional sub-systems that provide supplementary or extended capabilities for a piece of equipment, but they are not required for the basic operation of the equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
   MTConnect.v2:BarFeederType:
   - [ UAObjectType, MTConnect.v2:2082, MTConnect.v2:BarFeederType ]
+  - DisplayName: "BarFeederType"
+  - Description: "a unit involved in delivering bar stock to a piece of equipment. barfeeder is an XML container that represents the information for a unit involved in delivering bar stock to a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
 
   MTConnect.v2:EnvironmentalType:
   - [ UAObjectType, MTConnect.v2:2102, MTConnect.v2:EnvironmentalType ]
+  - DisplayName: "EnvironmentalType"
+  - Description: "the information for a unit or function involved in monitoring, managing, or conditioning the environment around or within a piece of equipment. environmental is an XML container that represents the information for a unit or function involved in monitoring, managing, or conditioning the environment around or within a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
 
   MTConnect.v2:LoaderType:
   - [ UAObjectType, MTConnect.v2:2112, MTConnect.v2:LoaderType ]
+  - DisplayName: "LoaderType"
+  - Description: "the information for a unit comprised of all the parts involved in moving and distributing materials, parts, tooling, and other items to or from a piece of equipment loader is an XML container that represents the information for a unit comprised of all the parts involved in moving and distributing materials, parts, tooling, and other items to or from a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
 
   MTConnect.v2:SensorType:
   - [ UAObjectType, MTConnect.v2:2134, MTConnect.v2:SensorType ]
+  - DisplayName: "SensorType"
+  - Description: "the information for a piece of equipment that responds to a physical stimulus and transmits a resulting impulse or value from a sensing unit The sensor unit is modeled as a lower level component called sensor."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
 
   MTConnect.v2:ToolingDeliveryType:
   - [ UAObjectType, MTConnect.v2:2140, MTConnect.v2:ToolingDeliveryType ]
+  - DisplayName: "ToolingDeliveryType"
+  - Description: "a unit involved in managing, positioning, storing, and delivering tooling within a piece of equipment. toolingdelivery is an XML container that represents the information for a unit involved in managing, positioning, storing, and delivering tooling within a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
 
   MTConnect.v2:WasteDisposalType:
   - [ UAObjectType, MTConnect.v2:2142, MTConnect.v2:WasteDisposalType ]
+  - DisplayName: "WasteDisposalType"
+  - Description: "the information for a unit comprised of all the parts involved in removing manufacturing byproducts from a piece of equipment wastedisposal is an XML container that represents the information for a unit comprised of all the parts involved in removing manufacturing byproducts from a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
 
   MTConnect.v2:AxesType:
   - [ UAObjectType, MTConnect.v2:2078, MTConnect.v2:AxesType ]
+  - DisplayName: "AxesType"
+  - Description: "Organizes parts of the device that perform linear or rotational motion An XML container used to organize the structural element of a piece of equipment that perform linear or rotational motion."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
   MTConnect.v2:LinearType:
   - [ UAObjectType, MTConnect.v2:2110, MTConnect.v2:LinearType ]
+  - DisplayName: "LinearType"
+  - Description: "the movement of a physical piece of equipment, or a portion of the equipment, in a straight line. A linear axis represents the movement of a physical piece of equipment, or a portion of the equipment, in a straight line."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2078, MTConnect.v2:AxesType ]
 
   MTConnect.v2:RotaryType:
   - [ UAObjectType, MTConnect.v2:2132, MTConnect.v2:RotaryType ]
+  - DisplayName: "RotaryType"
+  - Description: "rotary movement of a physical piece of equipment or a portion of the equipment. A rotary axis represents any non-linear or rotary movement of a physical piece of equipment or a portion of the equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2078, MTConnect.v2:AxesType ]
 
   MTConnect.v2:ChuckType:
   - [ UAObjectType, MTConnect.v2:2086, MTConnect.v2:ChuckType ]
+  - DisplayName: "ChuckType"
+  - Description: "provides the information about a mechanism that holds a part or stock material in place Chuck is an XML container that provides the information about a mechanism that holds a part or stock material in place."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2132, MTConnect.v2:RotaryType ]
 
   MTConnect.v2:ControllerType:
   - [ UAObjectType, MTConnect.v2:2088, MTConnect.v2:ControllerType ]
+  - DisplayName: "ControllerType"
+  - Description: "intelligent or computational function within a piece of equipment An XML container used to organize information about an intelligent or computational function within a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
   MTConnect.v2:PathType:
   - [ UAObjectType, MTConnect.v2:2120, MTConnect.v2:PathType ]
+  - DisplayName: "PathType"
+  - Description: "information for an independent operation or function within a mtuatype{ControllerType} path is an XML container that represents the information for an independent operation or function within a controller."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2088, MTConnect.v2:ControllerType ]
 
   MTConnect.v2:DoorType:
   - [ UAObjectType, MTConnect.v2:2096, MTConnect.v2:DoorType ]
+  - DisplayName: "DoorType"
+  - Description: "the information for a mechanical mechanism or closure that can cover, for example, a physical access portal into a piece of equipment door component is an XML container that represents the information for a mechanical mechanism or closure that can cover."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
   MTConnect.v2:InterfacesType:
   - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
+  - DisplayName: "InterfacesType"
+  - Description: "An XML container that organizes information used to coordinate actions and activities between pieces of equipment that communicate information between each other."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
   MTConnect.v2:BarFeederInterfaceType:
   - [ UAObjectType, MTConnect.v2:2080, MTConnect.v2:BarFeederInterfaceType ]
+  - DisplayName: "BarFeederInterfaceType"
+  - Description: "information used to coordinate the operations between a Bar Feeder and another piece of equipment barfeederinterface provides the set of information used to coordinate the operations between a Bar Feeder and another piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
 
   MTConnect.v2:ChuckInterfaceType:
   - [ UAObjectType, MTConnect.v2:2084, MTConnect.v2:ChuckInterfaceType ]
+  - DisplayName: "ChuckInterfaceType"
+  - Description: "information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a chuck chuckinterface provides the set of information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a chuck."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
 
   MTConnect.v2:DoorInterfaceType:
   - [ UAObjectType, MTConnect.v2:2094, MTConnect.v2:DoorInterfaceType ]
+  - DisplayName: "DoorInterfaceType"
+  - Description: "information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a door doorinterface provides the set of information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a door."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
 
   MTConnect.v2:MaterialHandlerInterfaceType:
   - [ UAObjectType, MTConnect.v2:2116, MTConnect.v2:MaterialHandlerInterfaceType ]
+  - DisplayName: "MaterialHandlerInterfaceType"
+  - Description: "set of information used to coordinate the operations between a piece of equipment and another associated piece of equipment used to automatically handle various types of materials or services associated with the original piece of equipment materialhandlerinterface provides the set of information used to coordinate the operations between a piece of equipment and another associated piece of equipment used to automatically handle various types of materials or services associated with the original piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
 
   MTConnect.v2:ResourcesType:
   - [ UAObjectType, MTConnect.v2:2130, MTConnect.v2:ResourcesType ]
+  - DisplayName: "ResourcesType"
+  - Description: "An XML container used to organize information for lower level elements representing types of items, materials, and personnel that support the operation of a piece of equipment or work to be performed at a location. resources also represents materials or other items consumed or transformed by a piece of equipment for production of parts or other types of goods."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
   MTConnect.v2:MaterialsType:
   - [ UAObjectType, MTConnect.v2:2118, MTConnect.v2:MaterialsType ]
+  - DisplayName: "MaterialsType"
+  - Description: "information about materials or other items consumed or used by the piece of equipment for production of parts, materials, or other types of goods materials is an XML container that provides information about materials or other items consumed or used by the piece of equipment for production of parts, materials, or other types of goods."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2130, MTConnect.v2:ResourcesType ]
 
   MTConnect.v2:StockType:
   - [ UAObjectType, MTConnect.v2:2136, MTConnect.v2:StockType ]
+  - DisplayName: "StockType"
+  - Description: "the information for the material that is used in a manufacturing process and to which work is applied in a machine or piece of equipment to produce parts. stock is an XML container that represents the information for the material that is used in a manufacturing process and to which work is applied in a machine or piece of equipment to produce parts."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2118, MTConnect.v2:MaterialsType ]
 
   MTConnect.v2:PersonnelType:
   - [ UAObjectType, MTConnect.v2:2122, MTConnect.v2:PersonnelType ]
+  - DisplayName: "PersonnelType"
+  - Description: "personnel is an XML container that provides information about an individual or individuals who either control, support, or otherwise interface with a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2130, MTConnect.v2:ResourcesType ]
 
   MTConnect.v2:SystemsType:
   - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+  - DisplayName: "SystemsType"
+  - Description: "major sub-systems that are permanently integrated into a piece of equipment An XML container used to organize information for lower level elements representing the major sub-systems that are permanently integrated into a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
   MTConnect.v2:CoolantType:
   - [ UAObjectType, MTConnect.v2:2090, MTConnect.v2:CoolantType ]
+  - DisplayName: "CoolantType"
+  - Description: "a system comprised of all the parts involved in distribution and management of fluids that remove heat from a piece of equipment. coolant is an XML container that represents the information for a system comprised of all the parts involved in distribution and management of fluids that remove heat from a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:DielectricType:
   - [ UAObjectType, MTConnect.v2:2092, MTConnect.v2:DielectricType ]
+  - DisplayName: "DielectricType"
+  - Description: "a system that manages a chemical mixture used in a manufacturing process being performed at that piece of equipment. dielectric is an XML container that represents the information for a system that manages a chemical mixture used in a manufacturing process being performed at that piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:ElectricType:
   - [ UAObjectType, MTConnect.v2:2098, MTConnect.v2:ElectricType ]
+  - DisplayName: "ElectricType"
+  - Description: "represents the information for the main power supply for device piece of equipment and the distribution of that power throughout the equipment. electric is an XML container that represents the information for the main power supply for device piece of equipment and the distribution of that power throughout the equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:EnclosureType:
   - [ UAObjectType, MTConnect.v2:2100, MTConnect.v2:EnclosureType ]
+  - DisplayName: "EnclosureType"
+  - Description: "a structure used to contain or isolate a piece of equipment or area. enclosure is an XML container that represents the information for a structure used to contain or isolate a piece of equipment or area."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:FeederType:
   - [ UAObjectType, MTConnect.v2:2104, MTConnect.v2:FeederType ]
+  - DisplayName: "FeederType"
+  - Description: "the information for a system that manages the delivery of materials within a piece of equipment. feeder is an XML container that represents the information for a system that manages the delivery of materials within a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:HydraulicType:
   - [ UAObjectType, MTConnect.v2:2106, MTConnect.v2:HydraulicType ]
+  - DisplayName: "HydraulicType"
+  - Description: "system comprised of all the parts involved in moving and distributing pressurized liquid throughout the piece of equipment. hydraulic is an XML container that represents the information for a system comprised of all the parts involved in moving and distributing pressurized liquid throughout the piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:LubricationType:
   - [ UAObjectType, MTConnect.v2:2114, MTConnect.v2:LubricationType ]
+  - DisplayName: "LubricationType"
+  - Description: "a system comprised of all the parts involved in distribution and management of fluids used to lubricate portions of the piece of equipment. lubrication is an XML container that represents the information for a system comprised of all the parts involved in distribution and management of fluids used to lubricate portions of the piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:PneumaticType:
   - [ UAObjectType, MTConnect.v2:2124, MTConnect.v2:PneumaticType ]
+  - DisplayName: "PneumaticType"
+  - Description: "a system comprised of all the parts involved in moving and distributing pressurized gas throughout the piece of equipment. pneumatic is an XML container that represents the information for a system comprised of all the parts involved in moving and distributing pressurized gas throughout the piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:ProcessPowerType:
   - [ UAObjectType, MTConnect.v2:2126, MTConnect.v2:ProcessPowerType ]
+  - DisplayName: "ProcessPowerType"
+  - Description: "the information for a power source associated with a piece of equipment that supplies energy to the manufacturing process separate from the Electric system processpower is an XML container that represents the information for a power source associated with a piece of equipment that supplies energy to the manufacturing process separate from the electric system."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:ProtectiveType:
   - [ UAObjectType, MTConnect.v2:2128, MTConnect.v2:ProtectiveType ]
+  - DisplayName: "ProtectiveType"
+  - Description: "the information for those functions that detect or prevent harm or damage to equipment or personnel. Protective is an XML container that represents the information for those functions that detect or prevent harm or damage to equipment or personnel."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
 
   MTConnect.v2:MTConditionClassType:
   - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
+  - DisplayName: "MTConditionClassType"
+  - Description: "The abstract type for all data items types that are specifically for mtmodel{CONDITION} gls{category}. An XML element which provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of condition category in the mtconnectdevices document."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2425, MTConnect.v2:MTDataItemClassType ]
 
   MTConnect.v2:MTConstraintType:
   - [ UAObjectType, MTConnect.v2:2647, MTConnect.v2:MTConstraintType ]
+  - DisplayName: "MTConstraintType"
+  - Description: "The MTConnect constraints. The Values or the Minimum, Maximum, and Nominal values should be provided. Multiple Values can be provided as an array as a set of allowable values for this gls{MTDataItem}. A constraint is used by a software application to evaluate the validity of the reported data."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2650, MTConnect.v2:Maximum, Float, -1, 0 ]
+    - DisplayName: "Maximum"
+    - Description: "The MTConnect constraints. The Values or the Minimum, Maximum, and Nominal values should be provided. Multiple Values can be provided as an array as a set of allowable values for this gls{MTDataItem}. A constraint is used by a software application to evaluate the validity of the reported data."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2649, MTConnect.v2:Minimum, Float, -1, 0 ]
+    - DisplayName: "Minimum"
+    - Description: "The MTConnect constraints. The Values or the Minimum, Maximum, and Nominal values should be provided. Multiple Values can be provided as an array as a set of allowable values for this gls{MTDataItem}. A constraint is used by a software application to evaluate the validity of the reported data."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2651, MTConnect.v2:Nominal, Float, -1, 0 ]
+    - DisplayName: "Nominal"
+    - Description: "The MTConnect constraints. The Values or the Minimum, Maximum, and Nominal values should be provided. Multiple Values can be provided as an array as a set of allowable values for this gls{MTDataItem}. A constraint is used by a software application to evaluate the validity of the reported data."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2648, MTConnect.v2:Values, String, 1, 0 ]
+    - DisplayName: "Values"
+    - Description: "The MTConnect constraints. The Values or the Minimum, Maximum, and Nominal values should be provided. Multiple Values can be provided as an array as a set of allowable values for this gls{MTDataItem}. A constraint is used by a software application to evaluate the validity of the reported data."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   MTConnect.v2:MTEventClassType:
   - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
+  - DisplayName: "MTEventClassType"
+  - Description: "The base type class for all data items with a gls{category} of mtmodel{EVENT}. An XML element which provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of event category in the mtconnectdevices document."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2425, MTConnect.v2:MTDataItemClassType ]
 
   MTConnect.v2:MTMessageEventType:
   - [ UAObjectType, MTConnect.v2:2656, MTConnect.v2:MTMessageEventType ]
+  - DisplayName: "MTMessageEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2657, MTConnect.v2:NativeCode, String, -1, 0 ]
+    - DisplayName: "NativeCode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   MTConnect.v2:MTConditionEventType:
   - [ UAObjectType, MTConnect.v2:4326, MTConnect.v2:MTConditionEventType ]
+  - DisplayName: "MTConditionEventType"
+  - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:4336, MTConnect.v2:ActiveState, LocalizedText, -1, 0 ]
+    - DisplayName: "ActiveState"
+    - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:4327, MTConnect.v2:DataItemId, String, -1, 0 ]
+    - DisplayName: "DataItemId"
+    - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:4328, MTConnect.v2:MTSeverity, MTConnect.v2:MTSeverityDataType, -1, 0 ]
+    - DisplayName: "MTSeverity"
+    - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:4329, MTConnect.v2:MTSubTypeName, String, -1, 0 ]
+    - DisplayName: "MTSubTypeName"
+    - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:4330, MTConnect.v2:MTTypeName, String, -1, 0 ]
+    - DisplayName: "MTTypeName"
+    - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:4331, MTConnect.v2:NativeCode, String, -1, 0 ]
+    - DisplayName: "NativeCode"
+    - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:4332, MTConnect.v2:NativeSeverity, String, -1, 0 ]
+    - DisplayName: "NativeSeverity"
+    - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:4333, MTConnect.v2:Qualifier, MTConnect.v2:QualifierDataType, -1, 0 ]
+    - DisplayName: "Qualifier"
+    - Description: "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   MTConnect.v2:MTConditionType:
   - [ UAObjectType, MTConnect.v2:2660, MTConnect.v2:MTConditionType ]
+  - DisplayName: "MTConditionType"
+  - Description: "An mtmodel{MTConditionType} instance will be created for event MTConnect gls{MTDataItem} with a gls{category} of mtmodel{CONDITION}. The gls{BrowseName} of the condition uses the same naming convention as the MTConnect gls{MTDataItem} types with gls{MTCondition} appended as a suffix. For example the condition with gls{type} of mtmodel{TEMPERATURE} will have the browse name of mtmodel{TemperatureCondition} as opposed to the mtuatype{MTSampleType} of mtmodel{Temperature}. An XML element which provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of condition category in the mtconnectdevices document."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2917, MTConnect.v2:Category, MTConnect.v2:MTCategoryType, -1, 0 ]
+    - DisplayName: "Category"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2919, MTConnect.v2:MTSubTypeName, String, -1, 0 ]
+    - DisplayName: "MTSubTypeName"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2918, MTConnect.v2:MTTypeName, String, -1, 0 ]
+    - DisplayName: "MTTypeName"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2916, MTConnect.v2:Name, String, -1, 0 ]
+    - DisplayName: "Name"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2923, MTConnect.v2:PeriodFilter, Float, -1, 0 ]
+    - DisplayName: "PeriodFilter"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2922, MTConnect.v2:Representation, MTConnect.v2:MTRepresentationType, -1, 0 ]
+    - DisplayName: "Representation"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2921, MTConnect.v2:SampleRate, Double, -1, 0 ]
+    - DisplayName: "SampleRate"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2920, MTConnect.v2:SourceData, String, -1, 0 ]
+    - DisplayName: "SourceData"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2915, MTConnect.v2:XmlId, String, -1, 0 ]
+    - DisplayName: "XmlId"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, MTConnect.v2:2924, MTConnect.v2:Constraints ]
+    - DisplayName: "Constraints"
+    - Description: "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment."
     - HasTypeDefinition:
       - [ UAObjectType, MTConnect.v2:2647, MTConnect.v2:MTConstraintType ]
     - HasModellingRule:
@@ -619,1077 +871,1484 @@ DefinedTypes:
 
   MTConnect.v2:MTDataItemClassType:
   - [ UAObjectType, MTConnect.v2:2425, MTConnect.v2:MTDataItemClassType ]
+  - DisplayName: "MTDataItemClassType"
+  - Description: "Abstract base class for all the data item class types. The names are created by pascal typing the names and then generating appending mtmodel{Type}. data entity describing a piece of information reported about a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   MTConnect.v2:MTMessageClassType:
   - [ UAObjectType, MTConnect.v2:2427, MTConnect.v2:MTMessageClassType ]
+  - DisplayName: "MTMessageClassType"
+  - Description: "Any text string of information to be transferred from a piece of equipment to a client software application."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
 
   MTConnect.v2:MTSampleClassType:
   - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
+  - DisplayName: "MTSampleClassType"
+  - Description: "The base type class for all data items with a gls{category} of mtmodel{SAMPLE}. An XML element that provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of sample category in the mtconnectdevices document."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2425, MTConnect.v2:MTDataItemClassType ]
 
   MTConnect.v2:AccelerationClassType:
   - [ UAObjectType, MTConnect.v2:2265, MTConnect.v2:AccelerationClassType ]
+  - DisplayName: "AccelerationClassType"
+  - Description: "Rate of change of velocity. $frac{MILLIMETER}{SECOND^{2}}$ The measurement of the rate of change of velocity."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:AccumulatedTimeClassType:
   - [ UAObjectType, MTConnect.v2:2267, MTConnect.v2:AccumulatedTimeClassType ]
+  - DisplayName: "AccumulatedTimeClassType"
+  - Description: "The measurement of accumulated time for an activity or event. $SECOND$ The measurement of accumulated time for an activity or event."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:AmperageClassType:
   - [ UAObjectType, MTConnect.v2:2273, MTConnect.v2:AmperageClassType ]
+  - DisplayName: "AmperageClassType"
+  - Description: "The measurement of electrical current. $AMPERE$ DEPRECATED in Version 1.6. Replaced by amperageac sample and amperagedc sample."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:AngleClassType:
   - [ UAObjectType, MTConnect.v2:2275, MTConnect.v2:AngleClassType ]
+  - DisplayName: "AngleClassType"
+  - Description: "The measurement of angular position. $DEGREE$ The measurement of angular position."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:AngularAccelerationClassType:
   - [ UAObjectType, MTConnect.v2:2269, MTConnect.v2:AngularAccelerationClassType ]
+  - DisplayName: "AngularAccelerationClassType"
+  - Description: "Rate of change of angular velocity. $frac{DEGREE}{SECOND^{2}}$ The measurement rate of change of angular velocity."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:AngularVelocityClassType:
   - [ UAObjectType, MTConnect.v2:2271, MTConnect.v2:AngularVelocityClassType ]
+  - DisplayName: "AngularVelocityClassType"
+  - Description: "Rate of change of angular position. $frac{DEGREE}{SECOND}$ The measurement of the rate of change of angular position."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:AxisFeedrateClassType:
   - [ UAObjectType, MTConnect.v2:2277, MTConnect.v2:AxisFeedrateClassType ]
+  - DisplayName: "AxisFeedrateClassType"
+  - Description: "The feedrate of a linear axis. $frac{MILLIMETER}{SECOND}$ The measurement of the feedrate of a linear axis."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:ClockTimeClassType:
   - [ UAObjectType, MTConnect.v2:2279, MTConnect.v2:ClockTimeClassType ]
+  - DisplayName: "ClockTimeClassType"
+  - Description: "The value provided by a timing device at a specific point in time. $TIMESTAMP$ The value provided by a timing device at a specific point in time."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:ConcentrationClassType:
   - [ UAObjectType, MTConnect.v2:2281, MTConnect.v2:ConcentrationClassType ]
+  - DisplayName: "ConcentrationClassType"
+  - Description: "Percentage of one component within a mixture of components. $PERCENT$ The measurement of the percentage of one component within a mixture of components"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:ConductivityClassType:
   - [ UAObjectType, MTConnect.v2:2283, MTConnect.v2:ConductivityClassType ]
+  - DisplayName: "ConductivityClassType"
+  - Description: "The ability of a material to conduct electricity. $frac{SIEMENS}{METER}$ The measurement of the ability of a material to conduct electricity."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:DisplacementClassType:
   - [ UAObjectType, MTConnect.v2:2285, MTConnect.v2:DisplacementClassType ]
+  - DisplayName: "DisplacementClassType"
+  - Description: "The change in position of an object. $MILLIMETER$ The measurement of the change in position of an object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:ElectricalEnergyClassType:
   - [ UAObjectType, MTConnect.v2:2287, MTConnect.v2:ElectricalEnergyClassType ]
+  - DisplayName: "ElectricalEnergyClassType"
+  - Description: "The measurement of electrical energy consumption by a component. $WATT times SECOND$ The measurement of electrical energy consumption by a component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:EquipmentTimerClassType:
   - [ UAObjectType, MTConnect.v2:2289, MTConnect.v2:EquipmentTimerClassType ]
+  - DisplayName: "EquipmentTimerClassType"
+  - Description: "The measurement of the amount of time a mtmodel{SECOND} piece of equipment or a sub-part of a piece of equipment has performed specific activities. Often used to determine when maintenance may be required for the equipment. Multiple subTypes of mtmodel{EQUIPMENT_TIMER} MAY be defined. A subType MUST always be specified. $SECOND$ The measurement of the amount of time a piece of equipment or a sub-part of a piece of equipment has performed specific activities."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:FillLevelClassType:
   - [ UAObjectType, MTConnect.v2:2291, MTConnect.v2:FillLevelClassType ]
+  - DisplayName: "FillLevelClassType"
+  - Description: "The measurement of the amount of a substance remaining compared to the planned maximum amount of that substance. $PERCENT$ The measurement of the amount of a substance remaining compared to the planned maximum amount of that substance."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:FlowClassType:
   - [ UAObjectType, MTConnect.v2:2293, MTConnect.v2:FlowClassType ]
+  - DisplayName: "FlowClassType"
+  - Description: "The rate of flow of a fluid. $frac{LITER}{SECOND}$ The measurement of the rate of flow of a fluid."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:FrequencyClassType:
   - [ UAObjectType, MTConnect.v2:2295, MTConnect.v2:FrequencyClassType ]
+  - DisplayName: "FrequencyClassType"
+  - Description: "The measurement of the number of occurrences of a repeating event per unit time. $HERTZ$ The measurement of the number of occurrences of a repeating event per unit time."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:LengthClassType:
   - [ UAObjectType, MTConnect.v2:2297, MTConnect.v2:LengthClassType ]
+  - DisplayName: "LengthClassType"
+  - Description: "The length of an object. $MILLIMETER$ The measurement of the length of an object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:LinearForceClassType:
   - [ UAObjectType, MTConnect.v2:2299, MTConnect.v2:LinearForceClassType ]
+  - DisplayName: "LinearForceClassType"
+  - Description: "The measure of the push or pull introduced by an actuator or exerted on an object. $NEWTON$ The measurement of the push or pull introduced by an actuator or exerted on an object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:LoadClassType:
   - [ UAObjectType, MTConnect.v2:2263, MTConnect.v2:LoadClassType ]
+  - DisplayName: "LoadClassType"
+  - Description: "The measurement of the actual versus the standard rating of a piece of equipment. $PERCENT$ The measurement of the actual versus the standard rating of a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:MassClassType:
   - [ UAObjectType, MTConnect.v2:2301, MTConnect.v2:MassClassType ]
+  - DisplayName: "MassClassType"
+  - Description: "The measurement of the mass of an object(s) or an amount of material. $KILOGRAM$ The measurement of the mass of an object(s) or an amount of material."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:PathFeedrateClassType:
   - [ UAObjectType, MTConnect.v2:2303, MTConnect.v2:PathFeedrateClassType ]
+  - DisplayName: "PathFeedrateClassType"
+  - Description: "The feedrate for the axes, or a single axis, associated with a mtmodel{Path} component a vector. $frac{MILLIMETER}{SECOND}$ The measurement of the feedrate for the axes, or a single axis, associated with a path component-a vector."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:PathPositionClassType:
   - [ UAObjectType, MTConnect.v2:2305, MTConnect.v2:PathPositionClassType ]
+  - DisplayName: "PathPositionClassType"
+  - Description: "A measured or calculated position of a control point associated with a mtmodel{Controller} element, or PATH element if provided, of a piece of equipment. The control point MUST be reported as a set of space-delimited floating-point numbers representing a point in 3-D space. The position of the control point MUST be reported in units of mtmodel{MILLIMETER} and listed in order of X, Y, and Z referenced to the coordinate system of the piece of equipment. $MILLIMETER (mathbb{R}^{3})$ A measured or calculated position of a control point associated with a controller element, or path element if provided, of a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:PHClassType:
   - [ UAObjectType, MTConnect.v2:2307, MTConnect.v2:PHClassType ]
+  - DisplayName: "PHClassType"
+  - Description: "The measure of the acidity or alkalinity. $PH$ A measure of the acidity or alkalinity of a solution."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:PositionClassType:
   - [ UAObjectType, MTConnect.v2:2309, MTConnect.v2:PositionClassType ]
+  - DisplayName: "PositionClassType"
+  - Description: "A calculated or measured position related to a Component element. mtmodel{POSITION} SHOULD be further defined withacoordinateSytemattribute. If a coordinateSystem attribute is not specified, the position of the control point MUST be reported in mtmodel{MACHINE} coordinates. $MILLIMETER$ A measured or calculated position of a component element as reported by a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:PowerFactorClassType:
   - [ UAObjectType, MTConnect.v2:2311, MTConnect.v2:PowerFactorClassType ]
+  - DisplayName: "PowerFactorClassType"
+  - Description: "The measurement of the ratio of real power flowing to a load to the apparent power in that AC circuit. $PERCENT$ The measurement of the ratio of real power flowing to a load to the apparent power in that AC circuit."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:PressureClassType:
   - [ UAObjectType, MTConnect.v2:2313, MTConnect.v2:PressureClassType ]
+  - DisplayName: "PressureClassType"
+  - Description: "The force per unit area exerted by a gas or liquid. $PASCAL$ The measurement of force per unit area exerted by a gas or liquid."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:ProcessTimerClassType:
   - [ UAObjectType, MTConnect.v2:2315, MTConnect.v2:ProcessTimerClassType ]
+  - DisplayName: "ProcessTimerClassType"
+  - Description: "The measurement of the amount of time a piece of equipment has performed different types of activities associated with the process being performed at that piece of equipment. Multiple subtypes of mtmodel{PROCESS_TIMER} may be defined. Typically, mtmodel{PROCESS_TIMER} SHOULD be modeled as a data item for the Device element, but MAY be modeled for either a Controller or Path Structural Element in the XML document. A gls{subType} MUST always be specified. $SECOND$ The measurement of the amount of time a piece of equipment has performed different types of activities associated with the process being performed at that piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:ResistenceClassType:
   - [ UAObjectType, MTConnect.v2:2317, MTConnect.v2:ResistenceClassType ]
+  - DisplayName: "ResistenceClassType"
+  - Description: "The degree to which a substance opposes the passage of an electric current. $OHM$"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:RotaryVelocityClassType:
   - [ UAObjectType, MTConnect.v2:2319, MTConnect.v2:RotaryVelocityClassType ]
+  - DisplayName: "RotaryVelocityClassType"
+  - Description: "The rotational speed of a rotary axis. $frac{REVOLUTION}{MINUTE}$ The measurement of the rotational speed of a rotary axis."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:SoundLevelClassType:
   - [ UAObjectType, MTConnect.v2:2321, MTConnect.v2:SoundLevelClassType ]
+  - DisplayName: "SoundLevelClassType"
+  - Description: "Measurement of a sound level or sound pressure level relative to atmospheric pressure. $DECIBEL$ The measurement of a sound level or sound pressure level relative to atmospheric pressure."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:StrainClassType:
   - [ UAObjectType, MTConnect.v2:2323, MTConnect.v2:StrainClassType ]
+  - DisplayName: "StrainClassType"
+  - Description: "The amount of deformation per unit length of an object when a load is applied. $PERCENT$ The measurement of the amount of deformation per unit length of an object when a load is applied."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:TemperatureClassType:
   - [ UAObjectType, MTConnect.v2:2325, MTConnect.v2:TemperatureClassType ]
+  - DisplayName: "TemperatureClassType"
+  - Description: "The measurement of temperature. $CELSIUS$ The measurement of temperature."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:TensionClassType:
   - [ UAObjectType, MTConnect.v2:2327, MTConnect.v2:TensionClassType ]
+  - DisplayName: "TensionClassType"
+  - Description: "A measurement of a force that stretches or elongates an object. $NEWTON$ The measurement of a force that stretches or elongates an object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:TiltClassType:
   - [ UAObjectType, MTConnect.v2:2329, MTConnect.v2:TiltClassType ]
+  - DisplayName: "TiltClassType"
+  - Description: "A measurement of angular displacement. $MICRO cdot RADIAN$ The measurement of angular displacement."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:TorqueClassType:
   - [ UAObjectType, MTConnect.v2:2331, MTConnect.v2:TorqueClassType ]
+  - DisplayName: "TorqueClassType"
+  - Description: "The turning force exerted on an object or by an object. $NEWTON times METER$ The measurement of the turning force exerted on an object or by an object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:VelocityClassType:
   - [ UAObjectType, MTConnect.v2:2335, MTConnect.v2:VelocityClassType ]
+  - DisplayName: "VelocityClassType"
+  - Description: "The rate of change of position. $frac{MILLIMETER}{SECOND}$ The measurement of the rate of change of position of a component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:ViscosityClassType:
   - [ UAObjectType, MTConnect.v2:2339, MTConnect.v2:ViscosityClassType ]
+  - DisplayName: "ViscosityClassType"
+  - Description: "A measurement of a fluid’s resistance to flow. $PASCAL times SECOND$. The measurement of a fluids resistance to flow."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:VoltageClassType:
   - [ UAObjectType, MTConnect.v2:2341, MTConnect.v2:VoltageClassType ]
+  - DisplayName: "VoltageClassType"
+  - Description: "The measurement of electrical potential between two points. $VOLT$ DEPRECATED in Version 1.6. Replaced by voltageac sample and voltagedc sample."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:VoltAmpereClassType:
   - [ UAObjectType, MTConnect.v2:2333, MTConnect.v2:VoltAmpereClassType ]
+  - DisplayName: "VoltAmpereClassType"
+  - Description: "The measure of the apparent power in an electrical circuit, equal to the product of root-mean-square (RMS) voltage and RMS current (commonly referred to as VA). $VOLT times AMPERE$ The measurement of the apparent power in an electrical circuit, equal to the product of root-mean-square (RMS) voltage and RMS current (commonly referred to as VA)."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:VoltAmpereReactiveClassType:
   - [ UAObjectType, MTConnect.v2:2337, MTConnect.v2:VoltAmpereReactiveClassType ]
+  - DisplayName: "VoltAmpereReactiveClassType"
+  - Description: "The measurement of reactive power in an AC electrical circuit (commonly referred to as VAR). $VOLT times AMPERE (Reactive)$ The measurement of reactive power in an AC electrical circuit (commonly referred to as VAR)."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:WattageClassType:
   - [ UAObjectType, MTConnect.v2:2343, MTConnect.v2:WattageClassType ]
+  - DisplayName: "WattageClassType"
+  - Description: "The measurement of power flowing through or dissipated by an electrical circuit or piece of equipment. $WATT$ The measurement of power flowing through or dissipated by an electrical circuit or piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
   MTConnect.v2:MTControlledVocabEventClassType:
   - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
+  - DisplayName: "MTControlledVocabEventClassType"
+  - Description: "The abstract base type for controlled events that represent states that are provided in related enumerations. These data items will be represented in an object of type mtuatype{MTControlledVocabEventType} derived from the OPC UA type uamodel{MultiStateValueDiscreteType}"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
 
   MTConnect.v2:ActuatorStateClassType:
   - [ UAObjectType, MTConnect.v2:2146, MTConnect.v2:ActuatorStateClassType ]
+  - DisplayName: "ActuatorStateClassType"
+  - Description: "Represents the operational state of an apparatus for moving or controlling. Represents the operational state of an apparatus for moving or controlling a mechanism or system."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2949, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:AvailabilityClassType:
   - [ UAObjectType, MTConnect.v2:2149, MTConnect.v2:AvailabilityClassType ]
+  - DisplayName: "AvailabilityClassType"
+  - Description: "Represents the Agent's ability to communicate with the data source. This MUST be provided for a Device Element and MAY be provided for any other Structural Element. Represents the agent's ability to communicate with the data source."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2955, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:AxisCouplingClassType:
   - [ UAObjectType, MTConnect.v2:2152, MTConnect.v2:AxisCouplingClassType ]
+  - DisplayName: "AxisCouplingClassType"
+  - Description: "Describes the way the axes will be associated to each other. This is used in conjunction with mtmodel{COUPLED_AXES} to indicate the way they are interacting. The coupling MUST be viewed from the perspective of a specific axis. Therefore, a mtmodel{MASTER} coupling indicates that this axis is the master for the mtmodel{COUPLED_AXES}. Describes the way the axes will be associated to each other. This is used in conjunction with coupledaxes event to indicate the way they are interacting."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2961, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:AxisInterlockClassType:
   - [ UAObjectType, MTConnect.v2:2155, MTConnect.v2:AxisInterlockClassType ]
+  - DisplayName: "AxisInterlockClassType"
+  - Description: "An indicator of the state of the axis lockout function when power has been removed and the axis is allowed to move freely. An indicator of the state of the axis lockout function when power has been removed and the axis is allowed to move freely."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2949, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:AxisStateClassType:
   - [ UAObjectType, MTConnect.v2:2158, MTConnect.v2:AxisStateClassType ]
+  - DisplayName: "AxisStateClassType"
+  - Description: "An indicator of the controlled state of a mtmodel{LINEAR} or mtmodel{ROTARY} component representing an axis. An indicator of the controlled state of a linear or rotary component representing an axis."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2967, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:ChuckInterlockClassType:
   - [ UAObjectType, MTConnect.v2:2161, MTConnect.v2:ChuckInterlockClassType ]
+  - DisplayName: "ChuckInterlockClassType"
+  - Description: "An indication of the state of an interlock function or control logic state intended to prevent the associated mtmodel{Chuck} composition or function from being operated. An indication of the state of an interlock function or control logic state intended to prevent the associated chuck component from being operated."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2949, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:ChuckStateClassType:
   - [ UAObjectType, MTConnect.v2:2164, MTConnect.v2:ChuckStateClassType ]
+  - DisplayName: "ChuckStateClassType"
+  - Description: "An indication of the operating state of a mechanism that holds a part or stock material during a manufacturing process. It may also represent a mechanism that holds any other mechanism in place within a piece of equipment. An indication of the operating state of a mechanism that holds a part or stock material during a manufacturing process. It may also represent a mechanism that holds any other mechanism in place within a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3027, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:CloseChuckClassType:
   - [ UAObjectType, MTConnect.v2:2256, MTConnect.v2:CloseChuckClassType ]
+  - DisplayName: "CloseChuckClassType"
+  - Description: "Service to close a chuck. Service to close a chuck."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:CloseDoorClassType:
   - [ UAObjectType, MTConnect.v2:2250, MTConnect.v2:CloseDoorClassType ]
+  - DisplayName: "CloseDoorClassType"
+  - Description: "Service to close a door. Service to close a door."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:CompositionStateClassType:
   - [ UAObjectType, MTConnect.v2:2173, MTConnect.v2:CompositionStateClassType ]
+  - DisplayName: "CompositionStateClassType"
+  - Description: "An indication of the operating condition of a mechanism represented by a mtmodel{Composition} type element. A gls{subType} MUST always be specified. A mtmodel{compositionId} MUST always be specified. An indication of the operating condition of a mechanism represented by a composition type element."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2973, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:ControllerModeClassType:
   - [ UAObjectType, MTConnect.v2:2167, MTConnect.v2:ControllerModeClassType ]
+  - DisplayName: "ControllerModeClassType"
+  - Description: "The current mode of the mtmodel{Controller} component. The current operating mode of the controller component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2979, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:ControllerModeOverrideClassType:
   - [ UAObjectType, MTConnect.v2:2176, MTConnect.v2:ControllerModeOverrideClassType ]
+  - DisplayName: "ControllerModeOverrideClassType"
+  - Description: "A setting or operator selection that changes the behavior of a piece of equipment. A setting or operator selection that changes the behavior of a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3021, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:DirectionClassType:
   - [ UAObjectType, MTConnect.v2:2179, MTConnect.v2:DirectionClassType ]
+  - DisplayName: "DirectionClassType"
+  - Description: "The direction of motion. A gls{subType} MUST always be specified. The direction of motion."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2985, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:DoorStateClassType:
   - [ UAObjectType, MTConnect.v2:2182, MTConnect.v2:DoorStateClassType ]
+  - DisplayName: "DoorStateClassType"
+  - Description: "The opened or closed state of the door. The operational state of a door type component or composition element."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3027, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:EmergencyStopClassType:
   - [ UAObjectType, MTConnect.v2:2185, MTConnect.v2:EmergencyStopClassType ]
+  - DisplayName: "EmergencyStopClassType"
+  - Description: "The current state of the emergency stop signal. The current state of the emergency stop signal for a piece of equipment, controller path, or any other component or subsystem of a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2991, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:EndOfBarClassType:
   - [ UAObjectType, MTConnect.v2:2188, MTConnect.v2:EndOfBarClassType ]
+  - DisplayName: "EndOfBarClassType"
+  - Description: "An indication of whether the end of a piece of bar stock being feed by a bar feeder has been reached. An indication of whether the end of a piece of bar stock being feed by a bar feeder has been reached."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3051, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:EquipmentModeClassType:
   - [ UAObjectType, MTConnect.v2:2191, MTConnect.v2:EquipmentModeClassType ]
+  - DisplayName: "EquipmentModeClassType"
+  - Description: "An indication that a piece of equipment, or a sub-part of a piece of equipment, is performing specific types of activities. A gls{subType} MUST always be specified. An indication that a piece of equipment, or a sub-part of a piece of equipment, is performing specific types of activities."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3021, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:ExecutionClassType:
   - [ UAObjectType, MTConnect.v2:2170, MTConnect.v2:ExecutionClassType ]
+  - DisplayName: "ExecutionClassType"
+  - Description: "The execution status of the mtmodel{Controller} or mtmodel{Path}. The execution status of the controller."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2997, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:FunctionalModeClassType:
   - [ UAObjectType, MTConnect.v2:2194, MTConnect.v2:FunctionalModeClassType ]
+  - DisplayName: "FunctionalModeClassType"
+  - Description: "The current intended production status of the device or component. Typically, the texttt{FUNCTIONAL_MODE} SHOULD be modeled as a data item for the Device element, but MAY be modeled for any Structural Element in the XML document. The current intended production status of the device or component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3003, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:InterfaceStateClassType:
   - [ UAObjectType, MTConnect.v2:2227, MTConnect.v2:InterfaceStateClassType ]
+  - DisplayName: "InterfaceStateClassType"
+  - Description: "The current functional or operational state of an Interface type element indicating whether the Interface is active or not currently functioning. An indication of the operational state of an interface component component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3015, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:MaterialChangeClassType:
   - [ UAObjectType, MTConnect.v2:2235, MTConnect.v2:MaterialChangeClassType ]
+  - DisplayName: "MaterialChangeClassType"
+  - Description: "Service to change the type of material or product being loaded or fed to a piece of equipment. Service to change the type of material or product being loaded or fed to a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:MaterialFeedClassType:
   - [ UAObjectType, MTConnect.v2:2231, MTConnect.v2:MaterialFeedClassType ]
+  - DisplayName: "MaterialFeedClassType"
+  - Description: "Service to advance material or feed product to a piece of equipment from a continuous or bulk source. Service to advance material or feed product to a piece of equipment from a continuous or bulk source."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:MaterialLoadClassType:
   - [ UAObjectType, MTConnect.v2:2241, MTConnect.v2:MaterialLoadClassType ]
+  - DisplayName: "MaterialLoadClassType"
+  - Description: "Service to load a piece of material or product. Service to load a piece of material or product."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:MaterialRetractClassType:
   - [ UAObjectType, MTConnect.v2:2238, MTConnect.v2:MaterialRetractClassType ]
+  - DisplayName: "MaterialRetractClassType"
+  - Description: "Service to remove or retract material or product. Service to remove or retract material or product."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:MaterialUnloadClassType:
   - [ UAObjectType, MTConnect.v2:2244, MTConnect.v2:MaterialUnloadClassType ]
+  - DisplayName: "MaterialUnloadClassType"
+  - Description: "Service to unload a piece of material or product. Service to unload a piece of material or product."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:OpenChuckClassType:
   - [ UAObjectType, MTConnect.v2:2253, MTConnect.v2:OpenChuckClassType ]
+  - DisplayName: "OpenChuckClassType"
+  - Description: "Service to open a chuck. Service to open a chuck."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:OpenDoorClassType:
   - [ UAObjectType, MTConnect.v2:2247, MTConnect.v2:OpenDoorClassType ]
+  - DisplayName: "OpenDoorClassType"
+  - Description: "Service to open a door. Service to open a door."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:PartChangeClassType:
   - [ UAObjectType, MTConnect.v2:2259, MTConnect.v2:PartChangeClassType ]
+  - DisplayName: "PartChangeClassType"
+  - Description: "Service to change the part or product associated with a piece of equipment to a different part or product. Service to change the part or product associated with a piece of equipment to a different part or product."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3009, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:PathModeClassType:
   - [ UAObjectType, MTConnect.v2:2215, MTConnect.v2:PathModeClassType ]
+  - DisplayName: "PathModeClassType"
+  - Description: "Describes the operational relationship between a mtmodel{PATH} textit{Structural Element} and another mtmodel{PATH} textit{Structural Element} for pieces of equipment comprised of multiple logical groupings of controlled axes or other logical operations. Describes the operational relationship between a path structural element and another path structural element for pieces of equipment comprised of multiple logical groupings of controlled axes or other logical operations."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3033, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:PowerStateClassType:
   - [ UAObjectType, MTConnect.v2:2218, MTConnect.v2:PowerStateClassType ]
+  - DisplayName: "PowerStateClassType"
+  - Description: "The indication of the status of the source of energy for a textit{Structural Element} to allow it to perform its intended function or the state of an enabling signal providing permission for the textit{Structural Element} to perform its functions. DEPRECATION WARNING: texttt{PowerState} may be deprecated in the future. The indication of the status of the source of energy for a structural element to allow it to perform its intended function or the state of an enabling signal providing permission for the structural element to perform its functions."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3021, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:ProgramEditClassType:
   - [ UAObjectType, MTConnect.v2:2221, MTConnect.v2:ProgramEditClassType ]
+  - DisplayName: "ProgramEditClassType"
+  - Description: "An indication of the status of the mtmodel{Controller} component’s program editing mode. On many controls, a program can be edited while another program is currently being executed. An indication of the status of the controller components program editing mode. On many controls, a program can be edited while another program is currently being executed."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3039, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:RotaryModeClassType:
   - [ UAObjectType, MTConnect.v2:2224, MTConnect.v2:RotaryModeClassType ]
+  - DisplayName: "RotaryModeClassType"
+  - Description: "The current operating mode for a mtmodel{Rotary} type axis. The current operating mode for a rotary type axis."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:3045, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:SpindleInterlockClassType:
   - [ UAObjectType, MTConnect.v2:2212, MTConnect.v2:SpindleInterlockClassType ]
+  - DisplayName: "SpindleInterlockClassType"
+  - Description: "An indication of the status of the spindle for a piece of equipment when power has been removed and it is free to rotate. An indication of the status of the spindle for a piece of equipment when power has been removed and it is free to rotate."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasProperty:
     - [ UAVariable, MTConnect.v2:2949, MTConnect.v2:EnumStrings, LocalizedText, 1, 0 ]
+    - DisplayName: "EnumStrings"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   MTConnect.v2:MTNumericEventClassType:
   - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
+  - DisplayName: "MTNumericEventClassType"
+  - Description: "The root type for all of the event types that have numeric gls{CDATA}."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
 
   MTConnect.v2:AxisFeedrateOverrideClassType:
   - [ UAObjectType, MTConnect.v2:2347, MTConnect.v2:AxisFeedrateOverrideClassType ]
+  - DisplayName: "AxisFeedrateOverrideClassType"
+  - Description: "The value of a signal or calculation issued to adjust the feedrate of an individual linear type axis. The value provided for mtmodel{AXIS_FEEDRATE_OVERRIDE} is expressed as a percentage of the designated feedrate for the axis. When mtmodel{AXIS_FEEDRATE_OVERRIDE} is applied, the resulting commanded feedrate for the axis is limited to the value of the original feedrate multiplied by the value of the mtmodel{AXIS_FEEDRATE_OVERRIDE}. There MAY be different subtypes of mtmodel{AXIS_FEEDRATE_OVERRIDE}; each representing an override value for a designated subtype of feedrate depending on the state of operation of the axis. The subtypes of operation of an axis are currently defined as mtmodel{PROGRAMMED}, mtmodel{JOG}, and mtmodel{RAPID}. The value of a signal or calculation issued to adjust the feedrate of an individual linear type axis."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
   MTConnect.v2:BlockCountClassType:
   - [ UAObjectType, MTConnect.v2:2349, MTConnect.v2:BlockCountClassType ]
+  - DisplayName: "BlockCountClassType"
+  - Description: "The total count of the number of blocks of program code that have been executed since execution started. mtmodel{BLOCK_COUNT} counts blocks of program code executed regardless of program structure (e.g., looping or branching within the program). The starting value for mtmodel{BLOCK_COUNT} MAY be established by an initial value provided in the Constraint element defined for the data item. The total count of the number of blocks of program code that have been executed since execution started."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
   MTConnect.v2:HardnessClassType:
   - [ UAObjectType, MTConnect.v2:2351, MTConnect.v2:HardnessClassType ]
+  - DisplayName: "HardnessClassType"
+  - Description: "The measurement of the hardness of a material. The measurement does not provide a unit. A gls{subType} MUST always be specified to designate the hardness scale associated with the measurement. The measurement of the hardness of a material."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
   MTConnect.v2:LineNumberClassType:
   - [ UAObjectType, MTConnect.v2:2353, MTConnect.v2:LineNumberClassType ]
+  - DisplayName: "LineNumberClassType"
+  - Description: "A reference to the position of a block of program code within a control program. The line number MAY represent either an absolute position starting with the first line of the program or an incremental position relative to the occurrence of the last mtmodel{LINE_LABEL}. mtmodel{LINE_NUMBER} does not change subject to any looping or branching in a control program. A gls{subType} MUST be defined. A reference to the position of a block of program code within a control program."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
   MTConnect.v2:PartCountClassType:
   - [ UAObjectType, MTConnect.v2:2355, MTConnect.v2:PartCountClassType ]
+  - DisplayName: "PartCountClassType"
+  - Description: "The current count of parts produced as represented by the Controller. The valid data value MUST be an integer value. The count of parts produced."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
   MTConnect.v2:PathFeedrateOverrideClassType:
   - [ UAObjectType, MTConnect.v2:3628, MTConnect.v2:PathFeedrateOverrideClassType ]
+  - DisplayName: "PathFeedrateOverrideClassType"
+  - Description: "The value of a signal or calculation issued to adjust the feedrate for the axes associated with a path component that may represent a single axis or the coordinated movement of multiple axes."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
   MTConnect.v2:RotaryVelocityOverrideClassType:
   - [ UAObjectType, MTConnect.v2:2357, MTConnect.v2:RotaryVelocityOverrideClassType ]
+  - DisplayName: "RotaryVelocityOverrideClassType"
+  - Description: "A command issued to adjust the programmed velocity for a Rotary type axis. This command represents a percentage change to the velocity calculated by a logic or motion program or set by a switch for a Rotary type axis. mtmodel{ROTARY_VELOCITY_OVERRIDE} is expressed as a percentage of the programmed mtmodel{ROTARY_VELOCITY}. The value of a command issued to adjust the programmed velocity for a rotary type axis. This command represents a percentage change to the velocity calculated by a logic or motion program or set by a switch for a rotary type axis."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
   MTConnect.v2:MTStringEventClassType:
   - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
+  - DisplayName: "MTStringEventClassType"
+  - Description: "The base UA gls{Type} for all glspl{MTDataItem} that have a non-specific text representation."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
 
   MTConnect.v2:AssetChangedClassType:
   - [ UAObjectType, MTConnect.v2:2405, MTConnect.v2:AssetChangedClassType ]
+  - DisplayName: "AssetChangedClassType"
+  - Description: "The value of the cdata for the event MUST be the assetid of the asset that has been added or changed. There will not be a separate message for new assets."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:AssetRemovedClassType:
   - [ UAObjectType, MTConnect.v2:2407, MTConnect.v2:AssetRemovedClassType ]
+  - DisplayName: "AssetRemovedClassType"
+  - Description: "The value of the cdata for the event MUST be the assetid of the asset that has been removed. The asset will still be visible if requested with the includeremoved parameter as described in the protocol section. When assets are removed they are not moved to the beginning of the most recently modified list."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:BlockClassType:
   - [ UAObjectType, MTConnect.v2:2363, MTConnect.v2:BlockClassType ]
+  - DisplayName: "BlockClassType"
+  - Description: "The line of code or command being executed by a mtmodel{Controller} mtterm{Structural Element}. The value reported for mtmodel{Block} MUST include the entire expression for a line of program code, including all parameters. The line of code or command being executed by a controller structural element."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:CoupledAxesClassType:
   - [ UAObjectType, MTConnect.v2:2365, MTConnect.v2:CoupledAxesClassType ]
+  - DisplayName: "CoupledAxesClassType"
+  - Description: "Refers to the set of associated axes. The valid data value for mtmodel{COUPLED_AXES} SHOULD be a space-delimited set of axes reported as the value of the name attribute for each axis. If name is not available, the piece of equipment MUST report the value of the nativeName attribute for each axis. Refers to the set of associated axes."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:LineClassType:
   - [ UAObjectType, MTConnect.v2:2409, MTConnect.v2:LineClassType ]
+  - DisplayName: "LineClassType"
+  - Description: "DEPRECATED in Version 1.4.0."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:LineLabelClassType:
   - [ UAObjectType, MTConnect.v2:2367, MTConnect.v2:LineLabelClassType ]
+  - DisplayName: "LineLabelClassType"
+  - Description: "An optional identifier for a mtmodel{BLOCK} of code in a mtmodel{PROGRAM}. An optional identifier for a block event of code in a program event."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:MaterialClassType:
   - [ UAObjectType, MTConnect.v2:2369, MTConnect.v2:MaterialClassType ]
+  - DisplayName: "MaterialClassType"
+  - Description: "The identifier of a material used or consumed in the manufacturing process. The identifier of a material used or consumed in the manufacturing process."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:MessageClassType:
   - [ UAObjectType, MTConnect.v2:2403, MTConnect.v2:MessageClassType ]
+  - DisplayName: "MessageClassType"
+  - Description: "Any text string of information to be transferred from a piece of equipment to a client software application."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:OperatorIdClassType:
   - [ UAObjectType, MTConnect.v2:2371, MTConnect.v2:OperatorIdClassType ]
+  - DisplayName: "OperatorIdClassType"
+  - Description: "The identifier of the person currently responsible for operating the piece of equipment. DEPRECATION WARNING: May be deprecated in the future. See mtmodel{USER} below. The identifier of the person currently responsible for operating the piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:PalletIdClassType:
   - [ UAObjectType, MTConnect.v2:2373, MTConnect.v2:PalletIdClassType ]
+  - DisplayName: "PalletIdClassType"
+  - Description: "The identifier for a pallet. The identifier for a pallet."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:PartIdClassType:
   - [ UAObjectType, MTConnect.v2:2375, MTConnect.v2:PartIdClassType ]
+  - DisplayName: "PartIdClassType"
+  - Description: "An identifier of a part in a manufacturing operation. An identifier of a part in a manufacturing operation."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:PartNumberClassType:
   - [ UAObjectType, MTConnect.v2:2377, MTConnect.v2:PartNumberClassType ]
+  - DisplayName: "PartNumberClassType"
+  - Description: "An identifier of a part or product moving through the manufacturing process. An identifier of a part or product moving through the manufacturing process. The valid data value must be a text string."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:ProgramClassType:
   - [ UAObjectType, MTConnect.v2:2379, MTConnect.v2:ProgramClassType ]
+  - DisplayName: "ProgramClassType"
+  - Description: "The name of the logic or motion program being executed by the mtmodel{Controller} or mtmodel{Path} component. The name of the logic or motion program being executed by the controller component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:ProgramCommentClassType:
   - [ UAObjectType, MTConnect.v2:2385, MTConnect.v2:ProgramCommentClassType ]
+  - DisplayName: "ProgramCommentClassType"
+  - Description: "A comment or non-executable statement in the control program. A comment or non-executable statement in the control program. The valid data value must be a text string."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:ProgramEditNameClassType:
   - [ UAObjectType, MTConnect.v2:2381, MTConnect.v2:ProgramEditNameClassType ]
+  - DisplayName: "ProgramEditNameClassType"
+  - Description: "The name of the program being edited. This is used in conjunction with mtmodel{PROGRAM_EDIT} when in mtmodel{ACTIVE} state. The name of the program being edited. This is used in conjunction with programedit event when in active value state. The valid data value must be a text string."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:ProgramHeaderClassType:
   - [ UAObjectType, MTConnect.v2:2383, MTConnect.v2:ProgramHeaderClassType ]
+  - DisplayName: "ProgramHeaderClassType"
+  - Description: "The non-executable header section of the control program. The non-executable header section of the control program."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:SerialNumberClassType:
   - [ UAObjectType, MTConnect.v2:2387, MTConnect.v2:SerialNumberClassType ]
+  - DisplayName: "SerialNumberClassType"
+  - Description: "The serial number associated with a mtmodel{Component}, mtmodel{Asset}, or mtmodel{Device}. The serial number associated with a component, asset mtconnectassets, or device. The valid data value must be a text string."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:ToolAssetIdClassType:
   - [ UAObjectType, MTConnect.v2:2389, MTConnect.v2:ToolAssetIdClassType ]
+  - DisplayName: "ToolAssetIdClassType"
+  - Description: "The identifier of an individual tool asset The identifier of an individual tool asset.The valid data value must be a text string."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:ToolNumberClassType:
   - [ UAObjectType, MTConnect.v2:2391, MTConnect.v2:ToolNumberClassType ]
+  - DisplayName: "ToolNumberClassType"
+  - Description: "The identifier of a tool provided by the piece of equipment controller. The identifier assigned by the controller component to a cutting tool when in use by a piece of equipment. The valid data value must be a text string."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:ToolOffsetClassType:
   - [ UAObjectType, MTConnect.v2:2393, MTConnect.v2:ToolOffsetClassType ]
+  - DisplayName: "ToolOffsetClassType"
+  - Description: "A reference to the tool offset variables applied to the active cutting tool associated with a Path in a Controller type component. The valid data value MUST be a text string. The reported value returned for mtmodel{TOOL_OFFSET} identifies the location in a table or list where the actual tool offset values are stored. A gls{subType} MUST always be specified. A reference to the tool offset variables applied to the active cutting tool associated with a path in a controller type component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:UserClassType:
   - [ UAObjectType, MTConnect.v2:2395, MTConnect.v2:UserClassType ]
+  - DisplayName: "UserClassType"
+  - Description: "The identifier of the person currently responsible for operating the piece of equipment. A gls{subType} MUST always be specified. The identifier of the person currently responsible for operating the piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:WireClassType:
   - [ UAObjectType, MTConnect.v2:2397, MTConnect.v2:WireClassType ]
+  - DisplayName: "WireClassType"
+  - Description: "The identifier for the type of wire used as the cutting mechanism in Electrical Discharge Machining or similar processes. A string like piece or filament of relatively rigid or flexible material provided in a variety of diameters."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:WorkholdingClassType:
   - [ UAObjectType, MTConnect.v2:2399, MTConnect.v2:WorkholdingClassType ]
+  - DisplayName: "WorkholdingClassType"
+  - Description: "The identifier for the workholding currently in use."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:WorkOffsetClassType:
   - [ UAObjectType, MTConnect.v2:2401, MTConnect.v2:WorkOffsetClassType ]
+  - DisplayName: "WorkOffsetClassType"
+  - Description: "A reference to the offset variables for a work piece or part associated with a Path in a Controller type component. The valid data value MUST be a text string. The reported value returned for mtmodel{WORK_OFFSET} identifies the location in a table or list where the actual tool offset values are stored. A reference to the offset variables for a work piece or part associated with a path in a controller type component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
   MTConnect.v2:ActuatorClassType:
   - [ UAObjectType, MTConnect.v2:2411, MTConnect.v2:ActuatorClassType ]
+  - DisplayName: "ActuatorClassType"
+  - Description: "Redefined as a piece of equipment with the ability to be represented as a lower level component of a parent component element or as a composition element. See actuator type"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
   MTConnect.v2:CommunicationsClassType:
   - [ UAObjectType, MTConnect.v2:2413, MTConnect.v2:CommunicationsClassType ]
+  - DisplayName: "CommunicationsClassType"
+  - Description: "An indication that the piece of equipment has experienced a communications failure."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
   MTConnect.v2:DataRangeClassType:
   - [ UAObjectType, MTConnect.v2:2415, MTConnect.v2:DataRangeClassType ]
+  - DisplayName: "DataRangeClassType"
+  - Description: "An indication that the value of the data associated with a measured value or a calculation is outside of an expected range."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
   MTConnect.v2:HardwareClassType:
   - [ UAObjectType, MTConnect.v2:2419, MTConnect.v2:HardwareClassType ]
+  - DisplayName: "HardwareClassType"
+  - Description: "An indication of a fault associated with the hardware subsystem of the structural element."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
   MTConnect.v2:LogicProgramClassType:
   - [ UAObjectType, MTConnect.v2:2417, MTConnect.v2:LogicProgramClassType ]
+  - DisplayName: "LogicProgramClassType"
+  - Description: "An indication that an error occurred in the logic program or programmable logic controller (PLC) associated with a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
   MTConnect.v2:MotionProgramClassType:
   - [ UAObjectType, MTConnect.v2:2421, MTConnect.v2:MotionProgramClassType ]
+  - DisplayName: "MotionProgramClassType"
+  - Description: "An indication that an error occurred in the motion program associated with a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
   MTConnect.v2:SystemClassType:
   - [ UAObjectType, MTConnect.v2:2423, MTConnect.v2:SystemClassType ]
+  - DisplayName: "SystemClassType"
+  - Description: "A general purpose indication associated with an electronic component of a piece of equipment or a controller that represents a fault that is not associated with the operator, program, or hardware."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
   MTConnect.v2:MTDataItemSubClassType:
   - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
+  - DisplayName: "MTDataItemSubClassType"
+  - Description: "data entity describing a piece of information reported about a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   MTConnect.v2:AbsoluteSubClassType:
   - [ UAObjectType, MTConnect.v2:2478, MTConnect.v2:AbsoluteSubClassType ]
+  - DisplayName: "AbsoluteSubClassType"
+  - Description: "The magnitude or measurement of a type irrespective of its relation to other values. The position of a block of program code relative to the beginning of the control program."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ActionSubClassType:
   - [ UAObjectType, MTConnect.v2:2482, MTConnect.v2:ActionSubClassType ]
+  - DisplayName: "ActionSubClassType"
+  - Description: "An indication of the operating state or value of a type. An indication of the operating state of a mechanism represented by a composition type component. The operating state indicates whether the composition element is activated or disabled. The valid data value must be active value or inactive value."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ActualSubClassType:
   - [ UAObjectType, MTConnect.v2:2480, MTConnect.v2:ActualSubClassType ]
+  - DisplayName: "ActualSubClassType"
+  - Description: "The measured value of the a type. The measured value of the data item type given by a sensor or encoder."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:AllSubClassType:
   - [ UAObjectType, MTConnect.v2:2484, MTConnect.v2:AllSubClassType ]
+  - DisplayName: "AllSubClassType"
+  - Description: "The count of all the parts produced. If the subtype is not given, this is the default."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:AlternatingSubClassType:
   - [ UAObjectType, MTConnect.v2:2486, MTConnect.v2:AlternatingSubClassType ]
+  - DisplayName: "AlternatingSubClassType"
+  - Description: "The measurement of a type occurring in turn repeatedly. The measurement of alternating voltage or current. If not specified further in statistic, defaults to RMS voltage."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:AScaleSubClassType:
   - [ UAObjectType, MTConnect.v2:2488, MTConnect.v2:AScaleSubClassType ]
+  - DisplayName: "AScaleSubClassType"
+  - Description: "A Scale weighting factor for the measurement of sound level."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:AuxiliarySubClassType:
   - [ UAObjectType, MTConnect.v2:2490, MTConnect.v2:AuxiliarySubClassType ]
+  - DisplayName: "AuxiliarySubClassType"
+  - Description: "Example: When multiple locations on a piece of bar stock are referenced as the indication for the mtmodel{END_OF_BAR}, the additional location(s) MUST be designated as mtmodel{AUXILIARY} indication(s) for the mtmodel{END_OF_BAR}. When multiple locations on a piece of bar stock are referenced as the indication for the endofbar event, the additional location(s) must be designated as auxiliary subtype indication(s) for the endofbar event."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:BadSubClassType:
   - [ UAObjectType, MTConnect.v2:2492, MTConnect.v2:BadSubClassType ]
+  - DisplayName: "BadSubClassType"
+  - Description: "Indicates the count of incorrect parts produced. Indicates the count of incorrect parts produced."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:BrinellSubClassType:
   - [ UAObjectType, MTConnect.v2:2494, MTConnect.v2:BrinellSubClassType ]
+  - DisplayName: "BrinellSubClassType"
+  - Description: "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:BScaleSubClassType:
   - [ UAObjectType, MTConnect.v2:2496, MTConnect.v2:BScaleSubClassType ]
+  - DisplayName: "BScaleSubClassType"
+  - Description: "B Scale weighting factor for the measurement of sound level."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:CommandedSubClassType:
   - [ UAObjectType, MTConnect.v2:2498, MTConnect.v2:CommandedSubClassType ]
+  - DisplayName: "CommandedSubClassType"
+  - Description: "The value as specified by the Controller type component. A value specified by the controller type component."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ControlSubClassType:
   - [ UAObjectType, MTConnect.v2:2502, MTConnect.v2:ControlSubClassType ]
+  - DisplayName: "ControlSubClassType"
+  - Description: "The state of the enabling signal or control logic that enables or disables the function or operation of the textit{Structural Element}. The state of the enabling signal or control logic that enables or disables the function or operation of the structural element."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:CScaleSubClassType:
   - [ UAObjectType, MTConnect.v2:2504, MTConnect.v2:CScaleSubClassType ]
+  - DisplayName: "CScaleSubClassType"
+  - Description: "C Scale weighting factor for the measurement of sound level."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:DelaySubClassType:
   - [ UAObjectType, MTConnect.v2:2506, MTConnect.v2:DelaySubClassType ]
+  - DisplayName: "DelaySubClassType"
+  - Description: "Measurement of the time that a piece of equipment is waiting for an event or an action to occur. A piece of equipment waiting for an event or an action to occur."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:DirectSubClassType:
   - [ UAObjectType, MTConnect.v2:2508, MTConnect.v2:DirectSubClassType ]
+  - DisplayName: "DirectSubClassType"
+  - Description: "Measurement of DC current or voltage. The measurement of DC current or voltage."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:DryRunSubClassType:
   - [ UAObjectType, MTConnect.v2:2510, MTConnect.v2:DryRunSubClassType ]
+  - DisplayName: "DryRunSubClassType"
+  - Description: "A setting or operator selection used to execute a test mode to confirm the execution of machine functions."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:DScaleSubClassType:
   - [ UAObjectType, MTConnect.v2:2512, MTConnect.v2:DScaleSubClassType ]
+  - DisplayName: "DScaleSubClassType"
+  - Description: "D Scale weighting factor for the measurement of sound level."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:FixtureSubClassType:
   - [ UAObjectType, MTConnect.v2:2514, MTConnect.v2:FixtureSubClassType ]
+  - DisplayName: "FixtureSubClassType"
+  - Description: "Fixture denotes a specifc type of a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:GoodSubClassType:
   - [ UAObjectType, MTConnect.v2:2500, MTConnect.v2:GoodSubClassType ]
+  - DisplayName: "GoodSubClassType"
+  - Description: "Indicates the count of correct parts made. Indicates the count of correct parts made."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:IncrementalSubClassType:
   - [ UAObjectType, MTConnect.v2:2516, MTConnect.v2:IncrementalSubClassType ]
+  - DisplayName: "IncrementalSubClassType"
+  - Description: "A small change which could be either positive or negative in a Type's value or function. Example: The position of a block of program code relative to the occurrence of the last mtmodel{LINE_LABEL} encountered in the control program. The position of a block of program code relative to the occurrence of the last linelabel event encountered in the control program."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:JobSubClassType:
   - [ UAObjectType, MTConnect.v2:2518, MTConnect.v2:JobSubClassType ]
+  - DisplayName: "JobSubClassType"
+  - Description: "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a Path component when the axes, or a single axis, are being operated in a manual mode or method (jogging)."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:KineticSubClassType:
   - [ UAObjectType, MTConnect.v2:2520, MTConnect.v2:KineticSubClassType ]
+  - DisplayName: "KineticSubClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:LateralSubClassType:
   - [ UAObjectType, MTConnect.v2:2522, MTConnect.v2:LateralSubClassType ]
+  - DisplayName: "LateralSubClassType"
+  - Description: "An indication of the position of a mechanism that may move in a lateral direction. The mechanism is represented by a mtmodel{Composition} type component. An indication of the position of a mechanism that may move in a lateral direction. The mechanism is represented by a composition type component. The position information indicates whether the composition element is positioned to the right, to the left, or is in transition. The valid data value must be right value, left value, or transitioning value."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:LeebSubClassType:
   - [ UAObjectType, MTConnect.v2:2524, MTConnect.v2:LeebSubClassType ]
+  - DisplayName: "LeebSubClassType"
+  - Description: "A scale to measure the elasticity of a surface. A scale to measure the elasticity of a surface."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:LengthSubClassType:
   - [ UAObjectType, MTConnect.v2:2526, MTConnect.v2:LengthSubClassType ]
+  - DisplayName: "LengthSubClassType"
+  - Description: "The measurement or extent of something from end to end. The measurement of the length of an object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:LinearSubClassType:
   - [ UAObjectType, MTConnect.v2:2528, MTConnect.v2:LinearSubClassType ]
+  - DisplayName: "LinearSubClassType"
+  - Description: "The direction of motion. A linear axis represents the movement of a physical piece of equipment, or a portion of the equipment, in a straight line."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:LineSubClassType:
   - [ UAObjectType, MTConnect.v2:2530, MTConnect.v2:LineSubClassType ]
+  - DisplayName: "LineSubClassType"
+  - Description: "The state of the power source for the textit{Structural Element}. DEPRECATED in Version 1.4.0."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:LoadedSubClassType:
   - [ UAObjectType, MTConnect.v2:2532, MTConnect.v2:LoadedSubClassType ]
+  - DisplayName: "LoadedSubClassType"
+  - Description: "An indication that the sub-parts of a piece of equipment are under load. Subparts of a piece of equipment are under load."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:MachineAxisLockSubClassType:
   - [ UAObjectType, MTConnect.v2:2534, MTConnect.v2:MachineAxisLockSubClassType ]
+  - DisplayName: "MachineAxisLockSubClassType"
+  - Description: "A setting or operator selection that changes the behavior of the controller on a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:MaintenanceSubClassType:
   - [ UAObjectType, MTConnect.v2:2536, MTConnect.v2:MaintenanceSubClassType ]
+  - DisplayName: "MaintenanceSubClassType"
+  - Description: "The identifier of the person currently responsible for performing maintenance on the piece of equipment. Action related to maintenance on the piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ManualUnclampSubClassType:
   - [ UAObjectType, MTConnect.v2:2538, MTConnect.v2:ManualUnclampSubClassType ]
+  - DisplayName: "ManualUnclampSubClassType"
+  - Description: "An indication of the state of an operator controlled interlock that can inhibit the ability to initiate an unclamp action of an electronically controlled chuck."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:MaximumSubClassType:
   - [ UAObjectType, MTConnect.v2:2540, MTConnect.v2:MaximumSubClassType ]
+  - DisplayName: "MaximumSubClassType"
+  - Description: "Maximum or peak value recorded for the data item during the calculation period. The upper limit of data reported for a data item."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:MinimumSubClassType:
   - [ UAObjectType, MTConnect.v2:2542, MTConnect.v2:MinimumSubClassType ]
+  - DisplayName: "MinimumSubClassType"
+  - Description: "Minimum value recorded for the data item during the calculation period. The lower limit of data reported for a data item."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:MohsSubClassType:
   - [ UAObjectType, MTConnect.v2:2544, MTConnect.v2:MohsSubClassType ]
+  - DisplayName: "MohsSubClassType"
+  - Description: "A scale to measure the resistance to scratching of a surface. A scale to measure the resistance to scratching of a surface."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:MoleSubClassType:
   - [ UAObjectType, MTConnect.v2:2546, MTConnect.v2:MoleSubClassType ]
+  - DisplayName: "MoleSubClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:MotionSubClassType:
   - [ UAObjectType, MTConnect.v2:2548, MTConnect.v2:MotionSubClassType ]
+  - DisplayName: "MotionSubClassType"
+  - Description: "An indication of the open or closed state of a mechanism. The mechanism is represented by a mtmodel{Composition} type component. An indication of the open or closed state of a mechanism. The mechanism is represented by a composition type component. The operating state indicates whether the state of the composition element is open, closed, or unlatched. The valid data value must be open value, unlatched value, or closed value."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:NoScaleSubClassType:
   - [ UAObjectType, MTConnect.v2:2550, MTConnect.v2:NoScaleSubClassType ]
+  - DisplayName: "NoScaleSubClassType"
+  - Description: "No weighting factor on the frequency scale for the measurement of sound level."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:OperatingSubClassType:
   - [ UAObjectType, MTConnect.v2:2552, MTConnect.v2:OperatingSubClassType ]
+  - DisplayName: "OperatingSubClassType"
+  - Description: "An indication that the major sub-parts of a piece of equipment are powered or performing any activity whether producing a part or product or not. Example: For traditional machine tools, this includes when the piece of equipment is mtmodel{WORKING} or it is idle. A piece of equipment are powered or performing any activity."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:OperatorSubClassType:
   - [ UAObjectType, MTConnect.v2:2554, MTConnect.v2:OperatorSubClassType ]
+  - DisplayName: "OperatorSubClassType"
+  - Description: "The identifier of the person currently responsible for operating the piece of equipment. The identifier of the person currently responsible for operating the piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:OptionalStopSubClassType:
   - [ UAObjectType, MTConnect.v2:2556, MTConnect.v2:OptionalStopSubClassType ]
+  - DisplayName: "OptionalStopSubClassType"
+  - Description: "A setting or operator selection that changes the behavior of the controller on a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:OverrideSubClassType:
   - [ UAObjectType, MTConnect.v2:2558, MTConnect.v2:OverrideSubClassType ]
+  - DisplayName: "OverrideSubClassType"
+  - Description: "The operator's overridden value. DEPRECATED: The operators overridden value."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:PoweredSubClassType:
   - [ UAObjectType, MTConnect.v2:2562, MTConnect.v2:PoweredSubClassType ]
+  - DisplayName: "PoweredSubClassType"
+  - Description: "An indication that primary power is applied to the piece of equipment and, as a minimum, the controller or logic portion of the piece of equipment is powered and functioning or components that are required to remain on are powered. Primary power is applied to the piece of equipment and, as a minimum, the controller or logic portion of the piece of equipment is powered and functioning or components that are required to remain on are powered."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:PrimarySubClassType:
   - [ UAObjectType, MTConnect.v2:2560, MTConnect.v2:PrimarySubClassType ]
+  - DisplayName: "PrimarySubClassType"
+  - Description: "Specific applications MAY reference one or more locations on a piece of bar stock as the indication for the mtmodel{END_OF_BAR}. The main or most important location MUST be designated as the mtmodel{PRIMARY} indication for the mtmodel{END_OF_BAR}. Specific applications MAY reference one or more locations on a piece of bar stock as the indication for the endofbar event. The main or most important location must be designated as the primary subtype indication for the endofbar event. If no subtype is specified, primary subtype must be the default endofbar event indication."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ProbeSubClassType:
   - [ UAObjectType, MTConnect.v2:2564, MTConnect.v2:ProbeSubClassType ]
+  - DisplayName: "ProbeSubClassType"
+  - Description: "The position provided by a measurement probe. The position provided by a measurement probe."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ProcessSubClassType:
   - [ UAObjectType, MTConnect.v2:2566, MTConnect.v2:ProcessSubClassType ]
+  - DisplayName: "ProcessSubClassType"
+  - Description: "The measurement of the time from the beginning of production of a part or product on a piece of equipment until the time that production is complete for that part or product on that piece of equipment. This includes the time that the piece of equipment is running, producing parts or products, or in the process of producing parts. The measurement of the time from the beginning of production of a part or product on a piece of equipment until the time that production is complete for that part or product on that piece of equipment. This includes the time that the piece of equipment is running, producing parts or products, or in the process of producing parts."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ProgrammedSubClassType:
   - [ UAObjectType, MTConnect.v2:2568, MTConnect.v2:ProgrammedSubClassType ]
+  - DisplayName: "ProgrammedSubClassType"
+  - Description: "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a mtmodel{Path} component when the axes, or a single axis, are operating as specified by a logic or motion program or set by a switch. The value of a signal or calculation specified by a logic or motion program or set by a switch."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:RadialSubClassType:
   - [ UAObjectType, MTConnect.v2:2570, MTConnect.v2:RadialSubClassType ]
+  - DisplayName: "RadialSubClassType"
+  - Description: "A reference to a radial type tool offset variable. A reference to a radial type tool offset variable."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:RapidSubClassType:
   - [ UAObjectType, MTConnect.v2:2572, MTConnect.v2:RapidSubClassType ]
+  - DisplayName: "RapidSubClassType"
+  - Description: "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a mtmodel{Path} component when the axes, or a single axis, are being operated in a rapid positioning mode or method (rapid). The value of a signal or calculation issued to adjust the feedrate of a component or composition that is operating in a rapid positioning mode."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:RelativeSubClassType:
   - [ UAObjectType, MTConnect.v2:2574, MTConnect.v2:RelativeSubClassType ]
+  - DisplayName: "RelativeSubClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:RemainingSubClassType:
   - [ UAObjectType, MTConnect.v2:2576, MTConnect.v2:RemainingSubClassType ]
+  - DisplayName: "RemainingSubClassType"
+  - Description: "The remaining amount of the type specified. Remaining measure of an object or an action."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:RequestSubClassType:
   - [ UAObjectType, MTConnect.v2:2578, MTConnect.v2:RequestSubClassType ]
+  - DisplayName: "RequestSubClassType"
+  - Description: "mtmodel{Request} subtype identifies if the data item defined for MTConnect Interaction Model cite{MTCPart5} represents a request. A subtype of an interface dataitem type to communicate a request."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ResponseSubClassType:
   - [ UAObjectType, MTConnect.v2:2580, MTConnect.v2:ResponseSubClassType ]
+  - DisplayName: "ResponseSubClassType"
+  - Description: "mtmodel{Response} subtype identifies if the data item defined for MTConnect Interaction Model cite{MTCPart5} represents a response. A subtype of an interface dataitem type to communicate a response."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:RockwellSubClassType:
   - [ UAObjectType, MTConnect.v2:2582, MTConnect.v2:RockwellSubClassType ]
+  - DisplayName: "RockwellSubClassType"
+  - Description: "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:RotarySubClassType:
   - [ UAObjectType, MTConnect.v2:2584, MTConnect.v2:RotarySubClassType ]
+  - DisplayName: "RotarySubClassType"
+  - Description: "The rotational direction of a rotary motion using the right hand rule convention. A rotary axis represents any non-linear or rotary movement of a physical piece of equipment or a portion of the equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:SetUpSubClassType:
   - [ UAObjectType, MTConnect.v2:2586, MTConnect.v2:SetUpSubClassType ]
+  - DisplayName: "SetUpSubClassType"
+  - Description: "The identifier of the person currently responsible for operating the piece of equipment. A structural element is being prepared or modified to begin production of product."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ShoreSubClassType:
   - [ UAObjectType, MTConnect.v2:2588, MTConnect.v2:ShoreSubClassType ]
+  - DisplayName: "ShoreSubClassType"
+  - Description: "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:StandardSubClassType:
   - [ UAObjectType, MTConnect.v2:2590, MTConnect.v2:StandardSubClassType ]
+  - DisplayName: "StandardSubClassType"
+  - Description: "The standard or original value of an object. The standard or original length of an object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:SwitchedSubClassType:
   - [ UAObjectType, MTConnect.v2:2592, MTConnect.v2:SwitchedSubClassType ]
+  - DisplayName: "SwitchedSubClassType"
+  - Description: "An indication of the activation state of a mechanism represented by a mtmodel{Composition} type component. The activation state indicates whether the mtmodel{Composition} element is activated or not. An indication of the activation state of a mechanism represented by a composition type component. The activation state indicates whether the composition element is activated or not. The valid data value must be on value or off value."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:TargetSubClassType:
   - [ UAObjectType, MTConnect.v2:2594, MTConnect.v2:TargetSubClassType ]
+  - DisplayName: "TargetSubClassType"
+  - Description: "Indicates the number of parts that are projected or planned to be produced. The desired measure or count for a data item value."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ToolChangeStopSubClassType:
   - [ UAObjectType, MTConnect.v2:2596, MTConnect.v2:ToolChangeStopSubClassType ]
+  - DisplayName: "ToolChangeStopSubClassType"
+  - Description: "A setting or operator selection that changes the behavior of the controller on a piece of equipment."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ToolEdgeSubClassType:
   - [ UAObjectType, MTConnect.v2:2598, MTConnect.v2:ToolEdgeSubClassType ]
+  - DisplayName: "ToolEdgeSubClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ToolGroupSubClassType:
   - [ UAObjectType, MTConnect.v2:2600, MTConnect.v2:ToolGroupSubClassType ]
+  - DisplayName: "ToolGroupSubClassType"
+  - Description: "The tool group a specific tool is assigned to in the part program. An identifier for the tool group associated with a specific tool. Commonly used to designate spare tools."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:ToolSubClassType:
   - [ UAObjectType, MTConnect.v2:2602, MTConnect.v2:ToolSubClassType ]
+  - DisplayName: "ToolSubClassType"
+  - Description: "coordinate system referenced to the tool or to the end effector attached to the mechanical interface. Ref:ISO 9787:2013"
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:UasbleSubClassType:
   - [ UAObjectType, MTConnect.v2:2604, MTConnect.v2:UasbleSubClassType ]
+  - DisplayName: "UasbleSubClassType"
+  - Description: "The remaining useable value of an object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:VerticalSubClassType:
   - [ UAObjectType, MTConnect.v2:2606, MTConnect.v2:VerticalSubClassType ]
+  - DisplayName: "VerticalSubClassType"
+  - Description: "An indication of the position of a mechanism that may move in a vertical direction. An indication of the position of a mechanism that may move in a vertical direction. The mechanism is represented by a composition type component. The position information indicates whether the composition element is positioned to the top, to the bottom, or is in transition. The valid data value must be up value, down value, or transitioning value."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:VickersSubClassType:
   - [ UAObjectType, MTConnect.v2:2610, MTConnect.v2:VickersSubClassType ]
+  - DisplayName: "VickersSubClassType"
+  - Description: "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:VolumeSubClassType:
   - [ UAObjectType, MTConnect.v2:2608, MTConnect.v2:VolumeSubClassType ]
+  - DisplayName: "VolumeSubClassType"
+  - Description: "A measurement of space accupied by a physical object."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:WeightSubClassType:
   - [ UAObjectType, MTConnect.v2:2612, MTConnect.v2:WeightSubClassType ]
+  - DisplayName: "WeightSubClassType"
+  - Description: "A physical object's relative mass. The total weight of the Cutting Tool in grams. The force exerted by the mass of the Cutting Tool."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:WorkingSubClassType:
   - [ UAObjectType, MTConnect.v2:2614, MTConnect.v2:WorkingSubClassType ]
+  - DisplayName: "WorkingSubClassType"
+  - Description: "An indication that a piece of equipment is performing any activity. A piece of equipment performing any activity, the equipment is active and performing a function under load or not."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
   MTConnect.v2:WorkpieceSubClassType:
   - [ UAObjectType, MTConnect.v2:2616, MTConnect.v2:WorkpieceSubClassType ]
+  - DisplayName: "WorkpieceSubClassType"
+  - Description: "A physical object being or to be worked on with a tool or machine. An object or material on which a form of work is performed."
   - HasSubtype_reverse:
     - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]

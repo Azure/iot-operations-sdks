@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:Machinery_Jobs:JobManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JobManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Jobs;i=1003",
     "commandTopic": "opcua/Machinery_Jobs/JobManagementType/{commandName}",
@@ -22,6 +23,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of the type.",
         "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
         "schema": "string",
         "writable": true
@@ -30,6 +33,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "JobOrderControl",
+        "displayName": "JobOrderControl",
         "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType"
       },
@@ -37,6 +41,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "JobOrderResults",
+        "displayName": "JobOrderResults",
         "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType"
       }

@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:Machinery_ProcessValues:ZeroPointAdjustmentEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ZeroPointAdjustmentEventType",
+    "description": "Provides information, that a zero-point adjustment took place",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues;i=1002",
     "commandTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{commandName}",
@@ -22,6 +24,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ZeroPointAdjustmentResult",
+        "displayName": "ZeroPointAdjustmentResult",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
         "schema": "integer",
         "writable": true
@@ -40,6 +43,8 @@
     ],
     "@id": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ProcessValueType",
+    "description": "Represents a process value",
     "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues;i=1003",
     "telemetryTopic": "opcua/Machinery_ProcessValues/ProcessValueType/{telemetryName}/{senderId}",
@@ -50,18 +55,24 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AlarmSuppression",
+        "displayName": "AlarmSuppression",
+        "description": "Indicates if alarms based on the Status shall be suppressed.",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValueSetpoint",
+        "displayName": "ProcessValueSetpoint",
+        "description": "The desired value, may or may not be controlled by the server.",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Status",
+        "displayName": "Status",
+        "description": "Indicates if a limit has been reached.",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
         "schema": "unsignedShort"
       },
@@ -69,6 +80,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeviationAlarm",
+        "displayName": "DeviationAlarm",
+        "description": "Becomes active, when the process values derivates from the ProcessValueSetpoint.",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
         "target": "dtmi:opcua:OpcUaCore:ExclusiveDeviationAlarmType"
       },
@@ -76,6 +89,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LimitAlarm",
+        "displayName": "LimitAlarm",
+        "description": "Becomes active, when absolute limits are reached.",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
         "target": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType"
       }

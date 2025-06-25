@@ -1,15 +1,20 @@
 DataTypes:
 - UADataType: [ I4AAS:3003, I4AAS:AASAssetKindDataType ]
+  DisplayName: "AASAssetKindDataType"
+  Description: "hardware or software element which specifies the common attributes shared by all instances of the type [SOURCE: IEC TR 62390:2005-01, 3.1.25]"
   Enums:
     Type: 0
     Instance: 1
 - UADataType: [ I4AAS:3007, I4AAS:AASCategoryDataType ]
+  DisplayName: "AASCategoryDataType"
+  Description: "Constant"
   Enums:
     CONSTANT: 0
     PARAMETER: 1
     VARIABLE: 2
     RELATIONSHIP: 3
 - UADataType: [ I4AAS:3008, I4AAS:AASDataTypeIEC61360DataType ]
+  DisplayName: "AASDataTypeIEC61360DataType"
   Enums:
     BOOLEAN: 0
     DATE: 1
@@ -27,15 +32,21 @@ DataTypes:
     INTEGER_COUNT: 13
     INTEGER_CURRENCY: 14
 - UADataType: [ I4AAS:3006, I4AAS:AASEntityTypeDataType ]
+  DisplayName: "AASEntityTypeDataType"
+  Description: "Self-Managed Entities have their own AAS. This is why a reference to this asset is specified as well (Entity/asset). Additionally, further property statements (compare to [15]) can be added to the asset that are not specified in the AAS of the asset itself because they are specified in relation to the complex I4.0 Component only."
   Enums:
     CoManagedEntity: 0
     SelfManagedEntity: 1
 - UADataType: [ I4AAS:3010, I4AAS:AASIdentifierTypeDataType ]
+  DisplayName: "AASIdentifierTypeDataType"
+  Description: "IRDI according to ISO29002-5 as an Identifier scheme for properties and classifications"
   Enums:
     IRDI: 0
     IRI: 1
     Custom: 2
 - UADataType: [ I4AAS:3012, I4AAS:AASKeyElementsDataType ]
+  DisplayName: "AASKeyElementsDataType"
+  Description: "'AccessPermissionRule'"
   Enums:
     AccessPermissionRule: 0
     AnnotatedRelationshipElement: 1
@@ -62,6 +73,8 @@ DataTypes:
     SubmodelElementCollection: 22
     View: 23
 - UADataType: [ I4AAS:3002, I4AAS:AASKeyTypeDataType ]
+  DisplayName: "AASKeyTypeDataType"
+  Description: "..."
   Enums:
     IdShort: 0
     FragmentId: 1
@@ -69,16 +82,21 @@ DataTypes:
     IRDI: 3
     IRI: 4
 - UADataType: [ I4AAS:3009, I4AAS:AASLevelTypeDataType ]
+  DisplayName: "AASLevelTypeDataType"
+  Description: "“Minimum”"
   Enums:
     Min: 0
     Max: 1
     Num: 2
     Type: 3
 - UADataType: [ I4AAS:3015, I4AAS:AASModelingKindDataType ]
+  DisplayName: "AASModelingKindDataType"
+  Description: "Hardware or software element which specifies the common attributes shared by all instances of the type [SOURCE: IEC TR 62390:2005-01, 3.1.25]"
   Enums:
     Template: 0
     Instance: 1
 - UADataType: [ I4AAS:3004, I4AAS:AASValueTypeDataType ]
+  DisplayName: "AASValueTypeDataType"
   Enums:
     Boolean: 0
     SByte: 1
@@ -109,6 +127,7 @@ DataTypes:
   Bases:
   - String
 - UADataType: [ I4AAS:3011, I4AAS:AASKeyDataType ]
+  DisplayName: "AASKeyDataType"
   Fields:
     Type: [ I4AAS:AASKeyElementsDataType, 0 ]
     Local: [ Boolean, 0 ]
@@ -119,10 +138,12 @@ DefinedTypes:
 
   I4AAS:AASAdministrativeInformationType:
   - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
+  - DisplayName: "AASAdministrativeInformationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5047, I4AAS:Admin-shell.io/aas/2/0/AdministrativeInformation ]
+    - DisplayName: "Admin-shell.io/aas/2/0/AdministrativeInformation"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -131,8 +152,10 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasProperty:
     - [ UAVariable, I4AAS:6084, I4AAS:Revision, String, 0, 3 ]
+    - DisplayName: "Revision"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5045, I4AAS:Admin-shell.io/aas/2/0/AdministrativeInformation/revision ]
+      - DisplayName: "Admin-shell.io/aas/2/0/AdministrativeInformation/revision"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -147,8 +170,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6083, I4AAS:Version, String, 0, 3 ]
+    - DisplayName: "Version"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5051, I4AAS:Admin-shell.io/aas/2/0/AdministrativeInformation/version ]
+      - DisplayName: "Admin-shell.io/aas/2/0/AdministrativeInformation/version"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -164,14 +189,17 @@ DefinedTypes:
 
   I4AAS:AASAssetAdministrationShellType:
   - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
+  - DisplayName: "AASAssetAdministrationShellType"
   - HasComponent:
     - [ UAObject, I4AAS:5005, I4AAS:<ConceptDictionary> ]
+    - DisplayName: "<ConceptDictionary>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1007, I4AAS:AASConceptDictionaryType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5061, I4AAS:Admin-shell.io/aas/2/0/AssetAdministrationShell/conceptDictionaries ]
+      - DisplayName: "Admin-shell.io/aas/2/0/AssetAdministrationShell/conceptDictionaries"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -182,12 +210,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, I4AAS:5001, I4AAS:<DataSpecification> ]
+    - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5103, I4AAS:Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - DisplayName: "Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification"
       - HasDictionaryEntry_reverse:
         - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
       - HasDictionaryEntry_reverse:
@@ -202,8 +232,10 @@ DefinedTypes:
         - [ UAObjectType, 17600, UriDictionaryEntryType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6003, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -264,8 +296,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6003, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -328,12 +362,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, I4AAS:5003, I4AAS:<Submodel> ]
+    - DisplayName: "<Submodel>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1006, I4AAS:AASSubmodelType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5064, I4AAS:Admin-shell.io/aas/2/0/AssetAdministrationShell/submodels ]
+      - DisplayName: "Admin-shell.io/aas/2/0/AssetAdministrationShell/submodels"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -344,8 +380,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6011, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+      - DisplayName: "ModelingKind"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5081, I4AAS:Admin-shell.io/aas/2/0/HasKind/kind ]
+        - DisplayName: "Admin-shell.io/aas/2/0/HasKind/kind"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -356,6 +394,7 @@ DefinedTypes:
           - [ UAVariable, I4AAS:6011, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5095, I4AAS:Admin-shell.io/aas/2/0/Property ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Property"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - HasDictionaryEntry_reverse:
@@ -376,12 +415,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, I4AAS:5004, I4AAS:<SubmodelReference> ]
+    - DisplayName: "<SubmodelReference>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5064, I4AAS:Admin-shell.io/aas/2/0/AssetAdministrationShell/submodels ]
+      - DisplayName: "Admin-shell.io/aas/2/0/AssetAdministrationShell/submodels"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -392,8 +433,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6002, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -454,8 +497,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6002, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -518,12 +563,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, I4AAS:5006, I4AAS:<View> ]
+    - DisplayName: "<View>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1003, I4AAS:AASViewType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5065, I4AAS:Admin-shell.io/aas/2/0/AssetAdministrationShell/views ]
+      - DisplayName: "Admin-shell.io/aas/2/0/AssetAdministrationShell/views"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -536,16 +583,19 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, I4AAS:5002, I4AAS:Asset ]
+    - DisplayName: "Asset"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6008, I4AAS:AssetKind, I4AAS:AASAssetKindDataType, 0, 3 ]
+      - DisplayName: "AssetKind"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5002, I4AAS:Asset ]
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5054, I4AAS:Admin-shell.io/aas/2/0/Asset/assetKind ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Asset/assetKind"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -560,6 +610,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5052, I4AAS:Admin-shell.io/aas/2/0/Asset ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Asset"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -568,12 +619,14 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, I4AAS:5007, I4AAS:DerivedFrom ]
+    - DisplayName: "DerivedFrom"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5063, I4AAS:Admin-shell.io/aas/2/0/AssetAdministrationShell/derivedFrom ]
+      - DisplayName: "Admin-shell.io/aas/2/0/AssetAdministrationShell/derivedFrom"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -582,8 +635,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6004, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -644,8 +699,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6004, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -708,6 +765,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5059, I4AAS:Admin-shell.io/aas/2/0/AssetAdministrationShell ]
+    - DisplayName: "Admin-shell.io/aas/2/0/AssetAdministrationShell"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -719,14 +777,17 @@ DefinedTypes:
 
   I4AAS:AASAssetType:
   - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
+  - DisplayName: "AASAssetType"
   - HasComponent:
     - [ UAObject, I4AAS:5008, I4AAS:<DataSpecification> ]
+    - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5058, I4AAS:Admin-shell.io/aas/2/0/Asset/dataSpecifications ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Asset/dataSpecifications"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -737,8 +798,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6005, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -799,8 +862,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6005, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -865,12 +930,14 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, I4AAS:5049, I4AAS:AssetIdentificationModel ]
+    - DisplayName: "AssetIdentificationModel"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5053, I4AAS:Admin-shell.io/aas/2/0/Asset/assetIdentificationModel ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Asset/assetIdentificationModel"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -879,8 +946,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6112, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -941,10 +1010,12 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, I4AAS:6006, I4AAS:AssetKind, I4AAS:AASAssetKindDataType, 0, 3 ]
+    - DisplayName: "AssetKind"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5054, I4AAS:Admin-shell.io/aas/2/0/Asset/assetKind ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Asset/assetKind"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -959,12 +1030,14 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAObject, I4AAS:5050, I4AAS:BillOfMaterial ]
+    - DisplayName: "BillOfMaterial"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5057, I4AAS:Admin-shell.io/aas/2/0/Asset/billOfMaterial ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Asset/billOfMaterial"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -973,8 +1046,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6113, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1035,6 +1110,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5052, I4AAS:Admin-shell.io/aas/2/0/Asset ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Asset"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - Organizes_reverse:
@@ -1044,15 +1120,18 @@ DefinedTypes:
 
   I4AAS:AASConceptDictionaryType:
   - [ UAObjectType, I4AAS:1007, I4AAS:AASConceptDictionaryType ]
+  - DisplayName: "AASConceptDictionaryType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   I4AAS:AASDataSpecificationType:
   - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
+  - DisplayName: "AASDataSpecificationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5073, I4AAS:Admin-shell.io/aas/2/0/DataSpecification ]
+    - DisplayName: "Admin-shell.io/aas/2/0/DataSpecification"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -1064,16 +1143,19 @@ DefinedTypes:
 
   I4AAS:AASDataSpecificationIEC61360Type:
   - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
+  - DisplayName: "AASDataSpecificationIEC61360Type"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
   - HasComponent:
     - [ UAObject, I4AAS:5027, I4AAS:Administration ]
+    - DisplayName: "Administration"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5132, I4AAS:Admin-shell.io/DataSpecification/administration ]
+      - DisplayName: "Admin-shell.io/DataSpecification/administration"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -1084,10 +1166,12 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, I4AAS:6065, I4AAS:Category, I4AAS:AASCategoryDataType, 0, 3 ]
+    - DisplayName: "Category"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5133, I4AAS:Admin-shell.io/DataSpecification/category ]
+      - DisplayName: "Admin-shell.io/DataSpecification/category"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1100,10 +1184,12 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6072, I4AAS:DataType, I4AAS:AASDataTypeIEC61360DataType, 0, 3 ]
+    - DisplayName: "DataType"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5137, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/dataType ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/dataType"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1116,6 +1202,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6063, I4AAS:DefaultInstanceBrowseName, String, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
     - HasModellingRule:
@@ -1124,10 +1211,12 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6073, I4AAS:Definition, LocalizedText, 0, 3 ]
+    - DisplayName: "Definition"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5138, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/definition ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/definition"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1140,6 +1229,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5136, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0 ]
+    - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -1148,10 +1238,12 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasComponent:
     - [ UAObject, I4AAS:5026, I4AAS:Identification ]
+    - DisplayName: "Identification"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1029, I4AAS:AASIdentifierType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5134, I4AAS:Admin-shell.io/DataSpecification/identification ]
+      - DisplayName: "Admin-shell.io/DataSpecification/identification"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -1160,8 +1252,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6088, I4AAS:Id, String, 0, 3 ]
+      - DisplayName: "Id"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5086, I4AAS:Admin-shell.io/aas/2/0/Identifier/id ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Identifier/id"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1182,8 +1276,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
     - HasProperty:
       - [ UAVariable, I4AAS:6087, I4AAS:IdType, I4AAS:AASIdentifierTypeDataType, 0, 3 ]
+      - DisplayName: "IdType"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5087, I4AAS:Admin-shell.io/aas/2/0/Identifier/idType ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Identifier/idType"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1204,8 +1300,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, I4AAS:6075, I4AAS:LevelType, I4AAS:AASLevelTypeDataType, 0, 3 ]
+    - DisplayName: "LevelType"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5139, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/levelType ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/levelType"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1220,8 +1318,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6074, I4AAS:PreferredName, LocalizedText, 0, 3 ]
+    - DisplayName: "PreferredName"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5140, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/preferredName ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/preferredName"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1236,8 +1336,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6066, I4AAS:ShortName, LocalizedText, 0, 3 ]
+    - DisplayName: "ShortName"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5141, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/shortName ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/shortName"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1252,8 +1354,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasProperty:
     - [ UAVariable, I4AAS:6067, I4AAS:SourceOfDefinition, String, 0, 3 ]
+    - DisplayName: "SourceOfDefinition"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5142, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/sourceOfDefinition ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/sourceOfDefinition"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1268,8 +1372,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasProperty:
     - [ UAVariable, I4AAS:6068, I4AAS:Symbol, String, 0, 3 ]
+    - DisplayName: "Symbol"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5143, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/symbol ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/symbol"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1284,8 +1390,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasProperty:
     - [ UAVariable, I4AAS:6069, I4AAS:Unit, String, 0, 3 ]
+    - DisplayName: "Unit"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5144, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/unit ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/unit"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1300,10 +1408,12 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasComponent:
     - [ UAObject, I4AAS:5028, I4AAS:UnitId ]
+    - DisplayName: "UnitId"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5145, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/unitId ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/unitId"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -1312,8 +1422,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6076, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1374,8 +1486,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6076, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1440,8 +1554,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasProperty:
     - [ UAVariable, I4AAS:6071, I4AAS:Value ]
+    - DisplayName: "Value"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5146, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/value ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/value"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1456,8 +1572,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasProperty:
     - [ UAVariable, I4AAS:6070, I4AAS:ValueFormat, String, 0, 3 ]
+    - DisplayName: "ValueFormat"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5147, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/valueFormat ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/valueFormat"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1472,10 +1590,12 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasComponent:
     - [ UAObject, I4AAS:5030, I4AAS:ValueId ]
+    - DisplayName: "ValueId"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5148, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/valueId ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/valueId"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -1484,8 +1604,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6077, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1546,8 +1668,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6077, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1612,8 +1736,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasComponent:
     - [ UAObject, I4AAS:5029, I4AAS:ValueList ]
+    - DisplayName: "ValueList"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5149, I4AAS:Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0/valueList ]
+      - DisplayName: "Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0/valueList"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -1629,10 +1755,12 @@ DefinedTypes:
 
   I4AAS:AASIdentifierType:
   - [ UAObjectType, I4AAS:1029, I4AAS:AASIdentifierType ]
+  - DisplayName: "AASIdentifierType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5085, I4AAS:Admin-shell.io/aas/2/0/Identifier ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Identifier"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -1641,8 +1769,10 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasProperty:
     - [ UAVariable, I4AAS:6086, I4AAS:Id, String, 0, 3 ]
+    - DisplayName: "Id"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5086, I4AAS:Admin-shell.io/aas/2/0/Identifier/id ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Identifier/id"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1661,8 +1791,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6085, I4AAS:IdType, I4AAS:AASIdentifierTypeDataType, 0, 3 ]
+    - DisplayName: "IdType"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5087, I4AAS:Admin-shell.io/aas/2/0/Identifier/idType ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Identifier/idType"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1682,10 +1814,12 @@ DefinedTypes:
 
   I4AAS:AASQualifierType:
   - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
+  - DisplayName: "AASQualifierType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5099, I4AAS:Admin-shell.io/aas/2/0/Qualifier ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Qualifier"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -1694,8 +1828,10 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasProperty:
     - [ UAVariable, I4AAS:6010, I4AAS:Type, String, 0, 3 ]
+    - DisplayName: "Type"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5100, I4AAS:Admin-shell.io/aas/2/0/Qualifier/type ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Qualifier/type"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1714,8 +1850,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6078, I4AAS:Value ]
+    - DisplayName: "Value"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5102, I4AAS:Admin-shell.io/aas/2/0/Qualifier/value ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Qualifier/value"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1730,12 +1868,15 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
   - HasComponent:
     - [ UAObject, I4AAS:5033, I4AAS:ValueId ]
+    - DisplayName: "ValueId"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6079, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1796,8 +1937,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6079, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -1862,8 +2005,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6015, I4AAS:ValueType, I4AAS:AASValueTypeDataType, 0, 3 ]
+    - DisplayName: "ValueType"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5104, I4AAS:Admin-shell.io/aas/2/0/Qualifier/valueType ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Qualifier/valueType"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1879,8 +2024,10 @@ DefinedTypes:
 
   I4AAS:AASReferenceType:
   - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
+  - DisplayName: "AASReferenceType"
   - HasComponent:
     - [ UAObject, I4AAS:5041, I4AAS:<Referable> ]
+    - DisplayName: "<Referable>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - AASReference_reverse:
@@ -1891,6 +2038,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - AASReference:
     - [ UAObject, I4AAS:5041, I4AAS:<Referable> ]
+    - DisplayName: "<Referable>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - AASReference_reverse:
@@ -1903,6 +2051,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5111, I4AAS:Admin-shell.io/aas/2/0/Reference ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Reference"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -1911,8 +2060,10 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasProperty:
     - [ UAVariable, I4AAS:6001, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+    - DisplayName: "Keys"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -1972,14 +2123,17 @@ DefinedTypes:
 
   I4AAS:AASSubmodelElementType:
   - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
+  - DisplayName: "AASSubmodelElementType"
   - HasComponent:
     - [ UAObject, I4AAS:5011, I4AAS:<DataSpecification> ]
+    - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5103, I4AAS:Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - DisplayName: "Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification"
       - HasDictionaryEntry_reverse:
         - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
       - HasDictionaryEntry_reverse:
@@ -1994,8 +2148,10 @@ DefinedTypes:
         - [ UAObjectType, 17600, UriDictionaryEntryType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6012, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -2056,8 +2212,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6012, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -2120,6 +2278,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5101, I4AAS:<IRDI_or_IRI_or_Custom_concept_description_entry> ]
+    - DisplayName: "<IRDI or IRI or Custom concept description entry>"
     - HasDictionaryEntry_reverse:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasTypeDefinition:
@@ -2128,12 +2287,14 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasComponent:
     - [ UAObject, I4AAS:5031, I4AAS:<Qualifier> ]
+    - DisplayName: "<Qualifier>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5125, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/qualifiers ]
+      - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/qualifiers"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -2144,8 +2305,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasProperty:
       - [ UAVariable, I4AAS:6080, I4AAS:Type, String, 0, 3 ]
+      - DisplayName: "Type"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5100, I4AAS:Admin-shell.io/aas/2/0/Qualifier/type ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Qualifier/type"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -2164,6 +2327,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5031, I4AAS:<Qualifier> ]
     - HasProperty:
       - [ UAVariable, I4AAS:6135, I4AAS:ValueType, I4AAS:AASValueTypeDataType, 0, 3 ]
+      - DisplayName: "ValueType"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2174,6 +2338,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6126, I4AAS:Category, String, 0, 3 ]
+    - DisplayName: "Category"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasModellingRule:
@@ -2182,6 +2347,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5121, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement ]
+    - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -2192,8 +2358,10 @@ DefinedTypes:
     - [ UAObjectType, I4AAS:1033, I4AAS:IAASReferableType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6013, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+    - DisplayName: "ModelingKind"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5124, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+      - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/kind"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -2219,16 +2387,20 @@ DefinedTypes:
 
   I4AAS:AASBlobType:
   - [ UAObjectType, I4AAS:1016, I4AAS:AASBlobType ]
+  - DisplayName: "AASBlobType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
     - [ UAObject, I4AAS:5015, I4AAS:File ]
+    - DisplayName: "File"
     - HasComponent:
       - [ UAMethod, I4AAS:7002, I4AAS:Close ]
+      - DisplayName: "Close"
       - HasComponent_reverse:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
       - HasProperty:
         - [ UAVariable, I4AAS:6023, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2245,10 +2417,12 @@ DefinedTypes:
       - [ UAObjectType, 11575, FileType ]
     - HasComponent:
       - [ UAMethod, I4AAS:7003, I4AAS:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasComponent_reverse:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
       - HasProperty:
         - [ UAVariable, I4AAS:6024, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2261,6 +2435,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, I4AAS:6025, I4AAS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasModellingRule:
@@ -2271,6 +2446,7 @@ DefinedTypes:
           - [ UAMethod, I4AAS:7003, I4AAS:GetPosition ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5069, I4AAS:Admin-shell.io/aas/2/0/Blob/value ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Blob/value"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -2281,8 +2457,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAMethod, I4AAS:7004, I4AAS:Open ]
+      - DisplayName: "Open"
       - HasProperty:
         - [ UAVariable, I4AAS:6026, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasModellingRule:
@@ -2297,6 +2475,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
       - HasProperty:
         - [ UAVariable, I4AAS:6027, I4AAS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2307,6 +2486,7 @@ DefinedTypes:
           - [ UAMethod, I4AAS:7004, I4AAS:Open ]
     - HasProperty:
       - [ UAVariable, I4AAS:6028, I4AAS:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -2315,8 +2495,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAMethod, I4AAS:7005, I4AAS:Read ]
+      - DisplayName: "Read"
       - HasProperty:
         - [ UAVariable, I4AAS:6029, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -2330,6 +2512,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, I4AAS:6030, I4AAS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasModellingRule:
@@ -2342,8 +2525,10 @@ DefinedTypes:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
     - HasComponent:
       - [ UAMethod, I4AAS:7006, I4AAS:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasProperty:
         - [ UAVariable, I4AAS:6031, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -2359,6 +2544,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
     - HasProperty:
       - [ UAVariable, I4AAS:6032, I4AAS:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2367,6 +2553,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
     - HasProperty:
       - [ UAVariable, I4AAS:6033, I4AAS:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2375,6 +2562,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
     - HasProperty:
       - [ UAVariable, I4AAS:6034, I4AAS:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2383,8 +2571,10 @@ DefinedTypes:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
     - HasComponent:
       - [ UAMethod, I4AAS:7007, I4AAS:Write ]
+      - DisplayName: "Write"
       - HasProperty:
         - [ UAVariable, I4AAS:6035, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -2400,6 +2590,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5015, I4AAS:File ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5067, I4AAS:Admin-shell.io/aas/2/0/Blob ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Blob"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -2409,10 +2600,12 @@ DefinedTypes:
 
   I4AAS:AASCapabilityType:
   - [ UAObjectType, I4AAS:1014, I4AAS:AASCapabilityType ]
+  - DisplayName: "AASCapabilityType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5095, I4AAS:Admin-shell.io/aas/2/0/Property ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Property"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -2426,14 +2619,17 @@ DefinedTypes:
 
   I4AAS:AASEntityType:
   - [ UAObjectType, I4AAS:1022, I4AAS:AASEntityType ]
+  - DisplayName: "AASEntityType"
   - HasComponent:
     - [ UAObject, I4AAS:5021, I4AAS:<SubmodelElement> ]
+    - DisplayName: "<SubmodelElement>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1022, I4AAS:AASEntityType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6130, I4AAS:Category, String, 0, 3 ]
+      - DisplayName: "Category"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5021, I4AAS:<SubmodelElement> ]
       - HasModellingRule:
@@ -2442,6 +2638,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5077, I4AAS:Admin-shell.io/aas/2/0/Entity/statements ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Entity/statements"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -2450,8 +2647,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6123, I4AAS:IdShort, String, 0, 3 ]
+      - DisplayName: "IdShort"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5123, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/idShort"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -2474,8 +2673,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6054, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+      - DisplayName: "ModelingKind"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5124, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/kind"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -2504,12 +2705,14 @@ DefinedTypes:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
     - [ UAObject, I4AAS:5022, I4AAS:Asset ]
+    - DisplayName: "Asset"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1022, I4AAS:AASEntityType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5075, I4AAS:Admin-shell.io/aas/2/0/Entity/asset ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Entity/asset"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -2518,8 +2721,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6055, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -2580,8 +2785,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6055, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -2644,10 +2851,12 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, I4AAS:6056, I4AAS:EntityType, I4AAS:AASEntityTypeDataType, 0, 3 ]
+    - DisplayName: "EntityType"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1022, I4AAS:AASEntityType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5076, I4AAS:Admin-shell.io/aas/2/0/Entity/entityType ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Entity/entityType"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -2660,6 +2869,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5074, I4AAS:Admin-shell.io/aas/2/0/Entity ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Entity"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -2669,10 +2879,12 @@ DefinedTypes:
 
   I4AAS:AASEventType:
   - [ UAObjectType, I4AAS:1021, I4AAS:AASEventType ]
+  - DisplayName: "AASEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5066, I4AAS:Admin-shell.io/aas/2/0/BasicEvent ]
+    - DisplayName: "Admin-shell.io/aas/2/0/BasicEvent"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -2682,16 +2894,20 @@ DefinedTypes:
 
   I4AAS:AASFileType:
   - [ UAObjectType, I4AAS:1017, I4AAS:AASFileType ]
+  - DisplayName: "AASFileType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
     - [ UAObject, I4AAS:5016, I4AAS:File ]
+    - DisplayName: "File"
     - HasComponent:
       - [ UAMethod, I4AAS:7008, I4AAS:Close ]
+      - DisplayName: "Close"
       - HasComponent_reverse:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
       - HasProperty:
         - [ UAVariable, I4AAS:6038, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2708,10 +2924,12 @@ DefinedTypes:
       - [ UAObjectType, 11575, FileType ]
     - HasComponent:
       - [ UAMethod, I4AAS:7009, I4AAS:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasComponent_reverse:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
       - HasProperty:
         - [ UAVariable, I4AAS:6039, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2724,6 +2942,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, I4AAS:6040, I4AAS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasModellingRule:
@@ -2734,6 +2953,7 @@ DefinedTypes:
           - [ UAMethod, I4AAS:7009, I4AAS:GetPosition ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5080, I4AAS:Admin-shell.io/aas/2/0/File/value ]
+      - DisplayName: "Admin-shell.io/aas/2/0/File/value"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -2742,8 +2962,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasComponent:
       - [ UAMethod, I4AAS:7010, I4AAS:Open ]
+      - DisplayName: "Open"
       - HasProperty:
         - [ UAVariable, I4AAS:6041, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasModellingRule:
@@ -2758,6 +2980,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
       - HasProperty:
         - [ UAVariable, I4AAS:6042, I4AAS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2768,6 +2991,7 @@ DefinedTypes:
           - [ UAMethod, I4AAS:7010, I4AAS:Open ]
     - HasProperty:
       - [ UAVariable, I4AAS:6043, I4AAS:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -2778,8 +3002,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAMethod, I4AAS:7011, I4AAS:Read ]
+      - DisplayName: "Read"
       - HasProperty:
         - [ UAVariable, I4AAS:6044, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -2793,6 +3019,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, I4AAS:6045, I4AAS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasModellingRule:
@@ -2805,8 +3032,10 @@ DefinedTypes:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
     - HasComponent:
       - [ UAMethod, I4AAS:7012, I4AAS:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasProperty:
         - [ UAVariable, I4AAS:6046, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -2822,6 +3051,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
     - HasProperty:
       - [ UAVariable, I4AAS:6047, I4AAS:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2830,6 +3060,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
     - HasProperty:
       - [ UAVariable, I4AAS:6048, I4AAS:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2838,6 +3069,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
     - HasProperty:
       - [ UAVariable, I4AAS:6049, I4AAS:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2846,8 +3078,10 @@ DefinedTypes:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
     - HasComponent:
       - [ UAMethod, I4AAS:7013, I4AAS:Write ]
+      - DisplayName: "Write"
       - HasProperty:
         - [ UAVariable, I4AAS:6050, I4AAS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -2863,6 +3097,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5016, I4AAS:File ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5078, I4AAS:Admin-shell.io/aas/2/0/File ]
+    - DisplayName: "Admin-shell.io/aas/2/0/File"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -2871,8 +3106,10 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasProperty:
     - [ UAVariable, I4AAS:6037, I4AAS:MimeType, I4AAS:AASMimeDataType, 0, 3 ]
+    - DisplayName: "MimeType"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5079, I4AAS:Admin-shell.io/aas/2/0/File/mimeType ]
+      - DisplayName: "Admin-shell.io/aas/2/0/File/mimeType"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -2887,6 +3124,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6132, I4AAS:Value, String, 0, 3 ]
+    - DisplayName: "Value"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2896,10 +3134,12 @@ DefinedTypes:
 
   I4AAS:AASMultiLanguagePropertyType:
   - [ UAObjectType, I4AAS:1012, I4AAS:AASMultiLanguagePropertyType ]
+  - DisplayName: "AASMultiLanguagePropertyType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5091, I4AAS:Admin-shell.io/aas/2/0/MultiLanguageProperty ]
+    - DisplayName: "Admin-shell.io/aas/2/0/MultiLanguageProperty"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -2908,8 +3148,10 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasProperty:
     - [ UAVariable, I4AAS:6019, I4AAS:Value, LocalizedText, 1, 3 ]
+    - DisplayName: "Value"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5092, I4AAS:Admin-shell.io/aas/2/0/MultiLanguageProperty/value ]
+      - DisplayName: "Admin-shell.io/aas/2/0/MultiLanguageProperty/value"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -2924,10 +3166,12 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1012, I4AAS:AASMultiLanguagePropertyType ]
   - HasComponent:
     - [ UAObject, I4AAS:5013, I4AAS:ValueId ]
+    - DisplayName: "ValueId"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5093, I4AAS:Admin-shell.io/aas/2/0/MultiLanguageProperty/valueId ]
+      - DisplayName: "Admin-shell.io/aas/2/0/MultiLanguageProperty/valueId"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -2936,8 +3180,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6018, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -2998,8 +3244,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6018, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3065,8 +3313,10 @@ DefinedTypes:
 
   I4AAS:AASOperationType:
   - [ UAObjectType, I4AAS:1015, I4AAS:AASOperationType ]
+  - DisplayName: "AASOperationType"
   - HasComponent:
     - [ UAMethod, I4AAS:7001, I4AAS:Operation ]
+    - DisplayName: "Operation"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1015, I4AAS:AASOperationType ]
     - HasModellingRule:
@@ -3075,6 +3325,7 @@ DefinedTypes:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5094, I4AAS:Admin-shell.io/aas/2/0/Operation ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Operation"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -3084,10 +3335,12 @@ DefinedTypes:
 
   I4AAS:AASPropertyType:
   - [ UAObjectType, I4AAS:1013, I4AAS:AASPropertyType ]
+  - DisplayName: "AASPropertyType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5095, I4AAS:Admin-shell.io/aas/2/0/Property ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Property"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -3100,8 +3353,10 @@ DefinedTypes:
       - [ UAVariable, I4AAS:6011, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
   - HasProperty:
     - [ UAVariable, I4AAS:6020, I4AAS:Value ]
+    - DisplayName: "Value"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5096, I4AAS:Admin-shell.io/aas/2/0/Property/value ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Property/value"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -3116,10 +3371,12 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1013, I4AAS:AASPropertyType ]
   - HasComponent:
     - [ UAObject, I4AAS:5014, I4AAS:ValueId ]
+    - DisplayName: "ValueId"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5097, I4AAS:Admin-shell.io/aas/2/0/Property/valueId ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Property/valueId"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -3128,8 +3385,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6022, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3190,8 +3449,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6022, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3256,8 +3517,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1013, I4AAS:AASPropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6021, I4AAS:ValueType, I4AAS:AASValueTypeDataType, 0, 3 ]
+    - DisplayName: "ValueType"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5098, I4AAS:Admin-shell.io/aas/2/0/Property/valueType ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Property/valueType"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -3273,10 +3536,12 @@ DefinedTypes:
 
   I4AAS:AASRangeType:
   - [ UAObjectType, I4AAS:1023, I4AAS:AASRangeType ]
+  - DisplayName: "AASRangeType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5105, I4AAS:Admin-shell.io/aas/2/0/Range ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Range"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -3285,8 +3550,10 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasProperty:
     - [ UAVariable, I4AAS:6059, I4AAS:Max ]
+    - DisplayName: "Max"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5106, I4AAS:Admin-shell.io/aas/2/0/Range/max ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Range/max"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -3301,8 +3568,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6058, I4AAS:Min ]
+    - DisplayName: "Min"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5107, I4AAS:Admin-shell.io/aas/2/0/Range/min ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Range/min"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -3317,8 +3586,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6057, I4AAS:ValueType, I4AAS:AASValueTypeDataType, 0, 3 ]
+    - DisplayName: "ValueType"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5108, I4AAS:Admin-shell.io/aas/2/0/Range/valueType ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Range/valueType"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -3334,10 +3605,12 @@ DefinedTypes:
 
   I4AAS:AASReferenceElementType:
   - [ UAObjectType, I4AAS:1020, I4AAS:AASReferenceElementType ]
+  - DisplayName: "AASReferenceElementType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5113, I4AAS:Admin-shell.io/aas/2/0/ReferenceElement ]
+    - DisplayName: "Admin-shell.io/aas/2/0/ReferenceElement"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -3346,10 +3619,12 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasComponent:
     - [ UAObject, I4AAS:5020, I4AAS:Value ]
+    - DisplayName: "Value"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5114, I4AAS:Admin-shell.io/aas/2/0/ReferenceElement/value ]
+      - DisplayName: "Admin-shell.io/aas/2/0/ReferenceElement/value"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -3358,8 +3633,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6053, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3420,8 +3697,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6053, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3487,16 +3766,19 @@ DefinedTypes:
 
   I4AAS:AASRelationshipElementType:
   - [ UAObjectType, I4AAS:1018, I4AAS:AASRelationshipElementType ]
+  - DisplayName: "AASRelationshipElementType"
   - HasSubtype_reverse:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
     - [ UAObject, I4AAS:5017, I4AAS:First ]
+    - DisplayName: "First"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1018, I4AAS:AASRelationshipElementType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5116, I4AAS:Admin-shell.io/aas/2/0/RelationshipElement/first ]
+      - DisplayName: "Admin-shell.io/aas/2/0/RelationshipElement/first"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -3505,8 +3787,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6051, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3567,8 +3851,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6051, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3631,6 +3917,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5115, I4AAS:Admin-shell.io/aas/2/0/RelationshipElement ]
+    - DisplayName: "Admin-shell.io/aas/2/0/RelationshipElement"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -3639,10 +3926,12 @@ DefinedTypes:
       - [ UAObject, 17594, Dictionaries ]
   - HasComponent:
     - [ UAObject, I4AAS:5018, I4AAS:Second ]
+    - DisplayName: "Second"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5117, I4AAS:Admin-shell.io/aas/2/0/RelationshipElement/second ]
+      - DisplayName: "Admin-shell.io/aas/2/0/RelationshipElement/second"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -3651,8 +3940,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6052, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3713,8 +4004,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6052, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3780,14 +4073,17 @@ DefinedTypes:
 
   I4AAS:AASAnnotatedRelationshipElementType:
   - [ UAObjectType, I4AAS:1019, I4AAS:AASAnnotatedRelationshipElementType ]
+  - DisplayName: "AASAnnotatedRelationshipElementType"
   - HasComponent:
     - [ UAObject, I4AAS:5019, I4AAS:<DataElement> ]
+    - DisplayName: "<DataElement>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1019, I4AAS:AASAnnotatedRelationshipElementType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6129, I4AAS:Category, String, 0, 3 ]
+      - DisplayName: "Category"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5019, I4AAS:<DataElement> ]
       - HasModellingRule:
@@ -3796,6 +4092,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5056, I4AAS:Admin-shell.io/aas/2/0/AnnotatedRelationshipElement/annotations ]
+      - DisplayName: "Admin-shell.io/aas/2/0/AnnotatedRelationshipElement/annotations"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -3804,8 +4101,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6122, I4AAS:IdShort, String, 0, 3 ]
+      - DisplayName: "IdShort"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5123, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/idShort"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3828,8 +4127,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6114, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+      - DisplayName: "ModelingKind"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5124, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/kind"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3858,6 +4159,7 @@ DefinedTypes:
     - [ UAObjectType, I4AAS:1018, I4AAS:AASRelationshipElementType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5055, I4AAS:Admin-shell.io/aas/2/0/AnnotatedRelationshipElement ]
+    - DisplayName: "Admin-shell.io/aas/2/0/AnnotatedRelationshipElement"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -3867,14 +4169,17 @@ DefinedTypes:
 
   I4AAS:AASSubmodelElementCollectionType:
   - [ UAObjectType, I4AAS:1010, I4AAS:AASSubmodelElementCollectionType ]
+  - DisplayName: "AASSubmodelElementCollectionType"
   - HasComponent:
     - [ UAObject, I4AAS:5012, I4AAS:<SubmodelElement> ]
+    - DisplayName: "<SubmodelElement>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1010, I4AAS:AASSubmodelElementCollectionType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6128, I4AAS:Category, String, 0, 3 ]
+      - DisplayName: "Category"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5012, I4AAS:<SubmodelElement> ]
       - HasModellingRule:
@@ -3883,6 +4188,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5128, I4AAS:Admin-shell.io/aas/2/0/SubmodelElementCollection/values ]
+      - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElementCollection/values"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -3893,8 +4199,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6121, I4AAS:IdShort, String, 0, 3 ]
+      - DisplayName: "IdShort"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5123, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/idShort"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3917,8 +4225,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6016, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+      - DisplayName: "ModelingKind"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5124, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/kind"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -3947,10 +4257,12 @@ DefinedTypes:
     - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6017, I4AAS:AllowDuplicates, Boolean, 0, 3 ]
+    - DisplayName: "AllowDuplicates"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1010, I4AAS:AASSubmodelElementCollectionType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5127, I4AAS:Admin-shell.io/aas/2/0/SubmodelElementCollection/allowDuplicates ]
+      - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElementCollection/allowDuplicates"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -3963,6 +4275,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5126, I4AAS:Admin-shell.io/aas/2/0/SubmodelElementCollection ]
+    - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElementCollection"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -3974,14 +4287,17 @@ DefinedTypes:
 
   I4AAS:AASOrderedSubmodelElementCollectionType:
   - [ UAObjectType, I4AAS:1011, I4AAS:AASOrderedSubmodelElementCollectionType ]
+  - DisplayName: "AASOrderedSubmodelElementCollectionType"
   - HasOrderedComponent:
     - [ UAObject, I4AAS:5042, I4AAS:<SubmodelElement> ]
+    - DisplayName: "<SubmodelElement>"
     - HasOrderedComponent_reverse:
       - [ UAObjectType, I4AAS:1011, I4AAS:AASOrderedSubmodelElementCollectionType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6131, I4AAS:Category, String, 0, 3 ]
+      - DisplayName: "Category"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5042, I4AAS:<SubmodelElement> ]
       - HasModellingRule:
@@ -3990,6 +4306,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5128, I4AAS:Admin-shell.io/aas/2/0/SubmodelElementCollection/values ]
+      - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElementCollection/values"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4000,8 +4317,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6124, I4AAS:IdShort, String, 0, 3 ]
+      - DisplayName: "IdShort"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5123, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/idShort"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4024,8 +4343,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6104, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+      - DisplayName: "ModelingKind"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5124, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/kind"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4054,6 +4375,7 @@ DefinedTypes:
     - [ UAObjectType, I4AAS:1010, I4AAS:AASSubmodelElementCollectionType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5126, I4AAS:Admin-shell.io/aas/2/0/SubmodelElementCollection ]
+    - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElementCollection"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -4065,14 +4387,17 @@ DefinedTypes:
 
   I4AAS:AASSubmodelType:
   - [ UAObjectType, I4AAS:1006, I4AAS:AASSubmodelType ]
+  - DisplayName: "AASSubmodelType"
   - HasComponent:
     - [ UAObject, I4AAS:5009, I4AAS:<DataSpecification> ]
+    - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1006, I4AAS:AASSubmodelType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5058, I4AAS:Admin-shell.io/aas/2/0/Asset/dataSpecifications ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Asset/dataSpecifications"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4083,8 +4408,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6007, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4145,12 +4472,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, I4AAS:5032, I4AAS:<Qualifier> ]
+    - DisplayName: "<Qualifier>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1006, I4AAS:AASSubmodelType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5119, I4AAS:Admin-shell.io/aas/2/0/Submodel/qualifiers ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Submodel/qualifiers"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4161,8 +4490,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasProperty:
       - [ UAVariable, I4AAS:6081, I4AAS:Type, String, 0, 3 ]
+      - DisplayName: "Type"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5100, I4AAS:Admin-shell.io/aas/2/0/Qualifier/type ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Qualifier/type"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4181,6 +4512,7 @@ DefinedTypes:
         - [ UAObject, I4AAS:5032, I4AAS:<Qualifier> ]
     - HasProperty:
       - [ UAVariable, I4AAS:6136, I4AAS:ValueType, I4AAS:AASValueTypeDataType, 0, 3 ]
+      - DisplayName: "ValueType"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -4189,12 +4521,14 @@ DefinedTypes:
         - [ UAObject, I4AAS:5032, I4AAS:<Qualifier> ]
   - HasComponent:
     - [ UAObject, I4AAS:5010, I4AAS:<SubmodelElement> ]
+    - DisplayName: "<SubmodelElement>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1006, I4AAS:AASSubmodelType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6127, I4AAS:Category, String, 0, 3 ]
+      - DisplayName: "Category"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5010, I4AAS:<SubmodelElement> ]
       - HasModellingRule:
@@ -4203,6 +4537,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5120, I4AAS:Admin-shell.io/aas/2/0/Submodel/submodelElements ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Submodel/submodelElements"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4211,8 +4546,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6120, I4AAS:IdShort, String, 0, 3 ]
+      - DisplayName: "IdShort"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5123, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/idShort"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4235,8 +4572,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6014, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+      - DisplayName: "ModelingKind"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5124, I4AAS:Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - DisplayName: "Admin-shell.io/aas/2/0/SubmodelElement/kind"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4265,6 +4604,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5118, I4AAS:Admin-shell.io/aas/2/0/Submodel ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Submodel"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - Organizes_reverse:
@@ -4273,8 +4613,10 @@ DefinedTypes:
     - [ UAObjectType, I4AAS:1034, I4AAS:IAASIdentifiableType ]
   - HasProperty:
     - [ UAVariable, I4AAS:6009, I4AAS:ModelingKind, I4AAS:AASModelingKindDataType, 0, 3 ]
+    - DisplayName: "ModelingKind"
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5081, I4AAS:Admin-shell.io/aas/2/0/HasKind/kind ]
+      - DisplayName: "Admin-shell.io/aas/2/0/HasKind/kind"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -4292,12 +4634,15 @@ DefinedTypes:
 
   I4AAS:IAASReferableType:
   - [ UAObjectType, I4AAS:1033, I4AAS:IAASReferableType ]
+  - DisplayName: "IAASReferableType"
   - HasProperty:
     - [ UAVariable, I4AAS:6082, I4AAS:Category, String, 0, 3 ]
+    - DisplayName: "Category"
     - HasProperty_reverse:
       - [ UAObjectType, I4AAS:1033, I4AAS:IAASReferableType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5110, I4AAS:Admin-shell.io/aas/2/0/Referable/category ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Referable/category"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - Organizes_reverse:
@@ -4310,6 +4655,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5109, I4AAS:Admin-shell.io/aas/2/0/Referable ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Referable"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -4323,14 +4669,17 @@ DefinedTypes:
 
   I4AAS:IAASIdentifiableType:
   - [ UAObjectType, I4AAS:1034, I4AAS:IAASIdentifiableType ]
+  - DisplayName: "IAASIdentifiableType"
   - HasComponent:
     - [ UAObject, I4AAS:5035, I4AAS:Administration ]
+    - DisplayName: "Administration"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1034, I4AAS:IAASIdentifiableType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5083, I4AAS:Admin-shell.io/aas/2/0/Identifiable/administration ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Identifiable/administration"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4341,6 +4690,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5082, I4AAS:Admin-shell.io/aas/2/0/Identifiable ]
+    - DisplayName: "Admin-shell.io/aas/2/0/Identifiable"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -4365,10 +4715,12 @@ DefinedTypes:
     - [ UAObjectType, I4AAS:1033, I4AAS:IAASReferableType ]
   - HasComponent:
     - [ UAObject, I4AAS:5034, I4AAS:Identification ]
+    - DisplayName: "Identification"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1029, I4AAS:AASIdentifierType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5084, I4AAS:Admin-shell.io/aas/2/0/Identifiable/identification ]
+      - DisplayName: "Admin-shell.io/aas/2/0/Identifiable/identification"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4377,8 +4729,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6090, I4AAS:Id, String, 0, 3 ]
+      - DisplayName: "Id"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5086, I4AAS:Admin-shell.io/aas/2/0/Identifier/id ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Identifier/id"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4399,8 +4753,10 @@ DefinedTypes:
       - [ UAObjectType, I4AAS:1034, I4AAS:IAASIdentifiableType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6089, I4AAS:IdType, I4AAS:AASIdentifierTypeDataType, 0, 3 ]
+      - DisplayName: "IdType"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5087, I4AAS:Admin-shell.io/aas/2/0/Identifier/idType ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Identifier/idType"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4422,14 +4778,17 @@ DefinedTypes:
 
   I4AAS:AASCustomConceptDescriptionType:
   - [ UAObjectType, I4AAS:1026, I4AAS:AASCustomConceptDescriptionType ]
+  - DisplayName: "AASCustomConceptDescriptionType"
   - HasComponent:
     - [ UAObject, I4AAS:5048, I4AAS:<ConceptDescription> ]
+    - DisplayName: "<ConceptDescription>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1026, I4AAS:AASCustomConceptDescriptionType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5072, I4AAS:Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf ]
+      - DisplayName: "Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4442,8 +4801,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6107, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4504,12 +4865,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, I4AAS:5043, I4AAS:<DataSpecification> ]
+    - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1026, I4AAS:AASCustomConceptDescriptionType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6134, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5043, I4AAS:<DataSpecification> ]
       - HasModellingRule:
@@ -4520,6 +4883,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5103, I4AAS:Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - DisplayName: "Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification"
       - HasDictionaryEntry_reverse:
         - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
       - HasDictionaryEntry_reverse:
@@ -4536,6 +4900,7 @@ DefinedTypes:
     - [ UAObjectType, 17589, DictionaryEntryType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5070, I4AAS:Admin-shell.io/aas/2/0/ConceptDescription ]
+    - DisplayName: "Admin-shell.io/aas/2/0/ConceptDescription"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -4551,14 +4916,17 @@ DefinedTypes:
 
   I4AAS:AASIrdiConceptDescriptionType:
   - [ UAObjectType, I4AAS:1024, I4AAS:AASIrdiConceptDescriptionType ]
+  - DisplayName: "AASIrdiConceptDescriptionType"
   - HasComponent:
     - [ UAObject, I4AAS:5024, I4AAS:<DataSpecification> ]
+    - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1024, I4AAS:AASIrdiConceptDescriptionType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6036, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5024, I4AAS:<DataSpecification> ]
       - HasModellingRule:
@@ -4569,6 +4937,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5103, I4AAS:Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - DisplayName: "Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification"
       - HasDictionaryEntry_reverse:
         - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
       - HasDictionaryEntry_reverse:
@@ -4583,12 +4952,14 @@ DefinedTypes:
         - [ UAObjectType, 17600, UriDictionaryEntryType ]
   - HasComponent:
     - [ UAObject, I4AAS:5044, I4AAS:<ConceptDescription> ]
+    - DisplayName: "<ConceptDescription>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1024, I4AAS:AASIrdiConceptDescriptionType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5072, I4AAS:Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf ]
+      - DisplayName: "Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4601,8 +4972,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6105, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4665,6 +5038,7 @@ DefinedTypes:
     - [ UAObjectType, 17598, IrdiDictionaryEntryType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5070, I4AAS:Admin-shell.io/aas/2/0/ConceptDescription ]
+    - DisplayName: "Admin-shell.io/aas/2/0/ConceptDescription"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -4680,14 +5054,17 @@ DefinedTypes:
 
   I4AAS:AASIriConceptDescriptionType:
   - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
+  - DisplayName: "AASIriConceptDescriptionType"
   - HasComponent:
     - [ UAObject, I4AAS:5046, I4AAS:<ConceptDescription> ]
+    - DisplayName: "<ConceptDescription>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5072, I4AAS:Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf ]
+      - DisplayName: "Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4700,8 +5077,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6106, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4762,12 +5141,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, I4AAS:5025, I4AAS:<DataSpecification> ]
+    - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasProperty:
       - [ UAVariable, I4AAS:6133, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasProperty_reverse:
         - [ UAObject, I4AAS:5025, I4AAS:<DataSpecification> ]
       - HasModellingRule:
@@ -4778,6 +5159,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5103, I4AAS:Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - DisplayName: "Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification"
       - HasDictionaryEntry_reverse:
         - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
       - HasDictionaryEntry_reverse:
@@ -4794,6 +5176,7 @@ DefinedTypes:
     - [ UAObjectType, 17600, UriDictionaryEntryType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5070, I4AAS:Admin-shell.io/aas/2/0/ConceptDescription ]
+    - DisplayName: "Admin-shell.io/aas/2/0/ConceptDescription"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -4809,14 +5192,17 @@ DefinedTypes:
 
   I4AAS:AASViewType:
   - [ UAObjectType, I4AAS:1003, I4AAS:AASViewType ]
+  - DisplayName: "AASViewType"
   - HasComponent:
     - [ UAObject, I4AAS:5037, I4AAS:<DataSpecification> ]
+    - DisplayName: "<DataSpecification>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1003, I4AAS:AASViewType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5131, I4AAS:Admin-shell.io/aas/2/0/View/dataSpecifications ]
+      - DisplayName: "Admin-shell.io/aas/2/0/View/dataSpecifications"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4825,8 +5211,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6092, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4887,8 +5275,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6092, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -4951,12 +5341,14 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, I4AAS:5036, I4AAS:<Referable> ]
+    - DisplayName: "<Referable>"
     - HasComponent_reverse:
       - [ UAObjectType, I4AAS:1003, I4AAS:AASViewType ]
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasDictionaryEntry:
       - [ UAObject, I4AAS:5130, I4AAS:Admin-shell.io/aas/2/0/View/containedElements ]
+      - DisplayName: "Admin-shell.io/aas/2/0/View/containedElements"
       - HasTypeDefinition:
         - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
       - HasDictionaryEntry_reverse:
@@ -4965,8 +5357,10 @@ DefinedTypes:
         - [ UAObject, 17594, Dictionaries ]
     - HasProperty:
       - [ UAVariable, I4AAS:6091, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -5027,8 +5421,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - AASReference:
       - [ UAVariable, I4AAS:6091, I4AAS:Keys, I4AAS:AASKeyDataType, 1, 3 ]
+      - DisplayName: "Keys"
       - HasDictionaryEntry:
         - [ UAObject, I4AAS:5112, I4AAS:Admin-shell.io/aas/2/0/Reference/keys ]
+        - DisplayName: "Admin-shell.io/aas/2/0/Reference/keys"
         - HasTypeDefinition:
           - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
         - Organizes_reverse:
@@ -5093,6 +5489,7 @@ DefinedTypes:
     - [ UAObjectType, 61, FolderType ]
   - HasDictionaryEntry:
     - [ UAObject, I4AAS:5129, I4AAS:Admin-shell.io/aas/2/0/View ]
+    - DisplayName: "Admin-shell.io/aas/2/0/View"
     - HasTypeDefinition:
       - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
     - HasDictionaryEntry_reverse:
@@ -5102,5 +5499,6 @@ DefinedTypes:
 
   I4AAS:ValueListType:
   - [ UAObjectType, I4AAS:1031, I4AAS:ValueListType ]
+  - DisplayName: "ValueListType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

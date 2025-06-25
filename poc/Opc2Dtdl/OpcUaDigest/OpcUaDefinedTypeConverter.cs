@@ -38,7 +38,15 @@ namespace OpcUaDigest
 
                 Scalar relationship = parser.Consume<Scalar>();
 
-                if (relationship.Value == "UnitId")
+                if (relationship.Value == "DisplayName")
+                {
+                    definedType.DisplayName = parser.Consume<Scalar>().Value;
+                }
+                else if (relationship.Value == "Description")
+                {
+                    definedType.Description = parser.Consume<Scalar>().Value;
+                }
+                else if (relationship.Value == "UnitId")
                 {
                     definedType.UnitId = parser.Consume<Scalar>().Value;
                 }

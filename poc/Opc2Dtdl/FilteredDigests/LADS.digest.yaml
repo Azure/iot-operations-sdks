@@ -1,20 +1,28 @@
 DataTypes:
 - UADataType: [ LADS:3003, LADS:KeyValueType ]
+  DisplayName: "KeyValueType"
+  Description: "A key-value pair similar to 0:KeyValuePair which uses 0:String instead of 0:Qualifiedname for easu of use."
   Fields:
     Key: [ String, 0 ]
     Value: [ String, 0 ]
 - UADataType: [ LADS:3002, LADS:SampleInfoType ]
+  DisplayName: "SampleInfoType"
+  Description: "This DataType contains metadata for a sample, specifically data on the identification and location of the sample in a container."
   Fields:
     ContainerId: [ String, 0 ]
     SampleId: [ String, 0 ]
     Position: [ String, 0 ]
     CustomData: [ String, 0 ]
 - UADataType: [ LADS:3000, LADS:MaintenanceTaskResultEnum ]
+  DisplayName: "MaintenanceTaskResultEnum"
+  Description: "This enumeration defines the different results when executing a Task.."
   Enums:
     Success: 0
     Failure: 1
     Undetermined: 2
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -25,25 +33,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -51,14 +66,20 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
+  DisplayName: "MaintenanceMethodEnum"
+  Description: "Maintenance close to the asset"
   Enums:
     Local: 0
     Remote: 1
 - UADataType: [ AMB:3003, AMB:NameNodeIdDataType ]
+  DisplayName: "NameNodeIdDataType"
+  Description: "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace"
   Fields:
     Name: [ LocalizedText, 0 ]
     NodeId: [ NodeId, 0 ]
 - UADataType: [ AMB:3002, AMB:RootCauseDataType ]
+  DisplayName: "RootCauseDataType"
+  Description: "Root cause of an alarm"
   Fields:
     RootCauseId: [ NodeId, 0 ]
     RootCause: [ LocalizedText, 0 ]
@@ -67,265 +88,368 @@ DefinedTypes:
 
   LADS:ActiveProgramType:
   - [ UAObjectType, LADS:1040, LADS:ActiveProgramType ]
+  - DisplayName: "ActiveProgramType"
+  - Description: "The ActiveProgramType specifies the current state of operation of a FunctionalUnit. It provides context and information about the currently active program on the device. This allows users to follow the progress of a program run in a standardized fashion by organising steps into a flat, linear sequence."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   LADS:LADSComponentsType:
   - [ UAObjectType, LADS:1025, LADS:LADSComponentsType ]
+  - DisplayName: "LADSComponentsType"
+  - Description: "The LADSComponentsType is a type used for structuring objects of type LADSComponentsType in an unordered list structure."
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
 
   LADS:LADSOperationCountersType:
   - [ UAObjectType, LADS:1034, LADS:LADSOperationCountersType ]
+  - DisplayName: "LADSOperationCountersType"
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1009, Machinery:MachineryOperationCounterType ]
 
   LADS:FunctionalUnitSetType:
   - [ UAObjectType, LADS:1023, LADS:FunctionalUnitSetType ]
+  - DisplayName: "FunctionalUnitSetType"
+  - Description: "The FunctionalUnitSetType provides a set of a FunctionalUnit objects."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:FunctionSetType:
   - [ UAObjectType, LADS:1026, LADS:FunctionSetType ]
+  - DisplayName: "FunctionSetType"
+  - Description: "The FunctionSetType is used for organising FunctionType objects in an unordered list structure."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:ProgramTemplateSetType:
   - [ UAObjectType, LADS:1019, LADS:ProgramTemplateSetType ]
+  - DisplayName: "ProgramTemplateSetType"
+  - Description: "The ProgramTemplateSetType is used for organising ProgramTemplateType objects in an unordered list structure."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:ProgramTemplateType:
   - [ UAObjectType, LADS:1018, LADS:ProgramTemplateType ]
+  - DisplayName: "ProgramTemplateType"
+  - Description: "The ProgramTemplateType provides a program template."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   LADS:SupportedPropertiesSetType:
   - [ UAObjectType, LADS:1033, LADS:SupportedPropertiesSetType ]
+  - DisplayName: "SupportedPropertiesSetType"
+  - Description: "The SupportedPropertiesSetType provides a set of properties which are supported as members of a properties list Argument for Method calls such as, FunctionalUnit.StartFunctions() or ActiveProgram.Start()."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:SupportedPropertyType:
   - [ UAObjectType, LADS:1035, LADS:SupportedPropertyType ]
+  - DisplayName: "SupportedPropertyType"
+  - Description: "The SupportedPropertyType provides alias names and links to variables within the information model, typically target values or parameters of Functions. This makes it possible to specify a list of KeyValuePairs as an input object. The SupportedPropertyType is used in the SupportedPropertiesSet of the FunctionalUnit or ActiveProgram. The name of each Property object is used as a key in the KeyValuePair list input Argument of the Start()/StartFunctions() Method. Each Property object should contain an Organizes Reference to the target variable to which it belongs. Thus, the metadata of the target variable can be introspected online. The name of the Property object is typically an alias for a variable in the Device."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   LADS:ResultFileSetType:
   - [ UAObjectType, LADS:1022, LADS:ResultFileSetType ]
+  - DisplayName: "ResultFileSetType"
+  - Description: "The ResultFileSetType is used for organising ResultFileType objects in an unordered list structure."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:ResultFileType:
   - [ UAObjectType, LADS:1001, LADS:ResultFileType ]
+  - DisplayName: "ResultFileType"
+  - Description: "ResultFile provides a description of a file that is part of a result of a program managers run."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   LADS:ResultSetType:
   - [ UAObjectType, LADS:1020, LADS:ResultSetType ]
+  - DisplayName: "ResultSetType"
+  - Description: "The ResultSetType is used for organising ResultType objects in an unordered list structure."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:ResultType:
   - [ UAObjectType, LADS:1021, LADS:ResultType ]
+  - DisplayName: "ResultType"
+  - Description: "The ResultType provides the results of a specific program run."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   LADS:CoverStateMachineType:
   - [ UAObjectType, LADS:1010, LADS:CoverStateMachineType ]
+  - DisplayName: "CoverStateMachineType"
+  - Description: "he CoverStateMachineType is used to control the lid, door, or cover of a laboratory device. One Device may have any arbitrary number of lids, doors, covers and their corresponding CoverFunction."
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   LADS:LADSDeviceStateMachineType:
   - [ UAObjectType, LADS:1039, LADS:LADSDeviceStateMachineType ]
+  - DisplayName: "LADSDeviceStateMachineType"
+  - Description: "The LADSDeviceStateMachineType state machine represents the Device’s operation mode. It is inspired by the AnalyserDeviceStateMachineType from the Analyzer Devices Specification."
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   LADS:FunctionalStateMachineType:
   - [ UAObjectType, LADS:1038, LADS:FunctionalStateMachineType ]
+  - DisplayName: "FunctionalStateMachineType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   LADS:RunningStateMachineType:
   - [ UAObjectType, LADS:1036, LADS:RunningStateMachineType ]
+  - DisplayName: "RunningStateMachineType"
+  - Description: "The RunningStateMachineType is a sub-state machine of the FunctionalStateMachine and includes detailed substates."
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   LADS:MaintenanceSetType:
   - [ UAObjectType, LADS:1027, LADS:MaintenanceSetType ]
+  - DisplayName: "MaintenanceSetType"
+  - Description: "The MaintenanceSetType is a set containing all maintenance tasks for a Device or Component according to the recommendations in OPC UA 10000-110."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:MaintenanceTaskType:
   - [ UAObjectType, LADS:1028, LADS:MaintenanceTaskType ]
+  - DisplayName: "MaintenanceTaskType"
+  - Description: "The MaintenanceTaskType shall be used to implement instances of maintenance tasks applicable at both the Device and Component levels. Maintenance tasks include activities such as periodic maintenance, cleaning, calibration, and validation."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15739, DI:MaintenanceRequiredAlarmType ]
 
   LADS:LADSDeviceType:
   - [ UAObjectType, LADS:1002, LADS:LADSDeviceType ]
+  - DisplayName: "LADSDeviceType"
+  - Description: "The LADSDeviceType provides a base class for laboratory- and analytical devices."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1002, DI:DeviceType ]
 
   LADS:LADSComponentType:
   - [ UAObjectType, LADS:1024, LADS:LADSComponentType ]
+  - DisplayName: "LADSComponentType"
+  - Description: "Devices may be composed of tangible sub-components. A component is represented by the LADSComponentType. A component itself may also have sub-components."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15063, DI:ComponentType ]
 
   LADS:FunctionalUnitType:
   - [ UAObjectType, LADS:1003, LADS:FunctionalUnitType ]
+  - DisplayName: "FunctionalUnitType"
+  - Description: "The FunctionalUnitType represents a functional unit of a laboratory or analytical device."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
   LADS:FunctionType:
   - [ UAObjectType, LADS:1004, LADS:FunctionType ]
+  - DisplayName: "FunctionType"
+  - Description: "Abstract function type"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
   LADS:BaseControlFunctionType:
   - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
+  - DisplayName: "BaseControlFunctionType"
+  - Description: "The BaseControlFunctionType provides an abstract superclass for all control functions."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1004, LADS:FunctionType ]
 
   LADS:AnalogControlFunctionType:
   - [ UAObjectType, LADS:1009, LADS:AnalogControlFunctionType ]
+  - DisplayName: "AnalogControlFunctionType"
+  - Description: "The AnalogControlFunctionType describes an analogue control function (using analogue values). More specialized analogue control functions can be derived from this ObjectType."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
 
   LADS:AnalogControlFunctionWithTotalizerType:
   - [ UAObjectType, LADS:1014, LADS:AnalogControlFunctionWithTotalizerType ]
+  - DisplayName: "AnalogControlFunctionWithTotalizerType"
+  - Description: "The AnalogControlFunctionWithTotalizerType describes an analogue control (using analogue values) function with totalizer. Typical usage examples include but are not limited to fluid controllers where the quantity of fluid needs to be accurately measured and totalled for metering purposes."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1009, LADS:AnalogControlFunctionType ]
 
   LADS:DiscreteControlFunctionType:
   - [ UAObjectType, LADS:1017, LADS:DiscreteControlFunctionType ]
+  - DisplayName: "DiscreteControlFunctionType"
+  - Description: "The DiscreteControlFunctionType describes an abstract discrete control function (using discrete values). More specialized discrete control functions can be derived from this ObjectType."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
 
   LADS:MultiStateDiscreteControlFunctionType:
   - [ UAObjectType, LADS:1045, LADS:MultiStateDiscreteControlFunctionType ]
+  - DisplayName: "MultiStateDiscreteControlFunctionType"
+  - Description: "The MultiStateDiscreteControlFunctionType describes a discrete control function (using more than two discrete values)."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1017, LADS:DiscreteControlFunctionType ]
 
   LADS:TwoStateDiscreteControlFunctionType:
   - [ UAObjectType, LADS:1042, LADS:TwoStateDiscreteControlFunctionType ]
+  - DisplayName: "TwoStateDiscreteControlFunctionType"
+  - Description: "The TwoStateDiscreteControlFunctionType describes a discrete control function with two possible values (e.g., on/off)."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1017, LADS:DiscreteControlFunctionType ]
 
   LADS:BaseSensorFunctionType:
   - [ UAObjectType, LADS:1005, LADS:BaseSensorFunctionType ]
+  - DisplayName: "BaseSensorFunctionType"
+  - Description: "The BaseSensorFunctionType is an abstract ObjectType used as a base for derivation of Sensor Functions. A Sensor Function is a Function that measures data."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1004, LADS:FunctionType ]
 
   LADS:AnalogScalarSensorFunctionType:
   - [ UAObjectType, LADS:1016, LADS:AnalogScalarSensorFunctionType ]
+  - DisplayName: "AnalogScalarSensorFunctionType"
+  - Description: "The AnalogScalarSensorFunctionType is a concrete subtype of the AnalogSensorFunctionType which represents an analogue measured value."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1046, LADS:AnalogSensorFunctionType ]
 
   LADS:DiscreteSensorFunctionType:
   - [ UAObjectType, LADS:1012, LADS:DiscreteSensorFunctionType ]
+  - DisplayName: "DiscreteSensorFunctionType"
+  - Description: "The DiscreteSensorFunctionType is an abstract ObjectType used as a base for derivation of sensors with discrete signals."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1005, LADS:BaseSensorFunctionType ]
 
   LADS:CoverFunctionType:
   - [ UAObjectType, LADS:1011, LADS:CoverFunctionType ]
+  - DisplayName: "CoverFunctionType"
+  - Description: "The CoverFunctionType is used to control the cover, door, or lid of a Laboratory Device."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1004, LADS:FunctionType ]
 
   LADS:ProgramManagerType:
   - [ UAObjectType, LADS:1006, LADS:ProgramManagerType ]
+  - DisplayName: "ProgramManagerType"
+  - Description: "The ProgramManager provides the functional unit's program manager."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
   LADS:TimerControlFunctionType:
   - [ UAObjectType, LADS:1013, LADS:TimerControlFunctionType ]
+  - DisplayName: "TimerControlFunctionType"
+  - Description: "The TimerControlFunctionType defines a simple “one shot” Timer which stops once it has elapsed. It follows the design of other LADS ControlFunctions, utilizing the same state machine and similar variable definitions. As soon as the CurrentValue reaches the TargetValue, the CurrentState of the TimerFunction automatically transitions to Off. This is typically accompanied by some (internal) action/effect, such as stopping the execution of a Function or similar. In the SuspendedState the CurrentValue holds its current value and does not count further until the state switches back to On, either due to a Client command or an internal state change."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
 
   LADS:AnalogScalarSensorFunctionWithCompensationType:
   - [ UAObjectType, LADS:1000, LADS:AnalogScalarSensorFunctionWithCompensationType ]
+  - DisplayName: "AnalogScalarSensorFunctionWithCompensationType"
+  - Description: "The AnalogScalarSensorFunctionWithCompensationType represents a compensated analogue measured value (e.g. pH sensor, dissolved oxygen sensor, ..)"
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1016, LADS:AnalogScalarSensorFunctionType ]
 
   LADS:ControllerTuningParameterType:
   - [ UAObjectType, LADS:1008, LADS:ControllerTuningParameterType ]
+  - DisplayName: "ControllerTuningParameterType"
+  - Description: "The ControllerTuningParameterType is an abstract class. It is formally defined in Table 85. Subtypes of the ControllerTuningParameterType contain the parameters and information about a Controller (configuration)."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   LADS:PidControllerParameterType:
   - [ UAObjectType, LADS:1030, LADS:PidControllerParameterType ]
+  - DisplayName: "PidControllerParameterType"
+  - Description: "The PidControllerParameterType contains the parameters of an PID controller."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1008, LADS:ControllerTuningParameterType ]
 
   LADS:TwoStateDiscreteSensorFunctionType:
   - [ UAObjectType, LADS:1031, LADS:TwoStateDiscreteSensorFunctionType ]
+  - DisplayName: "TwoStateDiscreteSensorFunctionType"
+  - Description: "The TwoStateDiscreteSensorFunctionType represents a Boolean value that is measured by a Sensor."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1012, LADS:DiscreteSensorFunctionType ]
 
   LADS:MultiStateDiscreteSensorFunctionType:
   - [ UAObjectType, LADS:1037, LADS:MultiStateDiscreteSensorFunctionType ]
+  - DisplayName: "MultiStateDiscreteSensorFunctionType"
+  - Description: "The MultiStateDiscreteSensorFunctionType represents a value that is measured by a Sensor and can only be set to a discrete set of values."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1012, LADS:DiscreteSensorFunctionType ]
 
   LADS:FunctionalUnitStateMachineType:
   - [ UAObjectType, LADS:1043, LADS:FunctionalUnitStateMachineType ]
+  - DisplayName: "FunctionalUnitStateMachineType"
+  - Description: "Represents the state of a FunctionalUnit in a LADS Device"
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1038, LADS:FunctionalStateMachineType ]
 
   LADS:ControlFunctionStateMachineType:
   - [ UAObjectType, LADS:1044, LADS:ControlFunctionStateMachineType ]
+  - DisplayName: "ControlFunctionStateMachineType"
+  - Description: "Represents the state of a Function in a LADS Device"
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1038, LADS:FunctionalStateMachineType ]
 
   LADS:MultiModeAnalogControlFunctionType:
   - [ UAObjectType, LADS:1047, LADS:MultiModeAnalogControlFunctionType ]
+  - DisplayName: "MultiModeAnalogControlFunctionType"
+  - Description: "The MultiModeAnalogControlFunctionType is used when a controller or actuator can be operated in different modes, depending on how the target value and current value are represented. A common example in the laboratory and analytical domain is a peristaltic pump. In this case, the user can choose from various operation modes, such as relative pump speed (0 to 100%), absolute pump rotor speed in RPM, volumetric rate in mL/min (requiring pump calibration), or mass flow rate in g/min (requiring knowledge of the fluid density). Another example in the laboratory and analytical domain is centrifuges. Operators can select between RPM or RCF (Rotational Centrifugal Force, defined as a multiple of G-force) modes. The RCF mode considers the radius of the centrifuge rotor when converting RCF to RPM."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1007, LADS:BaseControlFunctionType ]
 
   LADS:ControllerParameterType:
   - [ UAObjectType, LADS:1048, LADS:ControllerParameterType ]
+  - DisplayName: "ControllerParameterType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   LADS:ControllerParameterSetType:
   - [ UAObjectType, LADS:1049, LADS:ControllerParameterSetType ]
+  - DisplayName: "ControllerParameterSetType"
+  - Description: "The ControllerParameterSetType is used for organising ControllerParameterType objects in an unordered list structure."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:AnalogControlFunctionWithComposedTargetValueType:
   - [ UAObjectType, LADS:1052, LADS:AnalogControlFunctionWithComposedTargetValueType ]
+  - DisplayName: "AnalogControlFunctionWithComposedTargetValueType"
+  - Description: "The AnalogControlFunctionWithComposedTargetValueType describes an analogue control function (using analogue values), but the TargetValue is composed of several partial values. An example of a composed target value used in mechanical stress analysers involves combining a static/constant base value with periodically changing values for defined amplitude, frequency, and waveform. As the TargetValue is calculated from variables in the TargetValueSet, it should be read-only."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1009, LADS:AnalogControlFunctionType ]
 
   LADS:MultiSensorFunctionType:
   - [ UAObjectType, LADS:1051, LADS:MultiSensorFunctionType ]
+  - DisplayName: "MultiSensorFunctionType"
+  - Description: "The MultiSensorFunction represents complex detectors with multiple sensors targeting a specific measurement task, e.g. diode array detector of a HPLC system. The specific sensor elements are represented by sensor-functions in the FunctionSet."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1005, LADS:BaseSensorFunctionType ]
 
   LADS:AnalogControlFunctionWithRelativeTargetValueType:
   - [ UAObjectType, LADS:1029, LADS:AnalogControlFunctionWithRelativeTargetValueType ]
+  - DisplayName: "AnalogControlFunctionWithRelativeTargetValueType"
+  - Description: "The AnalogControlFunctionWithRelativeTargetValueType supports applications where the target value is typically modified by relative increments or decrements. Examples of its usage include position controllers where the actuator needs to modify its position relative to the last defined position by a specific amount, or dispenser controllers that are responsible for aspirating or dispensing a certain volume of fluid. The optional DecreaseRate and IncreaseRate variables can be utilized to customize the dynamics of the resulting action based on application-specific requirements. These variables allow for adapting to factors such as viscosity when aspirating or dispensing fluids."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1009, LADS:AnalogControlFunctionType ]
 
   LADS:AnalogArraySensorFunctionType:
   - [ UAObjectType, LADS:1015, LADS:AnalogArraySensorFunctionType ]
+  - DisplayName: "AnalogArraySensorFunctionType"
+  - Description: "The AnalogArraySensorFunctionType is a concrete subtype of the AnalogSensorFunctionType which represents an array of analogue measured values."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1046, LADS:AnalogSensorFunctionType ]
 
   LADS:SetType:
   - [ UAObjectType, LADS:61, LADS:SetType ]
+  - DisplayName: "SetType"
+  - Description: "The SetType provides an unordered set of objects."
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
   LADS:VariableSetType:
   - [ UAObjectType, LADS:1041, LADS:VariableSetType ]
+  - DisplayName: "VariableSetType"
+  - Description: "The VariableSetType is used for storing additional sample data that was created during a run."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:61, LADS:SetType ]
 
   LADS:AnalogSensorFunctionType:
   - [ UAObjectType, LADS:1046, LADS:AnalogSensorFunctionType ]
+  - DisplayName: "AnalogSensorFunctionType"
+  - Description: "The AnalogSensorFunctionType is a abstract subtype of the BaseSensorFunctionType which represents an analogue measured value. This is an extension point for all analogue measured values without built-in compensation on the Sensor."
   - HasSubtype_reverse:
     - [ UAObjectType, LADS:1005, LADS:BaseSensorFunctionType ]
 
   LADS:LADSOperationModeStateMachineType:
   - [ UAObjectType, LADS:1050, LADS:LADSOperationModeStateMachineType ]
+  - DisplayName: "LADSOperationModeStateMachineType"
+  - Description: "State machine representing the operation mode of a laboratory device. Optional methods allow for initiating changes of the operation mode from remote."
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1008, Machinery:MachineryOperationModeStateMachineType ]

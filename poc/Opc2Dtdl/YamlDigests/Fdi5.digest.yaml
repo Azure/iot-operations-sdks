@@ -1,18 +1,22 @@
 DataTypes:
 - UADataType: [ FDI5:194, FDI5:WindowModeType ]
+  DisplayName: "WindowModeType"
   Enums:
     ModalWindow: 1
     NonModalWindow: 2
     UIP: 3
 - UADataType: [ FDI5:196, FDI5:StyleType ]
+  DisplayName: "StyleType"
   Enums:
     Window: 1
     Dialog: 2
 - UADataType: [ FDI5:37, FDI5:RegistrationParameters ]
+  DisplayName: "RegistrationParameters"
   Fields:
     Path: [ RelativePath, 0 ]
     SelectionFlags: [ UInt32, 0 ]
 - UADataType: [ FDI5:38, FDI5:RegisteredNode ]
+  DisplayName: "RegisteredNode"
   Fields:
     NodeStatus: [ Int32, 0 ]
     OnlineContextNodeId: [ NodeId, 0 ]
@@ -20,19 +24,24 @@ DataTypes:
     OfflineContextNodeId: [ NodeId, 0 ]
     OfflineDeviceNodeId: [ NodeId, 0 ]
 - UADataType: [ FDI5:39, FDI5:RegisterNodesResult ]
+  DisplayName: "RegisterNodesResult"
   Fields:
     Status: [ Int32, 0 ]
     RegisteredNodes: [ FDI5:RegisteredNode, 1 ]
 - UADataType: [ FDI5:43, FDI5:TransferIncident ]
+  DisplayName: "TransferIncident"
   Fields:
     ContextNodeId: [ NodeId, 0 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ FDI5:44, FDI5:ApplyResult ]
+  DisplayName: "ApplyResult"
   Fields:
     Status: [ Int32, 0 ]
     TransferIncidents: [ FDI5:TransferIncident, 1 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -43,25 +52,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -73,13 +89,16 @@ DefinedTypes:
 
   FDI5:UIDescriptionType:
   - [ UAVariableType, FDI5:1, FDI5:UIDescriptionType, String, 0, 0 ]
+  - DisplayName: "UIDescriptionType"
   - HasSubtype_reverse:
     - [ UAVariableType, DI:6246, DI:UIElementType ]
 
   FDI5:UIPlugInType:
   - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
+  - DisplayName: "UIPlugInType"
   - HasProperty:
     - [ UAVariable, FDI5:3, FDI5:UIPVariantVersion, String, 0, 0 ]
+    - DisplayName: "UIPVariantVersion"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -88,6 +107,7 @@ DefinedTypes:
       - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:4, FDI5:FDITechnologyVersion, String, 0, 0 ]
+    - DisplayName: "FDITechnologyVersion"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -96,6 +116,7 @@ DefinedTypes:
       - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:5, FDI5:RuntimeId, String, 0, 0 ]
+    - DisplayName: "RuntimeId"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -104,6 +125,7 @@ DefinedTypes:
       - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:6, FDI5:CpuInformation, String, 0, 0 ]
+    - DisplayName: "CpuInformation"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -112,6 +134,7 @@ DefinedTypes:
       - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:7, FDI5:PlatformId, String, 0, 0 ]
+    - DisplayName: "PlatformId"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -120,6 +143,7 @@ DefinedTypes:
       - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:8, FDI5:Style, FDI5:StyleType, 0, 0 ]
+    - DisplayName: "Style"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -128,6 +152,7 @@ DefinedTypes:
       - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:9, FDI5:StartElementName, String, 0, 0 ]
+    - DisplayName: "StartElementName"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -136,6 +161,7 @@ DefinedTypes:
       - [ UAVariableType, FDI5:2, FDI5:UIPlugInType, Byte, 1, 0 ]
   - HasComponent:
     - [ UAObject, FDI5:10, FDI5:Documentation ]
+    - DisplayName: "Documentation"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -147,15 +173,19 @@ DefinedTypes:
 
   FDI5:ActionType:
   - [ UAObjectType, FDI5:11, FDI5:ActionType ]
+  - DisplayName: "ActionType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   FDI5:ActionServiceType:
   - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
+  - DisplayName: "ActionServiceType"
   - HasComponent:
     - [ UAMethod, FDI5:22, FDI5:InvokeAction ]
+    - DisplayName: "InvokeAction"
     - HasProperty:
       - [ UAVariable, FDI5:23, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ActionName: [ String, 0 ]
           MethodArguments: [ String, 0 ]
@@ -167,6 +197,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:22, FDI5:InvokeAction ]
     - HasProperty:
       - [ UAVariable, FDI5:24, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
           InvokeActionError: [ Int32, 0 ]
@@ -182,8 +213,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
   - HasComponent:
     - [ UAMethod, FDI5:25, FDI5:RespondAction ]
+    - DisplayName: "RespondAction"
     - HasProperty:
       - [ UAVariable, FDI5:26, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
           Response: [ String, 0 ]
@@ -195,6 +228,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:25, FDI5:RespondAction ]
     - HasProperty:
       - [ UAVariable, FDI5:27, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           RespondActionError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -209,8 +243,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
   - HasComponent:
     - [ UAMethod, FDI5:28, FDI5:AbortAction ]
+    - DisplayName: "AbortAction"
     - HasProperty:
       - [ UAVariable, FDI5:29, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ActionNodeId: [ NodeId, 0 ]
       - HasTypeDefinition:
@@ -221,6 +257,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:28, FDI5:AbortAction ]
     - HasProperty:
       - [ UAVariable, FDI5:30, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           AbortActionError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -235,6 +272,7 @@ DefinedTypes:
       - [ UAObjectType, FDI5:21, FDI5:ActionServiceType ]
   - HasComponent:
     - [ UAObject, FDI5:181, FDI5:<ActionIdentifier> ]
+    - DisplayName: "<ActionIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, FDI5:11, FDI5:ActionType ]
     - HasModellingRule:
@@ -246,10 +284,13 @@ DefinedTypes:
 
   FDI5:EditContextType:
   - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
+  - DisplayName: "EditContextType"
   - HasComponent:
     - [ UAMethod, FDI5:55, FDI5:GetEditContext ]
+    - DisplayName: "GetEditContext"
     - HasProperty:
       - [ UAVariable, FDI5:56, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ParentId: [ String, 0 ]
           TargetWindowMode: [ FDI5:WindowModeType, 0 ]
@@ -261,6 +302,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:55, FDI5:GetEditContext ]
     - HasProperty:
       - [ UAVariable, FDI5:57, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           EditContextId: [ String, 0 ]
           GetEditContextStatus: [ Int32, 0 ]
@@ -276,8 +318,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:58, FDI5:RegisterNodesById ]
+    - DisplayName: "RegisterNodesById"
     - HasProperty:
       - [ UAVariable, FDI5:59, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           EditContextId: [ String, 0 ]
           NodesToRegister: [ FDI5:RegistrationParameters, 1 ]
@@ -289,6 +333,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:58, FDI5:RegisterNodesById ]
     - HasProperty:
       - [ UAVariable, FDI5:60, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           RegisterNodesStatus: [ FDI5:RegisterNodesResult, 0 ]
       - HasTypeDefinition:
@@ -303,8 +348,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:61, FDI5:RegisterNodesByRelativePath ]
+    - DisplayName: "RegisterNodesByRelativePath"
     - HasProperty:
       - [ UAVariable, FDI5:62, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           EditContextId: [ String, 0 ]
           NodesToRegister: [ FDI5:RegistrationParameters, 1 ]
@@ -316,6 +363,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:61, FDI5:RegisterNodesByRelativePath ]
     - HasProperty:
       - [ UAVariable, FDI5:63, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           RegisterNodesStatus: [ FDI5:RegisterNodesResult, 0 ]
       - HasTypeDefinition:
@@ -330,8 +378,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:64, FDI5:Apply ]
+    - DisplayName: "Apply"
     - HasProperty:
       - [ UAVariable, FDI5:65, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           EditContextId: [ String, 0 ]
       - HasTypeDefinition:
@@ -342,6 +392,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:64, FDI5:Apply ]
     - HasProperty:
       - [ UAVariable, FDI5:66, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           ApplyStatus: [ FDI5:ApplyResult, 0 ]
       - HasTypeDefinition:
@@ -356,8 +407,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:67, FDI5:Reset ]
+    - DisplayName: "Reset"
     - HasProperty:
       - [ UAVariable, FDI5:68, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           EditContextId: [ String, 0 ]
       - HasTypeDefinition:
@@ -368,6 +421,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:67, FDI5:Reset ]
     - HasProperty:
       - [ UAVariable, FDI5:69, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           ResetStatus: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -382,8 +436,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:54, FDI5:EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:70, FDI5:Discard ]
+    - DisplayName: "Discard"
     - HasProperty:
       - [ UAVariable, FDI5:71, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           EditContextId: [ String, 0 ]
       - HasTypeDefinition:
@@ -394,6 +450,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:70, FDI5:Discard ]
     - HasProperty:
       - [ UAVariable, FDI5:72, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           DiscardStatus: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -411,10 +468,13 @@ DefinedTypes:
 
   FDI5:DirectDeviceAccessType:
   - [ UAObjectType, FDI5:82, FDI5:DirectDeviceAccessType ]
+  - DisplayName: "DirectDeviceAccessType"
   - HasComponent:
     - [ UAMethod, FDI5:83, FDI5:InitDirectAccess ]
+    - DisplayName: "InitDirectAccess"
     - HasProperty:
       - [ UAVariable, FDI5:84, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Context: [ String, 0 ]
       - HasTypeDefinition:
@@ -425,6 +485,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:83, FDI5:InitDirectAccess ]
     - HasProperty:
       - [ UAVariable, FDI5:85, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           InitDirectAccessError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -439,8 +500,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:82, FDI5:DirectDeviceAccessType ]
   - HasComponent:
     - [ UAMethod, FDI5:86, FDI5:Transfer ]
+    - DisplayName: "Transfer"
     - HasProperty:
       - [ UAVariable, FDI5:87, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           SendData: [ String, 0 ]
           ReceiveData: [ String, 0 ]
@@ -452,6 +515,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:86, FDI5:Transfer ]
     - HasProperty:
       - [ UAVariable, FDI5:88, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           TransferError: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -466,8 +530,10 @@ DefinedTypes:
       - [ UAObjectType, FDI5:82, FDI5:DirectDeviceAccessType ]
   - HasComponent:
     - [ UAMethod, FDI5:89, FDI5:EndDirectAccess ]
+    - DisplayName: "EndDirectAccess"
     - HasProperty:
       - [ UAVariable, FDI5:90, FDI5:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           InvalidateCache: [ Boolean, 0 ]
       - HasTypeDefinition:
@@ -478,6 +544,7 @@ DefinedTypes:
         - [ UAMethod, FDI5:89, FDI5:EndDirectAccess ]
     - HasProperty:
       - [ UAVariable, FDI5:91, FDI5:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           EndDirectAccessError: [ Int32, 0 ]
       - HasTypeDefinition:

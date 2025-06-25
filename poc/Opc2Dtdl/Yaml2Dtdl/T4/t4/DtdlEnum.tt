@@ -3,6 +3,12 @@
       {
         "@id": "<#=TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.enumType.BrowseName)#>",
         "@type": [ "Enum", "Congruence" ],
+<# if (this.enumType.DisplayName != null && this.enumType.DisplayName != string.Empty) { #>
+        "displayName": "<#=enumType.DisplayName#>",
+<# } #>
+<# if (this.enumType.Description != null && this.enumType.Description != string.Empty) { #>
+        "description": "<#=enumType.Description#>",
+<# } #>
         "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)#>",
         "valueSchema": "integer",
         "enumValues": [

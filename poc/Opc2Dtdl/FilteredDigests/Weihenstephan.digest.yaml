@@ -1,11 +1,15 @@
 DataTypes:
 - UADataType: [ Weihenstephan:3000, Weihenstephan:WSOperatingModeEnumerationType ]
+  DisplayName: "WSOperatingModeEnumerationType"
+  Description: "The operating mode provides information about the nature and extent of the intervention on the control equipment by the operators, and also via feedback from the equipment (DIN 19 237). This value must be coded in bit form or be documented as an integer for machines which are components of bottling systems:"
   Enums:
     Off: 1
     Manual: 2
     Semi-automatic: 4
     Automatic: 8
 - UADataType: [ Weihenstephan:3001, Weihenstephan:WSProgramEnumerationType ]
+  DisplayName: "WSProgramEnumerationType"
+  Description: "The program is a consequent sequence of control instructions for a self-contained application-oriented function (DIN 19237). For bottling machines, bits or documented integer numbers must be used for machine operation with the following programs:"
   Enums:
     Undefined (No Program): 0
     Production: 1
@@ -16,6 +20,8 @@ DataTypes:
     Maintenance: 32
     Break: 64
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -26,25 +32,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -52,12 +65,16 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PackML:11, PackML:ProductionMaintenanceModeEnum ]
+  DisplayName: "ProductionMaintenanceModeEnum"
+  Description: "This is an invalid mode"
   Enums:
     Invalid: 0
     Produce: 1
     Maintenance: 2
     Manual: 3
 - UADataType: [ PackML:15, PackML:PackMLAlarmDataType ]
+  DisplayName: "PackMLAlarmDataType"
+  Description: "A unique number assigned to each type of alarm, stop or warning."
   Fields:
     ID: [ Int32, 0 ]
     Value: [ Int32, 0 ]
@@ -67,6 +84,8 @@ DataTypes:
     AckDateTime: [ UtcTime, 0 ]
     Trigger: [ Boolean, 0 ]
 - UADataType: [ PackML:14, PackML:PackMLCountDataType ]
+  DisplayName: "PackMLCountDataType"
+  Description: "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number."
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
@@ -74,21 +93,29 @@ DataTypes:
     Count: [ Int32, 0 ]
     AccCount: [ Int32, 0 ]
 - UADataType: [ PackML:16, PackML:PackMLDescriptorDataType ]
+  DisplayName: "PackMLDescriptorDataType"
+  Description: "A unique number assigned to the parameter"
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
     Unit: [ EUInformation, 0 ]
     Value: [ Float, 0 ]
 - UADataType: [ PackML:17, PackML:PackMLIngredientsDataType ]
+  DisplayName: "PackMLIngredientsDataType"
+  Description: "A unique number assigned to the ingredient."
   Fields:
     IngredientID: [ Int32, 0 ]
     Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
 - UADataType: [ PackML:18, PackML:PackMLProductDataType ]
+  DisplayName: "PackMLProductDataType"
+  Description: "A unique number assigned to the product."
   Fields:
     ProductID: [ Int32, 0 ]
     ProcessVariables: [ PackML:PackMLDescriptorDataType, 1 ]
     Ingredients: [ PackML:PackMLIngredientsDataType, 1 ]
 - UADataType: [ PackML:19, PackML:PackMLRemoteInterfaceDataType ]
+  DisplayName: "PackMLRemoteInterfaceDataType"
+  Description: "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine."
   Fields:
     Number: [ Int32, 0 ]
     ControlCmdNumber: [ Int32, 0 ]
@@ -99,40 +126,49 @@ DefinedTypes:
 
   Weihenstephan:WSMachineType:
   - [ UAObjectType, Weihenstephan:1000, Weihenstephan:WSMachineType ]
+  - DisplayName: "WSMachineType"
+  - Description: "Definition of a machine according to the Weihenstephan standards"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Weihenstephan:WSBaseObjectType:
   - [ UAObjectType, Weihenstephan:1001, Weihenstephan:WSBaseObjectType ]
+  - DisplayName: "WSBaseObjectType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Weihenstephan:WSAlarmType:
   - [ UAObjectType, Weihenstephan:1002, Weihenstephan:WSAlarmType ]
+  - DisplayName: "WSAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, Weihenstephan:1001, Weihenstephan:WSBaseObjectType ]
 
   Weihenstephan:WSWarningType:
   - [ UAObjectType, Weihenstephan:1003, Weihenstephan:WSWarningType ]
+  - DisplayName: "WSWarningType"
   - HasSubtype_reverse:
     - [ UAObjectType, Weihenstephan:1001, Weihenstephan:WSBaseObjectType ]
 
   Weihenstephan:WSBaseStateMachineType:
   - [ UAObjectType, Weihenstephan:1004, Weihenstephan:WSBaseStateMachineType ]
+  - DisplayName: "WSBaseStateMachineType"
   - HasSubtype_reverse:
     - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
 
   Weihenstephan:WSExecuteStateMachineType:
   - [ UAObjectType, Weihenstephan:1005, Weihenstephan:WSExecuteStateMachineType ]
+  - DisplayName: "WSExecuteStateMachineType"
   - HasSubtype_reverse:
     - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
 
   Weihenstephan:WSHeldStateMachineType:
   - [ UAObjectType, Weihenstephan:1006, Weihenstephan:WSHeldStateMachineType ]
+  - DisplayName: "WSHeldStateMachineType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   Weihenstephan:WSSuspendedStateMachineType:
   - [ UAObjectType, Weihenstephan:1007, Weihenstephan:WSSuspendedStateMachineType ]
+  - DisplayName: "WSSuspendedStateMachineType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]

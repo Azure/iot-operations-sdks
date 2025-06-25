@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -36,27 +45,37 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ FX.Data:1029, FX.Data:AssetVerificationModeEnum ]
+  DisplayName: "AssetVerificationModeEnum"
+  Description: "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering."
   Enums:
     AssetCompatibility: 0
     AssetIdentity: 1
     AssetIdentityAndCompatibility: 2
 - UADataType: [ FX.Data:1037, FX.Data:AssetVerificationResultEnum ]
+  DisplayName: "AssetVerificationResultEnum"
+  Description: "The verification result is not set."
   Enums:
     NotSet: 0
     Match: 1
     Compatible: 2
     Mismatch: 3
 - UADataType: [ FX.Data:3002, FX.Data:FunctionalEntityVerificationResultEnum ]
+  DisplayName: "FunctionalEntityVerificationResultEnum"
+  Description: "The verification result is not set."
   Enums:
     NotSet: 0
     Match: 1
     Mismatch: 2
 - UADataType: [ FX.Data:31, FX.Data:PubSubConnectionEndpointModeEnum ]
+  DisplayName: "PubSubConnectionEndpointModeEnum"
+  Description: "Reference to DataSetReader and DataSetWriter required."
   Enums:
     PublisherSubscriber: 1
     Publisher: 2
     Subscriber: 3
 - UADataType: [ FX.Data:1024, FX.Data:FxCommandMask ]
+  DisplayName: "FxCommandMask"
+  Description: "This OptionSet defines flags indicating the commands a ConnectionManager may use in its call to the EstablishConnections Method."
   Enums:
     VerifyAssetCmd: 0
     VerifyFunctionalEntityCmd: 1
@@ -68,6 +87,7 @@ DataTypes:
     SetCommunicationConfigurationCmd: 7
     EnableCommunicationCmd: 8
 - UADataType: [ FX.Data:1048, FX.Data:AssetVerificationDataType ]
+  DisplayName: "AssetVerificationDataType"
   Fields:
     AssetToVerify: [ NodeId, 0 ]
     VerificationMode: [ FX.Data:AssetVerificationModeEnum, 0 ]
@@ -75,6 +95,7 @@ DataTypes:
     ExpectedVerificationVariables: [ KeyValuePair, 1 ]
     ExpectedAdditionalVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
 - UADataType: [ FX.Data:1038, FX.Data:AssetVerificationResultDataType ]
+  DisplayName: "AssetVerificationResultDataType"
   Fields:
     VerificationStatus: [ StatusCode, 0 ]
     VerificationResult: [ FX.Data:AssetVerificationResultEnum, 0 ]
@@ -84,6 +105,7 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:1045, FX.Data:PubSubCommunicationConfigurationDataType ]
+  DisplayName: "PubSubCommunicationConfigurationDataType"
   Fields:
     PubSubConfiguration: [ PubSubConfiguration2DataType, 0 ]
     RequireCompleteUpdate: [ Boolean, 0 ]
@@ -92,6 +114,7 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:1039, FX.Data:PubSubCommunicationConfigurationResultDataType ]
+  DisplayName: "PubSubCommunicationConfigurationResultDataType"
   Fields:
     Result: [ StatusCode, 0 ]
     ChangesApplied: [ Boolean, 0 ]
@@ -102,12 +125,14 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:1031, FX.Data:PubSubCommunicationLinkConfigurationDataType ]
+  DisplayName: "PubSubCommunicationLinkConfigurationDataType"
   Fields:
     DataSetReaderRef: [ PubSubConfigurationRefDataType, 0 ]
     ExpectedSubscribedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
     DataSetWriterRef: [ PubSubConfigurationRefDataType, 0 ]
     ExpectedPublishedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
 - UADataType: [ FX.Data:1044, FX.Data:ConnectionEndpointConfigurationDataType ]
+  DisplayName: "ConnectionEndpointConfigurationDataType"
   Fields:
     FunctionalEntityNode: [ NodeId, 0 ]
     ConnectionEndpoint: [ FX.Data:ConnectionEndpointDefinitionDataType, 0 ]
@@ -116,6 +141,7 @@ DataTypes:
     ConfigurationData: [ FX.Data:NodeIdValuePair, 1 ]
     CommunicationLinks: [ FX.Data:CommunicationLinkConfigurationDataType, 0 ]
 - UADataType: [ FX.Data:3008, FX.Data:ConnectionEndpointConfigurationResultDataType ]
+  DisplayName: "ConnectionEndpointConfigurationResultDataType"
   Fields:
     ConnectionEndpointId: [ NodeId, 0 ]
     FunctionalEntityNodeResult: [ StatusCode, 0 ]
@@ -129,6 +155,7 @@ DataTypes:
     CommunicationLinksResult: [ StatusCode, 0 ]
     EnableCommunicationResult: [ StatusCode, 0 ]
 - UADataType: [ FX.Data:3009, FX.Data:ConnectionEndpointParameterDataType ]
+  DisplayName: "ConnectionEndpointParameterDataType"
   Fields:
     Name: [ String, 0 ]
     ConnectionEndpointTypeId: [ NodeId, 0 ]
@@ -139,17 +166,21 @@ DataTypes:
     RelatedEndpoint: [ FX.Data:RelatedEndpointDataType, 0 ]
     IsPreconfigured: [ Boolean, 0 ]
 - UADataType: [ FX.Data:3006, FX.Data:PubSubConnectionEndpointParameterDataType ]
+  DisplayName: "PubSubConnectionEndpointParameterDataType"
   Fields:
     Mode: [ FX.Data:PubSubConnectionEndpointModeEnum, 0 ]
 - UADataType: [ FX.Data:1034, FX.Data:NodeIdArray ]
+  DisplayName: "NodeIdArray"
   Fields:
     Node: [ NodeId, 0 ]
     ArrayIndex: [ UInt32, 1 ]
 - UADataType: [ FX.Data:1028, FX.Data:NodeIdValuePair ]
+  DisplayName: "NodeIdValuePair"
   Fields:
     Key: [ FX.Data:NodeIdArray, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ FX.Data:3003, FX.Data:RelatedEndpointDataType ]
+  DisplayName: "RelatedEndpointDataType"
   Fields:
     Address: [ UriString, 0 ]
     ConnectionEndpointPath: [ PortableQualifiedName, 1 ]
@@ -158,6 +189,7 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:3018, FX.Data:PubSubReserveCommunicationIdsDataType ]
+  DisplayName: "PubSubReserveCommunicationIdsDataType"
   Fields:
     TransportProfileUri: [ String, 0 ]
     NumReqWriterGroupIds: [ UInt16, 0 ]
@@ -166,20 +198,26 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:3020, FX.Data:PubSubReserveCommunicationIdsResultDataType ]
+  DisplayName: "PubSubReserveCommunicationIdsResultDataType"
   Fields:
     Result: [ StatusCode, 0 ]
     DefaultPublisherId: [ null, 0 ]
     WriterGroupIds: [ UInt16, 1 ]
     DataSetWriterIds: [ UInt16, 1 ]
 - UADataType: [ FX.Data:3011, FX.Data:ConnectionEndpointDefinitionDataType ]
+  DisplayName: "ConnectionEndpointDefinitionDataType"
   Fields:
     Parameter: [ FX.Data:ConnectionEndpointParameterDataType, 0 ]
     Node: [ NodeId, 0 ]
 - UADataType: [ FX.AC:3001, FX.AC:ClampKindEnum ]
+  DisplayName: "ClampKindEnum"
+  Description: "This is a screw connector"
   Enums:
     Screw: 0
     Thumb: 1
 - UADataType: [ FX.AC:3007, FX.AC:ConnectionEndpointStatusEnum ]
+  DisplayName: "ConnectionEndpointStatusEnum"
+  Description: "This enumeration defines the values of the FlcConnectionStatus of an FlcConnectionEndpointType."
   Enums:
     Initial: 0
     Ready: 1
@@ -187,47 +225,60 @@ DataTypes:
     Operational: 3
     Error: 4
 - UADataType: [ FX.AC:3006, FX.AC:FxTimeUnitsEnum ]
+  DisplayName: "FxTimeUnitsEnum"
+  Description: "This enumeration describes the support units of time"
   Enums:
     Nanosecond: 0
     Microsecond: 1
     Millisecond: 2
     Second: 3
 - UADataType: [ FX.AC:3002, FX.AC:SocketKindEnum ]
+  DisplayName: "SocketKindEnum"
   Enums:
     RJ45: 0
     M12: 1
 - UADataType: [ FX.AC:3004, FX.AC:CommHealthOptionSet ]
+  DisplayName: "CommHealthOptionSet"
+  Description: "At least one of the ConnectionEndpoints has its Status set to Initial."
   Enums:
     CommInitial: 0
     CommPreOperational: 1
     CommError: 2
 - UADataType: [ FX.AC:3005, FX.AC:DeviceHealthOptionSet ]
+  DisplayName: "DeviceHealthOptionSet"
+  Description: "At least one of the top-level Assets has its DeviceHealth set to Failure."
   Enums:
     DeviceFailure: 0
     DeviceCheckFunction: 1
     DeviceMaintenanceRequired: 2
     DeviceOffSpec: 3
 - UADataType: [ FX.AC:3010, FX.AC:OperationalHealthOptionSet ]
+  DisplayName: "OperationalHealthOptionSet"
+  Description: "FunctionalEntity indicates a warning."
   Enums:
     OperationalWarning: 16
     OperationalError: 17
     SubOperationalWarning: 18
     SubOperationalError: 19
 - UADataType: [ FX.AC:3003, FX.AC:AggregatedHealthDataType ]
+  DisplayName: "AggregatedHealthDataType"
   Fields:
     AggregatedDeviceHealth: [ FX.AC:DeviceHealthOptionSet, 0 ]
     AggregatedOperationalHealth: [ FX.AC:OperationalHealthOptionSet, 0 ]
 - UADataType: [ FX.AC:28, FX.AC:ApplicationIdentifierDataType ]
+  DisplayName: "ApplicationIdentifierDataType"
   Fields:
     Name: [ LocalizedText, 0 ]
     UniqueIdentifier: [ FX.AC:ApplicationId, 0 ]
 - UADataType: [ FX.AC:25, FX.AC:FxVersion ]
+  DisplayName: "FxVersion"
   Fields:
     Major: [ UInt16, 0 ]
     Minor: [ UInt16, 0 ]
     Build: [ UInt16, 0 ]
     SubBuild: [ UInt16, 0 ]
 - UADataType: [ FX.AC:3008, FX.AC:IntervalRange ]
+  DisplayName: "IntervalRange"
   Fields:
     Min: [ UInt32, 0 ]
     Max: [ UInt32, 0 ]
@@ -235,14 +286,17 @@ DataTypes:
     Multiplier: [ UInt16, 0 ]
     Unit: [ FX.AC:FxTimeUnitsEnum, 0 ]
 - UADataType: [ FX.AC:3011, FX.AC:PublisherQosDataType ]
+  DisplayName: "PublisherQosDataType"
   Fields:
     QosCategory: [ String, 0 ]
     DatagramQos: [ TransmitQosDataType, 1 ]
 - UADataType: [ FX.AC:3012, FX.AC:SubscriberQosDataType ]
+  DisplayName: "SubscriberQosDataType"
   Fields:
     QosCategory: [ String, 0 ]
     DatagramQos: [ ReceiveQosDataType, 1 ]
 - UADataType: [ FX.AC:3013, FX.AC:ApplicationId ]
+  DisplayName: "ApplicationId"
   Fields:
     IdNumeric: [ UInt32, 0 ]
     IdString: [ String, 0 ]
@@ -253,16 +307,21 @@ DefinedTypes:
 
   Powertrain:IPtTagNameplateType:
   - [ UAObjectType, Powertrain:15898, Powertrain:IPtTagNameplateType ]
+  - DisplayName: "IPtTagNameplateType"
+  - Description: "Is a subtype of IMachineTagNameplateType defined in OPC 40001-1"
   - HasProperty:
     - [ UAVariable, Powertrain:15905, Powertrain:Comment, LocalizedText, 0, 3 ]
+    - DisplayName: "Comment"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:15906, Powertrain:ContactInformation, LocalizedText, 0, 3 ]
+    - DisplayName: "ContactInformation"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:15907, Powertrain:Function, LocalizedText, 0, 3 ]
+    - DisplayName: "Function"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -270,21 +329,28 @@ DefinedTypes:
 
   Powertrain:PtAssetAttributesType:
   - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
+  - DisplayName: "PtAssetAttributesType"
+  - Description: "Provides attributes to the respective asset in a modular manner"
   - HasProperty:
     - [ UAVariable, Powertrain:6020, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Powertrain:PtBleedAttributesType:
   - [ UAObjectType, Powertrain:1008, Powertrain:PtBleedAttributesType ]
+  - DisplayName: "PtBleedAttributesType"
   - HasComponent:
     - [ UAVariable, Powertrain:6094, Powertrain:<ResistanceValue>, Float, 0, 0 ]
+    - DisplayName: "<ResistanceValue>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasProperty:
     - [ UAVariable, Powertrain:6023, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6096, Powertrain:PowerRated, Float, 0, 0 ]
+    - DisplayName: "PowerRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -292,233 +358,298 @@ DefinedTypes:
 
   Powertrain:PtBrakeAttributesType:
   - [ UAObjectType, Powertrain:16609, Powertrain:PtBrakeAttributesType ]
+  - DisplayName: "PtBrakeAttributesType"
+  - Description: "Provides attributes of a brake"
   - HasComponent:
     - [ UAVariable, Powertrain:16613, Powertrain:B10dValue, UInt32, 0, 0 ]
+    - DisplayName: "B10dValue"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16631, Powertrain:BrakeAccelerationVoltage, Float, 0, 0 ]
+    - DisplayName: "BrakeAccelerationVoltage"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:16707, Powertrain:BrakeCoolingMethod, String, 0, 0 ]
+    - DisplayName: "BrakeCoolingMethod"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6322, Powertrain:BrakeCurrentRated, Float, 0, 0 ]
+    - DisplayName: "BrakeCurrentRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6335, Powertrain:BrakeDesignType, UInt16, 0, 0 ]
+    - DisplayName: "BrakeDesignType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:16706, Powertrain:BrakeDutyType, String, 0, 0 ]
+    - DisplayName: "BrakeDutyType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:17160, Powertrain:BrakeEmergencySwitchOffCount, Int16, 0, 0 ]
+    - DisplayName: "BrakeEmergencySwitchOffCount"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16637, Powertrain:BrakeHoldingVoltage, Float, 0, 0 ]
+    - DisplayName: "BrakeHoldingVoltage"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16691, Powertrain:BrakeInertia, Float, 0, 0 ]
+    - DisplayName: "BrakeInertia"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6092, Powertrain:BrakeInsulationClass, String, 0, 0 ]
+    - DisplayName: "BrakeInsulationClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6345, Powertrain:BrakePowerRated, Float, 0, 0 ]
+    - DisplayName: "BrakePowerRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:16705, Powertrain:BrakeProtectionMechanicalImpact, String, 0, 0 ]
+    - DisplayName: "BrakeProtectionMechanicalImpact"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6378, Powertrain:BrakeRectifierType, String, 0, 0 ]
+    - DisplayName: "BrakeRectifierType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6347, Powertrain:BrakeSurroundingAirTemperature, Float, 0, 0 ]
+    - DisplayName: "BrakeSurroundingAirTemperature"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6529, Powertrain:BrakeTorqueHolding, Float, 0, 0 ]
+    - DisplayName: "BrakeTorqueHolding"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6359, Powertrain:BrakeTorqueRated, Float, 0, 0 ]
+    - DisplayName: "BrakeTorqueRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16661, Powertrain:BrakeTurnOffDelayAC, Float, 0, 0 ]
+    - DisplayName: "BrakeTurnOffDelayAC"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16667, Powertrain:BrakeTurnOffDelayDC, Float, 0, 0 ]
+    - DisplayName: "BrakeTurnOffDelayDC"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6082, Powertrain:BrakeTurnOffType, UInt16, 0, 0 ]
+    - DisplayName: "BrakeTurnOffType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16655, Powertrain:BrakeTurnOnDelay, Float, 0, 0 ]
+    - DisplayName: "BrakeTurnOnDelay"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6085, Powertrain:BrakeType, UInt16, 0, 0 ]
+    - DisplayName: "BrakeType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:16704, Powertrain:BrakeVibrationClass, String, 0, 0 ]
+    - DisplayName: "BrakeVibrationClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6086, Powertrain:BrakeVoltageRated, Float, 0, 0 ]
+    - DisplayName: "BrakeVoltageRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:16673, Powertrain:BrakeVoltageType, String, 0, 0 ]
+    - DisplayName: "BrakeVoltageType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16697, Powertrain:BrakeWearMaximum, Float, 0, 0 ]
+    - DisplayName: "BrakeWearMaximum"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:16684, Powertrain:BrakeWireTerminalCount, Int16, 0, 0 ]
+    - DisplayName: "BrakeWireTerminalCount"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16619, Powertrain:BrakingEnergySingleEngagementMax, Float, 0, 0 ]
+    - DisplayName: "BrakingEnergySingleEngagementMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:16675, Powertrain:BrakingFrequencyOperation, Int32, 0, 0 ]
+    - DisplayName: "BrakingFrequencyOperation"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6024, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:16612, Powertrain:SafetyPropertySupported, Boolean, 0, 0 ]
+    - DisplayName: "SafetyPropertySupported"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtCapacitanceAttributesType:
   - [ UAObjectType, Powertrain:1004, Powertrain:PtCapacitanceAttributesType ]
+  - DisplayName: "PtCapacitanceAttributesType"
   - HasComponent:
     - [ UAVariable, Powertrain:6210, Powertrain:Capacitance, Float, 0, 0 ]
+    - DisplayName: "Capacitance"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6025, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
 
   Powertrain:PtCommonAssetAttributesType:
   - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
+  - DisplayName: "PtCommonAssetAttributesType"
+  - Description: "Provides attributes which apply to any or many of powertrain assets"
   - HasProperty:
     - [ UAVariable, Powertrain:6026, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
 
   Powertrain:PtAmbientAttributesType:
   - [ UAObjectType, Powertrain:16875, Powertrain:PtAmbientAttributesType ]
+  - DisplayName: "PtAmbientAttributesType"
+  - Description: "Provides ambient conditions in which the equipment is guaranteed to function"
   - HasComponent:
     - [ UAVariable, Powertrain:6370, Powertrain:AltitudeMax, Float, 0, 0 ]
+    - DisplayName: "AltitudeMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6804, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6605, Powertrain:HumidityMax, Float, 0, 0 ]
+    - DisplayName: "HumidityMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6508, Powertrain:HumidityMin, Float, 0, 0 ]
+    - DisplayName: "HumidityMin"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6380, Powertrain:PressureMax, Float, 0, 0 ]
+    - DisplayName: "PressureMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6303, Powertrain:PressureMin, Float, 0, 0 ]
+    - DisplayName: "PressureMin"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:6382, Powertrain:TemperatureMax, Float, 0, 0 ]
+    - DisplayName: "TemperatureMax"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6377, Powertrain:TemperatureMin, Float, 0, 0 ]
+    - DisplayName: "TemperatureMin"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Powertrain:PtAnalogInputElectricalAttributesType:
   - [ UAObjectType, Powertrain:16907, Powertrain:PtAnalogInputElectricalAttributesType ]
+  - DisplayName: "PtAnalogInputElectricalAttributesType"
+  - Description: "Provides analog input properties"
   - HasComponent:
     - [ UAVariable, Powertrain:6509, Powertrain:AnalogInputElectricalType, UInt16, 0, 0 ]
+    - DisplayName: "AnalogInputElectricalType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6805, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:16909, Powertrain:GalvanicIsolationSupported, Boolean, 0, 0 ]
+    - DisplayName: "GalvanicIsolationSupported"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6614, Powertrain:InputCurrentRange, Range, 0, 0 ]
+    - DisplayName: "InputCurrentRange"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6613, Powertrain:InputVoltageRange, Range, 0, 0 ]
+    - DisplayName: "InputVoltageRange"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16912, Powertrain:InternalResistance, Float, 0, 0 ]
+    - DisplayName: "InternalResistance"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6615, Powertrain:NumberOfChannels, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfChannels"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:16911, Powertrain:Resolution, Int32, 0, 0 ]
+    - DisplayName: "Resolution"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtAnalogOutputElectricalAttributesType:
   - [ UAObjectType, Powertrain:16913, Powertrain:PtAnalogOutputElectricalAttributesType ]
+  - DisplayName: "PtAnalogOutputElectricalAttributesType"
+  - Description: "Provides analog output properties"
   - HasComponent:
     - [ UAVariable, Powertrain:6510, Powertrain:AnalogOutputElectricalType, UInt16, 0, 0 ]
+    - DisplayName: "AnalogOutputElectricalType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6806, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6386, Powertrain:FrequencyRange, Range, 0, 0 ]
+    - DisplayName: "FrequencyRange"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16916, Powertrain:LoadResistance, Float, 0, 0 ]
+    - DisplayName: "LoadResistance"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6618, Powertrain:NumberOfChannels, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfChannels"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -526,241 +657,314 @@ DefinedTypes:
 
   Powertrain:PtAuxiliarySupplyAttributesType:
   - [ UAObjectType, Powertrain:16928, Powertrain:PtAuxiliarySupplyAttributesType ]
+  - DisplayName: "PtAuxiliarySupplyAttributesType"
+  - Description: "Provides attributes of the auxiliary supply of an inverter"
   - HasComponent:
     - [ UAVariable, Powertrain:16942, Powertrain:CurrentMax, Float, 0, 0 ]
+    - DisplayName: "CurrentMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6807, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:16954, Powertrain:FuseProtectionCurrentMax, Float, 0, 0 ]
+    - DisplayName: "FuseProtectionCurrentMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16948, Powertrain:PowerConsumptionMax, Float, 0, 0 ]
+    - DisplayName: "PowerConsumptionMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:16936, Powertrain:SupplyVoltageAc, Float, 0, 0 ]
+    - DisplayName: "SupplyVoltageAc"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16930, Powertrain:SupplyVoltageDc, Float, 0, 0 ]
+    - DisplayName: "SupplyVoltageDc"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtCertificateAttributesType:
   - [ UAObjectType, Powertrain:16960, Powertrain:PtCertificateAttributesType ]
+  - DisplayName: "PtCertificateAttributesType"
+  - Description: "Provides attributes of all supported certificates"
   - HasProperty:
     - [ UAVariable, Powertrain:16962, Powertrain:Certificates, String, 1, 0 ]
+    - DisplayName: "Certificates"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6808, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
 
   Powertrain:PtCommunicationInterfaceAttributesType:
   - [ UAObjectType, Powertrain:16963, Powertrain:PtCommunicationInterfaceAttributesType ]
+  - DisplayName: "PtCommunicationInterfaceAttributesType"
+  - Description: "Provides information about the communication attributes"
   - HasProperty:
     - [ UAVariable, Powertrain:16968, Powertrain:CommunicationSpeed, String, 0, 0 ]
+    - DisplayName: "CommunicationSpeed"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6809, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:16969, Powertrain:NumberOfPorts, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfPorts"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6511, Powertrain:ProfileTypes, UInt16, 1, 0 ]
+    - DisplayName: "ProfileTypes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6409, Powertrain:ProtocolTypes, UInt16, 1, 0 ]
+    - DisplayName: "ProtocolTypes"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:6412, Powertrain:SafetyProtocolTypes, UInt16, 1, 0 ]
+    - DisplayName: "SafetyProtocolTypes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtCoolingAttributesType:
   - [ UAObjectType, Powertrain:16970, Powertrain:PtCoolingAttributesType ]
+  - DisplayName: "PtCoolingAttributesType"
+  - Description: "Provides information about the cooling type"
   - HasComponent:
     - [ UAVariable, Powertrain:6514, Powertrain:CoolingMethod, UInt16, 0, 0 ]
+    - DisplayName: "CoolingMethod"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6811, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
 
   Powertrain:PtDigitalInputElectricalAttributesType:
   - [ UAObjectType, Powertrain:17000, Powertrain:PtDigitalInputElectricalAttributesType ]
+  - DisplayName: "PtDigitalInputElectricalAttributesType"
+  - Description: "Attributes describing the type of digital inputs"
   - HasProperty:
     - [ UAVariable, Powertrain:6810, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6515, Powertrain:DigitalInputElectricalType, UInt16, 0, 0 ]
+    - DisplayName: "DigitalInputElectricalType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:17008, Powertrain:NumberOfChannels, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfChannels"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6421, Powertrain:SafetyPropertySupported, Boolean, 0, 0 ]
+    - DisplayName: "SafetyPropertySupported"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtDigitalOutputElectricalAttributesType:
   - [ UAObjectType, Powertrain:17009, Powertrain:PtDigitalOutputElectricalAttributesType ]
+  - DisplayName: "PtDigitalOutputElectricalAttributesType"
+  - Description: "Attributes describing the type of digital outputs"
   - HasProperty:
     - [ UAVariable, Powertrain:6812, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6517, Powertrain:DigitalOutputElectricalType, UInt16, 0, 0 ]
+    - DisplayName: "DigitalOutputElectricalType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:17023, Powertrain:NumberOfChannels, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfChannels"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6351, Powertrain:OutputCurrentMax, Float, 0, 0 ]
+    - DisplayName: "OutputCurrentMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6423, Powertrain:SafetyPropertySupported, Boolean, 0, 0 ]
+    - DisplayName: "SafetyPropertySupported"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtFunctionalSafetyAttributesType:
   - [ UAObjectType, Powertrain:17144, Powertrain:PtFunctionalSafetyAttributesType ]
+  - DisplayName: "PtFunctionalSafetyAttributesType"
+  - Description: "Provides the attributes describing various safety functions, certifications and safety transport protocols."
   - HasProperty:
     - [ UAVariable, Powertrain:6813, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6433, Powertrain:SafetyAssessor, String, 0, 0 ]
+    - DisplayName: "SafetyAssessor"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6434, Powertrain:SafetyTransportProtocols, String, 1, 0 ]
+    - DisplayName: "SafetyTransportProtocols"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtFuseAttributesType:
   - [ UAObjectType, Powertrain:17024, Powertrain:PtFuseAttributesType ]
+  - DisplayName: "PtFuseAttributesType"
+  - Description: "Provides the attributes describing a fuse"
   - HasComponent:
     - [ UAVariable, Powertrain:6353, Powertrain:BreakingCapacity, Float, 0, 0 ]
+    - DisplayName: "BreakingCapacity"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6442, Powertrain:CurrentRated, Float, 0, 0 ]
+    - DisplayName: "CurrentRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6814, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6518, Powertrain:FuseElementSpeedMarking, UInt16, 0, 0 ]
+    - DisplayName: "FuseElementSpeedMarking"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6443, Powertrain:FuseIdentificationType, String, 0, 0 ]
+    - DisplayName: "FuseIdentificationType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:6444, Powertrain:VoltageRated, Float, 0, 0 ]
+    - DisplayName: "VoltageRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtHardwareAttributesType:
   - [ UAObjectType, Powertrain:16973, Powertrain:PtHardwareAttributesType ]
+  - DisplayName: "PtHardwareAttributesType"
+  - Description: "Attributes describing the physical values and dimensions"
   - HasProperty:
     - [ UAVariable, Powertrain:6815, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6148, Powertrain:FrameSizeCoding, String, 1, 0 ]
+    - DisplayName: "FrameSizeCoding"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6425, Powertrain:HeatDissipationPower, Float, 0, 0 ]
+    - DisplayName: "HeatDissipationPower"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16987, Powertrain:Height, Float, 0, 0 ]
+    - DisplayName: "Height"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16975, Powertrain:Length, Float, 0, 0 ]
+    - DisplayName: "Length"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6422, Powertrain:NoiseLevel, Float, 0, 0 ]
+    - DisplayName: "NoiseLevel"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:16993, Powertrain:Weight, Float, 0, 0 ]
+    - DisplayName: "Weight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16981, Powertrain:Width, Float, 0, 0 ]
+    - DisplayName: "Width"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtInputInterfaceAttributesType:
   - [ UAObjectType, Powertrain:17046, Powertrain:PtInputInterfaceAttributesType ]
+  - DisplayName: "PtInputInterfaceAttributesType"
+  - Description: "Provides attributes describing the interface to the mains line"
   - HasProperty:
     - [ UAVariable, Powertrain:6816, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:17060, Powertrain:InputCurrentMax, Float, 0, 0 ]
+    - DisplayName: "InputCurrentMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6388, Powertrain:InputCurrentRated, Float, 0, 0 ]
+    - DisplayName: "InputCurrentRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6399, Powertrain:InputFrequencyMax, Float, 0, 0 ]
+    - DisplayName: "InputFrequencyMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6519, Powertrain:InputFrequencyRangeRated, Range, 0, 0 ]
+    - DisplayName: "InputFrequencyRangeRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:17072, Powertrain:InputPowerMax, Float, 0, 0 ]
+    - DisplayName: "InputPowerMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6401, Powertrain:InputPowerRated, Float, 0, 0 ]
+    - DisplayName: "InputPowerRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6654, Powertrain:InputVoltageMax, Float, 0, 0 ]
+    - DisplayName: "InputVoltageMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6656, Powertrain:InputVoltageRange, Range, 0, 0 ]
+    - DisplayName: "InputVoltageRange"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6403, Powertrain:InputVoltageRated, Float, 0, 0 ]
+    - DisplayName: "InputVoltageRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:17084, Powertrain:NumberOfInputPhases, Byte, 0, 0 ]
+    - DisplayName: "NumberOfInputPhases"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -768,69 +972,89 @@ DefinedTypes:
 
   Powertrain:PtMechanicalStrengthAttributesType:
   - [ UAObjectType, Powertrain:17136, Powertrain:PtMechanicalStrengthAttributesType ]
+  - DisplayName: "PtMechanicalStrengthAttributesType"
+  - Description: "Provides the attributes describing the mechanical strength."
   - HasProperty:
     - [ UAVariable, Powertrain:6817, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:17138, Powertrain:Shock, String, 1, 0 ]
+    - DisplayName: "Shock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:17139, Powertrain:Vibration, String, 1, 0 ]
+    - DisplayName: "Vibration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtOutputInterfaceAttributesType:
   - [ UAObjectType, Powertrain:17085, Powertrain:PtOutputInterfaceAttributesType ]
+  - DisplayName: "PtOutputInterfaceAttributesType"
+  - Description: "Provides ...."
   - HasProperty:
     - [ UAVariable, Powertrain:6818, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6659, Powertrain:InputCurrentRated, Float, 0, 0 ]
+    - DisplayName: "InputCurrentRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6657, Powertrain:InputVoltageRated, Float, 0, 0 ]
+    - DisplayName: "InputVoltageRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:17135, Powertrain:NumberOfOutputPhases, Byte, 0, 0 ]
+    - DisplayName: "NumberOfOutputPhases"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:17111, Powertrain:OutputCurrentMax, Float, 0, 0 ]
+    - DisplayName: "OutputCurrentMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6427, Powertrain:OutputCurrentRated, Float, 0, 0 ]
+    - DisplayName: "OutputCurrentRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:17099, Powertrain:OutputFrequencyMax, Float, 0, 0 ]
+    - DisplayName: "OutputFrequencyMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6429, Powertrain:OutputFrequencyRated, Float, 0, 0 ]
+    - DisplayName: "OutputFrequencyRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:17123, Powertrain:OutputPowerMax, Float, 0, 0 ]
+    - DisplayName: "OutputPowerMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6430, Powertrain:OutputPowerRated, Float, 0, 0 ]
+    - DisplayName: "OutputPowerRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:17087, Powertrain:OutputVoltageMax, Float, 0, 0 ]
+    - DisplayName: "OutputVoltageMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6520, Powertrain:OutputVoltageRange, Range, 0, 0 ]
+    - DisplayName: "OutputVoltageRange"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6447, Powertrain:OutputVoltageRated, Float, 0, 0 ]
+    - DisplayName: "OutputVoltageRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -838,14 +1062,19 @@ DefinedTypes:
 
   Powertrain:PtProtectionClassAttributesType:
   - [ UAObjectType, Powertrain:17140, Powertrain:PtProtectionClassAttributesType ]
+  - DisplayName: "PtProtectionClassAttributesType"
+  - Description: "Provides the attributes describing the protection class."
   - HasProperty:
     - [ UAVariable, Powertrain:6819, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6310, Powertrain:ExClass, String, 0, 0 ]
+    - DisplayName: "ExClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6311, Powertrain:IpClass, UInt16, 0, 0 ]
+    - DisplayName: "IpClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -853,64 +1082,84 @@ DefinedTypes:
 
   Powertrain:PtSafetyFunctionsAttributesType:
   - [ UAObjectType, Powertrain:17149, Powertrain:PtSafetyFunctionsAttributesType ]
+  - DisplayName: "PtSafetyFunctionsAttributesType"
+  - Description: "Provides the attributes describing the safety functions, standards, safety integrity level (SIL), safety perofmrance level and safety category."
   - HasProperty:
     - [ UAVariable, Powertrain:6820, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6521, Powertrain:FunctionalSafetyCategory, UInt16, 0, 0 ]
+    - DisplayName: "FunctionalSafetyCategory"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6661, Powertrain:FunctionalSafetyPerformanceLevel, UInt16, 0, 0 ]
+    - DisplayName: "FunctionalSafetyPerformanceLevel"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6664, Powertrain:FunctionalSafetySilLevel, UInt16, 0, 0 ]
+    - DisplayName: "FunctionalSafetySilLevel"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:6667, Powertrain:SafetyFunctions, UInt16, 0, 0 ]
+    - DisplayName: "SafetyFunctions"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:17152, Powertrain:SafetyStandards, String, 1, 0 ]
+    - DisplayName: "SafetyStandards"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtStandardAttributesType:
   - [ UAObjectType, Powertrain:17156, Powertrain:PtStandardAttributesType ]
+  - DisplayName: "PtStandardAttributesType"
+  - Description: "Standards provides all supported standards of an powertrain asset."
   - HasProperty:
     - [ UAVariable, Powertrain:6821, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16873, Powertrain:PtCommonAssetAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:17158, Powertrain:Standards, String, 1, 0 ]
+    - DisplayName: "Standards"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtContactorAttributesType:
   - [ UAObjectType, Powertrain:16847, Powertrain:PtContactorAttributesType ]
+  - DisplayName: "PtContactorAttributesType"
+  - Description: "power train contactor type"
   - HasProperty:
     - [ UAVariable, Powertrain:6145, Powertrain:ControlVoltageAC50HzRangeRated, Range, 0, 0 ]
+    - DisplayName: "ControlVoltageAC50HzRangeRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6027, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:16853, Powertrain:NumberofAuxiliaryContactsNC, UInt16, 0, 0 ]
+    - DisplayName: "NumberofAuxiliaryContactsNC"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:16852, Powertrain:NumberofAuxiliaryContactsNO, UInt16, 0, 0 ]
+    - DisplayName: "NumberofAuxiliaryContactsNO"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:16850, Powertrain:NumberofMainContactsNO, UInt16, 0, 0 ]
+    - DisplayName: "NumberofMainContactsNO"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6590, Powertrain:OperationalCurrentAC3At400VRated, Float, 0, 0 ]
+    - DisplayName: "OperationalCurrentAC3At400VRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -918,53 +1167,68 @@ DefinedTypes:
 
   Powertrain:PtDcBusAttributesType:
   - [ UAObjectType, Powertrain:16798, Powertrain:PtDcBusAttributesType ]
+  - DisplayName: "PtDcBusAttributesType"
+  - Description: "Provides attributes for the DCBus"
   - HasComponent:
     - [ UAVariable, Powertrain:6204, Powertrain:<DcBusVoltageRated>, Float, 0, 0 ]
+    - DisplayName: "<DcBusVoltageRated>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, Powertrain:6206, Powertrain:DcBusVoltageRange, Range, 0, 0 ]
+    - DisplayName: "DcBusVoltageRange"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6028, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
 
   Powertrain:PtElectronicOverloadRelayAttributesType:
   - [ UAObjectType, Powertrain:1014, Powertrain:PtElectronicOverloadRelayAttributesType ]
+  - DisplayName: "PtElectronicOverloadRelayAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6029, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6747, Powertrain:GroundEarthFaultDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "GroundEarthFaultDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6745, Powertrain:JamDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "JamDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6743, Powertrain:NumberofAuxiliaryContactsNC, UInt16, 0, 0 ]
+    - DisplayName: "NumberofAuxiliaryContactsNC"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6738, Powertrain:OverloadCurrentSettingRange, Range, 0, 0 ]
+    - DisplayName: "OverloadCurrentSettingRange"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6744, Powertrain:PhaseLossSensitiveSupported, Boolean, 0, 0 ]
+    - DisplayName: "PhaseLossSensitiveSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6746, Powertrain:StallDetectionSuported, Boolean, 0, 0 ]
+    - DisplayName: "StallDetectionSuported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6739, Powertrain:TripClass, UInt16, 0, 0 ]
+    - DisplayName: "TripClass"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6742, Powertrain:VoltageRated, UInt16, 0, 0 ]
+    - DisplayName: "VoltageRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -972,14 +1236,19 @@ DefinedTypes:
 
   Powertrain:PtEncoderAttributesType:
   - [ UAObjectType, Powertrain:16553, Powertrain:PtEncoderAttributesType ]
+  - DisplayName: "PtEncoderAttributesType"
+  - Description: "Provides attributes for the encoder"
   - HasProperty:
     - [ UAVariable, Powertrain:6030, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6333, Powertrain:EncoderTechnology, UInt16, 0, 0 ]
+    - DisplayName: "EncoderTechnology"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6485, Powertrain:EncoderType, UInt16, 0, 0 ]
+    - DisplayName: "EncoderType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -987,30 +1256,38 @@ DefinedTypes:
 
   Powertrain:PtEncoderLinearAttributesType:
   - [ UAObjectType, Powertrain:1024, Powertrain:PtEncoderLinearAttributesType ]
+  - DisplayName: "PtEncoderLinearAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6465, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6733, Powertrain:EncoderMounting, Float, 0, 0 ]
+    - DisplayName: "EncoderMounting"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6734, Powertrain:EncoderReadingDistance, Float, 0, 0 ]
+    - DisplayName: "EncoderReadingDistance"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6736, Powertrain:EncoderSpeedLinearMax, Float, 0, 0 ]
+    - DisplayName: "EncoderSpeedLinearMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6731, Powertrain:RangeLinear, UInt32, 0, 0 ]
+    - DisplayName: "RangeLinear"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6729, Powertrain:ResolutionLinearAbsolute, Float, 0, 0 ]
+    - DisplayName: "ResolutionLinearAbsolute"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6728, Powertrain:ResolutionLinearIncremental, UInt32, 0, 0 ]
+    - DisplayName: "ResolutionLinearIncremental"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1018,54 +1295,68 @@ DefinedTypes:
 
   Powertrain:PtEncoderRotaryAttributesType:
   - [ UAObjectType, Powertrain:1021, Powertrain:PtEncoderRotaryAttributesType ]
+  - DisplayName: "PtEncoderRotaryAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6466, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6718, Powertrain:EncoderFlangeSize, Float, 0, 0 ]
+    - DisplayName: "EncoderFlangeSize"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6720, Powertrain:EncoderFlangeType, UInt16, 0, 0 ]
+    - DisplayName: "EncoderFlangeType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6710, Powertrain:EncoderRotarySpeedMax, Float, 0, 0 ]
+    - DisplayName: "EncoderRotarySpeedMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6726, Powertrain:EncoderShaftSize, Float, 0, 0 ]
+    - DisplayName: "EncoderShaftSize"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6723, Powertrain:EncoderShaftType, UInt16, 0, 0 ]
+    - DisplayName: "EncoderShaftType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6707, Powertrain:FeedbackResolverExcitationFrequency, Float, 0, 0 ]
+    - DisplayName: "FeedbackResolverExcitationFrequency"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6705, Powertrain:FeedbackResolverExcitationVoltage, Float, 0, 0 ]
+    - DisplayName: "FeedbackResolverExcitationVoltage"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6704, Powertrain:FeedbackResolverPolePairNumber, UInt32, 0, 0 ]
+    - DisplayName: "FeedbackResolverPolePairNumber"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6709, Powertrain:FeedbackResolverRatio, Float, 0, 0 ]
+    - DisplayName: "FeedbackResolverRatio"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6716, Powertrain:ResolutionMultiturnAbsolute, UInt32, 0, 0 ]
+    - DisplayName: "ResolutionMultiturnAbsolute"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6712, Powertrain:ResolutionRotaryIncremental, UInt32, 0, 0 ]
+    - DisplayName: "ResolutionRotaryIncremental"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6714, Powertrain:ResolutionSingleturnAbsolute, UInt32, 0, 0 ]
+    - DisplayName: "ResolutionSingleturnAbsolute"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1073,10 +1364,14 @@ DefinedTypes:
 
   Powertrain:PtEncoderInterfaceAttributesType:
   - [ UAObjectType, Powertrain:1003, Powertrain:PtEncoderInterfaceAttributesType ]
+  - DisplayName: "PtEncoderInterfaceAttributesType"
+  - Description: "The PtEncoderInterfaceAttributesType provides the most common attributes of the encoder interface"
   - HasProperty:
     - [ UAVariable, Powertrain:6031, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6492, Powertrain:EncoderSignal, UInt16, 0, 0 ]
+    - DisplayName: "EncoderSignal"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1084,10 +1379,14 @@ DefinedTypes:
 
   Powertrain:PtEncoderInterfaceProtocolAttributesType:
   - [ UAObjectType, Powertrain:16605, Powertrain:PtEncoderInterfaceProtocolAttributesType ]
+  - DisplayName: "PtEncoderInterfaceProtocolAttributesType"
+  - Description: "Provides attributes for the encoder interface protocol"
   - HasProperty:
     - [ UAVariable, Powertrain:6032, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6495, Powertrain:EncoderProtocol, UInt16, 0, 0 ]
+    - DisplayName: "EncoderProtocol"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1095,104 +1394,134 @@ DefinedTypes:
 
   Powertrain:PtGearAttributesType:
   - [ UAObjectType, Powertrain:16503, Powertrain:PtGearAttributesType ]
+  - DisplayName: "PtGearAttributesType"
+  - Description: "power train gear type"
   - HasComponent:
     - [ UAVariable, Powertrain:16544, Powertrain:<Efficiency>, Float, 0, 0 ]
+    - DisplayName: "<Efficiency>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, Powertrain:16505, Powertrain:<GearRatio>, Float, 0, 0 ]
+    - DisplayName: "<GearRatio>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, Powertrain:16538, Powertrain:AxialForceMax, Float, 0, 0 ]
+    - DisplayName: "AxialForceMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16507, Powertrain:Backlash, Float, 0, 0 ]
+    - DisplayName: "Backlash"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6033, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:16514, Powertrain:GearInertia, Float, 0, 0 ]
+    - DisplayName: "GearInertia"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6125, Powertrain:GearType, UInt16, 0, 0 ]
+    - DisplayName: "GearType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:16552, Powertrain:LubricantInterval, Float, 0, 0 ]
+    - DisplayName: "LubricantInterval"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6461, Powertrain:LubricantType, UInt16, 0, 0 ]
+    - DisplayName: "LubricantType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:16526, Powertrain:SpeedRated, Float, 0, 0 ]
+    - DisplayName: "SpeedRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16520, Powertrain:TorqueRated, Float, 0, 0 ]
+    - DisplayName: "TorqueRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16508, Powertrain:TorsionalRigidity, Float, 0, 0 ]
+    - DisplayName: "TorsionalRigidity"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtInputConverterAttributesType:
   - [ UAObjectType, Powertrain:16806, Powertrain:PtInputConverterAttributesType ]
+  - DisplayName: "PtInputConverterAttributesType"
+  - Description: "Provides attributes for the input converter of a drive"
   - HasComponent:
     - [ UAVariable, Powertrain:6220, Powertrain:<PwmSwitchingFrequency>, Float, 0, 0 ]
+    - DisplayName: "<PwmSwitchingFrequency>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasProperty:
     - [ UAVariable, Powertrain:6034, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6218, Powertrain:EfficiencyClass, UInt16, 0, 0 ]
+    - DisplayName: "EfficiencyClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6272, Powertrain:InputConverterType, UInt16, 0, 0 ]
+    - DisplayName: "InputConverterType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6219, Powertrain:PowerFactorCorrection, Float, 0, 0 ]
+    - DisplayName: "PowerFactorCorrection"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6222, Powertrain:RegenerativeFeedbackSupported, Boolean, 0, 0 ]
+    - DisplayName: "RegenerativeFeedbackSupported"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6223, Powertrain:RegenerativePowerRated, Float, 0, 0 ]
+    - DisplayName: "RegenerativePowerRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtInputFilterAttributesType:
   - [ UAObjectType, Powertrain:16827, Powertrain:PtInputFilterAttributesType ]
+  - DisplayName: "PtInputFilterAttributesType"
+  - Description: "Provides attributes for line filter functionality"
   - HasProperty:
     - [ UAVariable, Powertrain:6043, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6155, Powertrain:LineFilterEmcCategory, UInt16, 0, 0 ]
+    - DisplayName: "LineFilterEmcCategory"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6156, Powertrain:LineFilterEmcClass, UInt16, 0, 0 ]
+    - DisplayName: "LineFilterEmcClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6157, Powertrain:LineFilterEmcGroup, UInt16, 0, 0 ]
+    - DisplayName: "LineFilterEmcGroup"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16829, Powertrain:LineFilterPowerLoss, Float, 0, 0 ]
+    - DisplayName: "LineFilterPowerLoss"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1200,10 +1529,14 @@ DefinedTypes:
 
   Powertrain:PtMotorAttributesType:
   - [ UAObjectType, Powertrain:16383, Powertrain:PtMotorAttributesType ]
+  - DisplayName: "PtMotorAttributesType"
+  - Description: "Provides operation mode rated attributes of a amotor"
   - HasProperty:
     - [ UAVariable, Powertrain:6021, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6110, Powertrain:MotorType, UInt16, 0, 0 ]
+    - DisplayName: "MotorType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1211,18 +1544,23 @@ DefinedTypes:
 
   Powertrain:PtMotorLinearAttributesType:
   - [ UAObjectType, Powertrain:1012, Powertrain:PtMotorLinearAttributesType ]
+  - DisplayName: "PtMotorLinearAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6464, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6676, Powertrain:ForcerWeight, Float, 0, 0 ]
+    - DisplayName: "ForcerWeight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6678, Powertrain:MotorBackEMF, Float, 0, 0 ]
+    - DisplayName: "MotorBackEMF"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6674, Powertrain:MotorPolePairPitch, Float, 0, 0 ]
+    - DisplayName: "MotorPolePairPitch"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1230,18 +1568,23 @@ DefinedTypes:
 
   Powertrain:PtMotorRotaryAttributesType:
   - [ UAObjectType, Powertrain:1009, Powertrain:PtMotorRotaryAttributesType ]
+  - DisplayName: "PtMotorRotaryAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6022, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6672, Powertrain:MotorBackEMF, Float, 0, 0 ]
+    - DisplayName: "MotorBackEMF"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6670, Powertrain:MotorInertia, Float, 0, 0 ]
+    - DisplayName: "MotorInertia"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6525, Powertrain:MotorPolePairs, UInt16, 0, 0 ]
+    - DisplayName: "MotorPolePairs"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1249,14 +1592,19 @@ DefinedTypes:
 
   Powertrain:PtMotorDutyAttributesType:
   - [ UAObjectType, Powertrain:16499, Powertrain:PtMotorDutyAttributesType ]
+  - DisplayName: "PtMotorDutyAttributesType"
+  - Description: "Provides attributes for the encoder interface protocol"
   - HasProperty:
     - [ UAVariable, Powertrain:6044, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6202, Powertrain:DutyType, UInt16, 0, 0 ]
+    - DisplayName: "DutyType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:16502, Powertrain:LoadProfile, String, 1, 0 ]
+    - DisplayName: "LoadProfile"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1264,86 +1612,108 @@ DefinedTypes:
 
   Powertrain:PtMotorManagementDeviceAttributesType:
   - [ UAObjectType, Powertrain:1023, Powertrain:PtMotorManagementDeviceAttributesType ]
+  - DisplayName: "PtMotorManagementDeviceAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6772, Powertrain:ControlVoltageAC50HzRangeRated, Range, 0, 0 ]
+    - DisplayName: "ControlVoltageAC50HzRangeRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6765, Powertrain:CosPhiVariationDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "CosPhiVariationDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6763, Powertrain:CurrentImbalanceDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "CurrentImbalanceDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6045, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6759, Powertrain:GroundEarthFaultDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "GroundEarthFaultDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6773, Powertrain:HMIPortSupported, Boolean, 0, 0 ]
+    - DisplayName: "HMIPortSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6757, Powertrain:JamDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "JamDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6760, Powertrain:LoadSheddingSupported, Boolean, 0, 0 ]
+    - DisplayName: "LoadSheddingSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6769, Powertrain:NumberOfAnalogInputs, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfAnalogInputs"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6771, Powertrain:NumberOfDigitalInputs, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfDigitalInputs"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6770, Powertrain:NumberOfDigitalOutputs, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfDigitalOutputs"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6768, Powertrain:NumberOfPtcThermistorInputs, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfPtcThermistorInputs"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6752, Powertrain:OverloadCurrentSettingRange, Range, 0, 0 ]
+    - DisplayName: "OverloadCurrentSettingRange"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6761, Powertrain:OverUnderCurrentDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "OverUnderCurrentDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6762, Powertrain:OverUnderVoltageDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "OverUnderVoltageDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6756, Powertrain:PhaseLossSensitiveSupported, Boolean, 0, 0 ]
+    - DisplayName: "PhaseLossSensitiveSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6764, Powertrain:PhaseReversalDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "PhaseReversalDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6758, Powertrain:StallDetectionSuported, Boolean, 0, 0 ]
+    - DisplayName: "StallDetectionSuported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6753, Powertrain:TripClass, UInt16, 0, 0 ]
+    - DisplayName: "TripClass"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6767, Powertrain:UnderPowerDetectionSupported, Boolean, 0, 0 ]
+    - DisplayName: "UnderPowerDetectionSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6766, Powertrain:VoltageMonitoringSupported, Boolean, 0, 0 ]
+    - DisplayName: "VoltageMonitoringSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1351,40 +1721,51 @@ DefinedTypes:
 
   Powertrain:PtMotorRatedAttributesType:
   - [ UAObjectType, Powertrain:16399, Powertrain:PtMotorRatedAttributesType ]
+  - DisplayName: "PtMotorRatedAttributesType"
+  - Description: "Provides operation mode rated attributes of a amotor"
   - HasProperty:
     - [ UAVariable, Powertrain:6047, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6328, Powertrain:IsCooled, Boolean, 0, 0 ]
+    - DisplayName: "IsCooled"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16444, Powertrain:MotorCurrentContinuousStall, Float, 0, 0 ]
+    - DisplayName: "MotorCurrentContinuousStall"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6164, Powertrain:MotorEfficiencyClass, UInt16, 0, 0 ]
+    - DisplayName: "MotorEfficiencyClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:16492, Powertrain:MotorPowerFactor, Float, 0, 0 ]
+    - DisplayName: "MotorPowerFactor"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6050, Powertrain:MotorPowerRated, Float, 0, 0 ]
+    - DisplayName: "MotorPowerRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6052, Powertrain:MotorWindingType, UInt16, 0, 0 ]
+    - DisplayName: "MotorWindingType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Powertrain:16401, Powertrain:PtInputInterfaceAttributes ]
+    - DisplayName: "PtInputInterfaceAttributes"
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:17046, Powertrain:PtInputInterfaceAttributesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Powertrain:16440, Powertrain:PtMotorDutyAttributes ]
+    - DisplayName: "PtMotorDutyAttributes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1394,30 +1775,38 @@ DefinedTypes:
 
   Powertrain:PtMotorLinearRatedAttributesType:
   - [ UAObjectType, Powertrain:1018, Powertrain:PtMotorLinearRatedAttributesType ]
+  - DisplayName: "PtMotorLinearRatedAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6436, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6702, Powertrain:MotorForceConstant, Float, 0, 0 ]
+    - DisplayName: "MotorForceConstant"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6700, Powertrain:MotorForceContinuousStall, Float, 0, 0 ]
+    - DisplayName: "MotorForceContinuousStall"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6696, Powertrain:MotorForceMax, Float, 0, 0 ]
+    - DisplayName: "MotorForceMax"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6698, Powertrain:MotorForceRated, Float, 0, 0 ]
+    - DisplayName: "MotorForceRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6692, Powertrain:MotorSpeedMax, Float, 0, 0 ]
+    - DisplayName: "MotorSpeedMax"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6694, Powertrain:MotorSpeedRated, Float, 0, 0 ]
+    - DisplayName: "MotorSpeedRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1425,30 +1814,38 @@ DefinedTypes:
 
   Powertrain:PtMotorRotaryRatedAttributesType:
   - [ UAObjectType, Powertrain:1015, Powertrain:PtMotorRotaryRatedAttributesType ]
+  - DisplayName: "PtMotorRotaryRatedAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6435, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6680, Powertrain:MotorSpeedMax, Float, 0, 0 ]
+    - DisplayName: "MotorSpeedMax"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6682, Powertrain:MotorSpeedRated, Float, 0, 0 ]
+    - DisplayName: "MotorSpeedRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6690, Powertrain:MotorTorqueConstant, Float, 0, 0 ]
+    - DisplayName: "MotorTorqueConstant"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6688, Powertrain:MotorTorqueContinuousStall, Float, 0, 0 ]
+    - DisplayName: "MotorTorqueContinuousStall"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6684, Powertrain:MotorTorqueMax, Float, 0, 0 ]
+    - DisplayName: "MotorTorqueMax"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6686, Powertrain:MotorTorqueRated, Float, 0, 0 ]
+    - DisplayName: "MotorTorqueRated"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1456,49 +1853,64 @@ DefinedTypes:
 
   Powertrain:PtMotorStarterAttributesType:
   - [ UAObjectType, Powertrain:16854, Powertrain:PtMotorStarterAttributesType ]
+  - DisplayName: "PtMotorStarterAttributesType"
+  - Description: "Provides attributes of a motor starter"
   - HasProperty:
     - [ UAVariable, Powertrain:6597, Powertrain:ControlVoltageAC50HzRangeRated, Range, 0, 0 ]
+    - DisplayName: "ControlVoltageAC50HzRangeRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6048, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6599, Powertrain:NumberofAuxiliaryContactsNC, UInt16, 0, 0 ]
+    - DisplayName: "NumberofAuxiliaryContactsNC"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6598, Powertrain:NumberofAuxiliaryContactsNO, UInt16, 0, 0 ]
+    - DisplayName: "NumberofAuxiliaryContactsNO"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6596, Powertrain:NumberofMainContactsNO, UInt16, 0, 0 ]
+    - DisplayName: "NumberofMainContactsNO"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6397, Powertrain:OperationalCurrentAC3At400VRated, Float, 0, 0 ]
+    - DisplayName: "OperationalCurrentAC3At400VRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6393, Powertrain:OverloadCurrentSettingRange, Range, 0, 0 ]
+    - DisplayName: "OverloadCurrentSettingRange"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:6394, Powertrain:TripClass, UInt16, 0, 0 ]
+    - DisplayName: "TripClass"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Powertrain:PtOutputConverterAttributesType:
   - [ UAObjectType, Powertrain:16818, Powertrain:PtOutputConverterAttributesType ]
+  - DisplayName: "PtOutputConverterAttributesType"
+  - Description: "Provides attributes for the output converter of a drive"
   - HasComponent:
     - [ UAVariable, Powertrain:6151, Powertrain:<PwmSwitchingFrequency>, Float, 0, 0 ]
+    - DisplayName: "<PwmSwitchingFrequency>"
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasProperty:
     - [ UAVariable, Powertrain:6049, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6150, Powertrain:EfficiencyClass, UInt16, 0, 0 ]
+    - DisplayName: "EfficiencyClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1506,14 +1918,19 @@ DefinedTypes:
 
   Powertrain:PtOutputFilterAttributesType:
   - [ UAObjectType, Powertrain:16838, Powertrain:PtOutputFilterAttributesType ]
+  - DisplayName: "PtOutputFilterAttributesType"
+  - Description: "Provides attributes for load-side filter functionality"
   - HasProperty:
     - [ UAVariable, Powertrain:6419, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:16841, Powertrain:OutputFilterPowerLoss, Float, 0, 0 ]
+    - DisplayName: "OutputFilterPowerLoss"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6241, Powertrain:OutputFilterType, UInt16, 0, 0 ]
+    - DisplayName: "OutputFilterType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1521,30 +1938,38 @@ DefinedTypes:
 
   Powertrain:PtPrechargeAttributesType:
   - [ UAObjectType, Powertrain:1010, Powertrain:PtPrechargeAttributesType ]
+  - DisplayName: "PtPrechargeAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6420, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6302, Powertrain:PreChargeCycleTimeLimit, Float, 0, 0 ]
+    - DisplayName: "PreChargeCycleTimeLimit"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6300, Powertrain:PreChargeMaximumCapacitance, Float, 0, 0 ]
+    - DisplayName: "PreChargeMaximumCapacitance"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6198, Powertrain:PrechargeThreshold, Float, 0, 0 ]
+    - DisplayName: "PrechargeThreshold"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6194, Powertrain:PreChargeTime, Float, 0, 0 ]
+    - DisplayName: "PreChargeTime"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6196, Powertrain:PreChargeTimeout, Float, 0, 0 ]
+    - DisplayName: "PreChargeTimeout"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6191, Powertrain:PreChargeType, UInt16, 0, 0 ]
+    - DisplayName: "PreChargeType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1552,10 +1977,13 @@ DefinedTypes:
 
   Powertrain:PtReactorAttributesType:
   - [ UAObjectType, Powertrain:1006, Powertrain:PtReactorAttributesType ]
+  - DisplayName: "PtReactorAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6432, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6245, Powertrain:Inductance, Float, 0, 0 ]
+    - DisplayName: "Inductance"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1563,22 +1991,28 @@ DefinedTypes:
 
   Powertrain:PtSoftStarterAttributesType:
   - [ UAObjectType, Powertrain:1019, Powertrain:PtSoftStarterAttributesType ]
+  - DisplayName: "PtSoftStarterAttributesType"
   - HasProperty:
     - [ UAVariable, Powertrain:6440, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6748, Powertrain:IntegratedByPassSupported, Boolean, 0, 0 ]
+    - DisplayName: "IntegratedByPassSupported"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6751, Powertrain:MotorOverloadProtectionIntegrated, Boolean, 0, 0 ]
+    - DisplayName: "MotorOverloadProtectionIntegrated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6749, Powertrain:OperationalCurrent40CRated, Float, 0, 0 ]
+    - DisplayName: "OperationalCurrent40CRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6750, Powertrain:OperationalVoltageRangeRated, Range, 0, 0 ]
+    - DisplayName: "OperationalVoltageRangeRated"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1586,298 +2020,373 @@ DefinedTypes:
 
   Powertrain:PtTemperatureSensorAttributesType:
   - [ UAObjectType, Powertrain:16708, Powertrain:PtTemperatureSensorAttributesType ]
+  - DisplayName: "PtTemperatureSensorAttributesType"
+  - Description: "Provides attributes for a temperature sensor"
   - HasComponent:
     - [ UAVariable, Powertrain:16723, Powertrain:Accuracy, Float, 0, 0 ]
+    - DisplayName: "Accuracy"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6460, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:16735, Powertrain:TemperatureMax, Float, 0, 0 ]
+    - DisplayName: "TemperatureMax"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:16729, Powertrain:TemperatureMin, Float, 0, 0 ]
+    - DisplayName: "TemperatureMin"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6112, Powertrain:TemperatureSensorTechnology, UInt16, 0, 0 ]
+    - DisplayName: "TemperatureSensorTechnology"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:16710, Powertrain:TemperatureSensorType, String, 0, 0 ]
+    - DisplayName: "TemperatureSensorType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtVibrationSensorAttributesType:
   - [ UAObjectType, Powertrain:16747, Powertrain:PtVibrationSensorAttributesType ]
+  - DisplayName: "PtVibrationSensorAttributesType"
+  - Description: "Provides attributes for a vibration sensor"
   - HasComponent:
     - [ UAVariable, Powertrain:16766, Powertrain:Accuracy, Float, 0, 0 ]
+    - DisplayName: "Accuracy"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6499, Powertrain:AnalogInputElectricalType, UInt16, 0, 0 ]
+    - DisplayName: "AnalogInputElectricalType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6561, Powertrain:AnalogOutputElectricalType, UInt16, 0, 0 ]
+    - DisplayName: "AnalogOutputElectricalType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6463, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasComponent:
     - [ UAVariable, Powertrain:6564, Powertrain:DigitalInputElectricalType, UInt16, 0, 0 ]
+    - DisplayName: "DigitalInputElectricalType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6567, Powertrain:DigitalOutputElectricalType, UInt16, 0, 0 ]
+    - DisplayName: "DigitalOutputElectricalType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6102, Powertrain:FrequencyRange, Range, 0, 0 ]
+    - DisplayName: "FrequencyRange"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:16772, Powertrain:Linearity, Float, 0, 0 ]
+    - DisplayName: "Linearity"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6119, Powertrain:MeasuringRange, Range, 0, 0 ]
+    - DisplayName: "MeasuringRange"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Powertrain:6121, Powertrain:OperatingVoltage, Float, 0, 0 ]
+    - DisplayName: "OperatingVoltage"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6570, Powertrain:OutputFunction, UInt16, 0, 0 ]
+    - DisplayName: "OutputFunction"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:16337, Powertrain:PtAssetAttributesType ]
   - HasComponent:
     - [ UAVariable, Powertrain:6573, Powertrain:Resolution, Float, 0, 0 ]
+    - DisplayName: "Resolution"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Powertrain:PtAssetType:
   - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
+  - DisplayName: "PtAssetType"
+  - Description: "Provides properties required for identifying assets of a powertrain"
   - HasComponent:
     - [ UAObject, Powertrain:5015, Powertrain:<PtAnalogInputElectricalAttributes> ]
+    - DisplayName: "<PtAnalogInputElectricalAttributes>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:16907, Powertrain:PtAnalogInputElectricalAttributesType ]
   - HasComponent:
     - [ UAObject, Powertrain:5017, Powertrain:<PtAnalogOutputElectricalAttributes> ]
+    - DisplayName: "<PtAnalogOutputElectricalAttributes>"
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:16913, Powertrain:PtAnalogOutputElectricalAttributesType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, Powertrain:5016, Powertrain:<PtDigitalInputElectricalAttributes> ]
+    - DisplayName: "<PtDigitalInputElectricalAttributes>"
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:17000, Powertrain:PtDigitalInputElectricalAttributesType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, Powertrain:5018, Powertrain:<PtDigitalOutputElectricalAttributes> ]
+    - DisplayName: "<PtDigitalOutputElectricalAttributes>"
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:17009, Powertrain:PtDigitalOutputElectricalAttributesType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, Powertrain:5008, Powertrain:<PtStandardAttributes> ]
+    - DisplayName: "<PtStandardAttributes>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:17156, Powertrain:PtStandardAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6243, DI:AssetId, String, 0, 3 ]
+    - DisplayName: "AssetId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6471, FX.AC:BuildAssetNumber, UInt16, 0, 3 ]
+    - DisplayName: "BuildAssetNumber"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6046, Powertrain:Comment, LocalizedText, 0, 3 ]
+    - DisplayName: "Comment"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6236, DI:ComponentName, LocalizedText, 0, 3 ]
+    - DisplayName: "ComponentName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6257, Powertrain:ContactInformation, String, 0, 3 ]
+    - DisplayName: "ContactInformation"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6367, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, Powertrain:6059, DI:DeviceClass, String, 0, 0 ]
+    - DisplayName: "DeviceClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Powertrain:6058, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
+    - DisplayName: "DeviceHealth"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Powertrain:5000, DI:DeviceHealthAlarms ]
+    - DisplayName: "DeviceHealthAlarms"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6062, DI:DeviceManual, String, 0, 0 ]
+    - DisplayName: "DeviceManual"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6060, DI:DeviceRevision, String, 0, 0 ]
+    - DisplayName: "DeviceRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Powertrain:5004, DI:DeviceTypeImage ]
+    - DisplayName: "DeviceTypeImage"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, Powertrain:5005, DI:Documentation ]
+    - DisplayName: "Documentation"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, Powertrain:5039, DI:DocumentationFiles ]
+    - DisplayName: "DocumentationFiles"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6262, Powertrain:Function, String, 0, 3 ]
+    - DisplayName: "Function"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6061, DI:HardwareRevision, String, 0, 0 ]
+    - DisplayName: "HardwareRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Powertrain:5006, DI:ImageSet ]
+    - DisplayName: "ImageSet"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6231, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - DisplayName: "InitialOperationDate"
+    - Description: "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6244, Machinery:Location, String, 0, 3 ]
+    - DisplayName: "Location"
+    - Description: "To be used by end users to store the location of the machine in a scheme specific to the end user Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6469, FX.AC:MajorAssetVersion, UInt16, 0, 3 ]
+    - DisplayName: "MajorAssetVersion"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6051, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
+    - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6063, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6056, FX.AC:MinorAssetVersion, UInt16, 0, 3 ]
+    - DisplayName: "MinorAssetVersion"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6064, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6230, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - DisplayName: "MonthOfConstruction"
+    - Description: "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6093, DI:PatchIdentifiers, String, 1, 0 ]
+    - DisplayName: "PatchIdentifiers"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6212, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6203, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Powertrain:5007, DI:ProtocolSupport ]
+    - DisplayName: "ProtocolSupport"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, Powertrain:5010, Powertrain:PtAmbientAttributes ]
+    - DisplayName: "PtAmbientAttributes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:16875, Powertrain:PtAmbientAttributesType ]
   - HasComponent:
     - [ UAObject, Powertrain:5014, Powertrain:PtAuxiliarySupplyAttributes ]
+    - DisplayName: "PtAuxiliarySupplyAttributes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:16928, Powertrain:PtAuxiliarySupplyAttributesType ]
   - HasComponent:
     - [ UAObject, Powertrain:5009, Powertrain:PtCertificateAttributes ]
+    - DisplayName: "PtCertificateAttributes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:16960, Powertrain:PtCertificateAttributesType ]
   - HasComponent:
     - [ UAObject, Powertrain:5012, Powertrain:PtHardwareAttributes ]
+    - DisplayName: "PtHardwareAttributes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:16973, Powertrain:PtHardwareAttributesType ]
   - HasComponent:
     - [ UAObject, Powertrain:5011, Powertrain:PtMechanicalStrengthAttributes ]
+    - DisplayName: "PtMechanicalStrengthAttributes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:17136, Powertrain:PtMechanicalStrengthAttributesType ]
   - HasComponent:
     - [ UAObject, Powertrain:5013, Powertrain:PtProtectionClassAttributes ]
+    - DisplayName: "PtProtectionClassAttributes"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Powertrain:17140, Powertrain:PtProtectionClassAttributesType ]
   - HasProperty:
     - [ UAVariable, Powertrain:6213, DI:RevisionCounter, Int32, 0, 0 ]
+    - DisplayName: "RevisionCounter"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6000, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
+    - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Powertrain:6229, DI:SoftwareReleaseDate, DateTime, 0, 0 ]
+    - DisplayName: "SoftwareReleaseDate"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6217, DI:SoftwareRevision, String, 0, 0 ]
+    - DisplayName: "SoftwareRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Powertrain:6057, FX.AC:SubBuildAssetNumber, UInt16, 0, 3 ]
+    - DisplayName: "SubBuildAssetNumber"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Powertrain:7000, FX.AC:VerifyAsset ]
+    - DisplayName: "VerifyAsset"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1886,6 +2395,8 @@ DefinedTypes:
       - [ UAVariable, FX.AC:1423, FX.AC:OutputArguments ]
   - HasProperty:
     - [ UAVariable, Powertrain:6232, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - DisplayName: "YearOfConstruction"
+    - Description: "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1893,301 +2404,407 @@ DefinedTypes:
 
   Powertrain:PtAssetBleedType:
   - [ UAObjectType, Powertrain:1013, Powertrain:PtAssetBleedType ]
+  - DisplayName: "PtAssetBleedType"
   - HasProperty:
     - [ UAVariable, Powertrain:6467, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetBrakeType:
   - [ UAObjectType, Powertrain:15116, Powertrain:PtAssetBrakeType ]
+  - DisplayName: "PtAssetBrakeType"
+  - Description: "Describes a brake used in a powertrain"
   - HasProperty:
     - [ UAVariable, Powertrain:6468, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetCommunicationModuleType:
   - [ UAObjectType, Powertrain:15430, Powertrain:PtAssetCommunicationModuleType ]
+  - DisplayName: "PtAssetCommunicationModuleType"
+  - Description: "Describes a communication module of an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6470, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetContactorType:
   - [ UAObjectType, Powertrain:15549, Powertrain:PtAssetContactorType ]
+  - DisplayName: "PtAssetContactorType"
+  - Description: "powertrain asset contactor type"
   - HasProperty:
     - [ UAVariable, Powertrain:6472, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetControlModuleType:
   - [ UAObjectType, Powertrain:15447, Powertrain:PtAssetControlModuleType ]
+  - DisplayName: "PtAssetControlModuleType"
+  - Description: "Describes the control part of an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6475, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetCoolingType:
   - [ UAObjectType, Powertrain:15541, Powertrain:PtAssetCoolingType ]
+  - DisplayName: "PtAssetCoolingType"
+  - Description: "Describes the colling part of an inveter"
   - HasProperty:
     - [ UAVariable, Powertrain:6803, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetDcBusModuleType:
   - [ UAObjectType, Powertrain:1005, Powertrain:PtAssetDcBusModuleType ]
+  - DisplayName: "PtAssetDcBusModuleType"
   - HasProperty:
     - [ UAVariable, Powertrain:6476, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetDriveType:
   - [ UAObjectType, Powertrain:1035, Powertrain:PtAssetDriveType ]
+  - DisplayName: "PtAssetDriveType"
   - HasProperty:
     - [ UAVariable, Powertrain:6477, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetFrequencyConverterType:
   - [ UAObjectType, Powertrain:1016, Powertrain:PtAssetFrequencyConverterType ]
+  - DisplayName: "PtAssetFrequencyConverterType"
   - HasProperty:
     - [ UAVariable, Powertrain:6638, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1035, Powertrain:PtAssetDriveType ]
 
   Powertrain:PtAssetServoDriveType:
   - [ UAObjectType, Powertrain:1020, Powertrain:PtAssetServoDriveType ]
+  - DisplayName: "PtAssetServoDriveType"
   - HasProperty:
     - [ UAVariable, Powertrain:6639, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1035, Powertrain:PtAssetDriveType ]
 
   Powertrain:PtAssetVariableSpeedDriveType:
   - [ UAObjectType, Powertrain:1028, Powertrain:PtAssetVariableSpeedDriveType ]
+  - DisplayName: "PtAssetVariableSpeedDriveType"
   - HasProperty:
     - [ UAVariable, Powertrain:6640, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1035, Powertrain:PtAssetDriveType ]
 
   Powertrain:PtAssetElectricalBrakingModuleType:
   - [ UAObjectType, Powertrain:15148, Powertrain:PtAssetElectricalBrakingModuleType ]
+  - DisplayName: "PtAssetElectricalBrakingModuleType"
+  - Description: "Brakeing module including brake resistor of an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6480, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetElectricOverloadRelayType:
   - [ UAObjectType, Powertrain:1026, Powertrain:PtAssetElectricOverloadRelayType ]
+  - DisplayName: "PtAssetElectricOverloadRelayType"
   - HasProperty:
     - [ UAVariable, Powertrain:6481, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetEncoderInterfaceModuleType:
   - [ UAObjectType, Powertrain:1045, Powertrain:PtAssetEncoderInterfaceModuleType ]
+  - DisplayName: "PtAssetEncoderInterfaceModuleType"
   - HasProperty:
     - [ UAVariable, Powertrain:6482, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetEncoderType:
   - [ UAObjectType, Powertrain:15108, Powertrain:PtAssetEncoderType ]
+  - DisplayName: "PtAssetEncoderType"
+  - Description: "Describes an encoder used in a powertrain"
   - HasProperty:
     - [ UAVariable, Powertrain:6483, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetEncoderLinearType:
   - [ UAObjectType, Powertrain:1042, Powertrain:PtAssetEncoderLinearType ]
+  - DisplayName: "PtAssetEncoderLinearType"
   - HasProperty:
     - [ UAVariable, Powertrain:6802, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15108, Powertrain:PtAssetEncoderType ]
 
   Powertrain:PtAssetEncoderRotaryType:
   - [ UAObjectType, Powertrain:1039, Powertrain:PtAssetEncoderRotaryType ]
+  - DisplayName: "PtAssetEncoderRotaryType"
   - HasProperty:
     - [ UAVariable, Powertrain:6801, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15108, Powertrain:PtAssetEncoderType ]
 
   Powertrain:PtAssetGearType:
   - [ UAObjectType, Powertrain:15122, Powertrain:PtAssetGearType ]
+  - DisplayName: "PtAssetGearType"
+  - Description: "Describes a gear in a powertrain"
   - HasProperty:
     - [ UAVariable, Powertrain:6484, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetInputConverterType:
   - [ UAObjectType, Powertrain:15168, Powertrain:PtAssetInputConverterType ]
+  - DisplayName: "PtAssetInputConverterType"
+  - Description: "Describes an input converter in an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6486, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetInputFilterType:
   - [ UAObjectType, Powertrain:15196, Powertrain:PtAssetInputFilterType ]
+  - DisplayName: "PtAssetInputFilterType"
+  - Description: "Describes an input filter in an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6488, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetInputOutputConverterType:
   - [ UAObjectType, Powertrain:1022, Powertrain:PtAssetInputOutputConverterType ]
+  - DisplayName: "PtAssetInputOutputConverterType"
   - HasProperty:
     - [ UAVariable, Powertrain:6502, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetInputReactorType:
   - [ UAObjectType, Powertrain:15241, Powertrain:PtAssetInputReactorType ]
+  - DisplayName: "PtAssetInputReactorType"
+  - Description: "Describes an input filter realized by an input reactor"
   - HasProperty:
     - [ UAVariable, Powertrain:6522, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetIoModuleType:
   - [ UAObjectType, Powertrain:15468, Powertrain:PtAssetIoModuleType ]
+  - DisplayName: "PtAssetIoModuleType"
+  - Description: "Describes the IO-Module part of an inveter"
   - HasProperty:
     - [ UAVariable, Powertrain:6527, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetMotorManagementDeviceType:
   - [ UAObjectType, Powertrain:1040, Powertrain:PtAssetMotorManagementDeviceType ]
+  - DisplayName: "PtAssetMotorManagementDeviceType"
   - HasProperty:
     - [ UAVariable, Powertrain:6580, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetMotorStarterType:
   - [ UAObjectType, Powertrain:15561, Powertrain:PtAssetMotorStarterType ]
+  - DisplayName: "PtAssetMotorStarterType"
+  - Description: "powertrain asset motor startet type"
   - HasProperty:
     - [ UAVariable, Powertrain:6584, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetMotorType:
   - [ UAObjectType, Powertrain:15083, Powertrain:PtAssetMotorType ]
+  - DisplayName: "PtAssetMotorType"
+  - Description: "Describes a motor in a powertrain"
   - HasProperty:
     - [ UAVariable, Powertrain:6374, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetMotorLinearType:
   - [ UAObjectType, Powertrain:1030, Powertrain:PtAssetMotorLinearType ]
+  - DisplayName: "PtAssetMotorLinearType"
   - HasProperty:
     - [ UAVariable, Powertrain:6406, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15083, Powertrain:PtAssetMotorType ]
 
   Powertrain:PtAssetDriveIntegratedMotorLinearType:
   - [ UAObjectType, Powertrain:1017, Powertrain:PtAssetDriveIntegratedMotorLinearType ]
+  - DisplayName: "PtAssetDriveIntegratedMotorLinearType"
   - HasProperty:
     - [ UAVariable, Powertrain:6798, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1030, Powertrain:PtAssetMotorLinearType ]
 
   Powertrain:PtAssetDriveIntegratedGearMotorLinearType:
   - [ UAObjectType, Powertrain:1036, Powertrain:PtAssetDriveIntegratedGearMotorLinearType ]
+  - DisplayName: "PtAssetDriveIntegratedGearMotorLinearType"
   - HasProperty:
     - [ UAVariable, Powertrain:6799, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1017, Powertrain:PtAssetDriveIntegratedMotorLinearType ]
 
   Powertrain:PtAssetGearMotorLinearType:
   - [ UAObjectType, Powertrain:1029, Powertrain:PtAssetGearMotorLinearType ]
+  - DisplayName: "PtAssetGearMotorLinearType"
   - HasProperty:
     - [ UAVariable, Powertrain:6417, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1030, Powertrain:PtAssetMotorLinearType ]
 
   Powertrain:PtAssetMotorRotaryType:
   - [ UAObjectType, Powertrain:1027, Powertrain:PtAssetMotorRotaryType ]
+  - DisplayName: "PtAssetMotorRotaryType"
   - HasProperty:
     - [ UAVariable, Powertrain:6822, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15083, Powertrain:PtAssetMotorType ]
 
   Powertrain:PtAssetDriveIntegratedMotorRotaryType:
   - [ UAObjectType, Powertrain:1011, Powertrain:PtAssetDriveIntegratedMotorRotaryType ]
+  - DisplayName: "PtAssetDriveIntegratedMotorRotaryType"
   - HasProperty:
     - [ UAVariable, Powertrain:6797, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1027, Powertrain:PtAssetMotorRotaryType ]
 
   Powertrain:PtAssetDriveIntegratedGearMotorRotaryType:
   - [ UAObjectType, Powertrain:1033, Powertrain:PtAssetDriveIntegratedGearMotorRotaryType ]
+  - DisplayName: "PtAssetDriveIntegratedGearMotorRotaryType"
   - HasProperty:
     - [ UAVariable, Powertrain:6800, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1011, Powertrain:PtAssetDriveIntegratedMotorRotaryType ]
 
   Powertrain:PtAssetGearMotorRotaryType:
   - [ UAObjectType, Powertrain:1025, Powertrain:PtAssetGearMotorRotaryType ]
+  - DisplayName: "PtAssetGearMotorRotaryType"
   - HasProperty:
     - [ UAVariable, Powertrain:6407, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:1027, Powertrain:PtAssetMotorRotaryType ]
 
   Powertrain:PtAssetOutputConverterType:
   - [ UAObjectType, Powertrain:15182, Powertrain:PtAssetOutputConverterType ]
+  - DisplayName: "PtAssetOutputConverterType"
+  - Description: "Describes an output converter in an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6585, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetOutputFilterType:
   - [ UAObjectType, Powertrain:15303, Powertrain:PtAssetOutputFilterType ]
+  - DisplayName: "PtAssetOutputFilterType"
+  - Description: "Describes an output filter in an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6586, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetOutputReactorType:
   - [ UAObjectType, Powertrain:15368, Powertrain:PtAssetOutputReactorType ]
+  - DisplayName: "PtAssetOutputReactorType"
+  - Description: "Describes an output reactor in an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6587, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetPrechargeType:
   - [ UAObjectType, Powertrain:1031, Powertrain:PtAssetPrechargeType ]
+  - DisplayName: "PtAssetPrechargeType"
   - HasProperty:
     - [ UAVariable, Powertrain:6588, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetReactorFilterType:
   - [ UAObjectType, Powertrain:1007, Powertrain:PtAssetReactorFilterType ]
+  - DisplayName: "PtAssetReactorFilterType"
   - HasProperty:
     - [ UAVariable, Powertrain:6589, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetSafetyModuleType:
   - [ UAObjectType, Powertrain:15527, Powertrain:PtAssetSafetyModuleType ]
+  - DisplayName: "PtAssetSafetyModuleType"
+  - Description: "Describes the functional safety part of an inverter"
   - HasProperty:
     - [ UAVariable, Powertrain:6619, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetSoftStarterType:
   - [ UAObjectType, Powertrain:1034, Powertrain:PtAssetSoftStarterType ]
+  - DisplayName: "PtAssetSoftStarterType"
   - HasProperty:
     - [ UAVariable, Powertrain:6620, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetTemperatureSensorType:
   - [ UAObjectType, Powertrain:15130, Powertrain:PtAssetTemperatureSensorType ]
+  - DisplayName: "PtAssetTemperatureSensorType"
+  - Description: "Describes a temperature sensor used in a powertrain"
   - HasProperty:
     - [ UAVariable, Powertrain:6621, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]
 
   Powertrain:PtAssetVibrationSensorType:
   - [ UAObjectType, Powertrain:15136, Powertrain:PtAssetVibrationSensorType ]
+  - DisplayName: "PtAssetVibrationSensorType"
+  - Description: "Vibration sensor used in a powertrain"
   - HasProperty:
     - [ UAVariable, Powertrain:6622, Powertrain:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, Powertrain:15912, Powertrain:PtAssetType ]

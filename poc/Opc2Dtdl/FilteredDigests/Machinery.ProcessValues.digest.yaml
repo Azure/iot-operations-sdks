@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -36,20 +45,24 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PADIM:1156, PADIM:ResetModeEnum ]
+  DisplayName: "ResetModeEnum"
   Enums:
     Application: 1
     Communication: 2712
     Factory: 2713
 - UADataType: [ PADIM:1158, PADIM:ExecutionModeEnum ]
+  DisplayName: "ExecutionModeEnum"
   Enums:
     Start: 2
     Abort: 255
 - UADataType: [ PADIM:1276, PADIM:PatDictionaryEnum ]
+  DisplayName: "PatDictionaryEnum"
   Enums:
     CAS: 0
     PAT: 1
     User-defined: 2
 - UADataType: [ PADIM:1275, PADIM:ChemicalSubstanceDataType ]
+  DisplayName: "ChemicalSubstanceDataType"
   Fields:
     PatDictionary: [ PADIM:PatDictionaryEnum, 0 ]
     Label: [ LocalizedText, 0 ]
@@ -59,71 +72,100 @@ DefinedTypes:
 
   Machinery.ProcessValues:ZeroPointAdjustmentEventType:
   - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
+  - DisplayName: "ZeroPointAdjustmentEventType"
+  - Description: "Provides information, that a zero-point adjustment took place"
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, Machinery.ProcessValues:6032, Machinery.ProcessValues:ZeroPointAdjustmentResult, StatusCode, 0, 3 ]
+    - DisplayName: "ZeroPointAdjustmentResult"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Machinery.ProcessValues:ProcessValueType:
   - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
+  - DisplayName: "ProcessValueType"
+  - Description: "Represents a process value"
   - HasComponent:
     - [ UAVariable, Machinery.ProcessValues:6108, Machinery.ProcessValues:AlarmSuppression, UInt16, 0, 3 ]
+    - DisplayName: "AlarmSuppression"
+    - Description: "Indicates if alarms based on the Status shall be suppressed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Machinery.ProcessValues:6033, PADIM:AnalogSignal, Number, -2, 3 ]
+    - DisplayName: "AnalogSignal"
+    - Description: "The process value."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, Machinery.ProcessValues:6119, Machinery.ProcessValues:HighHighLimit, Number, 0, 3 ]
+      - DisplayName: "HighHighLimit"
+      - Description: "Defines the absolute high high limit"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, Machinery.ProcessValues:6117, Machinery.ProcessValues:HighLimit, Number, 0, 3 ]
+      - DisplayName: "HighLimit"
+      - Description: "Defines the absolute high limit"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, Machinery.ProcessValues:6115, Machinery.ProcessValues:LowLimit, Number, 0, 3 ]
+      - DisplayName: "LowLimit"
+      - Description: "Defines the absolute low limit"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, Machinery.ProcessValues:6113, Machinery.ProcessValues:LowLowLimit, Number, 0, 3 ]
+      - DisplayName: "LowLowLimit"
+      - Description: "Defines the absolute low low limit"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, Machinery.ProcessValues:6104, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
+      - DisplayName: "PercentageValue"
+      - Description: "Provides the process value in percentage."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, Machinery.ProcessValues:6111, Machinery.ProcessValues:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - UnitId: 20529
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
+    - DisplayName: "DeviationAlarm"
+    - Description: "Becomes active, when the process values derivates from the ProcessValueSetpoint."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 9764, ExclusiveDeviationAlarmType ]
   - HasComponent:
     - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
+    - DisplayName: "LimitAlarm"
+    - Description: "Becomes active, when absolute limits are reached."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 9341, ExclusiveLimitAlarmType ]
   - HasComponent:
     - [ UAVariable, Machinery.ProcessValues:6036, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
+    - DisplayName: "ProcessValueSetpoint"
+    - Description: "The desired value, may or may not be controlled by the server."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1022, PADIM:AnalogSignalType ]
   - HasComponent:
     - [ UAVariable, Machinery.ProcessValues:6105, Machinery.ProcessValues:Status, UInt16, 0, 3 ]
+    - DisplayName: "Status"
+    - Description: "Indicates if a limit has been reached."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Machinery.ProcessValues:7001, PADIM:ZeroPointAdjustment ]
+    - DisplayName: "Zero point adjustment"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]

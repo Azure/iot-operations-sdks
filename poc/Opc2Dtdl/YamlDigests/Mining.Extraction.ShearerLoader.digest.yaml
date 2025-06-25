@@ -1,16 +1,22 @@
 DataTypes:
 - UADataType: [ Mining.Extraction.ShearerLoader:3002, Mining.Extraction.ShearerLoader:ShearerDirectionEnum ]
+  DisplayName: "ShearerDirectionEnum"
+  Description: "Enum value representing the stopped driving direction of a longwall shearer"
   Enums:
     STOP: 0
     LEFT: 1
     RIGHT: 2
 - UADataType: [ Mining.Extraction.ShearerLoader:3004, Mining.Extraction.ShearerLoader:ShearerDrumMountingPositionEnum ]
+  DisplayName: "ShearerDrumMountingPositionEnum"
+  Description: "Enum value indicating the left mounting position of a longwall drum"
   Enums:
     MountingPositionLeft: 0
     MountingPositionRight: 1
     MountingPositionLeftLumpBreaker: 2
     MountingPositionRightLumpBreaker: 3
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -21,25 +27,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -47,6 +60,8 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
+  DisplayName: "LongwallShieldOffsetDataType"
+  Description: "The LongwallShieldOffsetDataType describes a tuple containing a roof support shield number and its corresponding offset"
   Fields:
     ShieldNumber: [ UInt16, 0 ]
     ShieldOffset: [ Double, 0 ]
@@ -55,14 +70,19 @@ DefinedTypes:
 
   Mining.Extraction.ShearerLoader:ShearerLoaderDrumType:
   - [ UAObjectType, Mining.Extraction.ShearerLoader:1003, Mining.Extraction.ShearerLoader:ShearerLoaderDrumType ]
+  - DisplayName: "ShearerLoaderDrumType"
+  - Description: "The ShearerLoaderDrumType ObjectType describes a shearer loader drum for longwall mining operations"
   - HasAddIn:
     - [ UAObject, Mining.Extraction.ShearerLoader:5003, Mining.General:MiningEquipmentIdentification ]
+    - DisplayName: "MiningEquipmentIdentification"
     - HasTypeDefinition:
       - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6001, DI:DeviceClass, String, 0, 0 ]
+      - DisplayName: "DeviceClass"
+      - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -71,6 +91,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6002, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -79,6 +101,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6003, DI:ManufacturerUri, String, 0, 0 ]
+      - DisplayName: "ManufacturerUri"
+      - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -89,6 +113,8 @@ DefinedTypes:
       - [ UAObjectType, Mining.Extraction.ShearerLoader:1003, Mining.Extraction.ShearerLoader:ShearerLoaderDrumType ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6020, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "A human-readable, localized name of the model of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -97,6 +123,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6021, DI:ProductInstanceUri, String, 0, 0 ]
+      - DisplayName: "ProductInstanceUri"
+      - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -105,6 +133,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6022, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -113,12 +143,16 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5003, Mining.General:MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.Extraction.ShearerLoader:5007, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6062, Mining.Extraction.ShearerLoader:DrumDiameter, Double, 0, 0 ]
+      - DisplayName: "DrumDiameter"
+      - Description: "The DrumDiameter variable describes drum's diameter"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -127,6 +161,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5007, DI:ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6065, Mining.Extraction.ShearerLoader:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
+        - Description: "This is the EngineeringUnit of the drum diameter."
         - UnitId: 5067858
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -136,6 +172,8 @@ DefinedTypes:
           - [ UAVariable, Mining.Extraction.ShearerLoader:6062, Mining.Extraction.ShearerLoader:DrumDiameter, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6066, Mining.Extraction.ShearerLoader:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
+        - Description: "This is the EURange of the drum diameter."
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -144,6 +182,8 @@ DefinedTypes:
           - [ UAVariable, Mining.Extraction.ShearerLoader:6062, Mining.Extraction.ShearerLoader:DrumDiameter, Double, 0, 0 ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6063, Mining.Extraction.ShearerLoader:DrumHeight, Double, 0, 0 ]
+      - DisplayName: "DrumHeight"
+      - Description: "The DrumHeight variable describes drum's current height as measured from the center of the shearer"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -152,6 +192,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5007, DI:ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6067, Mining.Extraction.ShearerLoader:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
+        - Description: "This is the EngineeringUnit of the drum height."
         - UnitId: 5067858
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -161,6 +203,8 @@ DefinedTypes:
           - [ UAVariable, Mining.Extraction.ShearerLoader:6063, Mining.Extraction.ShearerLoader:DrumHeight, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6068, Mining.Extraction.ShearerLoader:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
+        - Description: "This is the EURange of the drum height."
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -169,6 +213,8 @@ DefinedTypes:
           - [ UAVariable, Mining.Extraction.ShearerLoader:6063, Mining.Extraction.ShearerLoader:DrumHeight, Double, 0, 0 ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6064, Mining.Extraction.ShearerLoader:MountingPosition, Mining.Extraction.ShearerLoader:ShearerDrumMountingPositionEnum, 0, 0 ]
+      - DisplayName: "MountingPosition"
+      - Description: "The MountingPosition property describes drum's mounting position on the shearer"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -182,8 +228,12 @@ DefinedTypes:
 
   Mining.Extraction.ShearerLoader:ShearerLoaderType:
   - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, Mining.Extraction.ShearerLoader:ShearerLoaderType ]
+  - DisplayName: "ShearerLoaderType"
+  - Description: "The ShearerType ObjectType describes a shearer loader for longwall mining operations"
   - HasComponent:
     - [ UAObject, Mining.Extraction.ShearerLoader:5006, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -192,10 +242,13 @@ DefinedTypes:
       - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, Mining.Extraction.ShearerLoader:ShearerLoaderType ]
     - HasComponent:
       - [ UAMethod, Mining.Extraction.ShearerLoader:7001, Mining.Extraction.ShearerLoader:SetFloorOffset ]
+      - DisplayName: "SetFloorOffset"
+      - Description: "The SetFloorOffset method accepts shield parameters and drum height correction offsets and returns a boolean to indicate succesfull execution"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6034, Mining.Extraction.ShearerLoader:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             StartShield: [ Int16, 0 ]
             EndShield: [ Int16, 0 ]
@@ -208,6 +261,7 @@ DefinedTypes:
           - [ UAMethod, Mining.Extraction.ShearerLoader:7001, Mining.Extraction.ShearerLoader:SetFloorOffset ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6035, Mining.Extraction.ShearerLoader:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FloorOffsetResult: [ Boolean, 0 ]
         - HasTypeDefinition:
@@ -220,10 +274,13 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5006, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, Mining.Extraction.ShearerLoader:7003, Mining.Extraction.ShearerLoader:SetRoofOffset ]
+      - DisplayName: "SetRoofOffset"
+      - Description: "The SetRoofOffset method accepts shield parameters and drum height correction offsets and returns a boolean to indicate succesfull execution"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6036, Mining.Extraction.ShearerLoader:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             StartShield: [ Int16, 0 ]
             EndShield: [ Int16, 0 ]
@@ -236,6 +293,7 @@ DefinedTypes:
           - [ UAMethod, Mining.Extraction.ShearerLoader:7003, Mining.Extraction.ShearerLoader:SetRoofOffset ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6037, Mining.Extraction.ShearerLoader:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             RoofOffsetResult: [ Boolean, 0 ]
         - HasTypeDefinition:
@@ -248,12 +306,15 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5006, DI:MethodSet ]
   - HasAddIn:
     - [ UAObject, Mining.Extraction.ShearerLoader:5002, Mining.General:MiningEquipmentIdentification ]
+    - DisplayName: "MiningEquipmentIdentification"
     - HasTypeDefinition:
       - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6023, DI:DeviceClass, String, 0, 0 ]
+      - DisplayName: "DeviceClass"
+      - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -262,6 +323,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6024, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -270,6 +333,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6025, DI:ManufacturerUri, String, 0, 0 ]
+      - DisplayName: "ManufacturerUri"
+      - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -280,6 +345,8 @@ DefinedTypes:
       - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, Mining.Extraction.ShearerLoader:ShearerLoaderType ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6029, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "A human-readable, localized name of the model of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -288,6 +355,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6030, DI:ProductInstanceUri, String, 0, 0 ]
+      - DisplayName: "ProductInstanceUri"
+      - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -296,6 +365,8 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6031, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -304,12 +375,16 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5002, Mining.General:MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.Extraction.ShearerLoader:5008, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6041, Mining.Extraction.ShearerLoader:DrivingDirection, Mining.Extraction.ShearerLoader:ShearerDirectionEnum, 0, 0 ]
+      - DisplayName: "DrivingDirection"
+      - Description: "The DrivingDirection variable describes the current driving direction of the shearer loader"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -318,12 +393,16 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5008, DI:ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6026, Mining.Extraction.ShearerLoader:FloorOffset, Mining.General:LongwallShieldOffsetDataType, 1, 0 ]
+      - DisplayName: "FloorOffset"
+      - Description: "The FloorOffset variable describes a list of the current floor offset per shield"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, Mining.General:2003, Mining.General:LongwallShieldOffsetArrayItemType ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6027, Mining.General:EngineeringUnits, EUInformation, 0, 3 ]
+        - DisplayName: "EngineeringUnits"
+        - Description: "This is the EngineeringUnit of the floor offsets."
         - UnitId: 5067858
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -333,6 +412,8 @@ DefinedTypes:
           - [ UAVariable, Mining.Extraction.ShearerLoader:6026, Mining.Extraction.ShearerLoader:FloorOffset, Mining.General:LongwallShieldOffsetDataType, 1, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6028, Mining.General:EURange, Range, 0, 3 ]
+        - DisplayName: "EURange"
+        - Description: "This is the EURange of the floor offsets."
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -343,12 +424,16 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5008, DI:ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6043, Mining.Extraction.ShearerLoader:MaxLength, Double, 0, 0 ]
+      - DisplayName: "MaxLength"
+      - Description: "The MaxLength variable describes maximum machine length including extracted drums"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 17570, AnalogUnitRangeType ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6046, Mining.Extraction.ShearerLoader:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
+        - Description: "This is the EngineeringUnit of the shearer maximum length."
         - UnitId: 5067858
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -358,6 +443,8 @@ DefinedTypes:
           - [ UAVariable, Mining.Extraction.ShearerLoader:6043, Mining.Extraction.ShearerLoader:MaxLength, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6047, Mining.Extraction.ShearerLoader:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
+        - Description: "This is the EURange of the shearer maximum length."
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -370,12 +457,16 @@ DefinedTypes:
       - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, Mining.Extraction.ShearerLoader:ShearerLoaderType ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6044, Mining.Extraction.ShearerLoader:Position, Double, 0, 0 ]
+      - DisplayName: "Position"
+      - Description: "The Position variable describes the current position of the shearer in relation to the center of the shearer"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 17570, AnalogUnitRangeType ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6048, Mining.Extraction.ShearerLoader:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
+        - Description: "This is the EngineeringUnit of the shearer position."
         - UnitId: 5067858
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -385,6 +476,8 @@ DefinedTypes:
           - [ UAVariable, Mining.Extraction.ShearerLoader:6044, Mining.Extraction.ShearerLoader:Position, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6049, Mining.Extraction.ShearerLoader:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
+        - Description: "This is the EURange of the shearer position."
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -395,12 +488,16 @@ DefinedTypes:
         - [ UAObject, Mining.Extraction.ShearerLoader:5008, DI:ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6016, Mining.Extraction.ShearerLoader:RoofOffset, Mining.General:LongwallShieldOffsetDataType, 1, 0 ]
+      - DisplayName: "RoofOffset"
+      - Description: "The RoofOffset variable describes a list of the current roof offset per shield"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, Mining.General:2003, Mining.General:LongwallShieldOffsetArrayItemType ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6017, Mining.Extraction.ShearerLoader:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
+        - Description: "This is the EngineeringUnit of the roof offsets."
         - UnitId: 5067858
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -410,6 +507,8 @@ DefinedTypes:
           - [ UAVariable, Mining.Extraction.ShearerLoader:6016, Mining.Extraction.ShearerLoader:RoofOffset, Mining.General:LongwallShieldOffsetDataType, 1, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6019, Mining.Extraction.ShearerLoader:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
+        - Description: "This is the EURange of the roof offsets."
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:

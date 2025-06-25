@@ -1,24 +1,30 @@
 DataTypes:
 - UADataType: [ PADIM:1156, PADIM:ResetModeEnum ]
+  DisplayName: "ResetModeEnum"
   Enums:
     Application: 1
     Communication: 2712
     Factory: 2713
 - UADataType: [ PADIM:1158, PADIM:ExecutionModeEnum ]
+  DisplayName: "ExecutionModeEnum"
   Enums:
     Start: 2
     Abort: 255
 - UADataType: [ PADIM:1276, PADIM:PatDictionaryEnum ]
+  DisplayName: "PatDictionaryEnum"
   Enums:
     CAS: 0
     PAT: 1
     User-defined: 2
 - UADataType: [ PADIM:1275, PADIM:ChemicalSubstanceDataType ]
+  DisplayName: "ChemicalSubstanceDataType"
   Fields:
     PatDictionary: [ PADIM:PatDictionaryEnum, 0 ]
     Label: [ LocalizedText, 0 ]
     Id: [ LocalizedText, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -29,25 +35,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -59,34 +72,40 @@ DefinedTypes:
 
   PADIM:AnalogSignalVariableType:
   - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
+  - DisplayName: "Value"
   - HasSubtype_reverse:
     - [ UAVariableType, 17570, AnalogUnitRangeType ]
   - HasComponent:
     - [ UAVariable, PADIM:1113, PADIM:SimulationState, Boolean, 0, 3 ]
+    - DisplayName: "Simulation state"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1115, PADIM:ActualValue, Number, -2, 3 ]
+    - DisplayName: "Actual value"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
   - HasComponent:
     - [ UAVariable, PADIM:1117, PADIM:SimulationValue, Number, -2, 3 ]
+    - DisplayName: "Simulation value"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
   - HasProperty:
     - [ UAVariable, PADIM:1118, PADIM:Damping, Float, 0, 3 ]
+    - DisplayName: "Damping"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PADIM:1206, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+    - DisplayName: "Unit"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -94,124 +113,145 @@ DefinedTypes:
 
   PADIM:TemperatureMeasurementVariableType:
   - [ UAVariableType, PADIM:1120, PADIM:TemperatureMeasurementVariableType, Float, -2, 0 ]
+  - DisplayName: "Temperature"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
   - HasComponent:
     - [ UAVariable, PADIM:1128, PADIM:SensorType, UInt32, -2, 3 ]
+    - DisplayName: "Sensor type"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1161, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1162, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1163, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1164, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1129, PADIM:SensorConnection, UInt32, -2, 3 ]
+    - DisplayName: "Number of wires"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1165, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1166, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1167, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1168, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1130, PADIM:SensorReference, UInt32, -2, 3 ]
+    - DisplayName: "Ref. junction"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1169, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1170, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1171, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1172, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1210, PADIM:SensorClass, UInt32, -2, 3 ]
+    - DisplayName: "Set connected probe type"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1211, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1212, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1213, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1214, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -219,45 +259,53 @@ DefinedTypes:
 
   PADIM:PressureMeasurementVariableType:
   - [ UAVariableType, PADIM:1121, PADIM:PressureMeasurementVariableType, Float, -2, 0 ]
+  - DisplayName: "Pressure"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
 
   PADIM:FlowMeasurementVariableType:
   - [ UAVariableType, PADIM:1122, PADIM:FlowMeasurementVariableType, Float, -2, 0 ]
+  - DisplayName: "FlowMeasurementVariableType"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
   - HasProperty:
     - [ UAVariable, PADIM:1131, PADIM:LowFlowCutOff, Float, -2, 3 ]
+    - DisplayName: "Low flow cut off"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1132, PADIM:FlowDirection, UInt32, -2, 3 ]
+    - DisplayName: "Flow direction"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1173, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1174, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1175, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1176, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -265,26 +313,31 @@ DefinedTypes:
 
   PADIM:LevelMeasurementVariableType:
   - [ UAVariableType, PADIM:1123, PADIM:LevelMeasurementVariableType, Float, -2, 0 ]
+  - DisplayName: "Level"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
 
   PADIM:ActualDensityVariableType:
   - [ UAVariableType, PADIM:1124, PADIM:ActualDensityVariableType, Float, -2, 0 ]
+  - DisplayName: "Density"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
 
   PADIM:ControlVariableType:
   - [ UAVariableType, PADIM:1125, PADIM:ControlVariableType, Float, -2, 0 ]
+  - DisplayName: "Readback"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
   - HasComponent:
     - [ UAVariable, PADIM:1136, PADIM:Setpoint, Float, -2, 3 ]
+    - DisplayName: "Setpoint"
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1205, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 20529
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -292,60 +345,70 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1137, PADIM:OperatingDirection, UInt32, 0, 3 ]
+    - DisplayName: "Operat. direction"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1177, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1178, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1179, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1180, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1138, PADIM:ActuatorType, UInt32, 0, 3 ]
+    - DisplayName: "Actuator type"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1181, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1182, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1183, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1184, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -353,16 +416,19 @@ DefinedTypes:
 
   PADIM:TotalizerVariableType:
   - [ UAVariableType, PADIM:1126, PADIM:TotalizerVariableType, Number, -2, 0 ]
+  - DisplayName: "TotalizerVariableType"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
   - HasProperty:
     - [ UAVariable, PADIM:1139, PADIM:PulseValue, Number, 0, 3 ]
+    - DisplayName: "Pulse value"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1140, PADIM:PulseWidth, Float, 0, 3 ]
+    - DisplayName: "Pulse width"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -370,42 +436,50 @@ DefinedTypes:
 
   PADIM:AnalyticalMeasurementVariableType:
   - [ UAVariableType, PADIM:1127, PADIM:AnalyticalMeasurementVariableType, Float, -2, 0 ]
+  - DisplayName: "AnalyticalMeasurementVariableType"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
 
   PADIM:MassFlowRateVariableType:
   - [ UAVariableType, PADIM:1133, PADIM:MassFlowRateVariableType, Float, -2, 0 ]
+  - DisplayName: "Mass flow rate"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1122, PADIM:FlowMeasurementVariableType, Float, -2, 0 ]
 
   PADIM:ActualVolumeFlowRateVariableType:
   - [ UAVariableType, PADIM:1134, PADIM:ActualVolumeFlowRateVariableType, Float, -2, 0 ]
+  - DisplayName: "Volume flow rate"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1122, PADIM:FlowMeasurementVariableType, Float, -2, 0 ]
 
   PADIM:NormalizedVolumeFlowRateVariableType:
   - [ UAVariableType, PADIM:1135, PADIM:NormalizedVolumeFlowRateVariableType, Float, -2, 0 ]
+  - DisplayName: "Norm. volume flow"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1122, PADIM:FlowMeasurementVariableType, Float, -2, 0 ]
 
   PADIM:TwoStateDiscreteSignalVariableType:
   - [ UAVariableType, PADIM:1141, PADIM:TwoStateDiscreteSignalVariableType, Boolean, -2, 0 ]
+  - DisplayName: "Two-state I/O value"
   - HasSubtype_reverse:
     - [ UAVariableType, 2373, TwoStateDiscreteType ]
   - HasComponent:
     - [ UAVariable, PADIM:1144, PADIM:ActualValue, Boolean, -2, 3 ]
+    - DisplayName: "Two-state actual value"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1145, PADIM:SimulationValue, Boolean, -2, 3 ]
+    - DisplayName: "Two-state value of simulation"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1147, PADIM:SimulationState, Boolean, 0, 3 ]
+    - DisplayName: "Simulation state"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -413,22 +487,26 @@ DefinedTypes:
 
   PADIM:MultiStateDiscreteSignalVariableType:
   - [ UAVariableType, PADIM:1142, PADIM:MultiStateDiscreteSignalVariableType, UInt32, 0, 0 ]
+  - DisplayName: "Multistate I/O value"
   - HasSubtype_reverse:
     - [ UAVariableType, 19077, MultiStateDictionaryEntryDiscreteBaseType ]
   - HasComponent:
     - [ UAVariable, PADIM:1148, PADIM:ActualValue, UInt32, 0, 3 ]
+    - DisplayName: "Multistate actual value"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1149, PADIM:SimulationValue, UInt32, 0, 3 ]
+    - DisplayName: "Multistate value of simulation"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1151, PADIM:SimulationState, Boolean, 0, 3 ]
+    - DisplayName: "Simulation state"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -436,22 +514,26 @@ DefinedTypes:
 
   PADIM:DiscreteSignalVariableType:
   - [ UAVariableType, PADIM:1143, PADIM:DiscreteSignalVariableType ]
+  - DisplayName: "DiscreteSignalVariableType"
   - HasSubtype_reverse:
     - [ UAVariableType, 2372, DiscreteItemType ]
   - HasComponent:
     - [ UAVariable, PADIM:1152, PADIM:ActualValue ]
+    - DisplayName: "Actual value"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1153, PADIM:SimulationValue ]
+    - DisplayName: "Simulation value"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1155, PADIM:SimulationState, Boolean, 0, 3 ]
+    - DisplayName: "Simulation state"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -459,70 +541,82 @@ DefinedTypes:
 
   PADIM:TwoStateDiscreteControlVariableType:
   - [ UAVariableType, PADIM:1215, PADIM:TwoStateDiscreteControlVariableType, Boolean, -2, 0 ]
+  - DisplayName: "Two-state control value"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1141, PADIM:TwoStateDiscreteSignalVariableType, Boolean, -2, 0 ]
   - HasComponent:
     - [ UAVariable, PADIM:1216, PADIM:Setpoint, Boolean, -2, 3 ]
+    - DisplayName: "Two-state setpoint value"
     - HasTypeDefinition:
       - [ UAVariableType, 2373, TwoStateDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1260, PADIM:FalseState, LocalizedText, 0, 0 ]
+      - DisplayName: "FalseState"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1261, PADIM:TrueState, LocalizedText, 0, 0 ]
+      - DisplayName: "TrueState"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1217, PADIM:OperatingDirection, UInt32, 0, 3 ]
+    - DisplayName: "Operat. direction"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1254, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1255, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1256, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1257, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1218, PADIM:FaultState, Boolean, 0, 3 ]
+    - DisplayName: "Two-state fault value"
     - HasTypeDefinition:
       - [ UAVariableType, 2373, TwoStateDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1258, PADIM:FalseState, LocalizedText, 0, 0 ]
+      - DisplayName: "FalseState"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1259, PADIM:TrueState, LocalizedText, 0, 0 ]
+      - DisplayName: "TrueState"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -530,94 +624,110 @@ DefinedTypes:
 
   PADIM:MultiStateDiscreteControlVariableType:
   - [ UAVariableType, PADIM:1219, PADIM:MultiStateDiscreteControlVariableType, UInt32, 0, 0 ]
+  - DisplayName: "Discrete multi-state control value"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1142, PADIM:MultiStateDiscreteSignalVariableType, UInt32, 0, 0 ]
   - HasComponent:
     - [ UAVariable, PADIM:1220, PADIM:Setpoint, UInt32, 0, 3 ]
+    - DisplayName: "Discrete multi-state setpoint value"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1270, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1271, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1272, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1273, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1221, PADIM:OperatingDirection, UInt32, 0, 3 ]
+    - DisplayName: "Operat. direction"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1266, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1267, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1268, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1269, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1222, PADIM:FaultState, UInt32, 0, 3 ]
+    - DisplayName: "Multi-state fault value"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1262, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1263, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1264, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1265, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -625,16 +735,19 @@ DefinedTypes:
 
   PADIM:PatMeasurementVariableType:
   - [ UAVariableType, PADIM:1274, PADIM:PatMeasurementVariableType, Float, 0, 0 ]
+  - DisplayName: "PatMeasurementVariableType"
   - HasSubtype_reverse:
     - [ UAVariableType, PADIM:1127, PADIM:AnalyticalMeasurementVariableType, Float, -2, 0 ]
   - HasProperty:
     - [ UAVariable, PADIM:1562, PADIM:PatMatrixDescription, PADIM:ChemicalSubstanceDataType, 1, 3 ]
+    - DisplayName: "Matrix of components/measurands"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, PADIM:1563, PADIM:PatMeasurandDescription, PADIM:ChemicalSubstanceDataType, 0, 3 ]
+    - DisplayName: "Chemical component/measurand"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -642,6 +755,7 @@ DefinedTypes:
 
   PADIM:PADIMType:
   - [ UAObjectType, PADIM:1009, PADIM:PADIMType ]
+  - DisplayName: "PADIMType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15063, DI:ComponentType ]
   - HasInterface:
@@ -652,100 +766,117 @@ DefinedTypes:
     - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
   - HasProperty:
     - [ UAVariable, PADIM:1010, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1011, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "URI manufacturer"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1012, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1013, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "Serial number"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1014, DI:SoftwareRevision, String, 0, 0 ]
+    - DisplayName: "Software revision"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1015, DI:HardwareRevision, String, 0, 0 ]
+    - DisplayName: "Hardware revision"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1016, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "Product code"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1029, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
+    - DisplayName: "Device diagnostic status"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1032, PADIM:DateOfLastChange, DateTime, 0, 0 ]
+    - DisplayName: "Date last change"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1033, PADIM:DisplayLanguage, LocaleId, 0, 3 ]
+    - DisplayName: "Display language"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PADIM:1034, PADIM:SignalSet ]
+    - DisplayName: "SignalSet"
     - HasTypeDefinition:
       - [ UAObjectType, PADIM:1021, PADIM:SignalSetType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PADIM:1020, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "URI product inst."
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PADIM:1018, DI:DeviceHealthAlarms ]
+    - DisplayName: "DeviceHealthAlarms"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PADIM:1025, PADIM:SubDevices ]
+    - DisplayName: "SubDevices"
     - HasTypeDefinition:
       - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAObject, PADIM:1026, DI:SupportedTypes ]
+      - DisplayName: "SupportedTypes"
       - HasTypeDefinition:
         - [ UAObjectType, 61, FolderType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PADIM:1028, PADIM:FactoryReset ]
+    - DisplayName: "Reset"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1030, PADIM:InputArguments, Argument, 1, 3 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ResetMode: [ PADIM:ResetModeEnum, 0 ]
       - HasTypeDefinition:
@@ -754,28 +885,33 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1019, DI:AssetId, String, 0, 3 ]
+    - DisplayName: "Asset ID"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1017, DI:RevisionCounter, Int32, 0, 0 ]
+    - DisplayName: "Revision counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1208, DI:DeviceRevision, SemanticVersionString, 0, 0 ]
+    - DisplayName: "Device revision"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PADIM:1209, PADIM:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAObject, PADIM:1284, PADIM:DeviceConditionSet ]
+    - DisplayName: "DeviceConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -784,18 +920,21 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1044, PADIM:IGeneralDeviceConditionSetType ]
     - HasComponent:
       - [ UAObject, PADIM:1285, PADIM:DeviceComponentConditions ]
+      - DisplayName: "DeviceComponentConditions"
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAObject, PADIM:1287, PADIM:<DeviceComponentIdentifier> ]
+        - DisplayName: "<DeviceComponentIdentifier>"
         - HasTypeDefinition:
           - [ UAObjectType, PADIM:1051, PADIM:GeneralDeviceConditionSetType ]
         - HasModellingRule:
           - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent:
       - [ UAObject, PADIM:1286, PADIM:GeneralDeviceConditions ]
+      - DisplayName: "GeneralDeviceConditions"
       - HasTypeDefinition:
         - [ UAObjectType, PADIM:1051, PADIM:GeneralDeviceConditionSetType ]
       - HasModellingRule:
@@ -803,16 +942,19 @@ DefinedTypes:
 
   PADIM:SignalSetType:
   - [ UAObjectType, PADIM:1021, PADIM:SignalSetType ]
+  - DisplayName: "SignalSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PADIM:1024, PADIM:<SignalIdentifier> ]
+    - DisplayName: "<SignalIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasProperty:
       - [ UAVariable, PADIM:1160, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -820,26 +962,31 @@ DefinedTypes:
 
   PADIM:IAdministrationType:
   - [ UAObjectType, PADIM:1050, PADIM:IAdministrationType ]
+  - DisplayName: "IAdministrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1068, PADIM:DisplayLanguage, LocaleId, 0, 3 ]
+    - DisplayName: "Display language"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1070, PADIM:DateOfLastChange, DateTime, 0, 0 ]
+    - DisplayName: "Date last change"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PADIM:1072, PADIM:FactoryReset ]
+    - DisplayName: "Reset"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1080, PADIM:InputArguments, Argument, 1, 3 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ResetMode: [ PADIM:ResetModeEnum, 0 ]
       - HasTypeDefinition:
@@ -849,10 +996,12 @@ DefinedTypes:
 
   PADIM:ISignalSetType:
   - [ UAObjectType, PADIM:1052, PADIM:ISignalSetType ]
+  - DisplayName: "ISignalSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAObject, PADIM:1074, PADIM:SignalSet ]
+    - DisplayName: "SignalSet"
     - HasTypeDefinition:
       - [ UAObjectType, PADIM:1021, PADIM:SignalSetType ]
     - HasModellingRule:
@@ -860,10 +1009,12 @@ DefinedTypes:
 
   PADIM:SignalType:
   - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
+  - DisplayName: "SignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PADIM:1035, PADIM:SignalTag, String, 0, 3 ]
+    - DisplayName: "Tag"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -871,32 +1022,38 @@ DefinedTypes:
 
   PADIM:AnalogSignalType:
   - [ UAObjectType, PADIM:1022, PADIM:AnalogSignalType ]
+  - DisplayName: "AnalogSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
   - HasComponent:
     - [ UAMethod, PADIM:1109, PADIM:ZeroPointAdjustment ]
+    - DisplayName: "Set zero point"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1027, PADIM:AnalogSignal, Number, -2, 3 ]
+    - DisplayName: "Value"
     - HasTypeDefinition:
       - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType, Number, -2, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1190, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1191, PADIM:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PADIM:1288, PADIM:<SignalCalibrationIdentifier> ]
+    - DisplayName: "<SignalCalibrationIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -905,48 +1062,56 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1045, PADIM:ICalibrationType ]
     - HasProperty:
       - [ UAVariable, PADIM:1309, PADIM:CalibrationTimestamp, DateTime, 0, 3 ]
+      - DisplayName: "Timestamp of calibration"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1310, PADIM:TypeOfCalibration, UInt32, 0, 3 ]
+      - DisplayName: "Type of calibration"
       - HasTypeDefinition:
         - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1311, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+        - DisplayName: "EnumDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1312, PADIM:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1313, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+        - DisplayName: "ValueAsDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1314, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAObject, PADIM:1289, PADIM:CalibrationPointSet ]
+      - DisplayName: "CalibrationPointSet"
       - HasTypeDefinition:
         - [ UAObjectType, PADIM:1043, PADIM:CalibrationPointSetType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PADIM:1290, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -954,14 +1119,17 @@ DefinedTypes:
 
   PADIM:ControlSignalType:
   - [ UAObjectType, PADIM:1023, PADIM:ControlSignalType ]
+  - DisplayName: "ControlSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
   - HasComponent:
     - [ UAMethod, PADIM:1116, PADIM:AutoAdjustPositioner ]
+    - DisplayName: "Autoadjust"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1119, PADIM:InputArguments, Argument, 1, 3 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ExecutionMode: [ PADIM:ExecutionModeEnum, 0 ]
       - HasTypeDefinition:
@@ -970,42 +1138,49 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1031, PADIM:ControlSignal, Float, -2, 3 ]
+    - DisplayName: "Readback"
     - HasTypeDefinition:
       - [ UAVariableType, PADIM:1125, PADIM:ControlVariableType, Float, -2, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1192, PADIM:ActuatorType, UInt32, 0, 3 ]
+      - DisplayName: "Actuator type"
       - HasTypeDefinition:
         - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1197, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+        - DisplayName: "EnumDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1198, PADIM:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1199, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+        - DisplayName: "ValueAsDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1200, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1193, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 20529
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1013,48 +1188,56 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1194, PADIM:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1195, PADIM:OperatingDirection, UInt32, 0, 3 ]
+      - DisplayName: "Operat. direction"
       - HasTypeDefinition:
         - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1201, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+        - DisplayName: "EnumDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1202, PADIM:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1203, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+        - DisplayName: "ValueAsDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1204, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1196, PADIM:Setpoint, Float, 0, 3 ]
+      - DisplayName: "Setpoint"
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1207, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 20529
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -1063,10 +1246,12 @@ DefinedTypes:
 
   PADIM:DiscreteSignalType:
   - [ UAObjectType, PADIM:1036, PADIM:DiscreteSignalType ]
+  - DisplayName: "DiscreteSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
   - HasComponent:
     - [ UAVariable, PADIM:1039, PADIM:DiscreteSignal ]
+    - DisplayName: "Value"
     - HasTypeDefinition:
       - [ UAVariableType, PADIM:1143, PADIM:DiscreteSignalVariableType ]
     - HasModellingRule:
@@ -1074,22 +1259,26 @@ DefinedTypes:
 
   PADIM:TwoStateDiscreteSignalType:
   - [ UAObjectType, PADIM:1037, PADIM:TwoStateDiscreteSignalType ]
+  - DisplayName: "TwoStateDiscreteSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
   - HasComponent:
     - [ UAVariable, PADIM:1040, PADIM:TwoStateDiscreteSignal, Boolean, -2, 3 ]
+    - DisplayName: "Two-state I/O value"
     - HasTypeDefinition:
       - [ UAVariableType, PADIM:1141, PADIM:TwoStateDiscreteSignalVariableType, Boolean, -2, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1185, PADIM:FalseState, LocalizedText, 0, 0 ]
+      - DisplayName: "FalseState"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1186, PADIM:TrueState, LocalizedText, 0, 0 ]
+      - DisplayName: "TrueState"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1097,28 +1286,33 @@ DefinedTypes:
 
   PADIM:MultiStateDiscreteSignalType:
   - [ UAObjectType, PADIM:1038, PADIM:MultiStateDiscreteSignalType ]
+  - DisplayName: "MultiStateDiscreteSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
   - HasComponent:
     - [ UAVariable, PADIM:1041, PADIM:MultiStateDiscreteSignal, UInt32, 0, 3 ]
+    - DisplayName: "Multistate I/O value"
     - HasTypeDefinition:
       - [ UAVariableType, PADIM:1142, PADIM:MultiStateDiscreteSignalVariableType, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1187, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1188, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1189, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1126,70 +1320,82 @@ DefinedTypes:
 
   PADIM:TwoStateDiscreteControlSignalType:
   - [ UAObjectType, PADIM:1223, PADIM:TwoStateDiscreteControlSignalType ]
+  - DisplayName: "TwoStateDiscreteControlSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
   - HasComponent:
     - [ UAVariable, PADIM:1224, PADIM:ControlSignal, Boolean, -2, 3 ]
+    - DisplayName: "Discrete two-state control value"
     - HasTypeDefinition:
       - [ UAVariableType, PADIM:1215, PADIM:TwoStateDiscreteControlVariableType, Boolean, -2, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1228, PADIM:OperatingDirection, UInt32, 0, 3 ]
+      - DisplayName: "Operating direction"
       - HasTypeDefinition:
         - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1234, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+        - DisplayName: "EnumDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1235, PADIM:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1236, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+        - DisplayName: "ValueAsDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1237, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1241, PADIM:FalseState, LocalizedText, 0, 0 ]
+      - DisplayName: "FalseState"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1242, PADIM:TrueState, LocalizedText, 0, 0 ]
+      - DisplayName: "TrueState"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1243, PADIM:Setpoint, Boolean, -2, 3 ]
+      - DisplayName: "Setpoint"
       - HasTypeDefinition:
         - [ UAVariableType, 2373, TwoStateDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1244, PADIM:FalseState, LocalizedText, 0, 0 ]
+        - DisplayName: "FalseState"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1245, PADIM:TrueState, LocalizedText, 0, 0 ]
+        - DisplayName: "TrueState"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1197,58 +1403,68 @@ DefinedTypes:
 
   PADIM:MultiStateDiscreteControlSignalType:
   - [ UAObjectType, PADIM:1239, PADIM:MultiStateDiscreteControlSignalType ]
+  - DisplayName: "MultiStateDiscreteControlSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1008, PADIM:SignalType ]
   - HasComponent:
     - [ UAVariable, PADIM:1240, PADIM:ControlSignal, UInt32, 0, 3 ]
+    - DisplayName: "Discrete multi-state control value"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, PADIM:1219, PADIM:MultiStateDiscreteControlVariableType, UInt32, 0, 0 ]
     - HasComponent:
       - [ UAVariable, PADIM:1246, PADIM:Setpoint, UInt32, 0, 3 ]
+      - DisplayName: "Setpoint"
       - HasTypeDefinition:
         - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1250, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+        - DisplayName: "EnumDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1251, PADIM:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1252, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+        - DisplayName: "ValueAsDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1253, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1247, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1248, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1249, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1256,16 +1472,19 @@ DefinedTypes:
 
   PADIM:CalibrationPointType:
   - [ UAObjectType, PADIM:1042, PADIM:CalibrationPointType ]
+  - DisplayName: "CalibrationPointType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PADIM:1513, PADIM:CalibrationActualValue, Float, -2, 0 ]
+    - DisplayName: "CalibrationActualValue"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1512, PADIM:CalibrationSetpoint, Float, -2, 0 ]
+    - DisplayName: "CalibrationSetpoint"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -1273,10 +1492,12 @@ DefinedTypes:
 
   PADIM:CalibrationPointSetType:
   - [ UAObjectType, PADIM:1043, PADIM:CalibrationPointSetType ]
+  - DisplayName: "CalibrationPointSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PADIM:1282, PADIM:<CalibrationPointIdentifier> ]
+    - DisplayName: "<CalibrationPointIdentifier>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -1284,18 +1505,21 @@ DefinedTypes:
 
   PADIM:GeneralDeviceConditionSetType:
   - [ UAObjectType, PADIM:1051, PADIM:GeneralDeviceConditionSetType ]
+  - DisplayName: "GeneralDeviceConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasInterface:
     - [ UAObjectType, DI:480, DI:IOperationCounterType ]
   - HasComponent:
     - [ UAVariable, PADIM:1528, PADIM:InternalTemperature, Float, -2, 0 ]
+    - DisplayName: "Internal device temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1564, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1303,24 +1527,31 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1529, PADIM:ResidualLife, Float, 0, 0 ]
+    - DisplayName: "Residual operational life"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PADIM:1316, DI:OperationCycleCounter, UInteger, 0, 0 ]
+    - DisplayName: "Operation cycle counter"
+    - Description: "Operation cycle counter is counting the times the Device switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted."
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PADIM:1317, DI:OperationDuration, Duration, 0, 0 ]
+    - DisplayName: "Operation duration"
+    - Description: "Operation duration is the duration the Device has been powered and performing an activity. This counter is intended for Devices where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for Devices always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application."
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PADIM:1318, DI:PowerOnDuration, Duration, 0, 0 ]
+    - DisplayName: "Power on duration"
+    - Description: "Power on duration is the duration the Device has been powered. The main purpose is to determine the time in which degradation of the Device occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the Device has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application."
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1328,22 +1559,26 @@ DefinedTypes:
 
   PADIM:IGeneralDeviceConditionSetType:
   - [ UAObjectType, PADIM:1044, PADIM:IGeneralDeviceConditionSetType ]
+  - DisplayName: "IGeneralDeviceConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAObject, PADIM:1279, PADIM:GeneralDeviceConditions ]
+    - DisplayName: "GeneralDeviceConditions"
     - HasTypeDefinition:
       - [ UAObjectType, PADIM:1051, PADIM:GeneralDeviceConditionSetType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PADIM:1280, PADIM:DeviceComponentConditions ]
+    - DisplayName: "DeviceComponentConditions"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAObject, PADIM:1281, PADIM:<DeviceComponentIdentifier> ]
+      - DisplayName: "<DeviceComponentIdentifier>"
       - HasTypeDefinition:
         - [ UAObjectType, PADIM:1051, PADIM:GeneralDeviceConditionSetType ]
       - HasModellingRule:
@@ -1351,46 +1586,54 @@ DefinedTypes:
 
   PADIM:ICalibrationType:
   - [ UAObjectType, PADIM:1045, PADIM:ICalibrationType ]
+  - DisplayName: "ICalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAObject, PADIM:1283, PADIM:CalibrationPointSet ]
+    - DisplayName: "CalibrationPointSet"
     - HasTypeDefinition:
       - [ UAObjectType, PADIM:1043, PADIM:CalibrationPointSetType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PADIM:1307, PADIM:CalibrationTimestamp, DateTime, 0, 3 ]
+    - DisplayName: "Timestamp of calibration"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1308, PADIM:TypeOfCalibration, UInt32, 0, 3 ]
+    - DisplayName: "Type of calibration"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1575, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1576, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1577, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1578, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1398,16 +1641,19 @@ DefinedTypes:
 
   PADIM:IPhCalibrationType:
   - [ UAObjectType, PADIM:1046, PADIM:IPhCalibrationType ]
+  - DisplayName: "IPhCalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1427, PADIM:SensorAsymmetryPotential, Float, 0, 0 ]
+    - DisplayName: "pH sensing element asymmetry potential"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1535, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 12890
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1415,12 +1661,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1424, PADIM:SensorSlope, Float, 0, 0 ]
+    - DisplayName: "pH sensing element slope"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1536, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 12890
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1428,6 +1676,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1425, PADIM:SensorT90, Float, 0, 0 ]
+    - DisplayName: "Settling time t90 at calibration"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1435,16 +1684,19 @@ DefinedTypes:
 
   PADIM:IConductivityCalibrationType:
   - [ UAObjectType, PADIM:1047, PADIM:IConductivityCalibrationType ]
+  - DisplayName: "IConductivityCalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1505, PADIM:ConductivityCellConstant, Float, 0, 0 ]
+    - DisplayName: "Cell constant"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1537, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4536624
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1453,28 +1705,33 @@ DefinedTypes:
 
   PADIM:IAmperometricCalibrationType:
   - [ UAObjectType, PADIM:1048, PADIM:IAmperometricCalibrationType ]
+  - DisplayName: "IAmperometricCalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1319, PADIM:AmperometricSensorSlope, Float, 0, 0 ]
+    - DisplayName: "Amperometric sensing element slope"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1538, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1511, PADIM:AmperometricSensorZeroPoint, Float, 0, 0 ]
+    - DisplayName: "Amperometric sensing element zero point"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1539, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4405040
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1482,12 +1739,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1507, PADIM:AbsoluteAirPressure, Float, 0, 0 ]
+    - DisplayName: "Absolute air pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1540, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4274487
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1495,6 +1754,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1510, PADIM:SensorT90, Float, 0, 0 ]
+    - DisplayName: "Settling time t90 at calibration"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1502,16 +1762,19 @@ DefinedTypes:
 
   PADIM:IOpticalFluorescenseQuenchingCalibrationType:
   - [ UAObjectType, PADIM:1049, PADIM:IOpticalFluorescenseQuenchingCalibrationType ]
+  - DisplayName: "IOpticalFluorescenseQuenchingCalibrationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1516, PADIM:AbsoluteAirPressure, Float, 0, 0 ]
+    - DisplayName: "Absolute air pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1541, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4274487
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1519,24 +1782,28 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1517, PADIM:OpticalFluorescenseQuenchingSensorSlope, Float, 0, 0 ]
+    - DisplayName: "Optical fluorescence quenching sensing element slope"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1542, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1518, PADIM:OpticalFluorescenseQuenchingSensorZeroPoint, Float, 0, 0 ]
+    - DisplayName: "Optical fluorescence quenching sensing element zero point"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1543, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4340024
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1544,6 +1811,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1519, PADIM:SensorT90, Float, 0, 0 ]
+    - DisplayName: "Settling time t90 at calibration"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1551,16 +1819,19 @@ DefinedTypes:
 
   PADIM:ITocDeviceConditionSetType:
   - [ UAObjectType, PADIM:1053, PADIM:ITocDeviceConditionSetType ]
+  - DisplayName: "ITocDeviceConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1396, PADIM:ActualInjectedVolume, Float, 0, 0 ]
+    - DisplayName: "Injected volume"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1554, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5065812
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1568,12 +1839,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1385, PADIM:CarrierGasGaugePressure, Float, 0, 0 ]
+    - DisplayName: "Carrier gas pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1565, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5063250
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1581,12 +1854,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1389, PADIM:CarrierGasVolumeFlow, Float, 0, 0 ]
+    - DisplayName: "Carrier gas volume flow"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1566, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4535090
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1594,12 +1869,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1398, PADIM:CoolerTemperature, Float, 0, 0 ]
+    - DisplayName: "Cooler temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1567, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1607,12 +1884,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1391, PADIM:ReactorTemperature, Float, 0, 0 ]
+    - DisplayName: "TOC reactor temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1568, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1620,12 +1899,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1395, PADIM:ReferenceInjectionVolume, Float, 0, 0 ]
+    - DisplayName: "Injection volume"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1569, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5065812
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1633,12 +1914,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1394, PADIM:SampleWaterVolumeFlow, Float, 0, 0 ]
+    - DisplayName: "Sample water volume flow"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1570, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 13361
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1647,16 +1930,19 @@ DefinedTypes:
 
   PADIM:IFlameIonisationDeviceConditionSetType:
   - [ UAObjectType, PADIM:1054, PADIM:IFlameIonisationDeviceConditionSetType ]
+  - DisplayName: "IFlameIonisationDeviceConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1346, PADIM:BlockTemperature, Float, 0, 0 ]
+    - DisplayName: "Block temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1571, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1664,12 +1950,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1335, PADIM:CatalystTemperature, Float, 0, 0 ]
+    - DisplayName: "Catalyst temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1572, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1677,12 +1965,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1345, PADIM:CombustionAirPressure, Float, 0, 0 ]
+    - DisplayName: "Air pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1573, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5063250
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1690,12 +1980,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1344, PADIM:FuelGasPressure, Float, 0, 0 ]
+    - DisplayName: "Fuel gas pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1574, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5063250
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1704,16 +1996,19 @@ DefinedTypes:
 
   PADIM:INonDispersiveInfraredSignalConditionSetType:
   - [ UAObjectType, PADIM:1055, PADIM:INonDispersiveInfraredSignalConditionSetType ]
+  - DisplayName: "INonDispersiveInfraredSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1320, PADIM:AbsoluteSampleGasPressure, Float, 0, 0 ]
+    - DisplayName: "Sample gas pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1524, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5063250
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1721,12 +2016,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1321, PADIM:ChopperFrequencyDeviation, Float, 0, 0 ]
+    - DisplayName: "Chopper frequency (deviation)"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasProperty:
       - [ UAVariable, PADIM:1526, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 20529
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1734,12 +2031,14 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1322, PADIM:SampleCellTemperature, Float, 0, 0 ]
+    - DisplayName: "Sample cell temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1525, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1747,6 +2046,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1323, PADIM:SourceResidualLife, Float, 0, 0 ]
+    - DisplayName: "Residual operational life of radiation source"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1754,16 +2054,19 @@ DefinedTypes:
 
   PADIM:ITocSignalConditionSetType:
   - [ UAObjectType, PADIM:1056, PADIM:ITocSignalConditionSetType ]
+  - DisplayName: "ITocSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1400, PADIM:AbsoluteSampleGasPressure, Float, 0, 0 ]
+    - DisplayName: "Sample gas pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1533, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5063250
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1771,12 +2074,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1403, PADIM:ChopperFrequencyDeviation, Float, 0, 0 ]
+    - DisplayName: "Chopper frequency (deviation)"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 15318, BaseAnalogType ]
     - HasProperty:
       - [ UAVariable, PADIM:1527, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 20529
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1784,12 +2089,14 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1392, PADIM:SampleCellTemperature, Float, 0, 0 ]
+    - DisplayName: "Sample cell temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1530, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1797,12 +2104,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1402, PADIM:DetectorZeroSignal, Float, 0, 0 ]
+    - DisplayName: "Detector zero signal"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1531, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 13625
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1810,18 +2119,21 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1384, PADIM:SourceResidualLife, Float, 0, 0 ]
+    - DisplayName: "Residual operational life of radiation source"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1387, PADIM:RelativeReagentLevel, Float, -2, 0 ]
+    - DisplayName: "Reagent level"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1532, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 20529
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1829,12 +2141,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1401, PADIM:SampleGasVolumeFlow, Float, 0, 0 ]
+    - DisplayName: "Sample gas volume flow"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1534, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4535090
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1843,16 +2157,19 @@ DefinedTypes:
 
   PADIM:IParamagneticSignalConditionSetType:
   - [ UAObjectType, PADIM:1057, PADIM:IParamagneticSignalConditionSetType ]
+  - DisplayName: "IParamagneticSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1324, PADIM:SampleTemperature, Float, 0, 0 ]
+    - DisplayName: "Sample temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1544, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1860,12 +2177,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1343, PADIM:SensingElementTemperature, Float, 0, 0 ]
+    - DisplayName: "Temperature sensing element"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1545, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1874,16 +2193,19 @@ DefinedTypes:
 
   PADIM:IThermalConductivitySignalConditionSetType:
   - [ UAObjectType, PADIM:1058, PADIM:IThermalConductivitySignalConditionSetType ]
+  - DisplayName: "IThermalConductivitySignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1327, PADIM:SampleTemperature, Float, 0, 0 ]
+    - DisplayName: "Sample temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1546, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1892,16 +2214,19 @@ DefinedTypes:
 
   PADIM:ITunableDiodeLaserSignalConditionSetType:
   - [ UAObjectType, PADIM:1059, PADIM:ITunableDiodeLaserSignalConditionSetType ]
+  - DisplayName: "ITunableDiodeLaserSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1353, PADIM:AbsoluteSampleGasPressure, Float, 0, 0 ]
+    - DisplayName: "Sample gas pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1547, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5063250
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1909,12 +2234,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1351, PADIM:LaserTemperature, Float, 0, 0 ]
+    - DisplayName: "Laser temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1549, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1922,12 +2249,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1352, PADIM:SampleTemperature, Float, 0, 0 ]
+    - DisplayName: "Sample temperature"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1548, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1935,18 +2264,21 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1349, PADIM:SignalFitQuality, Float, 0, 3 ]
+    - DisplayName: "Signal fit quality"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 2365, DataItemType ]
   - HasComponent:
     - [ UAVariable, PADIM:1348, PADIM:SignalNoiseRatio, Float, 0, 0 ]
+    - DisplayName: "Signal/noise ratio"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 2365, DataItemType ]
   - HasComponent:
     - [ UAVariable, PADIM:1347, PADIM:TransmissionRatio, Float, 0, 0 ]
+    - DisplayName: "Transmission ratio"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1954,22 +2286,26 @@ DefinedTypes:
 
   PADIM:IZirconiumDioxideSignalConditionSetType:
   - [ UAObjectType, PADIM:1060, PADIM:IZirconiumDioxideSignalConditionSetType ]
+  - DisplayName: "IZirconiumDioxideSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1354, PADIM:RelativeHeatOutput, Float, 0, 0 ]
+    - DisplayName: "Relative heat output"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 2365, DataItemType ]
   - HasComponent:
     - [ UAVariable, PADIM:1386, PADIM:SampleGasVolumeFlow, Float, 0, 0 ]
+    - DisplayName: "Sample gas volume flow"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1550, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4535090
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1977,12 +2313,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1355, PADIM:SensingElementTemperature, Float, 0, 0 ]
+    - DisplayName: "Temperature sensing element"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1551, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -1991,46 +2329,54 @@ DefinedTypes:
 
   PADIM:IPhSignalConditionSetType:
   - [ UAObjectType, PADIM:1061, PADIM:IPhSignalConditionSetType ]
+  - DisplayName: "IPhSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1356, PADIM:PhMeasuringMethod, UInt32, 0, 0 ]
+    - DisplayName: "pH measuring method"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1397, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1404, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1421, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1429, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1364, PADIM:SensingElementImpedance, Float, 0, 0 ]
+    - DisplayName: "pH sensing element impedance"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1555, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5195853
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2038,18 +2384,21 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1360, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+    - DisplayName: "CIP counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1357, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
+    - DisplayName: "Days until next calibration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PADIM:1553, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4473177
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2057,12 +2406,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1365, PADIM:SensorReferenceImpedance, Float, 0, 0 ]
+    - DisplayName: "pH reference system impedance"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1556, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 5195853
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2070,18 +2421,21 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1361, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+    - DisplayName: "SIP counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1338, PADIM:SensingElementTemperature, Float, 0, 0 ]
+    - DisplayName: "Temperature sensing element"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1552, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2090,58 +2444,68 @@ DefinedTypes:
 
   PADIM:IConductivitySignalConditionSetType:
   - [ UAObjectType, PADIM:1062, PADIM:IConductivitySignalConditionSetType ]
+  - DisplayName: "IConductivitySignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, PADIM:1366, PADIM:ConductivityMeasuringMethod, UInt32, 0, 0 ]
+    - DisplayName: "Conductivity measuring method"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1467, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1476, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1477, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1478, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1369, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+    - DisplayName: "CIP counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PADIM:1370, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+    - DisplayName: "SIP counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1339, PADIM:SensingElementTemperature, Float, 0, 0 ]
+    - DisplayName: "Temperature sensing element"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1557, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2149,30 +2513,35 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PADIM:1368, PADIM:TemperatureCompensationStyle, UInt32, 0, 0 ]
+    - DisplayName: "Temperature compensation"
     - HasTypeDefinition:
       - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1481, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+      - DisplayName: "EnumDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1483, PADIM:EnumValues, EnumValueType, 1, 0 ]
+      - DisplayName: "EnumValues"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1488, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+      - DisplayName: "ValueAsDictionaryEntries"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1492, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+      - DisplayName: "ValueAsText"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2180,22 +2549,26 @@ DefinedTypes:
 
   PADIM:IOpticalFluorescenseQuenchingSignalConditionSetType:
   - [ UAObjectType, PADIM:1063, PADIM:IOpticalFluorescenseQuenchingSignalConditionSetType ]
+  - DisplayName: "IOpticalFluorescenseQuenchingSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasProperty:
     - [ UAVariable, PADIM:1520, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+    - DisplayName: "CIP counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1521, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
+    - DisplayName: "Days until next calibration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PADIM:1561, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4473177
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2203,18 +2576,21 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1522, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+    - DisplayName: "SIP counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1523, PADIM:SensingElementTemperature, Float, 0, 0 ]
+    - DisplayName: "Temperature sensing element"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1560, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2223,22 +2599,26 @@ DefinedTypes:
 
   PADIM:IAmperometricSignalConditionSetType:
   - [ UAObjectType, PADIM:1064, PADIM:IAmperometricSignalConditionSetType ]
+  - DisplayName: "IAmperometricSignalConditionSetType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasProperty:
     - [ UAVariable, PADIM:1376, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+    - DisplayName: "CIP counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1374, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
+    - DisplayName: "Days until next calibration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PADIM:1559, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4473177
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2246,18 +2626,21 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PADIM:1377, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+    - DisplayName: "SIP counter"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PADIM:1378, PADIM:SensingElementTemperature, Float, 0, 0 ]
+    - DisplayName: "Temperature sensing element"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1558, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - UnitId: 4408652
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
@@ -2266,22 +2649,26 @@ DefinedTypes:
 
   PADIM:AnalyticalSignalType:
   - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
+  - DisplayName: "AnalyticalSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1022, PADIM:AnalogSignalType ]
   - HasComponent:
     - [ UAVariable, PADIM:1328, PADIM:AnalogSignal, Float, 0, 3 ]
+    - DisplayName: "Value"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, PADIM:1274, PADIM:PatMeasurementVariableType, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, PADIM:1191, PADIM:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1190, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "Unit"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2289,10 +2676,12 @@ DefinedTypes:
 
   PADIM:AmperometricSignalType:
   - [ UAObjectType, PADIM:1066, PADIM:AmperometricSignalType ]
+  - DisplayName: "AmperometricSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1291, PADIM:<SignalCalibrationIdentifier> ]
+    - DisplayName: "<SignalCalibrationIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2301,12 +2690,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1048, PADIM:IAmperometricCalibrationType ]
     - HasComponent:
       - [ UAVariable, PADIM:1439, PADIM:AbsoluteAirPressure, Float, 0, 0 ]
+      - DisplayName: "Absolute air pressure"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1443, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4274487
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2314,24 +2705,28 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1440, PADIM:AmperometricSensorSlope, Float, 0, 0 ]
+      - DisplayName: "Amperometric sensing element slope"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1444, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1441, PADIM:AmperometricSensorZeroPoint, Float, 0, 0 ]
+      - DisplayName: "Amperometric sensing element zero point"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1445, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4405040
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2339,12 +2734,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1442, PADIM:SensorT90, Float, 0, 0 ]
+      - DisplayName: "Settling time t90 at calibration"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PADIM:1296, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2353,18 +2750,21 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1064, PADIM:IAmperometricSignalConditionSetType ]
     - HasProperty:
       - [ UAVariable, PADIM:1446, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+      - DisplayName: "CIP counter"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1447, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
+      - DisplayName: "Days until next calibration"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1450, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4473177
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2372,18 +2772,21 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1448, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+      - DisplayName: "SIP counter"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1449, PADIM:SensingElementTemperature, Float, 0, 0 ]
+      - DisplayName: "Temperature sensing element"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1451, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2392,10 +2795,12 @@ DefinedTypes:
 
   PADIM:ConductivitySignalType:
   - [ UAObjectType, PADIM:1067, PADIM:ConductivitySignalType ]
+  - DisplayName: "ConductivitySignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1295, PADIM:<SignalCalibrationIdentifier> ]
+    - DisplayName: "<SignalCalibrationIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2404,12 +2809,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1047, PADIM:IConductivityCalibrationType ]
     - HasComponent:
       - [ UAVariable, PADIM:1493, PADIM:ConductivityCellConstant, Float, 0, 0 ]
+      - DisplayName: "Cell constant"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1494, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4536624
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2417,6 +2824,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PADIM:1292, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2425,54 +2833,63 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1062, PADIM:IConductivitySignalConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1495, PADIM:ConductivityMeasuringMethod, UInt32, 0, 0 ]
+      - DisplayName: "Conductivity measuring method"
       - HasTypeDefinition:
         - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1500, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+        - DisplayName: "EnumDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1501, PADIM:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1502, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+        - DisplayName: "ValueAsDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1503, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1496, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+      - DisplayName: "CIP counter"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PADIM:1497, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+      - DisplayName: "SIP counter"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1498, PADIM:SensingElementTemperature, Float, 0, 0 ]
+      - DisplayName: "Temperature sensing element"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1504, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2480,30 +2897,35 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1499, PADIM:TemperatureCompensationStyle, UInt32, 0, 0 ]
+      - DisplayName: "Temperature compensation"
       - HasTypeDefinition:
         - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1506, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+        - DisplayName: "EnumDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1508, PADIM:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1509, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+        - DisplayName: "ValueAsDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1514, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2511,15 +2933,18 @@ DefinedTypes:
 
   PADIM:FlameIonisationSignalType:
   - [ UAObjectType, PADIM:1069, PADIM:FlameIonisationSignalType ]
+  - DisplayName: "FlameIonisationSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
 
   PADIM:NonDispersiveInfraredSignalType:
   - [ UAObjectType, PADIM:1071, PADIM:NonDispersiveInfraredSignalType ]
+  - DisplayName: "NonDispersiveInfraredSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1293, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2528,12 +2953,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1055, PADIM:INonDispersiveInfraredSignalConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1315, PADIM:AbsoluteSampleGasPressure, Float, 0, 0 ]
+      - DisplayName: "Sample gas pressure"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1381, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5063250
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2541,12 +2968,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1325, PADIM:ChopperFrequencyDeviation, Float, 0, 0 ]
+      - DisplayName: "Chopper frequency (deviation)"
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1382, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 20529
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2554,12 +2983,14 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1326, PADIM:SampleCellTemperature, Float, 0, 0 ]
+      - DisplayName: "Sample cell temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1383, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2567,6 +2998,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1380, PADIM:SourceResidualLife, Float, 0, 0 ]
+      - DisplayName: "Residual operational life of radiation source"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2574,10 +3006,12 @@ DefinedTypes:
 
   PADIM:OpticalFluorescenseQuenchingSignalType:
   - [ UAObjectType, PADIM:1073, PADIM:OpticalFluorescenseQuenchingSignalType ]
+  - DisplayName: "OpticalFluorescenseQuenchingSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1300, PADIM:<SignalCalibrationIdentifier> ]
+    - DisplayName: "<SignalCalibrationIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2586,12 +3020,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1049, PADIM:IOpticalFluorescenseQuenchingCalibrationType ]
     - HasComponent:
       - [ UAVariable, PADIM:1452, PADIM:AbsoluteAirPressure, Float, 0, 0 ]
+      - DisplayName: "Absolute air pressure"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1456, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4274487
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2599,24 +3035,28 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1453, PADIM:OpticalFluorescenseQuenchingSensorSlope, Float, 0, 0 ]
+      - DisplayName: "Optical fluorescence quenching sensing element slope"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1457, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1454, PADIM:OpticalFluorescenseQuenchingSensorZeroPoint, Float, 0, 0 ]
+      - DisplayName: "Optical fluorescence quenching sensing element zero point"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1458, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4340024
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2624,12 +3064,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1455, PADIM:SensorT90, Float, 0, 0 ]
+      - DisplayName: "Settling time t90 at calibration"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PADIM:1301, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2638,18 +3080,21 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1063, PADIM:IOpticalFluorescenseQuenchingSignalConditionSetType ]
     - HasProperty:
       - [ UAVariable, PADIM:1459, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+      - DisplayName: "CIP counter"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1460, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
+      - DisplayName: "Days until next calibration"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1463, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4473177
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2657,18 +3102,21 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1461, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+      - DisplayName: "SIP counter"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1462, PADIM:SensingElementTemperature, Float, 0, 0 ]
+      - DisplayName: "Temperature sensing element"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1464, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2677,10 +3125,12 @@ DefinedTypes:
 
   PADIM:ParamagneticSignalType:
   - [ UAObjectType, PADIM:1075, PADIM:ParamagneticSignalType ]
+  - DisplayName: "ParamagneticSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1304, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2689,12 +3139,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1057, PADIM:IParamagneticSignalConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1414, PADIM:SampleTemperature, Float, 0, 0 ]
+      - DisplayName: "Sample temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1416, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2702,12 +3154,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1415, PADIM:SensingElementTemperature, Float, 0, 0 ]
+      - DisplayName: "Temperature sensing element"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1417, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2716,10 +3170,12 @@ DefinedTypes:
 
   PADIM:PhSignalType:
   - [ UAObjectType, PADIM:1076, PADIM:PhSignalType ]
+  - DisplayName: "PhSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1294, PADIM:<SignalCalibrationIdentifier> ]
+    - DisplayName: "<SignalCalibrationIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2728,12 +3184,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1046, PADIM:IPhCalibrationType ]
     - HasComponent:
       - [ UAVariable, PADIM:1465, PADIM:SensorAsymmetryPotential, Float, 0, 0 ]
+      - DisplayName: "pH sensing element asymmetry potential"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1469, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 12890
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2741,12 +3199,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1466, PADIM:SensorSlope, Float, 0, 0 ]
+      - DisplayName: "pH sensing element slope"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1470, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 12890
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2754,12 +3214,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1468, PADIM:SensorT90, Float, 0, 0 ]
+      - DisplayName: "Settling time t90 at calibration"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PADIM:1297, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2768,42 +3230,49 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1061, PADIM:IPhSignalConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1471, PADIM:PhMeasuringMethod, UInt32, 0, 0 ]
+      - DisplayName: "pH measuring method"
       - HasTypeDefinition:
         - [ UAVariableType, 19084, MultiStateDictionaryEntryDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1482, PADIM:EnumDictionaryEntries, NodeId, 2, 0 ]
+        - DisplayName: "EnumDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1484, PADIM:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1485, PADIM:ValueAsDictionaryEntries, NodeId, 1, 0 ]
+        - DisplayName: "ValueAsDictionaryEntries"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PADIM:1486, PADIM:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1472, PADIM:SensingElementImpedance, Float, 0, 0 ]
+      - DisplayName: "pH sensing element impedance"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1487, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5195853
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2811,18 +3280,21 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1473, PADIM:SensorCleaningsCounter, UInt32, 0, 0 ]
+      - DisplayName: "CIP counter"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1474, PADIM:SensorNextCalibration, UInt32, 0, 0 ]
+      - DisplayName: "Days until next calibration"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1489, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4473177
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2830,12 +3302,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1475, PADIM:SensorReferenceImpedance, Float, 0, 0 ]
+      - DisplayName: "pH reference system impedance"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1490, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5195853
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2843,18 +3317,21 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1479, PADIM:SensorSterilisationsCounter, UInt32, 0, 0 ]
+      - DisplayName: "SIP counter"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1480, PADIM:SensingElementTemperature, Float, 0, 0 ]
+      - DisplayName: "Temperature sensing element"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1491, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2863,10 +3340,12 @@ DefinedTypes:
 
   PADIM:ThermalConductivitySignalType:
   - [ UAObjectType, PADIM:1077, PADIM:ThermalConductivitySignalType ]
+  - DisplayName: "ThermalConductivitySignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1302, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2875,12 +3354,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1058, PADIM:IThermalConductivitySignalConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1418, PADIM:SampleTemperature, Float, 0, 0 ]
+      - DisplayName: "Sample temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1419, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2889,10 +3370,12 @@ DefinedTypes:
 
   PADIM:TocSignalType:
   - [ UAObjectType, PADIM:1078, PADIM:TocSignalType ]
+  - DisplayName: "TocSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1303, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2901,12 +3384,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1056, PADIM:ITocSignalConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1388, PADIM:AbsoluteSampleGasPressure, Float, 0, 0 ]
+      - DisplayName: "Sample gas pressure"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1408, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5063250
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2914,12 +3399,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1390, PADIM:ChopperFrequencyDeviation, Float, 0, 0 ]
+      - DisplayName: "Chopper frequency (deviation)"
       - HasTypeDefinition:
         - [ UAVariableType, 15318, BaseAnalogType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1409, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 20529
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2927,12 +3414,14 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1393, PADIM:DetectorZeroSignal, Float, 0, 0 ]
+      - DisplayName: "Detector zero signal"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1410, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 13625
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2940,12 +3429,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1399, PADIM:RelativeReagentLevel, Float, -2, 0 ]
+      - DisplayName: "Reagent level"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1411, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 20529
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2953,12 +3444,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1405, PADIM:SampleCellTemperature, Float, 0, 0 ]
+      - DisplayName: "Sample cell temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1412, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2966,12 +3459,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1406, PADIM:SampleGasVolumeFlow, Float, 0, 0 ]
+      - DisplayName: "Sample gas volume flow"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1413, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4535090
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -2979,6 +3474,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PADIM:1407, PADIM:SourceResidualLife, Float, 0, 0 ]
+      - DisplayName: "Residual operational life of radiation source"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2986,10 +3482,12 @@ DefinedTypes:
 
   PADIM:TunableDiodeLaserSignalType:
   - [ UAObjectType, PADIM:1079, PADIM:TunableDiodeLaserSignalType ]
+  - DisplayName: "TunableDiodeLaserSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1305, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -2998,12 +3496,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1059, PADIM:ITunableDiodeLaserSignalConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1420, PADIM:AbsoluteSampleGasPressure, Float, 0, 0 ]
+      - DisplayName: "Sample gas pressure"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1431, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5063250
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3011,12 +3511,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1422, PADIM:LaserTemperature, Float, 0, 0 ]
+      - DisplayName: "Laser temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1432, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3024,12 +3526,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1423, PADIM:SampleTemperature, Float, 0, 0 ]
+      - DisplayName: "Sample temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1433, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3037,18 +3541,21 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1426, PADIM:SignalFitQuality, Float, 0, 3 ]
+      - DisplayName: "Signal fit quality"
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1428, PADIM:SignalNoiseRatio, Float, 0, 0 ]
+      - DisplayName: "Signal/noise ratio"
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1430, PADIM:TransmissionRatio, Float, 0, 0 ]
+      - DisplayName: "Transmission ratio"
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
@@ -3056,10 +3563,12 @@ DefinedTypes:
 
   PADIM:ZirconiumDioxideSignalType:
   - [ UAObjectType, PADIM:1081, PADIM:ZirconiumDioxideSignalType ]
+  - DisplayName: "ZirconiumDioxideSignalType"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1065, PADIM:AnalyticalSignalType ]
   - HasComponent:
     - [ UAObject, PADIM:1306, PADIM:SignalConditionSet ]
+    - DisplayName: "SignalConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -3068,18 +3577,21 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1060, PADIM:IZirconiumDioxideSignalConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1434, PADIM:RelativeHeatOutput, Float, 0, 0 ]
+      - DisplayName: "Relative heat output"
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PADIM:1435, PADIM:SampleGasVolumeFlow, Float, 0, 0 ]
+      - DisplayName: "Sample gas volume flow"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1437, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4535090
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3087,12 +3599,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1436, PADIM:SensingElementTemperature, Float, 0, 0 ]
+      - DisplayName: "Temperature sensing element"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1438, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3101,25 +3615,30 @@ DefinedTypes:
 
   PADIM:ProcessAnalyserType:
   - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
+  - DisplayName: "Process analyser"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1009, PADIM:PADIMType ]
 
   PADIM:AmperometricAnalyserType:
   - [ UAObjectType, PADIM:1083, PADIM:AmperometricAnalyserType ]
+  - DisplayName: "Amperometric analyser"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
 
   PADIM:ConductivityMeterType:
   - [ UAObjectType, PADIM:1084, PADIM:ConductivityMeterType ]
+  - DisplayName: "Conductivity meter"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
 
   PADIM:FlameIonisationDetectorType:
   - [ UAObjectType, PADIM:1085, PADIM:FlameIonisationDetectorType ]
+  - DisplayName: "Flame ionisation detector"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
   - HasComponent:
     - [ UAObject, PADIM:1298, PADIM:DeviceConditionSet ]
+    - DisplayName: "DeviceConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -3128,12 +3647,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1054, PADIM:IFlameIonisationDeviceConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1329, PADIM:BlockTemperature, Float, 0, 0 ]
+      - DisplayName: "Block temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1333, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3141,12 +3662,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1330, PADIM:CatalystTemperature, Float, 0, 0 ]
+      - DisplayName: "Catalyst temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1334, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3154,12 +3677,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1331, PADIM:CombustionAirPressure, Float, 0, 0 ]
+      - DisplayName: "Air pressure"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1336, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5063250
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3167,12 +3692,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1332, PADIM:FuelGasPressure, Float, 0, 0 ]
+      - DisplayName: "Fuel gas pressure"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1337, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5063250
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3181,35 +3708,42 @@ DefinedTypes:
 
   PADIM:NonDispersiveInfraredGasAnalyserType:
   - [ UAObjectType, PADIM:1086, PADIM:NonDispersiveInfraredGasAnalyserType ]
+  - DisplayName: "Non-dispersive infrared gas analyser"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
 
   PADIM:OpticalFluorescenseQuenchingSensorType:
   - [ UAObjectType, PADIM:1087, PADIM:OpticalFluorescenseQuenchingSensorType ]
+  - DisplayName: "Optical fluorescence quenching sensor"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
 
   PADIM:ParamagneticGasAnalyserType:
   - [ UAObjectType, PADIM:1088, PADIM:ParamagneticGasAnalyserType ]
+  - DisplayName: "Paramagnetic gas analyser"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
 
   PADIM:PhMeterType:
   - [ UAObjectType, PADIM:1089, PADIM:PhMeterType ]
+  - DisplayName: "pH meter"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
 
   PADIM:ThermalConductivityGasAnalyserType:
   - [ UAObjectType, PADIM:1090, PADIM:ThermalConductivityGasAnalyserType ]
+  - DisplayName: "Thermal conductivity gas analyser"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
 
   PADIM:TocAnalyserType:
   - [ UAObjectType, PADIM:1091, PADIM:TocAnalyserType ]
+  - DisplayName: "TOC analyser"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
   - HasComponent:
     - [ UAObject, PADIM:1299, PADIM:DeviceConditionSet ]
+    - DisplayName: "DeviceConditionSet"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -3218,12 +3752,14 @@ DefinedTypes:
       - [ UAObjectType, PADIM:1053, PADIM:ITocDeviceConditionSetType ]
     - HasComponent:
       - [ UAVariable, PADIM:1340, PADIM:ActualInjectedVolume, Float, 0, 0 ]
+      - DisplayName: "Injected volume"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1363, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5065812
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3231,12 +3767,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1341, PADIM:CarrierGasGaugePressure, Float, 0, 0 ]
+      - DisplayName: "Carrier gas pressure"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1367, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5063250
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3244,12 +3782,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1342, PADIM:CarrierGasVolumeFlow, Float, 0, 0 ]
+      - DisplayName: "Carrier gas volume flow"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1371, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4535090
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3257,12 +3797,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1350, PADIM:CoolerTemperature, Float, 0, 0 ]
+      - DisplayName: "Cooler temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1372, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3270,12 +3812,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1358, PADIM:ReactorTemperature, Float, 0, 0 ]
+      - DisplayName: "TOC reactor temperature"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1373, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 4408652
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3283,12 +3827,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1359, PADIM:ReferenceInjectionVolume, Float, 0, 0 ]
+      - DisplayName: "Injection volume"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1375, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 5065812
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3296,12 +3842,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PADIM:1362, PADIM:SampleWaterVolumeFlow, Float, 0, 0 ]
+      - DisplayName: "Sample water volume flow"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PADIM:1379, PADIM:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "Unit"
         - UnitId: 13361
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -3310,10 +3858,12 @@ DefinedTypes:
 
   PADIM:TunableDiodeLaserSpectrometerType:
   - [ UAObjectType, PADIM:1092, PADIM:TunableDiodeLaserSpectrometerType ]
+  - DisplayName: "Tunable diode laser spectrometer"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]
 
   PADIM:ZirconiumDioxideAnalyserType:
   - [ UAObjectType, PADIM:1093, PADIM:ZirconiumDioxideAnalyserType ]
+  - DisplayName: "Zirconium dioxide analyser"
   - HasSubtype_reverse:
     - [ UAObjectType, PADIM:1082, PADIM:ProcessAnalyserType ]

@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -40,8 +49,10 @@ DefinedTypes:
 
   sercos:SercosParameterType:
   - [ UAVariableType, sercos:2001, sercos:SercosParameterType ]
+  - DisplayName: "SercosParameterType"
   - HasProperty:
     - [ UAVariable, sercos:6004, sercos:Attribute, UInt32, 0, 0 ]
+    - DisplayName: "Attribute"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -50,6 +61,7 @@ DefinedTypes:
       - [ UAVariableType, sercos:2001, sercos:SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6009, sercos:DisplayValue, String, 0, 0 ]
+    - DisplayName: "DisplayValue"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -58,6 +70,7 @@ DefinedTypes:
       - [ UAVariableType, sercos:2001, sercos:SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6008, sercos:DisplayMaxValue, String, 0, 0 ]
+    - DisplayName: "DisplayMaxValue"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -66,6 +79,7 @@ DefinedTypes:
       - [ UAVariableType, sercos:2001, sercos:SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6007, sercos:DisplayMinValue, String, 0, 0 ]
+    - DisplayName: "DisplayMinValue"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -74,6 +88,7 @@ DefinedTypes:
       - [ UAVariableType, sercos:2001, sercos:SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6006, sercos:Exponent, SByte, 0, 0 ]
+    - DisplayName: "Exponent"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -82,6 +97,7 @@ DefinedTypes:
       - [ UAVariableType, sercos:2001, sercos:SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6001, sercos:MaxValue ]
+    - DisplayName: "MaxValue"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -90,6 +106,7 @@ DefinedTypes:
       - [ UAVariableType, sercos:2001, sercos:SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6002, sercos:MinValue ]
+    - DisplayName: "MinValue"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -98,6 +115,7 @@ DefinedTypes:
       - [ UAVariableType, sercos:2001, sercos:SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6005, sercos:ProcedureCommand, Boolean, 0, 0 ]
+    - DisplayName: "ProcedureCommand"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -109,28 +127,35 @@ DefinedTypes:
 
   sercos:FunctionalGroupType:
   - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
+  - DisplayName: "FunctionalGroupType"
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
   sercos:SercosProfileType:
   - [ UAObjectType, sercos:1002, sercos:SercosProfileType ]
+  - DisplayName: "SercosProfileType"
   - HasSubtype_reverse:
     - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
 
   sercos:SercosClassType:
   - [ UAObjectType, sercos:1003, sercos:SercosClassType ]
+  - DisplayName: "SercosClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
 
   sercos:SercosFunctionGroupType:
   - [ UAObjectType, sercos:1004, sercos:SercosFunctionGroupType ]
+  - DisplayName: "SercosFunctionGroupType"
   - HasSubtype_reverse:
     - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
 
   sercos:SercosDeviceType:
   - [ UAObjectType, sercos:1001, sercos:SercosDeviceType ]
+  - DisplayName: "SercosDeviceType"
   - HasComponent:
     - [ UAObject, sercos:5007, sercos:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
     - HasModellingRule:
@@ -139,6 +164,7 @@ DefinedTypes:
       - [ UAObjectType, sercos:1001, sercos:SercosDeviceType ]
   - HasComponent:
     - [ UAObject, sercos:5001, sercos:ProfileSet ]
+    - DisplayName: "ProfileSet"
     - HasTypeDefinition:
       - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
     - HasModellingRule:
@@ -147,6 +173,7 @@ DefinedTypes:
       - [ UAObjectType, sercos:1001, sercos:SercosDeviceType ]
   - HasComponent:
     - [ UAObject, sercos:5002, sercos:ClassSet ]
+    - DisplayName: "ClassSet"
     - HasTypeDefinition:
       - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
     - HasModellingRule:
@@ -155,6 +182,7 @@ DefinedTypes:
       - [ UAObjectType, sercos:1001, sercos:SercosDeviceType ]
   - HasComponent:
     - [ UAObject, sercos:5003, sercos:FunctionGroupSet ]
+    - DisplayName: "FunctionGroupSet"
     - HasTypeDefinition:
       - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
     - HasModellingRule:
@@ -166,8 +194,10 @@ DefinedTypes:
 
   sercos:ProfileSet:
   - [ UAObjectType, sercos:6075, sercos:ProfileSet ]
+  - DisplayName: "ProfileSet"
   - HasComponent:
     - [ UAObject, sercos:6076, sercos:<SercosProfileIdentifier> ]
+    - DisplayName: "<SercosProfileIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, sercos:1002, sercos:SercosProfileType ]
     - HasModellingRule:
@@ -179,8 +209,10 @@ DefinedTypes:
 
   sercos:ClassSet:
   - [ UAObjectType, sercos:6077, sercos:ClassSet ]
+  - DisplayName: "ClassSet"
   - HasComponent:
     - [ UAObject, sercos:6078, sercos:<SercosClassIdentifier> ]
+    - DisplayName: "<SercosClassIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, sercos:1003, sercos:SercosClassType ]
     - HasModellingRule:
@@ -192,8 +224,10 @@ DefinedTypes:
 
   sercos:FunctionGroupSet:
   - [ UAObjectType, sercos:6079, sercos:FunctionGroupSet ]
+  - DisplayName: "FunctionGroupSet"
   - HasComponent:
     - [ UAObject, sercos:6080, sercos:<FunctionGroupIdentifier> ]
+    - DisplayName: "<FunctionGroupIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, sercos:1004, sercos:SercosFunctionGroupType ]
     - HasModellingRule:

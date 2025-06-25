@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ PlasticsRubber.IMM2MES:3004, PlasticsRubber.IMM2MES:IMMMessageClassificationEnumeration ]
+  DisplayName: "IMMMessageClassificationEnumeration"
+  Description: "This Enumeration specifies the values to be used in the Classification property in the MessageConditionType and related logbook events of OPC 40083"
   Enums:
     OTHER: 0
     IMM_INJECTION_UNIT: 100
@@ -41,6 +43,8 @@ DataTypes:
     OPERATION_EMERGENCY_STOP: 302
     OPERATION_JOB_STATUS: 303
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -51,25 +55,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -77,12 +88,16 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
+  DisplayName: "CavityCycleQualityEnumeration"
+  Description: "Quality of the cycle for each cavity"
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
+  DisplayName: "ControlModeEnumeration"
+  Description: "Indication how the parameter is currently controlled"
   Enums:
     OTHER: 0
     OFF: 1
@@ -92,12 +107,16 @@ DataTypes:
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
 - UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
+  DisplayName: "CycleQualityEnumeration"
+  Description: "Quality of the whole cycle"
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
+  DisplayName: "DiagnosticsStatusEnumeration"
+  Description: "Diagnostics inactive"
   Enums:
     OFF: 0
     ACTIVE_OK: 1
@@ -105,6 +124,8 @@ DataTypes:
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
+  DisplayName: "EventOriginatorEnumeration"
+  Description: "Originator of an event"
   Enums:
     OTHER: 0
     MACHINE: 1
@@ -112,6 +133,8 @@ DataTypes:
     MES: 3
     PERIPHERAL_DEVICE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
+  DisplayName: "JobStatusEnumeration"
+  Description: "Current status of the job"
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -126,6 +149,8 @@ DataTypes:
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
 - UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
+  DisplayName: "LogbookEventsEnumeration"
+  Description: "Information which LogbookEvents are supported by the machine"
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -139,6 +164,8 @@ DataTypes:
     MESSAGE: 9
     USER_FEEDBACK: 10
 - UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
+  DisplayName: "MachineModeEnumeration"
+  Description: "Current machine mode (as defined by mode selector on the machine)"
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -147,17 +174,23 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
+  DisplayName: "MaintenanceStatusEnumeration"
+  Description: "Maintenance status of a machine/device/component"
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
 - UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
+  DisplayName: "MouldStatusEnumeration"
+  Description: "Current (physical) status of the mould"
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
+  DisplayName: "ProductionStatusEnumeration"
+  Description: "Production status of the machine"
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -166,6 +199,8 @@ DataTypes:
     PRODUCTION: 4
     DRY_RUN: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
+  DisplayName: "SequenceChangeEnumeration"
+  Description: "Classification of production sequence change"
   Enums:
     UPDATE: 0
     ADD: 1
@@ -173,6 +208,7 @@ DataTypes:
     MOVE: 3
     DELETE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
+  DisplayName: "StartEnumeration"
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -181,11 +217,15 @@ DataTypes:
     STARTED: 4
     STOP_REQUESTED: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
+  DisplayName: "StorageEnumeration"
+  Description: "Indication which parts of the production dataset shall be activated in the machine control after writing"
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
+  DisplayName: "TemperatureZoneClassificationEnumeration"
+  Description: "Type of the temperature zone"
   Enums:
     OTHER: 0
     HEATING: 1
@@ -194,25 +234,35 @@ DataTypes:
     HOT_RUNNER: 4
     MEASURING: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
+  DisplayName: "UserChangeEnumeration"
+  Description: "Information if a user logs in or off"
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
 - UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
+  DisplayName: "ActiveErrorDataType"
+  Description: "Iinformation about an active error in a device"
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
+  DisplayName: "ClassifiedActiveErrorDataType"
+  Description: "Iinformation about an active error in a device including the SoureNodes and a Classification"
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
+  DisplayName: "ConfigurationParameterType"
+  Description: "Unique identifier"
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
+  DisplayName: "JobListElementType"
+  Description: "Description of a job in a job list"
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -228,6 +278,8 @@ DataTypes:
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
+  DisplayName: "CyclicJobListElementType"
+  Description: "Description of a job in a cyclic job list"
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
@@ -235,19 +287,26 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
+  DisplayName: "PageEntryDataType"
+  Description: "Information on a page that is implemented in the machine control system and shown on the screen of the machine"
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
+  DisplayName: "ParameterSettingType"
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
+  DisplayName: "PIDParametersDataType"
+  Description: "Structure for storing the parameters of a PID controller"
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
+  DisplayName: "ProductionDatasetInformationType"
+  Description: "Information on a production dataset"
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -267,15 +326,21 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
+  DisplayName: "ProductionDatasetReadOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForRead in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
+  DisplayName: "ProductionDatasetWriteOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForWrite in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
+  DisplayName: "StandstillReasonType"
+  Description: "Description of a standstill reason"
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
@@ -285,12 +350,16 @@ DefinedTypes:
 
   PlasticsRubber.IMM2MES:IMM_MES_InterfaceType:
   - [ UAObjectType, PlasticsRubber.IMM2MES:1007, PlasticsRubber.IMM2MES:IMM_MES_InterfaceType ]
+  - DisplayName: "IMM_MES_InterfaceType"
+  - Description: "Root ObjectType representing an injection moulding machine with all its subcomponents for data exchange with an MES"
   - GeneratesEvent:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1038, PlasticsRubber.GeneralTypes:CycleParametersEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5029, PlasticsRubber.IMM2MES:InjectionUnits ]
+    - DisplayName: "InjectionUnits"
+    - Description: "Container for the injection units"
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1007, PlasticsRubber.IMM2MES:IMM_MES_InterfaceType ]
     - HasTypeDefinition:
@@ -299,6 +368,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6056, PlasticsRubber.IMM2MES:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -307,10 +377,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5004, PlasticsRubber.IMM2MES:Jobs ]
+    - DisplayName: "Jobs"
+    - Description: "Management of production jobs on the machine and information on their status including process parameters"
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
+      - DisplayName: "ActiveJob"
+      - Description: "Job that is currently active on the machine"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6035, PlasticsRubber.GeneralTypes:ContinueAtJobEnd, Boolean, 0, 3 ]
+        - DisplayName: "ContinueAtJobEnd"
+        - Description: "Indication if the machine continues the production even if the nominal output has been reached"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
         - HasModellingRule:
@@ -319,6 +395,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6036, PlasticsRubber.GeneralTypes:CustomerName, String, 0, 0 ]
+        - DisplayName: "CustomerName"
+        - Description: "Name of the cumstomer for that the job is produced"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
         - HasModellingRule:
@@ -329,6 +407,8 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1024, PlasticsRubber.GeneralTypes:CyclicJobInformationType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6175, PlasticsRubber.GeneralTypes:ExpectedCycleTime, Duration, 0, 3 ]
+        - DisplayName: "ExpectedCycleTime"
+        - Description: "Calculated cycle time for the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
         - HasModellingRule:
@@ -337,6 +417,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6037, PlasticsRubber.GeneralTypes:JobDescription, String, 0, 0 ]
+        - DisplayName: "JobDescription"
+        - Description: "Description of the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
         - HasModellingRule:
@@ -345,6 +427,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6038, PlasticsRubber.GeneralTypes:JobName, String, 0, 0 ]
+        - DisplayName: "JobName"
+        - Description: "Name of the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
         - HasModellingRule:
@@ -355,6 +439,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6039, PlasticsRubber.GeneralTypes:Material, String, 1, 0 ]
+        - DisplayName: "Material"
+        - Description: "Array of material names used for the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -363,6 +449,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6176, PlasticsRubber.GeneralTypes:MouldId, String, 0, 0 ]
+        - DisplayName: "MouldId"
+        - Description: "Id of the Mould used for the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
         - HasModellingRule:
@@ -371,6 +459,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6177, PlasticsRubber.GeneralTypes:NominalBoxParts, UInt64, 0, 3 ]
+        - DisplayName: "NominalBoxParts"
+        - Description: "Number of parts that shall be put into one box"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
         - HasModellingRule:
@@ -379,6 +469,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6003, PlasticsRubber.GeneralTypes:NominalParts, UInt64, 0, 3 ]
+        - DisplayName: "NominalParts"
+        - Description: "Total number (sum of all cavities) of parts that shall be produced by the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -389,6 +481,8 @@ DefinedTypes:
           - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6189, PlasticsRubber.GeneralTypes:NumCavities, UInt32, 0, 0 ]
+        - DisplayName: "NumCavities"
+        - Description: "Number of cavities in the Mould used for production"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5002, PlasticsRubber.GeneralTypes:ActiveJob ]
         - HasModellingRule:
@@ -397,6 +491,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6040, PlasticsRubber.GeneralTypes:ProductDescription, String, 1, 0 ]
+        - DisplayName: "ProductDescription"
+        - Description: "Array of descriptions of the products produced by the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -405,6 +501,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6045, PlasticsRubber.GeneralTypes:ProductionDatasetDescription, String, 0, 0 ]
+        - DisplayName: "ProductionDatasetDescription"
+        - Description: "Additional description of the production dataset which is needed for the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -413,6 +511,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6087, PlasticsRubber.GeneralTypes:ProductionDatasetName, String, 0, 0 ]
+        - DisplayName: "ProductionDatasetName"
+        - Description: "Name of the production dataset which is needed for the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -421,6 +521,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6088, PlasticsRubber.GeneralTypes:ProductName, String, 1, 0 ]
+        - DisplayName: "ProductName"
+        - Description: "Array of product names produced by the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -431,8 +533,11 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7019, PlasticsRubber.GeneralTypes:SetCyclicJobData ]
+        - DisplayName: "SetCyclicJobData"
+        - Description: "Method for setting the data for cyclic jobs"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6019, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               JobName: [ String, 0 ]
               JobDescription: [ String, 0 ]
@@ -462,12 +567,16 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5004, PlasticsRubber.IMM2MES:Jobs ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
+      - DisplayName: "ActiveJobValues"
+      - Description: "Status of the job"
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1031, PlasticsRubber.GeneralTypes:ActiveCyclicJobValuesType ]
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5004, PlasticsRubber.IMM2MES:Jobs ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6135, PlasticsRubber.GeneralTypes:AverageCycleTime, Duration, 0, 0 ]
+        - DisplayName: "AverageCycleTime"
+        - Description: "Average cycle time"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
         - HasTypeDefinition:
@@ -476,6 +585,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6190, PlasticsRubber.GeneralTypes:BoxBadPartsCounter, UInt64, 0, 0 ]
+        - DisplayName: "BoxBadPartsCounter"
+        - Description: "Number of bad parts produced in the current box"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -484,6 +595,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6192, PlasticsRubber.GeneralTypes:BoxCycleCounter, UInt64, 0, 0 ]
+        - DisplayName: "BoxCycleCounter"
+        - Description: "Number of finished cycles for the current box"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -492,6 +605,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6193, PlasticsRubber.GeneralTypes:BoxGoodPartsCounter, UInt64, 0, 0 ]
+        - DisplayName: "BoxGoodPartsCounter"
+        - Description: "Number of good parts produced in the current box"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -500,6 +615,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6196, PlasticsRubber.GeneralTypes:BoxId, String, 0, 3 ]
+        - DisplayName: "BoxId"
+        - Description: "Id of the box in which the current production is put in"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
         - HasModellingRule:
@@ -508,6 +625,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6198, PlasticsRubber.GeneralTypes:BoxPartsCounter, UInt64, 0, 0 ]
+        - DisplayName: "BoxPartsCounter"
+        - Description: "Total number of parts produced in the current box"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -516,6 +635,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6199, PlasticsRubber.GeneralTypes:BoxTestSamplesCounter, UInt64, 0, 0 ]
+        - DisplayName: "BoxTestSamplesCounter"
+        - Description: "Number of test sample parts produced in the current box"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -524,6 +645,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6133, PlasticsRubber.GeneralTypes:CurrentLotName, String, 0, 3 ]
+        - DisplayName: "CurrentLotName"
+        - Description: "Name of the current production lot"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
         - HasModellingRule:
@@ -532,18 +655,24 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7016, PlasticsRubber.GeneralTypes:FinishJob ]
+        - DisplayName: "FinishJob"
+        - Description: "With this Method the client (e.g. MES) requests the machine to change the JobStatus to JOB_FINISHED_8"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7020, PlasticsRubber.GeneralTypes:InterruptJob ]
+        - DisplayName: "InterruptJob"
+        - Description: "With this Method the client (e.g. MES) requests the machine to change the JobStatus to JOB_INTERRUPTED_7"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6089, PlasticsRubber.GeneralTypes:JobBadPartsCounter, UInt64, 0, 0 ]
+        - DisplayName: "JobBadPartsCounter"
+        - Description: "Number of bad parts produced in the current job"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -552,6 +681,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6090, PlasticsRubber.GeneralTypes:JobCycleCounter, UInt64, 0, 0 ]
+        - DisplayName: "JobCycleCounter"
+        - Description: "Number of finished cycles in the job"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -560,6 +691,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6091, PlasticsRubber.GeneralTypes:JobGoodPartsCounter, UInt64, 0, 0 ]
+        - DisplayName: "JobGoodPartsCounter"
+        - Description: "Number of good parts produced in the current job"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -568,6 +701,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6092, PlasticsRubber.GeneralTypes:JobPartsCounter, UInt64, 0, 0 ]
+        - DisplayName: "JobPartsCounter"
+        - Description: "Total number of parts produced in the current job"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -576,6 +711,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6134, PlasticsRubber.GeneralTypes:JobStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
+        - DisplayName: "JobStatus"
+        - Description: "Current status of the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
         - HasModellingRule:
@@ -584,6 +721,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6115, PlasticsRubber.GeneralTypes:JobTestSamplesCounter, UInt64, 0, 0 ]
+        - DisplayName: "JobTestSamplesCounter"
+        - Description: "Number of test sample parts produced in the current job"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -592,6 +731,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6127, PlasticsRubber.GeneralTypes:LastCycleTime, Duration, 0, 0 ]
+        - DisplayName: "LastCycleTime"
+        - Description: "Time of the recently finished cycle"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -600,6 +741,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6200, PlasticsRubber.GeneralTypes:LastPartId, String, 1, 0 ]
+        - DisplayName: "LastPartId"
+        - Description: "Id(s) of the parts produced in the recently finished cycle"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -608,6 +751,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.IMM2MES:6201, PlasticsRubber.GeneralTypes:MachineCycleCounter, UInt64, 0, 0 ]
+        - DisplayName: "MachineCycleCounter"
+        - Description: "Number of finished cycles in the machine life time"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasComponent_reverse:
@@ -618,38 +763,52 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7022, PlasticsRubber.GeneralTypes:ResetAverageCycleTime ]
+        - DisplayName: "ResetAverageCycleTime"
+        - Description: "Initiates a new calculation of the average cycle time for the job"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7023, PlasticsRubber.GeneralTypes:ResetBoxCounters ]
+        - DisplayName: "ResetBoxCounters"
+        - Description: "Setting the cycle and parts counters for the current box to 0"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7014, PlasticsRubber.GeneralTypes:ResetJobCounters ]
+        - DisplayName: "ResetJobCounters"
+        - Description: "Setting the cycle and parts counters for the job to 0"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7021, PlasticsRubber.GeneralTypes:StartJob ]
+        - DisplayName: "StartJob"
+        - Description: "With this Method the client (e.g. MES) request the machine to change the JobStatus to JOB_IN_PRODUCTION_6"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7015, PlasticsRubber.GeneralTypes:StopAtCycleEnd ]
+        - DisplayName: "StopAtCycleEnd"
+        - Description: "Directs the machine to stop at the end of the current cycle"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5013, PlasticsRubber.GeneralTypes:ActiveJobValues ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
+      - DisplayName: "JobInPreparation"
+      - Description: "Job in a preparation layer of the machine"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6096, PlasticsRubber.GeneralTypes:ContinueAtJobEnd, Boolean, 0, 3 ]
+        - DisplayName: "ContinueAtJobEnd"
+        - Description: "Indication if the machine continues the production even if the nominal output has been reached"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
         - HasModellingRule:
@@ -658,6 +817,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6108, PlasticsRubber.GeneralTypes:CustomerName, String, 0, 0 ]
+        - DisplayName: "CustomerName"
+        - Description: "Name of the cumstomer for that the job is produced"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
         - HasModellingRule:
@@ -668,6 +829,8 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1024, PlasticsRubber.GeneralTypes:CyclicJobInformationType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6202, PlasticsRubber.GeneralTypes:ExpectedCycleTime, Duration, 0, 3 ]
+        - DisplayName: "ExpectedCycleTime"
+        - Description: "Calculated cycle time for the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
         - HasModellingRule:
@@ -676,6 +839,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6109, PlasticsRubber.GeneralTypes:JobDescription, String, 0, 0 ]
+        - DisplayName: "JobDescription"
+        - Description: "Description of the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
         - HasModellingRule:
@@ -686,6 +851,8 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5004, PlasticsRubber.IMM2MES:Jobs ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6110, PlasticsRubber.GeneralTypes:JobName, String, 0, 0 ]
+        - DisplayName: "JobName"
+        - Description: "Name of the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
         - HasModellingRule:
@@ -694,6 +861,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6111, PlasticsRubber.GeneralTypes:Material, String, 1, 0 ]
+        - DisplayName: "Material"
+        - Description: "Array of material names used for the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -702,6 +871,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6203, PlasticsRubber.GeneralTypes:MouldId, String, 0, 0 ]
+        - DisplayName: "MouldId"
+        - Description: "Id of the Mould used for the job"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
         - HasModellingRule:
@@ -710,6 +881,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6204, PlasticsRubber.GeneralTypes:NominalBoxParts, UInt64, 0, 3 ]
+        - DisplayName: "NominalBoxParts"
+        - Description: "Number of parts that shall be put into one box"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
         - HasModellingRule:
@@ -718,6 +891,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6094, PlasticsRubber.GeneralTypes:NominalParts, UInt64, 0, 3 ]
+        - DisplayName: "NominalParts"
+        - Description: "Total number (sum of all cavities) of parts that shall be produced by the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -728,6 +903,8 @@ DefinedTypes:
           - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6205, PlasticsRubber.GeneralTypes:NumCavities, UInt32, 0, 0 ]
+        - DisplayName: "NumCavities"
+        - Description: "Number of cavities in the Mould used for production"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5019, PlasticsRubber.GeneralTypes:JobInPreparation ]
         - HasModellingRule:
@@ -738,6 +915,8 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6112, PlasticsRubber.GeneralTypes:ProductDescription, String, 1, 0 ]
+        - DisplayName: "ProductDescription"
+        - Description: "Array of descriptions of the products produced by the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -746,6 +925,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6113, PlasticsRubber.GeneralTypes:ProductionDatasetDescription, String, 0, 0 ]
+        - DisplayName: "ProductionDatasetDescription"
+        - Description: "Additional description of the production dataset which is needed for the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -754,6 +935,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6144, PlasticsRubber.GeneralTypes:ProductionDatasetName, String, 0, 0 ]
+        - DisplayName: "ProductionDatasetName"
+        - Description: "Name of the production dataset which is needed for the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -762,6 +945,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6145, PlasticsRubber.GeneralTypes:ProductName, String, 1, 0 ]
+        - DisplayName: "ProductName"
+        - Description: "Array of product names produced by the job"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -772,8 +957,11 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1025, PlasticsRubber.GeneralTypes:RequestCyclicJobWriteEventType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7026, PlasticsRubber.GeneralTypes:SetCyclicJobData ]
+        - DisplayName: "SetCyclicJobData"
+        - Description: "Method for setting the data for cyclic jobs"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6095, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               JobName: [ String, 0 ]
               JobDescription: [ String, 0 ]
@@ -809,8 +997,11 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1028, PlasticsRubber.GeneralTypes:RequestCyclicJobListEventType ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7017, PlasticsRubber.GeneralTypes:SendCyclicJobList ]
+      - DisplayName: "SendCyclicJobList"
+      - Description: "Sends a list of jobs for cyclic processes available on the client to the server"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6114, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             JobList: [ PlasticsRubber.GeneralTypes:CyclicJobListElementType, 1 ]
         - HasModellingRule:
@@ -827,12 +1018,17 @@ DefinedTypes:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1011, PlasticsRubber.GeneralTypes:LogbookEventType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5005, PlasticsRubber.IMM2MES:MachineConfiguration ]
+    - DisplayName: "MachineConfiguration"
+    - Description: "Current configuration of the machine"
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7029, PlasticsRubber.GeneralTypes:GetCurrentPage ]
+      - DisplayName: "GetCurrentPage"
+      - Description: "Method for retrieving a screenshot of the control system with the currently shown contents"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5005, PlasticsRubber.IMM2MES:MachineConfiguration ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6075, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             VisualisationUnit: [ UInt32, 0 ]
         - HasModellingRule:
@@ -845,6 +1041,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6076, PlasticsRubber.IMM2MES:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Page: [ Image, 0 ]
         - HasModellingRule:
@@ -855,10 +1052,13 @@ DefinedTypes:
           - [ UAMethod, PlasticsRubber.IMM2MES:7029, PlasticsRubber.GeneralTypes:GetCurrentPage ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7030, PlasticsRubber.GeneralTypes:GetPage ]
+      - DisplayName: "GetPage"
+      - Description: "Method for retrieving the image of a page of the control system"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5005, PlasticsRubber.IMM2MES:MachineConfiguration ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6077, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Id: [ String, 0 ]
         - HasModellingRule:
@@ -871,6 +1071,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6078, PlasticsRubber.IMM2MES:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Page: [ Image, 0 ]
         - HasModellingRule:
@@ -881,6 +1082,8 @@ DefinedTypes:
           - [ UAMethod, PlasticsRubber.IMM2MES:7030, PlasticsRubber.GeneralTypes:GetPage ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6029, PlasticsRubber.GeneralTypes:LocationName, String, 0, 3 ]
+      - DisplayName: "LocationName"
+      - Description: "Description of the location of the machine given by the machine operator or OPC client"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5005, PlasticsRubber.IMM2MES:MachineConfiguration ]
       - HasModellingRule:
@@ -895,6 +1098,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6079, PlasticsRubber.GeneralTypes:PageDirectory, PlasticsRubber.GeneralTypes:PageEntryDataType, 1, 0 ]
+      - DisplayName: "PageDirectory"
+      - Description: "List of the pages that are implemented in the machine control system and are shown on the screen of the machine"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
@@ -903,8 +1108,11 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7005, PlasticsRubber.GeneralTypes:SetMachineTime ]
+      - DisplayName: "SetMachineTime"
+      - Description: "Method for setting the server time together with TimeZoneOffset"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6030, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             DateTime: [ DateTime, 0 ]
             TimeZoneOffset: [ TimeZoneDataType, 0 ]
@@ -920,6 +1128,8 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5005, PlasticsRubber.IMM2MES:MachineConfiguration ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6033, PlasticsRubber.GeneralTypes:TimeZoneOffset, TimeZoneDataType, 0, 3 ]
+      - DisplayName: "TimeZoneOffset"
+      - Description: "Difference of the local time to Coordinated Universal Time (UTC) given by the machine operator or OPC client"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -928,6 +1138,8 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5005, PlasticsRubber.IMM2MES:MachineConfiguration ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6034, PlasticsRubber.GeneralTypes:UserMachineName, String, 0, 3 ]
+      - DisplayName: "UserMachineName"
+      - Description: "Description of the machine given by the machine operator or OPC client"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -936,8 +1148,11 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5005, PlasticsRubber.IMM2MES:MachineConfiguration ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
+    - DisplayName: "MachineInformation"
+    - Description: "General description of the machine"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6022, DI:AssetId, String, 0, 0 ]
+      - DisplayName: "AssetId"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
       - HasModellingRule:
@@ -946,6 +1161,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6023, DI:ComponentName, LocalizedText, 0, 0 ]
+      - DisplayName: "ComponentName"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
       - HasModellingRule:
@@ -954,6 +1170,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6001, PlasticsRubber.GeneralTypes:ControllerName, String, 0, 0 ]
+      - DisplayName: "ControllerName"
+      - Description: "Name of the machine controller"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
       - HasModellingRule:
@@ -962,6 +1180,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6002, DI:DeviceClass, String, 0, 0 ]
+      - DisplayName: "DeviceClass"
+      - Description: "Indicates in which domain or for what purpose a device is used."
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
       - HasModellingRule:
@@ -970,6 +1190,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6024, DI:DeviceManual, String, 0, 0 ]
+      - DisplayName: "DeviceManual"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
       - HasModellingRule:
@@ -978,6 +1199,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6025, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
       - HasModellingRule:
@@ -986,6 +1208,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6084, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
       - HasModellingRule:
@@ -1000,6 +1223,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6004, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "Name of the company that manufactured the device"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1008,6 +1233,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6161, DI:ManufacturerUri, String, 0, 0 ]
+      - DisplayName: "ManufacturerUri"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
       - HasModellingRule:
@@ -1016,6 +1242,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6005, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "Model name of the device"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1024,6 +1252,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6171, DI:ProductCode, String, 0, 0 ]
+      - DisplayName: "ProductCode"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
@@ -1032,6 +1261,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6172, DI:ProductInstanceUri, String, 0, 0 ]
+      - DisplayName: "ProductInstanceUri"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
@@ -1040,6 +1270,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6173, DI:RevisionCounter, Int32, 0, 0 ]
+      - DisplayName: "RevisionCounter"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1048,6 +1279,8 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6017, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "Identifier that uniquely identifies, within a manufacturer, a device instance"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1056,6 +1289,7 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6174, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1064,6 +1298,8 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6021, PlasticsRubber.GeneralTypes:SupportedLogbookEvents, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration, 1, 0 ]
+      - DisplayName: "SupportedLogbookEvents"
+      - Description: "Information which LogbookEvents are supported by the machine"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1072,6 +1308,8 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5001, PlasticsRubber.IMM2MES:MachineInformation ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5009, PlasticsRubber.IMM2MES:MachineMESConfiguration ]
+    - DisplayName: "MachineMESConfiguration"
+    - Description: "Current configuration of a machine related to a Manufacturing Execution System (MES)"
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1007, PlasticsRubber.IMM2MES:IMM_MES_InterfaceType ]
     - HasTypeDefinition:
@@ -1080,6 +1318,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6085, PlasticsRubber.GeneralTypes:MESUrl, String, 0, 3 ]
+      - DisplayName: "MESUrl"
+      - Description: "URL to display a webpage generated by the MES in a web browser integrated in the machine"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5009, PlasticsRubber.IMM2MES:MachineMESConfiguration ]
       - HasModellingRule:
@@ -1088,6 +1328,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6043, PlasticsRubber.GeneralTypes:StandstillReasons, PlasticsRubber.GeneralTypes:StandstillReasonType, 1, 3 ]
+      - DisplayName: "StandstillReasons"
+      - Description: "List of the standstill reasons from which one is selected by the operator in the case of a standstill"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1096,6 +1338,8 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5009, PlasticsRubber.IMM2MES:MachineMESConfiguration ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6044, PlasticsRubber.GeneralTypes:StandstillReasonsLockedByMES, Boolean, 0, 3 ]
+      - DisplayName: "StandstillReasonsLockedByMES"
+      - Description: "Indication if the list StandstillReasons has been modified by the MES and may not be changed by the machine"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1104,8 +1348,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5009, PlasticsRubber.IMM2MES:MachineMESConfiguration ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5011, PlasticsRubber.IMM2MES:MachineMESStatus ]
+    - DisplayName: "MachineMESStatus"
+    - Description: "Current status of a machine related to the MES"
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7006, PlasticsRubber.GeneralTypes:ClearMESMessage ]
+      - DisplayName: "ClearMESMessage"
+      - Description: "Method for clearing the MESMessage"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5011, PlasticsRubber.IMM2MES:MachineMESStatus ]
       - HasModellingRule:
@@ -1118,8 +1366,12 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5012, PlasticsRubber.GeneralTypes:MESMessage ]
+      - DisplayName: "MESMessage"
+      - Description: "Text message sent from the MES to be shown on the machine"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6010, PlasticsRubber.GeneralTypes:Id, String, 0, 0 ]
+        - DisplayName: "Id"
+        - Description: "Id of the message"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5012, PlasticsRubber.GeneralTypes:MESMessage ]
         - HasModellingRule:
@@ -1134,6 +1386,8 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1051, PlasticsRubber.GeneralTypes:MESMessageType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6011, PlasticsRubber.GeneralTypes:Message, String, 0, 0 ]
+        - DisplayName: "Message"
+        - Description: "Text of the message"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -1144,6 +1398,8 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1004, PlasticsRubber.GeneralTypes:MessageConditionType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6014, PlasticsRubber.IMM2MES:Severity, UInt16, 0, 0 ]
+        - DisplayName: "Severity"
+        - Description: "Severity of the message"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1154,8 +1410,12 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1004, PlasticsRubber.GeneralTypes:MessageConditionType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5015, PlasticsRubber.GeneralTypes:ProductionControl ]
+      - DisplayName: "ProductionControl"
+      - Description: "Control of the production of the machine by MES"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6015, PlasticsRubber.GeneralTypes:AutomaticRunEnabled, Boolean, 0, 0 ]
+        - DisplayName: "AutomaticRunEnabled"
+        - Description: "Indication if semi-automatic and automatic run of the machine is allowed by MES"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5015, PlasticsRubber.GeneralTypes:ProductionControl ]
         - HasModellingRule:
@@ -1164,12 +1424,16 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7007, PlasticsRubber.GeneralTypes:DisableAutomaticRun ]
+        - DisplayName: "DisableAutomaticRun"
+        - Description: "Method for disabling the semi-automatic and automatic run of the machine"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5015, PlasticsRubber.GeneralTypes:ProductionControl ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7008, PlasticsRubber.GeneralTypes:EnableAutomaticRun ]
+        - DisplayName: "EnableAutomaticRun"
+        - Description: "Method for enabling the semi-automatic and automatic run of the machine"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5015, PlasticsRubber.GeneralTypes:ProductionControl ]
         - HasModellingRule:
@@ -1184,6 +1448,8 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1017, PlasticsRubber.GeneralTypes:ProductionControlType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6207, PlasticsRubber.GeneralTypes:ProductionOnlyWithMES, Boolean, 0, 3 ]
+        - DisplayName: "ProductionOnlyWithMES"
+        - Description: "Indication if production with the machine is only allowed when the MES is active"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty_reverse:
@@ -1192,6 +1458,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6046, PlasticsRubber.GeneralTypes:ProductionReleasedByMES, Boolean, 0, 3 ]
+        - DisplayName: "ProductionReleasedByMES"
+        - Description: "Indication if ProductionStatus may have the value PRODUCTION_4"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -1200,6 +1468,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6047, PlasticsRubber.GeneralTypes:ProductionStatus, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration, 0, 0 ]
+        - DisplayName: "ProductionStatus"
+        - Description: "Production status when the machine is in automatic or semi-automatic mode"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -1208,20 +1478,27 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7024, PlasticsRubber.GeneralTypes:RequestTestSample ]
+        - DisplayName: "RequestTestSample"
+        - Description: "The machine shall separate a test sample (e.g. for quality check). The size of the test sample depends on the product/machine configuration."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5015, PlasticsRubber.GeneralTypes:ProductionControl ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7025, PlasticsRubber.GeneralTypes:ResetWatchDog ]
+        - DisplayName: "ResetWatchDog"
+        - Description: "Setting the watch dog timer to the value set by the last calling of SetWatchDogTime"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5015, PlasticsRubber.GeneralTypes:ProductionControl ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7027, PlasticsRubber.GeneralTypes:SetWatchDogTime ]
+        - DisplayName: "SetWatchDogTime"
+        - Description: "Release of production for a given time"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6209, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               WatchDogTime: [ Int32, 0 ]
           - HasModellingRule:
@@ -1236,8 +1513,11 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.IMM2MES:5015, PlasticsRubber.GeneralTypes:ProductionControl ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7009, PlasticsRubber.GeneralTypes:SetMESMessage ]
+      - DisplayName: "SetMESMessage"
+      - Description: "Method for setting the MESMessage"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6048, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Id: [ String, 0 ]
             Message: [ String, 0 ]
@@ -1254,8 +1534,11 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5011, PlasticsRubber.IMM2MES:MachineMESStatus ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5016, PlasticsRubber.GeneralTypes:StandstillMessage ]
+      - DisplayName: "StandstillMessage"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6052, PlasticsRubber.GeneralTypes:Classification, Enumeration, 0, 0 ]
+        - DisplayName: "Classification"
+        - Description: "Classification of the message"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5016, PlasticsRubber.GeneralTypes:StandstillMessage ]
         - HasModellingRule:
@@ -1264,6 +1547,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6053, PlasticsRubber.GeneralTypes:Id, String, 0, 0 ]
+        - DisplayName: "Id"
+        - Description: "Id of the message"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5016, PlasticsRubber.GeneralTypes:StandstillMessage ]
         - HasModellingRule:
@@ -1274,6 +1559,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6054, PlasticsRubber.IMM2MES:Message, LocalizedText, 0, 0 ]
+        - DisplayName: "Message"
+        - Description: "Text of the message"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -1284,6 +1571,8 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1004, PlasticsRubber.GeneralTypes:MessageConditionType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6055, PlasticsRubber.IMM2MES:Severity, UInt16, 0, 0 ]
+        - DisplayName: "Severity"
+        - Description: "Severity of the message"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1296,6 +1585,8 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1026, PlasticsRubber.GeneralTypes:StandstillMessageType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6073, PlasticsRubber.GeneralTypes:StandstillReasonId, String, 0, 0 ]
+      - DisplayName: "StandstillReasonId"
+      - Description: "Id of the StandstillReason set by the operator after a standstill occurs"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - GeneratesEvent:
@@ -1306,20 +1597,28 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5011, PlasticsRubber.IMM2MES:MachineMESStatus ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5006, PlasticsRubber.IMM2MES:MachineStatus ]
+    - DisplayName: "MachineStatus"
+    - Description: "Information on the current status of the machine"
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7010, PlasticsRubber.GeneralTypes:ActivateSleepMode ]
+      - DisplayName: "ActivateSleepMode"
+      - Description: "Method for activation of sleep mode"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5006, PlasticsRubber.IMM2MES:MachineStatus ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7011, PlasticsRubber.GeneralTypes:DeactivateSleepMode ]
+      - DisplayName: "DeactivateSleepMode"
+      - Description: "Method for deactivation of sleep mode"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5006, PlasticsRubber.IMM2MES:MachineStatus ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6007, PlasticsRubber.GeneralTypes:IsPresent, Boolean, 0, 0 ]
+      - DisplayName: "IsPresent"
+      - Description: "Indication if the machine is physically present and connected"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5006, PlasticsRubber.IMM2MES:MachineStatus ]
       - HasModellingRule:
@@ -1328,6 +1627,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6008, PlasticsRubber.GeneralTypes:MachineMode, PlasticsRubber.GeneralTypes:MachineModeEnumeration, 0, 0 ]
+      - DisplayName: "MachineMode"
+      - Description: "Current machine mode (as defined by mode selector on the machine)"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5006, PlasticsRubber.IMM2MES:MachineStatus ]
       - HasModellingRule:
@@ -1342,10 +1643,13 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5010, PlasticsRubber.GeneralTypes:Users ]
+      - DisplayName: "Users"
+      - Description: "Container for the user(s) of the machine"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6009, PlasticsRubber.IMM2MES:NodeVersion, String, 0, 0 ]
+        - DisplayName: "NodeVersion"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -1358,6 +1662,8 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1048, PlasticsRubber.GeneralTypes:UsersType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5035, PlasticsRubber.IMM2MES:Moulds ]
+    - DisplayName: "Moulds"
+    - Description: "Container for the moulds"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
@@ -1366,6 +1672,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1050, PlasticsRubber.GeneralTypes:MouldsType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6074, PlasticsRubber.IMM2MES:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1374,10 +1681,13 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5054, PlasticsRubber.IMM2MES:PowerUnits ]
+    - DisplayName: "PowerUnits"
+    - Description: "Container for the power units"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6086, PlasticsRubber.IMM2MES:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1390,12 +1700,18 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1049, PlasticsRubber.GeneralTypes:PowerUnitsType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5003, PlasticsRubber.IMM2MES:ProductionDatasetManagement ]
+    - DisplayName: "ProductionDatasetManagement"
+    - Description: "Management of production datasets"
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5007, PlasticsRubber.GeneralTypes:ActiveProductionDatasetStatus ]
+      - DisplayName: "ActiveProductionDatasetStatus"
+      - Description: "Status of the active production dataset"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5003, PlasticsRubber.IMM2MES:ProductionDatasetManagement ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6212, PlasticsRubber.GeneralTypes:Frozen, Boolean, 0, 3 ]
+        - DisplayName: "Frozen"
+        - Description: "Indication if changes on the machine in the production dataset are allowed"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5007, PlasticsRubber.GeneralTypes:ActiveProductionDatasetStatus ]
         - HasModellingRule:
@@ -1404,6 +1720,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6020, PlasticsRubber.GeneralTypes:Information, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 0, 0 ]
+        - DisplayName: "Information"
+        - Description: "Set of information on the production dataset"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5007, PlasticsRubber.GeneralTypes:ActiveProductionDatasetStatus ]
         - HasModellingRule:
@@ -1412,8 +1730,11 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7028, PlasticsRubber.GeneralTypes:Load ]
+        - DisplayName: "Load"
+        - Description: "Loads a production dataset from the file system of the machine to the control of the machine"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6213, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Name: [ String, 0 ]
               Components: [ UInt16, 1 ]
@@ -1431,6 +1752,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6215, PlasticsRubber.GeneralTypes:Modified, Boolean, 0, 0 ]
+        - DisplayName: "Modified"
+        - Description: "Indication if the production dataset has been changed after the last storage"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5007, PlasticsRubber.GeneralTypes:ActiveProductionDatasetStatus ]
         - HasModellingRule:
@@ -1441,8 +1764,11 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1039, PlasticsRubber.GeneralTypes:ProductionDatasetStatusType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7031, PlasticsRubber.GeneralTypes:Save ]
+        - DisplayName: "Save"
+        - Description: "Stores a production dataset from the control of the machine to the file system of the machine"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6216, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Name: [ String, 0 ]
           - HasModellingRule:
@@ -1457,10 +1783,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.IMM2MES:5007, PlasticsRubber.GeneralTypes:ActiveProductionDatasetStatus ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7004, PlasticsRubber.GeneralTypes:GetProductionDatasetInformation ]
+      - DisplayName: "GetProductionDatasetInformation"
+      - Description: "This Method allows reading the description of a production dataset during the file transfer from the server to the client with ProductionDatasetTransfer"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5003, PlasticsRubber.IMM2MES:ProductionDatasetManagement ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6124, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             fileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -1473,6 +1802,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6125, PlasticsRubber.IMM2MES:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Information: [ PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 0 ]
         - HasModellingRule:
@@ -1485,8 +1815,12 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5014, PlasticsRubber.GeneralTypes:ProductionDatasetInPreparationStatus ]
+      - DisplayName: "ProductionDatasetInPreparationStatus"
+      - Description: "Status of the production dataset in the preparation layer"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6217, PlasticsRubber.GeneralTypes:Frozen, Boolean, 0, 3 ]
+        - DisplayName: "Frozen"
+        - Description: "Indication if changes on the machine in the production dataset are allowed"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5014, PlasticsRubber.GeneralTypes:ProductionDatasetInPreparationStatus ]
         - HasModellingRule:
@@ -1495,6 +1829,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6126, PlasticsRubber.GeneralTypes:Information, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 0, 0 ]
+        - DisplayName: "Information"
+        - Description: "Set of information on the production dataset"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5014, PlasticsRubber.GeneralTypes:ProductionDatasetInPreparationStatus ]
         - HasModellingRule:
@@ -1503,8 +1839,11 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7032, PlasticsRubber.GeneralTypes:Load ]
+        - DisplayName: "Load"
+        - Description: "Loads a production dataset from the file system of the machine to the control of the machine"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6218, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Name: [ String, 0 ]
               Components: [ UInt16, 1 ]
@@ -1520,6 +1859,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6219, PlasticsRubber.GeneralTypes:Modified, Boolean, 0, 0 ]
+        - DisplayName: "Modified"
+        - Description: "Indication if the production dataset has been changed after the last storage"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5014, PlasticsRubber.GeneralTypes:ProductionDatasetInPreparationStatus ]
         - HasModellingRule:
@@ -1534,8 +1875,11 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1039, PlasticsRubber.GeneralTypes:ProductionDatasetStatusType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7033, PlasticsRubber.GeneralTypes:Save ]
+        - DisplayName: "Save"
+        - Description: "Stores a production dataset from the control of the machine to the file system of the machine"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6220, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Name: [ String, 0 ]
           - HasModellingRule:
@@ -1550,12 +1894,16 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.IMM2MES:5014, PlasticsRubber.GeneralTypes:ProductionDatasetInPreparationStatus ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5020, PlasticsRubber.GeneralTypes:ProductionDatasetLists ]
+      - DisplayName: "ProductionDatasetLists"
+      - Description: "Functions for exchanging information on the available production datasets on client and server"
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7012, PlasticsRubber.GeneralTypes:GetProductionDatasetList ]
+        - DisplayName: "GetProductionDatasetList"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5020, PlasticsRubber.GeneralTypes:ProductionDatasetLists ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6137, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               NameFilter: [ String, 0 ]
               MouldId: [ String, 0 ]
@@ -1569,6 +1917,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6138, PlasticsRubber.IMM2MES:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ProductionDatasetList: [ PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 1 ]
           - HasModellingRule:
@@ -1587,8 +1936,10 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1040, PlasticsRubber.GeneralTypes:RequestProductionDatasetListEventType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7013, PlasticsRubber.GeneralTypes:SendProductionDatasetList ]
+        - DisplayName: "SendProductionDatasetList"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6139, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               ProductionDatasetList: [ PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 1 ]
           - HasModellingRule:
@@ -1607,8 +1958,11 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1008, PlasticsRubber.GeneralTypes:ProductionDatasetManagementType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5008, PlasticsRubber.GeneralTypes:ProductionDatasetTransfer ]
+      - DisplayName: "ProductionDatasetTransfer"
+      - Description: "Transfer of production datasets between server and client"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6026, PlasticsRubber.IMM2MES:ClientProcessingTimeout, Duration, 0, 0 ]
+        - DisplayName: "ClientProcessingTimeout"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5008, PlasticsRubber.GeneralTypes:ProductionDatasetTransfer ]
         - HasModellingRule:
@@ -1617,10 +1971,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7001, PlasticsRubber.IMM2MES:CloseAndCommit ]
+        - DisplayName: "CloseAndCommit"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5008, PlasticsRubber.GeneralTypes:ProductionDatasetTransfer ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6027, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasModellingRule:
@@ -1633,6 +1989,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6028, PlasticsRubber.IMM2MES:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               CompletionStateMachine: [ NodeId, 0 ]
           - HasModellingRule:
@@ -1643,10 +2000,12 @@ DefinedTypes:
             - [ UAMethod, PlasticsRubber.IMM2MES:7001, PlasticsRubber.IMM2MES:CloseAndCommit ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7002, PlasticsRubber.IMM2MES:GenerateFileForRead ]
+        - DisplayName: "GenerateFileForRead"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5008, PlasticsRubber.GeneralTypes:ProductionDatasetTransfer ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6041, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               GenerateOptions: [ PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType, 0 ]
           - HasModellingRule:
@@ -1659,6 +2018,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6042, PlasticsRubber.IMM2MES:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               FileNodeId: [ NodeId, 0 ]
               FileHandle: [ UInt32, 0 ]
@@ -1671,10 +2031,12 @@ DefinedTypes:
             - [ UAMethod, PlasticsRubber.IMM2MES:7002, PlasticsRubber.IMM2MES:GenerateFileForRead ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.IMM2MES:7003, PlasticsRubber.IMM2MES:GenerateFileForWrite ]
+        - DisplayName: "GenerateFileForWrite"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.IMM2MES:5008, PlasticsRubber.GeneralTypes:ProductionDatasetTransfer ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6116, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               GenerateOptions: [ PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType, 0 ]
           - HasModellingRule:
@@ -1687,6 +2049,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.IMM2MES:6123, PlasticsRubber.IMM2MES:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               FileNodeId: [ NodeId, 0 ]
               FileHandle: [ UInt32, 0 ]
@@ -1710,8 +2073,11 @@ DefinedTypes:
         - [ UAObjectType, 15744, TemporaryFileTransferType ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.IMM2MES:7018, PlasticsRubber.GeneralTypes:SendProductionDatasetInformation ]
+      - DisplayName: "SendProductionDatasetInformation"
+      - Description: "This Method allows sending of the description of a production dataset during the file transfer from the client to the server with ProductionDatasetTransfer"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6140, PlasticsRubber.IMM2MES:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             fileHandle: [ UInt32, 0 ]
             Information: [ PlasticsRubber.GeneralTypes:ProductionDatasetInformationType, 0 ]
@@ -1728,14 +2094,18 @@ DefinedTypes:
 
   PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType:
   - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
+  - DisplayName: "InjectionUnitCycleParametersType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6118, PlasticsRubber.IMM2MES:BackPressure, Double, 0, 0 ]
+    - DisplayName: "BackPressure"
+    - Description: "Back pressure is the melt-pressure against the screw movement during dosage"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6120, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6118, PlasticsRubber.IMM2MES:BackPressure, Double, 0, 0 ]
@@ -1745,6 +2115,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6119, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6118, PlasticsRubber.IMM2MES:BackPressure, Double, 0, 0 ]
       - HasModellingRule:
@@ -1755,12 +2126,15 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6129, PlasticsRubber.IMM2MES:CavityPressureMaximum, Double, 0, 0 ]
+    - DisplayName: "CavityPressureMaximum"
+    - Description: "Maximum pressure during the injection process in the cavity or mould"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6448, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6129, PlasticsRubber.IMM2MES:CavityPressureMaximum, Double, 0, 0 ]
@@ -1770,6 +2144,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6130, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6129, PlasticsRubber.IMM2MES:CavityPressureMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -1780,12 +2155,15 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6093, PlasticsRubber.IMM2MES:CushionStroke, Double, 0, 0 ]
+    - DisplayName: "CushionStroke"
+    - Description: "Stroke position at cushion"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6122, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6093, PlasticsRubber.IMM2MES:CushionStroke, Double, 0, 0 ]
       - HasModellingRule:
@@ -1794,6 +2172,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6121, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6093, PlasticsRubber.IMM2MES:CushionStroke, Double, 0, 0 ]
       - HasModellingRule:
@@ -1804,12 +2183,15 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6441, PlasticsRubber.IMM2MES:CushionVolume, Double, 0, 0 ]
+    - DisplayName: "CushionVolume"
+    - Description: "Material volume remained in front of the screw after injection and holding pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6475, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6441, PlasticsRubber.IMM2MES:CushionVolume, Double, 0, 0 ]
       - HasModellingRule:
@@ -1818,6 +2200,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6442, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6441, PlasticsRubber.IMM2MES:CushionVolume, Double, 0, 0 ]
       - HasModellingRule:
@@ -1828,12 +2211,15 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6131, PlasticsRubber.IMM2MES:DecompressionVolumeAfterPlastification, Double, 0, 0 ]
+    - DisplayName: "DecompressionVolumeAfterPlastification"
+    - Description: "Decompression after plastification is the movement of the screw in the opposite direction to injection"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6449, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6131, PlasticsRubber.IMM2MES:DecompressionVolumeAfterPlastification, Double, 0, 0 ]
@@ -1843,6 +2229,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6132, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6131, PlasticsRubber.IMM2MES:DecompressionVolumeAfterPlastification, Double, 0, 0 ]
       - HasModellingRule:
@@ -1853,12 +2240,15 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6064, PlasticsRubber.IMM2MES:DecompressionVolumeBeforePlastification, Double, 0, 0 ]
+    - DisplayName: "DecompressionVolumeBeforePlastification"
+    - Description: "Decompression before plastification is the movement of the screw in the opposite direction to injection"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6450, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6064, PlasticsRubber.IMM2MES:DecompressionVolumeBeforePlastification, Double, 0, 0 ]
@@ -1868,6 +2258,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6136, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6064, PlasticsRubber.IMM2MES:DecompressionVolumeBeforePlastification, Double, 0, 0 ]
       - HasModellingRule:
@@ -1878,6 +2269,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6059, PlasticsRubber.IMM2MES:DosingTime, Duration, 0, 0 ]
+    - DisplayName: "DosingTime"
+    - Description: "Time to melt-up the plastic granulates and feed the melt for the next injection shot to the front of the screw"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
@@ -1886,10 +2279,13 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6160, PlasticsRubber.IMM2MES:FlowIndex, Double, 0, 0 ]
+    - DisplayName: "FlowIndex"
+    - Description: "Flow index"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6168, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6160, PlasticsRubber.IMM2MES:FlowIndex, Double, 0, 0 ]
       - HasModellingRule:
@@ -1898,6 +2294,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6163, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6160, PlasticsRubber.IMM2MES:FlowIndex, Double, 0, 0 ]
       - HasModellingRule:
@@ -1910,10 +2307,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6146, PlasticsRubber.IMM2MES:HoldHydraulicPressureAverage, Double, 0, 0 ]
+    - DisplayName: "HoldHydraulicPressureAverage"
+    - Description: "Average holding pressure in the hydraulic cylinder"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6454, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6146, PlasticsRubber.IMM2MES:HoldHydraulicPressureAverage, Double, 0, 0 ]
@@ -1923,6 +2323,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6147, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6146, PlasticsRubber.IMM2MES:HoldHydraulicPressureAverage, Double, 0, 0 ]
       - HasModellingRule:
@@ -1935,10 +2336,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6148, PlasticsRubber.IMM2MES:HoldHydraulicPressureMaximum, Double, 0, 0 ]
+    - DisplayName: "HoldHydraulicPressureMaximum"
+    - Description: "Maximum holding pressure in the hydraulic cylinder"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6455, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6148, PlasticsRubber.IMM2MES:HoldHydraulicPressureMaximum, Double, 0, 0 ]
@@ -1948,6 +2352,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6149, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6148, PlasticsRubber.IMM2MES:HoldHydraulicPressureMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -1960,10 +2365,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6150, PlasticsRubber.IMM2MES:HoldSpecificPressureAverage, Double, 0, 0 ]
+    - DisplayName: "HoldSpecificPressureAverage"
+    - Description: "Average holding pressure in front of the screw"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6456, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6150, PlasticsRubber.IMM2MES:HoldSpecificPressureAverage, Double, 0, 0 ]
@@ -1973,6 +2381,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6151, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6150, PlasticsRubber.IMM2MES:HoldSpecificPressureAverage, Double, 0, 0 ]
       - HasModellingRule:
@@ -1985,10 +2394,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6152, PlasticsRubber.IMM2MES:HoldSpecificPressureMaximum, Double, 0, 0 ]
+    - DisplayName: "HoldSpecificPressureMaximum"
+    - Description: "Maximum holding pressure in front of the screw"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6457, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6152, PlasticsRubber.IMM2MES:HoldSpecificPressureMaximum, Double, 0, 0 ]
@@ -1998,6 +2410,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6153, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6152, PlasticsRubber.IMM2MES:HoldSpecificPressureMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2010,10 +2423,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6188, PlasticsRubber.IMM2MES:HydraulicPressureMaximum, Double, 0, 0 ]
+    - DisplayName: "HydraulicPressureMaximum"
+    - Description: "Maximum pressure in the hydraulic cylinder"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6459, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6188, PlasticsRubber.IMM2MES:HydraulicPressureMaximum, Double, 0, 0 ]
@@ -2023,6 +2439,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6191, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6188, PlasticsRubber.IMM2MES:HydraulicPressureMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2035,6 +2452,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.IMM2MES:6107, PlasticsRubber.IMM2MES:Index, UInt32, 0, 0 ]
+    - DisplayName: "Index"
+    - Description: "Index of the injection unit"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
     - HasModellingRule:
@@ -2043,10 +2462,13 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6065, PlasticsRubber.IMM2MES:InjectionSpeedAverage, Double, 0, 0 ]
+    - DisplayName: "InjectionSpeedAverage"
+    - Description: "Average injection speed (e.g. mm/s)"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6016, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2055,6 +2477,7 @@ DefinedTypes:
         - [ UAVariable, PlasticsRubber.IMM2MES:6065, PlasticsRubber.IMM2MES:InjectionSpeedAverage, Double, 0, 0 ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6066, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6065, PlasticsRubber.IMM2MES:InjectionSpeedAverage, Double, 0, 0 ]
       - HasModellingRule:
@@ -2067,10 +2490,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6061, PlasticsRubber.IMM2MES:InjectionSpeedMaximum, Double, 0, 0 ]
+    - DisplayName: "InjectionSpeedMaximum"
+    - Description: "Maximum injection speed (e.g. mm/s)"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6032, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2079,6 +2505,7 @@ DefinedTypes:
         - [ UAVariable, PlasticsRubber.IMM2MES:6061, PlasticsRubber.IMM2MES:InjectionSpeedMaximum, Double, 0, 0 ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6062, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6061, PlasticsRubber.IMM2MES:InjectionSpeedMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2091,10 +2518,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6164, PlasticsRubber.IMM2MES:InjectionStartPosition, Double, 0, 0 ]
+    - DisplayName: "InjectionStartPosition"
+    - Description: "Start position of the injection"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6169, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6164, PlasticsRubber.IMM2MES:InjectionStartPosition, Double, 0, 0 ]
       - HasModellingRule:
@@ -2103,6 +2533,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6165, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6164, PlasticsRubber.IMM2MES:InjectionStartPosition, Double, 0, 0 ]
       - HasModellingRule:
@@ -2115,6 +2546,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6060, PlasticsRubber.IMM2MES:InjectionTime, Duration, 0, 0 ]
+    - DisplayName: "InjectionTime"
+    - Description: "Time required to fill the cavity or mould"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
@@ -2125,10 +2558,13 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6208, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedAverage, Double, 0, 0 ]
+    - DisplayName: "PlastificationCircumferentialSpeedAverage"
+    - Description: "Average screw circumferential speed for plastification (e.g. mm/s)"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6472, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6208, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedAverage, Double, 0, 0 ]
@@ -2138,6 +2574,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6210, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6208, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedAverage, Double, 0, 0 ]
       - HasModellingRule:
@@ -2150,10 +2587,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6211, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedMaximum, Double, 0, 0 ]
+    - DisplayName: "PlastificationCircumferentialSpeedMaximum"
+    - Description: "Maximum screw circumferential speed for plastification (e.g. mm/s)"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6473, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6211, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedMaximum, Double, 0, 0 ]
@@ -2163,6 +2603,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6214, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6211, PlasticsRubber.IMM2MES:PlastificationCircumferentialSpeedMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2175,10 +2616,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6194, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureAverage, Double, 0, 0 ]
+    - DisplayName: "PlastificationHydraulicPressureAverage"
+    - Description: "Average plastification pressure in cylinder"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6080, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2187,6 +2631,7 @@ DefinedTypes:
         - [ UAVariable, PlasticsRubber.IMM2MES:6194, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureAverage, Double, 0, 0 ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6195, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6194, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureAverage, Double, 0, 0 ]
       - HasModellingRule:
@@ -2199,10 +2644,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6197, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureMaximum, Double, 0, 0 ]
+    - DisplayName: "PlastificationHydraulicPressureMaximum"
+    - Description: "Maximum plastification pressure in cylinder"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6471, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6197, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureMaximum, Double, 0, 0 ]
@@ -2212,6 +2660,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6206, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6197, PlasticsRubber.IMM2MES:PlastificationHydraulicPressureMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2224,10 +2673,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6223, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedAverage, Double, 0, 0 ]
+    - DisplayName: "PlastificationRotationalSpeedAverage"
+    - Description: "Average plastification speed of the injection unit (RPM)"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6474, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6223, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedAverage, Double, 0, 0 ]
@@ -2237,6 +2689,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6224, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6223, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedAverage, Double, 0, 0 ]
       - HasModellingRule:
@@ -2249,10 +2702,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6225, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedMaximum, Double, 0, 0 ]
+    - DisplayName: "PlastificationRotationalSpeedMaximum"
+    - Description: "Maximum plastification speed of the injection unit (RPM)"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6476, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6225, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedMaximum, Double, 0, 0 ]
@@ -2262,6 +2718,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6226, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6225, PlasticsRubber.IMM2MES:PlastificationRotationalSpeedMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2274,10 +2731,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6067, PlasticsRubber.IMM2MES:PlastificationSpecificPressureAverage, Double, 0, 0 ]
+    - DisplayName: "PlastificationSpecificPressureAverage"
+    - Description: "Average plastification pressure in front of the screw tip"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6081, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6067, PlasticsRubber.IMM2MES:PlastificationSpecificPressureAverage, Double, 0, 0 ]
       - HasModellingRule:
@@ -2286,6 +2746,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6068, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6067, PlasticsRubber.IMM2MES:PlastificationSpecificPressureAverage, Double, 0, 0 ]
       - HasModellingRule:
@@ -2298,10 +2759,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6069, PlasticsRubber.IMM2MES:PlastificationSpecificPressureMaximum, Double, 0, 0 ]
+    - DisplayName: "PlastificationSpecificPressureMaximum"
+    - Description: "Maximum plastification pressure in front of the screw tip"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6082, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6069, PlasticsRubber.IMM2MES:PlastificationSpecificPressureMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2310,6 +2774,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6070, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6069, PlasticsRubber.IMM2MES:PlastificationSpecificPressureMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2322,10 +2787,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6063, PlasticsRubber.IMM2MES:PlastificationVolume, Double, 0, 0 ]
+    - DisplayName: "PlastificationVolume"
+    - Description: "Volume dosed by the machine for the next injection shot"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6477, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6063, PlasticsRubber.IMM2MES:PlastificationVolume, Double, 0, 0 ]
@@ -2335,6 +2803,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6227, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6063, PlasticsRubber.IMM2MES:PlastificationVolume, Double, 0, 0 ]
       - HasModellingRule:
@@ -2347,10 +2816,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6247, PlasticsRubber.IMM2MES:SpecificPressureMaximum, Double, 0, 0 ]
+    - DisplayName: "SpecificPressureMaximum"
+    - Description: "Pressure in front of the screw tip"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6479, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6247, PlasticsRubber.IMM2MES:SpecificPressureMaximum, Double, 0, 0 ]
@@ -2360,6 +2832,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6248, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6247, PlasticsRubber.IMM2MES:SpecificPressureMaximum, Double, 0, 0 ]
       - HasModellingRule:
@@ -2372,10 +2845,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6117, PlasticsRubber.IMM2MES:TransferCavityPressure, Double, 0, 0 ]
+    - DisplayName: "TransferCavityPressure"
+    - Description: "Cavity pressure in the mould during switch-over to the holding pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6428, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6117, PlasticsRubber.IMM2MES:TransferCavityPressure, Double, 0, 0 ]
@@ -2385,6 +2861,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6128, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6117, PlasticsRubber.IMM2MES:TransferCavityPressure, Double, 0, 0 ]
       - HasModellingRule:
@@ -2397,10 +2874,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6156, PlasticsRubber.IMM2MES:TransferHydraulicPressure, Double, 0, 0 ]
+    - DisplayName: "TransferHydraulicPressure"
+    - Description: "Hydraulic pressure in the cylinder during switch-over to the holding pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6458, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6156, PlasticsRubber.IMM2MES:TransferHydraulicPressure, Double, 0, 0 ]
@@ -2410,6 +2890,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6162, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6156, PlasticsRubber.IMM2MES:TransferHydraulicPressure, Double, 0, 0 ]
       - HasModellingRule:
@@ -2422,10 +2903,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6228, PlasticsRubber.IMM2MES:TransferSpecificPressure, Double, 0, 0 ]
+    - DisplayName: "TransferSpecificPressure"
+    - Description: "Pressure in front of the screw tip during switch-over to the holding pressure"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6478, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6228, PlasticsRubber.IMM2MES:TransferSpecificPressure, Double, 0, 0 ]
@@ -2435,6 +2919,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6246, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6228, PlasticsRubber.IMM2MES:TransferSpecificPressure, Double, 0, 0 ]
       - HasModellingRule:
@@ -2447,10 +2932,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6071, PlasticsRubber.IMM2MES:TransferStroke, Double, 0, 0 ]
+    - DisplayName: "TransferStroke"
+    - Description: "Switch-over point to the holding pressure via stroke"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6083, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6071, PlasticsRubber.IMM2MES:TransferStroke, Double, 0, 0 ]
       - HasModellingRule:
@@ -2459,6 +2947,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6072, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6071, PlasticsRubber.IMM2MES:TransferStroke, Double, 0, 0 ]
       - HasModellingRule:
@@ -2471,10 +2960,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6254, PlasticsRubber.IMM2MES:TransferVolume, Double, 0, 0 ]
+    - DisplayName: "TransferVolume"
+    - Description: "Switch-over point to the holding pressure via volume"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6481, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6254, PlasticsRubber.IMM2MES:TransferVolume, Double, 0, 0 ]
@@ -2484,6 +2976,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6427, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6254, PlasticsRubber.IMM2MES:TransferVolume, Double, 0, 0 ]
       - HasModellingRule:
@@ -2496,10 +2989,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1039, PlasticsRubber.IMM2MES:InjectionUnitCycleParametersType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6166, PlasticsRubber.IMM2MES:VPChangeOverPosition, Double, 0, 0 ]
+    - DisplayName: "VPChangeOverPosition"
+    - Description: "Screw position at switching between injection (V) and holding pressure (P)"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6170, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6166, PlasticsRubber.IMM2MES:VPChangeOverPosition, Double, 0, 0 ]
       - HasModellingRule:
@@ -2508,6 +3004,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6167, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6166, PlasticsRubber.IMM2MES:VPChangeOverPosition, Double, 0, 0 ]
       - HasModellingRule:
@@ -2521,12 +3018,17 @@ DefinedTypes:
 
   PlasticsRubber.IMM2MES:InjectionUnitsType:
   - [ UAObjectType, PlasticsRubber.IMM2MES:1016, PlasticsRubber.IMM2MES:InjectionUnitsType ]
+  - DisplayName: "InjectionUnitsType"
+  - Description: "Container for objects of InjectionUnitType"
   - GeneratesEvent:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5027, PlasticsRubber.IMM2MES:InjectionUnit_<Nr> ]
+    - DisplayName: "InjectionUnit_<Nr>"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6018, PlasticsRubber.IMM2MES:BarrelId, String, 0, 0 ]
+      - DisplayName: "BarrelId"
+      - Description: "Id (e.g. serial number) of the barrel"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5027, PlasticsRubber.IMM2MES:InjectionUnit_<Nr> ]
       - HasModellingRule:
@@ -2535,6 +3037,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6157, PlasticsRubber.IMM2MES:Index, UInt32, 0, 0 ]
+      - DisplayName: "Index"
+      - Description: "Number of the injection unit"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5027, PlasticsRubber.IMM2MES:InjectionUnit_<Nr> ]
       - HasModellingRule:
@@ -2547,6 +3051,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6178, PlasticsRubber.IMM2MES:InProduction, Boolean, 0, 0 ]
+      - DisplayName: "InProduction"
+      - Description: "information if the injection unit is used in the current running production"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5027, PlasticsRubber.IMM2MES:InjectionUnit_<Nr> ]
       - HasModellingRule:
@@ -2555,6 +3061,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6179, PlasticsRubber.IMM2MES:IsPresent, Boolean, 0, 0 ]
+      - DisplayName: "IsPresent"
+      - Description: "Information if the injection unit is physically installed on the injection machines"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.IMM2MES:5027, PlasticsRubber.IMM2MES:InjectionUnit_<Nr> ]
       - HasModellingRule:
@@ -2563,10 +3071,13 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.IMM2MES:6180, PlasticsRubber.IMM2MES:MaxScrewStroke, Double, 0, 0 ]
+      - DisplayName: "MaxScrewStroke"
+      - Description: "maximum stroke of the screw installed in the injection unit"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6181, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.IMM2MES:6180, PlasticsRubber.IMM2MES:MaxScrewStroke, Double, 0, 0 ]
         - HasModellingRule:
@@ -2575,6 +3086,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6182, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.IMM2MES:6180, PlasticsRubber.IMM2MES:MaxScrewStroke, Double, 0, 0 ]
         - HasModellingRule:
@@ -2589,10 +3101,13 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.IMM2MES:6183, PlasticsRubber.IMM2MES:ScrewDiameter, Double, 0, 0 ]
+      - DisplayName: "ScrewDiameter"
+      - Description: "diameter of the screw installed in the injection unit"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6252, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - UnitId: -1
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.IMM2MES:6183, PlasticsRubber.IMM2MES:ScrewDiameter, Double, 0, 0 ]
@@ -2602,6 +3117,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6184, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.IMM2MES:6183, PlasticsRubber.IMM2MES:ScrewDiameter, Double, 0, 0 ]
         - HasModellingRule:
@@ -2614,6 +3130,8 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5027, PlasticsRubber.IMM2MES:InjectionUnit_<Nr> ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6185, PlasticsRubber.IMM2MES:ScrewId, String, 0, 0 ]
+      - DisplayName: "ScrewId"
+      - Description: "Id of the screw installed in the injection unit"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2622,10 +3140,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5027, PlasticsRubber.IMM2MES:InjectionUnit_<Nr> ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.IMM2MES:6186, PlasticsRubber.IMM2MES:ScrewVolume, Double, 0, 0 ]
+      - DisplayName: "ScrewVolume"
+      - Description: "volume of the screw installed in the injection unit"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6031, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - UnitId: -1
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
@@ -2635,6 +3156,7 @@ DefinedTypes:
           - [ UAVariable, PlasticsRubber.IMM2MES:6186, PlasticsRubber.IMM2MES:ScrewVolume, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6187, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.IMM2MES:6186, PlasticsRubber.IMM2MES:ScrewVolume, Double, 0, 0 ]
         - HasModellingRule:
@@ -2647,10 +3169,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.IMM2MES:5027, PlasticsRubber.IMM2MES:InjectionUnit_<Nr> ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.IMM2MES:5018, PlasticsRubber.IMM2MES:TemperatureZones ]
+      - DisplayName: "TemperatureZones"
+      - Description: "container for the barrel temperature zones of the injection unit"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.IMM2MES:6058, PlasticsRubber.IMM2MES:NodeVersion, String, 0, 0 ]
+        - DisplayName: "NodeVersion"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -2665,6 +3190,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.IMM2MES:6006, PlasticsRubber.IMM2MES:NodeVersion, String, 0, 0 ]
+    - DisplayName: "NodeVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
@@ -2674,8 +3200,12 @@ DefinedTypes:
 
   PlasticsRubber.IMM2MES:InjectionUnitType:
   - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
+  - DisplayName: "InjectionUnitType"
+  - Description: "Description and status of an injection unit"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.IMM2MES:6097, PlasticsRubber.IMM2MES:BarrelId, String, 0, 0 ]
+    - DisplayName: "BarrelId"
+    - Description: "Id (e.g. serial number) of the barrel"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
     - HasModellingRule:
@@ -2684,6 +3214,8 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.IMM2MES:6724, PlasticsRubber.IMM2MES:Index, UInt32, 0, 0 ]
+    - DisplayName: "Index"
+    - Description: "Number of the injection unit"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
     - HasModellingRule:
@@ -2694,6 +3226,8 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.IMM2MES:6099, PlasticsRubber.IMM2MES:InProduction, Boolean, 0, 0 ]
+    - DisplayName: "InProduction"
+    - Description: "information if the injection unit is used in the current running production"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
     - HasModellingRule:
@@ -2702,6 +3236,8 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.IMM2MES:6098, PlasticsRubber.IMM2MES:IsPresent, Boolean, 0, 0 ]
+    - DisplayName: "IsPresent"
+    - Description: "Information if the injection unit is physically installed on the injection machines"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
     - HasModellingRule:
@@ -2710,10 +3246,13 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6102, PlasticsRubber.IMM2MES:MaxScrewStroke, Double, 0, 0 ]
+    - DisplayName: "MaxScrewStroke"
+    - Description: "maximum stroke of the screw installed in the injection unit"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6689, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6102, PlasticsRubber.IMM2MES:MaxScrewStroke, Double, 0, 0 ]
       - HasModellingRule:
@@ -2722,6 +3261,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6103, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6102, PlasticsRubber.IMM2MES:MaxScrewStroke, Double, 0, 0 ]
       - HasModellingRule:
@@ -2734,10 +3274,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6100, PlasticsRubber.IMM2MES:ScrewDiameter, Double, 0, 0 ]
+    - DisplayName: "ScrewDiameter"
+    - Description: "diameter of the screw installed in the injection unit"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6691, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6100, PlasticsRubber.IMM2MES:ScrewDiameter, Double, 0, 0 ]
@@ -2747,6 +3290,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6101, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6100, PlasticsRubber.IMM2MES:ScrewDiameter, Double, 0, 0 ]
       - HasModellingRule:
@@ -2759,6 +3303,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.IMM2MES:6106, PlasticsRubber.IMM2MES:ScrewId, String, 0, 0 ]
+    - DisplayName: "ScrewId"
+    - Description: "Id of the screw installed in the injection unit"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2767,10 +3313,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.IMM2MES:6104, PlasticsRubber.IMM2MES:ScrewVolume, Double, 0, 0 ]
+    - DisplayName: "ScrewVolume"
+    - Description: "volume of the screw installed in the injection unit"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6251, PlasticsRubber.IMM2MES:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: -1
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6104, PlasticsRubber.IMM2MES:ScrewVolume, Double, 0, 0 ]
@@ -2780,6 +3329,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6105, PlasticsRubber.IMM2MES:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.IMM2MES:6104, PlasticsRubber.IMM2MES:ScrewVolume, Double, 0, 0 ]
       - HasModellingRule:
@@ -2792,10 +3342,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.IMM2MES:1028, PlasticsRubber.IMM2MES:InjectionUnitType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.IMM2MES:5017, PlasticsRubber.IMM2MES:TemperatureZones ]
+    - DisplayName: "TemperatureZones"
+    - Description: "container for the barrel temperature zones of the injection unit"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.IMM2MES:6057, PlasticsRubber.IMM2MES:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:

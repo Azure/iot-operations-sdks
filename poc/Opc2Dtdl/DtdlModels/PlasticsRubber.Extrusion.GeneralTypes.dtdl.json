@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ExtrusionDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1002",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/ExtrusionDeviceType/{commandName}",
@@ -20,6 +21,7 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType:dataType:ComponentStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "ComponentStatusEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -62,6 +64,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsPresent",
+        "displayName": "IsPresent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "boolean",
         "writable": false
@@ -69,6 +72,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LineId",
+        "displayName": "LineId",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": true
@@ -76,6 +80,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Status",
+        "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType:dataType:ComponentStatusEnumeration;1",
         "writable": false
@@ -83,6 +88,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Strand",
+        "displayName": "Strand",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "unsignedInteger",
         "writable": false
@@ -90,6 +96,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Target",
+        "displayName": "Target",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -98,6 +105,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AdditionalMeasuringDevices",
+        "displayName": "AdditionalMeasuringDevices",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
@@ -105,6 +113,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ElectricalEnergy",
+        "displayName": "ElectricalEnergy",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
       },
@@ -112,6 +121,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FluidEnergy",
+        "displayName": "FluidEnergy",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
       },
@@ -119,6 +129,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineConfiguration",
+        "displayName": "MachineConfiguration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
@@ -126,6 +137,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineInformation",
+        "displayName": "MachineInformation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType"
       },
@@ -133,6 +145,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Maintenance",
+        "displayName": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
@@ -140,6 +153,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PressureAir",
+        "displayName": "PressureAir",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
       },
@@ -147,6 +161,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductionDatasetManagement",
+        "displayName": "ProductionDatasetManagement",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
       },
@@ -154,6 +169,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StartDevice",
+        "displayName": "StartDevice",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
       }
@@ -171,6 +187,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ExtrusionTemperatureZonesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1017",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/ExtrusionTemperatureZonesType/{commandName}",
@@ -182,6 +199,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -190,6 +208,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Maintenance",
+        "displayName": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
@@ -197,12 +216,14 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StartTempering",
+        "displayName": "StartTempering",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TemperatureZone_Nr",
+        "displayName": "TemperatureZone_<Nr>",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZoneType"
       }
@@ -220,6 +241,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:GapsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "GapsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1004",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/GapsType/{commandName}",
@@ -231,6 +253,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -238,6 +261,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Gap_Nr",
+        "displayName": "Gap_<Nr>",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:GapType"
       }
@@ -255,6 +279,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:GapType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "GapType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/GapType/{commandName}",
@@ -266,6 +291,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Id",
+        "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -273,6 +299,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RollId1",
+        "displayName": "RollId1",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -280,6 +307,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RollId2",
+        "displayName": "RollId2",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -287,6 +315,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "StockingGuideIsPresent",
+        "displayName": "StockingGuideIsPresent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "boolean",
         "writable": false
@@ -294,6 +323,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsClosed",
+        "displayName": "IsClosed",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "boolean"
       },
@@ -301,6 +331,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ContactForce",
+        "displayName": "ContactForce",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
@@ -308,6 +339,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DistanceLeft",
+        "displayName": "DistanceLeft",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
@@ -315,6 +347,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DistanceRight",
+        "displayName": "DistanceRight",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
@@ -332,6 +365,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZoneType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ExtrusionTemperatureZoneType",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1016",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/ExtrusionTemperatureZoneType/{telemetryName}/{senderId}",
@@ -342,18 +376,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ControllerOutput",
+        "displayName": "ControllerOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NominalCoolingPower",
+        "displayName": "NominalCoolingPower",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NominalHeatingPower",
+        "displayName": "NominalHeatingPower",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "double"
       },
@@ -361,6 +398,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ElectricalCurrent",
+        "displayName": "ElectricalCurrent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
@@ -378,6 +416,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollBendingType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RollBendingType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1007",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/RollBendingType/{commandName}",
@@ -389,6 +428,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -396,6 +436,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ReferencePoint_Nr",
+        "displayName": "ReferencePoint_<Nr>",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       }
@@ -413,6 +454,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollPeripheralDevicesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RollPeripheralDevicesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1008",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/RollPeripheralDevicesType/{commandName}",
@@ -424,6 +466,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -431,12 +474,14 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CleaningSystem_Nr",
+        "displayName": "CleaningSystem_<Nr>",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InfraredHeatingSystem_Nr",
+        "displayName": "InfraredHeatingSystem_<Nr>",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
       }
@@ -454,6 +499,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RollsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1006",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/RollsType/{commandName}",
@@ -465,6 +511,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -472,6 +519,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Roll_Nr",
+        "displayName": "Roll_<Nr>",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollType"
       }
@@ -489,6 +537,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RollType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes;i=1005",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_GeneralTypes/RollType/{commandName}",
@@ -500,6 +549,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Id",
+        "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -507,6 +557,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MasterRollId",
+        "displayName": "MasterRollId",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -514,6 +565,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
+        "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "schema": "string",
         "writable": false
@@ -522,6 +574,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CrossAxisLeft",
+        "displayName": "CrossAxisLeft",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
@@ -529,6 +582,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CrossAxisRight",
+        "displayName": "CrossAxisRight",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
@@ -536,6 +590,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Drive",
+        "displayName": "Drive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
@@ -543,6 +598,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PeripheralDevices",
+        "displayName": "PeripheralDevices",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollPeripheralDevicesType"
       },
@@ -550,6 +606,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RollBending",
+        "displayName": "RollBending",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollBendingType"
       },
@@ -557,6 +614,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Temperature",
+        "displayName": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZoneType"
       }

@@ -1,4 +1,6 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
 <# int ix; #>
   {
     "@context": [
@@ -12,8 +14,16 @@
     ],
     "@id": "<#=this.modelId#>;1",
     "@type": [ "Interface"<#=this.isEvent ? ", \"Event\"" : ""#>, "Mqtt", "Congruence" ],
-<# foreach (string supertypeId in this.supertypeIds) { #>
-    "extends": "<#=supertypeId#>;1",
+<# if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { #>
+    "displayName": "<#=this.definedType.DisplayName#>",
+<# } #>
+<# if (this.definedType.Description != null && this.definedType.Description != string.Empty) { #>
+    "description": "<#=this.definedType.Description#>",
+<# } #>
+<# if (this.supertypeIds.Count == 1) { #>
+    "extends": "<#=this.supertypeIds.First()#>;1",
+<# } if (this.supertypeIds.Count > 1) { #>
+    "extends": [ <#=string.Join(", ", this.supertypeIds.Select(s => $"\"{s};1\""))#> ],
 <# } #>
     "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.definedType.NodeId)#>",
 <# if (this.dtdlCommands.Count > 0 || this.dtdlProperties.Count > 0) { #>

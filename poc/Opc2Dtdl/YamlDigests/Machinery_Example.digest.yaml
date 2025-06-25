@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -40,12 +49,16 @@ DefinedTypes:
 
   Machinery_Example:ExampleComponentType:
   - [ UAObjectType, Machinery_Example:1009, Machinery_Example:ExampleComponentType ]
+  - DisplayName: "ExampleComponentType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, Machinery_Example:5044, Machinery_Example:Identification ]
+    - DisplayName: "Identification"
     - HasProperty:
       - [ UAVariable, Machinery_Example:6080, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
+      - Description: "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5044, Machinery_Example:Identification ]
       - HasModellingRule:
@@ -60,6 +73,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6081, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -68,6 +83,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6082, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -77,8 +94,10 @@ DefinedTypes:
 
   Machinery_Example:ExampleMachineType:
   - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
+  - DisplayName: "ExampleMachineType"
   - HasAddIn:
     - [ UAObject, Machinery_Example:5005, Machinery:Components ]
+    - DisplayName: "Components"
     - HasAddIn_reverse:
       - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
     - HasTypeDefinition:
@@ -87,12 +106,16 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAObject, Machinery_Example:5013, Machinery_Example:MyComponent ]
+      - DisplayName: "MyComponent"
       - HasTypeDefinition:
         - [ UAObjectType, Machinery_Example:1009, Machinery_Example:ExampleComponentType ]
       - HasComponent:
         - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
+        - DisplayName: "Identification"
         - HasProperty:
           - [ UAVariable, Machinery_Example:6047, DI:DeviceRevision, String, 0, 0 ]
+          - DisplayName: "DeviceRevision"
+          - Description: "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode."
           - HasProperty_reverse:
             - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
           - HasModellingRule:
@@ -107,6 +130,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
           - [ UAVariable, Machinery_Example:6048, DI:Manufacturer, LocalizedText, 0, 0 ]
+          - DisplayName: "Manufacturer"
+          - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty_reverse:
@@ -115,6 +140,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, Machinery_Example:6049, DI:SerialNumber, String, 0, 0 ]
+          - DisplayName: "SerialNumber"
+          - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -131,8 +158,11 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasAddIn:
     - [ UAObject, Machinery_Example:5001, DI:Identification ]
+    - DisplayName: "Identification"
     - HasProperty:
       - [ UAVariable, Machinery_Example:6004, DI:AssetId, String, 0, 3 ]
+      - DisplayName: "AssetId"
+      - Description: "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -141,6 +171,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6005, DI:ComponentName, LocalizedText, 0, 3 ]
+      - DisplayName: "ComponentName"
+      - Description: "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -149,6 +181,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6006, DI:DeviceClass, String, 0, 0 ]
+      - DisplayName: "DeviceClass"
+      - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -157,6 +191,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6007, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
+      - Description: "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -167,6 +203,8 @@ DefinedTypes:
       - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6008, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+      - DisplayName: "InitialOperationDate"
+      - Description: "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -175,6 +213,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6009, Machinery:Location, String, 0, 3 ]
+      - DisplayName: "Location"
+      - Description: "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -187,6 +227,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6001, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -195,6 +237,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6010, DI:ManufacturerUri, String, 0, 0 ]
+      - DisplayName: "ManufacturerUri"
+      - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -203,6 +247,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6011, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "A human-readable, localized name of the model of the MachineryItem."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -211,6 +257,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6012, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+      - DisplayName: "MonthOfConstruction"
+      - Description: "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December."
       - HasProperty_reverse:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasModellingRule:
@@ -219,6 +267,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6013, DI:ProductCode, String, 0, 0 ]
+      - DisplayName: "ProductCode"
+      - Description: "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
@@ -227,6 +277,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6002, DI:ProductInstanceUri, String, 0, 0 ]
+      - DisplayName: "ProductInstanceUri"
+      - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -235,6 +287,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6003, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -243,6 +297,8 @@ DefinedTypes:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6014, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
+      - Description: "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -251,6 +307,8 @@ DefinedTypes:
         - [ UAObject, Machinery_Example:5001, DI:Identification ]
     - HasProperty:
       - [ UAVariable, Machinery_Example:6015, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+      - DisplayName: "YearOfConstruction"
+      - Description: "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -261,8 +319,10 @@ DefinedTypes:
       - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasAddIn:
       - [ UAObject, Machinery_Example:5005, Machinery:Components ]
+      - DisplayName: "Components"
       - HasAddIn_reverse:
         - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
       - HasTypeDefinition:
@@ -271,12 +331,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAObject, Machinery_Example:5013, Machinery_Example:MyComponent ]
+        - DisplayName: "MyComponent"
         - HasTypeDefinition:
           - [ UAObjectType, Machinery_Example:1009, Machinery_Example:ExampleComponentType ]
         - HasComponent:
           - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
+          - DisplayName: "Identification"
           - HasProperty:
             - [ UAVariable, Machinery_Example:6047, DI:DeviceRevision, String, 0, 0 ]
+            - DisplayName: "DeviceRevision"
+            - Description: "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode."
             - HasProperty_reverse:
               - [ UAObject, Machinery_Example:5014, Machinery_Example:Identification ]
             - HasModellingRule:
@@ -291,6 +355,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
             - [ UAVariable, Machinery_Example:6048, DI:Manufacturer, LocalizedText, 0, 0 ]
+            - DisplayName: "Manufacturer"
+            - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasProperty_reverse:
@@ -299,6 +365,8 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
           - HasProperty:
             - [ UAVariable, Machinery_Example:6049, DI:SerialNumber, String, 0, 0 ]
+            - DisplayName: "SerialNumber"
+            - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -315,8 +383,11 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasAddIn:
       - [ UAObject, Machinery_Example:5001, DI:Identification ]
+      - DisplayName: "Identification"
       - HasProperty:
         - [ UAVariable, Machinery_Example:6004, DI:AssetId, String, 0, 3 ]
+        - DisplayName: "AssetId"
+        - Description: "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -325,6 +396,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6005, DI:ComponentName, LocalizedText, 0, 3 ]
+        - DisplayName: "ComponentName"
+        - Description: "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -333,6 +406,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6006, DI:DeviceClass, String, 0, 0 ]
+        - DisplayName: "DeviceClass"
+        - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -341,6 +416,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6007, DI:HardwareRevision, String, 0, 0 ]
+        - DisplayName: "HardwareRevision"
+        - Description: "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -351,6 +428,8 @@ DefinedTypes:
         - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6008, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+        - DisplayName: "InitialOperationDate"
+        - Description: "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -359,6 +438,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6009, Machinery:Location, String, 0, 3 ]
+        - DisplayName: "Location"
+        - Description: "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -371,6 +452,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6001, DI:Manufacturer, LocalizedText, 0, 0 ]
+        - DisplayName: "Manufacturer"
+        - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -379,6 +462,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6010, DI:ManufacturerUri, String, 0, 0 ]
+        - DisplayName: "ManufacturerUri"
+        - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -387,6 +472,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6011, DI:Model, LocalizedText, 0, 0 ]
+        - DisplayName: "Model"
+        - Description: "A human-readable, localized name of the model of the MachineryItem."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -395,6 +482,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6012, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+        - DisplayName: "MonthOfConstruction"
+        - Description: "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December."
         - HasProperty_reverse:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
         - HasModellingRule:
@@ -403,6 +492,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6013, DI:ProductCode, String, 0, 0 ]
+        - DisplayName: "ProductCode"
+        - Description: "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty_reverse:
@@ -411,6 +502,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6002, DI:ProductInstanceUri, String, 0, 0 ]
+        - DisplayName: "ProductInstanceUri"
+        - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -419,6 +512,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6003, DI:SerialNumber, String, 0, 0 ]
+        - DisplayName: "SerialNumber"
+        - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -427,6 +522,8 @@ DefinedTypes:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6014, DI:SoftwareRevision, String, 0, 0 ]
+        - DisplayName: "SoftwareRevision"
+        - Description: "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -435,6 +532,8 @@ DefinedTypes:
           - [ UAObject, Machinery_Example:5001, DI:Identification ]
       - HasProperty:
         - [ UAVariable, Machinery_Example:6015, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+        - DisplayName: "YearOfConstruction"
+        - Description: "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -447,14 +546,17 @@ DefinedTypes:
       - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
     - HasAddIn:
       - [ UAObject, Machinery_Example:5009, Machinery_Example:MachineryItemState ]
+      - DisplayName: "MachineryItemState"
       - HasComponent:
         - [ UAVariable, Machinery_Example:6035, Machinery_Example:CurrentState, LocalizedText, 0, 0 ]
+        - DisplayName: "CurrentState"
         - HasComponent_reverse:
           - [ UAObject, Machinery_Example:5009, Machinery_Example:MachineryItemState ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasProperty:
           - [ UAVariable, Machinery_Example:6036, Machinery_Example:Id, NodeId, 0, 0 ]
+          - DisplayName: "Id"
           - HasProperty_reverse:
             - [ UAVariable, Machinery_Example:6035, Machinery_Example:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
@@ -471,14 +573,17 @@ DefinedTypes:
         - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, Machinery_Example:5011, Machinery_Example:MachineryOperationMode ]
+      - DisplayName: "MachineryOperationMode"
       - HasComponent:
         - [ UAVariable, Machinery_Example:6042, Machinery_Example:CurrentState, LocalizedText, 0, 0 ]
+        - DisplayName: "CurrentState"
         - HasComponent_reverse:
           - [ UAObject, Machinery_Example:5011, Machinery_Example:MachineryOperationMode ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasProperty:
           - [ UAVariable, Machinery_Example:6043, Machinery_Example:Id, NodeId, 0, 0 ]
+          - DisplayName: "Id"
           - HasProperty_reverse:
             - [ UAVariable, Machinery_Example:6042, Machinery_Example:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:

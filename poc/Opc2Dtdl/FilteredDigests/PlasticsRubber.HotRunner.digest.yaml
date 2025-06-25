@@ -1,5 +1,6 @@
 DataTypes:
 - UADataType: [ PlasticsRubber.HotRunner:3002, PlasticsRubber.HotRunner:ControllerTypeEnumeration ]
+  DisplayName: "ControllerTypeEnumeration"
   Enums:
     CLOSED_LOOP_CONTROL: 0
     MANUAL: 1
@@ -9,6 +10,7 @@ DataTypes:
     MEASURING_ZONE: 5
     NOT_USED: 6
 - UADataType: [ PlasticsRubber.HotRunner:3003, PlasticsRubber.HotRunner:ZoneStatusEnumeration ]
+  DisplayName: "ZoneStatusEnumeration"
   Enums:
     OTHER: 0
     GOOD: 1
@@ -21,12 +23,16 @@ DataTypes:
     WARNING: 8
     LEAKAGE_DETECTED: 9
 - UADataType: [ PlasticsRubber.HotRunner:3005, PlasticsRubber.HotRunner:TimeMethodPIDParametersDataType ]
+  DisplayName: "TimeMethodPIDParametersDataType"
+  Description: "proportional band"
   Fields:
     Xp: [ Double, 0 ]
     Tn: [ Double, 0 ]
     Tv: [ Double, 0 ]
     Ts: [ Double, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -37,25 +43,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -63,12 +76,16 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
+  DisplayName: "CavityCycleQualityEnumeration"
+  Description: "Quality of the cycle for each cavity"
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
+  DisplayName: "ControlModeEnumeration"
+  Description: "Indication how the parameter is currently controlled"
   Enums:
     OTHER: 0
     OFF: 1
@@ -78,12 +95,16 @@ DataTypes:
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
 - UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
+  DisplayName: "CycleQualityEnumeration"
+  Description: "Quality of the whole cycle"
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
+  DisplayName: "DiagnosticsStatusEnumeration"
+  Description: "Diagnostics inactive"
   Enums:
     OFF: 0
     ACTIVE_OK: 1
@@ -91,6 +112,8 @@ DataTypes:
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
+  DisplayName: "EventOriginatorEnumeration"
+  Description: "Originator of an event"
   Enums:
     OTHER: 0
     MACHINE: 1
@@ -98,6 +121,8 @@ DataTypes:
     MES: 3
     PERIPHERAL_DEVICE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
+  DisplayName: "JobStatusEnumeration"
+  Description: "Current status of the job"
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -112,6 +137,8 @@ DataTypes:
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
 - UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
+  DisplayName: "LogbookEventsEnumeration"
+  Description: "Information which LogbookEvents are supported by the machine"
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -125,6 +152,8 @@ DataTypes:
     MESSAGE: 9
     USER_FEEDBACK: 10
 - UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
+  DisplayName: "MachineModeEnumeration"
+  Description: "Current machine mode (as defined by mode selector on the machine)"
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -133,17 +162,23 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
+  DisplayName: "MaintenanceStatusEnumeration"
+  Description: "Maintenance status of a machine/device/component"
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
 - UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
+  DisplayName: "MouldStatusEnumeration"
+  Description: "Current (physical) status of the mould"
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
+  DisplayName: "ProductionStatusEnumeration"
+  Description: "Production status of the machine"
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -152,6 +187,8 @@ DataTypes:
     PRODUCTION: 4
     DRY_RUN: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
+  DisplayName: "SequenceChangeEnumeration"
+  Description: "Classification of production sequence change"
   Enums:
     UPDATE: 0
     ADD: 1
@@ -159,6 +196,7 @@ DataTypes:
     MOVE: 3
     DELETE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
+  DisplayName: "StartEnumeration"
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -167,11 +205,15 @@ DataTypes:
     STARTED: 4
     STOP_REQUESTED: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
+  DisplayName: "StorageEnumeration"
+  Description: "Indication which parts of the production dataset shall be activated in the machine control after writing"
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
+  DisplayName: "TemperatureZoneClassificationEnumeration"
+  Description: "Type of the temperature zone"
   Enums:
     OTHER: 0
     HEATING: 1
@@ -180,25 +222,35 @@ DataTypes:
     HOT_RUNNER: 4
     MEASURING: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
+  DisplayName: "UserChangeEnumeration"
+  Description: "Information if a user logs in or off"
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
 - UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
+  DisplayName: "ActiveErrorDataType"
+  Description: "Iinformation about an active error in a device"
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
+  DisplayName: "ClassifiedActiveErrorDataType"
+  Description: "Iinformation about an active error in a device including the SoureNodes and a Classification"
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
+  DisplayName: "ConfigurationParameterType"
+  Description: "Unique identifier"
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
+  DisplayName: "JobListElementType"
+  Description: "Description of a job in a job list"
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -214,6 +266,8 @@ DataTypes:
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
+  DisplayName: "CyclicJobListElementType"
+  Description: "Description of a job in a cyclic job list"
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
@@ -221,19 +275,26 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
+  DisplayName: "PageEntryDataType"
+  Description: "Information on a page that is implemented in the machine control system and shown on the screen of the machine"
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
+  DisplayName: "ParameterSettingType"
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
+  DisplayName: "PIDParametersDataType"
+  Description: "Structure for storing the parameters of a PID controller"
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
+  DisplayName: "ProductionDatasetInformationType"
+  Description: "Information on a production dataset"
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -253,15 +314,21 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
+  DisplayName: "ProductionDatasetReadOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForRead in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
+  DisplayName: "ProductionDatasetWriteOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForWrite in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
+  DisplayName: "StandstillReasonType"
+  Description: "Description of a standstill reason"
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
@@ -271,147 +338,211 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:ZoneAlarmType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1002, PlasticsRubber.HotRunner:ZoneAlarmType ]
+  - DisplayName: "ZoneAlarmType"
+  - Description: "Represent zone-related text messages of an HRD"
   - HasSubtype_reverse:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, PlasticsRubber.GeneralTypes:HelpOffNormalAlarmType ]
 
   PlasticsRubber.HotRunner:ControllerType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1005, PlasticsRubber.HotRunner:ControllerType ]
+  - DisplayName: "ControllerType"
+  - Description: "Configuration and operation of the zone controller"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6034, PlasticsRubber.HotRunner:ActualOutput, Double, 0, 0 ]
+    - DisplayName: "ActualOutput"
+    - Description: "Indicates the currently active output in percent"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6025, PlasticsRubber.HotRunner:ActualType, PlasticsRubber.HotRunner:ControllerTypeEnumeration, 0, 0 ]
+    - DisplayName: "ActualType"
+    - Description: "Actual value for the controller type used by the zone"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6022, PlasticsRubber.HotRunner:ActualValueActive, Boolean, 0, 0 ]
+    - DisplayName: "ActualValueActive"
+    - Description: "Indicates the current status of the controller"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6500, PlasticsRubber.HotRunner:AutomaticReferenceZoneSelection, Boolean, 0, 3 ]
+    - DisplayName: "AutomaticReferenceZoneSelection"
+    - Description: "If true, the HRD selects automatically the reference zone."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6036, PlasticsRubber.HotRunner:AverageControllerOutput, Double, 0, 0 ]
+    - DisplayName: "AverageControllerOutput"
+    - Description: "Indicates the average output which can be used when a sensor is broken"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5040, PlasticsRubber.HotRunner:LoadCurrent ]
+    - DisplayName: "LoadCurrent"
+    - Description: "Information about the load current in Ampere"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5044, PlasticsRubber.HotRunner:LoadPower ]
+    - DisplayName: "LoadPower"
+    - Description: "Information about the load power in Watt"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6028, PlasticsRubber.HotRunner:LowerOutput, Double, 0, 3 ]
+    - DisplayName: "LowerOutput"
+    - Description: "Limitation of the minimum output in closed-loop control in %"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6030, PlasticsRubber.HotRunner:OutputTime, Duration, 0, 3 ]
+    - DisplayName: "OutputTime"
+    - Description: "Time basis for operating the actuator"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6031, PlasticsRubber.HotRunner:ReferenceZone, UInt32, 0, 3 ]
+    - DisplayName: "ReferenceZone"
+    - Description: "If zones are to operate parallel to a control zone, the reference relation can be realised with this parameter."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6021, PlasticsRubber.HotRunner:SetValueActive, Boolean, 0, 3 ]
+    - DisplayName: "SetValueActive"
+    - Description: "A control zone is switched on and off with this parameter."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6032, PlasticsRubber.HotRunner:SetValueManualOutput, Double, 0, 3 ]
+    - DisplayName: "SetValueManualOutput"
+    - Description: "Manually given output in percent if SetValueType = MANUAL is selected"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6023, PlasticsRubber.HotRunner:SetValueType, UInt16, 0, 3 ]
+    - DisplayName: "SetValueType"
+    - Description: "Set value for the controller type used by the zone"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6026, PlasticsRubber.HotRunner:UpperOutput, Double, 0, 3 ]
+    - DisplayName: "UpperOutput"
+    - Description: "Limitation of the maximum output in closed-loop control in %"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6041, PlasticsRubber.HotRunner:UpperSetValueCascade, Double, 0, 3 ]
+    - DisplayName: "UpperSetValueCascade"
+    - Description: "If the two controllers are cascaded, the master defines to which nominal temperature value the slave is to control to. With this parameter, the upper limit for the slave is defined."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PlasticsRubber.HotRunner:HeatUpType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1004, PlasticsRubber.HotRunner:HeatUpType ]
+  - DisplayName: "HeatUpType"
+  - Description: "Alternative to the SetRamp functionality of MonitoredParameterType defined in OPC 40083. With HeatUpType, it can be pre-defined how the control circuit is to be operated when it is switched on for the next time; with or without heat-up process."
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6013, PlasticsRubber.HotRunner:EvenHeatUpEnabled, Boolean, 0, 3 ]
+    - DisplayName: "EvenHeatUpEnabled"
+    - Description: "Enables even heat-up process until nominal SetValue of Temperature of ZoneType is reached"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6008, PlasticsRubber.HotRunner:ManualOutputLimitActive, Boolean, 0, 3 ]
+    - DisplayName: "ManualOutputLimitActive"
+    - Description: "Activates heat-up process with pre-defined SetValueManualOutputLimit until SetValueTemperature is reached"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6238, PlasticsRubber.HotRunner:RelayHeatingGroup, Byte, 0, 3 ]
+    - DisplayName: "RelayHeatingGroup"
+    - Description: "Number of the heating group for relay heating"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6484, PlasticsRubber.HotRunner:RelayHeatingTime, Duration, 0, 3 ]
+    - DisplayName: "RelayHeatingTime"
+    - Description: "Time for relay heating of the zone. When RelayHeatingTime of all zones of a heating group have expired, the next group starts heating."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6009, PlasticsRubber.HotRunner:SetValueManualOutputLimit, Double, 0, 3 ]
+    - DisplayName: "SetValueManualOutputLimit"
+    - Description: "This pre-defined maximum output (in percent) is valid until the SetValueTemperature is reached."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6011, PlasticsRubber.HotRunner:SetValueTemperature, Double, 0, 3 ]
+    - DisplayName: "SetValueTemperature"
+    - Description: "If ManualOutputLimitActive is set, SetValueManualOutputLimit is active until this nominal temperature value is reached."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PlasticsRubber.HotRunner:HRD_InterfaceType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1010, PlasticsRubber.HotRunner:HRD_InterfaceType ]
+  - DisplayName: "HRD_InterfaceType"
+  - Description: "Root ObjectType representing a hot runner device with its subcomponents"
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5022, PlasticsRubber.HotRunner:Diagnostics ]
+    - DisplayName: "Diagnostics"
+    - Description: "Diagnosis functions to check, for example, the wiring to the heating system or the sensor and heater allocation"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1066, PlasticsRubber.GeneralTypes:DiagnosticsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6240, PlasticsRubber.HotRunner:DisplayLanguage, LocaleId, 0, 3 ]
+    - DisplayName: "DisplayLanguage"
+    - Description: "Setting of desired language on the user interface at the HRD"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5015, PlasticsRubber.HotRunner:Identification ]
+    - DisplayName: "Identification"
+    - Description: "Identification of the device"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1058, PlasticsRubber.GeneralTypes:IdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5016, PlasticsRubber.HotRunner:MachineConfiguration ]
+    - DisplayName: "MachineConfiguration"
+    - Description: "Current configuration of the hot runner device"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, PlasticsRubber.GeneralTypes:MachineConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5023, PlasticsRubber.HotRunner:MaintenanceInformation ]
+    - DisplayName: "MaintenanceInformation"
+    - Description: "Information about the maintenance status of various parts of a hot runner device"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.HotRunner:1007, PlasticsRubber.HotRunner:MaintenanceInformationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5017, PlasticsRubber.HotRunner:Operation ]
+    - DisplayName: "Operation"
+    - Description: "Contains components which are necessary to operate the HRD"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.HotRunner:1009, PlasticsRubber.HotRunner:OperationType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5018, PlasticsRubber.HotRunner:Zones ]
+    - DisplayName: "Zones"
+    - Description: "Container for the zones"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -419,14 +550,20 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:MaintenanceInformationType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1007, PlasticsRubber.HotRunner:MaintenanceInformationType ]
+  - DisplayName: "MaintenanceInformationType"
+  - Description: "Information about the maintenance status of various parts of a hot runner device"
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5007, PlasticsRubber.HotRunner:CoolingFan ]
+    - DisplayName: "CoolingFan"
+    - Description: "Information about the maintenance status of the cooling fan"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5005, PlasticsRubber.HotRunner:Heating ]
+    - DisplayName: "Heating"
+    - Description: "Information about the maintenance status of the heating"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
@@ -435,6 +572,8 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5006, PlasticsRubber.HotRunner:SafetyTest ]
+    - DisplayName: "SafetyTest"
+    - Description: "Information about the maintenance status of the safety test"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
@@ -442,93 +581,135 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:HRDTemperatureType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1011, PlasticsRubber.HotRunner:HRDTemperatureType ]
+  - DisplayName: "HRDTemperatureType"
+  - Description: "Used for setting and monitoring the temperatures in a HRD"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6653, PlasticsRubber.HotRunner:ActiveSetValue, UInt16, 0, 0 ]
+    - DisplayName: "ActiveSetValue"
+    - Description: "Current active set temperature for the temperature zone"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6132, PlasticsRubber.HotRunner:BoostSetValue, Double, 0, 3 ]
+    - DisplayName: "BoostSetValue"
+    - Description: "Set value for boost mode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6118, PlasticsRubber.HotRunner:BoostTime, Duration, 0, 3 ]
+    - DisplayName: "BoostTime"
+    - Description: "Duration of the boost mode after which the set value which was active before boost is becoming active again"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6253, PlasticsRubber.HotRunner:SecondSetValue, Double, 0, 3 ]
+    - DisplayName: "SecondSetValue"
+    - Description: "Second set value for fast switch-over"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6255, PlasticsRubber.HotRunner:StandbySetValue, Double, 0, 3 ]
+    - DisplayName: "StandbySetValue"
+    - Description: "Set value for standby mode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6164, PlasticsRubber.HotRunner:TimeMethodPIDParameters, PlasticsRubber.HotRunner:TimeMethodPIDParametersDataType, 1, 3 ]
+    - DisplayName: "TimeMethodPIDParameters"
+    - Description: "Setting of PID parameters with time method"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PlasticsRubber.HotRunner:OperationType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1009, PlasticsRubber.HotRunner:OperationType ]
+  - DisplayName: "OperationType"
+  - Description: "Contains components which are necessary to operate the HRD"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6215, PlasticsRubber.HotRunner:ActiveErrors, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType, 1, 0 ]
+    - DisplayName: "ActiveErrors"
+    - Description: "List of the active errors of the device"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6217, PlasticsRubber.HotRunner:ActiveSetValues, UInt16, 0, 3 ]
+    - DisplayName: "ActiveSetValues"
+    - Description: "Central selection of the used set temperature for the temperature zones"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6214, PlasticsRubber.HotRunner:DeviceMappingNumber, UInt32, 0, 3 ]
+    - DisplayName: "DeviceMappingNumber"
+    - Description: "Unique identifier/address/number for devices of the same DeviceType within a local network"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6216, PlasticsRubber.HotRunner:EnablePower, Boolean, 0, 3 ]
+    - DisplayName: "EnablePower"
+    - Description: "Global power control switch for all zone controllers"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6506, PlasticsRubber.HotRunner:EvenHeatUpMaxTemperatureDifference, Double, 0, 3 ]
+    - DisplayName: "EvenHeatUpMaxTemperatureDifference"
+    - Description: "Definition of the maximum temperature difference of all zones during even heat-up"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6213, PlasticsRubber.HotRunner:HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+    - DisplayName: "HighestActiveAlarmSeverity"
+    - Description: "Indication of the severity of the highest active alarm"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.HotRunner:7006, PlasticsRubber.HotRunner:IdentifyDevice ]
+    - DisplayName: "IdentifyDevice"
+    - Description: "The peripheral device on which this method is called shows itself by e.g. activation of a LED."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6494, PlasticsRubber.HotRunner:ReactionOnDisconnect, UInt16, 0, 0 ]
+    - DisplayName: "ReactionOnDisconnect"
+    - Description: "Selection of the set temperature for the temperature zones in case of a disconnection from the OPC UA client"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.HotRunner:7007, PlasticsRubber.HotRunner:ResetAllErrors ]
+    - DisplayName: "ResetAllErrors"
+    - Description: "Method to reset all errors of the device"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.HotRunner:7019, PlasticsRubber.HotRunner:ResetErrorById ]
+    - DisplayName: "ResetErrorById"
+    - Description: "Method to reset one error of the device"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.HotRunner:6378, PlasticsRubber.HotRunner:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6649, PlasticsRubber.HotRunner:SessionNameForReactionOnDisconnect, String, 0, 0 ]
+    - DisplayName: "SessionNameForReactionOnDisconnect"
+    - Description: "Contains the sessionName of the connection with the client relevant for ReactionOnDisconnect"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.HotRunner:7031, PlasticsRubber.HotRunner:SetReactionOnDisconnect ]
+    - DisplayName: "SetReactionOnDisconnect"
+    - Description: "Method to set ReactionOnDisconnect and SessionNameForReactionOnDisconnect"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.HotRunner:6651, PlasticsRubber.HotRunner:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ReactionOnDisconnect: [ UInt16, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -536,20 +717,30 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:TemperatureRiseMonitoringType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1003, PlasticsRubber.HotRunner:TemperatureRiseMonitoringType ]
+  - DisplayName: "TemperatureRiseMonitoringType"
+  - Description: "At maximum controller output, the temperature value must change in a given time by a specified value, otherwise there is an error in the measuring circuit."
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6003, PlasticsRubber.HotRunner:ErrorDetected, Boolean, 0, 0 ]
+    - DisplayName: "ErrorDetected"
+    - Description: "Result of the TemperatureRiseMonitoring"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6002, PlasticsRubber.HotRunner:SetValueActive, Boolean, 0, 3 ]
+    - DisplayName: "SetValueActive"
+    - Description: "On / Off for the TemperatureRiseMonitoring"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6005, PlasticsRubber.HotRunner:SetValueTemperatureChange, Double, 0, 3 ]
+    - DisplayName: "SetValueTemperatureChange"
+    - Description: "Specification of the set value change"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6004, PlasticsRubber.HotRunner:SupervisionTime, Duration, 0, 3 ]
+    - DisplayName: "SupervisionTime"
+    - Description: "Specification of the time within the temperature must have changed"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -557,12 +748,17 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:ZonesType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1008, PlasticsRubber.HotRunner:ZonesType ]
+  - DisplayName: "ZonesType"
+  - Description: "Container for the zones"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6136, PlasticsRubber.HotRunner:NodeVersion, String, 0, 0 ]
+    - DisplayName: "NodeVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5009, PlasticsRubber.HotRunner:Zone_<Nr> ]
+    - DisplayName: "Zone_<Nr>"
+    - Description: "A HRD zone"
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
@@ -572,44 +768,62 @@ DefinedTypes:
 
   PlasticsRubber.HotRunner:ZoneType:
   - [ UAObjectType, PlasticsRubber.HotRunner:1006, PlasticsRubber.HotRunner:ZoneType ]
+  - DisplayName: "ZoneType"
+  - Description: "Represents all functionalities of a heating zone, such as temperature monitoring, control, heatup"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6380, PlasticsRubber.HotRunner:CommunicationProtocolType, UInt16, 0, 3 ]
+    - DisplayName: "CommunicationProtocolType"
+    - Description: "Used communication protocol between the sensor and the control system of the HRD"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5002, PlasticsRubber.HotRunner:Controller ]
+    - DisplayName: "Controller"
+    - Description: "Setting and monitoring of the controller"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.HotRunner:1005, PlasticsRubber.HotRunner:ControllerType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5003, PlasticsRubber.HotRunner:HeatUp ]
+    - DisplayName: "HeatUp"
+    - Description: "Setting for heat up procedure"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.HotRunner:1004, PlasticsRubber.HotRunner:HeatUpType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6052, PlasticsRubber.HotRunner:HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+    - DisplayName: "HighestActiveAlarmSeverity"
+    - Description: "Indicates the severity of the highest active alarm related to the current zone"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.HotRunner:6051, PlasticsRubber.HotRunner:Name, String, 0, 3 ]
+    - DisplayName: "Name"
+    - Description: "A user given name of the zone"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5001, PlasticsRubber.HotRunner:Temperature ]
+    - DisplayName: "Temperature"
+    - Description: "Setting and monitoring of the temperature"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.HotRunner:1011, PlasticsRubber.HotRunner:HRDTemperatureType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.HotRunner:5004, PlasticsRubber.HotRunner:TemperatureRiseMonitoring ]
+    - DisplayName: "TemperatureRiseMonitoring"
+    - Description: "Additional monitoring for the process temperature"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.HotRunner:1003, PlasticsRubber.HotRunner:TemperatureRiseMonitoringType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.HotRunner:6053, PlasticsRubber.HotRunner:ThermocoupleType, UInt16, 0, 3 ]
+    - DisplayName: "ThermocoupleType"
+    - Description: "Type of connected external temperature sensor"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:

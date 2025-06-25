@@ -1,15 +1,20 @@
 DataTypes:
 - UADataType: [ WireHarness.VEC:3500, WireHarness.VEC:ConductorType ]
+  DisplayName: "ConductorType"
+  Description: "<p>Used for conductors that are made of solid material.</p>"
   Enums:
     Rigid: 0
     Stranded: 1
     Foil: 2
     Braided: 3
 - UADataType: [ WireHarness.VEC:1003, WireHarness.VEC:CrimpBarrelType ]
+  DisplayName: "CrimpBarrelType"
   Enums:
     Open: 0
     Closed: 1
 - UADataType: [ WireHarness.VEC:3160, WireHarness.VEC:PrimaryPartType ]
+  DisplayName: "PrimaryPartType"
+  Description: "<p>The<i>PrimaryPartType</i>'<i>Other</i>' is used for parts that are described by a direct instance of<i>PartOrUsageRelatedSpecification</i>. These are parts that do not have a specific classification in the VEC and can be described with a<i>PartOrUsageRelatedSpecification</i>and<i>CustomProperties.</i>The corresponding<i>Role</i>is the<i>SpecificRole.</i></p>"
   Enums:
     Antenna: 0
     Battery: 1
@@ -56,13 +61,17 @@ DataTypes:
     WireEndAccessory: 42
     WireProtection: 43
 - UADataType: [ WireHarness.VEC:1001, WireHarness.VEC:ARGB32ColorType ]
+  DisplayName: "ARGB32ColorType"
   Fields:
     Value: [ UInt32, 0 ]
     Name: [ String, 1 ]
 - UADataType: [ WireHarness.VEC:3012, WireHarness.VEC:ExtendableElement ]
+  DisplayName: "ExtendableElement"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:4126, WireHarness.VEC:BoundingBox ]
+  DisplayName: "BoundingBox"
+  Description: "<p>Defines the extent of the bounding box in the direction of x<i/>(length).</p>"
   Fields:
     X: [ WireHarness.VEC:NumericalValue, 0 ]
     Y: [ WireHarness.VEC:NumericalValue, 0 ]
@@ -71,64 +80,92 @@ DataTypes:
   Bases:
   - WireHarness.VEC:ExtendableElement
 - UADataType: [ WireHarness.VEC:3005, WireHarness.VEC:ContactPoint ]
+  DisplayName: "ContactPoint"
+  Description: "<p>Specifies a unique identification of the ContactPoint. The identification is guaranteed to be unique within the ContactingSpecification.</p>"
   Fields:
     Identification: [ String, 1 ]
     MountedTerminal: [ WireHarness.VEC:TerminalRoleIdDataType, 1 ]
     WireMounting: [ WireHarness.VEC:WireMounting, 1 ]
 - UADataType: [ WireHarness.VEC:3703, WireHarness.VEC:OccurrenceOrUsage ]
+  DisplayName: "OccurrenceOrUsage"
+  Description: "<p>Specifies a unique identification of the<i>OccurrenceOrUsage</i>. The identification is guaranteed to be unique within the context. For all VEC-documents an<i>OccurrenceOrUsage</i>-instance can be trusted to be the same if the context-instance is the same and the identification of the<i>OccurrenceOrUsage</i>is the same.</p>"
   Fields:
     Identification: [ String, 0 ]
     Role: [ WireHarness.VEC:Role, 1 ]
 - UADataType: [ WireHarness.VEC:3942, WireHarness.VEC:PartOccurrence ]
+  DisplayName: "PartOccurrence"
+  Description: "<p>References the PartVersion that is instantiated by this PartOccurrence.</p>"
   Fields:
     Part: [ WireHarness.VEC:PartVersion, 1 ]
 - UADataType: [ WireHarness.VEC:3205, WireHarness.VEC:RoutableElement ]
   Bases:
   - WireHarness.VEC:ConfigurableElement
 - UADataType: [ WireHarness.VEC:3730, WireHarness.VEC:WireElementReference ]
+  DisplayName: "WireElementReference"
+  Description: "<p>Specifies a unique identification of the WireElementReference. The identification is guaranteed to be unique within the WireRole.</p>"
   Fields:
     Identification: [ String, 1 ]
     ReferencedWireElement: [ WireHarness.VEC:WireElementIdDataType, 0 ]
     WireEnd: [ WireHarness.VEC:WireEnd, 1 ]
     WireLength: [ WireHarness.VEC:NumericalValue, 1 ]
 - UADataType: [ WireHarness.VEC:3655, WireHarness.VEC:CrimpDetail ]
+  DisplayName: "CrimpDetail"
+  Description: "<p>Defines the expected size of the crimp. The<i>height</i>is measured in direction of the crimp opening. The<i>width</i>is measured in orthogonal to the<i>height</i>and orthogonal to main axis of the terminal (<i>TerminalSpecification.OverallLength</i>).</p>"
   Fields:
     Size: [ WireHarness.VEC:Size, 1 ]
 - UADataType: [ WireHarness.VEC:3654, WireHarness.VEC:CoreCrimpDetail ]
+  DisplayName: "CoreCrimpDetail"
+  Description: "<p>Defines the different<i>InsulationCrimpDetails</i>that are valid combinations for this<i>CoreCrimpDetail.</i></p>"
   Fields:
     AppliesTo: [ WireHarness.VEC:ConductorSpecification, 0 ]
     InsulationCrimpDetails: [ WireHarness.VEC:InsulationCrimpDetail, 1 ]
     PullOffForce: [ WireHarness.VEC:NumericalValue, 1 ]
 - UADataType: [ WireHarness.VEC:3653, WireHarness.VEC:InsulationCrimpDetail ]
+  DisplayName: "InsulationCrimpDetail"
+  Description: "<p>The minimum force that the completed crimp should withstand when wire is being pulled off the terminal. Above that force, the crimp can be expected to be destroyed at any time.</p>"
   Fields:
     PullOffForce: [ WireHarness.VEC:NumericalValue, 1 ]
     AppliesTo: [ WireHarness.VEC:InsulationSpecification, 0 ]
 - UADataType: [ WireHarness.VEC:3013, WireHarness.VEC:ItemVersion ]
+  DisplayName: "ItemVersion"
+  Description: "<p>Defines the publishing company of the ItemVersion. The companyName is part of the main identifier of an ItemVersion together with the corresponding number (partNumber or documentNumber) and version (partVersion or documentVersion).</p>"
   Fields:
     CompanyName: [ String, 1 ]
 - UADataType: [ WireHarness.VEC:3011, WireHarness.VEC:DocumentVersion ]
+  DisplayName: "DocumentVersion"
+  Description: "<p>The documentNumber is the major identifier of a DocumentVersion. The format is user defined and respectively company specific.</p>"
   Fields:
     DocumentNumber: [ String, 1 ]
     DocumentVersion: [ String, 1 ]
     DigitalRepresentationIndex: [ String, 1 ]
     Specification: [ WireHarness.VEC:Specification, 1 ]
 - UADataType: [ WireHarness.VEC:3159, WireHarness.VEC:PartVersion ]
+  DisplayName: "PartVersion"
+  Description: "<p>The partNumber is the major identifier of a PartVersion. The format is user defined and respectively company specific. For all VEC-documents a PartVersion-instance can be trusted to be identical if the combination of partNumber, partVersion and companyName is identical.</p>"
   Fields:
     PartNumber: [ String, 0 ]
 - UADataType: [ WireHarness.VEC:3277, WireHarness.VEC:ResourceVersion ]
+  DisplayName: "ResourceVersion"
+  Description: "<p>The<i>ResourceNumber</i>is the major identifier of a<i>ResourceVersion</i>. The format is user defined and respectively company specific. For all VEC-documents a<i>ResourceVersion-instance</i>can be trusted to be identical if the combination of<i>ResourceNumber</i>,<i>ResourceVersion</i>and<i>CompanyName</i>is identical.</p>"
   Fields:
     ResourceNumber: [ String, 0 ]
     ResourceVersion: [ String, 0 ]
 - UADataType: [ WireHarness.VEC:3705, WireHarness.VEC:Role ]
+  DisplayName: "Role"
+  Description: "<p>Specifies a unique identification of the Role. The identification is guaranteed to be unique within the OccurrenceOrUsage.</p>"
   Fields:
     Identification: [ String, 1 ]
 - UADataType: [ WireHarness.VEC:3757, WireHarness.VEC:CavityPartRole ]
   Bases:
   - WireHarness.VEC:Role
 - UADataType: [ WireHarness.VEC:3710, WireHarness.VEC:CavitySealRole ]
+  DisplayName: "CavitySealRole"
+  Description: "<p>References the<i>CavitySealSpecification</i>that is instanced by this<i>CavitySealRole.</i></p>"
   Fields:
     CavitySealSpecification: [ WireHarness.VEC:CavitySealSpecificationIdDataType, 0 ]
 - UADataType: [ WireHarness.VEC:3729, WireHarness.VEC:TerminalRole ]
+  DisplayName: "TerminalRole"
+  Description: "<p> References the<i>TerminalSpecification</i>that is instanced by this<i>TerminalRole.</i></p>"
   Fields:
     TerminalSpecification: [ WireHarness.VEC:TerminalSpecificationIdDataType, 0 ]
     WireReceptionReference: [ WireHarness.VEC:WireReceptionReference, 1 ]
@@ -136,32 +173,48 @@ DataTypes:
   Bases:
   - WireHarness.VEC:TerminalRole
 - UADataType: [ WireHarness.VEC:3735, WireHarness.VEC:WireRole ]
+  DisplayName: "WireRole"
+  Description: "<p>References the<i>WireSpecification</i>that is instanced by this<i>WireRole.</i></p>"
   Fields:
     WireSpecification: [ WireHarness.VEC:WireSpecificationIdDataType, 0 ]
     WireElementReference: [ WireHarness.VEC:WireElementReference, 1 ]
 - UADataType: [ WireHarness.VEC:3207, WireHarness.VEC:Specification ]
+  DisplayName: "Specification"
+  Description: "<p>Specifies a unique identification of the specification. The identification is guaranteed to be unique within the document containing the specification. For all VEC-documents a Specification-instance can be trusted to be identical if the DocumentVersion-instance is the same (see DocumentVersion) and the identification of the Specification is the same.</p>"
   Fields:
     Identification: [ String, 1 ]
 - UADataType: [ WireHarness.VEC:3941, WireHarness.VEC:CompositionSpecification ]
+  DisplayName: "CompositionSpecification"
+  Description: "<p>Specifies the PartOccurrences defined in the CompositionSpecification.</p>"
   Fields:
     Component: [ WireHarness.VEC:PartOccurrence, 1 ]
 - UADataType: [ WireHarness.VEC:3300, WireHarness.VEC:ConductorSpecification ]
+  DisplayName: "ConductorSpecification"
+  Description: "<p>Specifies the cross-section area of the conductor (e.g. 0,5 mm²). The cross-section area is a nominal value, which refers to the conducting properties of the conductor normalized to the properties of a full material core.</p>"
   Fields:
     CrossSectionArea: [ WireHarness.VEC:NumericalValue, 1 ]
     Type: [ WireHarness.VEC:ConductorType, 1 ]
 - UADataType: [ WireHarness.VEC:3302, WireHarness.VEC:CoreSpecification ]
+  DisplayName: "CoreSpecification"
+  Description: "<p>Specifies the outside diameter of the core.</p>"
   Fields:
     OutsideDiameter: [ WireHarness.VEC:NumericalValue, 1 ]
 - UADataType: [ WireHarness.VEC:3006, WireHarness.VEC:ContactingSpecification ]
+  DisplayName: "ContactingSpecification"
+  Description: "Specifies the ContactPoints defined by the ContactingSpecification."
   Fields:
     ContactPoint: [ WireHarness.VEC:ContactPoint, 1 ]
 - UADataType: [ WireHarness.VEC:3308, WireHarness.VEC:InsulationSpecification ]
+  DisplayName: "InsulationSpecification"
+  Description: "<p>Specifies the base color of the insulation.</p>"
   Fields:
     BaseColor: [ WireHarness.VEC:ARGB32ColorType, 0 ]
     FirstIdentificationColor: [ WireHarness.VEC:ARGB32ColorType, 1 ]
     SecondIdentificationColor: [ WireHarness.VEC:ARGB32ColorType, 1 ]
     Thickness: [ WireHarness.VEC:NumericalValue, 1 ]
 - UADataType: [ WireHarness.VEC:3158, WireHarness.VEC:PartOrUsageRelatedSpecification ]
+  DisplayName: "PartOrUsageRelatedSpecification"
+  Description: "<p>The specialPartType allows the specification of subclassifications for a PartOrUsageRelatedSpecification (e.g. different types of connector housings).</p>"
   Fields:
     SpecialPartType: [ String, 1 ]
     DescribedPart: [ WireHarness.VEC:PartVersion, 1 ]
@@ -172,10 +225,14 @@ DataTypes:
   Bases:
   - WireHarness.VEC:CavityPartSpecification
 - UADataType: [ WireHarness.VEC:3306, WireHarness.VEC:GeneralTechnicalPartSpecification ]
+  DisplayName: "GeneralTechnicalPartSpecification"
+  Description: "<p>Specifies the color of the part.</p>"
   Fields:
     ColorInformation: [ WireHarness.VEC:ARGB32ColorType, 1 ]
     BoundingBox: [ WireHarness.VEC:BoundingBox, 1 ]
 - UADataType: [ WireHarness.VEC:3374, WireHarness.VEC:TerminalSpecification ]
+  DisplayName: "TerminalSpecification"
+  Description: "<p>Specifies the length of the terminal between the contact area (terminal reception) and the crimp are (wire reception, see diagram 'Terminal Dimensions').</p>"
   Fields:
     ConnectionALength: [ WireHarness.VEC:NumericalValue, 1 ]
     OverallLength: [ WireHarness.VEC:NumericalValue, 0 ]
@@ -184,14 +241,20 @@ DataTypes:
   Bases:
   - WireHarness.VEC:TerminalSpecification
 - UADataType: [ WireHarness.VEC:3381, WireHarness.VEC:WireSpecification ]
+  DisplayName: "WireSpecification"
+  Description: "<p>Specifies the<i>WireElement</i>that represents the root of the<i>WireSpecification</i>.</p>"
   Fields:
     WireElement: [ WireHarness.VEC:WireElement, 0 ]
 - UADataType: [ WireHarness.VEC:3377, WireHarness.VEC:WireElementSpecification ]
+  DisplayName: "WireElementSpecification"
+  Description: "<p>Specifies the outside diameter of the WireElement.</p>"
   Fields:
     OutsideDiameter: [ WireHarness.VEC:NumericalValue, 1 ]
     ConductorSpecification: [ WireHarness.VEC:ConductorSpecification, 1 ]
     InsulationSpecification: [ WireHarness.VEC:InsulationSpecification, 1 ]
 - UADataType: [ WireHarness.VEC:3380, WireHarness.VEC:WireReceptionSpecification ]
+  DisplayName: "WireReceptionSpecification"
+  Description: "<p>Specifies the length of the insulation which must be stripped off to fit to this wire reception.</p>"
   Fields:
     InsulationDisplacementLength: [ WireHarness.VEC:NumericalValue, 0 ]
     ConductorCrimpLength: [ WireHarness.VEC:NumericalValue, 1 ]
@@ -201,26 +264,36 @@ DataTypes:
     CoreCrimpDetails: [ WireHarness.VEC:CoreCrimpDetail, 1 ]
     CrimpBarrelType: [ WireHarness.VEC:CrimpBarrelType, 0 ]
 - UADataType: [ WireHarness.VEC:4091, WireHarness.VEC:Tolerance ]
+  DisplayName: "Tolerance"
+  Description: "<p>Specifies the lower boundary for the tolerance.</p>"
   Fields:
     LowerBoundary: [ Double, 0 ]
     UpperBoundary: [ Double, 0 ]
 - UADataType: [ WireHarness.VEC:3376, WireHarness.VEC:WireElement ]
+  DisplayName: "WireElement"
+  Description: "<p>The identification of the WireElement. The identification is guaranteed to be unique within a wire and immutable. The identification is guaranteed to be the same for the same WireElement over different VEC documents.</p>"
   Fields:
     Identification: [ String, 1 ]
     WireElementSpecification: [ WireHarness.VEC:WireElementSpecification, 0 ]
     SubWireElement: [ WireHarness.VEC:WireElement, 1 ]
 - UADataType: [ WireHarness.VEC:3731, WireHarness.VEC:WireEnd ]
+  DisplayName: "WireEnd"
+  Description: "<p>Specifies a unique identification of the WireEnd. The identification is guaranteed to be unique within the WireElementReference.</p>"
   Fields:
     Identification: [ String, 1 ]
     PositionOnWire: [ Double, 0 ]
     StrippingLength: [ WireHarness.VEC:NumericalValue, 1 ]
     InsulationPullbackLength: [ WireHarness.VEC:NumericalValue, 1 ]
 - UADataType: [ WireHarness.VEC:3007, WireHarness.VEC:WireMounting ]
+  DisplayName: "WireMounting"
+  Description: "<p>References the cavity seal that is used for the wire mounting.</p>"
   Fields:
     MountedCavitySeal: [ WireHarness.VEC:CavitySealRoleIdDataType, 1 ]
     ReferencedWireEnd: [ WireHarness.VEC:WireEndIdDataType, 1 ]
     WireMountingDetail: [ WireHarness.VEC:WireMountingDetail, 1 ]
 - UADataType: [ WireHarness.VEC:3008, WireHarness.VEC:WireMountingDetail ]
+  DisplayName: "WireMountingDetail"
+  Description: "<p>Defines the required core crimp size (width &amp; height) of this specific wire mounting situation.</p>"
   Fields:
     CoreCrimpSize: [ WireHarness.VEC:Size, 1 ]
     InsulationCrimpSize: [ WireHarness.VEC:Size, 1 ]
@@ -230,11 +303,15 @@ DataTypes:
     AbsoluteSealPosition: [ WireHarness.VEC:NumericalValue, 0 ]
     CorePullOffForce: [ WireHarness.VEC:NumericalValue, 1 ]
 - UADataType: [ WireHarness.VEC:3379, WireHarness.VEC:WireReception ]
+  DisplayName: "WireReception"
+  Description: "<p>Specifies a unique identification of the WireReception. The identification is guaranteed to be unique within the TerminalSpecification (this might be for example a reception number).</p>"
   Fields:
     Identification: [ String, 1 ]
     Rotation: [ WireHarness.VEC:NumericalValue, 1 ]
     WireReceptionSpecification: [ WireHarness.VEC:WireReceptionSpecification, 0 ]
 - UADataType: [ WireHarness.VEC:3736, WireHarness.VEC:WireReceptionReference ]
+  DisplayName: "WireReceptionReference"
+  Description: "<p>Specifies a unique<i>identification</i>of the<i>WireReceptionReference</i>. The<i>identification</i>is guaranteed to be unique within the<i>TerminalRole</i>(this might be for example a reception number).</p>"
   Fields:
     Identification: [ String, 1 ]
     WireReception: [ WireHarness.VEC:WireReceptionIdDataType, 0 ]
@@ -242,144 +319,195 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ WireHarness.VEC:6757, WireHarness.VEC:CavityPartRoleIdDataType ]
+  DisplayName: "CavityPartRoleIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6433, WireHarness.VEC:CavityPartSpecificationIdDataType ]
+  DisplayName: "CavityPartSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6710, WireHarness.VEC:CavitySealRoleIdDataType ]
+  DisplayName: "CavitySealRoleIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6296, WireHarness.VEC:CavitySealSpecificationIdDataType ]
+  DisplayName: "CavitySealSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6941, WireHarness.VEC:CompositionSpecificationIdDataType ]
+  DisplayName: "CompositionSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6300, WireHarness.VEC:ConductorSpecificationIdDataType ]
+  DisplayName: "ConductorSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6010, WireHarness.VEC:ConfigurableElementIdDataType ]
+  DisplayName: "ConfigurableElementIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6006, WireHarness.VEC:ContactingSpecificationIdDataType ]
+  DisplayName: "ContactingSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6005, WireHarness.VEC:ContactPointIdDataType ]
+  DisplayName: "ContactPointIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6654, WireHarness.VEC:CoreCrimpDetailIdDataType ]
+  DisplayName: "CoreCrimpDetailIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6302, WireHarness.VEC:CoreSpecificationIdDataType ]
+  DisplayName: "CoreSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6655, WireHarness.VEC:CrimpDetailIdDataType ]
+  DisplayName: "CrimpDetailIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6011, WireHarness.VEC:DocumentVersionIdDataType ]
+  DisplayName: "DocumentVersionIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6012, WireHarness.VEC:ExtendableElementIdDataType ]
+  DisplayName: "ExtendableElementIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6306, WireHarness.VEC:GeneralTechnicalPartSpecificationIdDataType ]
+  DisplayName: "GeneralTechnicalPartSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6653, WireHarness.VEC:InsulationCrimpDetailIdDataType ]
+  DisplayName: "InsulationCrimpDetailIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6308, WireHarness.VEC:InsulationSpecificationIdDataType ]
+  DisplayName: "InsulationSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6013, WireHarness.VEC:ItemVersionIdDataType ]
+  DisplayName: "ItemVersionIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6703, WireHarness.VEC:OccurrenceOrUsageIdDataType ]
+  DisplayName: "OccurrenceOrUsageIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6942, WireHarness.VEC:PartOccurrenceIdDataType ]
+  DisplayName: "PartOccurrenceIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6158, WireHarness.VEC:PartOrUsageRelatedSpecificationIdDataType ]
+  DisplayName: "PartOrUsageRelatedSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6159, WireHarness.VEC:PartVersionIdDataType ]
+  DisplayName: "PartVersionIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6719, WireHarness.VEC:PluggableTerminalRoleIdDataType ]
+  DisplayName: "PluggableTerminalRoleIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6361, WireHarness.VEC:PluggableTerminalSpecificationIdDataType ]
+  DisplayName: "PluggableTerminalSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6277, WireHarness.VEC:ResourceVersionIdDataType ]
+  DisplayName: "ResourceVersionIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6705, WireHarness.VEC:RoleIdDataType ]
+  DisplayName: "RoleIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6205, WireHarness.VEC:RoutableElementIdDataType ]
+  DisplayName: "RoutableElementIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6207, WireHarness.VEC:SpecificationIdDataType ]
+  DisplayName: "SpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6729, WireHarness.VEC:TerminalRoleIdDataType ]
+  DisplayName: "TerminalRoleIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6374, WireHarness.VEC:TerminalSpecificationIdDataType ]
+  DisplayName: "TerminalSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6376, WireHarness.VEC:WireElementIdDataType ]
+  DisplayName: "WireElementIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6730, WireHarness.VEC:WireElementReferenceIdDataType ]
+  DisplayName: "WireElementReferenceIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6377, WireHarness.VEC:WireElementSpecificationIdDataType ]
+  DisplayName: "WireElementSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6731, WireHarness.VEC:WireEndIdDataType ]
+  DisplayName: "WireEndIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6008, WireHarness.VEC:WireMountingDetailIdDataType ]
+  DisplayName: "WireMountingDetailIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6007, WireHarness.VEC:WireMountingIdDataType ]
+  DisplayName: "WireMountingIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6379, WireHarness.VEC:WireReceptionIdDataType ]
+  DisplayName: "WireReceptionIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6736, WireHarness.VEC:WireReceptionReferenceIdDataType ]
+  DisplayName: "WireReceptionReferenceIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6380, WireHarness.VEC:WireReceptionSpecificationIdDataType ]
+  DisplayName: "WireReceptionSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6735, WireHarness.VEC:WireRoleIdDataType ]
+  DisplayName: "WireRoleIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:6381, WireHarness.VEC:WireSpecificationIdDataType ]
+  DisplayName: "WireSpecificationIdDataType"
   Fields:
     id: [ TrimmedString, 0 ]
 - UADataType: [ WireHarness.VEC:4026, WireHarness.VEC:Material ]
+  DisplayName: "Material"
+  Description: "<p>The key of the material in the corresponding material reference system.</p>"
   Fields:
     Key: [ String, 0 ]
     ReferenceSystem: [ String, 0 ]
 - UADataType: [ WireHarness.VEC:4088, WireHarness.VEC:Size ]
+  DisplayName: "Size"
+  Description: "<p>The width of the element.</p>"
   Fields:
     Width: [ WireHarness.VEC:NumericalValue, 0 ]
     Height: [ WireHarness.VEC:NumericalValue, 0 ]
 - UADataType: [ WireHarness.VEC:4098, WireHarness.VEC:ValueWithUnit ]
+  DisplayName: "ValueWithUnit"
+  Description: "References the unit of the value."
   Fields:
     UnitComponent: [ EUInformation, 0 ]
 - UADataType: [ WireHarness.VEC:4027, WireHarness.VEC:NumericalValue ]
+  DisplayName: "NumericalValue"
+  Description: "<p>Specifies the value of the numerical value.</p>"
   Fields:
     ValueComponent: [ Double, 0 ]
     Tolerance: [ WireHarness.VEC:Tolerance, 1 ]
 - UADataType: [ WireHarness.VEC:4097, WireHarness.VEC:ValueRange ]
+  DisplayName: "ValueRange"
+  Description: "<p>Lower bound of the value range.</p>"
   Fields:
     Minimum: [ Double, 0 ]
     Maximum: [ Double, 0 ]

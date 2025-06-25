@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -40,8 +49,12 @@ DefinedTypes:
 
   Machinery:IMachineTagNameplateType:
   - [ UAObjectType, Machinery:1011, Machinery:IMachineTagNameplateType ]
+  - DisplayName: "IMachineTagNameplateType"
+  - Description: "Interface containing information of the identification of a machine set by the customer"
   - HasProperty:
     - [ UAVariable, Machinery:6028, Machinery:Location, String, 0, 3 ]
+    - DisplayName: "Location"
+    - Description: "To be used by end users to store the location of the machine in a scheme specific to the end user Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -49,24 +62,36 @@ DefinedTypes:
 
   Machinery:IMachineryItemVendorNameplateType:
   - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType ]
+  - DisplayName: "IMachineryItemVendorNameplateType"
+  - Description: "Interface containing identification and nameplate information for a MachineryItem provided by the vendor"
   - HasProperty:
     - [ UAVariable, Machinery:6027, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - DisplayName: "InitialOperationDate"
+    - Description: "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6022, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
+    - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Machinery:6026, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - DisplayName: "MonthOfConstruction"
+    - Description: "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6024, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
+    - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Machinery:6025, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - DisplayName: "YearOfConstruction"
+    - Description: "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -74,71 +99,107 @@ DefinedTypes:
 
   Machinery:IMachineVendorNameplateType:
   - [ UAObjectType, Machinery:1010, Machinery:IMachineVendorNameplateType ]
+  - DisplayName: "IMachineVendorNameplateType"
+  - Description: "Interface containing identification and nameplate information for a machine provided by the machine vendor"
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, Machinery:6023, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
+    - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Machinery:MachineryItemIdentificationType:
   - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
+  - DisplayName: "MachineryItemIdentificationType"
+  - Description: "Contains information about the identification and nameplate of a MachineryItem"
   - HasProperty:
     - [ UAVariable, Machinery:6013, DI:AssetId, String, 0, 3 ]
+    - DisplayName: "AssetId"
+    - Description: "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6014, DI:ComponentName, LocalizedText, 0, 3 ]
+    - DisplayName: "ComponentName"
+    - Description: "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6088, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasProperty:
     - [ UAVariable, Machinery:6012, DI:DeviceClass, String, 0, 0 ]
+    - DisplayName: "DeviceClass"
+    - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6010, DI:HardwareRevision, String, 0, 0 ]
+    - DisplayName: "HardwareRevision"
+    - Description: "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6006, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - DisplayName: "InitialOperationDate"
+    - Description: "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6002, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
+    - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Machinery:6007, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
+    - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6008, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
+    - Description: "A human-readable, localized name of the model of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6005, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - DisplayName: "MonthOfConstruction"
+    - Description: "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6009, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
+    - Description: "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6001, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
+    - Description: "A globally unique resource identifier provided by the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6003, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
+    - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Machinery:6011, DI:SoftwareRevision, String, 0, 0 ]
+    - DisplayName: "SoftwareRevision"
+    - Description: "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6004, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - DisplayName: "YearOfConstruction"
+    - Description: "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -146,25 +207,39 @@ DefinedTypes:
 
   Machinery:MachineIdentificationType:
   - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
+  - DisplayName: "MachineIdentificationType"
+  - Description: "Contains information about the identification and nameplate of a machine"
   - HasProperty:
     - [ UAVariable, Machinery:6030, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasProperty:
     - [ UAVariable, Machinery:6029, Machinery:Location, String, 0, 3 ]
+    - DisplayName: "Location"
+    - Description: "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6015, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
+    - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Machinery:MachineryComponentIdentificationType:
   - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
+  - DisplayName: "MachineryComponentIdentificationType"
+  - Description: "Contains information about the identification and nameplate of a component"
   - HasProperty:
     - [ UAVariable, Machinery:6016, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasProperty:
     - [ UAVariable, Machinery:6017, DI:DeviceRevision, String, 0, 0 ]
+    - DisplayName: "DeviceRevision"
+    - Description: "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -172,129 +247,192 @@ DefinedTypes:
 
   Machinery:MachineryOperationCounterType:
   - [ UAObjectType, Machinery:1009, Machinery:MachineryOperationCounterType ]
+  - DisplayName: "MachineryOperationCounterType"
   - HasProperty:
     - [ UAVariable, Machinery:6082, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasProperty:
     - [ UAVariable, Machinery:6081, DI:OperationCycleCounter, UInteger, 0, 3 ]
+    - DisplayName: "OperationCycleCounter"
+    - Description: "OperationCycleCounter is counting the times the component switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the component and shall not be reset when the component is restarted."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6080, DI:OperationDuration, Duration, 0, 3 ]
+    - DisplayName: "OperationDuration"
+    - Description: "OperationDuration is the duration the MachineryItem has been powered and performing an activity. This counter is intended for machines and components where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for machines or components always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Machinery:6079, DI:PowerOnDuration, Duration, 0, 3 ]
+    - DisplayName: "PowerOnDuration"
+    - Description: "PowerOnDuration is the duration the MachineryItem has been powered. The main purpose is to determine the time in which degradation of the MachineryItem occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the MachineryItem has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Machinery:MachineryLifetimeCounterType:
   - [ UAObjectType, Machinery:1015, Machinery:MachineryLifetimeCounterType ]
+  - DisplayName: "MachineryLifetimeCounterType"
   - HasComponent:
     - [ UAVariable, Machinery:6083, Machinery:<LifetimeVariable>, Number, 0, 3 ]
+    - DisplayName: "<LifetimeVariable>"
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasProperty:
     - [ UAVariable, Machinery:6087, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type"
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
   Machinery:MachineComponentsType:
   - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
+  - DisplayName: "MachineComponentsType"
+  - Description: "Contains all identifiable components of a machine"
   - HasComponent:
     - [ UAObject, Machinery:5002, Machinery:<Component> ]
+    - DisplayName: "<Component>"
+    - Description: "Represents the identifiable components of a machine."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, Machinery:6018, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Machinery:MachineryItemState_StateMachineType:
   - [ UAObjectType, Machinery:1002, Machinery:MachineryItemState_StateMachineType ]
+  - DisplayName: "MachineryItemState_StateMachineType"
+  - Description: "State machine representing the state of a machinery item"
   - HasProperty:
     - [ UAVariable, Machinery:6021, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type"
   - HasComponent:
     - [ UAObject, Machinery:5006, Machinery:Executing ]
+    - DisplayName: "Executing"
+    - Description: "The machine is available & functional and is actively performing an activity (pursues a purpose)"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, Machinery:5023, Machinery:FromExecutingToExecuting ]
+    - DisplayName: "FromExecutingToExecuting"
+    - Description: "Transition from state Executing to state Executing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5020, Machinery:FromExecutingToNotAvailable ]
+    - DisplayName: "FromExecutingToNotAvailable"
+    - Description: "Transition from state Executing to state NotAvailable"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5022, Machinery:FromExecutingToNotExecuting ]
+    - DisplayName: "FromExecutingToNotExecuting"
+    - Description: "Transition from state Executing to state NotExecuting"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5021, Machinery:FromExecutingToOutOfService ]
+    - DisplayName: "FromExecutingToOutOfService"
+    - Description: "Transition from state Executing to state OutOfService"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5010, Machinery:FromNotAvailableToExecuting ]
+    - DisplayName: "FromNotAvailableToExecuting"
+    - Description: "Transition from state NotAvailable to state Executing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5011, Machinery:FromNotAvailableToNotAvailable ]
+    - DisplayName: "FromNotAvailableToNotAvailable"
+    - Description: "Transition from state NotAvailable to state NotAvailable"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5009, Machinery:FromNotAvailableToNotExecuting ]
+    - DisplayName: "FromNotAvailableToNotExecuting"
+    - Description: "Transition from state NotAvailable to state NotExecuting"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5008, Machinery:FromNotAvailableToOutOfService ]
+    - DisplayName: "FromNotAvailableToOutOfService"
+    - Description: "Transition from state NotAvailable to state OutOfService"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5018, Machinery:FromNotExecutingToExecuting ]
+    - DisplayName: "FromNotExecutingToExecuting"
+    - Description: "Transition from state NotExecuting to state Executing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5016, Machinery:FromNotExecutingToNotAvailable ]
+    - DisplayName: "FromNotExecutingToNotAvailable"
+    - Description: "Transition from state NotExecuting to state NotAvailable"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5019, Machinery:FromNotExecutingToNotExecuting ]
+    - DisplayName: "FromNotExecutingToNotExecuting"
+    - Description: "Transition from state NotExecuting to state NotExecuting"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5017, Machinery:FromNotExecutingToOutOfService ]
+    - DisplayName: "FromNotExecutingToOutOfService"
+    - Description: "Transition from state NotExecuting to state OutOfService"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5014, Machinery:FromOutOfServiceToExecuting ]
+    - DisplayName: "FromOutOfServiceToExecuting"
+    - Description: "Transition from state OutOfService to state Executing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5012, Machinery:FromOutOfServiceToNotAvailable ]
+    - DisplayName: "FromOutOfServiceToNotAvailable"
+    - Description: "Transition from state OutOfService to state NotAvailable"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5013, Machinery:FromOutOfServiceToNotExecuting ]
+    - DisplayName: "FromOutOfServiceToNotExecuting"
+    - Description: "Transition from state OutOfService to state NotExecuting"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5015, Machinery:FromOutOfServiceToOutOfService ]
+    - DisplayName: "FromOutOfServiceToOutOfService"
+    - Description: "Transition from state OutOfService to state OutOfService"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5005, Machinery:NotAvailable ]
+    - DisplayName: "NotAvailable"
+    - Description: "The machine is not available and does not perform any activity (e.g., switched off, in energy saving mode)"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, Machinery:5007, Machinery:NotExecuting ]
+    - DisplayName: "NotExecuting"
+    - Description: "The machine is available & functional and does not perform any activity. It waits for an action from outside to start or restart an activity"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, Machinery:5004, Machinery:OutOfService ]
+    - DisplayName: "OutOfService"
+    - Description: "The machine is not functional and does not perform any activity (e.g., error, blocked)"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasSubtype_reverse:
@@ -302,86 +440,130 @@ DefinedTypes:
 
   Machinery:MachineryOperationModeStateMachineType:
   - [ UAObjectType, Machinery:1008, Machinery:MachineryOperationModeStateMachineType ]
+  - DisplayName: "MachineryOperationModeStateMachineType"
+  - Description: "State machine representing the operation mode of a MachineryItem"
   - HasProperty:
     - [ UAVariable, Machinery:6058, Machinery:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type"
   - HasComponent:
     - [ UAObject, Machinery:5035, Machinery:FromMaintenanceToMaintenance ]
+    - DisplayName: "FromMaintenanceToMaintenance"
+    - Description: "Transition from state Maintenance to state Maintenance"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5032, Machinery:FromMaintenanceToNone ]
+    - DisplayName: "FromMaintenanceToNone"
+    - Description: "Transition from state Maintenance to state None"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5034, Machinery:FromMaintenanceToProcessing ]
+    - DisplayName: "FromMaintenanceToProcessing"
+    - Description: "Transition from state Maintenance to state Processing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5033, Machinery:FromMaintenanceToSetup ]
+    - DisplayName: "FromMaintenanceToSetup"
+    - Description: "Transition from state Maintenance to state Setup"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5028, Machinery:FromNoneToMaintenance ]
+    - DisplayName: "FromNoneToMaintenance"
+    - Description: "Transition from state None to state Maintenance"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5031, Machinery:FromNoneToNone ]
+    - DisplayName: "FromNoneToNone"
+    - Description: "Transition from state None to state None"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5030, Machinery:FromNoneToProcessing ]
+    - DisplayName: "FromNoneToProcessing"
+    - Description: "Transition from state None to state Processing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5029, Machinery:FromNoneToSetup ]
+    - DisplayName: "FromNoneToSetup"
+    - Description: "Transition from state None to state Setup"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5041, Machinery:FromProcessingToMaintenance ]
+    - DisplayName: "FromProcessingToMaintenance"
+    - Description: "Transition from state Processing to state Maintenance"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5040, Machinery:FromProcessingToNone ]
+    - DisplayName: "FromProcessingToNone"
+    - Description: "Transition from state Processing to state None"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5043, Machinery:FromProcessingToProcessing ]
+    - DisplayName: "FromProcessingToProcessing"
+    - Description: "Transition from state Processing to state Processing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5042, Machinery:FromProcessingToSetup ]
+    - DisplayName: "FromProcessingToSetup"
+    - Description: "Transition from state Processing to state Setup"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5037, Machinery:FromSetupToMaintenance ]
+    - DisplayName: "FromSetupToMaintenance"
+    - Description: "Transition from state Setup to state Maintenance"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5036, Machinery:FromSetupToNone ]
+    - DisplayName: "FromSetupToNone"
+    - Description: "Transition from state Setup to state None"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5038, Machinery:FromSetupToProcessing ]
+    - DisplayName: "FromSetupToProcessing"
+    - Description: "Transition from state Setup to state Processing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5039, Machinery:FromSetupToSetup ]
+    - DisplayName: "FromSetupToSetup"
+    - Description: "Transition from state Setup to state Setup"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, Machinery:5025, Machinery:Maintenance ]
+    - DisplayName: "Maintenance"
+    - Description: "MachineryItem is set into maintenance mode with the intention to carry out maintenance or servicing activities"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, Machinery:5024, Machinery:None ]
+    - DisplayName: "None"
+    - Description: "There is currently no operation mode available"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, Machinery:5026, Machinery:Processing ]
+    - DisplayName: "Processing"
+    - Description: "MachineryItem is set into processing mode with the intention to carry out the value adding activities"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, Machinery:5027, Machinery:Setup ]
+    - DisplayName: "Setup"
+    - Description: "MachineryItem is set into setup mode with the intention to carry out setup, preparation or postprocessing activities of a production process"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasSubtype_reverse:

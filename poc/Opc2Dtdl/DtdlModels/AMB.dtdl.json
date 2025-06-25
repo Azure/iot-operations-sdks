@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:AMB:CalibrationDueConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CalibrationDueConditionClassType",
+    "description": "Calibration is due",
     "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -31,6 +33,8 @@
     ],
     "@id": "dtmi:opcua:AMB:ExternalCheckConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ExternalCheckConditionClassType",
+    "description": "An external check maintenance activity",
     "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1015",
     "payloadFormat": "Json/ecma/404",
@@ -51,6 +55,8 @@
     ],
     "@id": "dtmi:opcua:AMB:FlashUpdateInProgressConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FlashUpdateInProgressConditionClassType",
+    "description": "Flash update in progress",
     "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1007",
     "payloadFormat": "Json/ecma/404",
@@ -71,6 +77,8 @@
     ],
     "@id": "dtmi:opcua:AMB:ImprovementConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ImprovementConditionClassType",
+    "description": "An improvement maintenance activity",
     "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1018",
     "payloadFormat": "Json/ecma/404",
@@ -91,6 +99,8 @@
     ],
     "@id": "dtmi:opcua:AMB:InspectionConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "InspectionConditionClassType",
+    "description": "An inspection maintenance activity",
     "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1014",
     "payloadFormat": "Json/ecma/404",
@@ -111,6 +121,8 @@
     ],
     "@id": "dtmi:opcua:AMB:RepairConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RepairConditionClassType",
+    "description": "A repair maintenance activity",
     "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1017",
     "payloadFormat": "Json/ecma/404",
@@ -131,6 +143,8 @@
     ],
     "@id": "dtmi:opcua:AMB:ServicingConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ServicingConditionClassType",
+    "description": "A servicing maintenance activity",
     "extends": "dtmi:opcua:OpcUaCore:MaintenanceConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1016",
     "payloadFormat": "Json/ecma/404",
@@ -151,6 +165,8 @@
     ],
     "@id": "dtmi:opcua:AMB:BadConfigurationConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "BadConfigurationConditionClassType",
+    "description": "Configuration is bad",
     "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1008",
     "payloadFormat": "Json/ecma/404",
@@ -171,6 +187,8 @@
     ],
     "@id": "dtmi:opcua:AMB:ConnectionFailureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConnectionFailureConditionClassType",
+    "description": "One or more connections have failed",
     "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -191,6 +209,8 @@
     ],
     "@id": "dtmi:opcua:AMB:FlashUpdateFailedConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FlashUpdateFailedConditionClassType",
+    "description": "Flash update has failed",
     "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1019",
     "payloadFormat": "Json/ecma/404",
@@ -211,6 +231,8 @@
     ],
     "@id": "dtmi:opcua:AMB:OutOfResourcesConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OutOfResourcesConditionClassType",
+    "description": "Out of resources issues",
     "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -231,6 +253,8 @@
     ],
     "@id": "dtmi:opcua:AMB:OutOfMemoryConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OutOfMemoryConditionClassType",
+    "description": "Out of memory issues",
     "extends": "dtmi:opcua:AMB:OutOfResourcesConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1010",
     "payloadFormat": "Json/ecma/404",
@@ -251,6 +275,8 @@
     ],
     "@id": "dtmi:opcua:AMB:OverTemperatureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OverTemperatureConditionClassType",
+    "description": "Over temperature",
     "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1004",
     "payloadFormat": "Json/ecma/404",
@@ -271,6 +297,8 @@
     ],
     "@id": "dtmi:opcua:AMB:SelfTestFailureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SelfTestFailureConditionClassType",
+    "description": "Self-Test failure",
     "extends": "dtmi:opcua:OpcUaCore:SystemConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1006",
     "payloadFormat": "Json/ecma/404",
@@ -291,6 +319,8 @@
     ],
     "@id": "dtmi:opcua:AMB:IMaintenanceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IMaintenanceEventType",
+    "description": "Information on maintenance activities, should by applied to conditions (ConditionType or subtypes)",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1012",
     "commandTopic": "opcua/AMB/IMaintenanceEventType/{commandName}",
@@ -300,6 +330,8 @@
       {
         "@id": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:MaintenanceMethodEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "MaintenanceMethodEnum",
+        "description": "Maintenance close to the asset",
         "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -316,6 +348,8 @@
       {
         "@id": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:NameNodeIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "NameNodeIdDataType",
+        "description": "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace",
         "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=3003",
         "fields": [
           {
@@ -335,6 +369,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConfigurationChanged",
+        "displayName": "ConfigurationChanged",
+        "description": "Information if the configuration of the asset is planned to be changed or has changed during the maintenance activity. FALSE indicates no change, and TRUE indicates a change. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual configuration changes during the maintenance activity.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": "boolean",
         "writable": true
@@ -342,6 +378,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EstimatedDowntime",
+        "displayName": "EstimatedDowntime",
+        "description": "The estimated time the execution of the maintenance activity will take. In case of replanning, it is allowed to change the EstimatedDowntime. If during the execution of the maintenance activity the EstimatedDowntime can be adjusted (e.g., the asset needs to be repaired because an inspection found some issues) this should be done. Clients can access the history of Events to receive the information on the original estimates when the maintenance activity started.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": "duration",
         "writable": true
@@ -349,6 +387,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaintenanceMethod",
+        "displayName": "MaintenanceMethod",
+        "description": "Information about the planned or used maintenance method. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual used maintenance method during the maintenance activity.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:MaintenanceMethodEnum;1",
         "writable": true
@@ -356,6 +396,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaintenanceSupplier",
+        "displayName": "MaintenanceSupplier",
+        "description": "Information on the supplier that is planned to execute, currently executing or has executed the maintenance activity. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual supplier that executed the maintenance activity. The value contains always a human-readable name of the supplier and optionally references a Node representing the supplier in the AddressSpace.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:NameNodeIdDataType;1",
         "writable": true
@@ -363,6 +405,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PartsOfAssetReplaced",
+        "displayName": "PartsOfAssetReplaced",
+        "description": "Information on the parts of the assets that are planned to be serviced during the maintenance activity, currently serviced or have been serviced, depending on the different MaintenanceStates. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual parts of the assets serviced during the maintenance activity. The value contains always an array of a human-readable name of the qualification of the parts of the asset to be serviced and optionally references a Node representing the part of the asset in the AddressSpace.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": {
           "@type": "Array",
@@ -373,6 +417,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PartsOfAssetServiced",
+        "displayName": "PartsOfAssetServiced",
+        "description": "Information on the parts of the assets that are planned to be serviced during the maintenance activity, currently serviced or have been serviced, depending on the different MaintenanceStates. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual parts of the assets serviced during the maintenance activity. The value contains always an array of a human-readable name of the qualification of the parts of the asset to be serviced and optionally references a Node representing the part of the asset in the AddressSpace.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": {
           "@type": "Array",
@@ -383,6 +429,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PlannedDate",
+        "displayName": "PlannedDate",
+        "description": "Date for which the maintenance activity has been scheduled. In case of replanning, it is allowed to change the PlannedDate. However, it is not the intention that the PlannedDate is modified because the maintenance activity starts to get executed. If the PlannedDate depends for example on the operation hours of the asset, it might get adapted depending on the passed operation hours.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": "time",
         "writable": true
@@ -390,6 +438,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "QualificationOfPersonnel",
+        "displayName": "QualificationOfPersonnel",
+        "description": "Information on the qualification of the personnel that is planned to execute, currently executing or has executed the maintenance activity. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual qualification of the personnel that executed the maintenance activity. The value contains always a human-readable name of the qualification of the personnel and optionally references a Node representing the qualification of the personnel in the AddressSpace.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:NameNodeIdDataType;1",
         "writable": true
@@ -398,6 +448,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaintenanceState",
+        "displayName": "MaintenanceState",
+        "description": "Information if the maintenance activity is still planned, currently in execution, or has already been executed.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:AMB:MaintenanceEventStateMachineType"
       }
@@ -415,6 +467,8 @@
     ],
     "@id": "dtmi:opcua:AMB:IRootCauseIndicationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRootCauseIndicationType",
+    "description": "Information on the root cause of conditions, should be applied to alarms (AlarmType or subtypes)",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1002",
     "commandTopic": "opcua/AMB/IRootCauseIndicationType/{commandName}",
@@ -424,6 +478,8 @@
       {
         "@id": "dtmi:opcua:AMB:IRootCauseIndicationType:dataType:RootCauseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "RootCauseDataType",
+        "description": "Root cause of an alarm",
         "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=3002",
         "fields": [
           {
@@ -443,6 +499,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PotentialRootCauses",
+        "displayName": "PotentialRootCauses",
+        "description": "An array of potential root causes of the alarm. This is intended to be a hint to the client and might be a local view on the potential root causes of the alarm. The list might not contain all potential root causes, that is, other potential root causes might exist as well. If the alarm itself is considered to be the root cause, the array shall be empty. If no potential root causes have been identified, there shall be at least one entry in the array indicating that the root cause is unknown.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": {
           "@type": "Array",
@@ -464,6 +522,8 @@
     ],
     "@id": "dtmi:opcua:AMB:DocumentationLinksType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "DocumentationLinksType",
+    "description": "AddIn to link documentation provided by the manufacturer and / or end-user.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1011",
     "commandTopic": "opcua/AMB/DocumentationLinksType/{commandName}",
@@ -475,6 +535,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": "string",
         "writable": true
@@ -482,6 +543,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Link",
+        "displayName": "<Link>",
+        "description": "Represents links to externally managed documentation, typically URLs.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "schema": {
           "@type": "Map",
@@ -498,6 +561,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AddLink",
+        "displayName": "AddLink",
+        "description": "Method to add an end-user specific link that is stored persistently in the server.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -546,6 +611,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveLink",
+        "displayName": "RemoveLink",
+        "description": "Method to remove an end-user specific link that is managed in the server.",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -576,6 +643,8 @@
     ],
     "@id": "dtmi:opcua:AMB:MaintenanceEventStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MaintenanceEventStateMachineType",
+    "description": "Information, whether a maintenance activity is planned, currently in execution, or has been executed",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AMB;i=1013",
     "payloadFormat": "Json/ecma/404",
@@ -586,6 +655,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Executing",
+        "displayName": "Executing",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -593,6 +663,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Finished",
+        "displayName": "Finished",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -600,6 +671,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromExecutingToFinished",
+        "displayName": "FromExecutingToFinished",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -607,6 +679,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromFinishedToPlanned",
+        "displayName": "FromFinishedToPlanned",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -614,6 +687,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromPlannedToExecuting",
+        "displayName": "FromPlannedToExecuting",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -621,6 +695,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Planned",
+        "displayName": "Planned",
         "namespace": "http://opcfoundation.org/UA/AMB",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       }

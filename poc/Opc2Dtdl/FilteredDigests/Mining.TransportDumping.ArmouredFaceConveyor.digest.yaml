@@ -1,15 +1,21 @@
 DataTypes:
 - UADataType: [ Mining.TransportDumping.ArmouredFaceConveyor:3004, Mining.TransportDumping.ArmouredFaceConveyor:AFCNormalRunningDirectionEnum ]
+  DisplayName: "AFCNormalRunningDirectionEnum"
+  Description: "Enum describing the direction of the conveyor chain movement during normal operation"
   Enums:
     LEFT: 0
     RIGHT: 1
 - UADataType: [ Mining.TransportDumping.ArmouredFaceConveyor:3002, Mining.TransportDumping.ArmouredFaceConveyor:AFCStateEnum ]
+  DisplayName: "AFCStateEnum"
+  Description: "Enum describing the current operation state of the chain conveyor"
   Enums:
     UNDEFINED: 0
     STOPPED: 1
     RUNNING: 2
     REVERSE: 3
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -20,25 +26,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -46,6 +59,8 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
+  DisplayName: "LongwallShieldOffsetDataType"
+  Description: "The LongwallShieldOffsetDataType describes a tuple containing a roof support shield number and its corresponding offset"
   Fields:
     ShieldNumber: [ UInt16, 0 ]
     ShieldOffset: [ Double, 0 ]
@@ -54,10 +69,14 @@ DefinedTypes:
 
   Mining.TransportDumping.ArmouredFaceConveyor:AFCType:
   - [ UAObjectType, Mining.TransportDumping.ArmouredFaceConveyor:1002, Mining.TransportDumping.ArmouredFaceConveyor:AFCType ]
+  - DisplayName: "AFCType"
+  - Description: "The AFCType ObjectType describes a armoured face conveyor for longwall mining operations"
   - HasSubtype_reverse:
     - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
   - HasComponent:
     - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5002, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:

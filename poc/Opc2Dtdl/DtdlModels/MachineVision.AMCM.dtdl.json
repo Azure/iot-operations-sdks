@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IVisionInfoType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -31,6 +32,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:ICableType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ICableType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1018",
     "payloadFormat": "Json/ecma/404",
@@ -51,6 +53,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:IComputingDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IComputingDeviceType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -71,6 +74,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:IDisplayUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IDisplayUnitType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1011",
     "payloadFormat": "Json/ecma/404",
@@ -91,6 +95,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:ILampType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ILampType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1016",
     "payloadFormat": "Json/ecma/404",
@@ -111,6 +116,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:ILensType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ILensType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1013",
     "payloadFormat": "Json/ecma/404",
@@ -131,6 +137,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:ILicenseType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ILicenseType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1017",
     "payloadFormat": "Json/ecma/404",
@@ -151,6 +158,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:ILightingControllerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ILightingControllerType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1015",
     "payloadFormat": "Json/ecma/404",
@@ -171,6 +179,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:IPhysicalInterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPhysicalInterfaceType",
     "extends": "dtmi:opcua:MachineVision_AMCM:IVisionInfoType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1012",
     "payloadFormat": "Json/ecma/404",
@@ -191,6 +200,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionItemFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -211,6 +221,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionMachineIdentificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionMachineIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1006",
     "commandTopic": "opcua/MachineVision_AMCM/VisionMachineIdentificationType/{commandName}",
@@ -222,6 +233,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConfigurationCode",
+        "displayName": "ConfigurationCode",
+        "description": "provides the specific information how the machine vision system has been configured for a specific use case or application",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "string",
         "writable": true
@@ -240,6 +253,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionComponentIdentificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionComponentIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineryComponentIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1007",
     "commandTopic": "opcua/MachineVision_AMCM/VisionComponentIdentificationType/{commandName}",
@@ -251,6 +265,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConfigurationCode",
+        "displayName": "ConfigurationCode",
+        "description": "provides the specific information how the machine vision system has been configured for a specific use case or application",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "string",
         "writable": true
@@ -269,6 +285,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionHealthInfoType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1004",
     "telemetryTopic": "opcua/MachineVision_AMCM/VisionHealthInfoType/{telemetryName}/{senderId}",
@@ -277,6 +294,8 @@
       {
         "@id": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:DeviceHealthEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "DeviceHealthEnumeration",
+        "description": "This device functions normally.",
         "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
         "valueSchema": "integer",
         "enumValues": [
@@ -305,6 +324,7 @@
       {
         "@id": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:SEMI_E10SystemStateDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "SEMI_E10SystemStateDataType",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=3002",
         "fields": [
           {
@@ -324,24 +344,32 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DeviceHealth",
+        "displayName": "DeviceHealth",
+        "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
         "namespace": "http://opcfoundation.org/UA/DI",
         "schema": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:DeviceHealthEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RemainingLifeTime",
+        "displayName": "RemainingLifeTime",
+        "description": "denotes the remaining lifetime of the item. It serves as an indication to service personnel for maintenance activities",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "State",
+        "displayName": "State",
+        "description": "denotes the SEMI E10 State of the item",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:SEMI_E10SystemStateDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Temperature",
+        "displayName": "Temperature",
+        "description": "denotes the temperature value (along with its unit) of the item",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "double"
       },
@@ -349,6 +377,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
+        "displayName": "DeviceHealthAlarms",
+        "description": "folder to organize the Alarms and Conditions related to the item if these Alarms and Conditions are instantiated in the address space",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -366,6 +396,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionMaintenanceInfoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionMaintenanceInfoType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1003",
     "commandTopic": "opcua/MachineVision_AMCM/VisionMaintenanceInfoType/{commandName}",
@@ -377,6 +408,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CalibrationNeeded",
+        "displayName": "CalibrationNeeded",
+        "description": "a flag that if True denotes that the item needs calibration",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "boolean",
         "writable": true
@@ -384,6 +417,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "FirmwareInfo",
+        "displayName": "FirmwareInfo",
+        "description": "denotes the information about the firmware of the Item",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "string",
         "writable": true
@@ -391,6 +426,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LastCalibration",
+        "displayName": "LastCalibration",
+        "description": "denotes the time when the previous calibration was carried out on the item",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "time",
         "writable": true
@@ -398,6 +435,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LastService",
+        "displayName": "LastService",
+        "description": "denotes the last moment in time when the most recent service was carried out on the item",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "time",
         "writable": true
@@ -405,6 +444,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaintenanceRecord",
+        "displayName": "MaintenanceRecord",
+        "description": "provides the most recent note that was recorded while performing maintenance. This property can be historized if a history of previous maintenance notes is to be made available",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "string",
         "writable": true
@@ -412,6 +453,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NextCalibration",
+        "displayName": "NextCalibration",
+        "description": "denotes the planned time when the next calibration is to be carried out on the item.",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "time",
         "writable": true
@@ -419,6 +462,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NextService",
+        "displayName": "NextService",
+        "description": "denotes the planned moment in time when the next service is to be carried out on the item",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "time",
         "writable": true
@@ -426,6 +471,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "StartOfWarranty",
+        "displayName": "StartOfWarranty",
+        "description": "denotes the beginning of the warranty period of the item",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "time",
         "writable": true
@@ -433,6 +480,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ServiceClass",
+        "displayName": "ServiceClass",
+        "description": "provides information that an item is classified as a wear and tear part, whether it is a line replaceable unit (LRU), shop replaceable unit (SRU), wear and tear part (WTP), infrastructural unit (ISU), infrastructural equipment (ISE), etc",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "schema": "unsignedInteger"
       }
@@ -450,6 +499,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionAcquisitionBackgroundType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionAcquisitionBackgroundType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1032",
     "payloadFormat": "Json/ecma/404",
@@ -470,6 +520,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionAspectImageReceiverType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionAspectImageReceiverType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1040",
     "payloadFormat": "Json/ecma/404",
@@ -490,6 +541,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionAspectImageTransceiverType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionAspectImageTransceiverType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1041",
     "payloadFormat": "Json/ecma/404",
@@ -510,6 +562,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionAspectImageTransmitterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionAspectImageTransmitterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1039",
     "payloadFormat": "Json/ecma/404",
@@ -530,6 +583,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionCableType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionCableType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1038",
     "payloadFormat": "Json/ecma/404",
@@ -550,6 +604,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionClimateControllerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionClimateControllerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1035",
     "payloadFormat": "Json/ecma/404",
@@ -570,6 +625,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionComputingDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionComputingDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1010",
     "payloadFormat": "Json/ecma/404",
@@ -590,6 +646,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionDisplayUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionDisplayUnitType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1019",
     "payloadFormat": "Json/ecma/404",
@@ -610,6 +667,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionFrameGrabberType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionFrameGrabberType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1021",
     "payloadFormat": "Json/ecma/404",
@@ -630,6 +688,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionHousingType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionHousingType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1034",
     "payloadFormat": "Json/ecma/404",
@@ -650,6 +709,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionImageSensorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionImageSensorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1020",
     "payloadFormat": "Json/ecma/404",
@@ -670,6 +730,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionLampType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionLampType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1028",
     "payloadFormat": "Json/ecma/404",
@@ -690,6 +751,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionLensControllerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionLensControllerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1023",
     "payloadFormat": "Json/ecma/404",
@@ -710,6 +772,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionLensType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionLensType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1022",
     "payloadFormat": "Json/ecma/404",
@@ -730,6 +793,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionLicenseType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionLicenseType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1036",
     "payloadFormat": "Json/ecma/404",
@@ -750,6 +814,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionLightingControllerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionLightingControllerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1029",
     "payloadFormat": "Json/ecma/404",
@@ -770,6 +835,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionNetworkDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionNetworkDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1037",
     "payloadFormat": "Json/ecma/404",
@@ -790,6 +856,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionOpticalFilterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionOpticalFilterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1024",
     "payloadFormat": "Json/ecma/404",
@@ -810,6 +877,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionOtherOpticalEquipmentType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionOtherOpticalEquipmentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1025",
     "payloadFormat": "Json/ecma/404",
@@ -830,6 +898,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionPatternGeneratorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionPatternGeneratorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1030",
     "payloadFormat": "Json/ecma/404",
@@ -850,6 +919,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionPhysicalInterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionPhysicalInterfaceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1014",
     "payloadFormat": "Json/ecma/404",
@@ -870,6 +940,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionPowerSupplyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionPowerSupplyType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1031",
     "payloadFormat": "Json/ecma/404",
@@ -890,6 +961,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionSurroundingEnvironmentType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionSurroundingEnvironmentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1033",
     "payloadFormat": "Json/ecma/404",
@@ -910,6 +982,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionSystemAssetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionSystemAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1008",
     "payloadFormat": "Json/ecma/404",
@@ -920,6 +993,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AcquisitionBackgrounds",
+        "displayName": "AcquisitionBackgrounds",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -927,6 +1001,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Cables",
+        "displayName": "Cables",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -934,6 +1009,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CalibrationTargets",
+        "displayName": "CalibrationTargets",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -941,6 +1017,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ClimateControllers",
+        "displayName": "ClimateControllers",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -948,6 +1025,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ComputingDevices",
+        "displayName": "ComputingDevices",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -955,6 +1033,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DisplayUnits",
+        "displayName": "DisplayUnits",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -962,6 +1041,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FrameGrabbers",
+        "displayName": "FrameGrabbers",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -969,6 +1049,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Housings",
+        "displayName": "Housings",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -976,6 +1057,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ImageHandlingAspects",
+        "displayName": "ImageHandlingAspects",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -983,6 +1065,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ImageSensors",
+        "displayName": "ImageSensors",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -990,6 +1073,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lamps",
+        "displayName": "Lamps",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -997,6 +1081,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LensControllers",
+        "displayName": "LensControllers",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1004,6 +1089,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lenses",
+        "displayName": "Lenses",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1011,6 +1097,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Licenses",
+        "displayName": "Licenses",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1018,6 +1105,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LightingControllers",
+        "displayName": "LightingControllers",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1025,6 +1113,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MotionDevices",
+        "displayName": "MotionDevices",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1032,6 +1121,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "NetworkDevices",
+        "displayName": "NetworkDevices",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1039,6 +1129,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OpticalFilters",
+        "displayName": "OpticalFilters",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1046,6 +1137,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OtherOpticalEquipments",
+        "displayName": "OtherOpticalEquipments",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1053,6 +1145,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PatternGenerators",
+        "displayName": "PatternGenerators",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1060,6 +1153,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PhysicalInterfaces",
+        "displayName": "PhysicalInterfaces",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1067,6 +1161,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PowerSupplies",
+        "displayName": "PowerSupplies",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1074,6 +1169,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SoftwareComponents",
+        "displayName": "SoftwareComponents",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1081,6 +1177,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SurroundingEnvironment",
+        "displayName": "SurroundingEnvironment",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1088,6 +1185,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TriggerSensors",
+        "displayName": "TriggerSensors",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       },
@@ -1095,6 +1193,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "WayEncoders",
+        "displayName": "WayEncoders",
         "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
         "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
       }
@@ -1112,6 +1211,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionTriggerSensorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionTriggerSensorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1027",
     "payloadFormat": "Json/ecma/404",
@@ -1132,6 +1232,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision_AMCM:VisionWayEncoderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionWayEncoderType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1026",
     "payloadFormat": "Json/ecma/404",

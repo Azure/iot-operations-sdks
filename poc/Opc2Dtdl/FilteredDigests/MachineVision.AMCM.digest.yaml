@@ -1,15 +1,19 @@
 DataTypes:
 - UADataType: [ MachineVision.AMCM:3002, MachineVision.AMCM:SEMI_E10SystemStateDataType ]
+  DisplayName: "SEMI_E10SystemStateDataType"
   Fields:
     Id: [ UInt32, 0 ]
     Priority: [ UInt32, 0 ]
 - UADataType: [ MachineVision.AMCM:3003, MachineVision.AMCM:SEMI_E10SystemStateInfoDataType ]
+  DisplayName: "SEMI_E10SystemStateInfoDataType"
   Fields:
     Id: [ UInt32, 0 ]
     Name: [ LocalizedText, 0 ]
     ParentStateId: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -20,25 +24,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -50,6 +61,7 @@ DefinedTypes:
 
   MachineVision.AMCM:IVisionInfoType:
   - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
+  - DisplayName: "IVisionInfoType"
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasSubtype_reverse:
@@ -69,46 +81,55 @@ DefinedTypes:
 
   MachineVision.AMCM:ICableType:
   - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType ]
+  - DisplayName: "ICableType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
   MachineVision.AMCM:IComputingDeviceType:
   - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType ]
+  - DisplayName: "IComputingDeviceType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
   MachineVision.AMCM:IDisplayUnitType:
   - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType ]
+  - DisplayName: "IDisplayUnitType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
   MachineVision.AMCM:ILampType:
   - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType ]
+  - DisplayName: "ILampType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
   MachineVision.AMCM:ILensType:
   - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType ]
+  - DisplayName: "ILensType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
   MachineVision.AMCM:ILicenseType:
   - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType ]
+  - DisplayName: "ILicenseType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
   MachineVision.AMCM:ILightingControllerType:
   - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType ]
+  - DisplayName: "ILightingControllerType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
   MachineVision.AMCM:IPhysicalInterfaceType:
   - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType ]
+  - DisplayName: "IPhysicalInterfaceType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
   MachineVision.AMCM:VisionItemFolderType:
   - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
+  - DisplayName: "VisionItemFolderType"
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
   - HasSubtype_reverse:
@@ -128,68 +149,101 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionMachineIdentificationType:
   - [ UAObjectType, MachineVision.AMCM:1006, MachineVision.AMCM:VisionMachineIdentificationType ]
+  - DisplayName: "VisionMachineIdentificationType"
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6785, DI:AssetId, String, 0, 3 ]
+    - DisplayName: "AssetId"
+    - Description: "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6786, DI:ComponentName, LocalizedText, 0, 3 ]
+    - DisplayName: "ComponentName"
+    - Description: "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6026, MachineVision.AMCM:ConfigurationCode, String, 0, 3 ]
+    - DisplayName: "ConfigurationCode"
+    - Description: "provides the specific information how the machine vision system has been configured for a specific use case or application"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6787, DI:DeviceClass, String, 0, 0 ]
+    - DisplayName: "DeviceClass"
+    - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6788, DI:HardwareRevision, SemanticVersionString, 0, 0 ]
+    - DisplayName: "HardwareRevision"
+    - Description: "provides the revision level of the hardware of the machine vision system following the rules of Sematic Versioning 2.0.0"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6789, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - DisplayName: "InitialOperationDate"
+    - Description: "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6783, Machinery:Location, String, 0, 3 ]
+    - DisplayName: "Location"
+    - Description: "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6790, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
+    - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6791, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
+    - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6792, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
+    - Description: "A human-readable, localized name of the model of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6793, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - DisplayName: "MonthOfConstruction"
+    - Description: "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6794, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
+    - Description: "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6784, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
+    - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6795, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
+    - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6796, DI:SoftwareRevision, SemanticVersionString, 0, 0 ]
+    - DisplayName: "SoftwareRevision"
+    - Description: "property provides the version or revision level of the software in the machine vision system following the rules of Semantic Versioning 2.0.0."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6797, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - DisplayName: "YearOfConstruction"
+    - Description: "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -211,68 +265,101 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionComponentIdentificationType:
   - [ UAObjectType, MachineVision.AMCM:1007, MachineVision.AMCM:VisionComponentIdentificationType ]
+  - DisplayName: "VisionComponentIdentificationType"
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6768, DI:AssetId, String, 0, 3 ]
+    - DisplayName: "AssetId"
+    - Description: "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6769, DI:ComponentName, LocalizedText, 0, 3 ]
+    - DisplayName: "ComponentName"
+    - Description: "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6029, MachineVision.AMCM:ConfigurationCode, String, 0, 3 ]
+    - DisplayName: "ConfigurationCode"
+    - Description: "provides the specific information how the machine vision system has been configured for a specific use case or application"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6770, DI:DeviceClass, String, 0, 0 ]
+    - DisplayName: "DeviceClass"
+    - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6767, DI:DeviceRevision, String, 0, 3 ]
+    - DisplayName: "DeviceRevision"
+    - Description: "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6771, DI:HardwareRevision, SemanticVersionString, 0, 0 ]
+    - DisplayName: "HardwareRevision"
+    - Description: "provides the revision level of the hardware of the machine vision system following the rules of Sematic Versioning 2.0.0"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6772, Machinery:InitialOperationDate, DateTime, 0, 0 ]
+    - DisplayName: "InitialOperationDate"
+    - Description: "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6773, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
+    - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6774, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
+    - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6775, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
+    - Description: "A human-readable, localized name of the model of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6776, Machinery:MonthOfConstruction, Byte, 0, 0 ]
+    - DisplayName: "MonthOfConstruction"
+    - Description: "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6777, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
+    - Description: "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6778, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
+    - Description: "A globally unique resource identifier provided by the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6779, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
+    - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6780, DI:SoftwareRevision, SemanticVersionString, 0, 0 ]
+    - DisplayName: "SoftwareRevision"
+    - Description: "property provides the version or revision level of the software in the machine vision system following the rules of Semantic Versioning 2.0.0."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6781, Machinery:YearOfConstruction, UInt16, 0, 0 ]
+    - DisplayName: "YearOfConstruction"
+    - Description: "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -294,26 +381,37 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionHealthInfoType:
   - [ UAObjectType, MachineVision.AMCM:1004, MachineVision.AMCM:VisionHealthInfoType ]
+  - DisplayName: "VisionHealthInfoType"
   - HasComponent:
     - [ UAVariable, MachineVision.AMCM:6497, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 3 ]
+    - DisplayName: "DeviceHealth"
+    - Description: "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5221, DI:DeviceHealthAlarms ]
+    - DisplayName: "DeviceHealthAlarms"
+    - Description: "folder to organize the Alarms and Conditions related to the item if these Alarms and Conditions are instantiated in the address space"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MachineVision.AMCM:6010, MachineVision.AMCM:RemainingLifeTime, Number, 0, 3 ]
+    - DisplayName: "RemainingLifeTime"
+    - Description: "denotes the remaining lifetime of the item. It serves as an indication to service personnel for maintenance activities"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MachineVision.AMCM:6013, MachineVision.AMCM:State, MachineVision.AMCM:SEMI_E10SystemStateDataType, 0, 3 ]
+    - DisplayName: "State"
+    - Description: "denotes the SEMI E10 State of the item"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MachineVision.AMCM:6011, MachineVision.AMCM:Temperature, Double, 0, 3 ]
+    - DisplayName: "Temperature"
+    - Description: "denotes the temperature value (along with its unit) of the item"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -335,40 +433,59 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionMaintenanceInfoType:
   - [ UAObjectType, MachineVision.AMCM:1003, MachineVision.AMCM:VisionMaintenanceInfoType ]
+  - DisplayName: "VisionMaintenanceInfoType"
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6005, MachineVision.AMCM:CalibrationNeeded, Boolean, 0, 3 ]
+    - DisplayName: "CalibrationNeeded"
+    - Description: "a flag that if True denotes that the item needs calibration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6225, MachineVision.AMCM:FirmwareInfo, String, 0, 3 ]
+    - DisplayName: "FirmwareInfo"
+    - Description: "denotes the information about the firmware of the Item"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6006, MachineVision.AMCM:LastCalibration, UtcTime, 0, 3 ]
+    - DisplayName: "LastCalibration"
+    - Description: "denotes the time when the previous calibration was carried out on the item"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6025, MachineVision.AMCM:LastService, UtcTime, 0, 3 ]
+    - DisplayName: "LastService"
+    - Description: "denotes the last moment in time when the most recent service was carried out on the item"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6009, MachineVision.AMCM:MaintenanceRecord, String, 0, 3 ]
+    - DisplayName: "MaintenanceRecord"
+    - Description: "provides the most recent note that was recorded while performing maintenance. This property can be historized if a history of previous maintenance notes is to be made available"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6007, MachineVision.AMCM:NextCalibration, UtcTime, 0, 3 ]
+    - DisplayName: "NextCalibration"
+    - Description: "denotes the planned time when the next calibration is to be carried out on the item."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6003, MachineVision.AMCM:NextService, UtcTime, 0, 3 ]
+    - DisplayName: "NextService"
+    - Description: "denotes the planned moment in time when the next service is to be carried out on the item"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, MachineVision.AMCM:6008, MachineVision.AMCM:ServiceClass, UInteger, 0, 3 ]
+    - DisplayName: "ServiceClass"
+    - Description: "provides information that an item is classified as a wear and tear part, whether it is a line replaceable unit (LRU), shop replaceable unit (SRU), wear and tear part (WTP), infrastructural unit (ISU), infrastructural equipment (ISE), etc"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, MachineVision.AMCM:6001, MachineVision.AMCM:StartOfWarranty, UtcTime, 0, 3 ]
+    - DisplayName: "StartOfWarranty"
+    - Description: "denotes the beginning of the warranty period of the item"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -390,6 +507,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionAcquisitionBackgroundType:
   - [ UAObjectType, MachineVision.AMCM:1032, MachineVision.AMCM:VisionAcquisitionBackgroundType ]
+  - DisplayName: "VisionAcquisitionBackgroundType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -409,6 +527,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionAspectImageReceiverType:
   - [ UAObjectType, MachineVision.AMCM:1040, MachineVision.AMCM:VisionAspectImageReceiverType ]
+  - DisplayName: "VisionAspectImageReceiverType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -428,6 +547,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionAspectImageTransceiverType:
   - [ UAObjectType, MachineVision.AMCM:1041, MachineVision.AMCM:VisionAspectImageTransceiverType ]
+  - DisplayName: "VisionAspectImageTransceiverType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -447,6 +567,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionAspectImageTransmitterType:
   - [ UAObjectType, MachineVision.AMCM:1039, MachineVision.AMCM:VisionAspectImageTransmitterType ]
+  - DisplayName: "VisionAspectImageTransmitterType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -466,6 +587,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionCableType:
   - [ UAObjectType, MachineVision.AMCM:1038, MachineVision.AMCM:VisionCableType ]
+  - DisplayName: "VisionCableType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -485,6 +607,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionClimateControllerType:
   - [ UAObjectType, MachineVision.AMCM:1035, MachineVision.AMCM:VisionClimateControllerType ]
+  - DisplayName: "VisionClimateControllerType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -504,6 +627,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionComputingDeviceType:
   - [ UAObjectType, MachineVision.AMCM:1010, MachineVision.AMCM:VisionComputingDeviceType ]
+  - DisplayName: "VisionComputingDeviceType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -523,6 +647,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionDisplayUnitType:
   - [ UAObjectType, MachineVision.AMCM:1019, MachineVision.AMCM:VisionDisplayUnitType ]
+  - DisplayName: "VisionDisplayUnitType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -542,6 +667,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionFrameGrabberType:
   - [ UAObjectType, MachineVision.AMCM:1021, MachineVision.AMCM:VisionFrameGrabberType ]
+  - DisplayName: "VisionFrameGrabberType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -561,6 +687,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionHousingType:
   - [ UAObjectType, MachineVision.AMCM:1034, MachineVision.AMCM:VisionHousingType ]
+  - DisplayName: "VisionHousingType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -580,6 +707,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionImageSensorType:
   - [ UAObjectType, MachineVision.AMCM:1020, MachineVision.AMCM:VisionImageSensorType ]
+  - DisplayName: "VisionImageSensorType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -599,6 +727,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionLampType:
   - [ UAObjectType, MachineVision.AMCM:1028, MachineVision.AMCM:VisionLampType ]
+  - DisplayName: "VisionLampType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -618,6 +747,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionLensControllerType:
   - [ UAObjectType, MachineVision.AMCM:1023, MachineVision.AMCM:VisionLensControllerType ]
+  - DisplayName: "VisionLensControllerType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -637,6 +767,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionLensType:
   - [ UAObjectType, MachineVision.AMCM:1022, MachineVision.AMCM:VisionLensType ]
+  - DisplayName: "VisionLensType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -656,6 +787,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionLicenseType:
   - [ UAObjectType, MachineVision.AMCM:1036, MachineVision.AMCM:VisionLicenseType ]
+  - DisplayName: "VisionLicenseType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -675,6 +807,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionLightingControllerType:
   - [ UAObjectType, MachineVision.AMCM:1029, MachineVision.AMCM:VisionLightingControllerType ]
+  - DisplayName: "VisionLightingControllerType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -694,6 +827,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionNetworkDeviceType:
   - [ UAObjectType, MachineVision.AMCM:1037, MachineVision.AMCM:VisionNetworkDeviceType ]
+  - DisplayName: "VisionNetworkDeviceType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -713,6 +847,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionOpticalFilterType:
   - [ UAObjectType, MachineVision.AMCM:1024, MachineVision.AMCM:VisionOpticalFilterType ]
+  - DisplayName: "VisionOpticalFilterType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -732,6 +867,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionOtherOpticalEquipmentType:
   - [ UAObjectType, MachineVision.AMCM:1025, MachineVision.AMCM:VisionOtherOpticalEquipmentType ]
+  - DisplayName: "VisionOtherOpticalEquipmentType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -751,6 +887,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionPatternGeneratorType:
   - [ UAObjectType, MachineVision.AMCM:1030, MachineVision.AMCM:VisionPatternGeneratorType ]
+  - DisplayName: "VisionPatternGeneratorType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -770,6 +907,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionPhysicalInterfaceType:
   - [ UAObjectType, MachineVision.AMCM:1014, MachineVision.AMCM:VisionPhysicalInterfaceType ]
+  - DisplayName: "VisionPhysicalInterfaceType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -789,6 +927,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionPowerSupplyType:
   - [ UAObjectType, MachineVision.AMCM:1031, MachineVision.AMCM:VisionPowerSupplyType ]
+  - DisplayName: "VisionPowerSupplyType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -808,6 +947,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionSurroundingEnvironmentType:
   - [ UAObjectType, MachineVision.AMCM:1033, MachineVision.AMCM:VisionSurroundingEnvironmentType ]
+  - DisplayName: "VisionSurroundingEnvironmentType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -827,158 +967,185 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionSystemAssetType:
   - [ UAObjectType, MachineVision.AMCM:1008, MachineVision.AMCM:VisionSystemAssetType ]
+  - DisplayName: "VisionSystemAssetType"
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5040, MachineVision.AMCM:AcquisitionBackgrounds ]
+    - DisplayName: "AcquisitionBackgrounds"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5058, MachineVision.AMCM:Cables ]
+    - DisplayName: "Cables"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5038, MachineVision.AMCM:CalibrationTargets ]
+    - DisplayName: "CalibrationTargets"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5050, MachineVision.AMCM:ClimateControllers ]
+    - DisplayName: "ClimateControllers"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5010, MachineVision.AMCM:ComputingDevices ]
+    - DisplayName: "ComputingDevices"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5012, MachineVision.AMCM:DisplayUnits ]
+    - DisplayName: "DisplayUnits"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5018, MachineVision.AMCM:FrameGrabbers ]
+    - DisplayName: "FrameGrabbers"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5044, MachineVision.AMCM:Housings ]
+    - DisplayName: "Housings"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5060, MachineVision.AMCM:ImageHandlingAspects ]
+    - DisplayName: "ImageHandlingAspects"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5016, MachineVision.AMCM:ImageSensors ]
+    - DisplayName: "ImageSensors"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5032, MachineVision.AMCM:Lamps ]
+    - DisplayName: "Lamps"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5022, MachineVision.AMCM:LensControllers ]
+    - DisplayName: "LensControllers"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5020, MachineVision.AMCM:Lenses ]
+    - DisplayName: "Lenses"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5052, MachineVision.AMCM:Licenses ]
+    - DisplayName: "Licenses"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5034, MachineVision.AMCM:LightingControllers ]
+    - DisplayName: "LightingControllers"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5046, MachineVision.AMCM:MotionDevices ]
+    - DisplayName: "MotionDevices"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5056, MachineVision.AMCM:NetworkDevices ]
+    - DisplayName: "NetworkDevices"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5024, MachineVision.AMCM:OpticalFilters ]
+    - DisplayName: "OpticalFilters"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5026, MachineVision.AMCM:OtherOpticalEquipments ]
+    - DisplayName: "OtherOpticalEquipments"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5036, MachineVision.AMCM:PatternGenerators ]
+    - DisplayName: "PatternGenerators"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5014, MachineVision.AMCM:PhysicalInterfaces ]
+    - DisplayName: "PhysicalInterfaces"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5048, MachineVision.AMCM:PowerSupplies ]
+    - DisplayName: "PowerSupplies"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5054, MachineVision.AMCM:SoftwareComponents ]
+    - DisplayName: "SoftwareComponents"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5042, MachineVision.AMCM:SurroundingEnvironment ]
+    - DisplayName: "SurroundingEnvironment"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5030, MachineVision.AMCM:TriggerSensors ]
+    - DisplayName: "TriggerSensors"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
     - [ UAObject, MachineVision.AMCM:5028, MachineVision.AMCM:WayEncoders ]
+    - DisplayName: "WayEncoders"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1002,6 +1169,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionTriggerSensorType:
   - [ UAObjectType, MachineVision.AMCM:1027, MachineVision.AMCM:VisionTriggerSensorType ]
+  - DisplayName: "VisionTriggerSensorType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -1021,6 +1189,7 @@ DefinedTypes:
 
   MachineVision.AMCM:VisionWayEncoderType:
   - [ UAObjectType, MachineVision.AMCM:1026, MachineVision.AMCM:VisionWayEncoderType ]
+  - DisplayName: "VisionWayEncoderType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:

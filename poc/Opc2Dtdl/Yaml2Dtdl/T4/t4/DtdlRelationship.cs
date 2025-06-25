@@ -31,7 +31,18 @@ namespace Yaml2Dtdl
  } 
             this.Write("        \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.StripAngles(TypeConverter.Dequalify(relationshipDefinedType.BrowseName))));
-            this.Write("\",\r\n        \"namespace\": \"");
+            this.Write("\",\r\n");
+ if (this.relationshipDefinedType.DisplayName != null && this.relationshipDefinedType.DisplayName != string.Empty) { 
+            this.Write("        \"displayName\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(relationshipDefinedType.DisplayName));
+            this.Write("\",\r\n");
+ } 
+ if (this.relationshipDefinedType.Description != null && this.relationshipDefinedType.Description != string.Empty) { 
+            this.Write("        \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(relationshipDefinedType.Description));
+            this.Write("\",\r\n");
+ } 
+            this.Write("        \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(relationshipDefinedType))));
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.Target != null ? "," : ""));

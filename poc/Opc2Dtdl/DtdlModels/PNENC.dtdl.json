@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderDiagnosisEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "EncoderDiagnosisEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1006",
     "commandTopic": "opcua/PNENC/EncoderDiagnosisEventType/{commandName}",
@@ -20,6 +21,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderDiagnosisEventType:dataType:EventTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EventTypeEnumeration",
+        "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -40,6 +43,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderDiagnosisEventType:dataType:EncoderDiagnosisReasonEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EncoderDiagnosisReasonEnumeration",
+        "description": "No diagnosis condition of any severity is persisting",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3012",
         "valueSchema": "integer",
         "enumValues": [
@@ -66,6 +71,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DiagnosisType",
+        "displayName": "DiagnosisType",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderDiagnosisEventType:dataType:EventTypeEnumeration;1",
         "writable": false
@@ -73,6 +79,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EventCode",
+        "displayName": "EventCode",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer",
         "writable": false
@@ -80,6 +87,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EventText",
+        "displayName": "EventText",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "string",
         "writable": false
@@ -87,6 +95,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Reason",
+        "displayName": "Reason",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderDiagnosisEventType:dataType:EncoderDiagnosisReasonEnumeration;1",
         "writable": false
@@ -105,6 +114,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderProbeLatchEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "EncoderProbeLatchEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1005",
     "commandTopic": "opcua/PNENC/EncoderProbeLatchEventType/{commandName}",
@@ -116,6 +126,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LastLatchedPos",
+        "displayName": "LastLatchedPos",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer",
         "writable": false
@@ -123,6 +134,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LatchActive",
+        "displayName": "LatchActive",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "boolean",
         "writable": false
@@ -130,6 +142,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProbeName",
+        "displayName": "ProbeName",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "string",
         "writable": false
@@ -148,6 +161,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderRefLatchEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "EncoderRefLatchEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1004",
     "commandTopic": "opcua/PNENC/EncoderRefLatchEventType/{commandName}",
@@ -159,6 +173,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LastLatchedPos",
+        "displayName": "LastLatchedPos",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer",
         "writable": false
@@ -166,6 +181,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LatchActive",
+        "displayName": "LatchActive",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "boolean",
         "writable": false
@@ -184,6 +200,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:LogbookEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "LogbookEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1003",
     "commandTopic": "opcua/PNENC/LogbookEventType/{commandName}",
@@ -193,6 +210,8 @@
       {
         "@id": "dtmi:opcua:PNENC:LogbookEventType:dataType:LogEntryDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "LogEntryDataType",
+        "description": "Identification of fault situation. 0 means current fault situation",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3013",
         "fields": [
           {
@@ -240,6 +259,8 @@
       {
         "@id": "dtmi:opcua:PNENC:LogbookEventType:dataType:EventTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EventTypeEnumeration",
+        "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -262,6 +283,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LogEntry",
+        "displayName": "LogEntry",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:LogbookEventType:dataType:LogEntryDataType;1",
         "writable": false
@@ -280,6 +302,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EncoderAxisConfigType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1009",
     "commandTopic": "opcua/PNENC/EncoderAxisConfigType/{commandName}",
@@ -289,6 +312,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:EncoderAxisTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EncoderAxisTypeEnumeration",
+        "description": "Rotating Axis",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -305,6 +330,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:EncoderCodeSequenceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EncoderCodeSequenceEnumeration",
+        "description": "Increasing position values with clockwise rotation (viewed from shaft side)",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3005",
         "valueSchema": "integer",
         "enumValues": [
@@ -321,6 +348,7 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:KeyValuePair;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "KeyValuePair",
         "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
         "fields": [
           {
@@ -340,6 +368,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AxisType",
+        "displayName": "AxisType",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:EncoderAxisTypeEnumeration;1",
         "writable": false
@@ -347,6 +376,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CodeSequence",
+        "displayName": "CodeSequence",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:EncoderCodeSequenceEnumeration;1",
         "writable": false
@@ -354,6 +384,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PositionScalingFactor",
+        "displayName": "PositionScalingFactor",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "float",
         "writable": false
@@ -361,6 +392,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PresetOrShiftValue",
+        "displayName": "PresetOrShiftValue",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "float",
         "writable": false
@@ -368,24 +400,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AccelerationDampingTimeConstant",
+        "displayName": "AccelerationDampingTimeConstant",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VelocityDampingTimeConstant",
+        "displayName": "VelocityDampingTimeConstant",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VelocityReference",
+        "displayName": "VelocityReference",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "float"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetAxisConfig",
+        "displayName": "SetAxisConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -436,6 +472,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderChannelType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EncoderChannelType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1002",
     "commandTopic": "opcua/PNENC/EncoderChannelType/{commandName}",
@@ -445,6 +482,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderChannelType:dataType:EncoderChannelStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EncoderChannelStateEnumeration",
+        "description": "The position feedback interface operates normally",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -499,6 +538,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ApplicationTag",
+        "displayName": "ApplicationTag",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "string",
         "writable": false
@@ -506,6 +546,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EncoderProfileVersion",
+        "displayName": "EncoderProfileVersion",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "string",
         "writable": false
@@ -513,78 +554,91 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Acceleration",
+        "displayName": "Acceleration",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderChannelState",
+        "displayName": "EncoderChannelState",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderChannelType:dataType:EncoderChannelStateEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "G1_STW",
+        "displayName": "G1_STW",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "G1_XIST1",
+        "displayName": "G1_XIST1",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "G1_XIST2",
+        "displayName": "G1_XIST2",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "G1_XIST3",
+        "displayName": "G1_XIST3",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "G1_XIST_PRESET_B",
+        "displayName": "G1_XIST_PRESET_B",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "G1_XIST_PRESET_B1",
+        "displayName": "G1_XIST_PRESET_B1",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "G1_XIST_PRESET_C",
+        "displayName": "G1_XIST_PRESET_C",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "G1_ZSW",
+        "displayName": "G1_ZSW",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NIST_A",
+        "displayName": "NIST_A",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "short"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NIST_B",
+        "displayName": "NIST_B",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Position",
+        "displayName": "Position",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -592,12 +646,14 @@
             {
               "@type": [ "Field", "Subject", "Qualified" ],
               "name": "Position",
+              "displayName": "Position",
               "namespace": "http://opcfoundation.org/UA/PNENC",
               "schema": "double"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "Resolution",
+              "displayName": "Resolution",
               "namespace": "http://opcfoundation.org/UA/PNENC",
               "schema": "double"
             }
@@ -607,24 +663,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PositionSensorSignalValue",
+        "displayName": "PositionSensorSignalValue",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "STW2_ENC",
+        "displayName": "STW2_ENC",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Temperature",
+        "displayName": "Temperature",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Velocity",
+        "displayName": "Velocity",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -632,12 +692,14 @@
             {
               "@type": [ "Field", "Subject", "Qualified" ],
               "name": "Velocity",
+              "displayName": "Velocity",
               "namespace": "http://opcfoundation.org/UA/PNENC",
               "schema": "float"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "Damping",
+              "displayName": "Damping",
               "namespace": "http://opcfoundation.org/UA/PNENC",
               "schema": "float"
             }
@@ -647,12 +709,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ZSW2_ENC",
+        "displayName": "ZSW2_ENC",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetApplicationTag",
+        "displayName": "SetApplicationTag",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -673,6 +737,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AxisConfig",
+        "displayName": "AxisConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderAxisConfigType"
       },
@@ -680,6 +745,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ControlConfig",
+        "displayName": "ControlConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderControlConfigType"
       },
@@ -687,6 +753,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
+        "displayName": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
@@ -694,6 +761,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Logbook",
+        "displayName": "Logbook",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:LogbookType"
       },
@@ -701,6 +769,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Probes",
+        "displayName": "Probes",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderProbesType"
       },
@@ -708,6 +777,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Sensor",
+        "displayName": "Sensor",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderSensorType"
       },
@@ -715,6 +785,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SensorConfig",
+        "displayName": "SensorConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderSensorConfigType"
       }
@@ -732,6 +803,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderControlConfigType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EncoderControlConfigType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1008",
     "commandTopic": "opcua/PNENC/EncoderControlConfigType/{commandName}",
@@ -741,6 +813,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:EncoderAlarmChannelControlEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EncoderAlarmChannelControlEnumeration",
+        "description": "No Profile specific diagnosis (default)",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3006",
         "valueSchema": "integer",
         "enumValues": [
@@ -757,6 +831,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:EncoderPresetControlEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EncoderPresetControlEnumeration",
+        "description": "G1_XIST1 is affected by a Set-/Shift home position function command",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3007",
         "valueSchema": "integer",
         "enumValues": [
@@ -773,6 +849,7 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:KeyValuePair;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "KeyValuePair",
         "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
         "fields": [
           {
@@ -792,6 +869,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AlarmChannelControl",
+        "displayName": "AlarmChannelControl",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:EncoderAlarmChannelControlEnumeration;1",
         "writable": false
@@ -799,6 +877,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SignOfLifeFailuresTolerated",
+        "displayName": "SignOfLifeFailuresTolerated",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedShort",
         "writable": false
@@ -806,6 +885,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "XIST1PresetControl",
+        "displayName": "XIST1PresetControl",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:EncoderPresetControlEnumeration;1",
         "writable": false
@@ -813,6 +893,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetControlConfig",
+        "displayName": "SetControlConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -863,6 +944,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderProbesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EncoderProbesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1012",
     "payloadFormat": "Json/ecma/404",
@@ -872,6 +954,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Probex",
+        "displayName": "<Probex>",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:PNENC:EncoderProbeType"
       }
@@ -889,6 +972,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderProbeType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EncoderProbeType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1011",
     "commandTopic": "opcua/PNENC/EncoderProbeType/{commandName}",
@@ -900,24 +984,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LastLatchedPos",
+        "displayName": "LastLatchedPos",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LatchActive",
+        "displayName": "LatchActive",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "boolean"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "LatchStart",
+        "displayName": "LatchStart",
         "namespace": "http://opcfoundation.org/UA/PNENC"
       },
       {
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
+        "displayName": "Lock",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "target": "dtmi:opcua:DI:LockingServicesType"
       }
@@ -935,6 +1023,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EncoderSensorConfigType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1007",
     "commandTopic": "opcua/PNENC/EncoderSensorConfigType/{commandName}",
@@ -944,6 +1033,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:EncoderConfigTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EncoderConfigTypeEnumeration",
+        "description": "Static configuration type",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3011",
         "valueSchema": "integer",
         "enumValues": [
@@ -960,6 +1051,8 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:EncoderSensorAbsoluteTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EncoderSensorAbsoluteTypeEnumeration",
+        "description": "Singleturn sensor absolute type",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3008",
         "valueSchema": "integer",
         "enumValues": [
@@ -976,6 +1069,7 @@
       {
         "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:KeyValuePair;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "KeyValuePair",
         "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
         "fields": [
           {
@@ -995,6 +1089,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AbsolutePosDeterminableRevolutions",
+        "displayName": "AbsolutePosDeterminableRevolutions",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer",
         "writable": false
@@ -1002,6 +1097,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AbsolutePosLinSupported",
+        "displayName": "AbsolutePosLinSupported",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "boolean",
         "writable": false
@@ -1009,6 +1105,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConfigType",
+        "displayName": "ConfigType",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:EncoderConfigTypeEnumeration;1",
         "writable": false
@@ -1016,6 +1113,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SensorAbsoluteType",
+        "displayName": "SensorAbsoluteType",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:EncoderSensorAbsoluteTypeEnumeration;1",
         "writable": false
@@ -1023,6 +1121,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SensorResolutionIncPerRotation",
+        "displayName": "SensorResolutionIncPerRotation",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer",
         "writable": false
@@ -1030,6 +1129,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SensorResolutionNanometerPerIncrement",
+        "displayName": "SensorResolutionNanometerPerIncrement",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer",
         "writable": false
@@ -1037,6 +1137,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ShiftFactorXIST1",
+        "displayName": "ShiftFactorXIST1",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer",
         "writable": false
@@ -1044,6 +1145,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ShiftFactorXIST2",
+        "displayName": "ShiftFactorXIST2",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer",
         "writable": false
@@ -1051,6 +1153,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetSensorConfig",
+        "displayName": "SetSensorConfig",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1101,6 +1204,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:EncoderSensorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EncoderSensorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1013",
     "commandTopic": "opcua/PNENC/EncoderSensorType/{commandName}",
@@ -1112,24 +1216,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PositionOffset",
+        "displayName": "PositionOffset",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Ref1LastLatchedPos",
+        "displayName": "Ref1LastLatchedPos",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Ref1LatchActive",
+        "displayName": "Ref1LatchActive",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "boolean"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "PresetControl",
+        "displayName": "PresetControl",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1149,6 +1257,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Ref1LatchStart",
+        "displayName": "Ref1LatchStart",
         "namespace": "http://opcfoundation.org/UA/PNENC"
       }
     ]
@@ -1165,6 +1274,7 @@
     ],
     "@id": "dtmi:opcua:PNENC:LogbookType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LogbookType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1010",
     "commandTopic": "opcua/PNENC/LogbookType/{commandName}",
@@ -1174,6 +1284,8 @@
       {
         "@id": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "LogEntryDataType",
+        "description": "Identification of fault situation. 0 means current fault situation",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3013",
         "fields": [
           {
@@ -1221,6 +1333,8 @@
       {
         "@id": "dtmi:opcua:PNENC:LogbookType:dataType:EventTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EventTypeEnumeration",
+        "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -1243,6 +1357,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LogbookSize",
+        "displayName": "LogbookSize",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": "unsignedShort",
         "writable": false
@@ -1250,6 +1365,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LogEntries",
+        "displayName": "LogEntries",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "schema": {
           "@type": "Array",
@@ -1259,11 +1375,13 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DeleteLogbook",
+        "displayName": "DeleteLogbook",
         "namespace": "http://opcfoundation.org/UA/PNENC"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetActiveDiagnosis",
+        "displayName": "GetActiveDiagnosis",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
@@ -1286,6 +1404,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetCurrentFaultSituation",
+        "displayName": "GetCurrentFaultSituation",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
@@ -1308,6 +1427,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetFilteredLogbookEntries",
+        "displayName": "GetFilteredLogbookEntries",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1364,6 +1484,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetHistoricFaultSituation",
+        "displayName": "GetHistoricFaultSituation",
         "namespace": "http://opcfoundation.org/UA/PNENC",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],

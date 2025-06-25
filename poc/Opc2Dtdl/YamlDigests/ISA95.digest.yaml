@@ -18,6 +18,7 @@ DataTypes:
   Bases:
   - ByteString
 - UADataType: [ ISA95:4776, ISA95:CurrencyCode ]
+  DisplayName: "CurrencyCode"
   Fields:
     namespaceUri: [ String, 0 ]
     unitId: [ Int32, 0 ]
@@ -85,6 +86,7 @@ DataTypes:
   Bases:
   - ByteString
 - UADataType: [ ISA95:4871, ISA95:ISA95EquipmentElementLevelEnum ]
+  DisplayName: "ISA95EquipmentElementLevelEnum"
   Enums:
     Enterprise: 0
     Site: 1
@@ -102,6 +104,7 @@ DataTypes:
     ControlModule: 13
     Other: 14
 - UADataType: [ ISA95:4862, ISA95:ISA95TestResultMeasurementDataType ]
+  DisplayName: "ISA95TestResultMeasurementDataType"
   Fields:
     Id: [ NodeId, 0 ]
     TestResultDescription: [ LocalizedText, 0 ]
@@ -110,6 +113,7 @@ DataTypes:
     ResultUnitOfMeasure: [ EUInformation, 0 ]
     Expiration: [ DateTime, 0 ]
 - UADataType: [ ISA95:4873, ISA95:ISA95TestResultDataType ]
+  DisplayName: "ISA95TestResultDataType"
   Fields:
     Id: [ NodeId, 0 ]
     TestResultDescription: [ LocalizedText, 0 ]
@@ -118,6 +122,7 @@ DataTypes:
     ResultUnitOfMeasure: [ String, 0 ]
     Expiration: [ DateTime, 0 ]
 - UADataType: [ ISA95:4956, ISA95:ISA95AssetAssignmentDataType ]
+  DisplayName: "ISA95AssetAssignmentDataType"
   Fields:
     Id: [ NodeId, 0 ]
     AssinmentDescription: [ LocalizedText, 0 ]
@@ -128,153 +133,214 @@ DefinedTypes:
 
   ISA95:ISA95ClassPropertyType:
   - [ UAVariableType, ISA95:4885, ISA95:ISA95ClassPropertyType ]
+  - DisplayName: "ISA95ClassPropertyType"
+  - Description: "This VariableType is used to define an ISA95ClassProperty for an ISA95Class"
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   ISA95:ISA95PropertyType:
   - [ UAVariableType, ISA95:4263, ISA95:ISA95PropertyType ]
+  - DisplayName: "ISA95PropertyType"
+  - Description: "This VariableType is used to define an ISA95Property for an ISA95Object"
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   ISA95:ISA95TestResultType:
   - [ UAVariableType, ISA95:4878, ISA95:ISA95TestResultType ]
+  - DisplayName: "ISA95TestResultType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   ISA95:ISA95TestResultNonEUType:
   - [ UAVariableType, ISA95:5094, ISA95:ISA95TestResultNonEUType, ISA95:ISA95TestResultDataType, -2, 0 ]
+  - DisplayName: "ISA95TestResultNonEUType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4878, ISA95:ISA95TestResultType ]
 
   ISA95:ISA95TestResultEUType:
   - [ UAVariableType, ISA95:5101, ISA95:ISA95TestResultEUType, ISA95:ISA95TestResultMeasurementDataType, -2, 0 ]
+  - DisplayName: "ISA95TestResultEUType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4878, ISA95:ISA95TestResultType ]
 
   ISA95:ISA95AssetAssignmentType:
   - [ UAVariableType, ISA95:5108, ISA95:ISA95AssetAssignmentType ]
+  - DisplayName: "ISA95AssetAssignmentType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   ISA95:QualificationTestResultType:
   - [ UAVariableType, ISA95:4961, ISA95:QualificationTestResultType, Structure, -2, 0 ]
+  - DisplayName: "QualificationTestResultType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4878, ISA95:ISA95TestResultType ]
 
   ISA95:PersonnelClassPropertyType:
   - [ UAVariableType, ISA95:1123, ISA95:PersonnelClassPropertyType ]
+  - DisplayName: "PersonnelClassPropertyType"
+  - Description: "This VariableType indicates ISA95ClassProperties for PersonnelClass."
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4885, ISA95:ISA95ClassPropertyType ]
 
   ISA95:PersonPropertyType:
   - [ UAVariableType, ISA95:5118, ISA95:PersonPropertyType ]
+  - DisplayName: "PersonPropertyType"
+  - Description: "This VariableType indicates ISA95Properties of a person"
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4263, ISA95:ISA95PropertyType ]
 
   ISA95:GeoSpatialLocationType:
   - [ UAVariableType, ISA95:5048, ISA95:GeoSpatialLocationType, String, -2, 0 ]
+  - DisplayName: "GeoSpatialLocationType"
+  - Description: "This VariableType is used to provide details regarding Physical Location information for PhysicalAssetClassType"
   - HasSubtype_reverse:
     - [ UAVariableType, 68, PropertyType ]
 
   ISA95:CompanyType:
   - [ UAVariableType, ISA95:5049, ISA95:CompanyType ]
+  - DisplayName: "CompanyType"
+  - Description: "This VariableType is used to provide details regarding company information for PhysicalAssetClassTypes or for instances of PhysicalAssetType"
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   ISA95:PhysicalAssetCapabilityTestResultType:
   - [ UAVariableType, ISA95:5050, ISA95:PhysicalAssetCapabilityTestResultType, Structure, -2, 0 ]
+  - DisplayName: "PhysicalAssetCapabilityTestResultType"
+  - Description: "This VariableType indicates the results from a physical asset capability test for a specific physical asset."
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4878, ISA95:ISA95TestResultType ]
 
   ISA95:PhysicalAssetClassPropertyType:
   - [ UAVariableType, ISA95:5059, ISA95:PhysicalAssetClassPropertyType ]
+  - DisplayName: "PhysicalAssetClassPropertyType"
+  - Description: "This VariableType indicates ISA95ClassProperties for a PhysicalAssetClassType"
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4885, ISA95:ISA95ClassPropertyType ]
 
   ISA95:PhysicalAssetPropertyType:
   - [ UAVariableType, ISA95:5065, ISA95:PhysicalAssetPropertyType ]
+  - DisplayName: "PhysicalAssetPropertyType"
+  - Description: "This VariableType indicates ISA95Properties of a role based equipment."
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4885, ISA95:ISA95ClassPropertyType ]
 
   ISA95:EquipmentCapabilityTestResultType:
   - [ UAVariableType, ISA95:5008, ISA95:EquipmentCapabilityTestResultType, Structure, -2, 0 ]
+  - DisplayName: "EquipmentCapabilityTestResultType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4878, ISA95:ISA95TestResultType ]
 
   ISA95:EquipmentClassPropertyType:
   - [ UAVariableType, ISA95:5017, ISA95:EquipmentClassPropertyType ]
+  - DisplayName: "EquipmentClassPropertyType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4885, ISA95:ISA95ClassPropertyType ]
 
   ISA95:EquipmentPropertyType:
   - [ UAVariableType, ISA95:954, ISA95:EquipmentPropertyType ]
+  - DisplayName: "EquipmentPropertyType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4263, ISA95:ISA95PropertyType ]
 
   ISA95:MaterialTestResultType:
   - [ UAVariableType, ISA95:5165, ISA95:MaterialTestResultType, Structure, -2, 0 ]
+  - DisplayName: "MaterialTestResultType"
+  - Description: "This VariableType indicates the results from executing an instance of a MaterialTestSpecificationType for a specific MaterialLotType"
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4878, ISA95:ISA95TestResultType ]
 
   ISA95:MaterialDefinitionPropertyType:
   - [ UAVariableType, ISA95:5174, ISA95:MaterialDefinitionPropertyType ]
+  - DisplayName: "MaterialDefinitionPropertyType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4885, ISA95:ISA95ClassPropertyType ]
 
   ISA95:MaterialClassPropertyType:
   - [ UAVariableType, ISA95:5180, ISA95:MaterialClassPropertyType ]
+  - DisplayName: "MaterialClassPropertyType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:4885, ISA95:ISA95ClassPropertyType ]
 
   ISA95:MaterialLotPropertyType:
   - [ UAVariableType, ISA95:5186, ISA95:MaterialLotPropertyType, Structure, 0, 0 ]
+  - DisplayName: "MaterialLotPropertyType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAVariableType, ISA95:5165, ISA95:MaterialTestResultType, Structure, -2, 0 ]
 
   ISA95:ISA95ClassType:
   - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
+  - DisplayName: "ISA95ClassType"
+  - Description: "This abstract ObjectType is used to define groupings of functionality that is associated with an ISA95Object"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95:ISA95ObjectType:
   - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
+  - DisplayName: "ISA95ObjectType"
+  - Description: "This abstract ObjectType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95:ISA95TestSpecificationType:
   - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
+  - DisplayName: "ISA95TestSpecificationType"
+  - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95:QualificationTestSpecificationType:
   - [ UAObjectType, ISA95:4977, ISA95:QualificationTestSpecificationType ]
+  - DisplayName: "QualificationTestSpecificationType"
+  - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
 
   ISA95:PersonnelClassType:
   - [ UAObjectType, ISA95:4996, ISA95:PersonnelClassType ]
+  - DisplayName: "PersonnelClassType"
+  - Description: "This ObjectType indicates a grouping of persons with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance"
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
   ISA95:PersonType:
   - [ UAObjectType, ISA95:5131, ISA95:PersonType ]
+  - DisplayName: "PersonType"
+  - Description: "This ObjectType indicates a specifically identified individual"
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
 
   ISA95:PhysicalAssetCapabilityTestSpecificationType:
   - [ UAObjectType, ISA95:5057, ISA95:PhysicalAssetCapabilityTestSpecificationType ]
+  - DisplayName: "PhysicalAssetCapabilityTestSpecificationType"
+  - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
 
   ISA95:PhysicalAssetClassType:
   - [ UAObjectType, ISA95:5078, ISA95:PhysicalAssetClassType ]
+  - DisplayName: "PhysicalAssetClassType"
+  - Description: "This ObjectType indicates a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance"
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
   ISA95:PhysicalAssetType:
   - [ UAObjectType, ISA95:5085, ISA95:PhysicalAssetType ]
+  - DisplayName: "PhysicalAssetType"
+  - Description: "This ObjectType defines a piece of equipment"
   - HasComponent:
     - [ UAVariable, ISA95:5308, ISA95:AssetAssignment ]
+    - DisplayName: "AssetAssignment"
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5108, ISA95:ISA95AssetAssignmentType ]
     - HasModellingRule:
@@ -286,18 +352,25 @@ DefinedTypes:
 
   ISA95:EquipmentCapabilityTestSpecificationType:
   - [ UAObjectType, ISA95:5015, ISA95:EquipmentCapabilityTestSpecificationType ]
+  - DisplayName: "EquipmentCapabilityTestSpecificationType"
+  - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
 
   ISA95:EquipmentClassType:
   - [ UAObjectType, ISA95:5034, ISA95:EquipmentClassType ]
+  - DisplayName: "EquipmentClassType"
+  - Description: "This ObjectType indicates a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance"
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
   ISA95:EquipmentType:
   - [ UAObjectType, ISA95:5040, ISA95:EquipmentType ]
+  - DisplayName: "EquipmentType"
+  - Description: "This ObjectType defines a piece of equipment"
   - HasComponent:
     - [ UAVariable, ISA95:5328, ISA95:AssetAssignment ]
+    - DisplayName: "AssetAssignment"
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5108, ISA95:ISA95AssetAssignmentType ]
     - HasModellingRule:
@@ -309,25 +382,35 @@ DefinedTypes:
 
   ISA95:MaterialTestSpecificationType:
   - [ UAObjectType, ISA95:5172, ISA95:MaterialTestSpecificationType ]
+  - DisplayName: "MaterialTestSpecificationType"
+  - Description: "This ObjectType indicates the existence of a test specification."
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
 
   ISA95:MaterialClassType:
   - [ UAObjectType, ISA95:5209, ISA95:MaterialClassType ]
+  - DisplayName: "MaterialClassType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
   ISA95:MaterialDefinitionType:
   - [ UAObjectType, ISA95:5219, ISA95:MaterialDefinitionType ]
+  - DisplayName: "MaterialDefinitionType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
   ISA95:MaterialLotType:
   - [ UAObjectType, ISA95:5232, ISA95:MaterialLotType ]
+  - DisplayName: "MaterialLotType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
 
   ISA95:MaterialSublotType:
   - [ UAObjectType, ISA95:5259, ISA95:MaterialSublotType ]
+  - DisplayName: "MaterialSublotType"
+  - Description: ""
   - HasSubtype_reverse:
     - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]

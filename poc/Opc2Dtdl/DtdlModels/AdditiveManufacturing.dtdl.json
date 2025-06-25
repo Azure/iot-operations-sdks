@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:EquipmentAMType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EquipmentAMType",
     "extends": "dtmi:opcua:MachineTool:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -21,6 +22,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Feedstock",
+        "displayName": "Feedstock",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "target": "dtmi:opcua:AdditiveManufacturing:FeedstockListType"
       }
@@ -38,6 +40,8 @@
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:FeedstockListType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FeedstockListType",
+    "description": "The MaterialListType represents a list of materials",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1001",
     "commandTopic": "opcua/AdditiveManufacturing/FeedstockListType/{commandName}",
@@ -49,6 +53,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "string",
         "writable": false
@@ -56,6 +61,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Feedstock",
+        "displayName": "<Feedstock>",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "target": "dtmi:opcua:AdditiveManufacturing:FeedstockType"
       }
@@ -73,6 +79,7 @@
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:FeedstockType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FeedstockType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1000",
     "commandTopic": "opcua/AdditiveManufacturing/FeedstockType/{commandName}",
@@ -82,6 +89,8 @@
       {
         "@id": "dtmi:opcua:AdditiveManufacturing:FeedstockType:dataType:FeedstockFunction;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "FeedstockFunction",
+        "description": "This enumeration indicates the function of a specific feedstock.",
         "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=3000",
         "valueSchema": "integer",
         "enumValues": [
@@ -108,6 +117,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalIdentifier",
+        "displayName": "ExternalIdentifier",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "string",
         "writable": true
@@ -115,6 +125,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Identifier",
+        "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "string",
         "writable": true
@@ -122,6 +133,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Manufacturer",
+        "displayName": "Manufacturer",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "string",
         "writable": true
@@ -129,6 +141,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
+        "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "string",
         "writable": true
@@ -136,24 +149,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Cycle",
+        "displayName": "Cycle",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Function",
+        "displayName": "Function",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "dtmi:opcua:AdditiveManufacturing:FeedstockType:dataType:FeedstockFunction;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ReadyForProduction",
+        "displayName": "ReadyForProduction",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RemainingQuantity",
+        "displayName": "RemainingQuantity",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "integer"
       }
@@ -171,6 +188,8 @@
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:MachineIdentificationAMType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MachineIdentificationAMType",
+    "description": "The MachineIdentificationAMType of the Additive Manufacturing information model holds static data which shall uniquely identify an AM machine among a pool of the AM machine operating entity.",
     "extends": "dtmi:opcua:MachineTool:MachineToolIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1004",
     "commandTopic": "opcua/AdditiveManufacturing/MachineIdentificationAMType/{commandName}",
@@ -182,6 +201,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AMTechnologyIdentifier",
+        "displayName": "AMTechnologyIdentifier",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "string",
         "writable": true
@@ -200,6 +220,8 @@
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:AdditiveManufacturingType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AdditiveManufacturingType",
+    "description": "The AdditiveManufacturingType represents the entire additive manufacturing interface of this information model. It is the entry point to the OPC UA interface of an AM machine and provides a basic structure. An instance of this type aggregates all information related to one AM machine.",
     "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -220,6 +242,8 @@
     ],
     "@id": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ProcessValueAMType",
+    "description": "The ProcessValueAMType provides sensor monitoring information of an AM machine.",
     "extends": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1002",
     "commandTopic": "opcua/AdditiveManufacturing/ProcessValueAMType/{commandName}",
@@ -229,6 +253,8 @@
       {
         "@id": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType:dataType:SensorCategory;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SensorCategory",
+        "description": "This enumeration indicates the severity of a specific sensor.",
         "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -249,6 +275,8 @@
       {
         "@id": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType:dataType:SensorSeverity;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SensorSeverity",
+        "description": "This enumeration indicates the severity of a specific sensor.",
         "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -267,6 +295,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Category",
+        "displayName": "Category",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType:dataType:SensorCategory;1",
         "writable": true
@@ -274,6 +303,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Severity",
+        "displayName": "Severity",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
         "schema": "dtmi:opcua:AdditiveManufacturing:ProcessValueAMType:dataType:SensorSeverity;1",
         "writable": true

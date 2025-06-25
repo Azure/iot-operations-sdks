@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -40,32 +49,44 @@ DefinedTypes:
 
   DI:TopologyElementType:
   - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+  - DisplayName: "TopologyElementType"
+  - Description: "Defines the basic information components for all configurable elements in a device topology"
   - HasComponent:
     - [ UAObject, DI:5002, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:5003, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:6567, DI:<GroupIdentifier> ]
+    - DisplayName: "<GroupIdentifier>"
+    - Description: "An application specific functional group used to organize parameters and methods."
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, DI:6014, DI:Identification ]
+    - DisplayName: "Identification"
+    - Description: "Used to organize parameters for identification of this TopologyElement"
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:6161, DI:Lock ]
+    - DisplayName: "Lock"
+    - Description: "Used to lock the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
@@ -75,60 +96,75 @@ DefinedTypes:
 
   DI:IVendorNameplateType:
   - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
+  - DisplayName: "IVendorNameplateType"
   - HasProperty:
     - [ UAVariable, DI:15036, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15037, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15038, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15039, DI:HardwareRevision, String, 0, 0 ]
+    - DisplayName: "HardwareRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15040, DI:SoftwareRevision, String, 0, 0 ]
+    - DisplayName: "SoftwareRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15041, DI:DeviceRevision, String, 0, 0 ]
+    - DisplayName: "DeviceRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15042, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15043, DI:DeviceManual, String, 0, 0 ]
+    - DisplayName: "DeviceManual"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15044, DI:DeviceClass, String, 0, 0 ]
+    - DisplayName: "DeviceClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15045, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15046, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15047, DI:RevisionCounter, Int32, 0, 0 ]
+    - DisplayName: "RevisionCounter"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:23, DI:SoftwareReleaseDate, DateTime, 0, 0 ]
+    - DisplayName: "SoftwareReleaseDate"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:24, DI:PatchIdentifiers, String, 1, 0 ]
+    - DisplayName: "PatchIdentifiers"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -136,12 +172,15 @@ DefinedTypes:
 
   DI:ITagNameplateType:
   - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
+  - DisplayName: "ITagNameplateType"
   - HasProperty:
     - [ UAVariable, DI:15049, DI:AssetId, String, 0, 0 ]
+    - DisplayName: "AssetId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15050, DI:ComponentName, LocalizedText, 0, 0 ]
+    - DisplayName: "ComponentName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -149,12 +188,15 @@ DefinedTypes:
 
   DI:IDeviceHealthType:
   - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
+  - DisplayName: "IDeviceHealthType"
   - HasComponent:
     - [ UAVariable, DI:15052, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
+    - DisplayName: "DeviceHealth"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:15053, DI:DeviceHealthAlarms ]
+    - DisplayName: "DeviceHealthAlarms"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -164,32 +206,38 @@ DefinedTypes:
 
   DI:ISupportInfoType:
   - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
+  - DisplayName: "ISupportInfoType"
   - HasComponent:
     - [ UAObject, DI:15055, DI:DeviceTypeImage ]
+    - DisplayName: "DeviceTypeImage"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:15057, DI:Documentation ]
+    - DisplayName: "Documentation"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:27, DI:DocumentationFiles ]
+    - DisplayName: "DocumentationFiles"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:15059, DI:ProtocolSupport ]
+    - DisplayName: "ProtocolSupport"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:15061, DI:ImageSet ]
+    - DisplayName: "ImageSet"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -199,60 +247,75 @@ DefinedTypes:
 
   DI:ComponentType:
   - [ UAObjectType, DI:15063, DI:ComponentType ]
+  - DisplayName: "ComponentType"
   - HasProperty:
     - [ UAVariable, DI:15086, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15087, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15088, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15089, DI:HardwareRevision, String, 0, 0 ]
+    - DisplayName: "HardwareRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15090, DI:SoftwareRevision, String, 0, 0 ]
+    - DisplayName: "SoftwareRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15091, DI:DeviceRevision, String, 0, 0 ]
+    - DisplayName: "DeviceRevision"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15092, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15093, DI:DeviceManual, String, 0, 0 ]
+    - DisplayName: "DeviceManual"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15094, DI:DeviceClass, String, 0, 0 ]
+    - DisplayName: "DeviceClass"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15095, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15096, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15097, DI:RevisionCounter, Int32, 0, 0 ]
+    - DisplayName: "RevisionCounter"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15098, DI:AssetId, String, 0, 0 ]
+    - DisplayName: "AssetId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:15099, DI:ComponentName, LocalizedText, 0, 0 ]
+    - DisplayName: "ComponentName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -260,42 +323,55 @@ DefinedTypes:
 
   DI:DeviceType:
   - [ UAObjectType, DI:1002, DI:DeviceType ]
+  - DisplayName: "DeviceType"
+  - Description: "Defines the basic information components for all configurable elements in a device topology"
   - HasComponent:
     - [ UAObject, DI:6571, DI:<CPIdentifier> ]
+    - DisplayName: "<CPIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, DI:6208, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
+    - DisplayName: "DeviceHealth"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:15105, DI:DeviceHealthAlarms ]
+    - DisplayName: "DeviceHealthAlarms"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:6209, DI:DeviceTypeImage ]
+    - DisplayName: "DeviceTypeImage"
+    - Description: "Organizes pictures of the device."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:6211, DI:Documentation ]
+    - DisplayName: "Documentation"
+    - Description: "Organizes documents for the device."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:6213, DI:ProtocolSupport ]
+    - DisplayName: "ProtocolSupport"
+    - Description: "Protocol-specific files for the device."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:6215, DI:ImageSet ]
+    - DisplayName: "ImageSet"
+    - Description: "Organizes images that are used within UIElements."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -305,29 +381,42 @@ DefinedTypes:
 
   DI:SoftwareType:
   - [ UAObjectType, DI:15106, DI:SoftwareType ]
+  - DisplayName: "SoftwareType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15063, DI:ComponentType ]
 
   DI:BlockType:
   - [ UAObjectType, DI:1003, DI:BlockType ]
+  - DisplayName: "BlockType"
+  - Description: "Adds the concept of Blocks needed for block-oriented FieldDevices"
   - HasProperty:
     - [ UAVariable, DI:6009, DI:RevisionCounter, Int32, 0, 0 ]
+    - DisplayName: "RevisionCounter"
+    - Description: "Incremental counter indicating the number of times the static data within the Block has been modified"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:6010, DI:ActualMode, LocalizedText, 0, 0 ]
+    - DisplayName: "ActualMode"
+    - Description: "Current mode of operation the Block is able to achieve"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:6011, DI:PermittedMode, LocalizedText, 1, 0 ]
+    - DisplayName: "PermittedMode"
+    - Description: "Modes of operation that are allowed for the Block based on application requirements"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:6012, DI:NormalMode, LocalizedText, 1, 0 ]
+    - DisplayName: "NormalMode"
+    - Description: "Mode the Block should be set to during normal operating conditions"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:6013, DI:TargetMode, LocalizedText, 1, 0 ]
+    - DisplayName: "TargetMode"
+    - Description: "Mode of operation that is desired for the Block"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -335,39 +424,49 @@ DefinedTypes:
 
   DI:DeviceHealthDiagnosticAlarmType:
   - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
+  - DisplayName: "DeviceHealthDiagnosticAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, 18347, InstrumentDiagnosticAlarmType ]
 
   DI:FailureAlarmType:
   - [ UAObjectType, DI:15292, DI:FailureAlarmType ]
+  - DisplayName: "FailureAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
 
   DI:CheckFunctionAlarmType:
   - [ UAObjectType, DI:15441, DI:CheckFunctionAlarmType ]
+  - DisplayName: "CheckFunctionAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
 
   DI:OffSpecAlarmType:
   - [ UAObjectType, DI:15590, DI:OffSpecAlarmType ]
+  - DisplayName: "OffSpecAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
 
   DI:MaintenanceRequiredAlarmType:
   - [ UAObjectType, DI:15739, DI:MaintenanceRequiredAlarmType ]
+  - DisplayName: "MaintenanceRequiredAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
 
   DI:ConfigurableObjectType:
   - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
+  - DisplayName: "ConfigurableObjectType"
+  - Description: "Defines a general pattern to expose and configure modular components"
   - HasComponent:
     - [ UAObject, DI:5004, DI:SupportedTypes ]
+    - DisplayName: "SupportedTypes"
+    - Description: "Folder maintaining the set of (sub-types of) BaseObjectTypes that can be instantiated in the ConfigurableComponent"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DI:6026, DI:<ObjectIdentifier> ]
+    - DisplayName: "<ObjectIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -377,49 +476,69 @@ DefinedTypes:
 
   DI:BaseLifetimeIndicationType:
   - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
+  - DisplayName: "BaseLifetimeIndicationType"
+  - Description: "Base indication type not further defining a semantic"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:TimeIndicationType:
   - [ UAObjectType, DI:474, DI:TimeIndicationType ]
+  - DisplayName: "TimeIndicationType"
+  - Description: "Indicates the time the entity has been in use or can still be used"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
   DI:NumberOfPartsIndicationType:
   - [ UAObjectType, DI:475, DI:NumberOfPartsIndicationType ]
+  - DisplayName: "NumberOfPartsIndicationType"
+  - Description: "Indicates the total number of parts that have been produced or can still be produced."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
   DI:NumberOfUsagesIndicationType:
   - [ UAObjectType, DI:476, DI:NumberOfUsagesIndicationType ]
+  - DisplayName: "NumberOfUsagesIndicationType"
+  - Description: "Indicates counting the process steps the entity has been used or can still be used for (for example usages of a punching tool)."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
   DI:LengthIndicationType:
   - [ UAObjectType, DI:477, DI:LengthIndicationType ]
+  - DisplayName: "LengthIndicationType"
+  - Description: "Indicates the abraded length, for example of a drill."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
   DI:DiameterIndicationType:
   - [ UAObjectType, DI:478, DI:DiameterIndicationType ]
+  - DisplayName: "DiameterIndicationType"
+  - Description: "Indicates the abraded diameter, for example of a drill."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
   DI:SubstanceVolumeIndicationType:
   - [ UAObjectType, DI:479, DI:SubstanceVolumeIndicationType ]
+  - DisplayName: "SubstanceVolumeIndicationType"
+  - Description: "Indicates the volume of a substance, for example of a liquid."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
   DI:FunctionalGroupType:
   - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
+  - DisplayName: "FunctionalGroupType"
+  - Description: "FolderType is used to organize the Parameters and Methods from the complete set (ParameterSet, MethodSet) with regard to their application"
   - HasComponent:
     - [ UAObject, DI:6027, DI:<GroupIdentifier> ]
+    - DisplayName: "<GroupIdentifier>"
+    - Description: "An application specific functional group used to organize parameters and methods."
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, DI:6243, DI:UIElement ]
+    - DisplayName: "UIElement"
+    - Description: "A user interface element assigned to this group."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -427,21 +546,31 @@ DefinedTypes:
 
   DI:ProtocolType:
   - [ UAObjectType, DI:1006, DI:ProtocolType ]
+  - DisplayName: "ProtocolType"
+  - Description: "General structure of a Protocol ObjectType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:IOperationCounterType:
   - [ UAObjectType, DI:480, DI:IOperationCounterType ]
+  - DisplayName: "IOperationCounterType"
+  - Description: "Interface defining counters for the duration of operation"
   - HasProperty:
     - [ UAVariable, DI:481, DI:PowerOnDuration, Duration, 0, 0 ]
+    - DisplayName: "PowerOnDuration"
+    - Description: "PowerOnDuration is the duration the Device has been powered. The main purpose is to determine the time in which degradation of the Device occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the Device has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:482, DI:OperationDuration, Duration, 0, 0 ]
+    - DisplayName: "OperationDuration"
+    - Description: "OperationDuration is the duration the Device has been powered and performing an activity. This counter is intended for Devices where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for Devices always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:483, DI:OperationCycleCounter, UInteger, 0, 0 ]
+    - DisplayName: "OperationCycleCounter"
+    - Description: "OperationCycleCounter is counting the times the Device switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -449,14 +578,19 @@ DefinedTypes:
 
   DI:NetworkType:
   - [ UAObjectType, DI:6247, DI:NetworkType ]
+  - DisplayName: "NetworkType"
+  - Description: "Represents the communication means for Devices that are connected to it."
   - HasComponent:
     - [ UAObject, DI:6596, DI:<ProfileIdentifier> ]
+    - DisplayName: "<ProfileIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, DI:1006, DI:ProtocolType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
     - [ UAObject, DI:6294, DI:Lock ]
+    - DisplayName: "Lock"
+    - Description: "Used to lock the Network."
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
@@ -466,14 +600,19 @@ DefinedTypes:
 
   DI:ConnectionPointType:
   - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
+  - DisplayName: "ConnectionPointType"
+  - Description: "Represents the interface (interface card) of a Device to a Network."
   - HasComponent:
     - [ UAObject, DI:6354, DI:NetworkAddress ]
+    - DisplayName: "NetworkAddress"
+    - Description: "The address of the device on this network."
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DI:6499, DI:<ProfileIdentifier> ]
+    - DisplayName: "<ProfileIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, DI:1006, DI:ProtocolType ]
     - HasModellingRule:
@@ -483,30 +622,36 @@ DefinedTypes:
 
   DI:TransferServicesType:
   - [ UAObjectType, DI:6526, DI:TransferServicesType ]
+  - DisplayName: "TransferServicesType"
   - HasComponent:
     - [ UAMethod, DI:6527, DI:TransferToDevice ]
+    - DisplayName: "TransferToDevice"
     - HasProperty:
       - [ UAVariable, DI:6528, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           TransferID: [ Int32, 0 ]
           InitTransferStatus: [ Int32, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:6529, DI:TransferFromDevice ]
+    - DisplayName: "TransferFromDevice"
     - HasProperty:
       - [ UAVariable, DI:6530, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           TransferID: [ Int32, 0 ]
           InitTransferStatus: [ Int32, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:6531, DI:FetchTransferResultData ]
+    - DisplayName: "FetchTransferResultData"
     - HasProperty:
       - [ UAVariable, DI:6532, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -514,12 +659,14 @@ DefinedTypes:
           SequenceNumber: [ Int32, 0 ]
           MaxParameterResultsToReturn: [ Int32, 0 ]
           OmitGoodResults: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, DI:6533, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           FetchResultData: [ Structure, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -529,66 +676,82 @@ DefinedTypes:
 
   DI:LockingServicesType:
   - [ UAObjectType, DI:6388, DI:LockingServicesType ]
+  - DisplayName: "LockingServicesType"
+  - Description: "An interface for Locking."
   - HasProperty:
     - [ UAVariable, DI:15890, DI:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasProperty:
     - [ UAVariable, DI:6534, DI:Locked, Boolean, 0, 0 ]
+    - DisplayName: "Locked"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, DI:6390, DI:LockingClient, String, 0, 0 ]
+    - DisplayName: "LockingClient"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, DI:6391, DI:LockingUser, String, 0, 0 ]
+    - DisplayName: "LockingUser"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, DI:6392, DI:RemainingLockTime, Duration, 0, 0 ]
+    - DisplayName: "RemainingLockTime"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:6393, DI:InitLock ]
+    - DisplayName: "InitLock"
     - HasProperty:
       - [ UAVariable, DI:6394, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Context: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, DI:6395, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           InitLockStatus: [ Int32, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:6396, DI:RenewLock ]
+    - DisplayName: "RenewLock"
     - HasProperty:
       - [ UAVariable, DI:6397, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RenewLockStatus: [ Int32, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:6398, DI:ExitLock ]
+    - DisplayName: "ExitLock"
     - HasProperty:
       - [ UAVariable, DI:6399, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ExitLockStatus: [ Int32, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:6400, DI:BreakLock ]
+    - DisplayName: "BreakLock"
     - HasProperty:
       - [ UAVariable, DI:6401, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           BreakLockStatus: [ Int32, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -598,59 +761,71 @@ DefinedTypes:
 
   DI:SoftwareUpdateType:
   - [ UAObjectType, DI:1, DI:SoftwareUpdateType ]
+  - DisplayName: "SoftwareUpdateType"
   - HasComponent:
     - [ UAObject, DI:2, DI:Loading ]
+    - DisplayName: "Loading"
     - HasTypeDefinition:
       - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:4, DI:PrepareForUpdate ]
+    - DisplayName: "PrepareForUpdate"
     - HasTypeDefinition:
       - [ UAObjectType, DI:213, DI:PrepareForUpdateStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:40, DI:Installation ]
+    - DisplayName: "Installation"
     - HasTypeDefinition:
       - [ UAObjectType, DI:249, DI:InstallationStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:76, DI:PowerCycle ]
+    - DisplayName: "PowerCycle"
     - HasTypeDefinition:
       - [ UAObjectType, DI:285, DI:PowerCycleStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:98, DI:Confirmation ]
+    - DisplayName: "Confirmation"
     - HasTypeDefinition:
       - [ UAObjectType, DI:307, DI:ConfirmationStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:122, DI:Parameters ]
+    - DisplayName: "Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 15744, TemporaryFileTransferType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, DI:133, DI:UpdateStatus, LocalizedText, 0, 0 ]
+    - DisplayName: "UpdateStatus"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, DI:402, DI:VendorErrorCode, Int32, 0, 0 ]
+    - DisplayName: "VendorErrorCode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:134, DI:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   DI:SoftwareLoadingType:
   - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
+  - DisplayName: "SoftwareLoadingType"
   - HasComponent:
     - [ UAVariable, DI:136, DI:UpdateKey, String, 0, 0 ]
+    - DisplayName: "UpdateKey"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -658,24 +833,29 @@ DefinedTypes:
 
   DI:PackageLoadingType:
   - [ UAObjectType, DI:137, DI:PackageLoadingType ]
+  - DisplayName: "PackageLoadingType"
   - HasComponent:
     - [ UAObject, DI:139, DI:CurrentVersion ]
+    - DisplayName: "CurrentVersion"
     - HasTypeDefinition:
       - [ UAObjectType, DI:212, DI:SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DI:140, DI:FileTransfer ]
+    - DisplayName: "FileTransfer"
     - HasTypeDefinition:
       - [ UAObjectType, 15744, TemporaryFileTransferType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DI:151, DI:ErrorMessage, LocalizedText, 0, 0 ]
+    - DisplayName: "ErrorMessage"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, DI:152, DI:WriteBlockSize, UInt32, 0, 0 ]
+    - DisplayName: "WriteBlockSize"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -683,12 +863,15 @@ DefinedTypes:
 
   DI:DirectLoadingType:
   - [ UAObjectType, DI:153, DI:DirectLoadingType ]
+  - DisplayName: "DirectLoadingType"
   - HasComponent:
     - [ UAVariable, DI:169, DI:UpdateBehavior, DI:UpdateBehavior, 0, 0 ]
+    - DisplayName: "UpdateBehavior"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, DI:170, DI:WriteTimeout, Duration, 0, 0 ]
+    - DisplayName: "WriteTimeout"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -696,32 +879,38 @@ DefinedTypes:
 
   DI:CachedLoadingType:
   - [ UAObjectType, DI:171, DI:CachedLoadingType ]
+  - DisplayName: "CachedLoadingType"
   - HasComponent:
     - [ UAObject, DI:187, DI:PendingVersion ]
+    - DisplayName: "PendingVersion"
     - HasTypeDefinition:
       - [ UAObjectType, DI:212, DI:SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DI:188, DI:FallbackVersion ]
+    - DisplayName: "FallbackVersion"
     - HasTypeDefinition:
       - [ UAObjectType, DI:212, DI:SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, DI:189, DI:GetUpdateBehavior ]
+    - DisplayName: "GetUpdateBehavior"
     - HasProperty:
       - [ UAVariable, DI:190, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ManufacturerUri: [ String, 0 ]
           SoftwareRevision: [ String, 0 ]
           PatchIdentifiers: [ String, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, DI:191, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           UpdateBehavior: [ DI:UpdateBehavior, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -731,34 +920,41 @@ DefinedTypes:
 
   DI:FileSystemLoadingType:
   - [ UAObjectType, DI:192, DI:FileSystemLoadingType ]
+  - DisplayName: "FileSystemLoadingType"
   - HasComponent:
     - [ UAObject, DI:194, DI:FileSystem ]
+    - DisplayName: "FileSystem"
     - HasTypeDefinition:
       - [ UAObjectType, 13353, FileDirectoryType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:206, DI:GetUpdateBehavior ]
+    - DisplayName: "GetUpdateBehavior"
     - HasProperty:
       - [ UAVariable, DI:207, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NodeIds: [ NodeId, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, DI:208, DI:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           UpdateBehavior: [ DI:UpdateBehavior, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:209, DI:ValidateFiles ]
+    - DisplayName: "ValidateFiles"
     - HasProperty:
       - [ UAVariable, DI:210, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NodeIds: [ NodeId, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -766,6 +962,7 @@ DefinedTypes:
       - Arguments:
           ErrorCode: [ Int32, 0 ]
           ErrorMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -775,32 +972,40 @@ DefinedTypes:
 
   DI:SoftwareVersionType:
   - [ UAObjectType, DI:212, DI:SoftwareVersionType ]
+  - DisplayName: "SoftwareVersionType"
   - HasProperty:
     - [ UAVariable, DI:380, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, DI:381, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, DI:382, DI:SoftwareRevision, String, 0, 0 ]
+    - DisplayName: "SoftwareRevision"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, DI:383, DI:PatchIdentifiers, String, 1, 0 ]
+    - DisplayName: "PatchIdentifiers"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:384, DI:ReleaseDate, DateTime, 0, 0 ]
+    - DisplayName: "ReleaseDate"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:385, DI:ChangeLogReference, String, 0, 0 ]
+    - DisplayName: "ChangeLogReference"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, DI:386, DI:Hash, ByteString, 0, 0 ]
+    - DisplayName: "Hash"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -808,56 +1013,70 @@ DefinedTypes:
 
   DI:PrepareForUpdateStateMachineType:
   - [ UAObjectType, DI:213, DI:PrepareForUpdateStateMachineType ]
+  - DisplayName: "PrepareForUpdateStateMachineType"
   - HasComponent:
     - [ UAVariable, DI:227, DI:PercentComplete, Byte, 0, 0 ]
+    - DisplayName: "PercentComplete"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, DI:228, DI:Prepare ]
+    - DisplayName: "Prepare"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:229, DI:Abort ]
+    - DisplayName: "Abort"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, DI:230, DI:Resume ]
+    - DisplayName: "Resume"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, DI:231, DI:Idle ]
+    - DisplayName: "Idle"
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
     - [ UAObject, DI:233, DI:Preparing ]
+    - DisplayName: "Preparing"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, DI:235, DI:PreparedForUpdate ]
+    - DisplayName: "PreparedForUpdate"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, DI:237, DI:Resuming ]
+    - DisplayName: "Resuming"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, DI:239, DI:IdleToPreparing ]
+    - DisplayName: "IdleToPreparing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:241, DI:PreparingToIdle ]
+    - DisplayName: "PreparingToIdle"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:243, DI:PreparingToPreparedForUpdate ]
+    - DisplayName: "PreparingToPreparedForUpdate"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:245, DI:PreparedForUpdateToResuming ]
+    - DisplayName: "PreparedForUpdateToResuming"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:247, DI:ResumingToIdle ]
+    - DisplayName: "ResumingToIdle"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
@@ -865,16 +1084,20 @@ DefinedTypes:
 
   DI:InstallationStateMachineType:
   - [ UAObjectType, DI:249, DI:InstallationStateMachineType ]
+  - DisplayName: "InstallationStateMachineType"
   - HasComponent:
     - [ UAVariable, DI:263, DI:PercentComplete, Byte, 0, 0 ]
+    - DisplayName: "PercentComplete"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, DI:264, DI:InstallationDelay, Duration, 0, 0 ]
+    - DisplayName: "InstallationDelay"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, DI:265, DI:InstallSoftwarePackage ]
+    - DisplayName: "InstallSoftwarePackage"
     - HasProperty:
       - [ UAVariable, DI:266, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -882,50 +1105,61 @@ DefinedTypes:
           SoftwareRevision: [ String, 0 ]
           PatchIdentifiers: [ String, 1 ]
           Hash: [ ByteString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, DI:268, DI:InstallFiles ]
+    - DisplayName: "InstallFiles"
     - HasProperty:
       - [ UAVariable, DI:269, DI:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NodeIds: [ NodeId, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, DI:270, DI:Resume ]
+    - DisplayName: "Resume"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DI:271, DI:Idle ]
+    - DisplayName: "Idle"
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
     - [ UAObject, DI:273, DI:Installing ]
+    - DisplayName: "Installing"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, DI:275, DI:Error ]
+    - DisplayName: "Error"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, DI:277, DI:IdleToInstalling ]
+    - DisplayName: "IdleToInstalling"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:279, DI:InstallingToIdle ]
+    - DisplayName: "InstallingToIdle"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:281, DI:InstallingToError ]
+    - DisplayName: "InstallingToError"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:283, DI:ErrorToIdle ]
+    - DisplayName: "ErrorToIdle"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
@@ -933,20 +1167,25 @@ DefinedTypes:
 
   DI:PowerCycleStateMachineType:
   - [ UAObjectType, DI:285, DI:PowerCycleStateMachineType ]
+  - DisplayName: "PowerCycleStateMachineType"
   - HasComponent:
     - [ UAObject, DI:299, DI:NotWaitingForPowerCycle ]
+    - DisplayName: "NotWaitingForPowerCycle"
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
     - [ UAObject, DI:301, DI:WaitingForPowerCycle ]
+    - DisplayName: "WaitingForPowerCycle"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, DI:303, DI:NotWaitingForPowerCycleToWaitingForPowerCycle ]
+    - DisplayName: "NotWaitingForPowerCycleToWaitingForPowerCycle"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:305, DI:WaitingForPowerCycleToNotWaitingForPowerCycle ]
+    - DisplayName: "WaitingForPowerCycleToNotWaitingForPowerCycle"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
@@ -954,28 +1193,35 @@ DefinedTypes:
 
   DI:ConfirmationStateMachineType:
   - [ UAObjectType, DI:307, DI:ConfirmationStateMachineType ]
+  - DisplayName: "ConfirmationStateMachineType"
   - HasComponent:
     - [ UAMethod, DI:321, DI:Confirm ]
+    - DisplayName: "Confirm"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, DI:322, DI:ConfirmationTimeout, Duration, 0, 0 ]
+    - DisplayName: "ConfirmationTimeout"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, DI:323, DI:NotWaitingForConfirm ]
+    - DisplayName: "NotWaitingForConfirm"
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
     - [ UAObject, DI:325, DI:WaitingForConfirm ]
+    - DisplayName: "WaitingForConfirm"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, DI:327, DI:NotWaitingForConfirmToWaitingForConfirm ]
+    - DisplayName: "NotWaitingForConfirmToWaitingForConfirm"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, DI:329, DI:WaitingForConfirmToNotWaitingForConfirm ]
+    - DisplayName: "WaitingForConfirmToNotWaitingForConfirm"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:

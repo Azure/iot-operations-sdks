@@ -207,6 +207,16 @@
                 }
             }
 
+            if (definedType.DisplayName != null)
+            {
+                outputFile.WriteLine($"{currentIndent}- DisplayName: \"{definedType.DisplayName}\"");
+            }
+
+            if (definedType.Description != null)
+            {
+                outputFile.WriteLine($"{currentIndent}- Description: \"{definedType.Description}\"");
+            }
+
             if (definedType.UnitId != null)
             {
                 outputFile.WriteLine($"{currentIndent}- UnitId: {definedType.UnitId}");

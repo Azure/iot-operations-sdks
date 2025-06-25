@@ -1,5 +1,6 @@
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion.Filter:3002, PlasticsRubber.Extrusion.Filter:FilterPackageStatusEnumeration ]
+  DisplayName: "FilterPackageStatusEnumeration"
   Enums:
     NOT_ACTIVE: 0
     ACTIVE: 1
@@ -7,6 +8,8 @@ DataTypes:
     IN_CHANGE_POSITION: 3
     BACKFLUSH_ACTIVE: 4
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -17,25 +20,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -43,12 +53,16 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
+  DisplayName: "CavityCycleQualityEnumeration"
+  Description: "Quality of the cycle for each cavity"
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
+  DisplayName: "ControlModeEnumeration"
+  Description: "Indication how the parameter is currently controlled"
   Enums:
     OTHER: 0
     OFF: 1
@@ -58,12 +72,16 @@ DataTypes:
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
 - UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
+  DisplayName: "CycleQualityEnumeration"
+  Description: "Quality of the whole cycle"
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
+  DisplayName: "DiagnosticsStatusEnumeration"
+  Description: "Diagnostics inactive"
   Enums:
     OFF: 0
     ACTIVE_OK: 1
@@ -71,6 +89,8 @@ DataTypes:
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
+  DisplayName: "EventOriginatorEnumeration"
+  Description: "Originator of an event"
   Enums:
     OTHER: 0
     MACHINE: 1
@@ -78,6 +98,8 @@ DataTypes:
     MES: 3
     PERIPHERAL_DEVICE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
+  DisplayName: "JobStatusEnumeration"
+  Description: "Current status of the job"
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -92,6 +114,8 @@ DataTypes:
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
 - UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
+  DisplayName: "LogbookEventsEnumeration"
+  Description: "Information which LogbookEvents are supported by the machine"
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -105,6 +129,8 @@ DataTypes:
     MESSAGE: 9
     USER_FEEDBACK: 10
 - UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
+  DisplayName: "MachineModeEnumeration"
+  Description: "Current machine mode (as defined by mode selector on the machine)"
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -113,17 +139,23 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
+  DisplayName: "MaintenanceStatusEnumeration"
+  Description: "Maintenance status of a machine/device/component"
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
 - UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
+  DisplayName: "MouldStatusEnumeration"
+  Description: "Current (physical) status of the mould"
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
+  DisplayName: "ProductionStatusEnumeration"
+  Description: "Production status of the machine"
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -132,6 +164,8 @@ DataTypes:
     PRODUCTION: 4
     DRY_RUN: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
+  DisplayName: "SequenceChangeEnumeration"
+  Description: "Classification of production sequence change"
   Enums:
     UPDATE: 0
     ADD: 1
@@ -139,6 +173,7 @@ DataTypes:
     MOVE: 3
     DELETE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
+  DisplayName: "StartEnumeration"
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -147,11 +182,15 @@ DataTypes:
     STARTED: 4
     STOP_REQUESTED: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
+  DisplayName: "StorageEnumeration"
+  Description: "Indication which parts of the production dataset shall be activated in the machine control after writing"
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
+  DisplayName: "TemperatureZoneClassificationEnumeration"
+  Description: "Type of the temperature zone"
   Enums:
     OTHER: 0
     HEATING: 1
@@ -160,25 +199,35 @@ DataTypes:
     HOT_RUNNER: 4
     MEASURING: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
+  DisplayName: "UserChangeEnumeration"
+  Description: "Information if a user logs in or off"
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
 - UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
+  DisplayName: "ActiveErrorDataType"
+  Description: "Iinformation about an active error in a device"
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
+  DisplayName: "ClassifiedActiveErrorDataType"
+  Description: "Iinformation about an active error in a device including the SoureNodes and a Classification"
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
+  DisplayName: "ConfigurationParameterType"
+  Description: "Unique identifier"
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
+  DisplayName: "JobListElementType"
+  Description: "Description of a job in a job list"
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -194,6 +243,8 @@ DataTypes:
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
+  DisplayName: "CyclicJobListElementType"
+  Description: "Description of a job in a cyclic job list"
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
@@ -201,19 +252,26 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
+  DisplayName: "PageEntryDataType"
+  Description: "Information on a page that is implemented in the machine control system and shown on the screen of the machine"
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
+  DisplayName: "ParameterSettingType"
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
+  DisplayName: "PIDParametersDataType"
+  Description: "Structure for storing the parameters of a PID controller"
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
+  DisplayName: "ProductionDatasetInformationType"
+  Description: "Information on a production dataset"
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -233,20 +291,27 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
+  DisplayName: "ProductionDatasetReadOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForRead in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
+  DisplayName: "ProductionDatasetWriteOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForWrite in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
+  DisplayName: "StandstillReasonType"
+  Description: "Description of a standstill reason"
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
     LockedByMES: [ Boolean, 0 ]
 - UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3003, PlasticsRubber.Extrusion.GeneralTypes:ComponentStatusEnumeration ]
+  DisplayName: "ComponentStatusEnumeration"
   Enums:
     OFFLINE: 0
     IDLE: 1
@@ -257,6 +322,7 @@ DataTypes:
     MALFUNCTION: 6
     MAINTENANCE: 7
 - UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3001, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionMessageClassificationEnumeration ]
+  DisplayName: "ExtrusionMessageClassificationEnumeration"
   Enums:
     OTHER: 0
     LINE_CONTROL: 1
@@ -292,14 +358,17 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.Filter:Filter_InterfaceType:
   - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
+  - DisplayName: "Filter_InterfaceType"
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5012, PlasticsRubber.Extrusion.Filter:AdditionalMeasuringDevices ]
+    - DisplayName: "AdditionalMeasuringDevices"
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, PlasticsRubber.GeneralTypes:MeasuringDevicesType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6150, PlasticsRubber.Extrusion.Filter:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -310,12 +379,14 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6011, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
+    - DisplayName: "Area"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6006, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -326,12 +397,14 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6139, PlasticsRubber.Extrusion.Filter:BackflushPressure, Double, 0, 3 ]
+    - DisplayName: "BackflushPressure"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6012, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -342,8 +415,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5002, PlasticsRubber.Extrusion.Filter:Drive ]
+    - DisplayName: "Drive"
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5004, PlasticsRubber.GeneralTypes:AdditionalMeasuringDevices ]
+      - DisplayName: "AdditionalMeasuringDevices"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5002, PlasticsRubber.Extrusion.Filter:Drive ]
       - GeneratesEvent:
@@ -352,6 +427,7 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, PlasticsRubber.GeneralTypes:MeasuringDevicesType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6002, PlasticsRubber.Extrusion.Filter:NodeVersion, String, 0, 0 ]
+        - DisplayName: "NodeVersion"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -366,14 +442,17 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1068, PlasticsRubber.GeneralTypes:DriveType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5017, PlasticsRubber.GeneralTypes:Energy ]
+      - DisplayName: "Energy"
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6074, PlasticsRubber.GeneralTypes:ActualPower, Double, 0, 0 ]
+        - DisplayName: "ActualPower"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5017, PlasticsRubber.GeneralTypes:Energy ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6075, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6074, PlasticsRubber.GeneralTypes:ActualPower, Double, 0, 0 ]
           - HasModellingRule:
@@ -384,12 +463,14 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6076, PlasticsRubber.GeneralTypes:ActualSpecificEnergy, Double, 0, 0 ]
+        - DisplayName: "ActualSpecificEnergy"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5017, PlasticsRubber.GeneralTypes:Energy ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6078, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6076, PlasticsRubber.GeneralTypes:ActualSpecificEnergy, Double, 0, 0 ]
           - HasModellingRule:
@@ -406,10 +487,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6079, PlasticsRubber.GeneralTypes:PowerConsumption, Double, 0, 0 ]
+        - DisplayName: "PowerConsumption"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6081, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6079, PlasticsRubber.GeneralTypes:PowerConsumption, Double, 0, 0 ]
           - HasModellingRule:
@@ -422,6 +505,7 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5017, PlasticsRubber.GeneralTypes:Energy ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6082, PlasticsRubber.GeneralTypes:PowerFactor, Double, 0, 0 ]
+        - DisplayName: "PowerFactor"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -430,8 +514,11 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5017, PlasticsRubber.GeneralTypes:Energy ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5018, PlasticsRubber.GeneralTypes:Maintenance ]
+      - DisplayName: "Maintenance"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6083, PlasticsRubber.GeneralTypes:AdditionalInformation, String, 0, 0 ]
+        - DisplayName: "AdditionalInformation"
+        - Description: "Additional information on the necessary maintenance. Can be also a link to another document."
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5018, PlasticsRubber.GeneralTypes:Maintenance ]
         - HasModellingRule:
@@ -440,10 +527,13 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6084, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
+        - DisplayName: "Interval"
+        - Description: "Regular interval between two maintenances"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6085, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6084, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -452,6 +542,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6086, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6084, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -470,10 +561,13 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6087, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
+        - DisplayName: "RemainingInterval"
+        - Description: "Interval before next maintenance is due"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6088, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6087, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -482,6 +576,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6089, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6087, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -494,12 +589,16 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5018, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7006, PlasticsRubber.GeneralTypes:Reset ]
+        - DisplayName: "Reset"
+        - Description: "This Method sets the CurrentInterval to 0 and Status to NOT_DUE_0"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5018, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6003, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration, 0, 0 ]
+        - DisplayName: "Status"
+        - Description: "Maintenance status of the machine/device/component (represented by the parent element)"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -508,10 +607,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5018, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6090, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
+        - DisplayName: "TotalOperation"
+        - Description: "How long is the component running in total"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6091, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6090, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -520,6 +622,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6092, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6090, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -534,14 +637,18 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
+      - DisplayName: "Speed"
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6009, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
+        - DisplayName: "ActualValue"
+        - Description: "Actual value of the monitored parameter"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6275, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6009, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
           - HasModellingRule:
@@ -550,6 +657,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6010, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6009, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
           - HasModellingRule:
@@ -560,10 +668,13 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6093, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
+        - DisplayName: "AlarmSuppression"
+        - Description: "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6094, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+          - DisplayName: "EnumValues"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6093, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
           - HasModellingRule:
@@ -576,6 +687,7 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6095, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+          - DisplayName: "ValueAsText"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -584,6 +696,8 @@ DefinedTypes:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6093, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6096, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
+        - DisplayName: "AutomaticMonitoring"
+        - Description: "Determination if monitoring tolerance parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
         - HasModellingRule:
@@ -592,10 +706,13 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6097, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
+        - DisplayName: "LowerTolerance"
+        - Description: "Lower relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6098, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6097, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -604,6 +721,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6099, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6097, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -616,10 +734,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6100, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
+        - DisplayName: "LowerTolerance2"
+        - Description: "Second lower relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6101, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6100, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -628,6 +749,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6102, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6100, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -640,10 +762,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6103, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
+        - DisplayName: "MaxValue"
+        - Description: "Maximum absolute value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6104, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6103, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -652,6 +777,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6105, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6103, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -664,10 +790,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6106, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
+        - DisplayName: "MinValue"
+        - Description: "Minimum absolute value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6107, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6106, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -676,6 +805,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6108, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6106, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -690,8 +820,11 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6109, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
+        - DisplayName: "MonitoringSensitivity"
+        - Description: "Defines how closely the tolerances are set during the automatic limit setting"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6110, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+          - DisplayName: "EnumValues"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6109, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
           - HasModellingRule:
@@ -706,6 +839,7 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6111, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+          - DisplayName: "ValueAsText"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -716,16 +850,21 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7010, PlasticsRubber.GeneralTypes:ResetMonitoring ]
+        - DisplayName: "ResetMonitoring"
+        - Description: "With this method the tolerance values are set according to the actual value and the set monitoring sensitivity"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6112, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
+        - DisplayName: "SetRampDown"
+        - Description: "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6113, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6112, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
@@ -734,6 +873,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6114, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6112, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
@@ -746,10 +886,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6115, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
+        - DisplayName: "SetRampUp"
+        - Description: "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6116, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6115, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
@@ -758,6 +901,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6117, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6115, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
@@ -770,10 +914,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6118, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
+        - DisplayName: "SetValue"
+        - Description: "Set/nominal/target value of the monitored parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6119, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6118, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -782,6 +929,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6120, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6118, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -796,10 +944,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5002, PlasticsRubber.Extrusion.Filter:Drive ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6121, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
+        - DisplayName: "UpperTolerance"
+        - Description: "Upper relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6122, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6121, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -808,6 +959,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6123, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6121, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -820,10 +972,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6124, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
+        - DisplayName: "UpperTolerance2"
+        - Description: "Second upper relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6125, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6124, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -832,6 +987,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6126, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6124, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -844,10 +1000,12 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, PlasticsRubber.GeneralTypes:Speed ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5020, PlasticsRubber.GeneralTypes:StartDrive ]
+      - DisplayName: "StartDrive"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6127, PlasticsRubber.GeneralTypes:StartBlockedByClient, Boolean, 0, 3 ]
+        - DisplayName: "StartBlockedByClient"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -860,12 +1018,14 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5002, PlasticsRubber.Extrusion.Filter:Drive ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7012, PlasticsRubber.GeneralTypes:StartRequest ]
+        - DisplayName: "StartRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5020, PlasticsRubber.GeneralTypes:StartDrive ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6071, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:StartEnumeration, 0, 0 ]
+        - DisplayName: "Status"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -874,20 +1034,25 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5020, PlasticsRubber.GeneralTypes:StartDrive ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7013, PlasticsRubber.GeneralTypes:StopRequest ]
+        - DisplayName: "StopRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5020, PlasticsRubber.GeneralTypes:StartDrive ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, PlasticsRubber.GeneralTypes:Torque ]
+      - DisplayName: "Torque"
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6072, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
+        - DisplayName: "ActualValue"
+        - Description: "Actual value of the monitored parameter"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, PlasticsRubber.GeneralTypes:Torque ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6282, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6072, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
           - HasModellingRule:
@@ -896,6 +1061,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6073, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6072, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
           - HasModellingRule:
@@ -906,10 +1072,13 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6128, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
+        - DisplayName: "AlarmSuppression"
+        - Description: "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, PlasticsRubber.GeneralTypes:Torque ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6129, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+          - DisplayName: "EnumValues"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6128, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
           - HasModellingRule:
@@ -922,6 +1091,7 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6130, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+          - DisplayName: "ValueAsText"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -930,6 +1100,8 @@ DefinedTypes:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6128, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6131, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
+        - DisplayName: "AutomaticMonitoring"
+        - Description: "Determination if monitoring tolerance parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, PlasticsRubber.GeneralTypes:Torque ]
         - HasModellingRule:
@@ -938,10 +1110,13 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6231, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
+        - DisplayName: "LowerTolerance"
+        - Description: "Lower relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6232, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6231, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -950,6 +1125,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6233, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6231, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -962,10 +1138,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6234, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
+        - DisplayName: "LowerTolerance2"
+        - Description: "Second lower relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6235, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6234, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -974,6 +1153,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6236, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6234, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -986,10 +1166,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6237, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
+        - DisplayName: "MaxValue"
+        - Description: "Maximum absolute value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6238, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6237, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -998,6 +1181,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6239, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6237, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1010,10 +1194,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6253, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
+        - DisplayName: "MinValue"
+        - Description: "Minimum absolute value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6254, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6253, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1022,6 +1209,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6255, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6253, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1036,8 +1224,11 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6256, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
+        - DisplayName: "MonitoringSensitivity"
+        - Description: "Defines how closely the tolerances are set during the automatic limit setting"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6257, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+          - DisplayName: "EnumValues"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6256, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
           - HasModellingRule:
@@ -1052,6 +1243,7 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6258, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+          - DisplayName: "ValueAsText"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1062,16 +1254,21 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7014, PlasticsRubber.GeneralTypes:ResetMonitoring ]
+        - DisplayName: "ResetMonitoring"
+        - Description: "With this method the tolerance values are set according to the actual value and the set monitoring sensitivity"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, PlasticsRubber.GeneralTypes:Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6259, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
+        - DisplayName: "SetRampDown"
+        - Description: "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6260, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6259, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
@@ -1080,6 +1277,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6261, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6259, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
@@ -1092,10 +1290,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, PlasticsRubber.GeneralTypes:Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6262, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
+        - DisplayName: "SetRampUp"
+        - Description: "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6263, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6262, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
@@ -1104,6 +1305,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6264, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6262, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
@@ -1116,10 +1318,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, PlasticsRubber.GeneralTypes:Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6265, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
+        - DisplayName: "SetValue"
+        - Description: "Set/nominal/target value of the monitored parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6266, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6265, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1128,6 +1333,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6267, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6265, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1142,10 +1348,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5002, PlasticsRubber.Extrusion.Filter:Drive ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6268, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
+        - DisplayName: "UpperTolerance"
+        - Description: "Upper relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6269, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6268, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -1154,6 +1363,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6270, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6268, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -1166,10 +1376,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, PlasticsRubber.GeneralTypes:Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6271, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
+        - DisplayName: "UpperTolerance2"
+        - Description: "Second upper relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6272, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6271, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -1178,6 +1391,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6274, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6271, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -1192,14 +1406,17 @@ DefinedTypes:
     - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5014, PlasticsRubber.Extrusion.Filter:FilterPackage_<Nr> ]
+    - DisplayName: "FilterPackage_<Nr>"
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6140, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
+      - DisplayName: "Area"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5014, PlasticsRubber.Extrusion.Filter:FilterPackage_<Nr> ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6141, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6140, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
         - HasModellingRule:
@@ -1210,6 +1427,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6182, PlasticsRubber.Extrusion.Filter:BackflushCounter, UInt32, 0, 0 ]
+      - DisplayName: "BackflushCounter"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5014, PlasticsRubber.Extrusion.Filter:FilterPackage_<Nr> ]
       - HasModellingRule:
@@ -1218,6 +1436,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6183, PlasticsRubber.Extrusion.Filter:BackflushTime, Duration, 0, 3 ]
+      - DisplayName: "BackflushTime"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5014, PlasticsRubber.Extrusion.Filter:FilterPackage_<Nr> ]
       - HasModellingRule:
@@ -1230,6 +1449,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, PlasticsRubber.Extrusion.Filter:FilterPackageType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6277, PlasticsRubber.Extrusion.Filter:Name, LocalizedText, 0, 0 ]
+      - DisplayName: "Name"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1240,6 +1460,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6179, PlasticsRubber.Extrusion.Filter:Status, PlasticsRubber.Extrusion.Filter:FilterPackageStatusEnumeration, 0, 0 ]
+      - DisplayName: "Status"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1248,10 +1469,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5014, PlasticsRubber.Extrusion.Filter:FilterPackage_<Nr> ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6004, PlasticsRubber.Extrusion.Filter:FiltrationFineness, Double, 0, 0 ]
+    - DisplayName: "FiltrationFineness"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6005, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6004, PlasticsRubber.Extrusion.Filter:FiltrationFineness, Double, 0, 0 ]
       - HasModellingRule:
@@ -1264,14 +1487,18 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
+    - DisplayName: "HydraulicPressure"
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6143, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
+      - DisplayName: "ActualValue"
+      - Description: "Actual value of the monitored parameter"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6204, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6143, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
@@ -1280,6 +1507,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6144, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6143, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
         - HasModellingRule:
@@ -1290,10 +1518,13 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6145, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
+      - DisplayName: "AlarmSuppression"
+      - Description: "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6146, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6145, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
@@ -1306,6 +1537,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6147, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1314,6 +1546,8 @@ DefinedTypes:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6145, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6148, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
+      - DisplayName: "AutomaticMonitoring"
+      - Description: "Determination if monitoring tolerance parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
       - HasModellingRule:
@@ -1322,8 +1556,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5008, PlasticsRubber.GeneralTypes:ClosedLoopControl ]
+      - DisplayName: "ClosedLoopControl"
+      - Description: "With this type the client can do settings for the closed loop control on the device for a parameter"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6206, PlasticsRubber.GeneralTypes:AutomaticControllerMode, Boolean, 0, 3 ]
+        - DisplayName: "AutomaticControllerMode"
+        - Description: "Determination if PID Parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5008, PlasticsRubber.GeneralTypes:ClosedLoopControl ]
         - HasModellingRule:
@@ -1332,6 +1570,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6205, PlasticsRubber.GeneralTypes:AutoTuningActive, Boolean, 0, 0 ]
+        - DisplayName: "AutoTuningActive"
+        - Description: "Informs if the automatic tuning is currently active"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5008, PlasticsRubber.GeneralTypes:ClosedLoopControl ]
         - HasModellingRule:
@@ -1340,12 +1580,16 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7007, PlasticsRubber.GeneralTypes:AutoTuningOff ]
+        - DisplayName: "AutoTuningOff"
+        - Description: "Stops an already active self-optimisation process (no control parameters are changed)"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5008, PlasticsRubber.GeneralTypes:ClosedLoopControl ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7008, PlasticsRubber.GeneralTypes:AutoTuningOn ]
+        - DisplayName: "AutoTuningOn"
+        - Description: "Starts the self-optimisation of the controller"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5008, PlasticsRubber.GeneralTypes:ClosedLoopControl ]
         - HasModellingRule:
@@ -1358,6 +1602,8 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6207, PlasticsRubber.GeneralTypes:PIDParameters, PlasticsRubber.GeneralTypes:PIDParametersDataType, 1, 3 ]
+        - DisplayName: "PIDParameters"
+        - Description: "PID Parameters as array if several input signals (sensors) are used for the control"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty_reverse:
@@ -1366,6 +1612,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6077, PlasticsRubber.GeneralTypes:ControlMode, PlasticsRubber.GeneralTypes:ControlModeEnumeration, 0, 0 ]
+      - DisplayName: "ControlMode"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
       - HasModellingRule:
@@ -1376,6 +1623,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6080, PlasticsRubber.GeneralTypes:Id, String, 0, 0 ]
+      - DisplayName: "Id"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
       - HasModellingRule:
@@ -1384,6 +1632,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6142, PlasticsRubber.GeneralTypes:IsPresent, Boolean, 0, 0 ]
+      - DisplayName: "IsPresent"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
       - HasModellingRule:
@@ -1392,10 +1641,13 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6163, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
+      - DisplayName: "LowerTolerance"
+      - Description: "Lower relative tolerance value of the process parameter"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6208, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6163, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -1404,6 +1656,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6164, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6163, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -1416,10 +1669,13 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6170, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
+      - DisplayName: "LowerTolerance2"
+      - Description: "Second lower relative tolerance value of the process parameter"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6209, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6170, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -1428,6 +1684,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6171, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6170, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -1440,8 +1697,11 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5015, PlasticsRubber.GeneralTypes:Maintenance ]
+      - DisplayName: "Maintenance"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6210, PlasticsRubber.GeneralTypes:AdditionalInformation, String, 0, 0 ]
+        - DisplayName: "AdditionalInformation"
+        - Description: "Additional information on the necessary maintenance. Can be also a link to another document."
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5015, PlasticsRubber.GeneralTypes:Maintenance ]
         - HasModellingRule:
@@ -1450,10 +1710,13 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6211, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
+        - DisplayName: "Interval"
+        - Description: "Regular interval between two maintenances"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6212, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6211, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -1462,6 +1725,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6213, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6211, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -1480,10 +1744,13 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6214, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
+        - DisplayName: "RemainingInterval"
+        - Description: "Interval before next maintenance is due"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6215, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6214, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -1492,6 +1759,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6216, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6214, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -1504,12 +1772,16 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5015, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7002, PlasticsRubber.GeneralTypes:Reset ]
+        - DisplayName: "Reset"
+        - Description: "This Method sets the CurrentInterval to 0 and Status to NOT_DUE_0"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5015, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6177, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration, 0, 0 ]
+        - DisplayName: "Status"
+        - Description: "Maintenance status of the machine/device/component (represented by the parent element)"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1518,10 +1790,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5015, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6217, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
+        - DisplayName: "TotalOperation"
+        - Description: "How long is the component running in total"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6218, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6217, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -1530,6 +1805,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6219, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6217, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -1542,10 +1818,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5015, PlasticsRubber.GeneralTypes:Maintenance ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6178, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
+      - DisplayName: "MaxValue"
+      - Description: "Maximum absolute value of the process parameter"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6220, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6178, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1554,6 +1833,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6185, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6178, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1568,10 +1848,13 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1064, PlasticsRubber.GeneralTypes:MeasuringDeviceType ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6186, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
+      - DisplayName: "MinValue"
+      - Description: "Minimum absolute value of the process parameter"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6221, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6186, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1580,6 +1863,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6187, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6186, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1592,8 +1876,11 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6188, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
+      - DisplayName: "MonitoringSensitivity"
+      - Description: "Defines how closely the tolerances are set during the automatic limit setting"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6189, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6188, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
         - HasModellingRule:
@@ -1608,6 +1895,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6190, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1616,6 +1904,7 @@ DefinedTypes:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6188, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6191, PlasticsRubber.GeneralTypes:Name, LocalizedText, 0, 0 ]
+      - DisplayName: "Name"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
       - HasModellingRule:
@@ -1626,6 +1915,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6192, PlasticsRubber.GeneralTypes:Position, String, 0, 0 ]
+      - DisplayName: "Position"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
@@ -1634,16 +1924,21 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.Extrusion.Filter:7005, PlasticsRubber.GeneralTypes:ResetMonitoring ]
+      - DisplayName: "ResetMonitoring"
+      - Description: "With this method the tolerance values are set according to the actual value and the set monitoring sensitivity"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6193, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 3 ]
+      - DisplayName: "SetRampDown"
+      - Description: "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6273, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6193, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 3 ]
         - HasModellingRule:
@@ -1652,6 +1947,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6194, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6193, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 3 ]
         - HasModellingRule:
@@ -1664,10 +1960,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6195, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 3 ]
+      - DisplayName: "SetRampUp"
+      - Description: "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6278, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6195, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 3 ]
         - HasModellingRule:
@@ -1676,6 +1975,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6196, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6195, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 3 ]
         - HasModellingRule:
@@ -1688,10 +1988,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6197, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
+      - DisplayName: "SetValue"
+      - Description: "Set/nominal/target value of the monitored parameter"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6279, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6197, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1700,6 +2003,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6198, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6197, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1712,10 +2016,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5016, PlasticsRubber.GeneralTypes:StartDevice ]
+      - DisplayName: "StartDevice"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6283, PlasticsRubber.GeneralTypes:StartBlockedByClient, Boolean, 0, 3 ]
+        - DisplayName: "StartBlockedByClient"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1728,12 +2034,14 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, PlasticsRubber.GeneralTypes:StartDeviceType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7009, PlasticsRubber.GeneralTypes:StartRequest ]
+        - DisplayName: "StartRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5016, PlasticsRubber.GeneralTypes:StartDevice ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6199, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:StartEnumeration, 0, 0 ]
+        - DisplayName: "Status"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1742,16 +2050,20 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5016, PlasticsRubber.GeneralTypes:StartDevice ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7011, PlasticsRubber.GeneralTypes:StopRequest ]
+        - DisplayName: "StopRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5016, PlasticsRubber.GeneralTypes:StartDevice ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6200, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
+      - DisplayName: "UpperTolerance"
+      - Description: "Upper relative tolerance value of the process parameter"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6280, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6200, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -1760,6 +2072,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6201, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6200, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -1772,10 +2085,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6202, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
+      - DisplayName: "UpperTolerance2"
+      - Description: "Second upper relative tolerance value of the process parameter"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6281, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6202, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -1784,6 +2100,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6203, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6202, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -1796,6 +2113,7 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5001, PlasticsRubber.Extrusion.Filter:MeltPressureZones ]
+    - DisplayName: "MeltPressureZones"
     - GeneratesEvent:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasTypeDefinition:
@@ -1804,6 +2122,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6001, PlasticsRubber.Extrusion.Filter:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1814,6 +2133,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5011, PlasticsRubber.Extrusion.Filter:MeltTemperatureZones ]
+    - DisplayName: "MeltTemperatureZones"
     - GeneratesEvent:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasTypeDefinition:
@@ -1822,6 +2142,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6149, PlasticsRubber.Extrusion.Filter:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1832,14 +2153,17 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
+    - DisplayName: "SpecificWasteOutput"
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6016, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
+      - DisplayName: "ActualValue"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6045, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6016, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
         - HasModellingRule:
@@ -1848,6 +2172,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6018, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6016, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
         - HasModellingRule:
@@ -1858,10 +2183,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6046, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
+      - DisplayName: "AlarmSuppression"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6047, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6046, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
@@ -1874,6 +2201,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6048, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1882,6 +2210,7 @@ DefinedTypes:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6046, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6049, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
+      - DisplayName: "AutomaticMonitoring"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
       - HasModellingRule:
@@ -1890,10 +2219,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6050, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
+      - DisplayName: "LowerTolerance"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6222, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6050, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -1902,6 +2233,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6051, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6050, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -1914,10 +2246,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6052, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
+      - DisplayName: "LowerTolerance2"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6223, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6052, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -1926,6 +2260,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6053, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6052, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -1938,10 +2273,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6054, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
+      - DisplayName: "MaxValue"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6224, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6054, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1950,6 +2287,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6055, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6054, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1962,10 +2300,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6056, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
+      - DisplayName: "MinValue"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6225, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6056, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1974,6 +2314,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6057, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6056, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -1988,8 +2329,10 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6058, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
+      - DisplayName: "MonitoringSensitivity"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6059, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6058, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
         - HasModellingRule:
@@ -2004,6 +2347,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6060, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2014,16 +2358,19 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.Extrusion.Filter:7004, PlasticsRubber.GeneralTypes:ResetMonitoring ]
+      - DisplayName: "ResetMonitoring"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6061, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
+      - DisplayName: "SetRampDown"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6226, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6061, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
@@ -2032,6 +2379,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6062, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6061, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
@@ -2044,10 +2392,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6063, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
+      - DisplayName: "SetRampUp"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6227, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6063, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
@@ -2056,6 +2406,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6064, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6063, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
@@ -2068,10 +2419,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6065, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
+      - DisplayName: "SetValue"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6228, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6065, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -2080,6 +2433,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6066, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6065, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -2094,10 +2448,12 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6067, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
+      - DisplayName: "UpperTolerance"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6229, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6067, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -2106,6 +2462,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6068, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6067, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -2118,10 +2475,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6069, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
+      - DisplayName: "UpperTolerance2"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6230, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6069, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -2130,6 +2489,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6070, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6069, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -2142,14 +2502,17 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5005, PlasticsRubber.Extrusion.Filter:TemperatureZones ]
+    - DisplayName: "TemperatureZones"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1017, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionTemperatureZonesType ]
     - GeneratesEvent:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5009, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
+      - DisplayName: "Maintenance"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6132, PlasticsRubber.GeneralTypes:AdditionalInformation, String, 0, 0 ]
+        - DisplayName: "AdditionalInformation"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5009, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
         - HasModellingRule:
@@ -2158,10 +2521,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6133, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
+        - DisplayName: "Interval"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6134, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6133, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -2170,6 +2535,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6135, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6133, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -2188,10 +2554,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6136, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
+        - DisplayName: "RemainingInterval"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6137, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6136, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -2200,6 +2568,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6138, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6136, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -2212,12 +2581,14 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5009, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7001, PlasticsRubber.GeneralTypes:Reset ]
+        - DisplayName: "Reset"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5009, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6015, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration, 0, 0 ]
+        - DisplayName: "Status"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2226,10 +2597,12 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5009, PlasticsRubber.Extrusion.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6240, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
+        - DisplayName: "TotalOperation"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6241, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6240, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -2238,6 +2611,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6242, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion.Filter:6240, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -2252,6 +2626,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6014, PlasticsRubber.Extrusion.Filter:NodeVersion, Double, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -2260,10 +2635,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion.Filter:5010, PlasticsRubber.Extrusion.GeneralTypes:StartTempering ]
+      - DisplayName: "StartTempering"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6284, PlasticsRubber.GeneralTypes:StartBlockedByClient, Boolean, 0, 3 ]
+        - DisplayName: "StartBlockedByClient"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -2274,6 +2651,7 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, PlasticsRubber.GeneralTypes:StartDeviceType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7015, PlasticsRubber.GeneralTypes:StartRequest ]
+        - DisplayName: "StartRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
@@ -2282,6 +2660,7 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5005, PlasticsRubber.Extrusion.Filter:TemperatureZones ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6017, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:StartEnumeration, 0, 0 ]
+        - DisplayName: "Status"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2290,6 +2669,7 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion.Filter:5010, PlasticsRubber.Extrusion.GeneralTypes:StartTempering ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion.Filter:7016, PlasticsRubber.GeneralTypes:StopRequest ]
+        - DisplayName: "StopRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
@@ -2298,14 +2678,17 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
+    - DisplayName: "WasteOutput"
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6007, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
+      - DisplayName: "ActualValue"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6019, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6007, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
         - HasModellingRule:
@@ -2314,6 +2697,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6008, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6007, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 5 ]
         - HasModellingRule:
@@ -2324,10 +2708,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6020, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
+      - DisplayName: "AlarmSuppression"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6021, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6020, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
@@ -2340,6 +2726,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6022, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2348,6 +2735,7 @@ DefinedTypes:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6020, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6023, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
+      - DisplayName: "AutomaticMonitoring"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
       - HasModellingRule:
@@ -2356,10 +2744,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6024, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
+      - DisplayName: "LowerTolerance"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6243, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6024, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -2368,6 +2758,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6025, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6024, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -2380,10 +2771,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6026, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
+      - DisplayName: "LowerTolerance2"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6244, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6026, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -2392,6 +2785,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6027, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6026, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -2404,10 +2798,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6028, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
+      - DisplayName: "MaxValue"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6245, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6028, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -2416,6 +2812,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6029, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6028, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -2428,10 +2825,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6030, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
+      - DisplayName: "MinValue"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6246, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6030, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -2440,6 +2839,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6031, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6030, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -2454,8 +2854,10 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6032, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
+      - DisplayName: "MonitoringSensitivity"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6033, PlasticsRubber.Extrusion.Filter:EnumValues, EnumValueType, 1, 0 ]
+        - DisplayName: "EnumValues"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6032, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 0 ]
         - HasModellingRule:
@@ -2470,6 +2872,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6034, PlasticsRubber.Extrusion.Filter:ValueAsText, LocalizedText, 0, 0 ]
+        - DisplayName: "ValueAsText"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2480,16 +2883,19 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.Extrusion.Filter:7003, PlasticsRubber.GeneralTypes:ResetMonitoring ]
+      - DisplayName: "ResetMonitoring"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6035, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
+      - DisplayName: "SetRampDown"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6247, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6035, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
@@ -2498,6 +2904,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6036, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6035, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
@@ -2510,10 +2917,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6037, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
+      - DisplayName: "SetRampUp"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6248, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6037, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
@@ -2522,6 +2931,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6038, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6037, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
@@ -2534,10 +2944,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6039, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
+      - DisplayName: "SetValue"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6249, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6039, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -2546,6 +2958,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6040, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6039, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
         - HasModellingRule:
@@ -2558,10 +2971,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6041, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
+      - DisplayName: "UpperTolerance"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6250, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6041, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -2570,6 +2985,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6042, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6041, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
@@ -2582,10 +2998,12 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6043, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
+      - DisplayName: "UpperTolerance2"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6251, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6043, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -2594,6 +3012,7 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6044, PlasticsRubber.Extrusion.Filter:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6043, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
@@ -2609,14 +3028,17 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.Filter:FilterPackageType:
   - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, PlasticsRubber.Extrusion.Filter:FilterPackageType ]
+  - DisplayName: "FilterPackageType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6166, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
+    - DisplayName: "Area"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, PlasticsRubber.Extrusion.Filter:FilterPackageType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6013, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2627,6 +3049,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6169, PlasticsRubber.Extrusion.Filter:BackflushCounter, UInt32, 0, 0 ]
+    - DisplayName: "BackflushCounter"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, PlasticsRubber.Extrusion.Filter:FilterPackageType ]
     - HasModellingRule:
@@ -2635,6 +3058,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6168, PlasticsRubber.Extrusion.Filter:BackflushTime, Duration, 0, 3 ]
+    - DisplayName: "BackflushTime"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, PlasticsRubber.Extrusion.Filter:FilterPackageType ]
     - HasModellingRule:
@@ -2645,6 +3069,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6276, PlasticsRubber.Extrusion.Filter:Name, LocalizedText, 0, 0 ]
+    - DisplayName: "Name"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
@@ -2653,14 +3078,17 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5013, PlasticsRubber.Extrusion.Filter:ScreenPackage_<Nr> ]
+    - DisplayName: "ScreenPackage_<Nr>"
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6157, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
+      - DisplayName: "Area"
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5013, PlasticsRubber.Extrusion.Filter:ScreenPackage_<Nr> ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6167, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasProperty_reverse:
           - [ UAVariable, PlasticsRubber.Extrusion.Filter:6157, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
         - HasModellingRule:
@@ -2671,6 +3099,7 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6152, PlasticsRubber.Extrusion.Filter:Name, LocalizedText, 0, 0 ]
+      - DisplayName: "Name"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -2681,6 +3110,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6175, PlasticsRubber.Extrusion.Filter:PackageSetup, String, 0, 0 ]
+      - DisplayName: "PackageSetup"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty_reverse:
@@ -2693,6 +3123,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1003, PlasticsRubber.Extrusion.Filter:ScreenPackageType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6176, PlasticsRubber.Extrusion.Filter:SerialNr, String, 0, 0 ]
+      - DisplayName: "SerialNr"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2701,6 +3132,7 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion.Filter:5013, PlasticsRubber.Extrusion.Filter:ScreenPackage_<Nr> ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6165, PlasticsRubber.Extrusion.Filter:Status, PlasticsRubber.Extrusion.Filter:FilterPackageStatusEnumeration, 0, 0 ]
+    - DisplayName: "Status"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2710,14 +3142,17 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.Filter:ScreenPackageType:
   - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1003, PlasticsRubber.Extrusion.Filter:ScreenPackageType ]
+  - DisplayName: "ScreenPackageType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6155, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
+    - DisplayName: "Area"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1003, PlasticsRubber.Extrusion.Filter:ScreenPackageType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.Filter:6156, PlasticsRubber.Extrusion.Filter:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.Extrusion.Filter:6155, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
       - HasModellingRule:
@@ -2728,6 +3163,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6151, PlasticsRubber.Extrusion.Filter:Name, LocalizedText, 0, 0 ]
+    - DisplayName: "Name"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
@@ -2736,6 +3172,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6153, PlasticsRubber.Extrusion.Filter:PackageSetup, String, 0, 0 ]
+    - DisplayName: "PackageSetup"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
@@ -2746,6 +3183,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6154, PlasticsRubber.Extrusion.Filter:SerialNr, String, 0, 0 ]
+    - DisplayName: "SerialNr"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:

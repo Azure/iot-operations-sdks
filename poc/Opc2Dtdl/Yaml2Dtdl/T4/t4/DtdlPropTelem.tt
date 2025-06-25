@@ -6,6 +6,12 @@
       {
         "@type": [ "<#=this.classType#>", <#=this.GetCotypes(null)#> ],
         "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
+<# if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { #>
+        "displayName": "<#=this.definedType.DisplayName#>",
+<# } #>
+<# if (this.definedType.Description != null && this.definedType.Description != string.Empty) { #>
+        "description": "<#=this.definedType.Description#>",
+<# } #>
         "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
 <# if (this.SubVars.Count == 0) { #>
 <# if (this.TryGetUnitInfo(null, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { #>
@@ -19,6 +25,12 @@
             {
               "@type": [ "Field", "Subject", <#=this.GetCotypes(this.definedType)#> ],
               "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
+<# if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { #>
+              "displayName": "<#=this.definedType.DisplayName#>",
+<# } #>
+<# if (this.definedType.Description != null && this.definedType.Description != string.Empty) { #>
+              "description": "<#=this.definedType.Description#>",
+<# } #>
               "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
 <# if (this.TryGetUnitInfo(this.definedType, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { #>
               "unit": "<#=unitInfo.Item2#>",
@@ -29,6 +41,12 @@
             {
               "@type": [ "Field", <#=this.GetCotypes(subVar)#> ],
               "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(subVar.BrowseName)))#>",
+<# if (subVar.DisplayName != null && subVar.DisplayName != string.Empty) { #>
+              "displayName": "<#=subVar.DisplayName#>",
+<# } #>
+<# if (subVar.Description != null && subVar.Description != string.Empty) { #>
+              "description": "<#=subVar.Description#>",
+<# } #>
               "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))#>",
 <# if (this.TryGetUnitInfo(subVar, out unitInfo)) { #>
               "unit": "<#=unitInfo.Item2#>",

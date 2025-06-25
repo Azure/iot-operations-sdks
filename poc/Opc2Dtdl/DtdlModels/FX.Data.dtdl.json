@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:FX_Data:AuditUpdateMethodResultEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AuditUpdateMethodResultEventType",
     "extends": "dtmi:opcua:OpcUaCore:AuditUpdateMethodEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1025",
     "payloadFormat": "Json/ecma/404",

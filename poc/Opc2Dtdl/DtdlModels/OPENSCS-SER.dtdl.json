@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OPENSCSAggregationManagerObjectType",
+    "description": "The aggregation manager receives unsolicited events through the aggregation methods. The aggregation methods have the same method signature.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15094",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSAggregationManagerObjectType/{commandName}",
@@ -20,6 +22,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSAggregationDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSAggregationDataType",
+        "description": "Iidentifies a parent element and a collection of packed elements. This is used in the aggregation packing and unpacking methods.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3002",
         "fields": [
           {
@@ -37,6 +41,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSKeyValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSKeyValueDataType",
+        "description": "A string defining the key for the pair",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
         "fields": [
           {
@@ -54,6 +60,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSReturnEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "OPENSCSReturnEnum",
+        "description": "Undefined value, should never be seen.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
         "valueSchema": "integer",
         "enumValues": [
@@ -110,6 +118,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSLabelDataType",
+        "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3003",
         "fields": [
           {
@@ -130,6 +140,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSLabelCollectionDataType",
+        "description": "The collections of labels with serial numbers.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15006",
         "fields": [
           {
@@ -155,6 +167,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaxAggregationEvents",
+        "displayName": "MaxAggregationEvents",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "unsignedInteger",
         "writable": false
@@ -162,6 +175,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AggregationPackingEvent",
+        "displayName": "AggregationPackingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -216,6 +230,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AggregationUnpackingEvent",
+        "displayName": "AggregationUnpackingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -281,6 +296,7 @@
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OPENSCSEventManagerObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15062",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSEventManagerObjectType/{commandName}",
@@ -290,6 +306,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSLabelCollectionDataType",
+        "description": "The collections of labels with serial numbers.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15006",
         "fields": [
           {
@@ -313,6 +331,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSKeyValueDataType",
+        "description": "A string defining the key for the pair",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
         "fields": [
           {
@@ -330,6 +350,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "OPENSCSReturnEnum",
+        "description": "Undefined value, should never be seen.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
         "valueSchema": "integer",
         "enumValues": [
@@ -386,6 +408,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSCollectionDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSCollectionDataType",
+        "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15005",
         "fields": [
           {
@@ -421,6 +445,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "OPENSCSSerialNumberStateEnum",
+        "description": "The Serial Number has not been assigned to production or a packaging run.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15143",
         "valueSchema": "integer",
         "enumValues": [
@@ -477,6 +503,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSLabelDataType",
+        "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3003",
         "fields": [
           {
@@ -499,6 +527,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaxEPCISaggregationEvents",
+        "displayName": "MaxEPCISaggregationEvents",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "unsignedInteger",
         "writable": true
@@ -506,6 +535,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaxEPCISObjectEventSIDs",
+        "displayName": "MaxEPCISObjectEventSIDs",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "unsignedInteger",
         "writable": true
@@ -513,6 +543,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaxEvents",
+        "displayName": "MaxEvents",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "unsignedInteger",
         "writable": false
@@ -520,6 +551,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "LabelsEncodingEvent",
+        "displayName": "LabelsEncodingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -566,6 +598,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "LabelsInspectingEvent",
+        "displayName": "LabelsInspectingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -612,6 +645,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "LabelsSamplingEvent",
+        "displayName": "LabelsSamplingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -658,6 +692,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "LabelsScrappingEvent",
+        "displayName": "LabelsScrappingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -704,6 +739,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SIDCommissioningEvent",
+        "displayName": "SIDCommissioningEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -750,6 +786,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SIDDecommissioningEvent",
+        "displayName": "SIDDecommissioningEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -796,6 +833,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SIDDestroyingEvent",
+        "displayName": "SIDDestroyingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -842,6 +880,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SIDInspectingEvent",
+        "displayName": "SIDInspectingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -888,6 +927,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SIDShippingEvent",
+        "displayName": "SIDShippingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -934,6 +974,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNInvalidatingEvent",
+        "displayName": "SNInvalidatingEvent",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -981,6 +1022,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EPCISStream",
+        "displayName": "EPCISStream",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "target": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType"
       }
@@ -998,6 +1040,7 @@
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OPENSCSPoolManagerObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15032",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSPoolManagerObjectType/{commandName}",
@@ -1007,6 +1050,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSKeyValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSKeyValueDataType",
+        "description": "A string defining the key for the pair",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
         "fields": [
           {
@@ -1024,6 +1069,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "OPENSCSReturnEnum",
+        "description": "Undefined value, should never be seen.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
         "valueSchema": "integer",
         "enumValues": [
@@ -1080,6 +1127,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSCollectionDataType",
+        "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15005",
         "fields": [
           {
@@ -1115,6 +1164,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "OPENSCSSerialNumberStateEnum",
+        "description": "The Serial Number has not been assigned to production or a packaging run.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15143",
         "valueSchema": "integer",
         "enumValues": [
@@ -1173,6 +1224,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaxSNPushable",
+        "displayName": "MaxSNPushable",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "unsignedInteger",
         "writable": false
@@ -1180,6 +1232,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaxSNRequestable",
+        "displayName": "MaxSNRequestable",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "unsignedInteger",
         "writable": false
@@ -1187,6 +1240,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaxSNReturnable",
+        "displayName": "MaxSNReturnable",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "unsignedInteger",
         "writable": false
@@ -1194,6 +1248,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PoolSelectionCriteria",
+        "displayName": "PoolSelectionCriteria",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": {
           "@type": "Array",
@@ -1204,6 +1259,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SNFormat",
+        "displayName": "SNFormat",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": {
           "@type": "Array",
@@ -1214,6 +1270,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNRequestAllocated",
+        "displayName": "SNRequestAllocated",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1280,6 +1337,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNRequestUnallocated",
+        "displayName": "SNRequestUnallocated",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1346,6 +1404,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNRequestUnassigned",
+        "displayName": "SNRequestUnassigned",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1412,6 +1471,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNReturnAllocated",
+        "displayName": "SNReturnAllocated",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1458,6 +1518,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNReturnUnallocated",
+        "displayName": "SNReturnUnallocated",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1504,6 +1565,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNtoAllocated",
+        "displayName": "SNtoAllocated",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1550,6 +1612,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNtoEncoded",
+        "displayName": "SNtoEncoded",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1596,6 +1659,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SNtoUnallocated",
+        "displayName": "SNtoUnallocated",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1653,6 +1717,7 @@
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OPENSCSSIDClassObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15102",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSSIDClassObjectType/{commandName}",
@@ -1662,6 +1727,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType:dataType:OPENSCSSIDClassPropertyDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSSIDClassPropertyDataType",
+        "description": "An identification of the SID Class Property.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15009",
         "fields": [
           {
@@ -1692,6 +1759,8 @@
       {
         "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType:dataType:OPENSCSLabelPropertyDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OPENSCSLabelPropertyDataType",
+        "description": "The identification of a property associated with a label.",
         "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15007",
         "fields": [
           {
@@ -1716,6 +1785,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AllowedCharacterSet",
+        "displayName": "AllowedCharacterSet",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "string",
         "writable": false
@@ -1723,6 +1793,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IntendedUse",
+        "displayName": "IntendedUse",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "string",
         "writable": false
@@ -1730,6 +1801,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SIDClassDescription",
+        "displayName": "SIDClassDescription",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "string",
         "writable": false
@@ -1737,6 +1809,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SIDClassID",
+        "displayName": "SIDClassID",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "string",
         "writable": false
@@ -1744,6 +1817,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SIDClassOwner",
+        "displayName": "SIDClassOwner",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "string",
         "writable": false
@@ -1751,6 +1825,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SIDClassProperty",
+        "displayName": "SIDClassProperty",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": {
           "@type": "Array",
@@ -1761,6 +1836,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SyntaxSpecification",
+        "displayName": "SyntaxSpecification",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
         "schema": "string",
         "writable": false

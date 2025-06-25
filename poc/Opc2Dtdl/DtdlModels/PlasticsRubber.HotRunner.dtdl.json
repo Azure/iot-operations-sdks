@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ZoneAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ZoneAlarmType",
+    "description": "Represent zone-related text messages of an HRD",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -31,6 +33,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ControllerType",
+    "description": "Configuration and operation of the zone controller",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1005",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/ControllerType/{commandName}",
@@ -40,6 +44,7 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType:dataType:ControllerTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "ControllerTypeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -78,6 +83,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ActualType",
+        "displayName": "ActualType",
+        "description": "Actual value for the controller type used by the zone",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType:dataType:ControllerTypeEnumeration;1",
         "writable": false
@@ -85,6 +92,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ActualValueActive",
+        "displayName": "ActualValueActive",
+        "description": "Indicates the current status of the controller",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "boolean",
         "writable": false
@@ -92,6 +101,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AutomaticReferenceZoneSelection",
+        "displayName": "AutomaticReferenceZoneSelection",
+        "description": "If true, the HRD selects automatically the reference zone.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "boolean",
         "writable": true
@@ -99,6 +110,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OutputTime",
+        "displayName": "OutputTime",
+        "description": "Time basis for operating the actuator",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "duration",
         "writable": true
@@ -106,6 +119,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ReferenceZone",
+        "displayName": "ReferenceZone",
+        "description": "If zones are to operate parallel to a control zone, the reference relation can be realised with this parameter.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedInteger",
         "writable": true
@@ -113,6 +128,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SetValueActive",
+        "displayName": "SetValueActive",
+        "description": "A control zone is switched on and off with this parameter.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "boolean",
         "writable": true
@@ -120,42 +137,56 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualOutput",
+        "displayName": "ActualOutput",
+        "description": "Indicates the currently active output in percent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AverageControllerOutput",
+        "displayName": "AverageControllerOutput",
+        "description": "Indicates the average output which can be used when a sensor is broken",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LowerOutput",
+        "displayName": "LowerOutput",
+        "description": "Limitation of the minimum output in closed-loop control in %",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetValueManualOutput",
+        "displayName": "SetValueManualOutput",
+        "description": "Manually given output in percent if SetValueType = MANUAL is selected",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetValueType",
+        "displayName": "SetValueType",
+        "description": "Set value for the controller type used by the zone",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UpperOutput",
+        "displayName": "UpperOutput",
+        "description": "Limitation of the maximum output in closed-loop control in %",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UpperSetValueCascade",
+        "displayName": "UpperSetValueCascade",
+        "description": "If the two controllers are cascaded, the master defines to which nominal temperature value the slave is to control to. With this parameter, the upper limit for the slave is defined.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
@@ -163,6 +194,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LoadCurrent",
+        "displayName": "LoadCurrent",
+        "description": "Information about the load current in Ampere",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
@@ -170,6 +203,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LoadPower",
+        "displayName": "LoadPower",
+        "description": "Information about the load power in Watt",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
@@ -187,6 +222,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HeatUpType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "HeatUpType",
+    "description": "Alternative to the SetRamp functionality of MonitoredParameterType defined in OPC 40083. With HeatUpType, it can be pre-defined how the control circuit is to be operated when it is switched on for the next time; with or without heat-up process.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1004",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/HeatUpType/{commandName}",
@@ -198,6 +235,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EvenHeatUpEnabled",
+        "displayName": "EvenHeatUpEnabled",
+        "description": "Enables even heat-up process until nominal SetValue of Temperature of ZoneType is reached",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "boolean",
         "writable": true
@@ -205,6 +244,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ManualOutputLimitActive",
+        "displayName": "ManualOutputLimitActive",
+        "description": "Activates heat-up process with pre-defined SetValueManualOutputLimit until SetValueTemperature is reached",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "boolean",
         "writable": true
@@ -212,6 +253,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RelayHeatingGroup",
+        "displayName": "RelayHeatingGroup",
+        "description": "Number of the heating group for relay heating",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedByte",
         "writable": true
@@ -219,6 +262,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RelayHeatingTime",
+        "displayName": "RelayHeatingTime",
+        "description": "Time for relay heating of the zone. When RelayHeatingTime of all zones of a heating group have expired, the next group starts heating.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "duration",
         "writable": true
@@ -226,12 +271,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetValueManualOutputLimit",
+        "displayName": "SetValueManualOutputLimit",
+        "description": "This pre-defined maximum output (in percent) is valid until the SetValueTemperature is reached.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetValueTemperature",
+        "displayName": "SetValueTemperature",
+        "description": "If ManualOutputLimitActive is set, SetValueManualOutputLimit is active until this nominal temperature value is reached.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       }
@@ -249,6 +298,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRD_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "HRD_InterfaceType",
+    "description": "Root ObjectType representing a hot runner device with its subcomponents",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1010",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/HRD_InterfaceType/{commandName}",
@@ -260,6 +311,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DisplayLanguage",
+        "displayName": "DisplayLanguage",
+        "description": "Setting of desired language on the user interface at the HRD",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "string",
         "writable": true
@@ -268,6 +321,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Diagnostics",
+        "displayName": "Diagnostics",
+        "description": "Diagnosis functions to check, for example, the wiring to the heating system or the sensor and heater allocation",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType"
       },
@@ -275,6 +330,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Identification",
+        "displayName": "Identification",
+        "description": "Identification of the device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
       },
@@ -282,6 +339,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineConfiguration",
+        "displayName": "MachineConfiguration",
+        "description": "Current configuration of the hot runner device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
@@ -289,6 +348,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MaintenanceInformation",
+        "displayName": "MaintenanceInformation",
+        "description": "Information about the maintenance status of various parts of a hot runner device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:MaintenanceInformationType"
       },
@@ -296,6 +357,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Operation",
+        "displayName": "Operation",
+        "description": "Contains components which are necessary to operate the HRD",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType"
       },
@@ -303,6 +366,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Zones",
+        "displayName": "Zones",
+        "description": "Container for the zones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:ZonesType"
       }
@@ -320,6 +385,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:MaintenanceInformationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MaintenanceInformationType",
+    "description": "Information about the maintenance status of various parts of a hot runner device",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1007",
     "payloadFormat": "Json/ecma/404",
@@ -330,6 +397,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CoolingFan",
+        "displayName": "CoolingFan",
+        "description": "Information about the maintenance status of the cooling fan",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
@@ -337,6 +406,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Heating",
+        "displayName": "Heating",
+        "description": "Information about the maintenance status of the heating",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
@@ -344,6 +415,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SafetyTest",
+        "displayName": "SafetyTest",
+        "description": "Information about the maintenance status of the safety test",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       }
@@ -361,6 +434,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "HRDTemperatureType",
+    "description": "Used for setting and monitoring the temperatures in a HRD",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1011",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/HRDTemperatureType/{commandName}",
@@ -370,6 +445,8 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType:dataType:TimeMethodPIDParametersDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeMethodPIDParametersDataType",
+        "description": "proportional band",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=3005",
         "fields": [
           {
@@ -399,6 +476,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "BoostTime",
+        "displayName": "BoostTime",
+        "description": "Duration of the boost mode after which the set value which was active before boost is becoming active again",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "duration",
         "writable": true
@@ -406,6 +485,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TimeMethodPIDParameters",
+        "displayName": "TimeMethodPIDParameters",
+        "description": "Setting of PID parameters with time method",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": {
           "@type": "Array",
@@ -416,24 +497,32 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActiveSetValue",
+        "displayName": "ActiveSetValue",
+        "description": "Current active set temperature for the temperature zone",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BoostSetValue",
+        "displayName": "BoostSetValue",
+        "description": "Set value for boost mode",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SecondSetValue",
+        "displayName": "SecondSetValue",
+        "description": "Second set value for fast switch-over",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StandbySetValue",
+        "displayName": "StandbySetValue",
+        "description": "Set value for standby mode",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       }
@@ -451,6 +540,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OperationType",
+    "description": "Contains components which are necessary to operate the HRD",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1009",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/OperationType/{commandName}",
@@ -460,6 +551,8 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType:dataType:ClassifiedActiveErrorDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ClassifiedActiveErrorDataType",
+        "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3003",
         "fields": [
           {
@@ -482,6 +575,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceMappingNumber",
+        "displayName": "DeviceMappingNumber",
+        "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedInteger",
         "writable": true
@@ -489,6 +584,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnablePower",
+        "displayName": "EnablePower",
+        "description": "Global power control switch for all zone controllers",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "boolean",
         "writable": true
@@ -496,6 +593,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "HighestActiveAlarmSeverity",
+        "displayName": "HighestActiveAlarmSeverity",
+        "description": "Indication of the severity of the highest active alarm",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedShort",
         "writable": false
@@ -503,6 +602,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SessionNameForReactionOnDisconnect",
+        "displayName": "SessionNameForReactionOnDisconnect",
+        "description": "Contains the sessionName of the connection with the client relevant for ReactionOnDisconnect",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "string",
         "writable": false
@@ -510,6 +611,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActiveErrors",
+        "displayName": "ActiveErrors",
+        "description": "List of the active errors of the device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": {
           "@type": "Array",
@@ -519,34 +622,46 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActiveSetValues",
+        "displayName": "ActiveSetValues",
+        "description": "Central selection of the used set temperature for the temperature zones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EvenHeatUpMaxTemperatureDifference",
+        "displayName": "EvenHeatUpMaxTemperatureDifference",
+        "description": "Definition of the maximum temperature difference of all zones during even heat-up",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ReactionOnDisconnect",
+        "displayName": "ReactionOnDisconnect",
+        "description": "Selection of the set temperature for the temperature zones in case of a disconnection from the OPC UA client",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "IdentifyDevice",
+        "displayName": "IdentifyDevice",
+        "description": "The peripheral device on which this method is called shows itself by e.g. activation of a LED.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetAllErrors",
+        "displayName": "ResetAllErrors",
+        "description": "Method to reset all errors of the device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetErrorById",
+        "displayName": "ResetErrorById",
+        "description": "Method to reset one error of the device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -566,6 +681,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetReactionOnDisconnect",
+        "displayName": "SetReactionOnDisconnect",
+        "description": "Method to set ReactionOnDisconnect and SessionNameForReactionOnDisconnect",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -596,6 +713,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:TemperatureRiseMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TemperatureRiseMonitoringType",
+    "description": "At maximum controller output, the temperature value must change in a given time by a specified value, otherwise there is an error in the measuring circuit.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1003",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/TemperatureRiseMonitoringType/{commandName}",
@@ -607,6 +726,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ErrorDetected",
+        "displayName": "ErrorDetected",
+        "description": "Result of the TemperatureRiseMonitoring",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "boolean",
         "writable": false
@@ -614,6 +735,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SetValueActive",
+        "displayName": "SetValueActive",
+        "description": "On / Off for the TemperatureRiseMonitoring",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "boolean",
         "writable": true
@@ -621,6 +744,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SupervisionTime",
+        "displayName": "SupervisionTime",
+        "description": "Specification of the time within the temperature must have changed",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "duration",
         "writable": true
@@ -628,6 +753,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetValueTemperatureChange",
+        "displayName": "SetValueTemperatureChange",
+        "description": "Specification of the set value change",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "double"
       }
@@ -645,6 +772,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ZonesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ZonesType",
+    "description": "Container for the zones",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1008",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/ZonesType/{commandName}",
@@ -656,6 +785,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "string",
         "writable": false
@@ -663,6 +793,8 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Zone_Nr",
+        "displayName": "Zone_<Nr>",
+        "description": "A HRD zone",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:ZoneType"
       }
@@ -680,6 +812,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ZoneType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ZoneType",
+    "description": "Represents all functionalities of a heating zone, such as temperature monitoring, control, heatup",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.HotRunner;i=1006",
     "commandTopic": "opcua/PlasticsRubber_HotRunner/ZoneType/{commandName}",
@@ -691,6 +825,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "HighestActiveAlarmSeverity",
+        "displayName": "HighestActiveAlarmSeverity",
+        "description": "Indicates the severity of the highest active alarm related to the current zone",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedShort",
         "writable": false
@@ -698,6 +834,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
+        "displayName": "Name",
+        "description": "A user given name of the zone",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "string",
         "writable": true
@@ -705,12 +843,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CommunicationProtocolType",
+        "displayName": "CommunicationProtocolType",
+        "description": "Used communication protocol between the sensor and the control system of the HRD",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ThermocoupleType",
+        "displayName": "ThermocoupleType",
+        "description": "Type of connected external temperature sensor",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "schema": "unsignedShort"
       },
@@ -718,6 +860,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Controller",
+        "displayName": "Controller",
+        "description": "Setting and monitoring of the controller",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType"
       },
@@ -725,6 +869,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HeatUp",
+        "displayName": "HeatUp",
+        "description": "Setting for heat up procedure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:HeatUpType"
       },
@@ -732,6 +878,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Temperature",
+        "displayName": "Temperature",
+        "description": "Setting and monitoring of the temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType"
       },
@@ -739,6 +887,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TemperatureRiseMonitoring",
+        "displayName": "TemperatureRiseMonitoring",
+        "description": "Additional monitoring for the process temperature",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
         "target": "dtmi:opcua:PlasticsRubber_HotRunner:TemperatureRiseMonitoringType"
       }

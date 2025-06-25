@@ -9,6 +9,8 @@
 // ------------------------------------------------------------------------------
 namespace Yaml2Dtdl
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System;
     
     /// <summary>
@@ -38,10 +40,24 @@ namespace Yaml2Dtdl
             this.Write(";1\",\r\n    \"@type\": [ \"Interface\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.isEvent ? ", \"Event\"" : ""));
             this.Write(", \"Mqtt\", \"Congruence\" ],\r\n");
- foreach (string supertypeId in this.supertypeIds) { 
+ if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { 
+            this.Write("    \"displayName\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.definedType.DisplayName));
+            this.Write("\",\r\n");
+ } 
+ if (this.definedType.Description != null && this.definedType.Description != string.Empty) { 
+            this.Write("    \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.definedType.Description));
+            this.Write("\",\r\n");
+ } 
+ if (this.supertypeIds.Count == 1) { 
             this.Write("    \"extends\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(supertypeId));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.supertypeIds.First()));
             this.Write(";1\",\r\n");
+ } if (this.supertypeIds.Count > 1) { 
+            this.Write("    \"extends\": [ ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", this.supertypeIds.Select(s => $"\"{s};1\""))));
+            this.Write(" ],\r\n");
  } 
             this.Write("    \"typeRef\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.definedType.NodeId)));

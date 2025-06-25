@@ -1,9 +1,12 @@
 DataTypes:
 - UADataType: [ IOLink:3000, IOLink:EncodingEnum ]
+  DisplayName: "EncodingEnum"
   Enums:
     ASCII_0: 0
     UTF8_1: 1
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -14,25 +17,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -44,75 +54,90 @@ DefinedTypes:
 
   IOLink:IOLinkAlarmType:
   - [ UAObjectType, IOLink:1007, IOLink:IOLinkAlarmType ]
+  - DisplayName: "IOLinkAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   IOLink:IOLinkDeviceAlarmType:
   - [ UAObjectType, IOLink:1008, IOLink:IOLinkDeviceAlarmType ]
+  - DisplayName: "IOLinkDeviceAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1007, IOLink:IOLinkAlarmType ]
 
   IOLink:IOLinkIODDDeviceAlarmType:
   - [ UAObjectType, IOLink:1009, IOLink:IOLinkIODDDeviceAlarmType ]
+  - DisplayName: "IOLinkIODDDeviceAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1008, IOLink:IOLinkDeviceAlarmType ]
 
   IOLink:IOLinkMasterAlarmType:
   - [ UAObjectType, IOLink:1011, IOLink:IOLinkMasterAlarmType ]
+  - DisplayName: "IOLinkMasterAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1007, IOLink:IOLinkAlarmType ]
 
   IOLink:IOLinkPortAlarmType:
   - [ UAObjectType, IOLink:1010, IOLink:IOLinkPortAlarmType ]
+  - DisplayName: "IOLinkPortAlarmType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1007, IOLink:IOLinkAlarmType ]
 
   IOLink:IOLinkEventType:
   - [ UAObjectType, IOLink:1003, IOLink:IOLinkEventType ]
+  - DisplayName: "IOLinkEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
   IOLink:IOLinkDeviceEventType:
   - [ UAObjectType, IOLink:1004, IOLink:IOLinkDeviceEventType ]
+  - DisplayName: "IOLinkDeviceEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1003, IOLink:IOLinkEventType ]
 
   IOLink:IOLinkIODDDeviceEventType:
   - [ UAObjectType, IOLink:1021, IOLink:IOLinkIODDDeviceEventType ]
+  - DisplayName: "IOLinkIODDDeviceEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1004, IOLink:IOLinkDeviceEventType ]
 
   IOLink:IOLinkMasterEventType:
   - [ UAObjectType, IOLink:1006, IOLink:IOLinkMasterEventType ]
+  - DisplayName: "IOLinkMasterEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1003, IOLink:IOLinkEventType ]
 
   IOLink:IOLinkPortEventType:
   - [ UAObjectType, IOLink:1005, IOLink:IOLinkPortEventType ]
+  - DisplayName: "IOLinkPortEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1003, IOLink:IOLinkEventType ]
 
   IOLink:DeviceVariantType:
   - [ UAObjectType, IOLink:1013, IOLink:DeviceVariantType ]
+  - DisplayName: "DeviceVariantType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   IOLink:IOLinkDeviceType:
   - [ UAObjectType, IOLink:1002, IOLink:IOLinkDeviceType ]
+  - DisplayName: "IOLinkDeviceType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
   IOLink:IOLinkIODDDeviceType:
   - [ UAObjectType, IOLink:1012, IOLink:IOLinkIODDDeviceType ]
+  - DisplayName: "IOLinkIODDDeviceType"
   - HasSubtype_reverse:
     - [ UAObjectType, IOLink:1002, IOLink:IOLinkDeviceType ]
 
   IOLink:IOLinkMasterType:
   - [ UAObjectType, IOLink:1014, IOLink:IOLinkMasterType ]
+  - DisplayName: "IOLinkMasterType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
   IOLink:IOLinkPortType:
   - [ UAObjectType, IOLink:1015, IOLink:IOLinkPortType ]
+  - DisplayName: "IOLinkPortType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]

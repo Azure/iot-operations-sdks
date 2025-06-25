@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:AcceptedEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AcceptedEntityConditionClassType",
+    "description": "Indicates that an entity is accepted.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1090",
     "payloadFormat": "Json/ecma/404",
@@ -31,6 +33,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:AddedEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AddedEntityConditionClassType",
+    "description": "Indicates that an entity is added.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1096",
     "payloadFormat": "Json/ecma/404",
@@ -51,6 +55,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetConnectedConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AssetConnectedConditionClassType",
+    "description": "Indicates that the asset is connected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1018",
     "payloadFormat": "Json/ecma/404",
@@ -71,6 +77,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetDisabledConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AssetDisabledConditionClassType",
+    "description": "Indicates that the asset is disabled.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1027",
     "payloadFormat": "Json/ecma/404",
@@ -91,6 +99,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetDisconnectedConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AssetDisconnectedConditionClassType",
+    "description": "Indicates that the asset is disconnected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1021",
     "payloadFormat": "Json/ecma/404",
@@ -111,6 +121,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetEnabledConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AssetEnabledConditionClassType",
+    "description": "Indicates that the asset is enabled.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1024",
     "payloadFormat": "Json/ecma/404",
@@ -131,6 +143,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:AssetLocationConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AssetLocationConditionClassType",
+    "description": "Indicates a change in the asset location.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1048",
     "payloadFormat": "Json/ecma/404",
@@ -151,6 +165,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:CertificateConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CertificateConditionClassType",
+    "description": "Indicates a change in the certificate.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1072",
     "payloadFormat": "Json/ecma/404",
@@ -171,6 +187,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ConfigurationChangeConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConfigurationChangeConditionClassType",
+    "description": "Indicates a change in the configuration.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1030",
     "payloadFormat": "Json/ecma/404",
@@ -191,6 +209,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:DataValidationFailureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "DataValidationFailureConditionClassType",
+    "description": "Indicates a failure in the data validation.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1057",
     "payloadFormat": "Json/ecma/404",
@@ -211,6 +231,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ErrorConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ErrorConditionClassType",
+    "description": "Indicates an error in the system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1063",
     "payloadFormat": "Json/ecma/404",
@@ -231,6 +253,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ExpiredEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ExpiredEntityConditionClassType",
+    "description": "Indicates that an entity is expired.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1081",
     "payloadFormat": "Json/ecma/404",
@@ -251,6 +275,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:HardwareConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "HardwareConditionClassType",
+    "description": "Indicates a change in the hardware entity.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1069",
     "payloadFormat": "Json/ecma/404",
@@ -271,6 +297,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IncompatibleEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IncompatibleEntityConditionClassType",
+    "description": "Indicates that an entity is incompatible.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1087",
     "payloadFormat": "Json/ecma/404",
@@ -291,6 +319,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:InputValidationFailureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "InputValidationFailureConditionClassType",
+    "description": "Indicates a failure in the input validation.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1060",
     "payloadFormat": "Json/ecma/404",
@@ -311,6 +341,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:InvalidEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "InvalidEntityConditionClassType",
+    "description": "Indicates that an entity is invalid.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1084",
     "payloadFormat": "Json/ecma/404",
@@ -331,6 +363,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemUserLoggedInConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemUserLoggedInConditionClassType",
+    "description": "Indicates that a joining system user has logged-in.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1039",
     "payloadFormat": "Json/ecma/404",
@@ -351,6 +385,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemUserLoggedOutConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemUserLoggedOutConditionClassType",
+    "description": "Indicates that a joining system user logged-out.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1042",
     "payloadFormat": "Json/ecma/404",
@@ -371,6 +407,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:LicenseConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LicenseConditionClassType",
+    "description": "Indicates a change in the license.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1075",
     "payloadFormat": "Json/ecma/404",
@@ -391,6 +429,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:LocationInZoneConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LocationInZoneConditionClassType",
+    "description": "Indicates the change of the entity location from out-of-zone to in-zone.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1051",
     "payloadFormat": "Json/ecma/404",
@@ -411,6 +451,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:LocationOutOfZoneConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LocationOutOfZoneConditionClassType",
+    "description": "Indicates the change in the entity location from in-zone to out-of-zone.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1054",
     "payloadFormat": "Json/ecma/404",
@@ -431,6 +473,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:MissingEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MissingEntityConditionClassType",
+    "description": "Indicates that an entity is missing.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1078",
     "payloadFormat": "Json/ecma/404",
@@ -451,6 +495,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ReceivedEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ReceivedEntityConditionClassType",
+    "description": "Indicates that an entity is received.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1105",
     "payloadFormat": "Json/ecma/404",
@@ -471,6 +517,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:RejectedEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RejectedEntityConditionClassType",
+    "description": "Indicates that an entity is rejected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1093",
     "payloadFormat": "Json/ecma/404",
@@ -491,6 +539,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:RemovedEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RemovedEntityConditionClassType",
+    "description": "Indicates that an entity is removed.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1102",
     "payloadFormat": "Json/ecma/404",
@@ -511,6 +561,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:SoftwareConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SoftwareConditionClassType",
+    "description": "Indicates a change in the software entity.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1066",
     "payloadFormat": "Json/ecma/404",
@@ -531,6 +583,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ThresholdViolationConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ThresholdViolationConditionClassType",
+    "description": "Indicates that a threshold is violated.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1033",
     "payloadFormat": "Json/ecma/404",
@@ -551,6 +605,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ThresholdViolationResolvedConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ThresholdViolationResolvedConditionClassType",
+    "description": "Indicates that a violated threshold is resolved.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1036",
     "payloadFormat": "Json/ecma/404",
@@ -571,6 +627,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:UpdatedEntityConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "UpdatedEntityConditionClassType",
+    "description": "Indicates that an entity is updated.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1099",
     "payloadFormat": "Json/ecma/404",
@@ -591,6 +649,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemConditionType",
+    "description": "The JoiningSystemConditionType is used to send any type of events with acknowledgement mechanism from a joining system. Note: The type of event is determined by the usage of respective Condition Class(es) and Condition SubClass(es) properties defined in 0:ConditionType.",
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1020",
     "telemetryTopic": "opcua/IJT_Base/JoiningSystemConditionType/{telemetryName}/{senderId}",
@@ -599,6 +659,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningSystemConditionType:dataType:EntityDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "EntityDataType",
+        "description": "This structure provides the identification data for a given entity in the system.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
         "fields": [
           {
@@ -636,6 +698,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningSystemConditionType:dataType:ReportedValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ReportedValueDataType",
+        "description": "This structure provides the given value and corresponding limits for a given physical quantity (if applicable).",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3022",
         "fields": [
           {
@@ -680,6 +744,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "JoiningSystemEventContent",
+        "displayName": "JoiningSystemEventContent",
+        "description": "JoiningSystemEventContent is the common payload of the event from a joining system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -687,12 +753,16 @@
             {
               "@type": [ "Field", "Subject", "Qualified" ],
               "name": "JoiningSystemEventContent",
+              "displayName": "JoiningSystemEventContent",
+              "description": "JoiningSystemEventContent is the common payload of the event from a joining system.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "string"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "AssociatedEntities",
+              "displayName": "AssociatedEntities",
+              "description": "AssociatedEntities is a list of identifiers of various entities/objects available in the given system. Example: An event maybe associated to Asset, Result, Joint, Error, etc.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": {
                 "@type": "Array",
@@ -702,24 +772,32 @@
             {
               "@type": [ "Field", "Qualified" ],
               "name": "EventCode",
+              "displayName": "EventCode",
+              "description": "EventCode is a system specific event code associated to the given event.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "long"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "EventText",
+              "displayName": "EventText",
+              "description": "EventText is a human readable text related to the context of the event.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "string"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "JoiningTechnology",
+              "displayName": "JoiningTechnology",
+              "description": "JoiningTechnology is a human readable text to identify the joining technology which has triggered the event. Examples: Tightening, Gluing, Riveting, Flow Drill Fastening, etc.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "string"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "ReportedValues",
+              "displayName": "ReportedValues",
+              "description": "ReportedValues is a list of values associated with the given event payload. Example: If it is an over temperature event, then the ReportedValue can be the measured value along with the corresponding limits.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": {
                 "@type": "Array",
@@ -743,6 +821,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemEventType",
+    "description": "The JoiningSystemEventType is used to send any type of events from a joining system. Note: The type of event is determined by the usage of respective Condition Class(es) and Condition SubClass(es) properties defined in 0:BaseEventType.",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1006",
     "telemetryTopic": "opcua/IJT_Base/JoiningSystemEventType/{telemetryName}/{senderId}",
@@ -751,6 +831,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningSystemEventType:dataType:EntityDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "EntityDataType",
+        "description": "This structure provides the identification data for a given entity in the system.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
         "fields": [
           {
@@ -788,6 +870,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningSystemEventType:dataType:ReportedValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ReportedValueDataType",
+        "description": "This structure provides the given value and corresponding limits for a given physical quantity (if applicable).",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3022",
         "fields": [
           {
@@ -832,6 +916,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "JoiningSystemEventContent",
+        "displayName": "JoiningSystemEventContent",
+        "description": "JoiningSystemEventContent is the common payload of the event from a joining system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -839,12 +925,16 @@
             {
               "@type": [ "Field", "Subject", "Qualified" ],
               "name": "JoiningSystemEventContent",
+              "displayName": "JoiningSystemEventContent",
+              "description": "JoiningSystemEventContent is the common payload of the event from a joining system.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "string"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "AssociatedEntities",
+              "displayName": "AssociatedEntities",
+              "description": "AssociatedEntities is a list of identifiers of various entities/objects available in the given system. Example: An event maybe associated to Asset, Result, Joint, Error, etc.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": {
                 "@type": "Array",
@@ -854,24 +944,32 @@
             {
               "@type": [ "Field", "Qualified" ],
               "name": "EventCode",
+              "displayName": "EventCode",
+              "description": "EventCode is a system specific event code associated to the given event.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "long"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "EventText",
+              "displayName": "EventText",
+              "description": "EventText is a human readable text related to the context of the event.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "string"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "JoiningTechnology",
+              "displayName": "JoiningTechnology",
+              "description": "JoiningTechnology is a human readable text to identify the joining technology which has triggered the event. Examples: Tightening, Gluing, Riveting, Flow Drill Fastening, etc.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "string"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "ReportedValues",
+              "displayName": "ReportedValues",
+              "description": "ReportedValues is a list of values associated with the given event payload. Example: If it is an over temperature event, then the ReportedValue can be the measured value along with the corresponding limits.",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": {
                 "@type": "Array",
@@ -895,6 +993,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemResultReadyEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemResultReadyEventType",
+    "description": "This EventType provides information of a complete or partial result from a joining system.",
     "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1007",
     "payloadFormat": "Json/ecma/404",
@@ -915,6 +1015,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IJoiningAdditionalInformationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IJoiningAdditionalInformationType",
+    "description": "The IJoiningAdditionalInformationType provides additional parameters for Identification of a given asset.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1017",
     "commandTopic": "opcua/IJT_Base/IJoiningAdditionalInformationType/{commandName}",
@@ -926,6 +1028,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Description",
+        "displayName": "Description",
+        "description": "Description is the system specific description of the asset.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -933,6 +1037,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JoiningTechnology",
+        "displayName": "JoiningTechnology",
+        "description": "JoiningTechnology is a human readable text to identify the joining technology.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -940,6 +1046,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SupplierCode",
+        "displayName": "SupplierCode",
+        "description": "SupplierCode is the SAP or ERP Supplier Code of the asset.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -958,6 +1066,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IJoiningSystemAssetType",
+    "description": "This is a generic interface common for all assets in a given Joining System. The purpose of this interface is to provide a standard way of identification and common information for all the assets. This interface has a standard MachineryItemIdentificationType add-in which can be assigned with MachineIdentificationType or MachineryComponentIdentificationType for a given asset based on the requirement of the system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -968,6 +1078,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Health",
+        "displayName": "Health",
+        "description": "The Health Object is an instance of 2:FunctionalGroupType to group health related parameters for all the assets in a Joining System.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -975,6 +1087,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -982,6 +1095,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Maintenance",
+        "displayName": "Maintenance",
+        "description": "The Maintenance Object is an instance of 2:FunctionalGroupType to group maintenance related parameters for the given asset in a Joining System.",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -989,6 +1104,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Parameters",
+        "displayName": "Parameters",
+        "description": "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -1006,6 +1123,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IAccessoryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IAccessoryType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1015",
     "payloadFormat": "Json/ecma/404",
@@ -1026,6 +1144,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IBatteryType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IBatteryType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1010",
     "payloadFormat": "Json/ecma/404",
@@ -1046,6 +1165,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ICableType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ICableType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1014",
     "payloadFormat": "Json/ecma/404",
@@ -1066,6 +1186,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IControllerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IControllerType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -1086,6 +1207,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IFeederType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IFeederType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1012",
     "payloadFormat": "Json/ecma/404",
@@ -1106,6 +1228,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IMemoryDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IMemoryDeviceType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1013",
     "payloadFormat": "Json/ecma/404",
@@ -1126,6 +1249,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IPowerSupplyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPowerSupplyType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -1146,6 +1270,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ISensorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISensorType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1011",
     "payloadFormat": "Json/ecma/404",
@@ -1166,6 +1291,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IServoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IServoType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1008",
     "payloadFormat": "Json/ecma/404",
@@ -1186,6 +1312,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ISoftwareType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISoftwareType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1019",
     "payloadFormat": "Json/ecma/404",
@@ -1206,6 +1333,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:ISubComponentType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISubComponentType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1016",
     "payloadFormat": "Json/ecma/404",
@@ -1226,6 +1354,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IToolType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IToolType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1004",
     "payloadFormat": "Json/ecma/404",
@@ -1246,6 +1375,7 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:IVirtualStationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IVirtualStationType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1031",
     "payloadFormat": "Json/ecma/404",
@@ -1266,6 +1396,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemIdentificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemIdentificationType",
+    "description": "It provides identification parameters of the joining system.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1029",
     "commandTopic": "opcua/IJT_Base/JoiningSystemIdentificationType/{commandName}",
@@ -1277,6 +1409,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of the type.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -1284,6 +1418,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Description",
+        "displayName": "Description",
+        "description": "Description is the description of the system which could be written by the customer to identify the system. It could be the purpose of the system in the assembly line.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": true
@@ -1291,6 +1427,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IntegratorName",
+        "displayName": "IntegratorName",
+        "description": "IntegratorName is the name of the system integrator.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": true
@@ -1298,6 +1436,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JoiningTechnology",
+        "displayName": "JoiningTechnology",
+        "description": "JoiningTechnology is a human readable text to identify the joining technology of the joining system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -1305,6 +1445,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Location",
+        "displayName": "Location",
+        "description": "Location is the location of the given system in the given plant or factory in text format.",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "schema": "string",
         "writable": true
@@ -1312,6 +1454,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Manufacturer",
+        "displayName": "Manufacturer",
+        "description": "Manufacturer provides a human-readable, localized name of the joining system manufacturer.",
         "namespace": "http://opcfoundation.org/UA/DI",
         "schema": "string",
         "writable": true
@@ -1319,6 +1463,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ManufacturerUri",
+        "displayName": "ManufacturerUri",
+        "description": "ManufacturerUri provides a unique identifier for this company. This identifier should be a fully qualified domain name; however, it may be a GUID or similar construct that ensures global uniqueness.",
         "namespace": "http://opcfoundation.org/UA/DI",
         "schema": "string",
         "writable": false
@@ -1326,6 +1472,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Model",
+        "displayName": "Model",
+        "description": "Model provides the type of the joining system. Examples: Fixtured System, Handheld System, etc.",
         "namespace": "http://opcfoundation.org/UA/DI",
         "schema": "string",
         "writable": true
@@ -1333,6 +1481,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
+        "displayName": "Name",
+        "description": "Name is the name of the joining system. It can also be the standard browse name of the instance of JoiningSystemType.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -1340,6 +1490,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProductInstanceUri",
+        "displayName": "ProductInstanceUri",
+        "description": "ProductInstanceUri is a globally unique resource identifier provided by the manufacturer.",
         "namespace": "http://opcfoundation.org/UA/DI",
         "schema": "string",
         "writable": false
@@ -1347,6 +1499,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SystemId",
+        "displayName": "SystemId",
+        "description": "SystemId is the system integrator specific identifier for the system. It represents a reference to the manufacturer ERP system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": true
@@ -1365,6 +1519,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JoiningProcessManagementType",
+    "description": "The JoiningProcessManagementType provides access to various joining processes in a joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1025",
     "commandTopic": "opcua/IJT_Base/JoiningProcessManagementType/{commandName}",
@@ -1374,6 +1530,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JoiningProcessIdentificationDataType",
+        "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3029",
         "fields": [
           {
@@ -1396,6 +1554,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JoiningProcessDataType",
+        "description": "This structure provides the base container for any joining process in a joining system. Note: This specification defines the meta data of a JoiningProcess, and the actual content of the Joining Process is application specific.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3016",
         "fields": [
           {
@@ -1416,6 +1576,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JoiningProcessMetaDataType",
+        "description": "This structure provides the meta data which describes the joining process.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3024",
         "fields": [
           {
@@ -1471,6 +1633,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:EntityDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "EntityDataType",
+        "description": "This structure provides the identification data for a given entity in the system.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
         "fields": [
           {
@@ -1510,6 +1674,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of the type.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -1517,6 +1683,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AbortJoiningProcess",
+        "displayName": "AbortJoiningProcess",
+        "description": "The Method AbortJoiningProcess is used to abort the input joining process if it is under execution.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1565,6 +1733,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DecrementJoiningProcessCounter",
+        "displayName": "DecrementJoiningProcessCounter",
+        "description": "The Method DecrementJoiningProcessCounter used to decrement the counter of the sequential joining processes such as Job, etc.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1613,6 +1783,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DeleteJoiningProcess",
+        "displayName": "DeleteJoiningProcess",
+        "description": "The Method DeleteJoiningProcess is used to delete the input joining process.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1656,6 +1828,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DeselectJoiningProcess",
+        "displayName": "DeselectJoiningProcess",
+        "description": "The Method DeselectJoiningProcess is used to deselect any selected joining process.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1694,6 +1868,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJoiningProcess",
+        "displayName": "GetJoiningProcess",
+        "description": "The Method GetJoiningProcess is used to get the joining process based on the input identifier.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1747,6 +1923,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJoiningProcessList",
+        "displayName": "GetJoiningProcessList",
+        "description": "The Method GetJoiningProcessList is used to get the list of joining process meta data available in the system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1793,6 +1971,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJoiningProcessRevisionList",
+        "displayName": "GetJoiningProcessRevisionList",
+        "description": "The Method GetJoiningProcessRevisionList is used to get the list available revisions of a specific joining process based on the joiningProcessOriginId.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1844,6 +2024,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "IncrementJoiningProcessCounter",
+        "displayName": "IncrementJoiningProcessCounter",
+        "description": "The Method IncrementJoiningProcessCounter is used to increment the counter of the sequential joining processes such as Job, etc.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1892,6 +2074,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetJoiningProcess",
+        "displayName": "ResetJoiningProcess",
+        "description": "The Method ResetJoiningProcess is used to reset/restart the sequential joining processes such as Job, etc.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1935,6 +2119,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SelectJoiningProcess",
+        "displayName": "SelectJoiningProcess",
+        "description": "The Method SelectJoiningProcess is used to select the joining process based on the input arguments.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1978,6 +2164,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SendJoiningProcess",
+        "displayName": "SendJoiningProcess",
+        "description": "The Method SendJoiningProcess is used to send a joining process to the joining system. It can be used to insert a joining program or joining batch or joining job or any other process applicable to a joining system. It shall overwrite the joining process if it already exists in the joining system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2026,6 +2214,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetJoiningProcessCounter",
+        "displayName": "SetJoiningProcessCounter",
+        "description": "The Method SetJoiningProcessCounter is used to set the counter of a sequential joining processes (such as Job, etc.) to the given input value.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2074,6 +2264,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetJoiningProcessMapping",
+        "displayName": "SetJoiningProcessMapping",
+        "description": "The Method SetJoiningProcessMapping is used to set the mapping of the joining process in a joining system. It can be used to map a joining process to a selection name.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2117,6 +2309,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetJoiningProcessSize",
+        "displayName": "SetJoiningProcessSize",
+        "description": "The Method SetJoiningProcessSize is used to set the size of the batch joining process.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2165,6 +2359,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StartJoiningProcess",
+        "displayName": "StartJoiningProcess",
+        "description": "The Method StartJoiningProcess is used to start the input joining process. Note: It is not intended to be used in a hard real-time use case.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2216,6 +2412,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StartSelectedJoining",
+        "displayName": "StartSelectedJoining",
+        "description": "The Method StartSelectedJoining is used to start the selected joining. The joining operation can be selected using SelectJoiningProcess or SelectJoint. Note: It is not intended to be used in a hard real-time use case.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2270,6 +2468,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemAssetMethodSetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemAssetMethodSetType",
+    "description": "The JoiningSystemAssetMethodSetType provides a set of methods for various assets in a joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1026",
     "commandTopic": "opcua/IJT_Base/JoiningSystemAssetMethodSetType/{commandName}",
@@ -2279,6 +2479,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningSystemAssetMethodSetType:dataType:EntityDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "EntityDataType",
+        "description": "This structure provides the identification data for a given entity in the system.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
         "fields": [
           {
@@ -2316,6 +2518,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningSystemAssetMethodSetType:dataType:SignalDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "SignalDataType",
+        "description": "This structure contains the signal information which is used in SetIOSignals and GetIOSignals methods.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3019",
         "fields": [
           {
@@ -2343,6 +2547,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JoiningSystemAssetMethodSetType:dataType:CalibrationDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "CalibrationDataType",
+        "description": "This structure contains the Calibration information. It is used as an input argument in SetCalibration method. Note: The input data sent in SetCalibration shall be updated in the respective parameters of the asset under Maintenance/Calibration.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3003",
         "fields": [
           {
@@ -2387,6 +2593,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of the type.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -2394,6 +2602,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DisconnectAsset",
+        "displayName": "DisconnectAsset",
+        "description": "The Method DisconnectAsset is used to disconnect or connect the asset.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2437,6 +2647,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "EnableAsset",
+        "displayName": "EnableAsset",
+        "description": "The Method EnableAsset is used to Enable or Disable a given asset. It is mostly applicable for Tool. The joining system can report a respective event when an asset is enabled or disabled.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2480,6 +2692,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ExecuteOperation",
+        "displayName": "ExecuteOperation",
+        "description": "The Method ExecuteOperation is an application specific interface to execute any generic operations supported by a joining system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2533,6 +2747,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetErrorInformation",
+        "displayName": "GetErrorInformation",
+        "description": "The Method GetErrorInformation is used to get the error information based on the input identifier. The details returned from the joining system is application specific.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2581,6 +2797,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetFeedbackFileList",
+        "displayName": "GetFeedbackFileList",
+        "description": "The Method GetFeedbackFileList is used to get the list of feedback files from the asset.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2627,6 +2845,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetIdentifiers",
+        "displayName": "GetIdentifiers",
+        "description": "The Method GetIdentifiers is used to get the list of identifiers available in the system which were managed by external systems.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2681,6 +2901,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetIOSignals",
+        "displayName": "GetIOSignals",
+        "description": "The Method GetIOSignals is used to get the list of available signals from the asset.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2735,6 +2957,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RebootAsset",
+        "displayName": "RebootAsset",
+        "description": "The Method RebootAsset is used to reboot an asset.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2773,6 +2997,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetIdentifiers",
+        "displayName": "ResetIdentifiers",
+        "description": "The Method ResetIdentifiers is used to reset the specified identifiers.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2829,6 +3055,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SendFeedback",
+        "displayName": "SendFeedback",
+        "description": "The Method SendFeedback is used to send any type of feedback to a given asset. The feedback can be a text input or other types of feedback supported by the asset.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2882,6 +3110,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SendIdentifiers",
+        "displayName": "SendIdentifiers",
+        "description": "The Method SendIdentifiers is used to send one or more identifiers to the joining system. These identifiers can be used for selection of a joining process, etc. These identifiers can often be part of the generated result. The input argument to this method is an array of EntityDataType structure where every entity in the joining system can be associated to a specific type for filtering.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2928,6 +3158,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SendTextIdentifiers",
+        "displayName": "SendTextIdentifiers",
+        "description": "The Method SendTextIdentifiers is used to send one or more identifiers to a joining system. These identifiers can be used for selection of a joining process, etc. These identifiers can often be part of the generated result. Note: The decision on which set of identifiers are used for the selection of a joining process and which set of identifiers should be part of the generated result is application specific.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2974,6 +3206,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetCalibration",
+        "displayName": "SetCalibration",
+        "description": "The Method SetCalibration is used to set the calibration information of a given asset. It is intended to set the basic calibration information and does not cover the certification process.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3017,6 +3251,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetIOSignals",
+        "displayName": "SetIOSignals",
+        "description": "The Method SetIOSignals is used to set a list of IO signals of the asset. The type of operations mapped to each signal is application specific.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3071,6 +3307,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetOfflineTimer",
+        "displayName": "SetOfflineTimer",
+        "description": "The Method SetOfflineTimer is used to set the offline timer for the asset to determine how long the asset can perform the joining operations in an offline mode. Note: If an asset performs the joining operation in offline mode after setting the offline timer, the corresponding results generated shall have the IsGeneratedOffline flag set to TRUE.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3114,6 +3352,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetTime",
+        "displayName": "SetTime",
+        "description": "The Method SetTime is used to set the time of the asset manually. It is recommended to be used only when an asset does not have automated time synchronization. The joining system can report a respective event when the time is configured manually using this method.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3168,6 +3408,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemType",
+    "description": "The JoiningSystemType provides the overview of the information exposed from a given joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -3178,6 +3420,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AssetManagement",
+        "displayName": "AssetManagement",
+        "description": "The AssetManagement Object is an instance of FolderType to group assets and related objects in the joining system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -3185,6 +3429,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -3202,6 +3447,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JointManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JointManagementType",
+    "description": "The JointManagementType provides access to the Joint and associated information.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1023",
     "commandTopic": "opcua/IJT_Base/JointManagementType/{commandName}",
@@ -3211,6 +3458,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JointDataType",
+        "description": "This structure provides the joint information. Joint is the physical outcome of the joining operation which determines the properties of the point where multiple parts are assembled.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3028",
         "fields": [
           {
@@ -3281,6 +3530,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:EntityDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "EntityDataType",
+        "description": "This structure provides the identification data for a given entity in the system.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
         "fields": [
           {
@@ -3318,6 +3569,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointComponentDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JointComponentDataType",
+        "description": "This structure is the base container for any joint component such as Bolt, Rivet, Gasket, Glue string, etc. Note: The concrete definition of joint component is not defined in this version of the specification.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3021",
         "fields": [
           {
@@ -3355,6 +3608,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDesignDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JointDesignDataType",
+        "description": "This structure provides the design information of a given joint.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3025",
         "fields": [
           {
@@ -3393,6 +3648,8 @@
       {
         "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:DesignValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "DesignValueDataType",
+        "description": "This structure provides the design value for a given physical quantity. It is used in JointDesignDataType.",
         "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3015",
         "fields": [
           {
@@ -3422,6 +3679,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of the type.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "schema": "string",
         "writable": false
@@ -3429,6 +3688,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DeleteJoint",
+        "displayName": "DeleteJoint",
+        "description": "The Method DeleteJoint is used to delete the joint based on the input identifier.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3477,6 +3738,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DeleteJointComponent",
+        "displayName": "DeleteJointComponent",
+        "description": "The Method DeleteJointComponent is used to delete the joint component based on the input identifier.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3520,6 +3783,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DeleteJointDesign",
+        "displayName": "DeleteJointDesign",
+        "description": "The Method DeleteJointDesign is used to delete the joint design based on the input identifier.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3563,6 +3828,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJoint",
+        "displayName": "GetJoint",
+        "description": "The Method GetJoint is used to get the joint based on the input identifier.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3611,6 +3878,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJointComponent",
+        "displayName": "GetJointComponent",
+        "description": "The Method GetJointComponent is used to get the joint component based on the input identifier.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3659,6 +3928,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJointComponentList",
+        "displayName": "GetJointComponentList",
+        "description": "The Method GetJointComponentList is used to get the list of available joint components in the system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3705,6 +3976,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJointDesign",
+        "displayName": "GetJointDesign",
+        "description": "The Method GetJointDesign is used to get the joint design based on the input identifier.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3753,6 +4026,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJointDesignList",
+        "displayName": "GetJointDesignList",
+        "description": "The Method GetJointDesignList is used to get the list of available joint designs in the system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3799,6 +4074,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJointList",
+        "displayName": "GetJointList",
+        "description": "The Method GetJointList is used to get the list of available joints in the system.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3845,6 +4122,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetJointRevisionList",
+        "displayName": "GetJointRevisionList",
+        "description": "The Method GetJointRevisionList is used to get the list available revisions of a specific joint based on the JointOriginId.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3896,6 +4175,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SelectJoint",
+        "displayName": "SelectJoint",
+        "description": "The Method SelectJoint is used to select the joint and the associated joining process.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3944,6 +4225,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SendJoint",
+        "displayName": "SendJoint",
+        "description": "The Method SendJoint is used to send a joint to a joining system. If the input joint already exists in the system, it shall be overwritten.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3987,6 +4270,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SendJointComponent",
+        "displayName": "SendJointComponent",
+        "description": "The Method SendJointComponent is used to send a joint component to a joining system. If the input joint component already exists in the system, it shall be overwritten.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -4030,6 +4315,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SendJointDesign",
+        "displayName": "SendJointDesign",
+        "description": "The Method SendJointDesign is used to send a joint design to a joining system. If the input joint design already exists in the system, it shall be overwritten.",
         "namespace": "http://opcfoundation.org/UA/IJT.Base",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -4084,6 +4371,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Base:JoiningSystemResultManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JoiningSystemResultManagementType",
+    "description": "The JoiningSystemResultManagementType is a subtype of ResultManagementType and provides mechanism to access results generated by the underlying joining system.",
     "extends": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1022",
     "payloadFormat": "Json/ecma/404",

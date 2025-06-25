@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AutoIdDiagnosticsEventType",
+    "description": "AutoID diagnostic data",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1010",
     "commandTopic": "opcua/AutoID/AutoIdDiagnosticsEventType/{commandName}",
@@ -22,6 +24,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceName",
+        "displayName": "DeviceName",
+        "description": "Name of the device of the diagnostic data.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": false
@@ -40,6 +44,8 @@
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdAccessEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AutoIdAccessEventType",
+    "description": "Data of the access on one or more AutoID Identifier.",
     "extends": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1015",
     "commandTopic": "opcua/AutoID/AutoIdAccessEventType/{commandName}",
@@ -49,6 +55,8 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdAccessEventType:dataType:AccessResult;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "AccessResult",
+        "description": "Result values of an AutoID Identifier access.",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3017",
         "fields": [
           {
@@ -71,6 +79,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdAccessEventType:dataType:ScanData;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanData",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3020",
         "fields": [
           {
@@ -98,6 +107,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdAccessEventType:dataType:ScanDataEpc;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanDataEpc",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3024",
         "fields": [
           {
@@ -127,6 +137,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AccessResult",
+        "displayName": "AccessResult",
+        "description": "Result values of the access.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": {
           "@type": "Array",
@@ -137,6 +149,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Client",
+        "displayName": "Client",
+        "description": "Client which was the originator of the command.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": false
@@ -144,6 +158,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Command",
+        "displayName": "Command",
+        "description": "Access command",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": false
@@ -162,6 +178,8 @@
     ],
     "@id": "dtmi:opcua:AutoID:RfidAccessEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "RfidAccessEventType",
+    "description": "Data of the access on one or more Rfid Transponder.",
     "extends": "dtmi:opcua:AutoID:AutoIdAccessEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1016",
     "payloadFormat": "Json/ecma/404",
@@ -182,6 +200,8 @@
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdLogEntryEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AutoIdLogEntryEventType",
+    "description": "One entry written to the log of the device.",
     "extends": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1017",
     "payloadFormat": "Json/ecma/404",
@@ -202,6 +222,8 @@
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdPresenceEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AutoIdPresenceEventType",
+    "description": "Current presence of AutoID Identifier.",
     "extends": "dtmi:opcua:AutoID:AutoIdDiagnosticsEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1018",
     "commandTopic": "opcua/AutoID/AutoIdPresenceEventType/{commandName}",
@@ -213,6 +235,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Presence",
+        "displayName": "Presence",
+        "description": "Current presence of AutoID Identifier.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "unsignedShort",
         "writable": false
@@ -231,6 +255,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AutoIdScanEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1004",
     "commandTopic": "opcua/AutoID/AutoIdScanEventType/{commandName}",
@@ -240,6 +265,8 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdScanEventType:dataType:ScanResult;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanResult",
+        "description": "Defines the format of the ScanData as string.",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3001",
         "fields": [
           {
@@ -267,6 +294,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdScanEventType:dataType:ScanData;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanData",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3020",
         "fields": [
           {
@@ -294,6 +322,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdScanEventType:dataType:ScanDataEpc;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanDataEpc",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3024",
         "fields": [
           {
@@ -321,6 +350,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdScanEventType:dataType:Location;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "Location",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3008",
         "fields": [
           {
@@ -348,6 +378,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdScanEventType:dataType:WGS84Coordinate;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "WGS84Coordinate",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3027",
         "fields": [
           {
@@ -400,6 +431,8 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdScanEventType:dataType:LocalCoordinate;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "LocalCoordinate",
+        "description": "Optional",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3019",
         "fields": [
           {
@@ -439,6 +472,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceName",
+        "displayName": "DeviceName",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": false
@@ -446,6 +480,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ScanResult",
+        "displayName": "ScanResult",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": {
           "@type": "Array",
@@ -467,6 +502,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:OcrScanEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "OcrScanEventType",
     "extends": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -487,6 +523,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:OpticalScanEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "OpticalScanEventType",
     "extends": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -507,6 +544,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:OpticalVerifierScanEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "OpticalVerifierScanEventType",
     "extends": "dtmi:opcua:AutoID:OpticalScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1013",
     "payloadFormat": "Json/ecma/404",
@@ -527,6 +565,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:RfidScanEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "RfidScanEventType",
     "extends": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1006",
     "payloadFormat": "Json/ecma/404",
@@ -547,6 +586,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:RtlsLocationEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "RtlsLocationEventType",
     "extends": "dtmi:opcua:AutoID:AutoIdScanEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1014",
     "payloadFormat": "Json/ecma/404",
@@ -567,6 +607,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AutoIdDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1001",
     "commandTopic": "opcua/AutoID/AutoIdDeviceType/{commandName}",
@@ -576,6 +617,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "Location",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3008",
         "fields": [
           {
@@ -603,6 +645,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:DeviceStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "DeviceStatusEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -627,6 +670,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocationTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "LocationTypeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3009",
         "valueSchema": "integer",
         "enumValues": [
@@ -651,6 +695,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanSettings;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanSettings",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3010",
         "fields": [
           {
@@ -678,6 +723,8 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanResult;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanResult",
+        "description": "Defines the format of the ScanData as string.",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3001",
         "fields": [
           {
@@ -705,6 +752,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanData;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanData",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3020",
         "fields": [
           {
@@ -732,6 +780,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanDataEpc;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanDataEpc",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3024",
         "fields": [
           {
@@ -759,6 +808,8 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:AutoIdOperationStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "AutoIdOperationStatusEnumeration",
+        "description": "Successful operation",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3013",
         "valueSchema": "integer",
         "enumValues": [
@@ -855,6 +906,8 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocalCoordinate;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "LocalCoordinate",
+        "description": "Optional",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3019",
         "fields": [
           {
@@ -892,6 +945,7 @@
       {
         "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:WGS84Coordinate;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "WGS84Coordinate",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3027",
         "fields": [
           {
@@ -946,6 +1000,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AutoIdModelVersion",
+        "displayName": "AutoIdModelVersion",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": true
@@ -953,6 +1008,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceInfo",
+        "displayName": "DeviceInfo",
+        "description": "Device status information.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": true
@@ -960,6 +1017,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceLocationName",
+        "displayName": "DeviceLocationName",
+        "description": "Symbolic name of the device location.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": true
@@ -967,6 +1026,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceName",
+        "displayName": "DeviceName",
+        "description": "Default could be also host name, IP address or MAC. This should be a field that can be configured for a device.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": true
@@ -974,36 +1035,46 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DeviceLocation",
+        "displayName": "DeviceLocation",
+        "description": "Union of GPS, UTM, Local.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DeviceStatus",
+        "displayName": "DeviceStatus",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:DeviceStatusEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LastScanData",
+        "displayName": "LastScanData",
+        "description": "The last scanned AutoID Identifier.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LastScanTimestamp",
+        "displayName": "LastScanTimestamp",
+        "description": "Point of time the last AutoID Identifier was scanned.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "time"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ScanActive",
+        "displayName": "ScanActive",
+        "description": "Triggers the scan process.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "boolean"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetDeviceLocation",
+        "displayName": "GetDeviceLocation",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1037,6 +1108,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Scan",
+        "displayName": "Scan",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1078,6 +1150,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ScanStart",
+        "displayName": "ScanStart",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1111,12 +1184,15 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ScanStop",
+        "displayName": "ScanStop",
         "namespace": "http://opcfoundation.org/UA/AutoID"
       },
       {
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Diagnostics",
+        "displayName": "Diagnostics",
+        "description": "Diagnostic data from AutoID Devices.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -1124,6 +1200,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IOData",
+        "displayName": "IOData",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -1131,6 +1208,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RuntimeParameters",
+        "displayName": "RuntimeParameters",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       }
@@ -1148,6 +1226,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:OcrReaderDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OcrReaderDeviceType",
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -1158,6 +1237,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Images",
+        "displayName": "Images",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -1175,6 +1255,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:OpticalReaderDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OpticalReaderDeviceType",
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1008",
     "payloadFormat": "Json/ecma/404",
@@ -1185,6 +1266,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Images",
+        "displayName": "Images",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -1202,6 +1284,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:OpticalVerifierDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OpticalVerifierDeviceType",
     "extends": "dtmi:opcua:AutoID:OpticalReaderDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1011",
     "payloadFormat": "Json/ecma/404",
@@ -1222,6 +1305,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RfidReaderDeviceType",
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1003",
     "commandTopic": "opcua/AutoID/RfidReaderDeviceType/{commandName}",
@@ -1231,6 +1315,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AntennaNameIdPair;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "AntennaNameIdPair",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3011",
         "fields": [
           {
@@ -1248,6 +1333,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanData;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanData",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3020",
         "fields": [
           {
@@ -1275,6 +1361,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanDataEpc;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanDataEpc",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3024",
         "fields": [
           {
@@ -1302,6 +1389,8 @@
       {
         "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AutoIdOperationStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "AutoIdOperationStatusEnumeration",
+        "description": "Successful operation",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3013",
         "valueSchema": "integer",
         "enumValues": [
@@ -1398,6 +1487,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidLockRegionEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "RfidLockRegionEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3015",
         "valueSchema": "integer",
         "enumValues": [
@@ -1426,6 +1516,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidLockOperationEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "RfidLockOperationEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3016",
         "valueSchema": "integer",
         "enumValues": [
@@ -1450,6 +1541,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidPasswordTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "RfidPasswordTypeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3014",
         "valueSchema": "integer",
         "enumValues": [
@@ -1476,6 +1568,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AntennaNames",
+        "displayName": "AntennaNames",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": {
           "@type": "Array",
@@ -1486,18 +1579,23 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LastScanAntenna",
+        "displayName": "LastScanAntenna",
+        "description": "ID of the antenna with which the last AutoID Identifier was scanned.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LastScanRSSI",
+        "displayName": "LastScanRSSI",
+        "description": "RSSI Value with which the last AutoID Identifier was scanned.",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "integer"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "KillTag",
+        "displayName": "KillTag",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1541,6 +1639,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "LockTag",
+        "displayName": "LockTag",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1604,6 +1703,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ReadTag",
+        "displayName": "ReadTag",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1667,6 +1767,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetTagPassword",
+        "displayName": "SetTagPassword",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1720,6 +1821,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "WriteTag",
+        "displayName": "WriteTag",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1778,6 +1880,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "WriteTagID",
+        "displayName": "WriteTagID",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1847,6 +1950,7 @@
     ],
     "@id": "dtmi:opcua:AutoID:RtlsDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RtlsDeviceType",
     "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=1012",
     "commandTopic": "opcua/AutoID/RtlsDeviceType/{commandName}",
@@ -1856,6 +1960,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:ScanData;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanData",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3020",
         "fields": [
           {
@@ -1883,6 +1988,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:LocationTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "LocationTypeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3009",
         "valueSchema": "integer",
         "enumValues": [
@@ -1907,6 +2013,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:RtlsLocationResult;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "RtlsLocationResult",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3028",
         "fields": [
           {
@@ -1934,6 +2041,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:Rotation;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "Rotation",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3029",
         "fields": [
           {
@@ -1956,6 +2064,7 @@
       {
         "@id": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:ScanDataEpc;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ScanDataEpc",
         "typeRef": "nsu=http://opcfoundation.org/UA/AutoID;i=3024",
         "fields": [
           {
@@ -1985,6 +2094,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "GeographicalUnit",
+        "displayName": "GeographicalUnit",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": true
@@ -1992,6 +2102,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LengthUnit",
+        "displayName": "LengthUnit",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": true
@@ -1999,6 +2110,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RotationalUnit",
+        "displayName": "RotationalUnit",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": true
@@ -2006,6 +2118,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SpeedUnit",
+        "displayName": "SpeedUnit",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "schema": "string",
         "writable": true
@@ -2013,6 +2126,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetLocation",
+        "displayName": "GetLocation",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2056,6 +2170,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetSupportedLocationTypes",
+        "displayName": "GetSupportedLocationTypes",
         "namespace": "http://opcfoundation.org/UA/AutoID",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
@@ -2078,6 +2193,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetUnits",
+        "displayName": "GetUnits",
         "namespace": "http://opcfoundation.org/UA/AutoID"
       }
     ]

@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FormingProcessConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1023",
     "payloadFormat": "Json/ecma/404",
@@ -31,6 +32,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:AllowableTiltingExceededConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AllowableTiltingExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1011",
     "payloadFormat": "Json/ecma/404",
@@ -51,6 +53,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:BreakthroughTonnageExceededConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "BreakthroughTonnageExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1014",
     "payloadFormat": "Json/ecma/404",
@@ -71,6 +74,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:CorrectionValueOutOfRangeConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CorrectionValueOutOfRangeConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1020",
     "payloadFormat": "Json/ecma/404",
@@ -91,6 +95,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:EccentricLoadExceededConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EccentricLoadExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1006",
     "payloadFormat": "Json/ecma/404",
@@ -111,6 +116,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:OverloadTriggeredConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OverloadTriggeredConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -131,6 +137,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:PositionOutOfRangeConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PositionOutOfRangeConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1017",
     "payloadFormat": "Json/ecma/404",
@@ -151,6 +158,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:ProcessForceExceededConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ProcessForceExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -171,6 +179,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:CyclicEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "CyclicEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1016",
     "telemetryTopic": "opcua/MetalForming/CyclicEventType/{telemetryName}/{senderId}",
@@ -181,12 +190,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CycleCount",
+        "displayName": "CycleCount",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartId",
+        "displayName": "PartId",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "schema": "string"
       },
@@ -194,6 +205,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CurrentProcessValue",
+        "displayName": "CurrentProcessValue",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
       }
@@ -211,6 +223,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:FormingToolType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FormingToolType",
     "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1010",
     "payloadFormat": "Json/ecma/404",
@@ -231,6 +244,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:FormingMultiToolType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FormingMultiToolType",
     "extends": "dtmi:opcua:MachineTool:MultiToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1012",
     "payloadFormat": "Json/ecma/404",
@@ -240,6 +254,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FormingTool",
+        "displayName": "<FormingTool>",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:FormingToolType"
       }
@@ -257,6 +272,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:ProcessWorkingUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ProcessWorkingUnitType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1004",
     "payloadFormat": "Json/ecma/404",
@@ -266,12 +282,14 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CyclicProcessValue",
+        "displayName": "<CyclicProcessValue>",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProcessValue",
+        "displayName": "<ProcessValue>",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
       },
@@ -279,6 +297,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryItemState",
+        "displayName": "MachineryItemState",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:Machinery:MachineryItemState_StateMachineType"
       }
@@ -296,6 +315,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:FormingProcessWorkingUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FormingProcessWorkingUnitType",
     "extends": "dtmi:opcua:MetalForming:ProcessWorkingUnitType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1008",
     "payloadFormat": "Json/ecma/404",
@@ -306,6 +326,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FormingPositions",
+        "displayName": "FormingPositions",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:FormingPositionsType"
       }
@@ -323,6 +344,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:FormingPositionsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FormingPositionsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -333,6 +355,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "BDC",
+        "displayName": "BDC",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
@@ -340,6 +363,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Retract",
+        "displayName": "Retract",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
@@ -347,6 +371,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Start",
+        "displayName": "Start",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
@@ -354,6 +379,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TDC",
+        "displayName": "TDC",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
@@ -361,6 +387,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Touch",
+        "displayName": "Touch",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       }
@@ -378,6 +405,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:CyclicProcessValueType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CyclicProcessValueType",
     "extends": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1007",
     "telemetryTopic": "opcua/MetalForming/CyclicProcessValueType/{telemetryName}/{senderId}",
@@ -386,6 +414,7 @@
       {
         "@id": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "CyclicProcessValueDataType",
         "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=3003",
         "fields": [
           {
@@ -415,6 +444,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CyclicProcessValue",
+        "displayName": "CyclicProcessValue",
         "namespace": "http://opcfoundation.org/UA/MetalForming",
         "schema": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1"
       }

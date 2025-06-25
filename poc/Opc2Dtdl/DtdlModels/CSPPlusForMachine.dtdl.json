@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:CSPPlusForMachine:CsppMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CsppMachineType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CSPPlusForMachine;i=1001",
     "payloadFormat": "Json/ecma/404",
@@ -20,6 +21,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CommIfSection",
+        "displayName": "<CommIfSection>",
         "namespace": "http://opcfoundation.org/UA/CSPPlusForMachine",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       }

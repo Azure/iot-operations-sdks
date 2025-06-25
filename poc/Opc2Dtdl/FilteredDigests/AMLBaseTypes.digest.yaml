@@ -4,10 +4,12 @@ DefinedTypes:
 
   AMLBaseTypes:CAEXBasicObjectType:
   - [ UAObjectType, AMLBaseTypes:1006, AMLBaseTypes:CAEXBasicObjectType ]
+  - DisplayName: "CAEXBasicObjectType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, AMLBaseTypes:6001, AMLBaseTypes:Version, String, 0, 0 ]
+    - DisplayName: "Version"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -15,26 +17,31 @@ DefinedTypes:
 
   AMLBaseTypes:CAEXFileType:
   - [ UAObjectType, AMLBaseTypes:1005, AMLBaseTypes:CAEXFileType ]
+  - DisplayName: "CAEXFileType"
   - HasComponent:
     - [ UAObject, AMLBaseTypes:5001, AMLBaseTypes:InstanceHierarchies ]
+    - DisplayName: "InstanceHierarchies"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, AMLBaseTypes:5002, AMLBaseTypes:InterfaceClassLibs ]
+    - DisplayName: "InterfaceClassLibs"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, AMLBaseTypes:5003, AMLBaseTypes:RoleClassLibs ]
+    - DisplayName: "RoleClassLibs"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, AMLBaseTypes:5004, AMLBaseTypes:SystemUnitClassLibs ]
+    - DisplayName: "SystemUnitClassLibs"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -44,8 +51,10 @@ DefinedTypes:
 
   AMLBaseTypes:CAEXObjectType:
   - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
+  - DisplayName: "CAEXObjectType"
   - HasProperty:
     - [ UAVariable, AMLBaseTypes:6002, AMLBaseTypes:ID, String, 0, 0 ]
+    - DisplayName: "ID"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -55,15 +64,18 @@ DefinedTypes:
 
   AMLBaseTypes:AutomationMLBaseInterface:
   - [ UAObjectType, AMLBaseTypes:1002, AMLBaseTypes:AutomationMLBaseInterface ]
+  - DisplayName: "AutomationMLBaseInterface"
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   AMLBaseTypes:AutomationMLBaseRole:
   - [ UAObjectType, AMLBaseTypes:1003, AMLBaseTypes:AutomationMLBaseRole ]
+  - DisplayName: "AutomationMLBaseRole"
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   AMLBaseTypes:AutomationMLBaseSystemUnit:
   - [ UAObjectType, AMLBaseTypes:1004, AMLBaseTypes:AutomationMLBaseSystemUnit ]
+  - DisplayName: "AutomationMLBaseSystemUnit"
   - HasSubtype_reverse:
     - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]

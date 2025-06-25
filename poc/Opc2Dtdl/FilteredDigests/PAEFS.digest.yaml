@@ -1,26 +1,36 @@
 DataTypes:
 - UADataType: [ PAEFS:3005, PAEFS:AirConnectionOpenEnum ]
+  DisplayName: "AirConnectionOpenEnum"
+  Description: "Describes whether the air connection is open, i.e., it is in a state in which air can be passed through"
   Enums:
     Open: 0
     Closed: 1
     Opening: 2
     Closing: 3
 - UADataType: [ PAEFS:3002, PAEFS:AnalogDigitalEnum ]
+  DisplayName: "AnalogDigitalEnum"
+  Description: "Specifies the type of a sensor"
   Enums:
     Analog: 0
     Digital: 1
 - UADataType: [ PAEFS:3003, PAEFS:ControlModeEnum ]
+  DisplayName: "ControlModeEnum"
+  Description: "Describes the possibility of controlling the system externally"
   Enums:
     Automatic: 0
     Manual: 1
     Other: 2
 - UADataType: [ PAEFS:3006, PAEFS:FilterAidDeviceStatusEnum ]
+  DisplayName: "FilterAidDeviceStatusEnum"
+  Description: "Describes the action performed by the device for filter aid"
   Enums:
     DeviceActive: 0
     DeviceInactive: 1
     FillingActive: 2
     DischargeActive: 3
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -31,25 +41,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -57,20 +74,24 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PADIM:1156, PADIM:ResetModeEnum ]
+  DisplayName: "ResetModeEnum"
   Enums:
     Application: 1
     Communication: 2712
     Factory: 2713
 - UADataType: [ PADIM:1158, PADIM:ExecutionModeEnum ]
+  DisplayName: "ExecutionModeEnum"
   Enums:
     Start: 2
     Abort: 255
 - UADataType: [ PADIM:1276, PADIM:PatDictionaryEnum ]
+  DisplayName: "PatDictionaryEnum"
   Enums:
     CAS: 0
     PAT: 1
     User-defined: 2
 - UADataType: [ PADIM:1275, PADIM:ChemicalSubstanceDataType ]
+  DisplayName: "ChemicalSubstanceDataType"
   Fields:
     PatDictionary: [ PADIM:PatDictionaryEnum, 0 ]
     Label: [ LocalizedText, 0 ]
@@ -80,50 +101,70 @@ DefinedTypes:
 
   PAEFS:AirConnectionType:
   - [ UAObjectType, PAEFS:1007, PAEFS:AirConnectionType ]
+  - DisplayName: "AirConnectionType"
+  - Description: "The air connection is an abstract component representing the state of a connection from the ducting system to a filter unit. The connection can be open or closed. The open state represents a state of the ducting system where air can pass through to the filter unit."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5012, PAEFS:Airflow ]
+    - DisplayName: "Airflow"
+    - Description: "Value of the air flow sensor"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7009, PAEFS:Close ]
+    - DisplayName: "Close"
+    - Description: "The Method Close closes or switches some of the valves in the ducting system so that no air may pass through the ducting system to the device"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6426, PAEFS:ConnectionOpen, PAEFS:AirConnectionOpenEnum, 0, 0 ]
+    - DisplayName: "ConnectionOpen"
+    - Description: "Indicates the connections status (open, closed, or a state in between)"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5064, PAEFS:GasQuality ]
+    - DisplayName: "GasQuality"
+    - Description: "Value of the gas quality sensor"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
     - [ UAObject, PAEFS:5066, PAEFS:Humidity ]
+    - DisplayName: "Humidity"
+    - Description: "Value of the humidity sensor"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6428, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates that the AirConnection is malfunctioning, i.e., an error occurs in a component that provides functionality for this abstract component; e.g., an error in the ducting system or a valve. True in case of error."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7008, PAEFS:Open ]
+    - DisplayName: "Open"
+    - Description: "The Method Open opens or switches all valves of the ducting system so that the air can pass through to the filter device"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5014, PAEFS:Pressure ]
+    - DisplayName: "Pressure"
+    - Description: "Value of the pressure sensor"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
     - [ UAObject, PAEFS:5067, PAEFS:Temperature ]
+    - DisplayName: "Temperature"
+    - Description: "Value of the temperature sensor"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -131,65 +172,93 @@ DefinedTypes:
 
   PAEFS:CompressedAirSupplyInterruptedAlarmType:
   - [ UAObjectType, PAEFS:1032, PAEFS:CompressedAirSupplyInterruptedAlarmType ]
+  - DisplayName: "CompressedAirSupplyInterruptedAlarmType"
+  - Description: "Triggered when the compressed air supply is interrupted"
   - HasSubtype_reverse:
     - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   PAEFS:EndOfFilterRollAlarmType:
   - [ UAObjectType, PAEFS:1026, PAEFS:EndOfFilterRollAlarmType ]
+  - DisplayName: "EndOfFilterRollAlarmType"
+  - Description: "Triggered when the automatic roll filter reaches the end of the filter roll"
   - HasSubtype_reverse:
     - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   PAEFS:MalfunctionAlarmType:
   - [ UAObjectType, PAEFS:1025, PAEFS:MalfunctionAlarmType ]
+  - DisplayName: "MalfunctionAlarmType"
+  - Description: "Sent when the component has an error that may prevent it from operating"
   - HasSubtype_reverse:
     - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   PAEFS:SafetySystemTriggeredAlarmType:
   - [ UAObjectType, PAEFS:1041, PAEFS:SafetySystemTriggeredAlarmType ]
+  - DisplayName: "SafetySystemTriggeredAlarmType"
+  - Description: "Is sent when the safety system is triggered"
   - HasSubtype_reverse:
     - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   PAEFS:WashingAgentDrainMalfunctionAlarmType:
   - [ UAObjectType, PAEFS:1030, PAEFS:WashingAgentDrainMalfunctionAlarmType ]
+  - DisplayName: "WashingAgentDrainMalfunctionAlarmType"
+  - Description: "The WashingAgentDrainMalfunctionAlarmType is triggered when an error occurs on the washing agent drain"
   - HasSubtype_reverse:
     - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   PAEFS:WashingAgentInflowMalfunctionAlarmType:
   - [ UAObjectType, PAEFS:1029, PAEFS:WashingAgentInflowMalfunctionAlarmType ]
+  - DisplayName: "WashingAgentInflowMalfunctionAlarmType"
+  - Description: "The WashingAgentInflowMalfunctionAlarmType event is triggered when an error occurs on the washing agent inflow"
   - HasSubtype_reverse:
     - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   PAEFS:CleaningRecommendedConditionType:
   - [ UAObjectType, PAEFS:1037, PAEFS:CleaningRecommendedConditionType ]
+  - DisplayName: "CleaningRecommendedConditionType"
+  - Description: "Triggered by the cleaning unit when cleaning of the separator is necessary"
   - HasSubtype_reverse:
     - [ UAObjectType, 2881, AcknowledgeableConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6048, PAEFS:Recommended, Boolean, 0, 0 ]
+    - DisplayName: "Recommended"
+    - Description: "Reflects the value of the property CleaningRequested of the CleaningUnitType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PAEFS:MaintenanceRequestedConditionType:
   - [ UAObjectType, PAEFS:1023, PAEFS:MaintenanceRequestedConditionType ]
+  - DisplayName: "MaintenanceRequestedConditionType"
+  - Description: "Is sent when the manufacturer wants to inform the operator that the system requires maintenance"
   - HasSubtype_reverse:
     - [ UAObjectType, 2881, AcknowledgeableConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6047, PAEFS:Requested, Boolean, 0, 0 ]
+    - DisplayName: "Requested"
+    - Description: "Reflects the value of the MaintenanceRequested property of the object from which the event originates at the time the event was sent"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PAEFS:AirConnectionStatusChangedConditionType:
   - [ UAObjectType, PAEFS:1040, PAEFS:AirConnectionStatusChangedConditionType ]
+  - DisplayName: "AirConnectionStatusChangedConditionType"
+  - Description: "Triggered when the ConnectionOpen variable of the AirConnectionType changes"
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:8427, PAEFS:Status, PAEFS:AirConnectionOpenEnum, 0, 0 ]
+    - DisplayName: "Status"
+    - Description: "Reflects the value of the ConnectionOpen property at the time the event is triggered"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PAEFS:CleaningUnitActiveConditionType:
   - [ UAObjectType, PAEFS:1036, PAEFS:CleaningUnitActiveConditionType ]
+  - DisplayName: "CleaningUnitActiveConditionType"
+  - Description: "Triggered when a cleaning cycle is started or stopped"
   - HasProperty:
     - [ UAVariable, PAEFS:8424, PAEFS:Active, Boolean, 0, 0 ]
+    - DisplayName: "Active"
+    - Description: "Reflects the value of the CleaningActive property of the CleaningUnitType at the time the condition was triggered"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -197,44 +266,64 @@ DefinedTypes:
 
   PAEFS:ContainerOpenConditionType:
   - [ UAObjectType, PAEFS:1024, PAEFS:ContainerOpenConditionType ]
+  - DisplayName: "ContainerOpenConditionType"
+  - Description: "Triggered when the filter aid reservoir is opened or closed"
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6050, PAEFS:Open, Boolean, 0, 0 ]
+    - DisplayName: "Open"
+    - Description: "Reflects the value of the ContainerOpen property of the FilterAidDeviceType at the time the condition was triggered"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PAEFS:DischargeContainerInstalledConditionType:
   - [ UAObjectType, PAEFS:1038, PAEFS:DischargeContainerInstalledConditionType ]
+  - DisplayName: "DischargeContainerInstalledConditionType"
+  - Description: "The DischargeSystemType sends this event when the container is installed or removed"
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:8425, PAEFS:Installed, Boolean, 0, 0 ]
+    - DisplayName: "Installed"
+    - Description: "Reflects the value of the DischargeContainerInstalled property of the DischargeSystemType at the time the event was sent"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PAEFS:FilterAidDeviceStatusChangedConditionType:
   - [ UAObjectType, PAEFS:1033, PAEFS:FilterAidDeviceStatusChangedConditionType ]
+  - DisplayName: "FilterAidDeviceStatusChangedConditionType"
+  - Description: "Triggered when the FilterAidDeviceStatus of the FilterAidDeviceType changes"
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:8421, PAEFS:Status, PAEFS:FilterAidDeviceStatusEnum, 0, 0 ]
+    - DisplayName: "Status"
+    - Description: "Reflects the value of the FilterAidDeviceStatus property at the time the condition was triggered"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PAEFS:MaintenanceSwitchConditionType:
   - [ UAObjectType, PAEFS:1039, PAEFS:MaintenanceSwitchConditionType ]
+  - DisplayName: "MaintenanceSwitchConditionType"
+  - Description: "Is sent when the physical maintenance switch is toggled"
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6046, PAEFS:SwitchOn, Boolean, 0, 0 ]
+    - DisplayName: "SwitchOn"
+    - Description: "Reflects the value of the MaintenanceRequested property of the object from which the event originates at the time the event was sent"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PAEFS:WashingAgentDrainOpenConditionType:
   - [ UAObjectType, PAEFS:1028, PAEFS:WashingAgentDrainOpenConditionType ]
+  - DisplayName: "WashingAgentDrainOpenConditionType"
+  - Description: "The WashingAgentDrainOpenConditionType is triggered when the washing agent drain valve is opened or closed"
   - HasProperty:
     - [ UAVariable, PAEFS:8420, PAEFS:Open, Boolean, 0, 0 ]
+    - DisplayName: "Open"
+    - Description: "Reflects the value of the WashingAgentDrainOpen property of the WetSeparatorType at the time the event was sent"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -242,8 +331,12 @@ DefinedTypes:
 
   PAEFS:WashingAgentInflowOpenConditionType:
   - [ UAObjectType, PAEFS:1027, PAEFS:WashingAgentInflowOpenConditionType ]
+  - DisplayName: "WashingAgentInflowOpenConditionType"
+  - Description: "Triggered when the washing agent inflow valve is opened or closed"
   - HasProperty:
     - [ UAVariable, PAEFS:8419, PAEFS:Open, Boolean, 0, 0 ]
+    - DisplayName: "Open"
+    - Description: "Reflects the value of the WashingAgentInflowOpen property of the WetSeparatorType at the time the event was sent"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -251,8 +344,12 @@ DefinedTypes:
 
   PAEFS:HighVoltageUnitSupplyActiveEventType:
   - [ UAObjectType, PAEFS:1031, PAEFS:HighVoltageUnitSupplyActiveEventType ]
+  - DisplayName: "HighVoltageUnitSupplyActiveEventType"
+  - Description: "Triggered when the high voltage unit supply is activated or deactivated"
   - HasProperty:
     - [ UAVariable, PAEFS:6049, PAEFS:Active, Boolean, 0, 0 ]
+    - DisplayName: "Active"
+    - Description: "Reflects the value of the SupplyActive property of the HighVoltageUnitType at the time the event was triggered"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -260,86 +357,121 @@ DefinedTypes:
 
   PAEFS:CleaningUnitType:
   - [ UAObjectType, PAEFS:1005, PAEFS:CleaningUnitType ]
+  - DisplayName: "CleaningUnitType"
+  - Description: "The CleaningUnitType represents a device for the reduction of filtered materials in separators"
   - HasComponent:
     - [ UAObject, PAEFS:5049, PAEFS:<Valve> ]
+    - DisplayName: "<Valve>"
+    - Description: "The valves that are part of the cleaning unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1016, PAEFS:CleaningUnitValveType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PAEFS:5078, PAEFS:AirConsumption ]
+    - DisplayName: "AirConsumption"
+    - Description: "Describes the current consumption of compressed air."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6082, PAEFS:AutomaticCleaningEnabled, Boolean, 0, 3 ]
+    - DisplayName: "AutomaticCleaningEnabled"
+    - Description: "If enabled, the cleaning unit may automatically perform the cleaning according to predefined rules when cleaning is necessary. Otherwise, automatic cleaning is blocked."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6161, PAEFS:CleaningActive, Boolean, 0, 0 ]
+    - DisplayName: "CleaningActive"
+    - Description: "Describes that the unit is currently in a cleaning cycle."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PAEFS:5077, PAEFS:CleaningInterval ]
+    - DisplayName: "CleaningInterval"
+    - Description: "Time between cleaning cycles."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, PAEFS:SensorSetpointWriteType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6187, PAEFS:CleaningRecommended, Boolean, 0, 0 ]
+    - DisplayName: "CleaningRecommended"
+    - Description: "Indicates that cleaning of the separator is recommended."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5048, PAEFS:FilterCleaningEffect ]
+    - DisplayName: "FilterCleaningEffect"
+    - Description: "The filter cleaning effect describes the change in state of the separator after the last cleaning cycle has been run through. This can be, for example, a change in the pressure difference before and after the cleaning cycle."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, PAEFS:SensorSetpointWriteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5114, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6406, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates that the cleaning unit is malfunctioning. True in case of error. Malfunctions can be, for example, that the filter cleaning effect is not sufficient."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7007, PAEFS:RequestCleaning ]
+    - DisplayName: "RequestCleaning"
+    - Description: "The Method RequestCleaning requests cleaning of the unit. The cleaning unit will perform the cleaning as soon as possible."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5043, PAEFS:ReservoirPressure ]
+    - DisplayName: "ReservoirPressure"
+    - Description: "Describes the pressure of the compressed gas reservoir of the system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, PAEFS:SensorSetpointWriteType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6186, PAEFS:TotalCleaningCycles, UInt32, 0, 0 ]
+    - DisplayName: "TotalCleaningCycles"
+    - Description: "Count of the number of cleaning cycles carried out by the cleaning system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:CleaningUnitValveType:
   - [ UAObjectType, PAEFS:1016, PAEFS:CleaningUnitValveType ]
+  - DisplayName: "CleaningUnitValveType"
+  - Description: "Part of the pressure tank of the cleaning unit for triggering a pressure surge into the separator."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6359, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates that the cleaning unit valve is malfunctioning. True in case of error. Malfunctions can be, for example, that the valve does not open or close."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6418, PAEFS:Open, Boolean, 0, 0 ]
+    - DisplayName: "Open"
+    - Description: "Indicates that the valve is open."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:CollectorType:
   - [ UAObjectType, PAEFS:1020, PAEFS:CollectorType ]
+  - DisplayName: "CollectorType"
+  - Description: "Unit for separating particles from a process air stream."
   - HasComponent:
     - [ UAObject, PAEFS:5027, PAEFS:CollectorOutput ]
+    - DisplayName: "CollectorOutput"
+    - Description: "Describes the current flow or the voltage to the collector."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -349,8 +481,12 @@ DefinedTypes:
 
   PAEFS:ConsumptionType:
   - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
+  - DisplayName: "ConsumptionType"
+  - Description: "The ConsumtionType contains information related to the consumption of a device."
   - HasComponent:
     - [ UAObject, PAEFS:5015, PAEFS:CurrentConsumption ]
+    - DisplayName: "CurrentConsumption"
+    - Description: "The current consumption of the device."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -359,74 +495,102 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PAEFS:6016, PAEFS:LifetimeConsumption, Double, 0, 0 ]
+    - DisplayName: "LifetimeConsumption"
+    - Description: "Consumption over total machine lifetime. The AnalogUnitType variables InstrumentRange and EURange must not be used."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:DischargeSystemType:
   - [ UAObjectType, PAEFS:1006, PAEFS:DischargeSystemType ]
+  - DisplayName: "DischargeSystemType"
+  - Description: "Device used to remove collected filter material from the filter unit. The container can be discharged when a certain filling level is reached."
   - HasComponent:
     - [ UAObject, PAEFS:5079, PAEFS:AirConsumption ]
+    - DisplayName: "AirConsumption"
+    - Description: "Contains information regarding the consumption of compressed air."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6140, PAEFS:DischargeContainerInstalled, Boolean, 0, 0 ]
+    - DisplayName: "DischargeContainerInstalled"
+    - Description: "Indicates that the discharge container is in place."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6230, PAEFS:DischargeSystemEnabled, Boolean, 0, 3 ]
+    - DisplayName: "DischargeSystemEnabled"
+    - Description: "If enabled, discharge can be performed. If disabled, discharge cannot take place; for example, because a rotary valve is stopped or a discharge flap is closed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5055, PAEFS:FillingLevel ]
+    - DisplayName: "FillingLevel"
+    - Description: "Filling level of the device."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
     - [ UAObject, PAEFS:5115, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6139, PAEFS:MaintenanceSwitchOn, Boolean, 0, 0 ]
+    - DisplayName: "MaintenanceSwitchOn"
+    - Description: "Status of a physical maintenance switch on the discharge system. True when the switch is on."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PAEFS:6420, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates whether there is an error with the discharge system. True in case of error. Examples: discharge motor defective, discharge container full, discharge system blocked."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:FanType:
   - [ UAObjectType, PAEFS:1009, PAEFS:FanType ]
+  - DisplayName: "FanType"
+  - Description: "A device for generating negative air pressure."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5109, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6208, PAEFS:MaintenanceSwitchOn, Boolean, 0, 0 ]
+    - DisplayName: "MaintenanceSwitchOn"
+    - Description: "Status of a physical maintenance switch on the fan. True when the switch is on."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6395, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates whether there is an error with the fan. True in case of error."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5065, PAEFS:PowerConsumption ]
+    - DisplayName: "PowerConsumption"
+    - Description: "Contains information regarding the energy consumption of the fan."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5013, PAEFS:RotationalSpeed ]
+    - DisplayName: "RotationalSpeed"
+    - Description: "Measured rotational speed of the fan."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -434,169 +598,232 @@ DefinedTypes:
 
   PAEFS:FilterAidDeviceType:
   - [ UAObjectType, PAEFS:1004, PAEFS:FilterAidDeviceType ]
+  - DisplayName: "FilterAidDeviceType"
+  - Description: "Device for the application of a filter aid."
   - HasComponent:
     - [ UAObject, PAEFS:5037, PAEFS:AirConsumption ]
+    - DisplayName: "AirConsumption"
+    - Description: "Describes the compressed air consumption."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6204, PAEFS:AutomaticDosingEnabled, Boolean, 0, 3 ]
+    - DisplayName: "AutomaticDosingEnabled"
+    - Description: "If enabled, the filter aid device is allowed to perform dosing automatically."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6146, PAEFS:CompressedAirSupplyInterrupted, Boolean, 0, 0 ]
+    - DisplayName: "CompressedAirSupplyInterrupted"
+    - Description: "Indicates that the air supply is interrupted."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6142, PAEFS:ContainerOpen, Boolean, 0, 0 ]
+    - DisplayName: "ContainerOpen"
+    - Description: "Indicates that the filter aid reservoir is not closed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5031, PAEFS:DosageAmount ]
+    - DisplayName: "DosageAmount"
+    - Description: "The amount of filter aid that is added per cycle."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, PAEFS:SensorSetpointWriteType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6144, PAEFS:DosingRequested, Boolean, 0, 0 ]
+    - DisplayName: "DosingRequested"
+    - Description: "Indicates that the filter system requests dosing."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5009, PAEFS:FillingLevel ]
+    - DisplayName: "FillingLevel"
+    - Description: "The filling level describes the amount of filter aid in the pre-storage reservoir."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6143, PAEFS:FilterAidDeviceStatus, PAEFS:FilterAidDeviceStatusEnum, 0, 0 ]
+    - DisplayName: "FilterAidDeviceStatus"
+    - Description: "Describes the action performed by the dosage unit (see FilterAidDeviceStatusEnum)."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5112, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6145, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates that the filter aid device is malfunctioning. True in case of error. Malfunctions can be, for example, that there is no more filter aid or that there is a malfunction in the subsystems of the filter aid device."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PAEFS:5035, PAEFS:PowerConsumption ]
+    - DisplayName: "PowerConsumption"
+    - Description: "Describes the current power consumption of the filter aid device."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7006, PAEFS:ResetFillingLevel ]
+    - DisplayName: "ResetFillingLevel"
+    - Description: "The Method ResetFillingLevel resets the filling level of the filter aid reservoir."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7042, PAEFS:TriggerDosing ]
+    - DisplayName: "TriggerDosing"
+    - Description: "The Method TriggerDosing triggers a single additional dosage."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:FilterSystemType:
   - [ UAObjectType, PAEFS:1002, PAEFS:FilterSystemType ]
+  - DisplayName: "FilterSystemType"
+  - Description: "Serves the purpose of extracting and filtering process gas; e.g., air. It consists of several filter units and other devices and components."
   - HasComponent:
     - [ UAObject, PAEFS:5007, PAEFS:<Fan> ]
+    - DisplayName: "<Fan>"
+    - Description: "All fans used on the server."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1009, PAEFS:FanType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PAEFS:5004, PAEFS:<FilterAidDevice> ]
+    - DisplayName: "<FilterAidDevice>"
+    - Description: "All filter aid devices that are used on the server."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1004, PAEFS:FilterAidDeviceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PAEFS:5018, PAEFS:<FilterUnit> ]
+    - DisplayName: "<FilterUnit>"
+    - Description: "All filter units of the system."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1012, PAEFS:FilterUnitType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
     - [ UAObject, PAEFS:5006, PAEFS:<SafetySystem> ]
+    - DisplayName: "<SafetySystem>"
+    - Description: "All safety systems used on the server."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1008, PAEFS:SafetySystemType ]
   - HasComponent:
     - [ UAObject, PAEFS:5106, PAEFS:<TemperatureRegulator> ]
+    - DisplayName: "<TemperatureRegulator>"
+    - Description: "All temperature regulators used on the server."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1017, PAEFS:TemperatureRegulatorType ]
   - HasComponent:
     - [ UAObject, PAEFS:5002, PAEFS:AirConsumption ]
+    - DisplayName: "AirConsumption"
+    - Description: "Contains information regarding the consumption of compressed air of the filter system."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5005, PAEFS:AirIntakeConnection ]
+    - DisplayName: "AirIntakeConnection"
+    - Description: "The connection to the ducting system from which the process gas enters the filter system."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1007, PAEFS:AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PAEFS:5008, PAEFS:AirOutletConnection ]
+    - DisplayName: "AirOutletConnection"
+    - Description: "The connection to the ducting system to which the cleaned process gas leaves the filter system."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1007, PAEFS:AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PAEFS:6021, PAEFS:ControlMode, PAEFS:ControlModeEnum, 0, 0 ]
+    - DisplayName: "ControlMode"
+    - Description: "Operating mode that describes whether the system can be controlled externally. Possible values are manual, auto and other."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5107, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6238, PAEFS:MaintenanceRequested, Boolean, 0, 0 ]
+    - DisplayName: "MaintenanceRequested"
+    - Description: "The maintenance request allows the manufacturer to inform the operator that the system requires maintenance. True = maintenance requested by system. False = no maintenance requested."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6058, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Malfunction describes that the filter system has a collective fault message. True in case of error."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PAEFS:6181, PAEFS:OperationCycleCounter, UInteger, 0, 0 ]
+    - DisplayName: "OperationCycleCounter"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6180, PAEFS:OperationDuration, Duration, 0, 0 ]
+    - DisplayName: "OperationDuration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7005, PAEFS:OperationOff ]
+    - DisplayName: "OperationOff"
+    - Description: "The Method OperationOff turns the filter system machine off. As with the OperationOn method, this method should be present under the FilterSystemType if and only if the filter units are considered components of the system rather than individual machines."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7004, PAEFS:OperationOn ]
+    - DisplayName: "OperationOn"
+    - Description: "The Method OperationOn turns the filter system machine on. It should only be available on the filter system if the filter units are considered components of the filter system and do not have their own OperationOn and OperationOff methods."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5017, PAEFS:PowerConsumption ]
+    - DisplayName: "PowerConsumption"
+    - Description: "Contains information regarding the energy consumption of the filter system."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6054, PAEFS:PowerOnDuration, Duration, 0, 0 ]
+    - DisplayName: "PowerOnDuration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5016, PAEFS:PressureLoss ]
+    - DisplayName: "PressureLoss"
+    - Description: "Specification of the current total pressure loss of the filter system between the device intake connection on the raw gas side and the device outlet on the clean gas side."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -604,205 +831,275 @@ DefinedTypes:
 
   PAEFS:FilterUnitType:
   - [ UAObjectType, PAEFS:1012, PAEFS:FilterUnitType ]
+  - DisplayName: "FilterUnitType"
+  - Description: "Subcomponent of a filter system consisting of other devices and components."
   - HasComponent:
     - [ UAObject, PAEFS:5044, PAEFS:<CleaningUnit> ]
+    - DisplayName: "<CleaningUnit>"
+    - Description: "The cleaning units that are part of the filter unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1005, PAEFS:CleaningUnitType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PAEFS:5022, PAEFS:<DischargeSystem> ]
+    - DisplayName: "<DischargeSystem>"
+    - Description: "The discharge systems that are part of the filter unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1006, PAEFS:DischargeSystemType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PAEFS:5036, PAEFS:<Separator> ]
+    - DisplayName: "<Separator>"
+    - Description: "The separators that are part of the filter unit."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
   - HasComponent:
     - [ UAObject, PAEFS:5030, PAEFS:AirConsumption ]
+    - DisplayName: "AirConsumption"
+    - Description: "Contains information regarding the consumption of compressed air of the filter unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5093, PAEFS:Airflow ]
+    - DisplayName: "Airflow"
+    - Description: "Setpoint for the airflow that flows through the filter unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1034, PAEFS:SensorSetpointReadType ]
   - HasComponent:
     - [ UAObject, PAEFS:5023, PAEFS:AirIntakeConnection ]
+    - DisplayName: "AirIntakeConnection"
+    - Description: "The connection to the ducting system from which the polluted process gas enters the filter unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1007, PAEFS:AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PAEFS:5024, PAEFS:AirOutletConnection ]
+    - DisplayName: "AirOutletConnection"
+    - Description: "The connection to the ducting system through which the cleaned process gas leaves the filter unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1007, PAEFS:AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PAEFS:5108, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6141, PAEFS:MaintenanceRequested, Boolean, 0, 0 ]
+    - DisplayName: "MaintenanceRequested"
+    - Description: "The maintenance request allows the manufacturer to inform the operator that the system requires maintenance. True = maintenance requested by system. False = no maintenance requested."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6036, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "One or more subsystems of the filter unit have a malfunction. True in case of error."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6251, PAEFS:OperationCycleCounter, UInteger, 0, 0 ]
+    - DisplayName: "OperationCycleCounter"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6250, PAEFS:OperationDuration, Duration, 0, 0 ]
+    - DisplayName: "OperationDuration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7002, PAEFS:OperationOff ]
+    - DisplayName: "OperationOff"
+    - Description: "The Method OperationOff turns the machine off. As with the OperationOn Method, this method should be present under the filter unit if and only if the filter unit is considered a machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PAEFS:7001, PAEFS:OperationOn ]
+    - DisplayName: "OperationOn"
+    - Description: "The Method OperationOn turns the machine on. It should only be available on the filter unit if the filter unit is considered a machine, rather than a component of a larger machine. If the filter unit is only a component of a larger machine, the OperationOn Method should be present on the filter system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5029, PAEFS:PowerConsumption ]
+    - DisplayName: "PowerConsumption"
+    - Description: "Contains information regarding the energy consumption of the filter unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6182, PAEFS:PowerOnDuration, Duration, 0, 0 ]
+    - DisplayName: "PowerOnDuration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5094, PAEFS:Pressure ]
+    - DisplayName: "Pressure"
+    - Description: "Setpoint for the negative pressure at the filter unit. Describes the setpoint value for the pressure difference of the raw gas side compared to the environment."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1034, PAEFS:SensorSetpointReadType ]
   - HasComponent:
     - [ UAObject, PAEFS:5028, PAEFS:PressureLoss ]
+    - DisplayName: "PressureLoss"
+    - Description: "The specification of the total pressure loss of the filter unit between the device intake connection on the raw gas side and the device outlet on the clean gas side."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
     - [ UAObject, PAEFS:5095, PAEFS:RotationalSpeed ]
+    - DisplayName: "RotationalSpeed"
+    - Description: "Setpoint for the rotational speed of a 'virtual' fan. This value is a setpoint. In reality, the filter system can have several fans."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1034, PAEFS:SensorSetpointReadType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7003, PAEFS:SetAndActivateAirflowSetpoint ]
+    - DisplayName: "SetAndActivateAirflowSetpoint"
+    - Description: "The Method SetAirflowSetpoint sets a setpoint for the airflow. The value’s unit is the same as the one specified in object Airflow. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for pressure and rotational speed to false."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PAEFS:6277, PAEFS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Double, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PAEFS:7071, PAEFS:SetAndActivatePressureSetpoint ]
+    - DisplayName: "SetAndActivatePressureSetpoint"
+    - Description: "The Method SetPressureSetpoint sets a setpoint for the pressure. The value’s unit is the same as the one specified in object Pressure. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for airflow and rotational speed to false."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PAEFS:6278, PAEFS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Double, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PAEFS:7072, PAEFS:SetAndActivateRotationalSpeedSetpoint ]
+    - DisplayName: "SetAndActivateRotationalSpeedSetpoint"
+    - Description: "The Method SetRotationalSpeedSetpoint sets a setpoint for the rotational speed. The value’s unit is the same as the one specified in object RotationalSpeed. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for airflow and pressure to false."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PAEFS:6279, PAEFS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Value: [ Double, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
 
   PAEFS:FilterMachineIdentificationType:
   - [ UAObjectType, PAEFS:1022, PAEFS:FilterMachineIdentificationType ]
+  - DisplayName: "FilterMachineIdentificationType"
   - HasProperty:
     - [ UAVariable, PAEFS:6440, PAEFS:ExIdentification, String, 0, 3 ]
+    - DisplayName: "ExIdentification"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasComponent:
     - [ UAVariable, PAEFS:6437, PAEFS:NominalAirflow, Double, 0, 3 ]
+    - DisplayName: "NominalAirflow"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PAEFS:6441, PAEFS:RatedPower, Double, 0, 3 ]
+    - DisplayName: "RatedPower"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:HighVoltageUnitType:
   - [ UAObjectType, PAEFS:1015, PAEFS:HighVoltageUnitType ]
+  - DisplayName: "HighVoltageUnitType"
+  - Description: "Unit to produce high voltage to supply to ionizers and collectors."
   - HasComponent:
     - [ UAObject, PAEFS:5041, PAEFS:<Collector> ]
+    - DisplayName: "<Collector>"
+    - Description: "The collectors of the high voltage unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1020, PAEFS:CollectorType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PAEFS:5039, PAEFS:<Ionizer> ]
+    - DisplayName: "<Ionizer>"
+    - Description: "The ionizers of the high voltage unit."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1019, PAEFS:IonizerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, PAEFS:6088, PAEFS:CurrentOutput, Double, 0, 0 ]
+    - DisplayName: "CurrentOutput"
+    - Description: "Current output of the high voltage unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6093, PAEFS:MaintenanceRequested, Boolean, 0, 0 ]
+    - DisplayName: "MaintenanceRequested"
+    - Description: "Indicates that maintenance is requested for the high voltage generator."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6091, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates that the high voltage generator is malfunctioning (e.g., excess/insufficient voltage, overheating, etc). True in case of error."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6098, PAEFS:OperationCycleCounter, UInteger, 0, 0 ]
+    - DisplayName: "OperationCycleCounter"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6092, PAEFS:OperationDuration, Duration, 0, 0 ]
+    - DisplayName: "OperationDuration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6039, PAEFS:PowerOnDuration, Duration, 0, 0 ]
+    - DisplayName: "PowerOnDuration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6087, PAEFS:SupplyActive, Boolean, 0, 0 ]
+    - DisplayName: "SupplyActive"
+    - Description: "Indicates that the high-voltage generator is emitting high voltage."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:IonizerType:
   - [ UAObjectType, PAEFS:1019, PAEFS:IonizerType ]
+  - DisplayName: "IonizerType"
+  - Description: "Unit for ionizing particles in a process air stream."
   - HasComponent:
     - [ UAObject, PAEFS:5011, PAEFS:IonizerOutput ]
+    - DisplayName: "IonizerOutput"
+    - Description: "Describes the current flow or the voltage to the ionizer."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -812,27 +1109,37 @@ DefinedTypes:
 
   PAEFS:SafetySystemType:
   - [ UAObjectType, PAEFS:1008, PAEFS:SafetySystemType ]
+  - DisplayName: "SafetySystemType"
+  - Description: "The safety system is a generic component that represents a protective device. Each component in the PAEFS can reference an instance of the safety system via a Uses reference."
   - HasComponent:
     - [ UAObject, PAEFS:5111, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6430, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates that the safety system is malfunctioning. True in case of error."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6219, PAEFS:Triggered, Boolean, 0, 0 ]
+    - DisplayName: "Triggered"
+    - Description: "Indicates that the safety system has been triggered. If true the safety system has been triggered."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:SensorMonitoringType:
   - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
+  - DisplayName: "SensorMonitoringType"
+  - Description: "Represents a process value whose value is determined by a measuring device"
   - HasComponent:
     - [ UAObject, PAEFS:5105, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -841,25 +1148,35 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5026, PAEFS:Signal ]
+    - DisplayName: "Signal"
+    - Description: "Value of the signal. This includes min/max ranges, unit and other meta information. The optional setpoint should be implemented only for SensorSetpointReadType and SensorSetpointWriteType types."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6007, PAEFS:SignalForm, PAEFS:AnalogDigitalEnum, 0, 0 ]
+    - DisplayName: "SignalForm"
+    - Description: "Specifies whether the sensor is an analog or a digital sensor."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:SensorSetpointReadType:
   - [ UAObjectType, PAEFS:1034, PAEFS:SensorSetpointReadType ]
+  - DisplayName: "SensorSetpointReadType"
+  - Description: "This type represents a process value and provides a setpoint for this value. This type provides only read-access to the sepoint."
   - HasProperty:
     - [ UAVariable, PAEFS:6176, PAEFS:IsActiveSetpoint, Boolean, 0, 0 ]
+    - DisplayName: "IsActiveSetpoint"
+    - Description: "Indicates that the setpoint is currently active."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
     - [ UAObject, PAEFS:5099, PAEFS:Signal ]
+    - DisplayName: "Signal"
+    - Description: "Value of the signal. This includes min/max ranges, unit and other meta information. The optional setpoint should be implemented only for SensorSetpointReadType and SensorSetpointWriteType types."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -867,10 +1184,14 @@ DefinedTypes:
 
   PAEFS:SensorSetpointWriteType:
   - [ UAObjectType, PAEFS:1035, PAEFS:SensorSetpointWriteType ]
+  - DisplayName: "SensorSetpointWriteType"
+  - Description: "This type represents a process value and provides a readable and writable setpoint for this value"
   - HasSubtype_reverse:
     - [ UAObjectType, PAEFS:1034, PAEFS:SensorSetpointReadType ]
   - HasComponent:
     - [ UAObject, PAEFS:5057, PAEFS:Signal ]
+    - DisplayName: "Signal"
+    - Description: "Value of the signal. This includes min/max ranges, unit and other meta information. The optional setpoint should be implemented only for SensorSetpointReadType and SensorSetpointWriteType types."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -878,24 +1199,33 @@ DefinedTypes:
 
   PAEFS:SeparatorType:
   - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
+  - DisplayName: "SeparatorType"
+  - Description: "This is the abstract base type for separators. It contains optional sensor values that are common to all separators. Users may use one of the subtypes provided within this specification or create their own type."
   - HasProperty:
     - [ UAVariable, PAEFS:6081, PAEFS:FilterMediumOperatingHours, UInt32, 0, 0 ]
+    - DisplayName: "FilterMediumOperatingHours"
+    - Description: "The number of hours that the unit has been in operation since the last filter change."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5001, PAEFS:FilterMediumState ]
+    - DisplayName: "FilterMediumState"
+    - Description: "The state of the filter medium; e.g., pressure difference or gas loading."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
     - [ UAObject, PAEFS:5003, PAEFS:Humidity ]
+    - DisplayName: "Humidity"
+    - Description: "The current humidity in the separator."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, PAEFS:SensorMonitoringType ]
   - HasComponent:
     - [ UAObject, PAEFS:5113, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -904,6 +1234,8 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5025, PAEFS:Temperature ]
+    - DisplayName: "Temperature"
+    - Description: "The current temperature in the separator."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -911,22 +1243,32 @@ DefinedTypes:
 
   PAEFS:AutomaticRollFilterType:
   - [ UAObjectType, PAEFS:1021, PAEFS:AutomaticRollFilterType ]
+  - DisplayName: "AutomaticRollFilterType"
+  - Description: "A separator that is regenerated by rolling up the filter medium."
   - HasSubtype_reverse:
     - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6389, PAEFS:EndOfFilterRoll, Boolean, 0, 0 ]
+    - DisplayName: "EndOfFilterRoll"
+    - Description: "EndOfFilterRoll is true if the end of the filter roll is reached."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PAEFS:CartridgeFilterType:
   - [ UAObjectType, PAEFS:1013, PAEFS:CartridgeFilterType ]
+  - DisplayName: "CartridgeFilterType"
+  - Description: "A basic mechanical separator."
   - HasSubtype_reverse:
     - [ UAObjectType, PAEFS:1003, PAEFS:SeparatorType ]
 
   PAEFS:ElectrostaticPrecipitatorType:
   - [ UAObjectType, PAEFS:1018, PAEFS:ElectrostaticPrecipitatorType ]
+  - DisplayName: "ElectrostaticPrecipitatorType"
+  - Description: "Separator that uses electrostatics to filter solid or liquid components from the process air."
   - HasComponent:
     - [ UAObject, PAEFS:5010, PAEFS:<HighVoltageUnit> ]
+    - DisplayName: "<HighVoltageUnit>"
+    - Description: "The precipitator’s high voltage units."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1015, PAEFS:HighVoltageUnitType ]
     - HasModellingRule:
@@ -936,20 +1278,30 @@ DefinedTypes:
 
   PAEFS:WetSeparatorType:
   - [ UAObjectType, PAEFS:1014, PAEFS:WetSeparatorType ]
+  - DisplayName: "WetSeparatorType"
+  - Description: "Separator that filters solid, liquid, or gaseous components using a liquid medium."
   - HasProperty:
     - [ UAVariable, PAEFS:6062, PAEFS:WashingAgentDrainMalfunction, Boolean, 0, 0 ]
+    - DisplayName: "WashingAgentDrainMalfunction"
+    - Description: "Indicates whether there is an error with the washing agent drain. True in case of error. Examples: clogging, burst pipe, defective valve."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6061, PAEFS:WashingAgentDrainOpen, Boolean, 0, 0 ]
+    - DisplayName: "WashingAgentDrainOpen"
+    - Description: "Indicates that the washing agent drain valve is open."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6060, PAEFS:WashingAgentInflowMalfunction, Boolean, 0, 0 ]
+    - DisplayName: "WashingAgentInflowMalfunction"
+    - Description: "Indicates whether there is an error with the washing agent inflow. True in case of error. Examples: clogging, burst pipe, defective valve."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PAEFS:6059, PAEFS:WashingAgentInflowOpen, Boolean, 0, 0 ]
+    - DisplayName: "WashingAgentInflowOpen"
+    - Description: "Indicates that the washing agent inflow valve is open."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -957,24 +1309,33 @@ DefinedTypes:
 
   PAEFS:TemperatureRegulatorType:
   - [ UAObjectType, PAEFS:1017, PAEFS:TemperatureRegulatorType ]
+  - DisplayName: "TemperatureRegulatorType"
+  - Description: "Device for regulating the temperature of the process gas."
   - HasComponent:
     - [ UAObject, PAEFS:5110, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6233, PAEFS:Malfunction, Boolean, 0, 0 ]
+    - DisplayName: "Malfunction"
+    - Description: "Indicates whether there is an error with the temperature regulator. True in case of error."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5054, PAEFS:PowerConsumption ]
+    - DisplayName: "PowerConsumption"
+    - Description: "Contains information regarding the energy consumption of the temperature regulator."
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, PAEFS:ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PAEFS:5047, PAEFS:Temperature ]
+    - DisplayName: "Temperature"
+    - Description: "Temperature of the process gas."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:

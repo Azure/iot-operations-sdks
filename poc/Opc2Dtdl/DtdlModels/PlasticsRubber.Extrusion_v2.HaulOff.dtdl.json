@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_HaulOff:HaulOff_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "HaulOff_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.HaulOff;i=1002",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_HaulOff/HaulOff_InterfaceType/{commandName}",
@@ -22,6 +23,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ClampClosed",
+        "displayName": "ClampClosed",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.HaulOff",
         "schema": "boolean",
         "writable": false
@@ -29,17 +31,20 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "CloseClamp",
+        "displayName": "CloseClamp",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.HaulOff"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "OpenClamp",
+        "displayName": "OpenClamp",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.HaulOff"
       },
       {
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Drives",
+        "displayName": "Drives",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.HaulOff",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
       },
@@ -47,6 +52,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Force",
+        "displayName": "Force",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.HaulOff",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
@@ -54,6 +60,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
+        "displayName": "TemperatureZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.HaulOff",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
       }

@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ PlasticsRubber.TCD:3002, PlasticsRubber.TCD:OperatingModeEnumeration ]
+  DisplayName: "OperatingModeEnumeration"
+  Description: "Actual operating mode of the TCD"
   Enums:
     OTHER: 0
     READY_TO_OPERATE: 1
@@ -12,6 +14,8 @@ DataTypes:
     ECO: 8
     BOOST: 9
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -22,25 +26,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -48,12 +59,16 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
+  DisplayName: "CavityCycleQualityEnumeration"
+  Description: "Quality of the cycle for each cavity"
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
+  DisplayName: "ControlModeEnumeration"
+  Description: "Indication how the parameter is currently controlled"
   Enums:
     OTHER: 0
     OFF: 1
@@ -63,12 +78,16 @@ DataTypes:
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
 - UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
+  DisplayName: "CycleQualityEnumeration"
+  Description: "Quality of the whole cycle"
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
+  DisplayName: "DiagnosticsStatusEnumeration"
+  Description: "Diagnostics inactive"
   Enums:
     OFF: 0
     ACTIVE_OK: 1
@@ -76,6 +95,8 @@ DataTypes:
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
+  DisplayName: "EventOriginatorEnumeration"
+  Description: "Originator of an event"
   Enums:
     OTHER: 0
     MACHINE: 1
@@ -83,6 +104,8 @@ DataTypes:
     MES: 3
     PERIPHERAL_DEVICE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
+  DisplayName: "JobStatusEnumeration"
+  Description: "Current status of the job"
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -97,6 +120,8 @@ DataTypes:
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
 - UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
+  DisplayName: "LogbookEventsEnumeration"
+  Description: "Information which LogbookEvents are supported by the machine"
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -110,6 +135,8 @@ DataTypes:
     MESSAGE: 9
     USER_FEEDBACK: 10
 - UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
+  DisplayName: "MachineModeEnumeration"
+  Description: "Current machine mode (as defined by mode selector on the machine)"
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -118,17 +145,23 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
+  DisplayName: "MaintenanceStatusEnumeration"
+  Description: "Maintenance status of a machine/device/component"
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
 - UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
+  DisplayName: "MouldStatusEnumeration"
+  Description: "Current (physical) status of the mould"
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
+  DisplayName: "ProductionStatusEnumeration"
+  Description: "Production status of the machine"
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -137,6 +170,8 @@ DataTypes:
     PRODUCTION: 4
     DRY_RUN: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
+  DisplayName: "SequenceChangeEnumeration"
+  Description: "Classification of production sequence change"
   Enums:
     UPDATE: 0
     ADD: 1
@@ -144,6 +179,7 @@ DataTypes:
     MOVE: 3
     DELETE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
+  DisplayName: "StartEnumeration"
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -152,11 +188,15 @@ DataTypes:
     STARTED: 4
     STOP_REQUESTED: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
+  DisplayName: "StorageEnumeration"
+  Description: "Indication which parts of the production dataset shall be activated in the machine control after writing"
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
+  DisplayName: "TemperatureZoneClassificationEnumeration"
+  Description: "Type of the temperature zone"
   Enums:
     OTHER: 0
     HEATING: 1
@@ -165,25 +205,35 @@ DataTypes:
     HOT_RUNNER: 4
     MEASURING: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
+  DisplayName: "UserChangeEnumeration"
+  Description: "Information if a user logs in or off"
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
 - UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
+  DisplayName: "ActiveErrorDataType"
+  Description: "Iinformation about an active error in a device"
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
+  DisplayName: "ClassifiedActiveErrorDataType"
+  Description: "Iinformation about an active error in a device including the SoureNodes and a Classification"
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
+  DisplayName: "ConfigurationParameterType"
+  Description: "Unique identifier"
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
+  DisplayName: "JobListElementType"
+  Description: "Description of a job in a job list"
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -199,6 +249,8 @@ DataTypes:
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
+  DisplayName: "CyclicJobListElementType"
+  Description: "Description of a job in a cyclic job list"
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
@@ -206,19 +258,26 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
+  DisplayName: "PageEntryDataType"
+  Description: "Information on a page that is implemented in the machine control system and shown on the screen of the machine"
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
+  DisplayName: "ParameterSettingType"
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
+  DisplayName: "PIDParametersDataType"
+  Description: "Structure for storing the parameters of a PID controller"
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
+  DisplayName: "ProductionDatasetInformationType"
+  Description: "Information on a production dataset"
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -238,15 +297,21 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
+  DisplayName: "ProductionDatasetReadOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForRead in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
+  DisplayName: "ProductionDatasetWriteOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForWrite in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
+  DisplayName: "StandstillReasonType"
+  Description: "Description of a standstill reason"
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
@@ -256,8 +321,12 @@ DefinedTypes:
 
   PlasticsRubber.TCD:TCDHelpOffNormalAlarmType:
   - [ UAObjectType, PlasticsRubber.TCD:1009, PlasticsRubber.TCD:TCDHelpOffNormalAlarmType ]
+  - DisplayName: "TCDHelpOffNormalAlarmType"
+  - Description: "HelpOffNormalAlarmType with additional DeviceMappingNumber for identification"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:7137, PlasticsRubber.TCD:DeviceMappingNumber, UInt32, 0, 0 ]
+    - DisplayName: "DeviceMappingNumber"
+    - Description: "Unique identifier/address/number for devices of the same DeviceType within a local network"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -265,10 +334,15 @@ DefinedTypes:
 
   PlasticsRubber.TCD:DeviceZoneType:
   - [ UAObjectType, PlasticsRubber.TCD:1008, PlasticsRubber.TCD:DeviceZoneType ]
+  - DisplayName: "DeviceZoneType"
+  - Description: "Represents the functional main component of a TCD"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6237, PlasticsRubber.TCD:ActualProcessPower, Double, 0, 0 ]
+    - DisplayName: "ActualProcessPower"
+    - Description: "Actual calculated process performance (from the view of the TCD: heating = positive value, cooling = negative value)"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6582, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 4937556
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -276,8 +350,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6247, PlasticsRubber.TCD:ActualPumpPower, Double, 0, 0 ]
+    - DisplayName: "ActualPumpPower"
+    - Description: "Actual power of the pump in kW"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6618, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 4937556
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -285,8 +362,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6245, PlasticsRubber.TCD:ActualPumpSpeedRPM, Double, 0, 0 ]
+    - DisplayName: "ActualPumpSpeedRPM"
+    - Description: "Actual speed of the pump in revolutions per minute"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6616, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 4405556
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -294,8 +374,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6239, PlasticsRubber.TCD:ActualRegulationRatio, Double, 0, 0 ]
+    - DisplayName: "ActualRegulationRatio"
+    - Description: "Actual Regulation Ratio (heating = positive value, cooling = negative value)"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6584, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 20529
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -303,8 +386,11 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6241, PlasticsRubber.TCD:DelayTimeAfterCooling, Double, 0, 3 ]
+    - DisplayName: "DelayTimeAfterCooling"
+    - Description: "Delay Time after cooling before switching off the TCD"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6586, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 5065038
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -314,105 +400,147 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5028, PlasticsRubber.TCD:ExternalChannels ]
+    - DisplayName: "ExternalChannels"
+    - Description: "Container for the external channel(s)"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.TCD:1003, PlasticsRubber.TCD:ExternalChannelsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5020, PlasticsRubber.TCD:ExternalSensor ]
+    - DisplayName: "ExternalSensor"
+    - Description: "Variables for the operation with an external temperature sensor"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.TCD:1007, PlasticsRubber.TCD:ExternalSensorType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5029, PlasticsRubber.TCD:FlowRate ]
+    - DisplayName: "FlowRate"
+    - Description: "Setting and/or monitoring of the flow rate"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6214, PlasticsRubber.TCD:InternalMeasuringPoint, UInt16, 0, 3 ]
+    - DisplayName: "InternalMeasuringPoint"
+    - Description: "Determines whether the temperature of the main or the return is to be controlled"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5021, PlasticsRubber.TCD:LeakStopper ]
+    - DisplayName: "LeakStopper"
+    - Description: "Used for switching the leak stopper mode"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.TCD:1006, PlasticsRubber.TCD:LeakStopperType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5023, PlasticsRubber.TCD:MaintenanceInformation ]
+    - DisplayName: "MaintenanceInformation"
+    - Description: "Information on the maintenance status of heating, cooling, pump and fluid"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.TCD:1004, PlasticsRubber.TCD:MaintenanceInformationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5022, PlasticsRubber.TCD:MouldEvacuation ]
+    - DisplayName: "MouldEvacuation"
+    - Description: "Iincludes parameters and nodes for mould evacuation"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.TCD:1005, PlasticsRubber.TCD:MouldEvacuationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5030, PlasticsRubber.TCD:PressureDifference ]
+    - DisplayName: "PressureDifference"
+    - Description: "Setting and/or monitoring of the pressure difference between main and return line"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6231, PlasticsRubber.TCD:PressureMainLine, Double, 0, 0 ]
+    - DisplayName: "PressureMainLine"
+    - Description: "Actual pressure in the main line (Pressure return line + pump pressure)"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6233, PlasticsRubber.TCD:PressureReturnLine, Double, 0, 0 ]
+    - DisplayName: "PressureReturnLine"
+    - Description: "Actual pressure in the return line"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6249, PlasticsRubber.TCD:PumpControlMode, UInt16, 0, 3 ]
+    - DisplayName: "PumpControlMode"
+    - Description: "Defines to which setpoint or function the pump is controlled"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5032, PlasticsRubber.TCD:PumpSpeed ]
+    - DisplayName: "PumpSpeed"
+    - Description: "Setting and/or monitoring the speed of the pump in percent of maximum speed"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6217, PlasticsRubber.TCD:StandbyTemperature, Double, 0, 3 ]
+    - DisplayName: "StandbyTemperature"
+    - Description: "The standby value temperature is approached with the Method ReduceToStandByOn. The TCD switches off."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6219, PlasticsRubber.TCD:SwitchingOffTemperature, Double, 0, 3 ]
+    - DisplayName: "SwitchingOffTemperature"
+    - Description: "Defines the temperature to which the TCD must be cooled down before it switches off"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5006, PlasticsRubber.TCD:Temperature ]
+    - DisplayName: "Temperature"
+    - Description: "Setting and/or monitoring of the temperature in the main or return line (see InternalMeasuringPoint) or active external Sensor (ExternalSensorModeOn)"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5027, PlasticsRubber.TCD:TemperatureDifference ]
+    - DisplayName: "TemperatureDifference"
+    - Description: "Setting and/or monitoring of the temperature difference between return and main line. Positive if temperature in return line is higher than in main line."
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6221, PlasticsRubber.TCD:TemperatureLimitation, Double, 0, 3 ]
+    - DisplayName: "TemperatureLimitation"
+    - Description: "This setpoint is for temperature limitation of the mould circuit e.g. to protect the connected tubes or the downstream water distribution system"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6223, PlasticsRubber.TCD:TemperatureMainLine, Double, 0, 0 ]
+    - DisplayName: "TemperatureMainLine"
+    - Description: "Actual temperature in the main line"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6225, PlasticsRubber.TCD:TemperatureReturnLine, Double, 0, 0 ]
+    - DisplayName: "TemperatureReturnLine"
+    - Description: "Actual temperature in the return line"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PlasticsRubber.TCD:ExternalChannelsType:
   - [ UAObjectType, PlasticsRubber.TCD:1003, PlasticsRubber.TCD:ExternalChannelsType ]
+  - DisplayName: "ExternalChannelsType"
+  - Description: "Container for the external channel(s)"
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5005, PlasticsRubber.TCD:ExternalChannel_<Nr> ]
+    - DisplayName: "ExternalChannel_<Nr>"
+    - Description: "Includes information for monitoring or controlling of an external temperature, flow rate or pressure channel"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.TCD:1002, PlasticsRubber.TCD:ExternalChannelType ]
     - HasModellingRule:
@@ -421,138 +549,196 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:6082, PlasticsRubber.TCD:NodeVersion, String, 0, 0 ]
+    - DisplayName: "NodeVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.TCD:ExternalChannelType:
   - [ UAObjectType, PlasticsRubber.TCD:1002, PlasticsRubber.TCD:ExternalChannelType ]
+  - DisplayName: "ExternalChannelType"
+  - Description: "Includes information for monitoring or controlling of external temperature, flow rate or pressure channels"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6017, PlasticsRubber.TCD:ControlMode, UInt16, 0, 3 ]
+    - DisplayName: "ControlMode"
+    - Description: "Defines to which setpoint the external channel is controlled"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5003, PlasticsRubber.TCD:FlowRate ]
+    - DisplayName: "FlowRate"
+    - Description: "Setting and/or monitoring of the flow rate"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5004, PlasticsRubber.TCD:PressureDifference ]
+    - DisplayName: "PressureDifference"
+    - Description: "Setting and/or monitoring of the pressure difference between main and return line"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6011, PlasticsRubber.TCD:PressureMainLine, Double, 0, 0 ]
+    - DisplayName: "PressureMainLine"
+    - Description: "Actual value of the pressure in the main line"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6013, PlasticsRubber.TCD:PressureReturnLine, Double, 0, 0 ]
+    - DisplayName: "PressureReturnLine"
+    - Description: "Actual value of the pressure in the return line"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:6558, PlasticsRubber.TCD:SwitchedOn, Boolean, 0, 3 ]
+    - DisplayName: "SwitchedOn"
+    - Description: "Information if the external channel is switched on"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7067, PlasticsRubber.TCD:SwitchOff ]
+    - DisplayName: "SwitchOff"
+    - Description: "Switch method of the external channel for switching off"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7066, PlasticsRubber.TCD:SwitchOn ]
+    - DisplayName: "SwitchOn"
+    - Description: "Switch method of the external channel for switching on"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5001, PlasticsRubber.TCD:Temperature ]
+    - DisplayName: "Temperature"
+    - Description: "Setting and/or monitoring of the temperature"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5002, PlasticsRubber.TCD:TemperatureDifference ]
+    - DisplayName: "TemperatureDifference"
+    - Description: "Setting and/or monitoring of the temperature difference between return and main line. Positive if temperature in return line is higher than in main line."
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6003, PlasticsRubber.TCD:TemperatureMainLine, Double, 0, 0 ]
+    - DisplayName: "TemperatureMainLine"
+    - Description: "Actual temperature in the main line"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6005, PlasticsRubber.TCD:TemperatureReturnLine, Double, 0, 0 ]
+    - DisplayName: "TemperatureReturnLine"
+    - Description: "Actual temperature in the return line"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PlasticsRubber.TCD:ExternalSensorType:
   - [ UAObjectType, PlasticsRubber.TCD:1007, PlasticsRubber.TCD:ExternalSensorType ]
+  - DisplayName: "ExternalSensorType"
+  - Description: "Includes variables for the operation with an external temperature sensor"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6204, PlasticsRubber.TCD:ActualValue, Double, 0, 3 ]
+    - DisplayName: "ActualValue"
+    - Description: "Actual value of external temperature sensor"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:6210, PlasticsRubber.TCD:AutomaticModeSwitch, Boolean, 0, 3 ]
+    - DisplayName: "AutomaticModeSwitch"
+    - Description: "Setting whether switching to external sensor is performed automatically (TRUE) or manually (FALSE)"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5014, PlasticsRubber.TCD:ClosedLoopControl ]
+    - DisplayName: "ClosedLoopControl"
+    - Description: "Settings for the closed loop control for the sensor"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, PlasticsRubber.GeneralTypes:ClosedLoopControlType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6908, PlasticsRubber.TCD:CommunicationProtocolType, UInt16, 0, 3 ]
+    - DisplayName: "CommunicationProtocolType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7016, PlasticsRubber.TCD:ExternalSensorModeOff ]
+    - DisplayName: "ExternalSensorModeOff"
+    - Description: "Deactivate the mode where the external temperature sensor is used for temperature control"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7015, PlasticsRubber.TCD:ExternalSensorModeOn ]
+    - DisplayName: "ExternalSensorModeOn"
+    - Description: "Activate the mode where the external temperature sensor is used for temperature control"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6207, PlasticsRubber.TCD:ThermocoupleType, UInt16, 0, 3 ]
+    - DisplayName: "ThermocoupleType"
+    - Description: "Type of connected external temperature sensor"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:6206, PlasticsRubber.TCD:Used, Boolean, 0, 0 ]
+    - DisplayName: "Used"
+    - Description: "Return whether an external temperature sensor is used for control"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.TCD:LeakStopperType:
   - [ UAObjectType, PlasticsRubber.TCD:1006, PlasticsRubber.TCD:LeakStopperType ]
+  - DisplayName: "LeakStopperType"
+  - Description: "Used for switching the leak stopper mode"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7014, PlasticsRubber.TCD:Off ]
+    - DisplayName: "Off"
+    - Description: "Deactivate the leak stopper mode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7013, PlasticsRubber.TCD:On ]
+    - DisplayName: "On"
+    - Description: "Activate the leak stopper mode (emergency operation in case of leaks in the system)"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.TCD:MaintenanceInformationType:
   - [ UAObjectType, PlasticsRubber.TCD:1004, PlasticsRubber.TCD:MaintenanceInformationType ]
+  - DisplayName: "MaintenanceInformationType"
+  - Description: "Information on the maintenance status of heating, cooling, pump and fluid"
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5011, PlasticsRubber.TCD:Cooling ]
+    - DisplayName: "Cooling"
+    - Description: "Information on the maintenance status of the cooling"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5013, PlasticsRubber.TCD:Fluid ]
+    - DisplayName: "Fluid"
+    - Description: "Information on the maintenance status of the fluid"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5010, PlasticsRubber.TCD:Heating ]
+    - DisplayName: "Heating"
+    - Description: "Information on the maintenance status of the heating"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
@@ -561,6 +747,8 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5012, PlasticsRubber.TCD:Pump ]
+    - DisplayName: "Pump"
+    - Description: "Information on the maintenance status of the pump"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
@@ -568,32 +756,47 @@ DefinedTypes:
 
   PlasticsRubber.TCD:MouldEvacuationType:
   - [ UAObjectType, PlasticsRubber.TCD:1005, PlasticsRubber.TCD:MouldEvacuationType ]
+  - DisplayName: "MouldEvacuationType"
+  - Description: "Includes parameters and nodes for mould evacuation"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6136, PlasticsRubber.TCD:Mode, UInt16, 0, 3 ]
+    - DisplayName: "Mode"
+    - Description: "Defines how the medium is to be emptied"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7009, PlasticsRubber.TCD:Off ]
+    - DisplayName: "Off"
+    - Description: "Deactivate evacuation mode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7008, PlasticsRubber.TCD:On ]
+    - DisplayName: "On"
+    - Description: "Activate evacuation mode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6133, PlasticsRubber.TCD:Sink, UInt16, 0, 3 ]
+    - DisplayName: "Sink"
+    - Description: "Defines where the medium is to be emptied"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6129, PlasticsRubber.TCD:TemperatureLimit, Double, 0, 3 ]
+    - DisplayName: "TemperatureLimit"
+    - Description: "Temperature Limitation of the mould evacuation. TCD is cooled to this temperature first if necessary."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6131, PlasticsRubber.TCD:Time, Double, 0, 3 ]
+    - DisplayName: "Time"
+    - Description: "Duration of the mould evacuation"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6186, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 5457219
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -602,22 +805,33 @@ DefinedTypes:
 
   PlasticsRubber.TCD:OperationType:
   - [ UAObjectType, PlasticsRubber.TCD:1010, PlasticsRubber.TCD:OperationType ]
+  - DisplayName: "OperationType"
+  - Description: "Contains components which are necessary to operate the TCD"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6551, PlasticsRubber.TCD:ActiveErrors, PlasticsRubber.GeneralTypes:ActiveErrorDataType, 1, 0 ]
+    - DisplayName: "ActiveErrors"
+    - Description: "List of the active errors of the device"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:6509, PlasticsRubber.TCD:DeviceMappingNumber, UInt32, 0, 3 ]
+    - DisplayName: "DeviceMappingNumber"
+    - Description: "Unique identifier/address/number for devices of the same DeviceType within a local network"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:6121, PlasticsRubber.TCD:HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+    - DisplayName: "HighestActiveAlarmSeverity"
+    - Description: "Indication of the severity of the highest active alarm (0 = no active alarm – 1000 = possible error)"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6512, PlasticsRubber.TCD:HoursOfOperation, Double, 0, 0 ]
+    - DisplayName: "HoursOfOperation"
+    - Description: "Actual hours of operation"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6167, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 4740434
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -625,71 +839,96 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7044, PlasticsRubber.TCD:IdentifyDevice ]
+    - DisplayName: "IdentifyDevice"
+    - Description: "The TCD on which this method is called shows itself by e.g. activation of a LED"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:6511, PlasticsRubber.TCD:OperatingMode, PlasticsRubber.TCD:OperatingModeEnumeration, 0, 0 ]
+    - DisplayName: "OperatingMode"
+    - Description: "Actual operating mode of the TCD"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7048, PlasticsRubber.TCD:ReduceToStandByOff ]
+    - DisplayName: "ReduceToStandByOff"
+    - Description: "Deactivate the cooling down function on the TCD. If it is already in progress, it will be interrupted and the device changes back to the last selected operating mode."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7047, PlasticsRubber.TCD:ReduceToStandByOn ]
+    - DisplayName: "ReduceToStandByOn"
+    - Description: "Activate the cooling down function on the TCD followed by switching off"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7043, PlasticsRubber.TCD:ResetAllErrors ]
+    - DisplayName: "ResetAllErrors"
+    - Description: "Method to reset all errors of the device"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7127, PlasticsRubber.TCD:ResetErrorById ]
+    - DisplayName: "ResetErrorById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6510, PlasticsRubber.TCD:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7046, PlasticsRubber.TCD:SwitchOff ]
+    - DisplayName: "SwitchOff"
+    - Description: "Main switch method of the TCD for switching off"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.TCD:7045, PlasticsRubber.TCD:SwitchOn ]
+    - DisplayName: "SwitchOn"
+    - Description: "Main switch method of the TCD for switching on"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.TCD:TCD_InterfaceType:
   - [ UAObjectType, PlasticsRubber.TCD:1012, PlasticsRubber.TCD:TCD_InterfaceType ]
+  - DisplayName: "TCD_InterfaceType"
+  - Description: "Root ObjectType representing a temperature control device with its subcomponents"
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5044, PlasticsRubber.TCD:DeviceZone ]
+    - DisplayName: "DeviceZone"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.TCD:1008, PlasticsRubber.TCD:DeviceZoneType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:6557, PlasticsRubber.TCD:DisplayLanguage, LocaleId, 0, 3 ]
+    - DisplayName: "DisplayLanguage"
+    - Description: "With this Property the client can set the desired language on the user interface at the TCD"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5047, PlasticsRubber.TCD:Identification ]
+    - DisplayName: "Identification"
+    - Description: "Identification of the device"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1058, PlasticsRubber.GeneralTypes:IdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5049, PlasticsRubber.TCD:MachineConfiguration ]
+    - DisplayName: "MachineConfiguration"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, PlasticsRubber.GeneralTypes:MachineConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5050, PlasticsRubber.TCD:Operation ]
+    - DisplayName: "Operation"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -698,6 +937,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.TCD:5048, PlasticsRubber.TCD:TCDSpecification ]
+    - DisplayName: "TCDSpecification"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -705,10 +945,14 @@ DefinedTypes:
 
   PlasticsRubber.TCD:TCDSpecificationType:
   - [ UAObjectType, PlasticsRubber.TCD:1011, PlasticsRubber.TCD:TCDSpecificationType ]
+  - DisplayName: "TCDSpecificationType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6518, PlasticsRubber.TCD:ConnectedLoad, Double, 0, 0 ]
+    - DisplayName: "ConnectedLoad"
+    - Description: "Connected load, defines the connections of the TCD (pump performance, heating capacity and performance of the remaining components)"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6168, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 4937556
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -716,8 +960,11 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6522, PlasticsRubber.TCD:CoolingCapacity, UInt32, 0, 0 ]
+    - DisplayName: "CoolingCapacity"
+    - Description: "Power value for cooling, defines the power value for cooling at temperature difference 60 K between cooling water and heat transfer medium"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6170, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 4937556
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
@@ -725,20 +972,28 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.TCD:7138, PlasticsRubber.TCD:DeviceZoneId, String, 0, 0 ]
+    - DisplayName: "DeviceZoneId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6514, PlasticsRubber.TCD:MaxTemperature, Int32, 0, 0 ]
+    - DisplayName: "MaxTemperature"
+    - Description: "Defines the maximum working temperature of the TCD"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6520, PlasticsRubber.TCD:NominalFlowRate, Double, 0, 0 ]
+    - DisplayName: "NominalFlowRate"
+    - Description: "Nominal flow rate, defines the maximum achievable flow rate of the TCD"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.TCD:6516, PlasticsRubber.TCD:PowerValue, Double, 0, 0 ]
+    - DisplayName: "PowerValue"
+    - Description: "Power value, defines the heating capacity of the TCD with the rated voltage"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6179, PlasticsRubber.TCD:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - UnitId: 4937556
       - HasModellingRule:
         - [ UAObject, 80, Optional ]

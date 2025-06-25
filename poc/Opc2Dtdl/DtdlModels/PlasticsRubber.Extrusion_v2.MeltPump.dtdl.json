@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_MeltPump:MeltPump_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MeltPump_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.MeltPump;i=1002",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_MeltPump/MeltPump_InterfaceType/{telemetryName}/{senderId}",
@@ -21,6 +22,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FeedRate",
+        "displayName": "FeedRate",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.MeltPump",
         "schema": "double"
       },
@@ -28,6 +30,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Drive",
+        "displayName": "Drive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.MeltPump",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
@@ -35,6 +38,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MeltPressures",
+        "displayName": "MeltPressures",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.MeltPump",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
@@ -42,6 +46,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
+        "displayName": "TemperatureZones",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.MeltPump",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
       }

@@ -1,24 +1,34 @@
 DataTypes:
 - UADataType: [ Scheduler:70, Scheduler:SpecialEventType ]
+  DisplayName: "SpecialEventType"
+  Description: "This structure contains a period, a list of time values, and a priority. It is a means to identify moments in time over one or more days."
   Fields:
     Period: [ Scheduler:SpecialEventPeriodType, 0 ]
     ListOfTimeActions: [ Scheduler:TimeActionsType, 1 ]
     EventPriority: [ Byte, 0 ]
 - UADataType: [ Scheduler:71, Scheduler:SpecialEventPeriodType ]
+  DisplayName: "SpecialEventPeriodType"
+  Description: "This union contains a calendar entry or a reference to a calendar object"
   Fields:
     CalendarEntry: [ Scheduler:CalendarEntryType, 0 ]
     CalendarReference: [ NodeId, 0 ]
 - UADataType: [ Scheduler:72, Scheduler:CalendarEntryType ]
+  DisplayName: "CalendarEntryType"
+  Description: "This union that defines various calendar date values"
   Fields:
     Date: [ Scheduler:DateType, 0 ]
     DateRange: [ Scheduler:DateRangeType, 0 ]
 - UADataType: [ Scheduler:73, Scheduler:DateType ]
+  DisplayName: "DateType"
+  Description: "This structure defines a calendar date. It allows to define a concrete date, e.g. 2022-02-12. By using wildcards, it also allows to define repeating dates, like every Wednesday, every odd day of a month, every 24th of December, every last day of a month in 2023, etc."
   Fields:
     Year: [ UInt16, 0 ]
     Month: [ Scheduler:Month, 0 ]
     DayOfMonth: [ Scheduler:DayOfMonth, 0 ]
     DayOfWeek: [ Scheduler:DayOfWeek, 0 ]
 - UADataType: [ Scheduler:74, Scheduler:Month ]
+  DisplayName: "Month"
+  Description: "This enumeration indicates either a specific Gregorian calendar month, or a relative relationship ('odd', 'even', and 'unspecified')."
   Enums:
     Unspecified: 0
     January: 1
@@ -36,6 +46,8 @@ DataTypes:
     Odd: 13
     Even: 14
 - UADataType: [ Scheduler:76, Scheduler:DayOfMonth ]
+  DisplayName: "DayOfMonth"
+  Description: "This enumeration indicates specific days of the month by specific date ('1', '22', and so on) or by relative position ('last day of month', 'even day of month', and so on)."
   Enums:
     Unspecified: 0
     Day1: 1
@@ -73,6 +85,8 @@ DataTypes:
     OddDayOfMonth: 33
     EvenDayOfMonth: 34
 - UADataType: [ Scheduler:78, Scheduler:DayOfWeek ]
+  DisplayName: "DayOfWeek"
+  Description: "This enumeration indicates each of the seven days of the week, or 'unspecified'."
   Enums:
     Unspecified: 0
     Monday: 1
@@ -83,32 +97,46 @@ DataTypes:
     Saturday: 6
     Sunday: 7
 - UADataType: [ Scheduler:80, Scheduler:DateRangeType ]
+  DisplayName: "DateRangeType"
+  Description: "This structure defines a time span, with absolute start and end dates. The StartDate and EndDate are limited to specific values, i.e., wild cards like odd months are not allowed. The Year field shall not be 0; the Month field shall be a value between 1 to 12; the DayOfMonth field shall be between 1 to 31 and the DayOfMonth field shall be 'unspecified'."
   Fields:
     StartDate: [ Scheduler:DateType, 0 ]
     EndDate: [ Scheduler:DateType, 0 ]
 - UADataType: [ Scheduler:81, Scheduler:TimeActionsType ]
+  DisplayName: "TimeActionsType"
+  Description: "This structure contains a time and an array of actions. It is used to define actions to be executed at a specific point in time."
   Fields:
     Time: [ Scheduler:TimeType, 0 ]
     Actions: [ Scheduler:BaseActionType, 1 ]
 - UADataType: [ Scheduler:82, Scheduler:BaseActionType ]
+  DisplayName: "BaseActionType"
+  Description: "This abstract structure defines the base of an action. The base only contains information, if the last execution of the action was successful."
   Fields:
     LastActionResult: [ StatusCode, 0 ]
 - UADataType: [ Scheduler:83, Scheduler:WriteLocalVariableActionType ]
+  DisplayName: "WriteLocalVariableActionType"
+  Description: "This structure defines an action to write the value of a Variable managed in the same Server where the action is used."
   Fields:
     Variable: [ NodeId, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ Scheduler:84, Scheduler:CallLocalMethodActionType ]
+  DisplayName: "CallLocalMethodActionType"
+  Description: "This structure defines an action to call a Method of an Object managed in the same Server where the action is used."
   Fields:
     ObjectId: [ NodeId, 0 ]
     MethodId: [ NodeId, 0 ]
     InputValues: [ null, 1 ]
     LastOutputValues: [ null, 1 ]
 - UADataType: [ Scheduler:85, Scheduler:TimeType ]
+  DisplayName: "TimeType"
+  Description: "This structure that represents a point in time during a day"
   Fields:
     Hour: [ Byte, 0 ]
     Minute: [ Byte, 0 ]
     Second: [ Byte, 0 ]
 - UADataType: [ Scheduler:86, Scheduler:DailyScheduleType ]
+  DisplayName: "DailyScheduleType"
+  Description: "This structure defines a sequence of TimeActionsType structures. Each element in the sequence defines a time/actions pair that describes the actions to be executed at a given point in the day."
   Fields:
     DaySchedule: [ Scheduler:TimeActionsType, 1 ]
 
@@ -116,42 +144,56 @@ DefinedTypes:
 
   Scheduler:CalendarType:
   - [ UAObjectType, Scheduler:37, Scheduler:CalendarType ]
+  - DisplayName: "CalendarType"
+  - Description: "Provides a list of calendar dates. Each entry in the list describes a specific date or date pattern, or range of dates"
   - HasComponent:
     - [ UAVariable, Scheduler:38, Scheduler:PresentValue, Boolean, 0, 0 ]
+    - DisplayName: "PresentValue"
+    - Description: "Indicates if the current date is in the DateList (true) or not (false)"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scheduler:39, Scheduler:DateList, Scheduler:CalendarEntryType, 1, 0 ]
+    - DisplayName: "DateList"
+    - Description: "Array of elements each defining either a specific date or date pattern, or range of dates"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scheduler:40, Scheduler:AddDateListElements ]
+    - DisplayName: "AddDateListElements"
+    - Description: "Adds elements to the DateList"
     - HasProperty:
       - [ UAVariable, Scheduler:41, Scheduler:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CalendarEntries: [ Scheduler:CalendarEntryType, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scheduler:42, Scheduler:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntryResults: [ Int32, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scheduler:43, Scheduler:RemoveDateListElements ]
+    - DisplayName: "RemoveDateListElements"
+    - Description: "Removes elements of the DateList"
     - HasProperty:
       - [ UAVariable, Scheduler:44, Scheduler:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CalendarEntries: [ Scheduler:CalendarEntryType, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scheduler:45, Scheduler:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntryResults: [ Int32, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -161,56 +203,76 @@ DefinedTypes:
 
   Scheduler:ScheduleType:
   - [ UAObjectType, Scheduler:52, Scheduler:ScheduleType ]
+  - DisplayName: "ScheduleType"
+  - Description: "Defines a periodic schedule that can recur over a range of dates. The schedule may have optional exceptions at arbitrary times or dates. The basic unit of a schedule is days, which are divided into two types: normal days within a week and exception days. A priority mechanism defines which scheduled event is currently valid. The schedule includes a PresentValue Variable whose value describes the current state of the schedule, including a default value when no schedules are in effect."
   - HasProperty:
     - [ UAVariable, Scheduler:53, Scheduler:ExceptionSchedule, Scheduler:SpecialEventType, 1, 0 ]
+    - DisplayName: "ExceptionSchedule"
+    - Description: "An array of special events. If present, each of those special events describes a sequence of schedule actions that take precedence over a normal day's behaviour on a special day or days."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scheduler:54, Scheduler:AddExceptionScheduleElements ]
+    - DisplayName: "AddExceptionScheduleElements"
+    - Description: "Adds elements to the ExceptionSchedule"
     - HasProperty:
       - [ UAVariable, Scheduler:55, Scheduler:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SpecialEvents: [ Scheduler:SpecialEventType, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scheduler:56, Scheduler:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntryResults: [ Int32, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scheduler:57, Scheduler:RemoveExceptionScheduleElements ]
+    - DisplayName: "RemoveExceptionScheduleElements"
+    - Description: "Removes elements from the ExceptionSchedule"
     - HasProperty:
       - [ UAVariable, Scheduler:58, Scheduler:InputArguments, Argument, 1, 0 ]
       - Arguments:
           SpecialEvents: [ Scheduler:SpecialEventType, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scheduler:59, Scheduler:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           EntryResults: [ Int32, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scheduler:60, Scheduler:WeeklySchedule, Scheduler:DailyScheduleType, 1, 0 ]
+    - DisplayName: "WeeklySchedule"
+    - Description: "Each entry represents one day of the week. The first entry in the array represents Monday, the last Sunday. Each element describes a sequence of times and a list of actions that provides a sequence of schedule actions on one day of the week when no ExceptionSchedule is in effect."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scheduler:61, Scheduler:LocalTime, TimeZoneDataType, 0, 0 ]
+    - DisplayName: "LocalTime"
+    - Description: "Provides information about the local time of the schedule Object. All scheduled times are UTC time. Clients need to consider this Property to calculate the local time of the schedule. If this Property is changed, it is server-specific whether the times of the schedule are adjusted or not."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scheduler:62, Scheduler:EffectivePeriod, Scheduler:DateRangeType, 0, 0 ]
+    - DisplayName: "EffectivePeriod"
+    - Description: "Specifies the range of dates within which the schedule Object is active. Upon entering its effective period, the object shall execute the defined actions at the defined times, otherwise it shall not execute any actions."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scheduler:63, Scheduler:ApplyLastAfterStart, Boolean, 0, 0 ]
+    - DisplayName: "ApplyLastAfterStart"
+    - Description: "The ApplyLastAfterStart Property defines if the last set of actions shall be applied when starting the schedule Object"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:

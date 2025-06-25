@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:IJT_Tightening:ITighteningToolParametersType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ITighteningToolParametersType",
+    "description": "This interface is inherited from 0:BaseInterfaceType to add additional parameters of a tool in a tightening system. It shall be added to 2:Parameters object of the tool instance.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Tightening;i=1003",
     "telemetryTopic": "opcua/IJT_Tightening/ITighteningToolParametersType/{telemetryName}/{senderId}",
@@ -21,24 +23,32 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DesignType",
+        "displayName": "DesignType",
+        "description": "DesignType provides information on the design of the Tool.",
         "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
         "schema": "unsignedByte"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DriveMethod",
+        "displayName": "DriveMethod",
+        "description": "DriveMethod provides information on the drive method of the motor of the Tool.",
         "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
         "schema": "unsignedByte"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DriveType",
+        "displayName": "DriveType",
+        "description": "DriveType provides information on the drive type of the Tool.",
         "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
         "schema": "unsignedByte"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaxSpeed",
+        "displayName": "MaxSpeed",
+        "description": "MaxSpeed is the maximum rotation speed of the driving shaft.",
         "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -46,12 +56,16 @@
             {
               "@type": [ "Field", "Subject", "Qualified" ],
               "name": "MaxSpeed",
+              "displayName": "MaxSpeed",
+              "description": "MaxSpeed is the maximum rotation speed of the driving shaft.",
               "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
               "schema": "double"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "PhysicalQuantity",
+              "displayName": "PhysicalQuantity",
+              "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "unsignedByte"
             }
@@ -61,6 +75,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaxTorque",
+        "displayName": "MaxTorque",
+        "description": "MaxTorque is the maximum allowed torque for which the tool may be used for tightening processes. For Click Wrenches, it may not be available.",
         "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -68,12 +84,16 @@
             {
               "@type": [ "Field", "Subject", "Qualified" ],
               "name": "MaxTorque",
+              "displayName": "MaxTorque",
+              "description": "MaxTorque is the maximum allowed torque for which the tool may be used for tightening processes. For Click Wrenches, it may not be available.",
               "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
               "schema": "double"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "PhysicalQuantity",
+              "displayName": "PhysicalQuantity",
+              "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "unsignedByte"
             }
@@ -83,6 +103,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MinTorque",
+        "displayName": "MinTorque",
+        "description": "MinTorque is the minimum allowed torque for which the tool may be used for tightening processes.",
         "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -90,12 +112,16 @@
             {
               "@type": [ "Field", "Subject", "Qualified" ],
               "name": "MinTorque",
+              "displayName": "MinTorque",
+              "description": "MinTorque is the minimum allowed torque for which the tool may be used for tightening processes.",
               "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
               "schema": "double"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "PhysicalQuantity",
+              "displayName": "PhysicalQuantity",
+              "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
               "namespace": "http://opcfoundation.org/UA/IJT.Base",
               "schema": "unsignedByte"
             }
@@ -105,12 +131,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorType",
+        "displayName": "MotorType",
+        "description": "MotorType is the type of motor in the tool.",
         "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ShutOffMethod",
+        "displayName": "ShutOffMethod",
+        "description": "ShutOffMethod provides information on the shutoff method of the tool.",
         "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
         "schema": "unsignedByte"
       }

@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:BatchInformationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "BatchInformationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1002",
     "commandTopic": "opcua/CommercialKitchenEquipment/BatchInformationType/{commandName}",
@@ -20,6 +21,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:BatchInformationType:dataType:TimeZoneDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeZoneDataType",
         "typeRef": "nsu=http://opcfoundation.org/UA;i=8912",
         "fields": [
           {
@@ -39,6 +41,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "BatchId",
+        "displayName": "BatchId",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "string",
         "writable": true
@@ -46,6 +49,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LocalTime",
+        "displayName": "LocalTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:BatchInformationType:dataType:TimeZoneDataType;1",
         "writable": true
@@ -53,6 +57,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OrderId",
+        "displayName": "OrderId",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "string",
         "writable": true
@@ -60,6 +65,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SystemTime",
+        "displayName": "SystemTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "time",
         "writable": true
@@ -78,6 +84,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceHAConfigType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "KitchenDeviceHAConfigType",
     "extends": "dtmi:opcua:OpcUaCore:HistoricalDataConfigurationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1003",
     "commandTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceHAConfigType/{commandName}",
@@ -89,6 +96,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "HistoryDuration",
+        "displayName": "HistoryDuration",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "duration",
         "writable": true
@@ -96,6 +104,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SamplingInterval",
+        "displayName": "SamplingInterval",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "duration",
         "writable": true
@@ -114,6 +123,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "KitchenDeviceParameterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1004",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceParameterType/{telemetryName}/{senderId}",
@@ -124,18 +134,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramId",
+        "displayName": "ProgramId",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramName",
+        "displayName": "ProgramName",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramUId",
+        "displayName": "ProgramUId",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "uuid"
       }
@@ -153,6 +166,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:ChamberType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ChamberType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1012",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/ChamberType/{telemetryName}/{senderId}",
@@ -161,6 +175,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:ChamberType:dataType:ChamberModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "ChamberModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3008",
         "valueSchema": "integer",
         "enumValues": [
@@ -247,6 +262,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualBoilerTemperature_No",
+        "displayName": "ActualBoilerTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -265,6 +281,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualBottomTemperature_No",
+        "displayName": "ActualBottomTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -283,6 +300,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualChamberTemperature_No",
+        "displayName": "ActualChamberTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -301,6 +319,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualCoreTemperature_No",
+        "displayName": "ActualCoreTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -319,6 +338,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualFanSpeed_No",
+        "displayName": "ActualFanSpeed_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -337,6 +357,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualHumidity_No",
+        "displayName": "ActualHumidity_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -355,6 +376,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualTopTemperature_No",
+        "displayName": "ActualTopTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -373,30 +395,35 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsDoorOpen",
+        "displayName": "IsDoorOpen",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsProgramEnd",
+        "displayName": "IsProgramEnd",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsReadyToStart",
+        "displayName": "IsReadyToStart",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperationMode",
+        "displayName": "OperationMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:ChamberType:dataType:ChamberModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetBoilerTemperature",
+        "displayName": "SetBoilerTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -404,6 +431,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetBottomTemperature",
+        "displayName": "SetBottomTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -411,6 +439,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetChamberTemperature",
+        "displayName": "SetChamberTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -418,6 +447,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetCoreTemperature",
+        "displayName": "SetCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -425,6 +455,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SetFanSpeed",
+        "displayName": "SetFanSpeed",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "percent",
         "schema": "integer"
@@ -432,6 +463,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SetHumidity",
+        "displayName": "SetHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "percent",
         "schema": "float"
@@ -439,6 +471,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTimeProgram",
+        "displayName": "SetProcessTimeProgram",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -446,6 +479,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTopTemperature",
+        "displayName": "SetTopTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -453,6 +487,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemaining",
+        "displayName": "TimeRemaining",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -471,6 +506,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CoffeeMachineParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1022",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineParameterType/{telemetryName}/{senderId}",
@@ -479,6 +515,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType:dataType:CoffeeMachineModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "CoffeeMachineModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3015",
         "valueSchema": "integer",
         "enumValues": [
@@ -505,12 +542,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BoilerPressureSteam",
+        "displayName": "BoilerPressureSteam",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Pressure" ],
         "name": "BoilerPressureWater",
+        "displayName": "BoilerPressureWater",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "pascal",
         "schema": "float"
@@ -518,12 +557,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BoilerTempSteam",
+        "displayName": "BoilerTempSteam",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "BoilerTempWater",
+        "displayName": "BoilerTempWater",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -531,12 +572,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentState",
+        "displayName": "CurrentState",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType:dataType:CoffeeMachineModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "GrinderRuntime_No",
+        "displayName": "GrinderRuntime_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -555,12 +598,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SystemClean",
+        "displayName": "SystemClean",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dateTime"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TotalBrew_No",
+        "displayName": "TotalBrew_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -577,6 +622,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TotalMix",
+        "displayName": "TotalMix",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedLong"
       }
@@ -594,6 +640,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CoffeeMachineRecipeParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1023",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineRecipeParameterType/{telemetryName}/{senderId}",
@@ -602,6 +649,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType:dataType:BeverageSMLEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "BeverageSMLEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3014",
         "valueSchema": "integer",
         "enumValues": [
@@ -628,6 +676,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "BeverageSize",
+        "displayName": "BeverageSize",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "percent",
         "schema": "float"
@@ -635,24 +684,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BeverageSML",
+        "displayName": "BeverageSML",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType:dataType:BeverageSMLEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CoffeeType",
+        "displayName": "CoffeeType",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Container",
+        "displayName": "Container",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Volume" ],
         "name": "FoamAmount",
+        "displayName": "FoamAmount",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "millilitre",
         "schema": "float"
@@ -660,6 +713,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Mass" ],
         "name": "GroundsAmount",
+        "displayName": "GroundsAmount",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "gram",
         "schema": "float"
@@ -667,6 +721,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Volume" ],
         "name": "GroundsWater",
+        "displayName": "GroundsWater",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "millilitre",
         "schema": "float"
@@ -674,6 +729,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Volume" ],
         "name": "MilkAmount",
+        "displayName": "MilkAmount",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "millilitre",
         "schema": "float"
@@ -681,6 +737,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Mass" ],
         "name": "PowderAmount",
+        "displayName": "PowderAmount",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "gram",
         "schema": "float"
@@ -688,6 +745,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RcpType",
+        "displayName": "RcpType",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedInteger"
       }
@@ -705,6 +763,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CombiSteamerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1010",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CombiSteamerParameterType/{telemetryName}/{senderId}",
@@ -713,6 +772,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:CombiSteamerModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "CombiSteamerModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3006",
         "valueSchema": "integer",
         "enumValues": [
@@ -765,6 +825,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:SpecialCookingModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SpecialCookingModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3007",
         "valueSchema": "integer",
         "enumValues": [
@@ -815,6 +876,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualExternalCoreTemperature_No",
+        "displayName": "ActualExternalCoreTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -833,6 +895,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "ActualHumidity",
+        "displayName": "ActualHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "percent",
         "schema": "integer"
@@ -840,6 +903,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualInternalCoreTemperature_No",
+        "displayName": "ActualInternalCoreTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -858,6 +922,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualTemperatureChamber_No",
+        "displayName": "ActualTemperatureChamber_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -876,36 +941,42 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CombiSteamerMode",
+        "displayName": "CombiSteamerMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:CombiSteamerModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsDoorOpen",
+        "displayName": "IsDoorOpen",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsEnergySavingActive",
+        "displayName": "IsEnergySavingActive",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsLoaActive",
+        "displayName": "IsLoaActive",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsSteamExhaustSystemActive",
+        "displayName": "IsSteamExhaustSystemActive",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetExternalCoreTemperature",
+        "displayName": "SetExternalCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -913,6 +984,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SetHumidity",
+        "displayName": "SetHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "percent",
         "schema": "integer"
@@ -920,6 +992,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetInternalCoreTemperature",
+        "displayName": "SetInternalCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -927,6 +1000,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTimeProgram",
+        "displayName": "SetProcessTimeProgram",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -934,6 +1008,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTimeStep",
+        "displayName": "SetProcessTimeStep",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -941,6 +1016,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -948,12 +1024,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SpecialCookingMode",
+        "displayName": "SpecialCookingMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:SpecialCookingModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemainingProgram",
+        "displayName": "TimeRemainingProgram",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -961,6 +1039,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemainingStep",
+        "displayName": "TimeRemainingStep",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -979,6 +1058,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CookingKettleParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1016",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingKettleParameterType/{telemetryName}/{senderId}",
@@ -987,6 +1067,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:CookingKettleModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "CookingKettleModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3010",
         "valueSchema": "integer",
         "enumValues": [
@@ -1031,6 +1112,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SignalModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -1053,6 +1135,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualCoreTemperature",
+        "displayName": "ActualCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -1060,6 +1143,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperature",
+        "displayName": "ActualTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -1067,18 +1151,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CookingLevel",
+        "displayName": "CookingLevel",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramMode",
+        "displayName": "ProgramMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:CookingKettleModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetCoreTemperature",
+        "displayName": "SetCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -1086,6 +1173,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTime",
+        "displayName": "SetProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -1093,6 +1181,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -1100,12 +1189,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalMode",
+        "displayName": "SignalMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:SignalModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemaining",
+        "displayName": "TimeRemaining",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -1124,6 +1215,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CookingZoneParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1029",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingZoneParameterType/{telemetryName}/{senderId}",
@@ -1132,6 +1224,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneParameterType:dataType:CurrentStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "CurrentStateEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3021",
         "valueSchema": "integer",
         "enumValues": [
@@ -1158,12 +1251,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualPower",
+        "displayName": "ActualPower",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "ActualProcessTime",
+        "displayName": "ActualProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -1171,6 +1266,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperature",
+        "displayName": "ActualTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -1178,24 +1274,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CookingZoneName",
+        "displayName": "CookingZoneName",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentState",
+        "displayName": "CurrentState",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneParameterType:dataType:CurrentStateEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsPanDetected",
+        "displayName": "IsPanDetected",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Power" ],
         "name": "NominalPower",
+        "displayName": "NominalPower",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "watt",
         "schema": "integer"
@@ -1203,6 +1303,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "SetPowerValue",
+        "displayName": "SetPowerValue",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "percent",
         "schema": "integer"
@@ -1210,6 +1311,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -1228,6 +1330,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "DishWashingMachineProgramParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1025",
     "commandTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineProgramParameterType/{commandName}",
@@ -1237,6 +1340,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:HygieneModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "HygieneModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3017",
         "valueSchema": "integer",
         "enumValues": [
@@ -1269,6 +1373,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:OperationModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "OperationModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3018",
         "valueSchema": "integer",
         "enumValues": [
@@ -1341,6 +1446,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:ProgramModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "ProgramModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3016",
         "valueSchema": "integer",
         "enumValues": [
@@ -1391,6 +1497,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProductGroup",
+        "displayName": "ProductGroup",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "string",
         "writable": false
@@ -1398,6 +1505,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProductType",
+        "displayName": "ProductType",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedInteger",
         "writable": false
@@ -1405,6 +1513,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualFinalRinseTemperature_No",
+        "displayName": "ActualFinalRinseTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1423,18 +1532,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualFinalRinseTemperatureNo",
+        "displayName": "ActualFinalRinseTemperatureNo",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualHygieneValue",
+        "displayName": "ActualHygieneValue",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualMainTankTemperature_No",
+        "displayName": "ActualMainTankTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1453,12 +1565,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualMainTankTemperatureNo",
+        "displayName": "ActualMainTankTemperatureNo",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualPreTankTemperature_No",
+        "displayName": "ActualPreTankTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1477,12 +1591,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualPreTankTemperatureNo",
+        "displayName": "ActualPreTankTemperatureNo",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualPumpedFinalRinseTemperature_No",
+        "displayName": "ActualPumpedFinalRinseTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1501,12 +1617,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualPumpedFinalRinseTemperatureNo",
+        "displayName": "ActualPumpedFinalRinseTemperatureNo",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FinalRinseTemperatureSetpoint_No",
+        "displayName": "FinalRinseTemperatureSetpoint_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1525,24 +1643,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FinalRinseTemperatureSetpointNo",
+        "displayName": "FinalRinseTemperatureSetpointNo",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HygieneMode",
+        "displayName": "HygieneMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:HygieneModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HygieneSetpoint",
+        "displayName": "HygieneSetpoint",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MainTankTemperatureSetpoint_No",
+        "displayName": "MainTankTemperatureSetpoint_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1561,18 +1683,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MainTankTemperatureSetpointNo",
+        "displayName": "MainTankTemperatureSetpointNo",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperationMode",
+        "displayName": "OperationMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:OperationModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreTankTemperatureSetpoint_No",
+        "displayName": "PreTankTemperatureSetpoint_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1591,18 +1716,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreTankTemperatureSetpointNo",
+        "displayName": "PreTankTemperatureSetpointNo",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramMode",
+        "displayName": "ProgramMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:ProgramModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PumpedFinalRinseTemperatureSetpoint_No",
+        "displayName": "PumpedFinalRinseTemperatureSetpoint_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1621,6 +1749,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PumpedFinalRinseTemperatureSetpointNo",
+        "displayName": "PumpedFinalRinseTemperatureSetpointNo",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "unsignedShort"
       }
@@ -1638,6 +1767,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FryerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1006",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryerParameterType/{telemetryName}/{senderId}",
@@ -1646,6 +1776,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:FryerModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "FryerModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -1682,6 +1813,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SignalModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -1704,6 +1836,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperature",
+        "displayName": "ActualTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -1711,18 +1844,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsLiftUp",
+        "displayName": "IsLiftUp",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramMode",
+        "displayName": "ProgramMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:FryerModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTime",
+        "displayName": "SetProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -1730,6 +1866,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -1737,12 +1874,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalMode",
+        "displayName": "SignalMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:SignalModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemaining",
+        "displayName": "TimeRemaining",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -1761,6 +1900,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FryingAndGrillingParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1031",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingParameterType/{telemetryName}/{senderId}",
@@ -1769,6 +1909,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:GrillingZoneStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "GrillingZoneStateEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3025",
         "valueSchema": "integer",
         "enumValues": [
@@ -1793,6 +1934,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:PlatenPositionStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PlatenPositionStateEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3022",
         "valueSchema": "integer",
         "enumValues": [
@@ -1819,6 +1961,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualGrillTemperature_No",
+        "displayName": "ActualGrillTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1837,6 +1980,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualPlatenTemperature_No",
+        "displayName": "ActualPlatenTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1855,30 +1999,35 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentState",
+        "displayName": "CurrentState",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:GrillingZoneStateEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "GrillingZoneName",
+        "displayName": "GrillingZoneName",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsWithPlaten",
+        "displayName": "IsWithPlaten",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlatenPositionState",
+        "displayName": "PlatenPositionState",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:PlatenPositionStateEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "RemainingProcessTime",
+        "displayName": "RemainingProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -1886,6 +2035,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetGrillTemperature_No",
+        "displayName": "SetGrillTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1904,6 +2054,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetPlatenTemperature_No",
+        "displayName": "SetPlatenTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -1922,6 +2073,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTime",
+        "displayName": "SetProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -1940,6 +2092,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FryingPanParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1008",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingPanParameterType/{telemetryName}/{senderId}",
@@ -1948,6 +2101,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanParameterType:dataType:FryingPanModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "FryingPanModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3005",
         "valueSchema": "integer",
         "enumValues": [
@@ -1996,6 +2150,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SignalModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -2018,6 +2173,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualCoreTemperature",
+        "displayName": "ActualCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2025,6 +2181,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Pressure" ],
         "name": "ActualPressurePan",
+        "displayName": "ActualPressurePan",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "millibar",
         "schema": "float"
@@ -2032,6 +2189,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperature",
+        "displayName": "ActualTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2039,24 +2197,28 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CookingLevel",
+        "displayName": "CookingLevel",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsLidLocked",
+        "displayName": "IsLidLocked",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramMode",
+        "displayName": "ProgramMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingPanParameterType:dataType:FryingPanModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetCoreTemperature",
+        "displayName": "SetCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2064,6 +2226,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTime",
+        "displayName": "SetProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2071,6 +2234,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2078,12 +2242,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalMode",
+        "displayName": "SignalMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingPanParameterType:dataType:SignalModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemaining",
+        "displayName": "TimeRemaining",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2102,6 +2268,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:IceMachineParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IceMachineParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1035",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/IceMachineParameterType/{telemetryName}/{senderId}",
@@ -2110,6 +2277,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:IceMachineParameterType:dataType:StatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "StatusEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3024",
         "valueSchema": "integer",
         "enumValues": [
@@ -2196,6 +2364,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "LastFreezeTime",
+        "displayName": "LastFreezeTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2203,6 +2372,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "LastHarvestTime",
+        "displayName": "LastHarvestTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2210,12 +2380,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Status",
+        "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:IceMachineParameterType:dataType:StatusEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Temperature_No",
+        "displayName": "Temperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -2234,6 +2406,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "WaterFillTime",
+        "displayName": "WaterFillTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2252,6 +2425,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MicrowaveCombiOvenParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1033",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenParameterType/{telemetryName}/{senderId}",
@@ -2260,6 +2434,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType:dataType:OperatingModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "OperatingModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3023",
         "valueSchema": "integer",
         "enumValues": [
@@ -2306,6 +2481,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperatureChamber",
+        "displayName": "ActualTemperatureChamber",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2313,12 +2489,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CookingStep",
+        "displayName": "CookingStep",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "FanSpeed",
+        "displayName": "FanSpeed",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "percent",
         "schema": "integer"
@@ -2326,12 +2504,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsDoorOpen",
+        "displayName": "IsDoorOpen",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Concentration" ],
         "name": "MicrowaveEnergy",
+        "displayName": "MicrowaveEnergy",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "percent",
         "schema": "integer"
@@ -2339,12 +2519,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperatingMode",
+        "displayName": "OperatingMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType:dataType:OperatingModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "RemainingProcessTime",
+        "displayName": "RemainingProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2352,6 +2534,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "RemainingProcessTimeStep",
+        "displayName": "RemainingProcessTimeStep",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2359,6 +2542,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTime",
+        "displayName": "SetProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2366,6 +2550,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2384,6 +2569,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MultiFunctionPanParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1018",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanParameterType/{telemetryName}/{senderId}",
@@ -2392,6 +2578,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:MultiFunctionPanModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "MultiFunctionPanModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3011",
         "valueSchema": "integer",
         "enumValues": [
@@ -2464,6 +2651,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:SpecialFunctionModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SpecialFunctionModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3012",
         "valueSchema": "integer",
         "enumValues": [
@@ -2490,6 +2678,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualCoreTemperature",
+        "displayName": "ActualCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2497,6 +2686,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Pressure" ],
         "name": "ActualPressureAbsolute",
+        "displayName": "ActualPressureAbsolute",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "millibar",
         "schema": "float"
@@ -2504,6 +2694,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperatureBottom",
+        "displayName": "ActualTemperatureBottom",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2511,6 +2702,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperatureCup",
+        "displayName": "ActualTemperatureCup",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2518,6 +2710,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualZoneTemperature_No",
+        "displayName": "ActualZoneTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -2534,54 +2727,63 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CookingLevel",
+        "displayName": "CookingLevel",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsLidLocked",
+        "displayName": "IsLidLocked",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsLidOpen",
+        "displayName": "IsLidOpen",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsWithCleaning",
+        "displayName": "IsWithCleaning",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsWithLift",
+        "displayName": "IsWithLift",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsWithPressure",
+        "displayName": "IsWithPressure",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsWithTilting",
+        "displayName": "IsWithTilting",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MultiFunctionPanMode",
+        "displayName": "MultiFunctionPanMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:MultiFunctionPanModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetCoreTemperature",
+        "displayName": "SetCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2589,6 +2791,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTimeProgram",
+        "displayName": "SetProcessTimeProgram",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2596,6 +2799,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTimeStep",
+        "displayName": "SetProcessTimeStep",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2603,6 +2807,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2610,6 +2815,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetZoneTemperature_No",
+        "displayName": "SetZoneTemperature_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": {
           "@type": "Map",
@@ -2628,12 +2834,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SpecialFunctionMode",
+        "displayName": "SpecialFunctionMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:SpecialFunctionModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemainingProgram",
+        "displayName": "TimeRemainingProgram",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2641,6 +2849,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemainingStep",
+        "displayName": "TimeRemainingStep",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2659,6 +2868,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PastaCookerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1020",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PastaCookerParameterType/{telemetryName}/{senderId}",
@@ -2667,6 +2877,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerParameterType:dataType:PastaCookerModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PastaCookerModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3013",
         "valueSchema": "integer",
         "enumValues": [
@@ -2707,6 +2918,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SignalModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -2729,6 +2941,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperature",
+        "displayName": "ActualTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2736,18 +2949,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CookingLevel",
+        "displayName": "CookingLevel",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramMode",
+        "displayName": "ProgramMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerParameterType:dataType:PastaCookerModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTime",
+        "displayName": "SetProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2755,6 +2971,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2762,12 +2979,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalMode",
+        "displayName": "SignalMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerParameterType:dataType:SignalModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemaining",
+        "displayName": "TimeRemaining",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2786,6 +3005,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PressureCookingKettleParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1014",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleParameterType/{telemetryName}/{senderId}",
@@ -2794,6 +3014,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType:dataType:PressureCookingKettleModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PressureCookingKettleModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3009",
         "valueSchema": "integer",
         "enumValues": [
@@ -2838,6 +3059,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SignalModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -2860,6 +3082,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualCoreTemperature",
+        "displayName": "ActualCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2867,6 +3090,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Pressure" ],
         "name": "ActualPressureAbsolute",
+        "displayName": "ActualPressureAbsolute",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "millibar",
         "schema": "float"
@@ -2874,6 +3098,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Pressure" ],
         "name": "ActualPressureKettle",
+        "displayName": "ActualPressureKettle",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "millibar",
         "schema": "float"
@@ -2881,6 +3106,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperature",
+        "displayName": "ActualTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2888,36 +3114,42 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CookingLevel",
+        "displayName": "CookingLevel",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsLidLocked",
+        "displayName": "IsLidLocked",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsOpenExpressActive",
+        "displayName": "IsOpenExpressActive",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsSteamActive",
+        "displayName": "IsSteamActive",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramMode",
+        "displayName": "ProgramMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType:dataType:PressureCookingKettleModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetCoreTemperature",
+        "displayName": "SetCoreTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2925,6 +3157,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "SetProcessTime",
+        "displayName": "SetProcessTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2932,6 +3165,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -2939,12 +3173,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalMode",
+        "displayName": "SignalMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType:dataType:SignalModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "TimeRemaining",
+        "displayName": "TimeRemaining",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -2963,6 +3199,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:TrayType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TrayType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1027",
     "commandTopic": "opcua/CommercialKitchenEquipment/TrayType/{commandName}",
@@ -2972,6 +3209,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "TrayModeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3019",
         "valueSchema": "integer",
         "enumValues": [
@@ -3004,6 +3242,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "TrayTypeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3020",
         "valueSchema": "integer",
         "enumValues": [
@@ -3054,6 +3293,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
+        "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "string",
         "writable": true
@@ -3061,6 +3301,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "ActiveSince",
+        "displayName": "ActiveSince",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -3068,6 +3309,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "ActualTemperature",
+        "displayName": "ActualTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -3075,6 +3317,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "TimeSpan" ],
         "name": "OperatingCounter",
+        "displayName": "OperatingCounter",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "second",
         "schema": "integer"
@@ -3082,12 +3325,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProgramMode",
+        "displayName": "ProgramMode",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified", "Temperature" ],
         "name": "SetTemperature",
+        "displayName": "SetTemperature",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "degreeCelsius",
         "schema": "float"
@@ -3095,6 +3340,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Type",
+        "displayName": "Type",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayTypeEnumeration;1"
       }
@@ -3112,6 +3358,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CommercialKitchenDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1005",
     "commandTopic": "opcua/CommercialKitchenEquipment/CommercialKitchenDeviceType/{commandName}",
@@ -3123,6 +3370,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceLocationName",
+        "displayName": "DeviceLocationName",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "string",
         "writable": false
@@ -3131,6 +3379,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "BatchInformation",
+        "displayName": "BatchInformation",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:BatchInformationType"
       },
@@ -3138,6 +3387,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ErrorConditions",
+        "displayName": "ErrorConditions",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
@@ -3145,6 +3395,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HACCPValues",
+        "displayName": "HACCPValues",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -3152,6 +3403,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InformationConditions",
+        "displayName": "InformationConditions",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
@@ -3169,6 +3421,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CoffeeMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1024",
     "payloadFormat": "Json/ecma/404",
@@ -3178,6 +3431,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "RecipeName",
+        "displayName": "<RecipeName>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType"
       },
@@ -3185,6 +3439,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Parameters",
+        "displayName": "Parameters",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType"
       }
@@ -3202,6 +3457,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CombiSteamerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1011",
     "commandTopic": "opcua/CommercialKitchenEquipment/CombiSteamerDeviceType/{commandName}",
@@ -3211,6 +3467,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3233,6 +3490,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3240,6 +3498,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithAutomaticCleaning",
+        "displayName": "IsWithAutomaticCleaning",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3247,6 +3506,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithExternalCoreTempSensor",
+        "displayName": "IsWithExternalCoreTempSensor",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3254,6 +3514,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithInternalCoreTempSensor",
+        "displayName": "IsWithInternalCoreTempSensor",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3261,6 +3522,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithSousvideTempSensor",
+        "displayName": "IsWithSousvideTempSensor",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3269,6 +3531,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CombiSteamer",
+        "displayName": "CombiSteamer",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType"
       }
@@ -3286,6 +3549,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CookingKettleDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1017",
     "commandTopic": "opcua/CommercialKitchenEquipment/CookingKettleDeviceType/{commandName}",
@@ -3295,6 +3559,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3317,6 +3582,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3324,6 +3590,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithAgitator",
+        "displayName": "IsWithAgitator",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3331,6 +3598,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithCooling",
+        "displayName": "IsWithCooling",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3339,6 +3607,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CookingKettle",
+        "displayName": "CookingKettle",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType"
       }
@@ -3356,6 +3625,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CookingZoneDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1030",
     "commandTopic": "opcua/CommercialKitchenEquipment/CookingZoneDeviceType/{commandName}",
@@ -3365,6 +3635,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3387,6 +3658,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3394,6 +3666,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithPanDetection",
+        "displayName": "IsWithPanDetection",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3401,6 +3674,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NumberOfPhases",
+        "displayName": "NumberOfPhases",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "integer",
         "writable": false
@@ -3408,6 +3682,7 @@
       {
         "@type": [ "Telemetry", "Qualified", "Voltage" ],
         "name": "NominalVoltage",
+        "displayName": "NominalVoltage",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "unit": "volt",
         "schema": "integer"
@@ -3415,6 +3690,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CookingZone_No",
+        "displayName": "CookingZone_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneParameterType"
       }
@@ -3432,6 +3708,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "DishWashingMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1026",
     "payloadFormat": "Json/ecma/404",
@@ -3442,6 +3719,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Parameters",
+        "displayName": "Parameters",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType"
       }
@@ -3459,6 +3737,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FryerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1007",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryerDeviceType/{commandName}",
@@ -3468,6 +3747,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3490,6 +3770,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryerDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3497,6 +3778,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithLift",
+        "displayName": "IsWithLift",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3504,6 +3786,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FryerCup_No",
+        "displayName": "FryerCup_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType"
       }
@@ -3521,6 +3804,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FryingAndGrillingDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1032",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingDeviceType/{commandName}",
@@ -3530,6 +3814,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3552,6 +3837,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3559,6 +3845,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "GrillingZone_No",
+        "displayName": "GrillingZone_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType"
       }
@@ -3576,6 +3863,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FryingPanDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1009",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryingPanDeviceType/{commandName}",
@@ -3585,6 +3873,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3607,6 +3896,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingPanDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3614,6 +3904,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithPressure",
+        "displayName": "IsWithPressure",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3622,6 +3913,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FryingPan",
+        "displayName": "FryingPan",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:FryingPanParameterType"
       }
@@ -3639,6 +3931,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:IceMachineDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IceMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1036",
     "payloadFormat": "Json/ecma/404",
@@ -3649,6 +3942,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IceMachine",
+        "displayName": "IceMachine",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:IceMachineParameterType"
       }
@@ -3666,6 +3960,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MicrowaveCombiOvenDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1034",
     "payloadFormat": "Json/ecma/404",
@@ -3676,6 +3971,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MicrowaveCombiOven",
+        "displayName": "MicrowaveCombiOven",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType"
       }
@@ -3693,6 +3989,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MultiFunctionPanDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1019",
     "commandTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanDeviceType/{commandName}",
@@ -3702,6 +3999,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3724,6 +4022,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3731,6 +4030,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MultiFunctionPan_No",
+        "displayName": "MultiFunctionPan_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType"
       }
@@ -3748,6 +4048,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:OvenDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OvenDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1013",
     "payloadFormat": "Json/ecma/404",
@@ -3757,6 +4058,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Chamber_No",
+        "displayName": "Chamber_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:ChamberType"
       }
@@ -3774,6 +4076,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PastaCookerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1021",
     "commandTopic": "opcua/CommercialKitchenEquipment/PastaCookerDeviceType/{commandName}",
@@ -3783,6 +4086,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3805,6 +4109,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3812,6 +4117,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsWithLift",
+        "displayName": "IsWithLift",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "boolean",
         "writable": false
@@ -3820,6 +4126,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PastaCooker",
+        "displayName": "PastaCooker",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerParameterType"
       }
@@ -3837,6 +4144,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PressureCookingKettleDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1015",
     "commandTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleDeviceType/{commandName}",
@@ -3846,6 +4154,7 @@
       {
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EnergySourceEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -3868,6 +4177,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EnergySource",
+        "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "schema": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleDeviceType:dataType:EnergySourceEnumeration;1",
         "writable": false
@@ -3876,6 +4186,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PressureCookingKettle",
+        "displayName": "PressureCookingKettle",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType"
       }
@@ -3893,6 +4204,7 @@
     ],
     "@id": "dtmi:opcua:CommercialKitchenEquipment:ServeryCounterDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ServeryCounterDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1028",
     "payloadFormat": "Json/ecma/404",
@@ -3902,6 +4214,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Tray_No",
+        "displayName": "Tray_<No.>",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
         "target": "dtmi:opcua:CommercialKitchenEquipment:TrayType"
       }

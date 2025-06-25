@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "PnDiagnosisAlarmType",
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1002",
     "commandTopic": "opcua/PROFINET/PnDiagnosisAlarmType/{commandName}",
@@ -20,6 +21,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelAccumulativeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelAccumulativeEnumeration",
+        "description": "Single channel Diagnosis only for the reported channel",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3011",
         "valueSchema": "integer",
         "enumValues": [
@@ -36,6 +39,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelDirectionEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelDirectionEnumeration",
+        "description": "Manufacturer specific",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3014",
         "valueSchema": "integer",
         "enumValues": [
@@ -60,6 +65,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelMaintenanceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelMaintenanceEnumeration",
+        "description": "Fault",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3012",
         "valueSchema": "integer",
         "enumValues": [
@@ -84,6 +91,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelSpecifierEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelSpecifierEnumeration",
+        "description": "The Diagnosis ASE contains no longer any entries (of any severity) for this channel",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3013",
         "valueSchema": "integer",
         "enumValues": [
@@ -108,6 +117,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelTypeEnumeration",
+        "description": "Shall be used if the field ChannelNumber contains the value 0x8000 (submodule) Furthermore, it shall be used if none of the below defined types are appropriate.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3010",
         "valueSchema": "integer",
         "enumValues": [
@@ -150,6 +161,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Accumulative",
+        "displayName": "Accumulative",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelAccumulativeEnumeration;1",
         "writable": false
@@ -157,6 +169,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "API",
+        "displayName": "API",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger",
         "writable": false
@@ -164,6 +177,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ChannelErrorType",
+        "displayName": "ChannelErrorType",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -171,6 +185,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ChannelNumber",
+        "displayName": "ChannelNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -178,6 +193,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Direction",
+        "displayName": "Direction",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelDirectionEnumeration;1",
         "writable": false
@@ -185,6 +201,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExtChannelAddValue",
+        "displayName": "ExtChannelAddValue",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger",
         "writable": false
@@ -192,6 +209,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExtChannelErrorType",
+        "displayName": "ExtChannelErrorType",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -199,6 +217,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "HelpText",
+        "displayName": "HelpText",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -206,6 +225,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Maintenance",
+        "displayName": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelMaintenanceEnumeration;1",
         "writable": false
@@ -213,6 +233,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ManufacturerData",
+        "displayName": "ManufacturerData",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "bytes",
         "writable": false
@@ -220,6 +241,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "QualifiedChannelQualifier",
+        "displayName": "QualifiedChannelQualifier",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger",
         "writable": false
@@ -227,6 +249,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Slot",
+        "displayName": "Slot",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -234,6 +257,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Specifier",
+        "displayName": "Specifier",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelSpecifierEnumeration;1",
         "writable": false
@@ -241,6 +265,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Subslot",
+        "displayName": "Subslot",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -248,6 +273,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Type",
+        "displayName": "Type",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelTypeEnumeration;1",
         "writable": false
@@ -255,6 +281,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "UserStructureIdentifier",
+        "displayName": "UserStructureIdentifier",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -273,6 +300,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnAssetChangedEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "PnAssetChangedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1003",
     "commandTopic": "opcua/PROFINET/PnAssetChangedEventType/{commandName}",
@@ -282,6 +310,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnAssetChangedEventType:dataType:PnAssetChangeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnAssetChangeEnumeration",
+        "description": "Asset has been added",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3016",
         "valueSchema": "integer",
         "enumValues": [
@@ -302,6 +332,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnAssetChangedEventType:dataType:PnAssetTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnAssetTypeEnumeration",
+        "description": "Device",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3015",
         "valueSchema": "integer",
         "enumValues": [
@@ -328,6 +360,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AssetChange",
+        "displayName": "AssetChange",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnAssetChangedEventType:dataType:PnAssetChangeEnumeration;1",
         "writable": false
@@ -335,6 +368,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AssetType",
+        "displayName": "AssetType",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnAssetChangedEventType:dataType:PnAssetTypeEnumeration;1",
         "writable": false
@@ -353,6 +387,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnTopologyChangedEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "PnTopologyChangedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1004",
     "payloadFormat": "Json/ecma/404",
@@ -373,6 +408,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnDomainType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnDomainType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1031",
     "payloadFormat": "Json/ecma/404",
@@ -383,6 +419,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Nodes",
+        "displayName": "Nodes",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnEquipmentContainerType"
       }
@@ -400,6 +437,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnEquipmentType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnEquipmentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1032",
     "commandTopic": "opcua/PROFINET/IPnEquipmentType/{commandName}",
@@ -409,6 +447,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnDeviceDiagnosisDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PnDeviceDiagnosisDataType",
+        "description": "Manufacturer specific diagnosis data",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3019",
         "fields": [
           {
@@ -501,6 +541,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelTypeEnumeration",
+        "description": "Shall be used if the field ChannelNumber contains the value 0x8000 (submodule) Furthermore, it shall be used if none of the below defined types are appropriate.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3010",
         "valueSchema": "integer",
         "enumValues": [
@@ -541,6 +583,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelAccumulativeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelAccumulativeEnumeration",
+        "description": "Single channel Diagnosis only for the reported channel",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3011",
         "valueSchema": "integer",
         "enumValues": [
@@ -557,6 +601,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelMaintenanceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelMaintenanceEnumeration",
+        "description": "Fault",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3012",
         "valueSchema": "integer",
         "enumValues": [
@@ -581,6 +627,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelSpecifierEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelSpecifierEnumeration",
+        "description": "The Diagnosis ASE contains no longer any entries (of any severity) for this channel",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3013",
         "valueSchema": "integer",
         "enumValues": [
@@ -605,6 +653,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelDirectionEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelDirectionEnumeration",
+        "description": "Manufacturer specific",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3014",
         "valueSchema": "integer",
         "enumValues": [
@@ -631,6 +681,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Vendor",
+        "displayName": "Vendor",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -638,6 +689,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Diagnosis",
+        "displayName": "Diagnosis",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -647,12 +699,14 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ShowLocation",
+        "displayName": "ShowLocation",
         "namespace": "http://opcfoundation.org/UA/PROFINET"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
+        "displayName": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -660,6 +714,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Assets",
+        "displayName": "Assets",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnAssetContainerType"
       },
@@ -667,6 +722,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IM",
+        "displayName": "IM",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       },
@@ -674,6 +730,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Interfaces",
+        "displayName": "Interfaces",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnInterfaceContainerType"
       },
@@ -681,6 +738,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Modules",
+        "displayName": "Modules",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnRealModuleContainerType"
       }
@@ -698,6 +756,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnControllerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnControllerType",
     "extends": "dtmi:opcua:PROFINET:IPnEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1035",
     "payloadFormat": "Json/ecma/404",
@@ -708,6 +767,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ARs",
+        "displayName": "ARs",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnApplicationRelationContainerType"
       }
@@ -725,6 +785,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnDeviceType",
     "extends": "dtmi:opcua:PROFINET:IPnEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1034",
     "commandTopic": "opcua/PROFINET/IPnDeviceType/{commandName}",
@@ -734,6 +795,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnDeviceType:dataType:PnDeviceStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnDeviceStateEnumeration",
+        "description": "The device is not online, or no information is available. The device is offline if no ARs other than possible Device Access AR’s exist.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -760,6 +823,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "GSDDescription",
+        "displayName": "GSDDescription",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -767,6 +831,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "State",
+        "displayName": "State",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:IPnDeviceType:dataType:PnDeviceStateEnumeration;1"
       }
@@ -784,6 +849,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnInterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnInterfaceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1008",
     "commandTopic": "opcua/PROFINET/IPnInterfaceType/{commandName}",
@@ -793,6 +859,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnInterfaceType:dataType:PnDeviceRoleOptionSet;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnDeviceRoleOptionSet",
+        "description": "The device contains an IO device interface.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -823,6 +891,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceId",
+        "displayName": "DeviceId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -830,6 +899,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceInstance",
+        "displayName": "DeviceInstance",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -837,6 +907,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceRole",
+        "displayName": "DeviceRole",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:IPnInterfaceType:dataType:PnDeviceRoleOptionSet;1",
         "writable": false
@@ -844,6 +915,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceVendor",
+        "displayName": "DeviceVendor",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -851,6 +923,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NameOfStation",
+        "displayName": "NameOfStation",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -858,6 +931,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OEMDeviceId",
+        "displayName": "OEMDeviceId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -865,6 +939,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OEMVendorId",
+        "displayName": "OEMVendorId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -872,6 +947,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "VendorId",
+        "displayName": "VendorId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -879,6 +955,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetNameOfStation",
+        "displayName": "SetNameOfStation",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -899,6 +976,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Ports",
+        "displayName": "Ports",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnPortContainerType"
       },
@@ -906,6 +984,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Statistic",
+        "displayName": "Statistic",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnPortStatisticType"
       }
@@ -923,6 +1002,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnModuleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnModuleType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1024",
     "commandTopic": "opcua/PROFINET/IPnModuleType/{commandName}",
@@ -934,6 +1014,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "GSDDescription",
+        "displayName": "GSDDescription",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -941,6 +1022,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "GSDName",
+        "displayName": "GSDName",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -948,6 +1030,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IdentNumber",
+        "displayName": "IdentNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger",
         "writable": false
@@ -955,6 +1038,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Slot",
+        "displayName": "Slot",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -973,6 +1057,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnExpectedModuleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnExpectedModuleType",
     "extends": "dtmi:opcua:PROFINET:IPnModuleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1027",
     "telemetryTopic": "opcua/PROFINET/IPnExpectedModuleType/{telemetryName}/{senderId}",
@@ -981,6 +1066,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnExpectedModuleType:dataType:PnModuleStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnModuleStateEnumeration",
+        "description": "For example module not plugged",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3006",
         "valueSchema": "integer",
         "enumValues": [
@@ -1011,6 +1098,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "State",
+        "displayName": "State",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:IPnExpectedModuleType:dataType:PnModuleStateEnumeration;1"
       },
@@ -1018,6 +1106,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Submodules",
+        "displayName": "Submodules",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnExpectedSubmoduleContainerType"
       }
@@ -1035,6 +1124,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnRealModuleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnRealModuleType",
     "extends": "dtmi:opcua:PROFINET:IPnModuleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1025",
     "telemetryTopic": "opcua/PROFINET/IPnRealModuleType/{telemetryName}/{senderId}",
@@ -1043,6 +1133,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealModuleType:dataType:PnDeviceDiagnosisDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PnDeviceDiagnosisDataType",
+        "description": "Manufacturer specific diagnosis data",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3019",
         "fields": [
           {
@@ -1135,6 +1227,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealModuleType:dataType:PnChannelTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelTypeEnumeration",
+        "description": "Shall be used if the field ChannelNumber contains the value 0x8000 (submodule) Furthermore, it shall be used if none of the below defined types are appropriate.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3010",
         "valueSchema": "integer",
         "enumValues": [
@@ -1175,6 +1269,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealModuleType:dataType:PnChannelAccumulativeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelAccumulativeEnumeration",
+        "description": "Single channel Diagnosis only for the reported channel",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3011",
         "valueSchema": "integer",
         "enumValues": [
@@ -1191,6 +1287,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealModuleType:dataType:PnChannelMaintenanceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelMaintenanceEnumeration",
+        "description": "Fault",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3012",
         "valueSchema": "integer",
         "enumValues": [
@@ -1215,6 +1313,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealModuleType:dataType:PnChannelSpecifierEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelSpecifierEnumeration",
+        "description": "The Diagnosis ASE contains no longer any entries (of any severity) for this channel",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3013",
         "valueSchema": "integer",
         "enumValues": [
@@ -1239,6 +1339,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealModuleType:dataType:PnChannelDirectionEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelDirectionEnumeration",
+        "description": "Manufacturer specific",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3014",
         "valueSchema": "integer",
         "enumValues": [
@@ -1265,6 +1367,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Diagnosis",
+        "displayName": "Diagnosis",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -1275,6 +1378,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
+        "displayName": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1282,6 +1386,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IM",
+        "displayName": "IM",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       },
@@ -1289,6 +1394,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Submodules",
+        "displayName": "Submodules",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnRealSubmoduleContainerType"
       }
@@ -1306,6 +1412,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnSubmoduleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnSubmoduleType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1019",
     "commandTopic": "opcua/PROFINET/IPnSubmoduleType/{commandName}",
@@ -1317,6 +1424,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "API",
+        "displayName": "API",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger",
         "writable": false
@@ -1324,6 +1432,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "GSDDescription",
+        "displayName": "GSDDescription",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -1331,6 +1440,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "GSDName",
+        "displayName": "GSDName",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -1338,6 +1448,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IdentNumber",
+        "displayName": "IdentNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger",
         "writable": false
@@ -1345,6 +1456,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Subslot",
+        "displayName": "Subslot",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -1363,6 +1475,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnExpectedSubmoduleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnExpectedSubmoduleType",
     "extends": "dtmi:opcua:PROFINET:IPnSubmoduleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1022",
     "payloadFormat": "Json/ecma/404",
@@ -1373,6 +1486,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "State",
+        "displayName": "State",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnSubmoduleStateType"
       }
@@ -1390,6 +1504,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPnRealSubmoduleType",
     "extends": "dtmi:opcua:PROFINET:IPnSubmoduleType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1020",
     "telemetryTopic": "opcua/PROFINET/IPnRealSubmoduleType/{telemetryName}/{senderId}",
@@ -1398,6 +1513,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnDeviceDiagnosisDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PnDeviceDiagnosisDataType",
+        "description": "Manufacturer specific diagnosis data",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3019",
         "fields": [
           {
@@ -1490,6 +1607,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelTypeEnumeration",
+        "description": "Shall be used if the field ChannelNumber contains the value 0x8000 (submodule) Furthermore, it shall be used if none of the below defined types are appropriate.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3010",
         "valueSchema": "integer",
         "enumValues": [
@@ -1530,6 +1649,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelAccumulativeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelAccumulativeEnumeration",
+        "description": "Single channel Diagnosis only for the reported channel",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3011",
         "valueSchema": "integer",
         "enumValues": [
@@ -1546,6 +1667,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelMaintenanceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelMaintenanceEnumeration",
+        "description": "Fault",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3012",
         "valueSchema": "integer",
         "enumValues": [
@@ -1570,6 +1693,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelSpecifierEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelSpecifierEnumeration",
+        "description": "The Diagnosis ASE contains no longer any entries (of any severity) for this channel",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3013",
         "valueSchema": "integer",
         "enumValues": [
@@ -1594,6 +1719,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelDirectionEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnChannelDirectionEnumeration",
+        "description": "Manufacturer specific",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3014",
         "valueSchema": "integer",
         "enumValues": [
@@ -1620,6 +1747,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Diagnosis",
+        "displayName": "Diagnosis",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -1630,6 +1758,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
+        "displayName": "Alarms",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1637,6 +1766,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IM",
+        "displayName": "IM",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       }
@@ -1654,6 +1784,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:NetworkComponentFeatureType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "NetworkComponentFeatureType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1016",
     "payloadFormat": "Json/ecma/404",
@@ -1674,6 +1805,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPv4FeatureType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IPv4FeatureType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentFeatureType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1017",
     "telemetryTopic": "opcua/PROFINET/IPv4FeatureType/{telemetryName}/{senderId}",
@@ -1684,6 +1816,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DefaultGateway",
+        "displayName": "DefaultGateway",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -1693,12 +1826,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DhcpEnabled",
+        "displayName": "DhcpEnabled",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IpAddress",
+        "displayName": "IpAddress",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -1708,6 +1843,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SubnetMask",
+        "displayName": "SubnetMask",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -1728,6 +1864,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "NetworkComponentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1013",
     "telemetryTopic": "opcua/PROFINET/NetworkComponentType/{telemetryName}/{senderId}",
@@ -1738,12 +1875,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Enabled",
+        "displayName": "Enabled",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "boolean"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FeatureName",
+        "displayName": "<FeatureName>",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:NetworkComponentFeatureType"
       }
@@ -1761,6 +1900,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:EthernetInterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EthernetInterfaceType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1014",
     "telemetryTopic": "opcua/PROFINET/EthernetInterfaceType/{telemetryName}/{senderId}",
@@ -1771,6 +1911,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MacAddress",
+        "displayName": "MacAddress",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -1791,6 +1932,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:EthernetPortType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EthernetPortType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1015",
     "telemetryTopic": "opcua/PROFINET/EthernetPortType/{telemetryName}/{senderId}",
@@ -1801,6 +1943,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PhysAddress",
+        "displayName": "PhysAddress",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -1821,6 +1964,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnApplicationRelationContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnApplicationRelationContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1030",
     "payloadFormat": "Json/ecma/404",
@@ -1841,6 +1985,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnApplicationRelationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnApplicationRelationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1029",
     "commandTopic": "opcua/PROFINET/PnApplicationRelationType/{commandName}",
@@ -1850,6 +1995,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnApplicationRelationType:dataType:PnARTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnARTypeEnumeration",
+        "description": "The supervisor AR is a special form of the IOCARSingle allowing takeover of the ownership of a submodule",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3005",
         "valueSchema": "integer",
         "enumValues": [
@@ -1874,6 +2021,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnApplicationRelationType:dataType:PnARStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnARStateEnumeration",
+        "description": "The AR connection to the device is established",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -1904,6 +2053,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DataHoldFactor",
+        "displayName": "DataHoldFactor",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -1911,6 +2061,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Id",
+        "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "uuid",
         "writable": false
@@ -1918,6 +2069,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ReductionRatio",
+        "displayName": "ReductionRatio",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -1925,6 +2077,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SendClockFactor",
+        "displayName": "SendClockFactor",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -1932,6 +2085,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Type",
+        "displayName": "Type",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnApplicationRelationType:dataType:PnARTypeEnumeration;1",
         "writable": false
@@ -1939,6 +2093,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "State",
+        "displayName": "State",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnApplicationRelationType:dataType:PnARStateEnumeration;1"
       },
@@ -1946,6 +2101,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Modules",
+        "displayName": "Modules",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnExpectedModuleContainerType"
       }
@@ -1963,6 +2119,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnAssetContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnAssetContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1007",
     "payloadFormat": "Json/ecma/404",
@@ -1983,6 +2140,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnAssetType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1006",
     "commandTopic": "opcua/PROFINET/PnAssetType/{commandName}",
@@ -1994,6 +2152,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Annotation",
+        "displayName": "Annotation",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2001,6 +2160,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceId",
+        "displayName": "DeviceId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2008,6 +2168,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceSubId",
+        "displayName": "DeviceSubId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2015,6 +2176,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "HardwareRevision",
+        "displayName": "HardwareRevision",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2022,6 +2184,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Location",
+        "displayName": "Location",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2029,6 +2192,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OrderId",
+        "displayName": "OrderId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2036,6 +2200,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Organization",
+        "displayName": "Organization",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2043,6 +2208,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SerialNumber",
+        "displayName": "SerialNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2050,6 +2216,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SoftwareRevision",
+        "displayName": "SoftwareRevision",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2057,6 +2224,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TypeIdentification",
+        "displayName": "TypeIdentification",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2064,6 +2232,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "UniqueIdentifier",
+        "displayName": "UniqueIdentifier",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "uuid",
         "writable": false
@@ -2071,6 +2240,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "VendorId",
+        "displayName": "VendorId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2089,6 +2259,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnEquipmentContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnEquipmentContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1033",
     "payloadFormat": "Json/ecma/404",
@@ -2098,6 +2269,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PnEquipments",
+        "displayName": "<PnEquipments>",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
@@ -2115,6 +2287,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnExpectedModuleContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnExpectedModuleContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1028",
     "payloadFormat": "Json/ecma/404",
@@ -2135,6 +2308,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnExpectedSubmoduleContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnExpectedSubmoduleContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1023",
     "payloadFormat": "Json/ecma/404",
@@ -2155,6 +2329,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnIdentificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnIdentificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1005",
     "commandTopic": "opcua/PROFINET/PnIdentificationType/{commandName}",
@@ -2164,6 +2339,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnIdentificationType:dataType:PnIM5DataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PnIM5DataType",
+        "description": "Contains the fields of the APDU element I&M5 | I&M5Data",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3020",
         "fields": [
           {
@@ -2201,6 +2378,7 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnIdentificationType:dataType:IMTagSelectorEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "IMTagSelectorEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3021",
         "valueSchema": "integer",
         "enumValues": [
@@ -2223,6 +2401,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Date",
+        "displayName": "Date",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dateTime",
         "writable": false
@@ -2230,6 +2409,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Descriptor",
+        "displayName": "Descriptor",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2237,6 +2417,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "HardwareRevision",
+        "displayName": "HardwareRevision",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2244,6 +2425,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IM5",
+        "displayName": "IM5",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": {
           "@type": "Array",
@@ -2254,6 +2436,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IMSupported",
+        "displayName": "IMSupported",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2261,6 +2444,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OrderId",
+        "displayName": "OrderId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2268,6 +2452,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProfileId",
+        "displayName": "ProfileId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger",
         "writable": false
@@ -2275,6 +2460,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProfileSpecificType",
+        "displayName": "ProfileSpecificType",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2282,6 +2468,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RevisionCounter",
+        "displayName": "RevisionCounter",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2289,6 +2476,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SerialNumber",
+        "displayName": "SerialNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2296,6 +2484,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Signature",
+        "displayName": "Signature",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "bytes",
         "writable": false
@@ -2303,6 +2492,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SoftwareRevision",
+        "displayName": "SoftwareRevision",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2310,6 +2500,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TagFunction",
+        "displayName": "TagFunction",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2317,6 +2508,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TagLocation",
+        "displayName": "TagLocation",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2324,6 +2516,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "VendorId",
+        "displayName": "VendorId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort",
         "writable": false
@@ -2331,6 +2524,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Version",
+        "displayName": "Version",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "string",
         "writable": false
@@ -2338,6 +2532,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetDate",
+        "displayName": "SetDate",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2357,6 +2552,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetDescriptor",
+        "displayName": "SetDescriptor",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2376,6 +2572,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetTags",
+        "displayName": "SetTags",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2416,6 +2613,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnInterfaceContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnInterfaceContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -2436,6 +2634,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnPortContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnPortContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1011",
     "payloadFormat": "Json/ecma/404",
@@ -2456,6 +2655,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnPortStatisticType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnPortStatisticType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1012",
     "telemetryTopic": "opcua/PROFINET/PnPortStatisticType/{telemetryName}/{senderId}",
@@ -2466,36 +2666,42 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InDiscards",
+        "displayName": "InDiscards",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InErrors",
+        "displayName": "InErrors",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InOctets",
+        "displayName": "InOctets",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutDiscards",
+        "displayName": "OutDiscards",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutErrors",
+        "displayName": "OutErrors",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutOctets",
+        "displayName": "OutOctets",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger"
       }
@@ -2513,6 +2719,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnPortType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnPortType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1010",
     "telemetryTopic": "opcua/PROFINET/PnPortType/{telemetryName}/{senderId}",
@@ -2521,6 +2728,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnPortType:dataType:PnLinkStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnLinkStateEnumeration",
+        "description": "Ready to pass packets",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3017",
         "valueSchema": "integer",
         "enumValues": [
@@ -2557,6 +2766,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnPortType:dataType:PnPortStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnPortStateEnumeration",
+        "description": "Status cannot be determined",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3018",
         "valueSchema": "integer",
         "enumValues": [
@@ -2595,36 +2806,42 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CableDelay",
+        "displayName": "CableDelay",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsWireless",
+        "displayName": "IsWireless",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LinkState",
+        "displayName": "LinkState",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnPortType:dataType:PnLinkStateEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MAUType",
+        "displayName": "MAUType",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PortState",
+        "displayName": "PortState",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnPortType:dataType:PnPortStateEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerBudget",
+        "displayName": "PowerBudget",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "unsignedInteger"
       },
@@ -2632,6 +2849,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Statistic",
+        "displayName": "Statistic",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "target": "dtmi:opcua:PROFINET:PnPortStatisticType"
       }
@@ -2649,6 +2867,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnRealModuleContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnRealModuleContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1026",
     "payloadFormat": "Json/ecma/404",
@@ -2669,6 +2888,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnRealSubmoduleContainerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnRealSubmoduleContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1021",
     "payloadFormat": "Json/ecma/404",
@@ -2689,6 +2909,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnSubmoduleStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PnSubmoduleStateType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1018",
     "telemetryTopic": "opcua/PROFINET/PnSubmoduleStateType/{telemetryName}/{senderId}",
@@ -2697,6 +2918,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleAddInfoEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnSubmoduleAddInfoEnumeration",
+        "description": "This Submodule is not available for takeover by IOSAR.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3007",
         "valueSchema": "integer",
         "enumValues": [
@@ -2713,6 +2936,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleARInfoEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnSubmoduleARInfoEnumeration",
+        "description": "This AR is owner of the submodule",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3008",
         "valueSchema": "integer",
         "enumValues": [
@@ -2741,6 +2966,8 @@
       {
         "@id": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleIdentInfoEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PnSubmoduleIdentInfoEnumeration",
+        "description": "OK",
         "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3009",
         "valueSchema": "integer",
         "enumValues": [
@@ -2767,42 +2994,49 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AddInfo",
+        "displayName": "AddInfo",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleAddInfoEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ARInfo",
+        "displayName": "ARInfo",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleARInfoEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DiagInfo",
+        "displayName": "DiagInfo",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IdentInfo",
+        "displayName": "IdentInfo",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleIdentInfoEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaintenanceDemanded",
+        "displayName": "MaintenanceDemanded",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaintenanceRequired",
+        "displayName": "MaintenanceRequired",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "QualifiedInfo",
+        "displayName": "QualifiedInfo",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
         "schema": "boolean"
       }

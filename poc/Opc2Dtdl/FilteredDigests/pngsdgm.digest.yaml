@@ -1,55 +1,77 @@
 DataTypes:
 - UADataType: [ PNGSDGM:3004, PNGSDGM:GsdGenChannelAccumulativeEnumeration ]
+  DisplayName: "GsdGenChannelAccumulativeEnumeration"
+  Description: "Single channel. Diagnosis only for the reported channel"
   Enums:
     SINGLE: 0
     ACCUMULATIVE: 256
 - UADataType: [ PNGSDGM:3007, PNGSDGM:GsdGenChannelDirectionEnumeration ]
+  DisplayName: "GsdGenChannelDirectionEnumeration"
+  Description: "Manufacturer specific"
   Enums:
     MANUFACTURER_SPECIFIC: 0
     INPUT_CHANNEL: 8192
     OUTPUT_CHANNEL: 16384
     BIDIRECTIONAL_CHANNEL: 24576
 - UADataType: [ PNGSDGM:3005, PNGSDGM:GsdGenChannelMaintenanceEnumeration ]
+  DisplayName: "GsdGenChannelMaintenanceEnumeration"
+  Description: "Fault"
   Enums:
     FAULT: 0
     MAINTENANCE_REQUIRED: 512
     MAINTENANCE_DEMANDED: 1024
     USE_QUALIFIED_CHANNEL_QUALIFIER: 1536
 - UADataType: [ PNGSDGM:3006, PNGSDGM:GsdGenChannelSpecifierEnumeration ]
+  DisplayName: "GsdGenChannelSpecifierEnumeration"
+  Description: "The Diagnosis ASE contains no longer any entries (of any severity) for this channel"
   Enums:
     ALL_DISAPPEARS: 0
     APPEARS: 2048
     DISAPPEARS: 4096
     DISAPPEARS_OTHER_REMAIN: 6144
 - UADataType: [ PNGSDGM:3012, PNGSDGM:GsdGenIoCommunicationStatusEnumeration ]
+  DisplayName: "GsdGenIoCommunicationStatusEnumeration"
+  Description: "The Submodule is part of an active AR and exchanging IO Data with a Controller"
   Enums:
     INDATA: 0
     OFFLINE: 1
 - UADataType: [ PNGSDGM:3015, PNGSDGM:GsdGenIoConfigurationStatusEnumeration ]
+  DisplayName: "GsdGenIoConfigurationStatusEnumeration"
+  Description: "Proper Submodule which works as configured"
   Enums:
     OK: 0
     SUBSTITUTE: 1
     WRONG: 2
     UNKNOWN: 3
 - UADataType: [ PNGSDGM:3002, PNGSDGM:GsdGenIoConsistencyEnumeration ]
+  DisplayName: "GsdGenIoConsistencyEnumeration"
+  Description: "Each data type is handled consistently."
   Enums:
     ITEM_CONSISTENCY: 0
     ALL_ITEMS_CONSISTENCY: 1
 - UADataType: [ PNGSDGM:3003, PNGSDGM:GsdGenIoQualityFormatEnumeration ]
+  DisplayName: "GsdGenIoQualityFormatEnumeration"
+  Description: "Bit length is 1."
   Enums:
     QUALIFIER: 0
     EMBEDDED_STATUS: 1
     STATUS: 2
 - UADataType: [ PNGSDGM:3009, PNGSDGM:GsdGenIoTimeDataType ]
+  DisplayName: "GsdGenIoTimeDataType"
+  Description: "Used for TimeOfDay: Number of milliseconds since midnight. Used for TimeDifference: Number of milliseconds."
   Fields:
     NumberOfMilliseconds: [ UInt32, 0 ]
     NumberOfDays: [ UInt16, 0 ]
 - UADataType: [ PNGSDGM:3008, PNGSDGM:GsdGenIoTimeStampDataType ]
+  DisplayName: "GsdGenIoTimeStampDataType"
+  Description: "Time source"
   Fields:
     Status: [ UInt16, 0 ]
     Seconds: [ UInt64, 0 ]
     Nanoseconds: [ UInt32, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -60,25 +82,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -90,77 +119,96 @@ DefinedTypes:
 
   PNGSDGM:GsdGenAlarmEventType:
   - [ UAObjectType, PNGSDGM:1002, PNGSDGM:GsdGenAlarmEventType ]
+  - DisplayName: "GsdGenAlarmEventType"
   - HasProperty:
     - [ UAVariable, PNGSDGM:6026, PNGSDGM:Accumulative, PNGSDGM:GsdGenChannelAccumulativeEnumeration, 0, 0 ]
+    - DisplayName: "Accumulative"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6022, PNGSDGM:API, UInt32, 0, 0 ]
+    - DisplayName: "API"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6031, PNGSDGM:ChannelErrorType, UInt16, 0, 0 ]
+    - DisplayName: "ChannelErrorType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6025, PNGSDGM:ChannelNumber, UInt16, 0, 0 ]
+    - DisplayName: "ChannelNumber"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6029, PNGSDGM:Direction, PNGSDGM:GsdGenChannelDirectionEnumeration, 0, 0 ]
+    - DisplayName: "Direction"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6033, PNGSDGM:ExtChannelAddValue, UInt32, 0, 0 ]
+    - DisplayName: "ExtChannelAddValue"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6032, PNGSDGM:ExtChannelErrorType, UInt16, 0, 0 ]
+    - DisplayName: "ExtChannelErrorType"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6036, PNGSDGM:HelpText, LocalizedText, 0, 0 ]
+    - DisplayName: "HelpText"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6027, PNGSDGM:Maintenance, PNGSDGM:GsdGenChannelMaintenanceEnumeration, 0, 0 ]
+    - DisplayName: "Maintenance"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6035, PNGSDGM:ManufacturerData, ByteString, 0, 0 ]
+    - DisplayName: "ManufacturerData"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6034, PNGSDGM:QualifiedChannelQualifier, UInt32, 0, 0 ]
+    - DisplayName: "QualifiedChannelQualifier"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6023, PNGSDGM:Slot, UInt16, 0, 0 ]
+    - DisplayName: "Slot"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6028, PNGSDGM:Specifier, PNGSDGM:GsdGenChannelSpecifierEnumeration, 0, 0 ]
+    - DisplayName: "Specifier"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6024, PNGSDGM:Subslot, UInt16, 0, 0 ]
+    - DisplayName: "Subslot"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6030, PNGSDGM:UserStructureIdentifier, UInt16, 0, 0 ]
+    - DisplayName: "UserStructureIdentifier"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PNGSDGM:GsdGenIoChannelDataType:
   - [ UAObjectType, PNGSDGM:1004, PNGSDGM:GsdGenIoChannelDataType ]
+  - DisplayName: "GsdGenIoChannelDataType"
   - HasProperty:
     - [ UAVariable, PNGSDGM:6040, PNGSDGM:BitLength, UInt16, 0, 0 ]
+    - DisplayName: "BitLength"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6039, PNGSDGM:BitOffset, UInt16, 0, 0 ]
+    - DisplayName: "BitOffset"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -168,12 +216,15 @@ DefinedTypes:
 
   PNGSDGM:GsdGenIoChannelQualityType:
   - [ UAObjectType, PNGSDGM:1003, PNGSDGM:GsdGenIoChannelQualityType ]
+  - DisplayName: "GsdGenIoChannelQualityType"
   - HasProperty:
     - [ UAVariable, PNGSDGM:6037, PNGSDGM:BitOffset, UInt16, 0, 0 ]
+    - DisplayName: "BitOffset"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6038, PNGSDGM:Format, PNGSDGM:GsdGenIoQualityFormatEnumeration, 0, 0 ]
+    - DisplayName: "Format"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -181,8 +232,10 @@ DefinedTypes:
 
   PNGSDGM:GsdGenIoChannelType:
   - [ UAObjectType, PNGSDGM:1005, PNGSDGM:GsdGenIoChannelType ]
+  - DisplayName: "GsdGenIoChannelType"
   - HasComponent:
     - [ UAObject, PNGSDGM:5007, PNGSDGM:Data ]
+    - DisplayName: "Data"
     - HasTypeDefinition:
       - [ UAObjectType, PNGSDGM:1004, PNGSDGM:GsdGenIoChannelDataType ]
     - HasModellingRule:
@@ -191,10 +244,12 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6041, PNGSDGM:Number, UInt16, 0, 0 ]
+    - DisplayName: "Number"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PNGSDGM:5008, PNGSDGM:Quality ]
+    - DisplayName: "Quality"
     - HasTypeDefinition:
       - [ UAObjectType, PNGSDGM:1003, PNGSDGM:GsdGenIoChannelQualityType ]
     - HasModellingRule:
@@ -202,24 +257,29 @@ DefinedTypes:
 
   PNGSDGM:GsdGenIoDataType:
   - [ UAObjectType, PNGSDGM:1006, PNGSDGM:GsdGenIoDataType ]
+  - DisplayName: "GsdGenIoDataType"
   - HasComponent:
     - [ UAVariable, PNGSDGM:6047, PNGSDGM:<DataItemx> ]
+    - DisplayName: "<DataItemx>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PNGSDGM:5009, PNGSDGM:<InputChannelx> ]
+    - DisplayName: "<InputChannelx>"
     - HasTypeDefinition:
       - [ UAObjectType, PNGSDGM:1005, PNGSDGM:GsdGenIoChannelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PNGSDGM:5011, PNGSDGM:<OutputChannelx> ]
+    - DisplayName: "<OutputChannelx>"
     - HasTypeDefinition:
       - [ UAObjectType, PNGSDGM:1005, PNGSDGM:GsdGenIoChannelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6046, PNGSDGM:Consistency, PNGSDGM:GsdGenIoConsistencyEnumeration, 0, 0 ]
+    - DisplayName: "Consistency"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -227,95 +287,115 @@ DefinedTypes:
 
   PNGSDGM:GsdGenSubmoduleApplicationType:
   - [ UAObjectType, PNGSDGM:1007, PNGSDGM:GsdGenSubmoduleApplicationType ]
+  - DisplayName: "GsdGenSubmoduleApplicationType"
   - HasComponent:
     - [ UAObject, PNGSDGM:5019, PNGSDGM:<ArrayFolder> ]
+    - DisplayName: "<ArrayFolder>"
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, PNGSDGM:6089, PNGSDGM:<EnumerationVariable>, Enumeration, 0, 0 ]
+    - DisplayName: "<EnumerationVariable>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PNGSDGM:5016, PNGSDGM:<FolderName> ]
+    - DisplayName: "<FolderName>"
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, PNGSDGM:6090, PNGSDGM:<OptionSetVariable> ]
+    - DisplayName: "<OptionSetVariable>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, PNGSDGM:6086, PNGSDGM:<UnitRangeVariable>, Number, -3, 0 ]
+    - DisplayName: "<UnitRangeVariable>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, PNGSDGM:6084, PNGSDGM:<UnitVariable>, Number, -3, 0 ]
+    - DisplayName: "<UnitVariable>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6058, PNGSDGM:<ValueProperty> ]
+    - DisplayName: "<ValueProperty>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, PNGSDGM:6057, PNGSDGM:<ValueVariable> ]
+    - DisplayName: "<ValueVariable>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6006, PNGSDGM:ApplicationTag, String, 0, 0 ]
+    - DisplayName: "ApplicationTag"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6106, PNGSDGM:ARIdentifier, Guid, 0, 0 ]
+    - DisplayName: "ARIdentifier"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6104, PNGSDGM:CommunicationStatus, PNGSDGM:GsdGenIoCommunicationStatusEnumeration, 0, 0 ]
+    - DisplayName: "CommunicationStatus"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PNGSDGM:5015, PNGSDGM:Configuration ]
+    - DisplayName: "Configuration"
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6105, PNGSDGM:ConfigurationStatus, PNGSDGM:GsdGenIoConfigurationStatusEnumeration, 0, 0 ]
+    - DisplayName: "ConfigurationStatus"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PNGSDGM:6107, PNGSDGM:ControllerName, String, 0, 0 ]
+    - DisplayName: "ControllerName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PNGSDGM:5013, PNGSDGM:Input ]
+    - DisplayName: "Input"
     - HasTypeDefinition:
       - [ UAObjectType, PNGSDGM:1006, PNGSDGM:GsdGenIoDataType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PNGSDGM:5018, PNGSDGM:Lock ]
+    - DisplayName: "Lock"
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PNGSDGM:5014, PNGSDGM:Output ]
+    - DisplayName: "Output"
     - HasTypeDefinition:
       - [ UAObjectType, PNGSDGM:1006, PNGSDGM:GsdGenIoDataType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PNGSDGM:7001, PNGSDGM:SetApplicationTag ]
+    - DisplayName: "SetApplicationTag"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PNGSDGM:6074, PNGSDGM:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationTag: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]

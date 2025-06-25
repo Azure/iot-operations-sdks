@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:WwBaseEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "WwBaseEventType",
+    "description": "The WwBaseEventType represents a message event from a module",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=13",
     "commandTopic": "opcua/Woodworking/WwBaseEventType/{commandName}",
@@ -20,6 +22,8 @@
       {
         "@id": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwMessageArgumentDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "WwMessageArgumentDataType",
+        "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3003",
         "fields": [
           {
@@ -32,6 +36,8 @@
       {
         "@id": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwEventCategoryEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "WwEventCategoryEnumeration",
+        "description": "No other event category applies or it is unknown.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -64,6 +70,8 @@
       {
         "@id": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwMessageArgumentValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "WwMessageArgumentValueDataType",
+        "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3002",
         "fields": [
           {
@@ -161,6 +169,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Arguments",
+        "displayName": "Arguments",
+        "description": "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": {
           "@type": "Array",
@@ -171,6 +181,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EventCategory",
+        "displayName": "EventCategory",
+        "description": "The EventCategory Variable provides the category of the event.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "dtmi:opcua:Woodworking:WwBaseEventType:dataType:WwEventCategoryEnumeration;1",
         "writable": false
@@ -178,6 +190,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Group",
+        "displayName": "Group",
+        "description": "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”. See chapter “Categorizing and grouping the messages, events, alarms and conditions”.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "string",
         "writable": false
@@ -185,6 +199,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LocalizedMessages",
+        "displayName": "LocalizedMessages",
+        "description": "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": {
           "@type": "Array",
@@ -195,6 +211,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MessageId",
+        "displayName": "MessageId",
+        "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "string",
         "writable": false
@@ -202,6 +220,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MessageName",
+        "displayName": "MessageName",
+        "description": "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "string",
         "writable": false
@@ -209,6 +229,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PathParts",
+        "displayName": "PathParts",
+        "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": {
           "@type": "Array",
@@ -230,6 +252,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:IWwBaseStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IWwBaseStateType",
+    "description": "The IWwBaseStateType represents the state of an unit. An unit can be a machine of part of a machine.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=6",
     "payloadFormat": "Json/ecma/404",
@@ -240,6 +264,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Flags",
+        "displayName": "Flags",
+        "description": "The Flags Object provides the flags of the unit.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
@@ -247,6 +273,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Overview",
+        "displayName": "Overview",
+        "description": "The Overview Object provides a general state of the unit.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
@@ -254,6 +282,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Values",
+        "displayName": "Values",
+        "description": "The Values Object provides the counters of the unit.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
@@ -271,6 +301,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:IWwEventMessageType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IWwEventMessageType",
+    "description": "The interface definition IWwEventMessageType describes the common extensions for all events and conditions. Each instance definition that includes this interface with a HasInterface reference defines the predefined extensions",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=1002",
     "commandTopic": "opcua/Woodworking/IWwEventMessageType/{commandName}",
@@ -280,6 +312,8 @@
       {
         "@id": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwMessageArgumentDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "WwMessageArgumentDataType",
+        "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3003",
         "fields": [
           {
@@ -292,6 +326,8 @@
       {
         "@id": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwEventCategoryEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "WwEventCategoryEnumeration",
+        "description": "No other event category applies or it is unknown.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -324,6 +360,8 @@
       {
         "@id": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwMessageArgumentValueDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "WwMessageArgumentValueDataType",
+        "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3002",
         "fields": [
           {
@@ -421,6 +459,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Arguments",
+        "displayName": "Arguments",
+        "description": "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": {
           "@type": "Array",
@@ -431,6 +471,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EventCategory",
+        "displayName": "EventCategory",
+        "description": "The EventCategory Variable provides the category of the event.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "dtmi:opcua:Woodworking:IWwEventMessageType:dataType:WwEventCategoryEnumeration;1",
         "writable": false
@@ -438,6 +480,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Group",
+        "displayName": "Group",
+        "description": "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”. See chapter “Categorizing and grouping the messages, events, alarms and conditions”.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "string",
         "writable": false
@@ -445,6 +489,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LocalizedMessages",
+        "displayName": "LocalizedMessages",
+        "description": "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": {
           "@type": "Array",
@@ -455,6 +501,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MessageId",
+        "displayName": "MessageId",
+        "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "string",
         "writable": false
@@ -462,6 +510,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MessageName",
+        "displayName": "MessageName",
+        "description": "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "string",
         "writable": false
@@ -469,6 +519,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PathParts",
+        "displayName": "PathParts",
+        "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName. Example: “Machine”, “FixedSide”, “Sizing”, “Milling1”",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": {
           "@type": "Array",
@@ -490,6 +542,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:IWwStateType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IWwStateType",
+    "description": "The IWwStateType provides a list of machine states.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=8",
     "payloadFormat": "Json/ecma/404",
@@ -500,6 +554,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Machine",
+        "displayName": "Machine",
+        "description": "State of the whole machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
@@ -507,6 +563,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SubUnits",
+        "displayName": "SubUnits",
+        "description": "The SubUnits Object is used when a machine has multiple states. For example, a CNC machine can have several places where independent jobs are produced.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
@@ -524,6 +582,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:IWwSubUnitsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IWwSubUnitsType",
+    "description": "The IWwSubUnitsType provides a list of subUnits.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=7",
     "payloadFormat": "Json/ecma/404",
@@ -533,6 +593,8 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubUnit",
+        "displayName": "<SubUnit>",
+        "description": "Each <SubUnit> Object represents an instance of a state. For example, a CNC machine can have two places where independent jobs are produced. Then there are two <SubUnit> Objects. They may be named “Place 1” and “Place 2”.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
@@ -550,6 +612,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:IWwUnitFlagsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IWwUnitFlagsType",
+    "description": "The IWwUnitFlagsType represents the flags of a unit",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=4",
     "telemetryTopic": "opcua/Woodworking/IWwUnitFlagsType/{telemetryName}/{senderId}",
@@ -560,156 +624,207 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AirPresent",
+        "displayName": "AirPresent",
+        "description": "The AirPresent Variable is true if the air pressure present in the machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Alarm",
+        "displayName": "Alarm",
+        "description": "The Alarm Variable is true if at least one alarm exists.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Calibrated",
+        "displayName": "Calibrated",
+        "description": "The Calibrated Variable is true if all devices are calibrated.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DustChipSuction",
+        "displayName": "DustChipSuction",
+        "description": "The DustChipSuction Variable is true if the dust and chip suction is ready.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Emergency",
+        "displayName": "Emergency",
+        "description": "The Emergency Variable is true if at least one emergency button is pressed.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EnergySaving",
+        "displayName": "EnergySaving",
+        "description": "The EnergySaving Variable is true if energy saving is activated on the machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Error",
+        "displayName": "Error",
+        "description": "The Error Variable is true if at least one reason exists which prevents the machine from working.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ExternalEmergency",
+        "displayName": "ExternalEmergency",
+        "description": "The ExternalEmergency Variable is true if there is an emergency from the line controller.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FeedRuns",
+        "displayName": "FeedRuns",
+        "description": "The FeedRuns Variable is true if the feed is running on a throughfeed machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Hold",
+        "displayName": "Hold",
+        "description": "The Hold Variable is true if the movements are paused by the operator.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LoadingEnabled",
+        "displayName": "LoadingEnabled",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MachineInitialized",
+        "displayName": "MachineInitialized",
+        "description": "The MachineInitialized Variable is true if the MachineOn is true, the PLC and the control processes are running. The machine is ready for usage for the operator.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MachineOn",
+        "displayName": "MachineOn",
+        "description": "The MachineOn Variable is true if the machine is switched on. If the OPC UA Server runs on the machine this value is always true.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaintenanceRequired",
+        "displayName": "MaintenanceRequired",
+        "description": "The MaintenanceRequired Variable is true if maintenance is required.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ManualActivityRequired",
+        "displayName": "ManualActivityRequired",
+        "description": "The ManualActivityRequired Variable is true if a manual activity by the operator is required. The RecipeInRun is not affected.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Moving",
+        "displayName": "Moving",
+        "description": "The Moving Variable is true if at least one axis is moving.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerPresent",
+        "displayName": "PowerPresent",
+        "description": "The PowerPresent Variable is true if 400V are present (the drives are ready to move).",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RecipeInHold",
+        "displayName": "RecipeInHold",
+        "description": "The RecipeInHold Variable is true if the machine is paused by the program. This is only possible if the RecipeInRun Variable is also true.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RecipeInRun",
+        "displayName": "RecipeInRun",
+        "description": "The RecipeInRun Variable is true if the machine runs its program. This is only possible if the Error Variable is false. However, if the machine is paused by the program, the machine is considered to still be running its program, i.e. while the RecipeInHold Variable is true, the RecipeInRun cannot be false.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RecipeInSetup",
+        "displayName": "RecipeInSetup",
+        "description": "The RecipeInSetup Variable is true if the RecipeInRun is true and the machine is in the setup phase (example: automatic tool change).",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Remote",
+        "displayName": "Remote",
+        "description": "The Remote Variable is true if the machine is working with programs sent by the supervisor or other external application.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Safety",
+        "displayName": "Safety",
+        "description": "The Safety Variable is true if at least one safety device (light curtain, safety mat, …) has intervened.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WaitLoad",
+        "displayName": "WaitLoad",
+        "description": "The WaitLoad Variable is true if the machine is waiting for pieces.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WaitUnload",
+        "displayName": "WaitUnload",
+        "description": "The WaitUnload Variable is true if the machine is waiting to unload pieces.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Warning",
+        "displayName": "Warning",
+        "description": "The Warning Variable is true if at least one warning exists.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WorkpiecePresent",
+        "displayName": "WorkpiecePresent",
+        "description": "The WorkpiecePresent Variable is true if at least one piece is inside the machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "boolean"
       }
@@ -727,6 +842,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IWwUnitOverviewType",
+    "description": "The IWwUnitOverviewType represents the generalized state of a unit.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=5",
     "telemetryTopic": "opcua/Woodworking/IWwUnitOverviewType/{telemetryName}/{senderId}",
@@ -735,6 +852,8 @@
       {
         "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "WwUnitModeEnumeration",
+        "description": "This enumeration represents the generalized mode of a unit.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=20",
         "valueSchema": "integer",
         "enumValues": [
@@ -767,6 +886,8 @@
       {
         "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "WwUnitStateEnumeration",
+        "description": "This enumeration represents the generalized state of a unit.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=21",
         "valueSchema": "integer",
         "enumValues": [
@@ -797,12 +918,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentMode",
+        "displayName": "CurrentMode",
+        "description": "The CurrentMode Variable provides the generalized mode of the component.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentState",
+        "displayName": "CurrentState",
+        "description": "The CurrentState Variable provides the generalized state of the component.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1"
       }
@@ -820,6 +945,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:IWwUnitValuesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IWwUnitValuesType",
+    "description": "The IWwUnitValuesType represents the values of a unit",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=1006",
     "telemetryTopic": "opcua/Woodworking/IWwUnitValuesType/{telemetryName}/{senderId}",
@@ -830,210 +957,280 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteErrorTime",
+        "displayName": "AbsoluteErrorTime",
+        "description": "The AbsoluteErrorTime Variable provides the absolute time in msec of the ERROR_4 state in msec.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteLength",
+        "displayName": "AbsoluteLength",
+        "description": "The AbsoluteLength Variable provides the absolute produced length in mm.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteMachineOffTime",
+        "displayName": "AbsoluteMachineOffTime",
+        "description": "The AbsoluteOfflineTime can be calculated by the machine. The shutdown time and the starting time have to be stored on the machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteMachineOnTime",
+        "displayName": "AbsoluteMachineOnTime",
+        "description": "The AbsoluteMachineOnTime Variable provides the absolute time in msec the machine is turned on based on the MachineOn state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsolutePiecesIn",
+        "displayName": "AbsolutePiecesIn",
+        "description": "The AbsolutePiecesIn Variable provides the absolute count of pieces which came into the machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsolutePiecesOut",
+        "displayName": "AbsolutePiecesOut",
+        "description": "The AbsolutePiecesOut Variable provides the absolute count of pieces which came out of the machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsolutePowerPresentTime",
+        "displayName": "AbsolutePowerPresentTime",
+        "description": "The AbsolutePowerPresentTime Variable provides the absolute time in msec the machine has power on based on the PowerPresent state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteProductionTime",
+        "displayName": "AbsoluteProductionTime",
+        "description": "The AbsoluteProductionTime Variable provides the absolute time in msec of the machine is working at least with one workpiece based on the RecipeInRun and PiecesPresent state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteProductionWaitWorkpieceTime",
+        "displayName": "AbsoluteProductionWaitWorkpieceTime",
+        "description": "The AbsoluteProductionWaitWorkpieceTime Variable provides the absolute time in msec of the machine is in working mode, bring the consent out to insert workpiece but no workpiece incoming from the previous machine based on the ReceipeInRun and WaitLoad state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteProductionWithoutWorkpieceTime",
+        "displayName": "AbsoluteProductionWithoutWorkpieceTime",
+        "description": "The AbsoluteProductionWithoutWorkpieceTime Variable provides the absolute time in msec of the machine is working but without workpieces inside based on the RecipeInRun and !PiecesPresent state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteReadyTime",
+        "displayName": "AbsoluteReadyTime",
+        "description": "The AbsoluteReadyTime Variable provides the absolute time in msec of the READY_2 state in msec.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteRunsAborted",
+        "displayName": "AbsoluteRunsAborted",
+        "description": "The AbsoluteRunsAborted Variable provides the absolute count of aborted runs.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteRunsGood",
+        "displayName": "AbsoluteRunsGood",
+        "description": "The AbsoluteRunsGood Variable provides the absolute count of finished runs.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteRunsTotal",
+        "displayName": "AbsoluteRunsTotal",
+        "description": "The AbsoluteRunsTotal Variable provides the absolute count of total runs.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteStandbyTime",
+        "displayName": "AbsoluteStandbyTime",
+        "description": "The AbsoluteStandbyTime Variable provides the absolute time in msec of the STANDBY_1 state in msec.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AbsoluteWorkingTime",
+        "displayName": "AbsoluteWorkingTime",
+        "description": "The AbsoluteWorkingTime Variable provides the absolute time in msec of the WORKING_3 state in msec.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualCycle",
+        "displayName": "ActualCycle",
+        "description": "The ActualCycle Variable provides the parts per minutes.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AxisOverride",
+        "displayName": "AxisOverride",
+        "description": "The AxisOverride Variable provides the override for the axis in percent.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FeedSpeed",
+        "displayName": "FeedSpeed",
+        "description": "The FeedSpeed Variable provides the feed speed in m/min for throughfeed machines.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeErrorTime",
+        "displayName": "RelativeErrorTime",
+        "description": "The RelativeErrorTime Variable provides the relative time since startup of the ERROR_4 state in msec.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeLength",
+        "displayName": "RelativeLength",
+        "description": "The RelativeLength Variable provides the relative produced length in mm since the machine has started.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeMachineOnTime",
+        "displayName": "RelativeMachineOnTime",
+        "description": "The RelativeMachineOnTime Variable provides the relative time in msec since startup the machine is turned on based on the MachineOn state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativePiecesIn",
+        "displayName": "RelativePiecesIn",
+        "description": "The RelativePiecesIn Variable provides the relative count of pieces which came into the machine since the machine has started.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativePiecesOut",
+        "displayName": "RelativePiecesOut",
+        "description": "The RelativePiecesOut Variable provides the relative count of pieces which came out of the machine since the machine has started.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativePowerPresentTime",
+        "displayName": "RelativePowerPresentTime",
+        "description": "The RelativePowerPresentTime Variable provides the relative time in msec since startup the machine has power on based on the PowerPresent state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeProductionTime",
+        "displayName": "RelativeProductionTime",
+        "description": "The RelativeProductionTime Variable provides the relative time in msec since startup of the machine is working at least with one workpiece based on the RecipeInRun and PiecesPresent state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeProductionWaitWorkpieceTime",
+        "displayName": "RelativeProductionWaitWorkpieceTime",
+        "description": "The RelativeProductionWaitWorkpieceTime Variable provides the relative time in msec waiting for workpieces since startup of the machine is in working mode, bring the consent out to insert workpiece but no workpiece incoming from the previous machine based on the ReceipeInRun and WaitLoad state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeProductionWithoutWorkpieceTime",
+        "displayName": "RelativeProductionWithoutWorkpieceTime",
+        "description": "The RelativeProductionWithoutWorkpieceTime Variable provides the relative time in msec since startup of the machine is working but without workpieces inside based on the RecipeInRun and !PiecesPresent state.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeReadyTime",
+        "displayName": "RelativeReadyTime",
+        "description": "The RelativeReadyTime Variable provides the relative time since startup of the READY_2 state in msec.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeRunsAborted",
+        "displayName": "RelativeRunsAborted",
+        "description": "The RelativeRunsAborted Variable provides the relative count of aborted runs since the machine has started.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeRunsGood",
+        "displayName": "RelativeRunsGood",
+        "description": "The RelativeRunsGood Variable provides the relative count of finished runs since the machine has started.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeRunsTotal",
+        "displayName": "RelativeRunsTotal",
+        "description": "The RelativeRunsTotal Variable provides the relative count of total runs since the machine has started.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeStandbyTime",
+        "displayName": "RelativeStandbyTime",
+        "description": "The RelativeStandbyTime Variable provides the relative time since startup of the STANDBY_1 state in msec.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelativeWorkingTime",
+        "displayName": "RelativeWorkingTime",
+        "description": "The RelativeWorkingTime Variable provides the relative time since startup of the WORKING_3 state in msec.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SpindleOverride",
+        "displayName": "SpindleOverride",
+        "description": "The SpindleOverride Variable provides the override for the spindle in percent.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "schema": "unsignedInteger"
       }
@@ -1051,6 +1248,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:WwEventsDispatcherType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "WwEventsDispatcherType",
+    "description": "The WwEventsDispatcherType represents a container that is an event dispatcher for machine diagnostic and information events.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=15",
     "payloadFormat": "Json/ecma/404",
@@ -1071,6 +1270,8 @@
     ],
     "@id": "dtmi:opcua:Woodworking:WwMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "WwMachineType",
+    "description": "The WwMachineType represents a woodworking machine.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=2",
     "payloadFormat": "Json/ecma/404",
@@ -1081,6 +1282,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Events",
+        "displayName": "Events",
+        "description": "The Event Object provides events.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:Woodworking:WwEventsDispatcherType"
       },
@@ -1088,6 +1291,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ManufacturerSpecific",
+        "displayName": "ManufacturerSpecific",
+        "description": "The ManufacturerSpecific Object provides manufacturer specific functionality.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1095,6 +1300,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "State",
+        "displayName": "State",
+        "description": "The State Object provides information about the states of the machine.",
         "namespace": "http://opcfoundation.org/UA/Woodworking",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }

@@ -1,5 +1,6 @@
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion.Filter:3002, PlasticsRubber.Extrusion.Filter:FilterPackageStatusEnumeration ]
+  DisplayName: "FilterPackageStatusEnumeration"
   Enums:
     NOT_ACTIVE: 0
     ACTIVE: 1
@@ -7,6 +8,8 @@ DataTypes:
     IN_CHANGE_POSITION: 3
     BACKFLUSH_ACTIVE: 4
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -17,25 +20,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -43,12 +53,16 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
+  DisplayName: "CavityCycleQualityEnumeration"
+  Description: "Quality of the cycle for each cavity"
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
+  DisplayName: "ControlModeEnumeration"
+  Description: "Indication how the parameter is currently controlled"
   Enums:
     OTHER: 0
     OFF: 1
@@ -58,12 +72,16 @@ DataTypes:
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
 - UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
+  DisplayName: "CycleQualityEnumeration"
+  Description: "Quality of the whole cycle"
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
+  DisplayName: "DiagnosticsStatusEnumeration"
+  Description: "Diagnostics inactive"
   Enums:
     OFF: 0
     ACTIVE_OK: 1
@@ -71,6 +89,8 @@ DataTypes:
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
+  DisplayName: "EventOriginatorEnumeration"
+  Description: "Originator of an event"
   Enums:
     OTHER: 0
     MACHINE: 1
@@ -78,6 +98,8 @@ DataTypes:
     MES: 3
     PERIPHERAL_DEVICE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
+  DisplayName: "JobStatusEnumeration"
+  Description: "Current status of the job"
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -92,6 +114,8 @@ DataTypes:
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
 - UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
+  DisplayName: "LogbookEventsEnumeration"
+  Description: "Information which LogbookEvents are supported by the machine"
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -105,6 +129,8 @@ DataTypes:
     MESSAGE: 9
     USER_FEEDBACK: 10
 - UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
+  DisplayName: "MachineModeEnumeration"
+  Description: "Current machine mode (as defined by mode selector on the machine)"
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -113,17 +139,23 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
+  DisplayName: "MaintenanceStatusEnumeration"
+  Description: "Maintenance status of a machine/device/component"
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
 - UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
+  DisplayName: "MouldStatusEnumeration"
+  Description: "Current (physical) status of the mould"
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
+  DisplayName: "ProductionStatusEnumeration"
+  Description: "Production status of the machine"
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -132,6 +164,8 @@ DataTypes:
     PRODUCTION: 4
     DRY_RUN: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
+  DisplayName: "SequenceChangeEnumeration"
+  Description: "Classification of production sequence change"
   Enums:
     UPDATE: 0
     ADD: 1
@@ -139,6 +173,7 @@ DataTypes:
     MOVE: 3
     DELETE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
+  DisplayName: "StartEnumeration"
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -147,11 +182,15 @@ DataTypes:
     STARTED: 4
     STOP_REQUESTED: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
+  DisplayName: "StorageEnumeration"
+  Description: "Indication which parts of the production dataset shall be activated in the machine control after writing"
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
+  DisplayName: "TemperatureZoneClassificationEnumeration"
+  Description: "Type of the temperature zone"
   Enums:
     OTHER: 0
     HEATING: 1
@@ -160,25 +199,35 @@ DataTypes:
     HOT_RUNNER: 4
     MEASURING: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
+  DisplayName: "UserChangeEnumeration"
+  Description: "Information if a user logs in or off"
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
 - UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
+  DisplayName: "ActiveErrorDataType"
+  Description: "Iinformation about an active error in a device"
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
+  DisplayName: "ClassifiedActiveErrorDataType"
+  Description: "Iinformation about an active error in a device including the SoureNodes and a Classification"
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
+  DisplayName: "ConfigurationParameterType"
+  Description: "Unique identifier"
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
+  DisplayName: "JobListElementType"
+  Description: "Description of a job in a job list"
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -194,6 +243,8 @@ DataTypes:
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
+  DisplayName: "CyclicJobListElementType"
+  Description: "Description of a job in a cyclic job list"
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
@@ -201,19 +252,26 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
+  DisplayName: "PageEntryDataType"
+  Description: "Information on a page that is implemented in the machine control system and shown on the screen of the machine"
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
+  DisplayName: "ParameterSettingType"
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
+  DisplayName: "PIDParametersDataType"
+  Description: "Structure for storing the parameters of a PID controller"
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
+  DisplayName: "ProductionDatasetInformationType"
+  Description: "Information on a production dataset"
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -233,20 +291,27 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
+  DisplayName: "ProductionDatasetReadOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForRead in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
+  DisplayName: "ProductionDatasetWriteOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForWrite in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
+  DisplayName: "StandstillReasonType"
+  Description: "Description of a standstill reason"
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
     LockedByMES: [ Boolean, 0 ]
 - UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3003, PlasticsRubber.Extrusion.GeneralTypes:ComponentStatusEnumeration ]
+  DisplayName: "ComponentStatusEnumeration"
   Enums:
     OFFLINE: 0
     IDLE: 1
@@ -257,6 +322,7 @@ DataTypes:
     MALFUNCTION: 6
     MAINTENANCE: 7
 - UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3001, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionMessageClassificationEnumeration ]
+  DisplayName: "ExtrusionMessageClassificationEnumeration"
   Enums:
     OTHER: 0
     LINE_CONTROL: 1
@@ -292,22 +358,27 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.Filter:Filter_InterfaceType:
   - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, PlasticsRubber.Extrusion.Filter:Filter_InterfaceType ]
+  - DisplayName: "Filter_InterfaceType"
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5012, PlasticsRubber.Extrusion.Filter:AdditionalMeasuringDevices ]
+    - DisplayName: "AdditionalMeasuringDevices"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, PlasticsRubber.GeneralTypes:MeasuringDevicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6011, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
+    - DisplayName: "Area"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6139, PlasticsRubber.Extrusion.Filter:BackflushPressure, Double, 0, 3 ]
+    - DisplayName: "BackflushPressure"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5002, PlasticsRubber.Extrusion.Filter:Drive ]
+    - DisplayName: "Drive"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1068, PlasticsRubber.GeneralTypes:DriveType ]
     - HasModellingRule:
@@ -316,46 +387,54 @@ DefinedTypes:
     - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionDeviceType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5014, PlasticsRubber.Extrusion.Filter:FilterPackage_<Nr> ]
+    - DisplayName: "FilterPackage_<Nr>"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, PlasticsRubber.Extrusion.Filter:FilterPackageType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6004, PlasticsRubber.Extrusion.Filter:FiltrationFineness, Double, 0, 0 ]
+    - DisplayName: "FiltrationFineness"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, PlasticsRubber.Extrusion.Filter:HydraulicPressure ]
+    - DisplayName: "HydraulicPressure"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1064, PlasticsRubber.GeneralTypes:MeasuringDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5001, PlasticsRubber.Extrusion.Filter:MeltPressureZones ]
+    - DisplayName: "MeltPressureZones"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, PlasticsRubber.GeneralTypes:MeasuringDevicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5011, PlasticsRubber.Extrusion.Filter:MeltTemperatureZones ]
+    - DisplayName: "MeltTemperatureZones"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, PlasticsRubber.GeneralTypes:MeasuringDevicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, PlasticsRubber.Extrusion.Filter:SpecificWasteOutput ]
+    - DisplayName: "SpecificWasteOutput"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5005, PlasticsRubber.Extrusion.Filter:TemperatureZones ]
+    - DisplayName: "TemperatureZones"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1017, PlasticsRubber.Extrusion.GeneralTypes:ExtrusionTemperatureZonesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, PlasticsRubber.Extrusion.Filter:WasteOutput ]
+    - DisplayName: "WasteOutput"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
@@ -363,52 +442,64 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.Filter:FilterPackageType:
   - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, PlasticsRubber.Extrusion.Filter:FilterPackageType ]
+  - DisplayName: "FilterPackageType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6166, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
+    - DisplayName: "Area"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6169, PlasticsRubber.Extrusion.Filter:BackflushCounter, UInt32, 0, 0 ]
+    - DisplayName: "BackflushCounter"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6168, PlasticsRubber.Extrusion.Filter:BackflushTime, Duration, 0, 3 ]
+    - DisplayName: "BackflushTime"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6276, PlasticsRubber.Extrusion.Filter:Name, LocalizedText, 0, 0 ]
+    - DisplayName: "Name"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5013, PlasticsRubber.Extrusion.Filter:ScreenPackage_<Nr> ]
+    - DisplayName: "ScreenPackage_<Nr>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1003, PlasticsRubber.Extrusion.Filter:ScreenPackageType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6165, PlasticsRubber.Extrusion.Filter:Status, PlasticsRubber.Extrusion.Filter:FilterPackageStatusEnumeration, 0, 0 ]
+    - DisplayName: "Status"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion.Filter:ScreenPackageType:
   - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1003, PlasticsRubber.Extrusion.Filter:ScreenPackageType ]
+  - DisplayName: "ScreenPackageType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6155, PlasticsRubber.Extrusion.Filter:Area, Double, 0, 0 ]
+    - DisplayName: "Area"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6151, PlasticsRubber.Extrusion.Filter:Name, LocalizedText, 0, 0 ]
+    - DisplayName: "Name"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6153, PlasticsRubber.Extrusion.Filter:PackageSetup, String, 0, 0 ]
+    - DisplayName: "PackageSetup"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6154, PlasticsRubber.Extrusion.Filter:SerialNr, String, 0, 0 ]
+    - DisplayName: "SerialNr"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]

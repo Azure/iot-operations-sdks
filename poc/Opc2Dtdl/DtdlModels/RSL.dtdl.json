@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:RSL:SpatialObjectsListType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SpatialObjectsListType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/RSL;i=1003",
     "commandTopic": "opcua/RSL/SpatialObjectsListType/{commandName}",
@@ -22,6 +23,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Identifier",
+        "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "schema": "string",
         "writable": true
@@ -29,6 +31,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "schema": "string",
         "writable": true
@@ -36,6 +39,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WorldFrame",
+        "displayName": "WorldFrame",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -43,12 +47,15 @@
             {
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "WorldFrame",
+              "displayName": "WorldFrame",
               "namespace": "http://opcfoundation.org/UA/RSL",
               "schema": "string"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Base",
+              "displayName": "Base",
+              "description": "WorldFrame as the origin of the coordinate system has no Base i.e. it must be null.",
               "namespace": "http://opcfoundation.org/UA/RSL",
               "schema": "string"
             }
@@ -69,6 +76,7 @@
     ],
     "@id": "dtmi:opcua:RSL:SpatialObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SpatialObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/RSL;i=1002",
     "commandTopic": "opcua/RSL/SpatialObjectType/{commandName}",
@@ -80,6 +88,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of the type.",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "schema": "string",
         "writable": true
@@ -87,6 +97,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Identifier",
+        "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "schema": "string",
         "writable": true
@@ -94,6 +105,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PositionFrame",
+        "displayName": "PositionFrame",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -101,12 +113,14 @@
             {
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "PositionFrame",
+              "displayName": "PositionFrame",
               "namespace": "http://opcfoundation.org/UA/RSL",
               "schema": "string"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Base",
+              "displayName": "Base",
               "namespace": "http://opcfoundation.org/UA/RSL",
               "schema": "string"
             }
@@ -117,6 +131,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AlternativeFrames",
+        "displayName": "AlternativeFrames",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -124,6 +139,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AttachPoints",
+        "displayName": "AttachPoints",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -131,6 +147,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InternalFrames",
+        "displayName": "InternalFrames",
         "namespace": "http://opcfoundation.org/UA/RSL",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }

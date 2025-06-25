@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:AcquisitionDoneEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AcquisitionDoneEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1025",
     "commandTopic": "opcua/MachineVision/AcquisitionDoneEventType/{commandName}",
@@ -20,6 +21,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:AcquisitionDoneEventType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -34,6 +37,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobId",
+        "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:AcquisitionDoneEventType:dataType:JobIdDataType;1",
         "writable": true
@@ -52,6 +56,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "VisionConditionType",
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1033",
     "commandTopic": "opcua/MachineVision/VisionConditionType/{commandName}",
@@ -61,6 +66,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionConditionType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -73,6 +80,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionConditionType:dataType:MeasIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "MeasIdDataType",
+        "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
         "fields": [
           {
@@ -90,6 +99,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionConditionType:dataType:PartIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PartIdDataType",
+        "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
         "fields": [
           {
@@ -107,6 +118,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionConditionType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -124,6 +137,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionConditionType:dataType:ResultIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ResultIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
         "fields": [
           {
@@ -136,6 +151,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionConditionType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -170,6 +187,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "BlockReaction",
+        "displayName": "BlockReaction",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "boolean",
         "writable": true
@@ -177,6 +195,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CausePath",
+        "displayName": "CausePath",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "string",
         "writable": true
@@ -184,6 +203,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ErrorCode",
+        "displayName": "ErrorCode",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "unsignedLong",
         "writable": true
@@ -191,6 +211,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ErrorString",
+        "displayName": "ErrorString",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "string",
         "writable": true
@@ -198,6 +219,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalConfigurationId",
+        "displayName": "ExternalConfigurationId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -205,6 +227,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalRecipeId",
+        "displayName": "ExternalRecipeId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -212,6 +235,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InternalConfigurationId",
+        "displayName": "InternalConfigurationId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -219,6 +243,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InternalRecipeId",
+        "displayName": "InternalRecipeId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -226,6 +251,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobId",
+        "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:JobIdDataType;1",
         "writable": true
@@ -233,6 +259,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MeasId",
+        "displayName": "MeasId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:MeasIdDataType;1",
         "writable": true
@@ -240,6 +267,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PartId",
+        "displayName": "PartId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:PartIdDataType;1",
         "writable": true
@@ -247,6 +275,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProductId",
+        "displayName": "ProductId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:ProductIdDataType;1",
         "writable": true
@@ -254,6 +283,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ResultId",
+        "displayName": "ResultId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionConditionType:dataType:ResultIdDataType;1",
         "writable": true
@@ -261,6 +291,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "StopReaction",
+        "displayName": "StopReaction",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "boolean",
         "writable": true
@@ -279,6 +310,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionErrorConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "VisionErrorConditionType",
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1035",
     "payloadFormat": "Json/ecma/404",
@@ -299,6 +331,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionPersistentErrorConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "VisionPersistentErrorConditionType",
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1036",
     "payloadFormat": "Json/ecma/404",
@@ -319,6 +352,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionWarningConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "VisionWarningConditionType",
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1034",
     "payloadFormat": "Json/ecma/404",
@@ -339,6 +373,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:EnterStepSequenceEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "EnterStepSequenceEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1027",
     "commandTopic": "opcua/MachineVision/EnterStepSequenceEventType/{commandName}",
@@ -350,6 +385,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Steps",
+        "displayName": "Steps",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "integer",
         "writable": true
@@ -368,6 +404,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:JobStartedEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "JobStartedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1013",
     "commandTopic": "opcua/MachineVision/JobStartedEventType/{commandName}",
@@ -377,6 +414,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:JobStartedEventType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -391,6 +430,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobId",
+        "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:JobStartedEventType:dataType:JobIdDataType;1",
         "writable": true
@@ -409,6 +449,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:LeaveStepSequenceEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "LeaveStepSequenceEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1029",
     "payloadFormat": "Json/ecma/404",
@@ -429,6 +470,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:NextStepEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "NextStepEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1028",
     "commandTopic": "opcua/MachineVision/NextStepEventType/{commandName}",
@@ -440,6 +482,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Step",
+        "displayName": "Step",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "integer",
         "writable": true
@@ -458,6 +501,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ReadyEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ReadyEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1023",
     "commandTopic": "opcua/MachineVision/ReadyEventType/{commandName}",
@@ -467,6 +511,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ReadyEventType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -481,6 +527,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobId",
+        "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ReadyEventType:dataType:JobIdDataType;1",
         "writable": true
@@ -499,6 +546,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipePreparedEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "RecipePreparedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1022",
     "commandTopic": "opcua/MachineVision/RecipePreparedEventType/{commandName}",
@@ -508,6 +556,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -525,6 +575,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -559,6 +611,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalId",
+        "displayName": "ExternalId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -566,6 +619,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InternalId",
+        "displayName": "InternalId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -573,6 +627,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProductId",
+        "displayName": "ProductId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:RecipePreparedEventType:dataType:ProductIdDataType;1",
         "writable": true
@@ -591,6 +646,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ResultReadyEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ResultReadyEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1024",
     "commandTopic": "opcua/MachineVision/ResultReadyEventType/{commandName}",
@@ -600,6 +656,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -612,6 +670,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:MeasIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "MeasIdDataType",
+        "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
         "fields": [
           {
@@ -629,6 +689,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:PartIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PartIdDataType",
+        "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
         "fields": [
           {
@@ -646,6 +708,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:ProcessingTimesDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProcessingTimesDataType",
+        "description": "Contains the time when the vision system started execution of the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
         "fields": [
           {
@@ -673,6 +737,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -690,6 +756,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:ResultIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ResultIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
         "fields": [
           {
@@ -702,6 +770,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -736,6 +806,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CreationTime",
+        "displayName": "CreationTime",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "time",
         "writable": true
@@ -743,6 +814,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalConfigurationId",
+        "displayName": "ExternalConfigurationId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -750,6 +822,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalRecipeId",
+        "displayName": "ExternalRecipeId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -757,6 +830,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InternalConfigurationId",
+        "displayName": "InternalConfigurationId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -764,6 +838,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InternalRecipeId",
+        "displayName": "InternalRecipeId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -771,6 +846,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsPartial",
+        "displayName": "IsPartial",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "boolean",
         "writable": true
@@ -778,6 +854,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsSimulated",
+        "displayName": "IsSimulated",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "boolean",
         "writable": true
@@ -785,6 +862,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobId",
+        "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:JobIdDataType;1",
         "writable": true
@@ -792,6 +870,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MeasId",
+        "displayName": "MeasId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:MeasIdDataType;1",
         "writable": true
@@ -799,6 +878,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PartId",
+        "displayName": "PartId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:PartIdDataType;1",
         "writable": true
@@ -806,6 +886,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProcessingTimes",
+        "displayName": "ProcessingTimes",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:ProcessingTimesDataType;1",
         "writable": true
@@ -813,6 +894,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProductId",
+        "displayName": "ProductId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:ProductIdDataType;1",
         "writable": true
@@ -820,6 +902,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ResultContent",
+        "displayName": "ResultContent",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "string",
         "writable": false
@@ -827,6 +910,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ResultId",
+        "displayName": "ResultId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ResultReadyEventType:dataType:ResultIdDataType;1",
         "writable": true
@@ -834,6 +918,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ResultState",
+        "displayName": "ResultState",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "integer",
         "writable": true
@@ -852,6 +937,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ErrorEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ErrorEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1019",
     "payloadFormat": "Json/ecma/404",
@@ -872,6 +958,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ErrorResolvedEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ErrorResolvedEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1020",
     "payloadFormat": "Json/ecma/404",
@@ -892,6 +979,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:StateChangedEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "StateChangedEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1018",
     "payloadFormat": "Json/ecma/404",
@@ -912,6 +1000,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "VisionEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1015",
     "commandTopic": "opcua/MachineVision/VisionEventType/{commandName}",
@@ -921,6 +1010,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionEventType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -933,6 +1024,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionEventType:dataType:MeasIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "MeasIdDataType",
+        "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
         "fields": [
           {
@@ -950,6 +1043,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionEventType:dataType:PartIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PartIdDataType",
+        "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
         "fields": [
           {
@@ -967,6 +1062,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionEventType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -984,6 +1081,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionEventType:dataType:ResultIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ResultIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
         "fields": [
           {
@@ -996,6 +1095,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionEventType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -1030,6 +1131,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CausePath",
+        "displayName": "CausePath",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "string",
         "writable": true
@@ -1037,6 +1139,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalConfigurationId",
+        "displayName": "ExternalConfigurationId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -1044,6 +1147,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalRecipeId",
+        "displayName": "ExternalRecipeId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -1051,6 +1155,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InternalConfigurationId",
+        "displayName": "InternalConfigurationId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -1058,6 +1163,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InternalRecipeId",
+        "displayName": "InternalRecipeId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -1065,6 +1171,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobId",
+        "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:JobIdDataType;1",
         "writable": true
@@ -1072,6 +1179,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MeasId",
+        "displayName": "MeasId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:MeasIdDataType;1",
         "writable": true
@@ -1079,6 +1187,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PartId",
+        "displayName": "PartId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:PartIdDataType;1",
         "writable": true
@@ -1086,6 +1195,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ProductId",
+        "displayName": "ProductId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:ProductIdDataType;1",
         "writable": true
@@ -1093,6 +1203,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ResultId",
+        "displayName": "ResultId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionEventType:dataType:ResultIdDataType;1",
         "writable": true
@@ -1111,6 +1222,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionDiagnosticInfoEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "VisionDiagnosticInfoEventType",
     "extends": "dtmi:opcua:MachineVision:VisionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1037",
     "payloadFormat": "Json/ecma/404",
@@ -1131,6 +1243,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionInformationEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "VisionInformationEventType",
     "extends": "dtmi:opcua:MachineVision:VisionEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1038",
     "payloadFormat": "Json/ecma/404",
@@ -1151,6 +1264,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionSafetyEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "VisionSafetyEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1030",
     "commandTopic": "opcua/MachineVision/VisionSafetyEventType/{commandName}",
@@ -1162,6 +1276,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "VisionSafetyInformation",
+        "displayName": "VisionSafetyInformation",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "string",
         "writable": true
@@ -1169,6 +1284,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "VisionSafetyTriggered",
+        "displayName": "VisionSafetyTriggered",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "boolean",
         "writable": true
@@ -1187,6 +1303,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ConfigurationManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConfigurationManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1006",
     "commandTopic": "opcua/MachineVision/ConfigurationManagementType/{commandName}",
@@ -1196,6 +1313,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ConfigurationDataType",
+        "description": "Indicates that actual content of the configuration may be transferred through temporary file transfer method.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
         "fields": [
           {
@@ -1223,6 +1342,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -1257,12 +1378,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActiveConfiguration",
+        "displayName": "ActiveConfiguration",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ActivateConfiguration",
+        "displayName": "ActivateConfiguration",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1296,6 +1419,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AddConfiguration",
+        "displayName": "AddConfiguration",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1344,6 +1468,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetConfigurationById",
+        "displayName": "GetConfigurationById",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1392,6 +1517,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetConfigurationList",
+        "displayName": "GetConfigurationList",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1458,6 +1584,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ReleaseConfigurationHandle",
+        "displayName": "ReleaseConfigurationHandle",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1491,6 +1618,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveConfiguration",
+        "displayName": "RemoveConfiguration",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1525,6 +1653,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configurations",
+        "displayName": "Configurations",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ConfigurationFolderType"
       },
@@ -1532,6 +1661,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConfigurationTransfer",
+        "displayName": "ConfigurationTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ConfigurationTransferType"
       }
@@ -1549,6 +1679,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConfigurationFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1011",
     "telemetryTopic": "opcua/MachineVision/ConfigurationFolderType/{telemetryName}/{senderId}",
@@ -1557,6 +1688,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:ConfigurationDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ConfigurationDataType",
+        "description": "Indicates that actual content of the configuration may be transferred through temporary file transfer method.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
         "fields": [
           {
@@ -1584,6 +1717,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -1618,6 +1753,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Configuration",
+        "displayName": "<Configuration>",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": {
           "@type": "Map",
@@ -1645,6 +1781,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ProductFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ProductFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1010",
     "telemetryTopic": "opcua/MachineVision/ProductFolderType/{telemetryName}/{senderId}",
@@ -1653,6 +1790,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ProductFolderType:dataType:ProductDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductDataType",
+        "description": "Identification of the product used by the environment. This argument must not be empty.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3020",
         "fields": [
           {
@@ -1665,6 +1804,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ProductFolderType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -1684,6 +1825,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Product",
+        "displayName": "<Product>",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": {
           "@type": "Map",
@@ -1711,6 +1853,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipeFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RecipeFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1008",
     "payloadFormat": "Json/ecma/404",
@@ -1720,6 +1863,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Recipe",
+        "displayName": "<Recipe>",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:RecipeType"
       }
@@ -1737,6 +1881,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ResultFolderType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ResultFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1016",
     "telemetryTopic": "opcua/MachineVision/ResultFolderType/{telemetryName}/{senderId}",
@@ -1745,6 +1890,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ResultDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ResultDataType",
+        "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the pertinent result management methods and it is identical to the ResultId of the ResultReadyEventType.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
         "fields": [
           {
@@ -1835,6 +1982,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -1867,6 +2016,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -1879,6 +2030,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ResultIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ResultIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
         "fields": [
           {
@@ -1891,6 +2044,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:MeasIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "MeasIdDataType",
+        "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
         "fields": [
           {
@@ -1908,6 +2063,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:PartIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PartIdDataType",
+        "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
         "fields": [
           {
@@ -1925,6 +2082,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -1942,6 +2101,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ProcessingTimesDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProcessingTimesDataType",
+        "description": "Contains the time when the vision system started execution of the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
         "fields": [
           {
@@ -1971,6 +2132,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResultVariable",
+        "displayName": "<ResultVariable>",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": {
           "@type": [ "Object", "Detail" ],
@@ -1978,6 +2140,7 @@
             {
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "ResultVariable",
+              "displayName": "<ResultVariable>",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
               "schema": {
                 "@type": "Map",
@@ -1994,42 +2157,49 @@
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "CreationTime",
+              "displayName": "CreationTime",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
               "schema": "time"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "InternalConfigurationId",
+              "displayName": "InternalConfigurationId",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
               "schema": "dtmi:opcua:MachineVision:ResultFolderType:dataType:BinaryIdBaseDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "InternalRecipeId",
+              "displayName": "InternalRecipeId",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
               "schema": "dtmi:opcua:MachineVision:ResultFolderType:dataType:BinaryIdBaseDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "IsPartial",
+              "displayName": "IsPartial",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
               "schema": "boolean"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "JobId",
+              "displayName": "JobId",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
               "schema": "dtmi:opcua:MachineVision:ResultFolderType:dataType:JobIdDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "ResultId",
+              "displayName": "ResultId",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
               "schema": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ResultIdDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "ResultState",
+              "displayName": "ResultState",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
               "schema": "integer"
             }
@@ -2050,6 +2220,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipeManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RecipeManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1004",
     "commandTopic": "opcua/MachineVision/RecipeManagementType/{commandName}",
@@ -2058,6 +2229,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -2075,6 +2248,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:TriStateBooleanDataType;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "TriStateBooleanDataType",
+        "description": "The filtering function shall look for entities where the filtered value is FALSE.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3014",
         "valueSchema": "integer",
         "enumValues": [
@@ -2095,6 +2270,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -2129,6 +2306,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AddRecipe",
+        "displayName": "AddRecipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2187,6 +2365,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetRecipeListFiltered",
+        "displayName": "GetRecipeListFiltered",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2268,6 +2447,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "PrepareProduct",
+        "displayName": "PrepareProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2306,6 +2486,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "PrepareRecipe",
+        "displayName": "PrepareRecipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2354,6 +2535,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ReleaseRecipeHandle",
+        "displayName": "ReleaseRecipeHandle",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2387,6 +2569,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveRecipe",
+        "displayName": "RemoveRecipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2420,6 +2603,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "UnlinkProduct",
+        "displayName": "UnlinkProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2458,6 +2642,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "UnprepareProduct",
+        "displayName": "UnprepareProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2496,6 +2681,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "UnprepareRecipe",
+        "displayName": "UnprepareRecipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2540,6 +2726,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Products",
+        "displayName": "Products",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ProductFolderType"
       },
@@ -2547,6 +2734,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Recipes",
+        "displayName": "Recipes",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:RecipeFolderType"
       },
@@ -2554,6 +2742,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RecipeTransfer",
+        "displayName": "RecipeTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:RecipeTransferType"
       }
@@ -2571,6 +2760,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipeType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RecipeType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1002",
     "commandTopic": "opcua/MachineVision/RecipeType/{commandName}",
@@ -2580,6 +2770,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:RecipeType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -2597,6 +2789,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:RecipeType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -2631,6 +2825,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalId",
+        "displayName": "ExternalId",
+        "description": "Recipe ID for identifying the recipe outside the vision system. The ExternalID is only managed by the host system.",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:RecipeType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -2638,6 +2834,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InternalId",
+        "displayName": "InternalId",
+        "description": "System-wide unique ID for identifying a recipe. This ID is assigned by the vision system.",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:RecipeType:dataType:BinaryIdBaseDataType;1",
         "writable": true
@@ -2645,6 +2843,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsPrepared",
+        "displayName": "IsPrepared",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "boolean",
         "writable": true
@@ -2652,6 +2851,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LastModified",
+        "displayName": "LastModified",
+        "description": "The time when this recipe was last modified.",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "time",
         "writable": true
@@ -2659,6 +2860,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LinkedProducts",
+        "displayName": "LinkedProducts",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": {
           "@type": "Array",
@@ -2669,6 +2871,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "LinkProduct",
+        "displayName": "LinkProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2702,6 +2905,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Prepare",
+        "displayName": "Prepare",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
@@ -2726,6 +2930,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "UnlinkProduct",
+        "displayName": "UnlinkProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2759,6 +2964,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Unprepare",
+        "displayName": "Unprepare",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
@@ -2779,6 +2985,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Handle",
+        "displayName": "Handle",
+        "description": "The file handle refers to the recipe data, which are teated as a BLOB, i.e. they are not interpreted outside the system. They are accessed via OPC UA file operations.",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
@@ -2796,6 +3004,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ResultManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ResultManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1007",
     "commandTopic": "opcua/MachineVision/ResultManagementType/{commandName}",
@@ -2804,6 +3013,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ResultIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
         "fields": [
           {
@@ -2816,6 +3027,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ResultDataType",
+        "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the pertinent result management methods and it is identical to the ResultId of the ResultReadyEventType.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
         "fields": [
           {
@@ -2906,6 +3119,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:MeasIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "MeasIdDataType",
+        "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
         "fields": [
           {
@@ -2923,6 +3138,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:PartIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PartIdDataType",
+        "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
         "fields": [
           {
@@ -2940,6 +3157,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -2972,6 +3191,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -2989,6 +3210,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -3001,6 +3224,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProcessingTimesDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProcessingTimesDataType",
+        "description": "Contains the time when the vision system started execution of the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
         "fields": [
           {
@@ -3030,6 +3255,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetResultById",
+        "displayName": "GetResultById",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3078,6 +3304,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetResultComponentsById",
+        "displayName": "GetResultComponentsById",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3199,6 +3426,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetResultListFiltered",
+        "displayName": "GetResultListFiltered",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3310,6 +3538,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ReleaseResultHandle",
+        "displayName": "ReleaseResultHandle",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3344,6 +3573,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Results",
+        "displayName": "Results",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ResultFolderType"
       },
@@ -3351,6 +3581,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ResultTransfer",
+        "displayName": "ResultTransfer",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ResultTransferType"
       }
@@ -3368,6 +3599,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:SafetyStateManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SafetyStateManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1009",
     "commandTopic": "opcua/MachineVision/SafetyStateManagementType/{commandName}",
@@ -3379,18 +3611,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VisionSafetyInformation",
+        "displayName": "VisionSafetyInformation",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VisionSafetyTriggered",
+        "displayName": "VisionSafetyTriggered",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "boolean"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ReportSafetyState",
+        "displayName": "ReportSafetyState",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3440,6 +3675,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionAutomaticModeStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1021",
     "commandTopic": "opcua/MachineVision/VisionAutomaticModeStateMachineType/{commandName}",
@@ -3448,6 +3684,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "MeasIdDataType",
+        "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
         "fields": [
           {
@@ -3465,6 +3703,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "PartIdDataType",
+        "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
         "fields": [
           {
@@ -3482,6 +3722,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "BinaryIdBaseDataType",
+        "description": "Id is a system-wide unique name for identifying the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
         "fields": [
           {
@@ -3514,6 +3756,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ProductIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the product.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
         "fields": [
           {
@@ -3531,6 +3775,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobIdDataType",
+        "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
         "fields": [
           {
@@ -3545,6 +3791,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Abort",
+        "displayName": "Abort",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3583,6 +3830,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SimulationMode",
+        "displayName": "SimulationMode",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3626,6 +3874,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StartContinuous",
+        "displayName": "StartContinuous",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3687,6 +3936,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StartSingleJob",
+        "displayName": "StartSingleJob",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3748,6 +3998,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Stop",
+        "displayName": "Stop",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3787,6 +4038,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ContinuousExecution",
+        "displayName": "ContinuousExecution",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -3794,6 +4046,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ContinuousExecutionStepModel",
+        "displayName": "ContinuousExecutionStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
@@ -3801,6 +4054,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ContinuousExecutionToReadyAbort",
+        "displayName": "ContinuousExecutionToReadyAbort",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3808,6 +4062,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ContinuousExecutionToReadyAuto",
+        "displayName": "ContinuousExecutionToReadyAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3815,6 +4070,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ContinuousExecutionToReadyStop",
+        "displayName": "ContinuousExecutionToReadyStop",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3822,6 +4078,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Initialized",
+        "displayName": "Initialized",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -3829,6 +4086,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InitializedStepModel",
+        "displayName": "InitializedStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
@@ -3836,6 +4094,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InitializedToReadyAuto",
+        "displayName": "InitializedToReadyAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3843,6 +4102,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InitializedToReadyProduct",
+        "displayName": "InitializedToReadyProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3850,6 +4110,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InitializedToReadyRecipe",
+        "displayName": "InitializedToReadyRecipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3857,6 +4118,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Ready",
+        "displayName": "Ready",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -3864,6 +4126,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyStepModel",
+        "displayName": "ReadyStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
@@ -3871,6 +4134,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyToContinuousExecution",
+        "displayName": "ReadyToContinuousExecution",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3878,6 +4142,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyToContinuousExecutionAuto",
+        "displayName": "ReadyToContinuousExecutionAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3885,6 +4150,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyToInitializedAuto",
+        "displayName": "ReadyToInitializedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3892,6 +4158,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyToInitializedProduct",
+        "displayName": "ReadyToInitializedProduct",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3899,6 +4166,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyToInitializedRecipe",
+        "displayName": "ReadyToInitializedRecipe",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3906,6 +4174,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyToSingleExecution",
+        "displayName": "ReadyToSingleExecution",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3913,6 +4182,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReadyToSingleExecutionAuto",
+        "displayName": "ReadyToSingleExecutionAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3920,6 +4190,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SingleExecution",
+        "displayName": "SingleExecution",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -3927,6 +4198,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SingleExecutionStepModel",
+        "displayName": "SingleExecutionStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
@@ -3934,6 +4206,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SingleExecutionToReadyAbort",
+        "displayName": "SingleExecutionToReadyAbort",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3941,6 +4214,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SingleExecutionToReadyAuto",
+        "displayName": "SingleExecutionToReadyAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -3948,6 +4222,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SingleExecutionToReadyStop",
+        "displayName": "SingleExecutionToReadyStop",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
@@ -3965,6 +4240,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1017",
     "commandTopic": "opcua/MachineVision/VisionStateMachineType/{commandName}",
@@ -3975,6 +4251,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ConfirmAll",
+        "displayName": "ConfirmAll",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -3994,6 +4271,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Halt",
+        "displayName": "Halt",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -4032,6 +4310,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Reset",
+        "displayName": "Reset",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -4070,6 +4349,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SelectModeAutomatic",
+        "displayName": "SelectModeAutomatic",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
@@ -4090,6 +4370,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AutomaticModeStateMachine",
+        "displayName": "AutomaticModeStateMachine",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType"
       },
@@ -4097,6 +4378,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Error",
+        "displayName": "Error",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -4104,6 +4386,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ErrorStepModel",
+        "displayName": "ErrorStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
@@ -4111,6 +4394,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ErrorToHalted",
+        "displayName": "ErrorToHalted",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4118,6 +4402,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ErrorToHaltedAuto",
+        "displayName": "ErrorToHaltedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4125,6 +4410,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ErrorToOperationalAuto",
+        "displayName": "ErrorToOperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4132,6 +4418,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ErrorToPreoperational",
+        "displayName": "ErrorToPreoperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4139,6 +4426,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ErrorToPreoperationalAuto",
+        "displayName": "ErrorToPreoperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4146,6 +4434,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Halted",
+        "displayName": "Halted",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -4153,6 +4442,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HaltedStepModel",
+        "displayName": "HaltedStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
@@ -4160,6 +4450,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HaltedToPreoperational",
+        "displayName": "HaltedToPreoperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4167,6 +4458,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "HaltedToPreoperationalAuto",
+        "displayName": "HaltedToPreoperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4174,6 +4466,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Operational",
+        "displayName": "Operational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -4181,6 +4474,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperationalToErrorAuto",
+        "displayName": "OperationalToErrorAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4188,6 +4482,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperationalToHalted",
+        "displayName": "OperationalToHalted",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4195,6 +4490,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperationalToHaltedAuto",
+        "displayName": "OperationalToHaltedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4202,6 +4498,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperationalToPreoperational",
+        "displayName": "OperationalToPreoperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4209,6 +4506,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "OperationalToPreoperationalAuto",
+        "displayName": "OperationalToPreoperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4216,6 +4514,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Preoperational",
+        "displayName": "Preoperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -4223,6 +4522,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalStepModel",
+        "displayName": "PreoperationalStepModel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
       },
@@ -4230,6 +4530,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalToErrorAuto",
+        "displayName": "PreoperationalToErrorAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4237,6 +4538,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalToHalted",
+        "displayName": "PreoperationalToHalted",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4244,6 +4546,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalToHaltedAuto",
+        "displayName": "PreoperationalToHaltedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4251,6 +4554,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalToInitialized",
+        "displayName": "PreoperationalToInitialized",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4258,6 +4562,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalToInitializedAuto",
+        "displayName": "PreoperationalToInitializedAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4265,6 +4570,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalToOperational",
+        "displayName": "PreoperationalToOperational",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4272,6 +4578,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PreoperationalToOperationalAuto",
+        "displayName": "PreoperationalToOperationalAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
@@ -4289,6 +4596,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionStepModelStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1026",
     "commandTopic": "opcua/MachineVision/VisionStepModelStateMachineType/{commandName}",
@@ -4299,6 +4607,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Sync",
+        "displayName": "Sync",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -4338,6 +4647,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Entry",
+        "displayName": "Entry",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
@@ -4345,6 +4655,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EntryToExitAuto",
+        "displayName": "EntryToExitAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4352,6 +4663,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EntryToWaitAuto",
+        "displayName": "EntryToWaitAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4359,6 +4671,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Exit",
+        "displayName": "Exit",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -4366,6 +4679,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Step",
+        "displayName": "Step",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -4373,6 +4687,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StepToExitAuto",
+        "displayName": "StepToExitAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4380,6 +4695,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "StepToWaitAuto",
+        "displayName": "StepToWaitAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4387,6 +4703,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Wait",
+        "displayName": "Wait",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -4394,6 +4711,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "WaitToStep",
+        "displayName": "WaitToStep",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -4401,6 +4719,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "WaitToStepAuto",
+        "displayName": "WaitToStepAuto",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
@@ -4418,6 +4737,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ConfigurationTransferType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConfigurationTransferType",
     "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1012",
     "payloadFormat": "Json/ecma/404",
@@ -4438,6 +4758,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:RecipeTransferType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RecipeTransferType",
     "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1014",
     "payloadFormat": "Json/ecma/404",
@@ -4458,6 +4779,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:ResultTransferType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ResultTransferType",
     "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1039",
     "payloadFormat": "Json/ecma/404",
@@ -4478,6 +4800,7 @@
     ],
     "@id": "dtmi:opcua:MachineVision:VisionSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VisionSystemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1003",
     "telemetryTopic": "opcua/MachineVision/VisionSystemType/{telemetryName}/{senderId}",
@@ -4486,6 +4809,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionSystemType:dataType:SystemStateDescriptionDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "SystemStateDescriptionDataType",
+        "description": "Denotes one of the basic SEMI E10 states",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3024",
         "fields": [
           {
@@ -4503,6 +4828,8 @@
       {
         "@id": "dtmi:opcua:MachineVision:VisionSystemType:dataType:SystemStateDataType;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "SystemStateDataType",
+        "description": "Production: The vision system is currently working on a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3023",
         "valueSchema": "integer",
         "enumValues": [
@@ -4537,12 +4864,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DiagnosticLevel",
+        "displayName": "DiagnosticLevel",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SystemState",
+        "displayName": "SystemState",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "schema": "dtmi:opcua:MachineVision:VisionSystemType:dataType:SystemStateDescriptionDataType;1"
       },
@@ -4550,6 +4879,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConfigurationManagement",
+        "displayName": "ConfigurationManagement",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ConfigurationManagementType"
       },
@@ -4557,6 +4887,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RecipeManagement",
+        "displayName": "RecipeManagement",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:RecipeManagementType"
       },
@@ -4564,6 +4895,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ResultManagement",
+        "displayName": "ResultManagement",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:ResultManagementType"
       },
@@ -4571,6 +4903,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SafetyStateManagement",
+        "displayName": "SafetyStateManagement",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:SafetyStateManagementType"
       },
@@ -4578,6 +4911,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "VisionStateMachine",
+        "displayName": "VisionStateMachine",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
         "target": "dtmi:opcua:MachineVision:VisionStateMachineType"
       }

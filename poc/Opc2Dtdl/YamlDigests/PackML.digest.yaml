@@ -1,11 +1,15 @@
 DataTypes:
 - UADataType: [ PackML:11, PackML:ProductionMaintenanceModeEnum ]
+  DisplayName: "ProductionMaintenanceModeEnum"
+  Description: "This is an invalid mode"
   Enums:
     Invalid: 0
     Produce: 1
     Maintenance: 2
     Manual: 3
 - UADataType: [ PackML:15, PackML:PackMLAlarmDataType ]
+  DisplayName: "PackMLAlarmDataType"
+  Description: "A unique number assigned to each type of alarm, stop or warning."
   Fields:
     ID: [ Int32, 0 ]
     Value: [ Int32, 0 ]
@@ -15,6 +19,8 @@ DataTypes:
     AckDateTime: [ UtcTime, 0 ]
     Trigger: [ Boolean, 0 ]
 - UADataType: [ PackML:14, PackML:PackMLCountDataType ]
+  DisplayName: "PackMLCountDataType"
+  Description: "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number."
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
@@ -22,21 +28,29 @@ DataTypes:
     Count: [ Int32, 0 ]
     AccCount: [ Int32, 0 ]
 - UADataType: [ PackML:16, PackML:PackMLDescriptorDataType ]
+  DisplayName: "PackMLDescriptorDataType"
+  Description: "A unique number assigned to the parameter"
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
     Unit: [ EUInformation, 0 ]
     Value: [ Float, 0 ]
 - UADataType: [ PackML:17, PackML:PackMLIngredientsDataType ]
+  DisplayName: "PackMLIngredientsDataType"
+  Description: "A unique number assigned to the ingredient."
   Fields:
     IngredientID: [ Int32, 0 ]
     Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
 - UADataType: [ PackML:18, PackML:PackMLProductDataType ]
+  DisplayName: "PackMLProductDataType"
+  Description: "A unique number assigned to the product."
   Fields:
     ProductID: [ Int32, 0 ]
     ProcessVariables: [ PackML:PackMLDescriptorDataType, 1 ]
     Ingredients: [ PackML:PackMLIngredientsDataType, 1 ]
 - UADataType: [ PackML:19, PackML:PackMLRemoteInterfaceDataType ]
+  DisplayName: "PackMLRemoteInterfaceDataType"
+  Description: "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine."
   Fields:
     Number: [ Int32, 0 ]
     ControlCmdNumber: [ Int32, 0 ]
@@ -47,8 +61,10 @@ DefinedTypes:
 
   PackML:PackMLAdminObjectType:
   - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
+  - DisplayName: "PackMLAdminObjectType"
   - HasComponent:
     - [ UAVariable, PackML:252, PackML:AccTimeSinceReset, Int32, 0, 0 ]
+    - DisplayName: "AccTimeSinceReset"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
     - HasTypeDefinition:
@@ -57,6 +73,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasAlarm:
     - [ UAVariable, PackML:238, PackML:Alarm, PackML:PackMLAlarmDataType, 1, 0 ]
+    - DisplayName: "Alarm"
     - HasAlarm_reverse:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
     - HasTypeDefinition:
@@ -65,6 +82,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PackML:239, PackML:AlarmExtent, Int32, 0, 0 ]
+    - DisplayName: "AlarmExtent"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
     - HasTypeDefinition:
@@ -73,6 +91,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasAlarmHistory:
     - [ UAVariable, PackML:240, PackML:AlarmHistory, PackML:PackMLAlarmDataType, 1, 0 ]
+    - DisplayName: "AlarmHistory"
     - HasAlarmHistory_reverse:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
     - HasTypeDefinition:
@@ -81,6 +100,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PackML:241, PackML:AlarmHistoryExtent, Int32, 0, 0 ]
+    - DisplayName: "AlarmHistoryExtent"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
     - HasTypeDefinition:
@@ -89,6 +109,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PackML:253, PackML:MachDesignSpeed, Float, 0, 0 ]
+    - DisplayName: "MachDesignSpeed"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
@@ -97,6 +118,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PackML:247, PackML:ModeCumulativeTime, Int32, 1, 0 ]
+    - DisplayName: "ModeCumulativeTime"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
@@ -105,6 +127,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PackML:246, PackML:ModeCurrentTime, Int32, 1, 0 ]
+    - DisplayName: "ModeCurrentTime"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
@@ -115,6 +138,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:276, PackML:Parameter, PackML:PackMLDescriptorDataType, 1, 0 ]
+    - DisplayName: "Parameter"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -123,6 +147,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:124, PackML:ProdConsumedCount, PackML:PackMLCountDataType, 1, 0 ]
+    - DisplayName: "ProdConsumedCount"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -131,6 +156,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:119, PackML:ProdDefectiveCount, PackML:PackMLCountDataType, 1, 0 ]
+    - DisplayName: "ProdDefectiveCount"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -139,6 +165,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:120, PackML:ProdProcessedCount, PackML:PackMLCountDataType, 1, 0 ]
+    - DisplayName: "ProdProcessedCount"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -147,6 +174,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:249, PackML:StateCumulativeTime, Int32, 2, 0 ]
+    - DisplayName: "StateCumulativeTime"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -155,6 +183,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:248, PackML:StateCurrentTime, Int32, 2, 0 ]
+    - DisplayName: "StateCurrentTime"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -163,6 +192,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasStopReason:
     - [ UAVariable, PackML:244, PackML:StopReason, PackML:PackMLAlarmDataType, 0, 0 ]
+    - DisplayName: "StopReason"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -171,6 +201,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:245, PackML:StopReasonExtent, Int32, 0, 0 ]
+    - DisplayName: "StopReasonExtent"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -179,6 +210,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasWarning:
     - [ UAVariable, PackML:242, PackML:Warning, PackML:PackMLAlarmDataType, 1, 0 ]
+    - DisplayName: "Warning"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -187,6 +219,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:243, PackML:WarningExtent, Int32, 0, 0 ]
+    - DisplayName: "WarningExtent"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -196,8 +229,10 @@ DefinedTypes:
 
   PackML:PackMLBaseObjectType:
   - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
+  - DisplayName: "PackMLBaseObjectType"
   - HasComponent:
     - [ UAObject, PackML:73, PackML:Admin ]
+    - DisplayName: "Admin"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
     - HasModellingRule:
@@ -206,8 +241,10 @@ DefinedTypes:
       - [ UAObjectType, PackML:5, PackML:PackMLAdminObjectType ]
   - HasComponent:
     - [ UAObject, PackML:88, PackML:BaseStateMachine ]
+    - DisplayName: "BaseStateMachine"
     - HasComponent:
       - [ UAVariable, PackML:259, PackML:AvailableStates, NodeId, 1, 0 ]
+      - DisplayName: "AvailableStates"
       - HasComponent_reverse:
         - [ UAObject, PackML:88, PackML:BaseStateMachine ]
       - HasTypeDefinition:
@@ -216,6 +253,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PackML:202, PackML:AvailableTransitions, NodeId, 1, 0 ]
+      - DisplayName: "AvailableTransitions"
       - HasComponent_reverse:
         - [ UAObject, PackML:88, PackML:BaseStateMachine ]
       - HasTypeDefinition:
@@ -226,12 +264,14 @@ DefinedTypes:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
     - HasComponent:
       - [ UAVariable, PackML:272, PackML:CurrentState, LocalizedText, 0, 0 ]
+      - DisplayName: "CurrentState"
       - HasComponent_reverse:
         - [ UAObject, PackML:88, PackML:BaseStateMachine ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasProperty:
         - [ UAVariable, PackML:273, PackML:Id, NodeId, 0, 0 ]
+        - DisplayName: "Id"
         - HasProperty_reverse:
           - [ UAVariable, PackML:272, PackML:CurrentState, LocalizedText, 0, 0 ]
         - HasModellingRule:
@@ -242,8 +282,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAObject, PackML:89, PackML:MachineState ]
+      - DisplayName: "MachineState"
       - HasComponent:
         - [ UAVariable, PackML:214, PackML:AvailableStates, NodeId, 1, 0 ]
+        - DisplayName: "AvailableStates"
         - HasComponent_reverse:
           - [ UAObject, PackML:89, PackML:MachineState ]
         - HasTypeDefinition:
@@ -252,6 +294,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PackML:213, PackML:AvailableTransitions, NodeId, 1, 0 ]
+        - DisplayName: "AvailableTransitions"
         - HasComponent_reverse:
           - [ UAObject, PackML:89, PackML:MachineState ]
         - HasTypeDefinition:
@@ -260,12 +303,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PackML:262, PackML:CurrentState, LocalizedText, 0, 0 ]
+        - DisplayName: "CurrentState"
         - HasComponent_reverse:
           - [ UAObject, PackML:89, PackML:MachineState ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasProperty:
           - [ UAVariable, PackML:263, PackML:Id, NodeId, 0, 0 ]
+          - DisplayName: "Id"
           - HasProperty_reverse:
             - [ UAVariable, PackML:262, PackML:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
@@ -276,8 +321,11 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAObject, PackML:90, PackML:ExecuteState ]
+        - DisplayName: "ExecuteState"
+        - Description: "StateMachine that provides additional sube"
         - HasComponent:
           - [ UAVariable, PackML:223, PackML:AvailableStates, NodeId, 1, 0 ]
+          - DisplayName: "AvailableStates"
           - HasComponent_reverse:
             - [ UAObject, PackML:90, PackML:ExecuteState ]
           - HasTypeDefinition:
@@ -286,6 +334,7 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
         - HasComponent:
           - [ UAVariable, PackML:222, PackML:AvailableTransitions, NodeId, 1, 0 ]
+          - DisplayName: "AvailableTransitions"
           - HasComponent_reverse:
             - [ UAObject, PackML:90, PackML:ExecuteState ]
           - HasTypeDefinition:
@@ -294,12 +343,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
         - HasComponent:
           - [ UAVariable, PackML:266, PackML:CurrentState, LocalizedText, 0, 0 ]
+          - DisplayName: "CurrentState"
           - HasComponent_reverse:
             - [ UAObject, PackML:90, PackML:ExecuteState ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
           - HasProperty:
             - [ UAVariable, PackML:227, PackML:Id, NodeId, 0, 0 ]
+            - DisplayName: "Id"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -328,6 +379,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PackML:221, PackML:PackMLVersion, String, 0, 0 ]
+    - DisplayName: "PackMLVersion"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
@@ -336,8 +388,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAMethod, PackML:403, PackML:RemoteCommand ]
+    - DisplayName: "RemoteCommand"
     - HasProperty:
       - [ UAVariable, PackML:350, PackML:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           RemoteInterface: [ PackML:PackMLRemoteInterfaceDataType, 1 ]
       - HasModellingRule:
@@ -352,8 +406,10 @@ DefinedTypes:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
   - HasComponent:
     - [ UAMethod, PackML:404, PackML:SetInterlock ]
+    - DisplayName: "SetInterlock"
     - HasProperty:
       - [ UAVariable, PackML:351, PackML:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           InterlockId: [ Int32, 0 ]
           State: [ Boolean, 0 ]
@@ -369,8 +425,10 @@ DefinedTypes:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
   - HasComponent:
     - [ UAMethod, PackML:400, PackML:SetMachSpeed ]
+    - DisplayName: "SetMachSpeed"
     - HasProperty:
       - [ UAVariable, PackML:348, PackML:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           RequestedMachineSpeed: [ Float, 0 ]
       - HasModellingRule:
@@ -385,8 +443,10 @@ DefinedTypes:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
   - HasComponent:
     - [ UAMethod, PackML:402, PackML:SetParameter ]
+    - DisplayName: "SetParameter"
     - HasProperty:
       - [ UAVariable, PackML:352, PackML:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
       - HasModellingRule:
@@ -401,8 +461,10 @@ DefinedTypes:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
   - HasComponent:
     - [ UAMethod, PackML:401, PackML:SetProduct ]
+    - DisplayName: "SetProduct"
     - HasProperty:
       - [ UAVariable, PackML:349, PackML:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Product: [ PackML:PackMLProductDataType, 1 ]
       - HasModellingRule:
@@ -417,8 +479,10 @@ DefinedTypes:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
   - HasComponent:
     - [ UAMethod, PackML:362, PackML:SetUnitMode ]
+    - DisplayName: "SetUnitMode"
     - HasProperty:
       - [ UAVariable, PackML:118, PackML:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           RequestedMode: [ Int32, 0 ]
       - HasModellingRule:
@@ -433,14 +497,17 @@ DefinedTypes:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
   - HasComponent:
     - [ UAObject, PackML:87, PackML:Status ]
+    - DisplayName: "Status"
     - HasComponent:
       - [ UAVariable, PackML:255, PackML:CurMachSpeed, Float, 0, 0 ]
+      - DisplayName: "CurMachSpeed"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasComponent_reverse:
         - [ UAObject, PackML:87, PackML:Status ]
       - HasProperty:
         - [ UAVariable, PackML:256, PackML:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PackML:255, PackML:CurMachSpeed, Float, 0, 0 ]
         - HasModellingRule:
@@ -451,6 +518,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PackML:274, PackML:EquipmentBlocked, Boolean, 0, 0 ]
+      - DisplayName: "EquipmentBlocked"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasComponent_reverse:
@@ -459,6 +527,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PackML:275, PackML:EquipmentStarved, Boolean, 0, 0 ]
+      - DisplayName: "EquipmentStarved"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasComponent_reverse:
@@ -467,10 +536,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PackML:257, PackML:MachSpeed, Float, 0, 0 ]
+      - DisplayName: "MachSpeed"
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PackML:258, PackML:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasProperty_reverse:
           - [ UAVariable, PackML:257, PackML:MachSpeed, Float, 0, 0 ]
         - HasModellingRule:
@@ -489,6 +560,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:6, PackML:PackMLBaseObjectType ]
     - HasComponent:
       - [ UAVariable, PackML:225, PackML:UnitModeCurrent, Enumeration, 0, 0 ]
+      - DisplayName: "UnitModeCurrent"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -497,6 +569,7 @@ DefinedTypes:
         - [ UAObject, PackML:87, PackML:Status ]
     - HasProperty:
       - [ UAVariable, PackML:290, PackML:UnitSupportedModes, NodeId, 0, 0 ]
+      - DisplayName: "UnitSupportedModes"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -505,6 +578,7 @@ DefinedTypes:
         - [ UAObject, PackML:87, PackML:Status ]
   - HasProperty:
     - [ UAVariable, PackML:218, PackML:TagID, String, 0, 0 ]
+    - DisplayName: "TagID"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -514,14 +588,17 @@ DefinedTypes:
 
   PackML:PackMLStatusObjectType:
   - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
+  - DisplayName: "PackMLStatusObjectType"
   - HasComponent:
     - [ UAVariable, PackML:232, PackML:CurMachSpeed, Float, 0, 0 ]
+    - DisplayName: "CurMachSpeed"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
     - HasProperty:
       - [ UAVariable, PackML:233, PackML:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PackML:232, PackML:CurMachSpeed, Float, 0, 0 ]
       - HasModellingRule:
@@ -532,6 +609,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PackML:211, PackML:EquipmentBlocked, Boolean, 0, 0 ]
+    - DisplayName: "EquipmentBlocked"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
@@ -540,6 +618,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PackML:224, PackML:EquipmentStarved, Boolean, 0, 0 ]
+    - DisplayName: "EquipmentStarved"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
@@ -548,10 +627,12 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PackML:219, PackML:MachSpeed, Float, 0, 0 ]
+    - DisplayName: "MachSpeed"
     - HasTypeDefinition:
       - [ UAVariableType, 2368, AnalogItemType ]
     - HasProperty:
       - [ UAVariable, PackML:220, PackML:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasProperty_reverse:
         - [ UAVariable, PackML:219, PackML:MachSpeed, Float, 0, 0 ]
       - HasModellingRule:
@@ -564,6 +645,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasInterlock:
     - [ UAVariable, PackML:237, PackML:MaterialInterlock, Boolean, 1, 0 ]
+    - DisplayName: "MaterialInterlock"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasInterlock_reverse:
@@ -572,6 +654,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PackML:236, PackML:MaterialInterlocked, Boolean, 0, 0 ]
+    - DisplayName: "MaterialInterlocked"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasComponent_reverse:
@@ -582,6 +665,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:121, PackML:Parameter, PackML:PackMLDescriptorDataType, 1, 0 ]
+    - DisplayName: "Parameter"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -590,6 +674,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:122, PackML:Product, PackML:PackMLProductDataType, 1, 0 ]
+    - DisplayName: "Product"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -598,6 +683,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:123, PackML:RemoteParameter, PackML:PackMLRemoteInterfaceDataType, 1, 0 ]
+    - DisplayName: "RemoteParameter"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -606,6 +692,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:210, PackML:StateChangeInProcess, Boolean, 0, 0 ]
+    - DisplayName: "StateChangeInProcess"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -614,6 +701,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:209, PackML:StateRequested, Int32, 0, 0 ]
+    - DisplayName: "StateRequested"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -622,6 +710,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:201, PackML:UnitModeChangeInProcess, Boolean, 0, 0 ]
+    - DisplayName: "UnitModeChangeInProcess"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -630,6 +719,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:200, PackML:UnitModeCurrent, Enumeration, 0, 0 ]
+    - DisplayName: "UnitModeCurrent"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -638,6 +728,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
   - HasComponent:
     - [ UAVariable, PackML:192, PackML:UnitModeRequested, Boolean, 0, 0 ]
+    - DisplayName: "UnitModeRequested"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -646,6 +737,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:4, PackML:PackMLStatusObjectType ]
   - HasProperty:
     - [ UAVariable, PackML:193, PackML:UnitSupportedModes, NodeId, 0, 0 ]
+    - DisplayName: "UnitSupportedModes"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -655,8 +747,10 @@ DefinedTypes:
 
   PackML:PackMLBaseStateMachineType:
   - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
+  - DisplayName: "PackMLBaseStateMachineType"
   - HasComponent:
     - [ UAMethod, PackML:364, PackML:Abort ]
+    - DisplayName: "Abort"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasCause_reverse:
@@ -665,10 +759,12 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PackML:62, PackML:Aborted ]
+    - DisplayName: "Aborted"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:169, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -683,12 +779,14 @@ DefinedTypes:
       - [ UAObject, PackML:66, PackML:AbortingToAborted ]
   - HasComponent:
     - [ UAObject, PackML:65, PackML:AbortedToCleared ]
+    - DisplayName: "AbortedToCleared"
     - FromState:
       - [ UAObject, PackML:62, PackML:Aborted ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasCause:
       - [ UAMethod, PackML:363, PackML:Clear ]
+      - DisplayName: "Clear"
       - HasComponent_reverse:
         - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
       - HasCause_reverse:
@@ -699,6 +797,7 @@ DefinedTypes:
       - [ UAObject, PackML:71, PackML:Cleared ]
     - HasProperty:
       - [ UAVariable, PackML:174, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -709,10 +808,12 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:61, PackML:Aborting ]
+    - DisplayName: "Aborting"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:168, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -727,6 +828,7 @@ DefinedTypes:
       - [ UAObject, PackML:67, PackML:ClearedToAborting ]
   - HasComponent:
     - [ UAObject, PackML:66, PackML:AbortingToAborted ]
+    - DisplayName: "AbortingToAborted"
     - ToState:
       - [ UAObject, PackML:62, PackML:Aborted ]
     - FromState:
@@ -735,6 +837,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:175, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -745,6 +848,7 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAVariable, PackML:167, PackML:AvailableStates, NodeId, 1, 0 ]
+    - DisplayName: "AvailableStates"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasTypeDefinition:
@@ -753,6 +857,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PackML:158, PackML:AvailableTransitions, NodeId, 1, 0 ]
+    - DisplayName: "AvailableTransitions"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasTypeDefinition:
@@ -761,6 +866,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PackML:363, PackML:Clear ]
+    - DisplayName: "Clear"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasCause_reverse:
@@ -769,6 +875,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PackML:71, PackML:Cleared ]
+    - DisplayName: "Cleared"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - ToState_reverse:
@@ -777,8 +884,10 @@ DefinedTypes:
       - [ UAObject, PackML:67, PackML:ClearedToAborting ]
     - HasSubStateMachine:
       - [ UAObject, PackML:64, PackML:MachineState ]
+      - DisplayName: "MachineState"
       - HasComponent:
         - [ UAVariable, PackML:212, PackML:AvailableStates, NodeId, 1, 0 ]
+        - DisplayName: "AvailableStates"
         - HasComponent_reverse:
           - [ UAObject, PackML:64, PackML:MachineState ]
         - HasTypeDefinition:
@@ -787,6 +896,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PackML:204, PackML:AvailableTransitions, NodeId, 1, 0 ]
+        - DisplayName: "AvailableTransitions"
         - HasComponent_reverse:
           - [ UAObject, PackML:64, PackML:MachineState ]
         - HasTypeDefinition:
@@ -795,12 +905,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PackML:172, PackML:CurrentState, LocalizedText, 0, 0 ]
+        - DisplayName: "CurrentState"
         - HasComponent_reverse:
           - [ UAObject, PackML:64, PackML:MachineState ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasProperty:
           - [ UAVariable, PackML:173, PackML:Id, NodeId, 0, 0 ]
+          - DisplayName: "Id"
           - HasProperty_reverse:
             - [ UAVariable, PackML:172, PackML:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
@@ -821,6 +933,7 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PackML:178, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -831,8 +944,10 @@ DefinedTypes:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, PackML:67, PackML:ClearedToAborting ]
+    - DisplayName: "ClearedToAborting"
     - HasCause:
       - [ UAMethod, PackML:364, PackML:Abort ]
+      - DisplayName: "Abort"
       - HasComponent_reverse:
         - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
       - HasCause_reverse:
@@ -847,6 +962,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:176, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -857,8 +973,10 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:64, PackML:MachineState ]
+    - DisplayName: "MachineState"
     - HasComponent:
       - [ UAVariable, PackML:212, PackML:AvailableStates, NodeId, 1, 0 ]
+      - DisplayName: "AvailableStates"
       - HasComponent_reverse:
         - [ UAObject, PackML:64, PackML:MachineState ]
       - HasTypeDefinition:
@@ -867,6 +985,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PackML:204, PackML:AvailableTransitions, NodeId, 1, 0 ]
+      - DisplayName: "AvailableTransitions"
       - HasComponent_reverse:
         - [ UAObject, PackML:64, PackML:MachineState ]
       - HasTypeDefinition:
@@ -875,12 +994,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PackML:172, PackML:CurrentState, LocalizedText, 0, 0 ]
+      - DisplayName: "CurrentState"
       - HasComponent_reverse:
         - [ UAObject, PackML:64, PackML:MachineState ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasProperty:
         - [ UAVariable, PackML:173, PackML:Id, NodeId, 0, 0 ]
+        - DisplayName: "Id"
         - HasProperty_reverse:
           - [ UAVariable, PackML:172, PackML:CurrentState, LocalizedText, 0, 0 ]
         - HasModellingRule:
@@ -902,8 +1023,10 @@ DefinedTypes:
 
   PackML:PackMLExecuteStateMachineType:
   - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
+  - DisplayName: "PackMLExecuteStateMachineType"
   - HasComponent:
     - [ UAVariable, PackML:125, PackML:AvailableStates, NodeId, 1, 0 ]
+    - DisplayName: "AvailableStates"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasTypeDefinition:
@@ -912,6 +1035,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PackML:126, PackML:AvailableTransitions, NodeId, 1, 0 ]
+    - DisplayName: "AvailableTransitions"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasTypeDefinition:
@@ -920,10 +1044,13 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PackML:38, PackML:Complete ]
+    - DisplayName: "Complete"
+    - Description: "The machine has finished the COMPLETING state and is now waiting for a Reset command before transitioning to the RESETTING state"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:138, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -938,12 +1065,14 @@ DefinedTypes:
       - [ UAObject, PackML:51, PackML:CompleteToResetting ]
   - HasComponent:
     - [ UAObject, PackML:51, PackML:CompleteToResetting ]
+    - DisplayName: "CompleteToResetting"
     - FromState:
       - [ UAObject, PackML:38, PackML:Complete ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasCause:
       - [ UAMethod, PackML:361, PackML:Reset ]
+      - DisplayName: "Reset"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
@@ -954,6 +1083,7 @@ DefinedTypes:
       - [ UAObject, PackML:27, PackML:Resetting ]
     - HasProperty:
       - [ UAVariable, PackML:151, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -964,10 +1094,13 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:37, PackML:Completing ]
+    - DisplayName: "Completing"
+    - Description: "Normal operation has run to completion (i.e., processing of material at the infeed will stop)."
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:137, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -982,6 +1115,7 @@ DefinedTypes:
       - [ UAObject, PackML:50, PackML:CompletingToComplete ]
   - HasComponent:
     - [ UAObject, PackML:50, PackML:CompletingToComplete ]
+    - DisplayName: "CompletingToComplete"
     - ToState:
       - [ UAObject, PackML:38, PackML:Complete ]
     - FromState:
@@ -990,6 +1124,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:150, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1000,10 +1135,13 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:36, PackML:Execute ]
+    - DisplayName: "Execute"
+    - Description: "Once the machine is processing materials it is deemed to be executing or in the EXECUTE state."
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:136, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1026,6 +1164,7 @@ DefinedTypes:
       - [ UAObject, PackML:49, PackML:ExecuteToCompleting ]
   - HasComponent:
     - [ UAObject, PackML:49, PackML:ExecuteToCompleting ]
+    - DisplayName: "ExecuteToCompleting"
     - ToState:
       - [ UAObject, PackML:37, PackML:Completing ]
     - FromState:
@@ -1034,6 +1173,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasCause:
       - [ UAMethod, PackML:365, PackML:ToComplete ]
+      - DisplayName: "ToComplete"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
@@ -1042,6 +1182,7 @@ DefinedTypes:
         - [ UAObject, PackML:49, PackML:ExecuteToCompleting ]
     - HasProperty:
       - [ UAVariable, PackML:149, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1052,12 +1193,14 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:45, PackML:ExecuteToHolding ]
+    - DisplayName: "ExecuteToHolding"
     - FromState:
       - [ UAObject, PackML:36, PackML:Execute ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasCause:
       - [ UAMethod, PackML:366, PackML:Hold ]
+      - DisplayName: "Hold"
       - HasComponent_reverse:
         - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
       - HasCause_reverse:
@@ -1078,6 +1221,7 @@ DefinedTypes:
       - [ UAObject, PackML:33, PackML:Holding ]
     - HasProperty:
       - [ UAVariable, PackML:145, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1088,12 +1232,14 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:42, PackML:ExecuteToSuspending ]
+    - DisplayName: "ExecuteToSuspending"
     - FromState:
       - [ UAObject, PackML:36, PackML:Execute ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasCause:
       - [ UAMethod, PackML:367, PackML:Suspend ]
+      - DisplayName: "Suspend"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
@@ -1104,6 +1250,7 @@ DefinedTypes:
       - [ UAObject, PackML:30, PackML:Suspending ]
     - HasProperty:
       - [ UAVariable, PackML:142, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1114,10 +1261,13 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:34, PackML:Held ]
+    - DisplayName: "Held"
+    - Description: "The HELD state holds the machine's operation while material blockages are cleared, or to stop throughput while a downstream problem is resolved, or enable the safe correction of an equipment fault before the production may be resumed."
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:134, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1132,12 +1282,14 @@ DefinedTypes:
       - [ UAObject, PackML:47, PackML:HeldToUnholding ]
   - HasComponent:
     - [ UAObject, PackML:47, PackML:HeldToUnholding ]
+    - DisplayName: "HeldToUnholding"
     - FromState:
       - [ UAObject, PackML:34, PackML:Held ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:147, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1148,6 +1300,7 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
     - HasCause:
       - [ UAMethod, PackML:368, PackML:Unhold ]
+      - DisplayName: "Unhold"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
@@ -1158,6 +1311,7 @@ DefinedTypes:
       - [ UAObject, PackML:35, PackML:Unholding ]
   - HasComponent:
     - [ UAMethod, PackML:366, PackML:Hold ]
+    - DisplayName: "Hold"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasCause_reverse:
@@ -1176,10 +1330,13 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PackML:33, PackML:Holding ]
+    - DisplayName: "Holding"
+    - Description: "Issuing the Unhold command will retrieve the saved set-points and return the status conditions to prepare the machine to re-enter the normal EXECUTE state"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:133, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1204,6 +1361,7 @@ DefinedTypes:
       - [ UAObject, PackML:103, PackML:UnholdingToHolding ]
   - HasComponent:
     - [ UAObject, PackML:46, PackML:HoldingToHeld ]
+    - DisplayName: "HoldingToHeld"
     - ToState:
       - [ UAObject, PackML:34, PackML:Held ]
     - FromState:
@@ -1212,6 +1370,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:146, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1222,10 +1381,13 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:28, PackML:Idle ]
+    - DisplayName: "Idle"
+    - Description: "This is a state which indicates that RESETTING is complete. This state maintains the machine conditions which were achieved during the RESETTING state, and performs operations required when the machine is in IDLE."
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:128, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1240,14 +1402,17 @@ DefinedTypes:
       - [ UAObject, PackML:40, PackML:IdleToStarting ]
   - HasComponent:
     - [ UAObject, PackML:40, PackML:IdleToStarting ]
+    - DisplayName: "IdleToStarting"
     - FromState:
       - [ UAObject, PackML:28, PackML:Idle ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasCause:
       - [ UAMethod, PackML:369, PackML:Start ]
+      - DisplayName: "Start"
       - HasProperty:
         - [ UAVariable, PackML:342, PackML:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
         - HasModellingRule:
@@ -1266,6 +1431,7 @@ DefinedTypes:
       - [ UAObject, PackML:29, PackML:Starting ]
     - HasProperty:
       - [ UAVariable, PackML:140, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1278,6 +1444,7 @@ DefinedTypes:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
   - HasComponent:
     - [ UAMethod, PackML:361, PackML:Reset ]
+    - DisplayName: "Reset"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -1286,10 +1453,13 @@ DefinedTypes:
       - [ UAObject, PackML:51, PackML:CompleteToResetting ]
   - HasComponent:
     - [ UAObject, PackML:27, PackML:Resetting ]
+    - DisplayName: "Resetting"
+    - Description: "will typically cause a machine to sound a horn and place the machine in a state where components are energized awaiting a START command"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:127, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1304,6 +1474,7 @@ DefinedTypes:
       - [ UAObject, PackML:51, PackML:CompleteToResetting ]
   - HasComponent:
     - [ UAObject, PackML:39, PackML:ResettingToIdle ]
+    - DisplayName: "ResettingToIdle"
     - ToState:
       - [ UAObject, PackML:28, PackML:Idle ]
     - FromState:
@@ -1312,6 +1483,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:139, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1322,8 +1494,10 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAMethod, PackML:369, PackML:Start ]
+    - DisplayName: "Start"
     - HasProperty:
       - [ UAVariable, PackML:342, PackML:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
       - HasModellingRule:
@@ -1340,10 +1514,13 @@ DefinedTypes:
       - [ UAObject, PackML:40, PackML:IdleToStarting ]
   - HasComponent:
     - [ UAObject, PackML:29, PackML:Starting ]
+    - DisplayName: "Starting"
+    - Description: "This state provides the steps needed to start the machine and is a result of a starting type command (local or remote). Following this command, the machine will begin to Execute"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:129, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1360,6 +1537,7 @@ DefinedTypes:
       - [ UAObject, PackML:99, PackML:StartingToHolding ]
   - HasComponent:
     - [ UAObject, PackML:41, PackML:StartingToExecute ]
+    - DisplayName: "StartingToExecute"
     - ToState:
       - [ UAObject, PackML:36, PackML:Execute ]
     - FromState:
@@ -1368,6 +1546,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:141, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1378,8 +1557,10 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:99, PackML:StartingToHolding ]
+    - DisplayName: "StartingToHolding"
     - HasCause:
       - [ UAMethod, PackML:366, PackML:Hold ]
+      - DisplayName: "Hold"
       - HasComponent_reverse:
         - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
       - HasCause_reverse:
@@ -1404,6 +1585,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:179, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1414,6 +1596,7 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAMethod, PackML:367, PackML:Suspend ]
+    - DisplayName: "Suspend"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -1422,8 +1605,11 @@ DefinedTypes:
       - [ UAObject, PackML:42, PackML:ExecuteToSuspending ]
   - HasComponent:
     - [ UAObject, PackML:31, PackML:Suspended ]
+    - DisplayName: "Suspended"
+    - Description: "The machine may be running at a relevant set point speed, but there is no product being produced while the machine is waiting for external process conditions to return to normal."
     - HasProperty:
       - [ UAVariable, PackML:131, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1442,8 +1628,10 @@ DefinedTypes:
       - [ UAObject, PackML:101, PackML:SuspendedToHolding ]
   - HasComponent:
     - [ UAObject, PackML:101, PackML:SuspendedToHolding ]
+    - DisplayName: "SuspendedToHolding"
     - HasCause:
       - [ UAMethod, PackML:366, PackML:Hold ]
+      - DisplayName: "Hold"
       - HasComponent_reverse:
         - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
       - HasCause_reverse:
@@ -1468,6 +1656,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:215, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1478,12 +1667,14 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:52, PackML:SuspendedToUnsuspending ]
+    - DisplayName: "SuspendedToUnsuspending"
     - FromState:
       - [ UAObject, PackML:31, PackML:Suspended ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:152, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1494,6 +1685,7 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
     - HasCause:
       - [ UAMethod, PackML:372, PackML:Unsuspend ]
+      - DisplayName: "Unsuspend"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
@@ -1504,8 +1696,11 @@ DefinedTypes:
       - [ UAObject, PackML:32, PackML:Unsuspending ]
   - HasComponent:
     - [ UAObject, PackML:30, PackML:Suspending ]
+    - DisplayName: "Suspending"
+    - Description: "This state is a result of a change in monitored conditions due to process conditions or factors. The trigger event will cause a temporary suspension of the EXECUTE state. SUSPENDING is typically the result of starvation of upstream material in-feeds (i.e., container feed, beverage feed, crown feed, lubricant feed, etc.) that is outside the dynamic speed control range or a downstream out-feed blockage that prevents the machine from EXECUTING continued steady production"
     - HasProperty:
       - [ UAVariable, PackML:130, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1524,8 +1719,10 @@ DefinedTypes:
       - [ UAObject, PackML:102, PackML:SuspendingToHolding ]
   - HasComponent:
     - [ UAObject, PackML:102, PackML:SuspendingToHolding ]
+    - DisplayName: "SuspendingToHolding"
     - HasCause:
       - [ UAMethod, PackML:366, PackML:Hold ]
+      - DisplayName: "Hold"
       - HasComponent_reverse:
         - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
       - HasCause_reverse:
@@ -1550,6 +1747,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:216, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1560,6 +1758,7 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:43, PackML:SuspendingToSuspended ]
+    - DisplayName: "SuspendingToSuspended"
     - ToState:
       - [ UAObject, PackML:31, PackML:Suspended ]
     - FromState:
@@ -1568,6 +1767,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:143, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1578,6 +1778,7 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAMethod, PackML:365, PackML:ToComplete ]
+    - DisplayName: "ToComplete"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -1586,6 +1787,7 @@ DefinedTypes:
       - [ UAObject, PackML:49, PackML:ExecuteToCompleting ]
   - HasComponent:
     - [ UAMethod, PackML:368, PackML:Unhold ]
+    - DisplayName: "Unhold"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -1594,8 +1796,11 @@ DefinedTypes:
       - [ UAObject, PackML:47, PackML:HeldToUnholding ]
   - HasComponent:
     - [ UAObject, PackML:35, PackML:Unholding ]
+    - DisplayName: "Unholding"
+    - Description: "The UNHOLDING state is a response to an operator command to resume the EXECUTE state. Issuing the Unhold command will retrieve the saved set-points and return the status conditions to prepare the machine to re-enter the normal EXECUTE state"
     - HasProperty:
       - [ UAVariable, PackML:135, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1614,10 +1819,12 @@ DefinedTypes:
       - [ UAObject, PackML:103, PackML:UnholdingToHolding ]
   - HasComponent:
     - [ UAObject, PackML:48, PackML:UnholdingToExecute ]
+    - DisplayName: "UnholdingToExecute"
     - ToState:
       - [ UAObject, PackML:36, PackML:Execute ]
     - HasProperty:
       - [ UAVariable, PackML:148, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1632,8 +1839,10 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
   - HasComponent:
     - [ UAObject, PackML:103, PackML:UnholdingToHolding ]
+    - DisplayName: "UnholdingToHolding"
     - HasCause:
       - [ UAMethod, PackML:366, PackML:Hold ]
+      - DisplayName: "Hold"
       - HasComponent_reverse:
         - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
       - HasCause_reverse:
@@ -1654,6 +1863,7 @@ DefinedTypes:
       - [ UAObject, PackML:33, PackML:Holding ]
     - HasProperty:
       - [ UAVariable, PackML:217, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1668,6 +1878,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
   - HasComponent:
     - [ UAMethod, PackML:372, PackML:Unsuspend ]
+    - DisplayName: "Unsuspend"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -1676,8 +1887,11 @@ DefinedTypes:
       - [ UAObject, PackML:52, PackML:SuspendedToUnsuspending ]
   - HasComponent:
     - [ UAObject, PackML:32, PackML:Unsuspending ]
+    - DisplayName: "Unsuspending"
+    - Description: "This state is a result of a machine generated request from SUSPENDED state to go back to the EXECUTE state. The actions of this state may include ramping up speeds, turning on vacuums, and the re-engagement of clutches."
     - HasProperty:
       - [ UAVariable, PackML:132, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1696,10 +1910,12 @@ DefinedTypes:
       - [ UAObject, PackML:100, PackML:UnsuspendingToHolding ]
   - HasComponent:
     - [ UAObject, PackML:44, PackML:UnsuspendingToExecute ]
+    - DisplayName: "UnsuspendingToExecute"
     - ToState:
       - [ UAObject, PackML:36, PackML:Execute ]
     - HasProperty:
       - [ UAVariable, PackML:144, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1714,8 +1930,10 @@ DefinedTypes:
       - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
   - HasComponent:
     - [ UAObject, PackML:100, PackML:UnsuspendingToHolding ]
+    - DisplayName: "UnsuspendingToHolding"
     - HasCause:
       - [ UAMethod, PackML:366, PackML:Hold ]
+      - DisplayName: "Hold"
       - HasComponent_reverse:
         - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
       - HasCause_reverse:
@@ -1736,6 +1954,7 @@ DefinedTypes:
       - [ UAObject, PackML:33, PackML:Holding ]
     - HasProperty:
       - [ UAVariable, PackML:208, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1751,8 +1970,10 @@ DefinedTypes:
 
   PackML:PackMLMachineStateMachineType:
   - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
+  - DisplayName: "PackMLMachineStateMachineType"
   - HasComponent:
     - [ UAVariable, PackML:153, PackML:AvailableStates, NodeId, 1, 0 ]
+    - DisplayName: "AvailableStates"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
     - HasTypeDefinition:
@@ -1761,6 +1982,7 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PackML:154, PackML:AvailableTransitions, NodeId, 1, 0 ]
+    - DisplayName: "AvailableTransitions"
     - HasComponent_reverse:
       - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
     - HasTypeDefinition:
@@ -1769,10 +1991,13 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PackML:55, PackML:Clearing ]
+    - DisplayName: "Clearing"
+    - Description: "Initiated by a state command to clear faults that may have occurred when ABORTING, and are present in the ABORTED state."
     - HasComponent_reverse:
       - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:157, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1785,6 +2010,7 @@ DefinedTypes:
       - [ UAObject, PackML:58, PackML:ClearingToStopped ]
   - HasComponent:
     - [ UAObject, PackML:58, PackML:ClearingToStopped ]
+    - DisplayName: "ClearingToStopped"
     - FromState:
       - [ UAObject, PackML:55, PackML:Clearing ]
     - HasComponent_reverse:
@@ -1793,6 +2019,7 @@ DefinedTypes:
       - [ UAObject, PackML:53, PackML:Stopped ]
     - HasProperty:
       - [ UAVariable, PackML:164, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1803,8 +2030,11 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:56, PackML:ExecuteState ]
+    - DisplayName: "ExecuteState"
+    - Description: "StateMachine that provides additional sube"
     - HasComponent:
       - [ UAVariable, PackML:177, PackML:AvailableStates, NodeId, 1, 0 ]
+      - DisplayName: "AvailableStates"
       - HasComponent_reverse:
         - [ UAObject, PackML:56, PackML:ExecuteState ]
       - HasTypeDefinition:
@@ -1813,6 +2043,7 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PackML:160, PackML:AvailableTransitions, NodeId, 1, 0 ]
+      - DisplayName: "AvailableTransitions"
       - HasComponent_reverse:
         - [ UAObject, PackML:56, PackML:ExecuteState ]
       - HasTypeDefinition:
@@ -1821,12 +2052,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PackML:161, PackML:CurrentState, LocalizedText, 0, 0 ]
+      - DisplayName: "CurrentState"
       - HasComponent_reverse:
         - [ UAObject, PackML:56, PackML:ExecuteState ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasProperty:
         - [ UAVariable, PackML:162, PackML:Id, NodeId, 0, 0 ]
+        - DisplayName: "Id"
         - HasProperty_reverse:
           - [ UAVariable, PackML:161, PackML:CurrentState, LocalizedText, 0, 0 ]
         - HasModellingRule:
@@ -1847,6 +2080,7 @@ DefinedTypes:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
   - HasComponent:
     - [ UAMethod, PackML:376, PackML:Reset ]
+    - DisplayName: "Reset"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -1855,10 +2089,14 @@ DefinedTypes:
       - [ UAObject, PackML:59, PackML:StoppedToRunning ]
   - HasComponent:
     - [ UAObject, PackML:75, PackML:Running ]
+    - DisplayName: "Running"
     - HasSubStateMachine:
       - [ UAObject, PackML:56, PackML:ExecuteState ]
+      - DisplayName: "ExecuteState"
+      - Description: "StateMachine that provides additional sube"
       - HasComponent:
         - [ UAVariable, PackML:177, PackML:AvailableStates, NodeId, 1, 0 ]
+        - DisplayName: "AvailableStates"
         - HasComponent_reverse:
           - [ UAObject, PackML:56, PackML:ExecuteState ]
         - HasTypeDefinition:
@@ -1867,6 +2105,7 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PackML:160, PackML:AvailableTransitions, NodeId, 1, 0 ]
+        - DisplayName: "AvailableTransitions"
         - HasComponent_reverse:
           - [ UAObject, PackML:56, PackML:ExecuteState ]
         - HasTypeDefinition:
@@ -1875,12 +2114,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PackML:161, PackML:CurrentState, LocalizedText, 0, 0 ]
+        - DisplayName: "CurrentState"
         - HasComponent_reverse:
           - [ UAObject, PackML:56, PackML:ExecuteState ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasProperty:
           - [ UAVariable, PackML:162, PackML:Id, NodeId, 0, 0 ]
+          - DisplayName: "Id"
           - HasProperty_reverse:
             - [ UAVariable, PackML:161, PackML:CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
@@ -1905,6 +2146,7 @@ DefinedTypes:
       - [ UAObject, PackML:60, PackML:RunningToStopping ]
     - HasProperty:
       - [ UAVariable, PackML:171, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1915,12 +2157,14 @@ DefinedTypes:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, PackML:60, PackML:RunningToStopping ]
+    - DisplayName: "RunningToStopping"
     - FromState:
       - [ UAObject, PackML:75, PackML:Running ]
     - HasComponent_reverse:
       - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
     - HasCause:
       - [ UAMethod, PackML:375, PackML:Stop ]
+      - DisplayName: "Stop"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
@@ -1931,6 +2175,7 @@ DefinedTypes:
       - [ UAObject, PackML:54, PackML:Stopping ]
     - HasProperty:
       - [ UAVariable, PackML:166, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1941,6 +2186,7 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAMethod, PackML:375, PackML:Stop ]
+    - DisplayName: "Stop"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
@@ -1949,8 +2195,11 @@ DefinedTypes:
       - [ UAObject, PackML:60, PackML:RunningToStopping ]
   - HasComponent:
     - [ UAObject, PackML:53, PackML:Stopped ]
+    - DisplayName: "Stopped"
+    - Description: "The machine is powered and stationary after completing the STOPPING state. All communications with other systems are functioning (if applicable)."
     - HasProperty:
       - [ UAVariable, PackML:155, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1969,8 +2218,10 @@ DefinedTypes:
       - [ UAObject, PackML:59, PackML:StoppedToRunning ]
   - HasComponent:
     - [ UAObject, PackML:59, PackML:StoppedToRunning ]
+    - DisplayName: "StoppedToRunning"
     - HasCause:
       - [ UAMethod, PackML:376, PackML:Reset ]
+      - DisplayName: "Reset"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent_reverse:
@@ -1985,6 +2236,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:165, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1995,8 +2247,11 @@ DefinedTypes:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, PackML:54, PackML:Stopping ]
+    - DisplayName: "Stopping"
+    - Description: "This state executes the logic which brings the machine to a controlled stop as reflected by the STOPPED state."
     - HasProperty:
       - [ UAVariable, PackML:156, PackML:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2013,6 +2268,7 @@ DefinedTypes:
       - [ UAObject, PackML:60, PackML:RunningToStopping ]
   - HasComponent:
     - [ UAObject, PackML:57, PackML:StoppingToStopped ]
+    - DisplayName: "StoppingToStopped"
     - ToState:
       - [ UAObject, PackML:53, PackML:Stopped ]
     - FromState:
@@ -2021,6 +2277,7 @@ DefinedTypes:
       - [ UAObjectType, PackML:2, PackML:PackMLMachineStateMachineType ]
     - HasProperty:
       - [ UAVariable, PackML:163, PackML:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:

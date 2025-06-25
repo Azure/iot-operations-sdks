@@ -1,9 +1,11 @@
 DataTypes:
 - UADataType: [ Onboarding:1164, Onboarding:CertificateAuthorityType ]
+  DisplayName: "CertificateAuthorityType"
   Fields:
     AuthorityCertificate: [ ByteString, 0 ]
     IssuerCertificates: [ ByteString, 1 ]
 - UADataType: [ Onboarding:1165, Onboarding:BaseTicketType ]
+  DisplayName: "BaseTicketType"
   Fields:
     ManufacturerName: [ String, 0 ]
     ModelName: [ String, 0 ]
@@ -14,18 +16,22 @@ DataTypes:
     ManufactureDate: [ DateTime, 0 ]
     Authorities: [ Onboarding:CertificateAuthorityType, 1 ]
 - UADataType: [ Onboarding:1166, Onboarding:DeviceIdentityTicketType ]
+  DisplayName: "DeviceIdentityTicketType"
   Fields:
     ProductInstanceUri: [ UriString, 0 ]
 - UADataType: [ Onboarding:1167, Onboarding:CompositeIdentityTicketType ]
+  DisplayName: "CompositeIdentityTicketType"
   Fields:
     CompositeInstanceUri: [ UriString, 0 ]
     Devices: [ UriString, 1 ]
     Composites: [ UriString, 1 ]
 - UADataType: [ Onboarding:1168, Onboarding:TicketListType ]
+  DisplayName: "TicketListType"
   Fields:
     Devices: [ EncodedTicket, 1 ]
     Composites: [ EncodedTicket, 1 ]
 - UADataType: [ Onboarding:1495, Onboarding:ManagerDescription ]
+  DisplayName: "ManagerDescription"
   Fields:
     Name: [ LocalizedText, 0 ]
     IsRequired: [ Boolean, 0 ]
@@ -33,6 +39,7 @@ DataTypes:
     ProtocolUri: [ UriString, 0 ]
     EndpointUrls: [ String, 1 ]
 - UADataType: [ GDS:1, GDS:ApplicationRecordDataType ]
+  DisplayName: "ApplicationRecordDataType"
   Fields:
     ApplicationId: [ NodeId, 0 ]
     ApplicationUri: [ String, 0 ]
@@ -46,10 +53,13 @@ DefinedTypes:
 
   Onboarding:DeviceRegistrarAdminType:
   - [ UAObjectType, Onboarding:1175, Onboarding:DeviceRegistrarAdminType ]
+  - DisplayName: "DeviceRegistrarAdminType"
   - HasComponent:
     - [ UAMethod, Onboarding:1176, Onboarding:RegisterTickets ]
+    - DisplayName: "RegisterTickets"
     - HasProperty:
       - [ UAVariable, Onboarding:1177, Onboarding:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Tickets: [ EncodedTicket, 1 ]
       - HasTypeDefinition:
@@ -60,6 +70,7 @@ DefinedTypes:
         - [ UAMethod, Onboarding:1176, Onboarding:RegisterTickets ]
     - HasProperty:
       - [ UAVariable, Onboarding:1178, Onboarding:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasTypeDefinition:
@@ -74,8 +85,10 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1175, Onboarding:DeviceRegistrarAdminType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1179, Onboarding:UnregisterTickets ]
+    - DisplayName: "UnregisterTickets"
     - HasProperty:
       - [ UAVariable, Onboarding:1180, Onboarding:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Tickets: [ EncodedTicket, 1 ]
       - HasTypeDefinition:
@@ -86,6 +99,7 @@ DefinedTypes:
         - [ UAMethod, Onboarding:1179, Onboarding:UnregisterTickets ]
     - HasProperty:
       - [ UAVariable, Onboarding:1181, Onboarding:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasTypeDefinition:
@@ -100,8 +114,10 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1175, Onboarding:DeviceRegistrarAdminType ]
   - HasComponent:
     - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
+    - DisplayName: "TicketAuthorities"
     - HasProperty:
       - [ UAVariable, Onboarding:1183, Onboarding:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -110,6 +126,7 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1184, Onboarding:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -118,6 +135,7 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1185, Onboarding:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -126,6 +144,7 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1186, Onboarding:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -134,8 +153,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1190, Onboarding:Open ]
+      - DisplayName: "Open"
       - HasProperty:
         - [ UAVariable, Onboarding:1191, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasTypeDefinition:
@@ -146,6 +167,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1190, Onboarding:Open ]
       - HasProperty:
         - [ UAVariable, Onboarding:1192, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -160,8 +182,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1193, Onboarding:Close ]
+      - DisplayName: "Close"
       - HasProperty:
         - [ UAVariable, Onboarding:1194, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -176,8 +200,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1195, Onboarding:Read ]
+      - DisplayName: "Read"
       - HasProperty:
         - [ UAVariable, Onboarding:1196, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -189,6 +215,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1195, Onboarding:Read ]
       - HasProperty:
         - [ UAVariable, Onboarding:1197, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -203,8 +230,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1198, Onboarding:Write ]
+      - DisplayName: "Write"
       - HasProperty:
         - [ UAVariable, Onboarding:1199, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -220,8 +249,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1200, Onboarding:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasProperty:
         - [ UAVariable, Onboarding:1201, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -232,6 +263,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1200, Onboarding:GetPosition ]
       - HasProperty:
         - [ UAVariable, Onboarding:1202, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasTypeDefinition:
@@ -246,8 +278,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1203, Onboarding:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasProperty:
         - [ UAVariable, Onboarding:1204, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -263,6 +297,7 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1205, Onboarding:LastUpdateTime, UtcTime, 0, 0 ]
+      - DisplayName: "LastUpdateTime"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -271,8 +306,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1208, Onboarding:OpenWithMasks ]
+      - DisplayName: "OpenWithMasks"
       - HasProperty:
         - [ UAVariable, Onboarding:1209, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Masks: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -283,6 +320,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1208, Onboarding:OpenWithMasks ]
       - HasProperty:
         - [ UAVariable, Onboarding:1210, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -297,8 +335,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1211, Onboarding:CloseAndUpdate ]
+      - DisplayName: "CloseAndUpdate"
       - HasProperty:
         - [ UAVariable, Onboarding:1212, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -309,6 +349,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1211, Onboarding:CloseAndUpdate ]
       - HasProperty:
         - [ UAVariable, Onboarding:1213, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ApplyChangesRequired: [ Boolean, 0 ]
         - HasTypeDefinition:
@@ -323,8 +364,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1214, Onboarding:AddCertificate ]
+      - DisplayName: "AddCertificate"
       - HasProperty:
         - [ UAVariable, Onboarding:1215, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Certificate: [ ByteString, 0 ]
             IsTrustedCertificate: [ Boolean, 0 ]
@@ -340,8 +383,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1182, Onboarding:TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1216, Onboarding:RemoveCertificate ]
+      - DisplayName: "RemoveCertificate"
       - HasProperty:
         - [ UAVariable, Onboarding:1217, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Thumbprint: [ String, 0 ]
             IsTrustedCertificate: [ Boolean, 0 ]
@@ -363,8 +408,10 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1175, Onboarding:DeviceRegistrarAdminType ]
   - HasComponent:
     - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
+    - DisplayName: "DeviceIdentityAuthorities"
     - HasProperty:
       - [ UAVariable, Onboarding:1219, Onboarding:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -373,6 +420,7 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1220, Onboarding:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -381,6 +429,7 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1221, Onboarding:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -389,6 +438,7 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1222, Onboarding:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -397,8 +447,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1226, Onboarding:Open ]
+      - DisplayName: "Open"
       - HasProperty:
         - [ UAVariable, Onboarding:1227, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasTypeDefinition:
@@ -409,6 +461,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1226, Onboarding:Open ]
       - HasProperty:
         - [ UAVariable, Onboarding:1228, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -423,8 +476,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1229, Onboarding:Close ]
+      - DisplayName: "Close"
       - HasProperty:
         - [ UAVariable, Onboarding:1230, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -439,8 +494,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1231, Onboarding:Read ]
+      - DisplayName: "Read"
       - HasProperty:
         - [ UAVariable, Onboarding:1232, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -452,6 +509,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1231, Onboarding:Read ]
       - HasProperty:
         - [ UAVariable, Onboarding:1233, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -466,8 +524,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1234, Onboarding:Write ]
+      - DisplayName: "Write"
       - HasProperty:
         - [ UAVariable, Onboarding:1235, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -483,8 +543,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1236, Onboarding:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasProperty:
         - [ UAVariable, Onboarding:1237, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -495,6 +557,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1236, Onboarding:GetPosition ]
       - HasProperty:
         - [ UAVariable, Onboarding:1238, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasTypeDefinition:
@@ -509,8 +572,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1239, Onboarding:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasProperty:
         - [ UAVariable, Onboarding:1240, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -526,6 +591,7 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1241, Onboarding:LastUpdateTime, UtcTime, 0, 0 ]
+      - DisplayName: "LastUpdateTime"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -534,8 +600,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1244, Onboarding:OpenWithMasks ]
+      - DisplayName: "OpenWithMasks"
       - HasProperty:
         - [ UAVariable, Onboarding:1245, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Masks: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -546,6 +614,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1244, Onboarding:OpenWithMasks ]
       - HasProperty:
         - [ UAVariable, Onboarding:1246, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -560,8 +629,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1247, Onboarding:CloseAndUpdate ]
+      - DisplayName: "CloseAndUpdate"
       - HasProperty:
         - [ UAVariable, Onboarding:1248, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -572,6 +643,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1247, Onboarding:CloseAndUpdate ]
       - HasProperty:
         - [ UAVariable, Onboarding:1249, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ApplyChangesRequired: [ Boolean, 0 ]
         - HasTypeDefinition:
@@ -586,8 +658,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1250, Onboarding:AddCertificate ]
+      - DisplayName: "AddCertificate"
       - HasProperty:
         - [ UAVariable, Onboarding:1251, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Certificate: [ ByteString, 0 ]
             IsTrustedCertificate: [ Boolean, 0 ]
@@ -603,8 +677,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1218, Onboarding:DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1252, Onboarding:RemoveCertificate ]
+      - DisplayName: "RemoveCertificate"
       - HasProperty:
         - [ UAVariable, Onboarding:1253, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Thumbprint: [ String, 0 ]
             IsTrustedCertificate: [ Boolean, 0 ]
@@ -629,10 +705,13 @@ DefinedTypes:
 
   Onboarding:DeviceRegistrarType:
   - [ UAObjectType, Onboarding:1259, Onboarding:DeviceRegistrarType ]
+  - DisplayName: "DeviceRegistrarType"
   - HasComponent:
     - [ UAMethod, Onboarding:1260, Onboarding:ProvideIdentities ]
+    - DisplayName: "ProvideIdentities"
     - HasProperty:
       - [ UAVariable, Onboarding:1261, Onboarding:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Identities: [ ByteString, 1 ]
           Issuers: [ ByteString, 1 ]
@@ -645,6 +724,7 @@ DefinedTypes:
         - [ UAMethod, Onboarding:1260, Onboarding:ProvideIdentities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1262, Onboarding:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           SelectedIdentity: [ ByteString, 0 ]
           MatchingTicket: [ Onboarding:BaseTicketType, 0 ]
@@ -662,8 +742,10 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1259, Onboarding:DeviceRegistrarType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1503, Onboarding:UpdateSoftwareStatus ]
+    - DisplayName: "UpdateSoftwareStatus"
     - HasProperty:
       - [ UAVariable, Onboarding:1504, Onboarding:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           Status: [ Boolean, 0 ]
@@ -680,8 +762,10 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1259, Onboarding:DeviceRegistrarType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1263, Onboarding:RegisterDeviceEndpoint ]
+    - DisplayName: "RegisterDeviceEndpoint"
     - HasProperty:
       - [ UAVariable, Onboarding:1264, Onboarding:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Application: [ ApplicationDescription, 0 ]
       - HasTypeDefinition:
@@ -696,8 +780,10 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1259, Onboarding:DeviceRegistrarType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1505, Onboarding:GetManagers ]
+    - DisplayName: "GetManagers"
     - HasProperty:
       - [ UAVariable, Onboarding:1506, Onboarding:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           Managers: [ Onboarding:ManagerDescription, 1 ]
       - HasTypeDefinition:
@@ -712,8 +798,10 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1259, Onboarding:DeviceRegistrarType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1507, Onboarding:RegisterManagedApplication ]
+    - DisplayName: "RegisterManagedApplication"
     - HasProperty:
       - [ UAVariable, Onboarding:1508, Onboarding:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Application: [ GDS:ApplicationRecordDataType, 0 ]
           ProtocolUri: [ UriString, 0 ]
@@ -725,6 +813,7 @@ DefinedTypes:
         - [ UAMethod, Onboarding:1507, Onboarding:RegisterManagedApplication ]
     - HasProperty:
       - [ UAVariable, Onboarding:1509, Onboarding:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
       - HasTypeDefinition:
@@ -739,10 +828,13 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1259, Onboarding:DeviceRegistrarType ]
   - HasComponent:
     - [ UAObject, Onboarding:1265, Onboarding:Administration ]
+    - DisplayName: "Administration"
     - HasComponent:
       - [ UAMethod, Onboarding:1266, Onboarding:RegisterTickets ]
+      - DisplayName: "RegisterTickets"
       - HasProperty:
         - [ UAVariable, Onboarding:1267, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Tickets: [ EncodedTicket, 1 ]
         - HasTypeDefinition:
@@ -753,6 +845,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1266, Onboarding:RegisterTickets ]
       - HasProperty:
         - [ UAVariable, Onboarding:1268, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Results: [ StatusCode, 1 ]
         - HasTypeDefinition:
@@ -767,8 +860,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1265, Onboarding:Administration ]
     - HasComponent:
       - [ UAMethod, Onboarding:1269, Onboarding:UnregisterTickets ]
+      - DisplayName: "UnregisterTickets"
       - HasProperty:
         - [ UAVariable, Onboarding:1270, Onboarding:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Tickets: [ EncodedTicket, 1 ]
         - HasTypeDefinition:
@@ -779,6 +874,7 @@ DefinedTypes:
           - [ UAMethod, Onboarding:1269, Onboarding:UnregisterTickets ]
       - HasProperty:
         - [ UAVariable, Onboarding:1271, Onboarding:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Results: [ StatusCode, 1 ]
         - HasTypeDefinition:
@@ -793,8 +889,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1265, Onboarding:Administration ]
     - HasComponent:
       - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
+      - DisplayName: "TicketAuthorities"
       - HasProperty:
         - [ UAVariable, Onboarding:1273, Onboarding:Size, UInt64, 0, 0 ]
+        - DisplayName: "Size"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -803,6 +901,7 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1274, Onboarding:Writable, Boolean, 0, 0 ]
+        - DisplayName: "Writable"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -811,6 +910,7 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1275, Onboarding:UserWritable, Boolean, 0, 0 ]
+        - DisplayName: "UserWritable"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -819,6 +919,7 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1276, Onboarding:OpenCount, UInt16, 0, 0 ]
+        - DisplayName: "OpenCount"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -827,8 +928,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1280, Onboarding:Open ]
+        - DisplayName: "Open"
         - HasProperty:
           - [ UAVariable, Onboarding:1281, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Mode: [ Byte, 0 ]
           - HasTypeDefinition:
@@ -839,6 +942,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1280, Onboarding:Open ]
         - HasProperty:
           - [ UAVariable, Onboarding:1282, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -853,8 +957,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1283, Onboarding:Close ]
+        - DisplayName: "Close"
         - HasProperty:
           - [ UAVariable, Onboarding:1284, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -869,8 +975,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1285, Onboarding:Read ]
+        - DisplayName: "Read"
         - HasProperty:
           - [ UAVariable, Onboarding:1286, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Length: [ Int32, 0 ]
@@ -882,6 +990,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1285, Onboarding:Read ]
         - HasProperty:
           - [ UAVariable, Onboarding:1287, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               Data: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -896,8 +1005,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1288, Onboarding:Write ]
+        - DisplayName: "Write"
         - HasProperty:
           - [ UAVariable, Onboarding:1289, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Data: [ ByteString, 0 ]
@@ -913,8 +1024,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1290, Onboarding:GetPosition ]
+        - DisplayName: "GetPosition"
         - HasProperty:
           - [ UAVariable, Onboarding:1291, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -925,6 +1038,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1290, Onboarding:GetPosition ]
         - HasProperty:
           - [ UAVariable, Onboarding:1292, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               Position: [ UInt64, 0 ]
           - HasTypeDefinition:
@@ -939,8 +1053,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1293, Onboarding:SetPosition ]
+        - DisplayName: "SetPosition"
         - HasProperty:
           - [ UAVariable, Onboarding:1294, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Position: [ UInt64, 0 ]
@@ -956,6 +1072,7 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1295, Onboarding:LastUpdateTime, UtcTime, 0, 0 ]
+        - DisplayName: "LastUpdateTime"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -964,8 +1081,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1298, Onboarding:OpenWithMasks ]
+        - DisplayName: "OpenWithMasks"
         - HasProperty:
           - [ UAVariable, Onboarding:1299, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Masks: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -976,6 +1095,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1298, Onboarding:OpenWithMasks ]
         - HasProperty:
           - [ UAVariable, Onboarding:1300, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -990,8 +1110,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1301, Onboarding:CloseAndUpdate ]
+        - DisplayName: "CloseAndUpdate"
         - HasProperty:
           - [ UAVariable, Onboarding:1302, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -1002,6 +1124,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1301, Onboarding:CloseAndUpdate ]
         - HasProperty:
           - [ UAVariable, Onboarding:1303, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ApplyChangesRequired: [ Boolean, 0 ]
           - HasTypeDefinition:
@@ -1016,8 +1139,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1304, Onboarding:AddCertificate ]
+        - DisplayName: "AddCertificate"
         - HasProperty:
           - [ UAVariable, Onboarding:1305, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Certificate: [ ByteString, 0 ]
               IsTrustedCertificate: [ Boolean, 0 ]
@@ -1033,8 +1158,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1272, Onboarding:TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1306, Onboarding:RemoveCertificate ]
+        - DisplayName: "RemoveCertificate"
         - HasProperty:
           - [ UAVariable, Onboarding:1307, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Thumbprint: [ String, 0 ]
               IsTrustedCertificate: [ Boolean, 0 ]
@@ -1056,8 +1183,10 @@ DefinedTypes:
         - [ UAObject, Onboarding:1265, Onboarding:Administration ]
     - HasComponent:
       - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
+      - DisplayName: "DeviceIdentityAuthorities"
       - HasProperty:
         - [ UAVariable, Onboarding:1309, Onboarding:Size, UInt64, 0, 0 ]
+        - DisplayName: "Size"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1066,6 +1195,7 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1310, Onboarding:Writable, Boolean, 0, 0 ]
+        - DisplayName: "Writable"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1074,6 +1204,7 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1311, Onboarding:UserWritable, Boolean, 0, 0 ]
+        - DisplayName: "UserWritable"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1082,6 +1213,7 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1312, Onboarding:OpenCount, UInt16, 0, 0 ]
+        - DisplayName: "OpenCount"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1090,8 +1222,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1316, Onboarding:Open ]
+        - DisplayName: "Open"
         - HasProperty:
           - [ UAVariable, Onboarding:1317, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Mode: [ Byte, 0 ]
           - HasTypeDefinition:
@@ -1102,6 +1236,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1316, Onboarding:Open ]
         - HasProperty:
           - [ UAVariable, Onboarding:1318, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -1116,8 +1251,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1319, Onboarding:Close ]
+        - DisplayName: "Close"
         - HasProperty:
           - [ UAVariable, Onboarding:1320, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -1132,8 +1269,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1321, Onboarding:Read ]
+        - DisplayName: "Read"
         - HasProperty:
           - [ UAVariable, Onboarding:1322, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Length: [ Int32, 0 ]
@@ -1145,6 +1284,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1321, Onboarding:Read ]
         - HasProperty:
           - [ UAVariable, Onboarding:1323, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               Data: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -1159,8 +1299,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1324, Onboarding:Write ]
+        - DisplayName: "Write"
         - HasProperty:
           - [ UAVariable, Onboarding:1325, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Data: [ ByteString, 0 ]
@@ -1176,8 +1318,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1326, Onboarding:GetPosition ]
+        - DisplayName: "GetPosition"
         - HasProperty:
           - [ UAVariable, Onboarding:1327, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -1188,6 +1332,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1326, Onboarding:GetPosition ]
         - HasProperty:
           - [ UAVariable, Onboarding:1328, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               Position: [ UInt64, 0 ]
           - HasTypeDefinition:
@@ -1202,8 +1347,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1329, Onboarding:SetPosition ]
+        - DisplayName: "SetPosition"
         - HasProperty:
           - [ UAVariable, Onboarding:1330, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
               Position: [ UInt64, 0 ]
@@ -1219,6 +1366,7 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1331, Onboarding:LastUpdateTime, UtcTime, 0, 0 ]
+        - DisplayName: "LastUpdateTime"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1227,8 +1375,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1334, Onboarding:OpenWithMasks ]
+        - DisplayName: "OpenWithMasks"
         - HasProperty:
           - [ UAVariable, Onboarding:1335, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Masks: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -1239,6 +1389,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1334, Onboarding:OpenWithMasks ]
         - HasProperty:
           - [ UAVariable, Onboarding:1336, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -1253,8 +1404,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1337, Onboarding:CloseAndUpdate ]
+        - DisplayName: "CloseAndUpdate"
         - HasProperty:
           - [ UAVariable, Onboarding:1338, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               FileHandle: [ UInt32, 0 ]
           - HasTypeDefinition:
@@ -1265,6 +1418,7 @@ DefinedTypes:
             - [ UAMethod, Onboarding:1337, Onboarding:CloseAndUpdate ]
         - HasProperty:
           - [ UAVariable, Onboarding:1339, Onboarding:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ApplyChangesRequired: [ Boolean, 0 ]
           - HasTypeDefinition:
@@ -1279,8 +1433,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1340, Onboarding:AddCertificate ]
+        - DisplayName: "AddCertificate"
         - HasProperty:
           - [ UAVariable, Onboarding:1341, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Certificate: [ ByteString, 0 ]
               IsTrustedCertificate: [ Boolean, 0 ]
@@ -1296,8 +1452,10 @@ DefinedTypes:
           - [ UAObject, Onboarding:1308, Onboarding:DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1342, Onboarding:RemoveCertificate ]
+        - DisplayName: "RemoveCertificate"
         - HasProperty:
           - [ UAVariable, Onboarding:1343, Onboarding:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               Thumbprint: [ String, 0 ]
               IsTrustedCertificate: [ Boolean, 0 ]
@@ -1328,8 +1486,10 @@ DefinedTypes:
 
   Onboarding:DeviceRegistrationAuditEventType:
   - [ UAObjectType, Onboarding:1517, Onboarding:DeviceRegistrationAuditEventType ]
+  - DisplayName: "DeviceRegistrationAuditEventType"
   - HasProperty:
     - [ UAVariable, Onboarding:1532, Onboarding:ProductInstanceUri, UriString, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1341,8 +1501,10 @@ DefinedTypes:
 
   Onboarding:DeviceIdentityAcceptedAuditEventType:
   - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType ]
+  - DisplayName: "DeviceIdentityAcceptedAuditEventType"
   - HasProperty:
     - [ UAVariable, Onboarding:1549, Onboarding:Certificate, ByteString, 0, 0 ]
+    - DisplayName: "Certificate"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1351,6 +1513,7 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType ]
   - HasProperty:
     - [ UAVariable, Onboarding:1550, Onboarding:Ticket, EncodedTicket, 0, 0 ]
+    - DisplayName: "Ticket"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1359,6 +1522,7 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1533, Onboarding:DeviceIdentityAcceptedAuditEventType ]
   - HasProperty:
     - [ UAVariable, Onboarding:1551, Onboarding:Composite, EncodedTicket, 0, 0 ]
+    - DisplayName: "Composite"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1370,8 +1534,10 @@ DefinedTypes:
 
   Onboarding:DeviceSoftwareUpdatedAuditEventType:
   - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType ]
+  - DisplayName: "DeviceSoftwareUpdatedAuditEventType"
   - HasProperty:
     - [ UAVariable, Onboarding:1563, Onboarding:Status, Boolean, 0, 0 ]
+    - DisplayName: "Status"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1380,6 +1546,7 @@ DefinedTypes:
       - [ UAObjectType, Onboarding:1552, Onboarding:DeviceSoftwareUpdatedAuditEventType ]
   - HasProperty:
     - [ UAVariable, Onboarding:1568, Onboarding:SoftwareRevision, String, 0, 0 ]
+    - DisplayName: "SoftwareRevision"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:

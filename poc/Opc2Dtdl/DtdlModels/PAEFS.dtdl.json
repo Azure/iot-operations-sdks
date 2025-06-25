@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:AirConnectionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AirConnectionType",
+    "description": "The air connection is an abstract component representing the state of a connection from the ducting system to a filter unit. The connection can be open or closed. The open state represents a state of the ducting system where air can pass through to the filter unit.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1007",
     "commandTopic": "opcua/PAEFS/AirConnectionType/{commandName}",
@@ -20,6 +22,8 @@
       {
         "@id": "dtmi:opcua:PAEFS:AirConnectionType:dataType:AirConnectionOpenEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "AirConnectionOpenEnum",
+        "description": "Describes whether the air connection is open, i.e., it is in a state in which air can be passed through",
         "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3005",
         "valueSchema": "integer",
         "enumValues": [
@@ -46,6 +50,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConnectionOpen",
+        "displayName": "ConnectionOpen",
+        "description": "Indicates the connections status (open, closed, or a state in between)",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "dtmi:opcua:PAEFS:AirConnectionType:dataType:AirConnectionOpenEnum;1",
         "writable": false
@@ -53,6 +59,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates that the AirConnection is malfunctioning, i.e., an error occurs in a component that provides functionality for this abstract component; e.g., an error in the ducting system or a valve. True in case of error.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -60,17 +68,23 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Close",
+        "displayName": "Close",
+        "description": "The Method Close closes or switches some of the valves in the ducting system so that no air may pass through the ducting system to the device",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Open",
+        "displayName": "Open",
+        "description": "The Method Open opens or switches all valves of the ducting system so that the air can pass through to the filter device",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Airflow",
+        "displayName": "Airflow",
+        "description": "Value of the air flow sensor",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -78,6 +92,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "GasQuality",
+        "displayName": "GasQuality",
+        "description": "Value of the gas quality sensor",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -85,6 +101,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Humidity",
+        "displayName": "Humidity",
+        "description": "Value of the humidity sensor",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -92,6 +110,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Pressure",
+        "displayName": "Pressure",
+        "description": "Value of the pressure sensor",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -99,6 +119,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Temperature",
+        "displayName": "Temperature",
+        "description": "Value of the temperature sensor",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       }
@@ -116,6 +138,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:CompressedAirSupplyInterruptedAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "CompressedAirSupplyInterruptedAlarmType",
+    "description": "Triggered when the compressed air supply is interrupted",
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1032",
     "payloadFormat": "Json/ecma/404",
@@ -136,6 +160,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:EndOfFilterRollAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "EndOfFilterRollAlarmType",
+    "description": "Triggered when the automatic roll filter reaches the end of the filter roll",
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1026",
     "payloadFormat": "Json/ecma/404",
@@ -156,6 +182,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:MalfunctionAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "MalfunctionAlarmType",
+    "description": "Sent when the component has an error that may prevent it from operating",
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1025",
     "payloadFormat": "Json/ecma/404",
@@ -176,6 +204,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:SafetySystemTriggeredAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "SafetySystemTriggeredAlarmType",
+    "description": "Is sent when the safety system is triggered",
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1041",
     "payloadFormat": "Json/ecma/404",
@@ -196,6 +226,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:WashingAgentDrainMalfunctionAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "WashingAgentDrainMalfunctionAlarmType",
+    "description": "The WashingAgentDrainMalfunctionAlarmType is triggered when an error occurs on the washing agent drain",
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1030",
     "payloadFormat": "Json/ecma/404",
@@ -216,6 +248,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:WashingAgentInflowMalfunctionAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "WashingAgentInflowMalfunctionAlarmType",
+    "description": "The WashingAgentInflowMalfunctionAlarmType event is triggered when an error occurs on the washing agent inflow",
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1029",
     "payloadFormat": "Json/ecma/404",
@@ -236,6 +270,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:CleaningRecommendedConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "CleaningRecommendedConditionType",
+    "description": "Triggered by the cleaning unit when cleaning of the separator is necessary",
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1037",
     "commandTopic": "opcua/PAEFS/CleaningRecommendedConditionType/{commandName}",
@@ -247,6 +283,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Recommended",
+        "displayName": "Recommended",
+        "description": "Reflects the value of the property CleaningRequested of the CleaningUnitType",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -265,6 +303,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:MaintenanceRequestedConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "MaintenanceRequestedConditionType",
+    "description": "Is sent when the manufacturer wants to inform the operator that the system requires maintenance",
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1023",
     "commandTopic": "opcua/PAEFS/MaintenanceRequestedConditionType/{commandName}",
@@ -276,6 +316,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Requested",
+        "displayName": "Requested",
+        "description": "Reflects the value of the MaintenanceRequested property of the object from which the event originates at the time the event was sent",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -294,6 +336,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AirConnectionStatusChangedConditionType",
+    "description": "Triggered when the ConnectionOpen variable of the AirConnectionType changes",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1040",
     "commandTopic": "opcua/PAEFS/AirConnectionStatusChangedConditionType/{commandName}",
@@ -303,6 +347,8 @@
       {
         "@id": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType:dataType:AirConnectionOpenEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "AirConnectionOpenEnum",
+        "description": "Describes whether the air connection is open, i.e., it is in a state in which air can be passed through",
         "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3005",
         "valueSchema": "integer",
         "enumValues": [
@@ -329,6 +375,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Status",
+        "displayName": "Status",
+        "description": "Reflects the value of the ConnectionOpen property at the time the event is triggered",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "dtmi:opcua:PAEFS:AirConnectionStatusChangedConditionType:dataType:AirConnectionOpenEnum;1",
         "writable": false
@@ -347,6 +395,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:CleaningUnitActiveConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "CleaningUnitActiveConditionType",
+    "description": "Triggered when a cleaning cycle is started or stopped",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1036",
     "commandTopic": "opcua/PAEFS/CleaningUnitActiveConditionType/{commandName}",
@@ -358,6 +408,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Active",
+        "displayName": "Active",
+        "description": "Reflects the value of the CleaningActive property of the CleaningUnitType at the time the condition was triggered",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -376,6 +428,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:ContainerOpenConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ContainerOpenConditionType",
+    "description": "Triggered when the filter aid reservoir is opened or closed",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1024",
     "commandTopic": "opcua/PAEFS/ContainerOpenConditionType/{commandName}",
@@ -387,6 +441,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Open",
+        "displayName": "Open",
+        "description": "Reflects the value of the ContainerOpen property of the FilterAidDeviceType at the time the condition was triggered",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -405,6 +461,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:DischargeContainerInstalledConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "DischargeContainerInstalledConditionType",
+    "description": "The DischargeSystemType sends this event when the container is installed or removed",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1038",
     "commandTopic": "opcua/PAEFS/DischargeContainerInstalledConditionType/{commandName}",
@@ -416,6 +474,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Installed",
+        "displayName": "Installed",
+        "description": "Reflects the value of the DischargeContainerInstalled property of the DischargeSystemType at the time the event was sent",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -434,6 +494,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:FilterAidDeviceStatusChangedConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "FilterAidDeviceStatusChangedConditionType",
+    "description": "Triggered when the FilterAidDeviceStatus of the FilterAidDeviceType changes",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1033",
     "commandTopic": "opcua/PAEFS/FilterAidDeviceStatusChangedConditionType/{commandName}",
@@ -443,6 +505,8 @@
       {
         "@id": "dtmi:opcua:PAEFS:FilterAidDeviceStatusChangedConditionType:dataType:FilterAidDeviceStatusEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "FilterAidDeviceStatusEnum",
+        "description": "Describes the action performed by the device for filter aid",
         "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3006",
         "valueSchema": "integer",
         "enumValues": [
@@ -469,6 +533,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Status",
+        "displayName": "Status",
+        "description": "Reflects the value of the FilterAidDeviceStatus property at the time the condition was triggered",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "dtmi:opcua:PAEFS:FilterAidDeviceStatusChangedConditionType:dataType:FilterAidDeviceStatusEnum;1",
         "writable": false
@@ -487,6 +553,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:MaintenanceSwitchConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "MaintenanceSwitchConditionType",
+    "description": "Is sent when the physical maintenance switch is toggled",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1039",
     "commandTopic": "opcua/PAEFS/MaintenanceSwitchConditionType/{commandName}",
@@ -498,6 +566,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SwitchOn",
+        "displayName": "SwitchOn",
+        "description": "Reflects the value of the MaintenanceRequested property of the object from which the event originates at the time the event was sent",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -516,6 +586,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:WashingAgentDrainOpenConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "WashingAgentDrainOpenConditionType",
+    "description": "The WashingAgentDrainOpenConditionType is triggered when the washing agent drain valve is opened or closed",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1028",
     "commandTopic": "opcua/PAEFS/WashingAgentDrainOpenConditionType/{commandName}",
@@ -527,6 +599,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Open",
+        "displayName": "Open",
+        "description": "Reflects the value of the WashingAgentDrainOpen property of the WetSeparatorType at the time the event was sent",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -545,6 +619,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:WashingAgentInflowOpenConditionType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "WashingAgentInflowOpenConditionType",
+    "description": "Triggered when the washing agent inflow valve is opened or closed",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1027",
     "commandTopic": "opcua/PAEFS/WashingAgentInflowOpenConditionType/{commandName}",
@@ -556,6 +632,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Open",
+        "displayName": "Open",
+        "description": "Reflects the value of the WashingAgentInflowOpen property of the WetSeparatorType at the time the event was sent",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -574,6 +652,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:HighVoltageUnitSupplyActiveEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "HighVoltageUnitSupplyActiveEventType",
+    "description": "Triggered when the high voltage unit supply is activated or deactivated",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1031",
     "commandTopic": "opcua/PAEFS/HighVoltageUnitSupplyActiveEventType/{commandName}",
@@ -585,6 +665,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Active",
+        "displayName": "Active",
+        "description": "Reflects the value of the SupplyActive property of the HighVoltageUnitType at the time the event was triggered",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -603,6 +685,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:CleaningUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CleaningUnitType",
+    "description": "The CleaningUnitType represents a device for the reduction of filtered materials in separators",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1005",
     "commandTopic": "opcua/PAEFS/CleaningUnitType/{commandName}",
@@ -614,6 +698,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AutomaticCleaningEnabled",
+        "displayName": "AutomaticCleaningEnabled",
+        "description": "If enabled, the cleaning unit may automatically perform the cleaning according to predefined rules when cleaning is necessary. Otherwise, automatic cleaning is blocked.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": true
@@ -621,6 +707,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CleaningActive",
+        "displayName": "CleaningActive",
+        "description": "Describes that the unit is currently in a cleaning cycle.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -628,6 +716,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CleaningRecommended",
+        "displayName": "CleaningRecommended",
+        "description": "Indicates that cleaning of the separator is recommended.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -635,6 +725,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates that the cleaning unit is malfunctioning. True in case of error. Malfunctions can be, for example, that the filter cleaning effect is not sufficient.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -642,6 +734,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TotalCleaningCycles",
+        "displayName": "TotalCleaningCycles",
+        "description": "Count of the number of cleaning cycles carried out by the cleaning system.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "unsignedInteger",
         "writable": false
@@ -649,11 +743,15 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RequestCleaning",
+        "displayName": "RequestCleaning",
+        "description": "The Method RequestCleaning requests cleaning of the unit. The cleaning unit will perform the cleaning as soon as possible.",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Valve",
+        "displayName": "<Valve>",
+        "description": "The valves that are part of the cleaning unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:CleaningUnitValveType"
       },
@@ -661,6 +759,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirConsumption",
+        "displayName": "AirConsumption",
+        "description": "Describes the current consumption of compressed air.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -668,6 +768,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CleaningInterval",
+        "displayName": "CleaningInterval",
+        "description": "Time between cleaning cycles.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       },
@@ -675,6 +777,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FilterCleaningEffect",
+        "displayName": "FilterCleaningEffect",
+        "description": "The filter cleaning effect describes the change in state of the separator after the last cleaning cycle has been run through. This can be, for example, a change in the pressure difference before and after the cleaning cycle.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       },
@@ -682,6 +786,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -689,6 +794,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ReservoirPressure",
+        "displayName": "ReservoirPressure",
+        "description": "Describes the pressure of the compressed gas reservoir of the system.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       }
@@ -706,6 +813,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:CleaningUnitValveType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CleaningUnitValveType",
+    "description": "Part of the pressure tank of the cleaning unit for triggering a pressure surge into the separator.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1016",
     "commandTopic": "opcua/PAEFS/CleaningUnitValveType/{commandName}",
@@ -717,6 +826,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates that the cleaning unit valve is malfunctioning. True in case of error. Malfunctions can be, for example, that the valve does not open or close.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -724,6 +835,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Open",
+        "displayName": "Open",
+        "description": "Indicates that the valve is open.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -742,6 +855,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:CollectorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CollectorType",
+    "description": "Unit for separating particles from a process air stream.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1020",
     "payloadFormat": "Json/ecma/404",
@@ -752,6 +867,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CollectorOutput",
+        "displayName": "CollectorOutput",
+        "description": "Describes the current flow or the voltage to the collector.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       }
@@ -769,6 +886,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:ConsumptionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConsumptionType",
+    "description": "The ConsumtionType contains information related to the consumption of a device.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1011",
     "telemetryTopic": "opcua/PAEFS/ConsumptionType/{telemetryName}/{senderId}",
@@ -779,6 +898,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LifetimeConsumption",
+        "displayName": "LifetimeConsumption",
+        "description": "Consumption over total machine lifetime. The AnalogUnitType variables InstrumentRange and EURange must not be used.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "double"
       },
@@ -786,6 +907,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CurrentConsumption",
+        "displayName": "CurrentConsumption",
+        "description": "The current consumption of the device.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       }
@@ -803,6 +926,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:DischargeSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "DischargeSystemType",
+    "description": "Device used to remove collected filter material from the filter unit. The container can be discharged when a certain filling level is reached.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1006",
     "commandTopic": "opcua/PAEFS/DischargeSystemType/{commandName}",
@@ -814,6 +939,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DischargeContainerInstalled",
+        "displayName": "DischargeContainerInstalled",
+        "description": "Indicates that the discharge container is in place.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -821,6 +948,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DischargeSystemEnabled",
+        "displayName": "DischargeSystemEnabled",
+        "description": "If enabled, discharge can be performed. If disabled, discharge cannot take place; for example, because a rotary valve is stopped or a discharge flap is closed.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": true
@@ -828,6 +957,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaintenanceSwitchOn",
+        "displayName": "MaintenanceSwitchOn",
+        "description": "Status of a physical maintenance switch on the discharge system. True when the switch is on.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -835,6 +966,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates whether there is an error with the discharge system. True in case of error. Examples: discharge motor defective, discharge container full, discharge system blocked.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -843,6 +976,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirConsumption",
+        "displayName": "AirConsumption",
+        "description": "Contains information regarding the consumption of compressed air.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -850,6 +985,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FillingLevel",
+        "displayName": "FillingLevel",
+        "description": "Filling level of the device.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -857,6 +994,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -874,6 +1012,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:FanType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FanType",
+    "description": "A device for generating negative air pressure.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1009",
     "commandTopic": "opcua/PAEFS/FanType/{commandName}",
@@ -885,6 +1025,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaintenanceSwitchOn",
+        "displayName": "MaintenanceSwitchOn",
+        "description": "Status of a physical maintenance switch on the fan. True when the switch is on.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -892,6 +1034,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates whether there is an error with the fan. True in case of error.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -900,6 +1044,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -907,6 +1052,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PowerConsumption",
+        "displayName": "PowerConsumption",
+        "description": "Contains information regarding the energy consumption of the fan.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -914,6 +1061,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RotationalSpeed",
+        "displayName": "RotationalSpeed",
+        "description": "Measured rotational speed of the fan.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       }
@@ -931,6 +1080,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:FilterAidDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FilterAidDeviceType",
+    "description": "Device for the application of a filter aid.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1004",
     "commandTopic": "opcua/PAEFS/FilterAidDeviceType/{commandName}",
@@ -940,6 +1091,8 @@
       {
         "@id": "dtmi:opcua:PAEFS:FilterAidDeviceType:dataType:FilterAidDeviceStatusEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "FilterAidDeviceStatusEnum",
+        "description": "Describes the action performed by the device for filter aid",
         "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3006",
         "valueSchema": "integer",
         "enumValues": [
@@ -966,6 +1119,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AutomaticDosingEnabled",
+        "displayName": "AutomaticDosingEnabled",
+        "description": "If enabled, the filter aid device is allowed to perform dosing automatically.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": true
@@ -973,6 +1128,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CompressedAirSupplyInterrupted",
+        "displayName": "CompressedAirSupplyInterrupted",
+        "description": "Indicates that the air supply is interrupted.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -980,6 +1137,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ContainerOpen",
+        "displayName": "ContainerOpen",
+        "description": "Indicates that the filter aid reservoir is not closed.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -987,6 +1146,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DosingRequested",
+        "displayName": "DosingRequested",
+        "description": "Indicates that the filter system requests dosing.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -994,6 +1155,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "FilterAidDeviceStatus",
+        "displayName": "FilterAidDeviceStatus",
+        "description": "Describes the action performed by the dosage unit (see FilterAidDeviceStatusEnum).",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "dtmi:opcua:PAEFS:FilterAidDeviceType:dataType:FilterAidDeviceStatusEnum;1",
         "writable": false
@@ -1001,6 +1164,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates that the filter aid device is malfunctioning. True in case of error. Malfunctions can be, for example, that there is no more filter aid or that there is a malfunction in the subsystems of the filter aid device.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1008,17 +1173,23 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetFillingLevel",
+        "displayName": "ResetFillingLevel",
+        "description": "The Method ResetFillingLevel resets the filling level of the filter aid reservoir.",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "TriggerDosing",
+        "displayName": "TriggerDosing",
+        "description": "The Method TriggerDosing triggers a single additional dosage.",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirConsumption",
+        "displayName": "AirConsumption",
+        "description": "Describes the compressed air consumption.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -1026,6 +1197,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DosageAmount",
+        "displayName": "DosageAmount",
+        "description": "The amount of filter aid that is added per cycle.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       },
@@ -1033,6 +1206,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FillingLevel",
+        "displayName": "FillingLevel",
+        "description": "The filling level describes the amount of filter aid in the pre-storage reservoir.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -1040,6 +1215,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1047,6 +1223,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PowerConsumption",
+        "displayName": "PowerConsumption",
+        "description": "Describes the current power consumption of the filter aid device.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       }
@@ -1064,6 +1242,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:FilterSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FilterSystemType",
+    "description": "Serves the purpose of extracting and filtering process gas; e.g., air. It consists of several filter units and other devices and components.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1002",
     "commandTopic": "opcua/PAEFS/FilterSystemType/{commandName}",
@@ -1073,6 +1253,8 @@
       {
         "@id": "dtmi:opcua:PAEFS:FilterSystemType:dataType:ControlModeEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "ControlModeEnum",
+        "description": "Describes the possibility of controlling the system externally",
         "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -1095,6 +1277,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ControlMode",
+        "displayName": "ControlMode",
+        "description": "Operating mode that describes whether the system can be controlled externally. Possible values are manual, auto and other.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "dtmi:opcua:PAEFS:FilterSystemType:dataType:ControlModeEnum;1",
         "writable": false
@@ -1102,6 +1286,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaintenanceRequested",
+        "displayName": "MaintenanceRequested",
+        "description": "The maintenance request allows the manufacturer to inform the operator that the system requires maintenance. True = maintenance requested by system. False = no maintenance requested.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1109,6 +1295,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Malfunction describes that the filter system has a collective fault message. True in case of error.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1116,6 +1304,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OperationCycleCounter",
+        "displayName": "OperationCycleCounter",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "unsignedInteger",
         "writable": false
@@ -1123,6 +1312,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OperationDuration",
+        "displayName": "OperationDuration",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "duration",
         "writable": false
@@ -1130,6 +1320,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PowerOnDuration",
+        "displayName": "PowerOnDuration",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "duration",
         "writable": false
@@ -1137,40 +1328,54 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "OperationOff",
+        "displayName": "OperationOff",
+        "description": "The Method OperationOff turns the filter system machine off. As with the OperationOn method, this method should be present under the FilterSystemType if and only if the filter units are considered components of the system rather than individual machines.",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "OperationOn",
+        "displayName": "OperationOn",
+        "description": "The Method OperationOn turns the filter system machine on. It should only be available on the filter system if the filter units are considered components of the filter system and do not have their own OperationOn and OperationOff methods.",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Fan",
+        "displayName": "<Fan>",
+        "description": "All fans used on the server.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:FanType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FilterAidDevice",
+        "displayName": "<FilterAidDevice>",
+        "description": "All filter aid devices that are used on the server.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:FilterAidDeviceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FilterUnit",
+        "displayName": "<FilterUnit>",
+        "description": "All filter units of the system.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:FilterUnitType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SafetySystem",
+        "displayName": "<SafetySystem>",
+        "description": "All safety systems used on the server.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SafetySystemType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TemperatureRegulator",
+        "displayName": "<TemperatureRegulator>",
+        "description": "All temperature regulators used on the server.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:TemperatureRegulatorType"
       },
@@ -1178,6 +1383,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirConsumption",
+        "displayName": "AirConsumption",
+        "description": "Contains information regarding the consumption of compressed air of the filter system.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -1185,6 +1392,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirIntakeConnection",
+        "displayName": "AirIntakeConnection",
+        "description": "The connection to the ducting system from which the process gas enters the filter system.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:AirConnectionType"
       },
@@ -1192,6 +1401,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirOutletConnection",
+        "displayName": "AirOutletConnection",
+        "description": "The connection to the ducting system to which the cleaned process gas leaves the filter system.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:AirConnectionType"
       },
@@ -1199,6 +1410,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1206,6 +1418,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PowerConsumption",
+        "displayName": "PowerConsumption",
+        "description": "Contains information regarding the energy consumption of the filter system.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -1213,6 +1427,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PressureLoss",
+        "displayName": "PressureLoss",
+        "description": "Specification of the current total pressure loss of the filter system between the device intake connection on the raw gas side and the device outlet on the clean gas side.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       }
@@ -1230,6 +1446,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:FilterUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FilterUnitType",
+    "description": "Subcomponent of a filter system consisting of other devices and components.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1012",
     "commandTopic": "opcua/PAEFS/FilterUnitType/{commandName}",
@@ -1241,6 +1459,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaintenanceRequested",
+        "displayName": "MaintenanceRequested",
+        "description": "The maintenance request allows the manufacturer to inform the operator that the system requires maintenance. True = maintenance requested by system. False = no maintenance requested.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1248,6 +1468,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "One or more subsystems of the filter unit have a malfunction. True in case of error.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1255,6 +1477,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OperationCycleCounter",
+        "displayName": "OperationCycleCounter",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "unsignedInteger",
         "writable": false
@@ -1262,6 +1485,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OperationDuration",
+        "displayName": "OperationDuration",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "duration",
         "writable": false
@@ -1269,6 +1493,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PowerOnDuration",
+        "displayName": "PowerOnDuration",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "duration",
         "writable": false
@@ -1276,16 +1501,22 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "OperationOff",
+        "displayName": "OperationOff",
+        "description": "The Method OperationOff turns the machine off. As with the OperationOn Method, this method should be present under the filter unit if and only if the filter unit is considered a machine.",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "OperationOn",
+        "displayName": "OperationOn",
+        "description": "The Method OperationOn turns the machine on. It should only be available on the filter unit if the filter unit is considered a machine, rather than a component of a larger machine. If the filter unit is only a component of a larger machine, the OperationOn Method should be present on the filter system.",
         "namespace": "http://opcfoundation.org/UA/PAEFS"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetAndActivateAirflowSetpoint",
+        "displayName": "SetAndActivateAirflowSetpoint",
+        "description": "The Method SetAirflowSetpoint sets a setpoint for the airflow. The value’s unit is the same as the one specified in object Airflow. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for pressure and rotational speed to false.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1305,6 +1536,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetAndActivatePressureSetpoint",
+        "displayName": "SetAndActivatePressureSetpoint",
+        "description": "The Method SetPressureSetpoint sets a setpoint for the pressure. The value’s unit is the same as the one specified in object Pressure. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for airflow and rotational speed to false.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1324,6 +1557,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetAndActivateRotationalSpeedSetpoint",
+        "displayName": "SetAndActivateRotationalSpeedSetpoint",
+        "description": "The Method SetRotationalSpeedSetpoint sets a setpoint for the rotational speed. The value’s unit is the same as the one specified in object RotationalSpeed. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for airflow and pressure to false.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1343,18 +1578,24 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CleaningUnit",
+        "displayName": "<CleaningUnit>",
+        "description": "The cleaning units that are part of the filter unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:CleaningUnitType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DischargeSystem",
+        "displayName": "<DischargeSystem>",
+        "description": "The discharge systems that are part of the filter unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:DischargeSystemType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Separator",
+        "displayName": "<Separator>",
+        "description": "The separators that are part of the filter unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SeparatorType"
       },
@@ -1362,6 +1603,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirConsumption",
+        "displayName": "AirConsumption",
+        "description": "Contains information regarding the consumption of compressed air of the filter unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -1369,6 +1612,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Airflow",
+        "displayName": "Airflow",
+        "description": "Setpoint for the airflow that flows through the filter unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
       },
@@ -1376,6 +1621,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirIntakeConnection",
+        "displayName": "AirIntakeConnection",
+        "description": "The connection to the ducting system from which the polluted process gas enters the filter unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:AirConnectionType"
       },
@@ -1383,6 +1630,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AirOutletConnection",
+        "displayName": "AirOutletConnection",
+        "description": "The connection to the ducting system through which the cleaned process gas leaves the filter unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:AirConnectionType"
       },
@@ -1390,6 +1639,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1397,6 +1647,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PowerConsumption",
+        "displayName": "PowerConsumption",
+        "description": "Contains information regarding the energy consumption of the filter unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -1404,6 +1656,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Pressure",
+        "displayName": "Pressure",
+        "description": "Setpoint for the negative pressure at the filter unit. Describes the setpoint value for the pressure difference of the raw gas side compared to the environment.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
       },
@@ -1411,6 +1665,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PressureLoss",
+        "displayName": "PressureLoss",
+        "description": "The specification of the total pressure loss of the filter unit between the device intake connection on the raw gas side and the device outlet on the clean gas side.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -1418,6 +1674,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RotationalSpeed",
+        "displayName": "RotationalSpeed",
+        "description": "Setpoint for the rotational speed of a 'virtual' fan. This value is a setpoint. In reality, the filter system can have several fans.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
       }
@@ -1435,6 +1693,7 @@
     ],
     "@id": "dtmi:opcua:PAEFS:FilterMachineIdentificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FilterMachineIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1022",
     "commandTopic": "opcua/PAEFS/FilterMachineIdentificationType/{commandName}",
@@ -1446,6 +1705,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ExIdentification",
+        "displayName": "ExIdentification",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "string",
         "writable": true
@@ -1453,12 +1713,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NominalAirflow",
+        "displayName": "NominalAirflow",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RatedPower",
+        "displayName": "RatedPower",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "double"
       }
@@ -1476,6 +1738,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:HighVoltageUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "HighVoltageUnitType",
+    "description": "Unit to produce high voltage to supply to ionizers and collectors.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1015",
     "commandTopic": "opcua/PAEFS/HighVoltageUnitType/{commandName}",
@@ -1487,6 +1751,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaintenanceRequested",
+        "displayName": "MaintenanceRequested",
+        "description": "Indicates that maintenance is requested for the high voltage generator.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1494,6 +1760,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates that the high voltage generator is malfunctioning (e.g., excess/insufficient voltage, overheating, etc). True in case of error.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1501,6 +1769,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OperationCycleCounter",
+        "displayName": "OperationCycleCounter",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "unsignedInteger",
         "writable": false
@@ -1508,6 +1777,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OperationDuration",
+        "displayName": "OperationDuration",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "duration",
         "writable": false
@@ -1515,6 +1785,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PowerOnDuration",
+        "displayName": "PowerOnDuration",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "duration",
         "writable": false
@@ -1522,6 +1793,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SupplyActive",
+        "displayName": "SupplyActive",
+        "description": "Indicates that the high-voltage generator is emitting high voltage.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1529,18 +1802,24 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentOutput",
+        "displayName": "CurrentOutput",
+        "description": "Current output of the high voltage unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "double"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Collector",
+        "displayName": "<Collector>",
+        "description": "The collectors of the high voltage unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:CollectorType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Ionizer",
+        "displayName": "<Ionizer>",
+        "description": "The ionizers of the high voltage unit.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:IonizerType"
       }
@@ -1558,6 +1837,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:IonizerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IonizerType",
+    "description": "Unit for ionizing particles in a process air stream.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1019",
     "payloadFormat": "Json/ecma/404",
@@ -1568,6 +1849,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "IonizerOutput",
+        "displayName": "IonizerOutput",
+        "description": "Describes the current flow or the voltage to the ionizer.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       }
@@ -1585,6 +1868,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:SafetySystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SafetySystemType",
+    "description": "The safety system is a generic component that represents a protective device. Each component in the PAEFS can reference an instance of the safety system via a Uses reference.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1008",
     "commandTopic": "opcua/PAEFS/SafetySystemType/{commandName}",
@@ -1596,6 +1881,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates that the safety system is malfunctioning. True in case of error.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1603,6 +1890,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Triggered",
+        "displayName": "Triggered",
+        "description": "Indicates that the safety system has been triggered. If true the safety system has been triggered.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1611,6 +1900,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -1628,6 +1918,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:SensorMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SensorMonitoringType",
+    "description": "Represents a process value whose value is determined by a measuring device",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1010",
     "commandTopic": "opcua/PAEFS/SensorMonitoringType/{commandName}",
@@ -1637,6 +1929,8 @@
       {
         "@id": "dtmi:opcua:PAEFS:SensorMonitoringType:dataType:AnalogDigitalEnum;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "AnalogDigitalEnum",
+        "description": "Specifies the type of a sensor",
         "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -1655,6 +1949,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "SignalForm",
+        "displayName": "SignalForm",
+        "description": "Specifies whether the sensor is an analog or a digital sensor.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "dtmi:opcua:PAEFS:SensorMonitoringType:dataType:AnalogDigitalEnum;1",
         "writable": false
@@ -1663,6 +1959,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1670,6 +1967,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Signal",
+        "displayName": "Signal",
+        "description": "Value of the signal. This includes min/max ranges, unit and other meta information. The optional setpoint should be implemented only for SensorSetpointReadType and SensorSetpointWriteType types.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
       }
@@ -1687,6 +1986,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:SensorSetpointReadType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SensorSetpointReadType",
+    "description": "This type represents a process value and provides a setpoint for this value. This type provides only read-access to the sepoint.",
     "extends": "dtmi:opcua:PAEFS:SensorMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1034",
     "commandTopic": "opcua/PAEFS/SensorSetpointReadType/{commandName}",
@@ -1698,6 +1999,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsActiveSetpoint",
+        "displayName": "IsActiveSetpoint",
+        "description": "Indicates that the setpoint is currently active.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1716,6 +2019,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:SensorSetpointWriteType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SensorSetpointWriteType",
+    "description": "This type represents a process value and provides a readable and writable setpoint for this value",
     "extends": "dtmi:opcua:PAEFS:SensorSetpointReadType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1035",
     "payloadFormat": "Json/ecma/404",
@@ -1736,6 +2041,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:SeparatorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SeparatorType",
+    "description": "This is the abstract base type for separators. It contains optional sensor values that are common to all separators. Users may use one of the subtypes provided within this specification or create their own type.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1003",
     "commandTopic": "opcua/PAEFS/SeparatorType/{commandName}",
@@ -1747,6 +2054,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "FilterMediumOperatingHours",
+        "displayName": "FilterMediumOperatingHours",
+        "description": "The number of hours that the unit has been in operation since the last filter change.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "unsignedInteger",
         "writable": false
@@ -1755,6 +2064,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FilterMediumState",
+        "displayName": "FilterMediumState",
+        "description": "The state of the filter medium; e.g., pressure difference or gas loading.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -1762,6 +2073,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Humidity",
+        "displayName": "Humidity",
+        "description": "The current humidity in the separator.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       },
@@ -1769,6 +2082,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1776,6 +2090,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Temperature",
+        "displayName": "Temperature",
+        "description": "The current temperature in the separator.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
       }
@@ -1793,6 +2109,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:AutomaticRollFilterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AutomaticRollFilterType",
+    "description": "A separator that is regenerated by rolling up the filter medium.",
     "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1021",
     "commandTopic": "opcua/PAEFS/AutomaticRollFilterType/{commandName}",
@@ -1804,6 +2122,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EndOfFilterRoll",
+        "displayName": "EndOfFilterRoll",
+        "description": "EndOfFilterRoll is true if the end of the filter roll is reached.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1822,6 +2142,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:CartridgeFilterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CartridgeFilterType",
+    "description": "A basic mechanical separator.",
     "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1013",
     "payloadFormat": "Json/ecma/404",
@@ -1842,6 +2164,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:ElectrostaticPrecipitatorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ElectrostaticPrecipitatorType",
+    "description": "Separator that uses electrostatics to filter solid or liquid components from the process air.",
     "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1018",
     "payloadFormat": "Json/ecma/404",
@@ -1851,6 +2175,8 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "HighVoltageUnit",
+        "displayName": "<HighVoltageUnit>",
+        "description": "The precipitator’s high voltage units.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:HighVoltageUnitType"
       }
@@ -1868,6 +2194,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:WetSeparatorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "WetSeparatorType",
+    "description": "Separator that filters solid, liquid, or gaseous components using a liquid medium.",
     "extends": "dtmi:opcua:PAEFS:SeparatorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1014",
     "commandTopic": "opcua/PAEFS/WetSeparatorType/{commandName}",
@@ -1879,6 +2207,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "WashingAgentDrainMalfunction",
+        "displayName": "WashingAgentDrainMalfunction",
+        "description": "Indicates whether there is an error with the washing agent drain. True in case of error. Examples: clogging, burst pipe, defective valve.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1886,6 +2216,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "WashingAgentDrainOpen",
+        "displayName": "WashingAgentDrainOpen",
+        "description": "Indicates that the washing agent drain valve is open.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1893,6 +2225,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "WashingAgentInflowMalfunction",
+        "displayName": "WashingAgentInflowMalfunction",
+        "description": "Indicates whether there is an error with the washing agent inflow. True in case of error. Examples: clogging, burst pipe, defective valve.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1900,6 +2234,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "WashingAgentInflowOpen",
+        "displayName": "WashingAgentInflowOpen",
+        "description": "Indicates that the washing agent inflow valve is open.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1918,6 +2254,8 @@
     ],
     "@id": "dtmi:opcua:PAEFS:TemperatureRegulatorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TemperatureRegulatorType",
+    "description": "Device for regulating the temperature of the process gas.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PAEFS;i=1017",
     "commandTopic": "opcua/PAEFS/TemperatureRegulatorType/{commandName}",
@@ -1929,6 +2267,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Malfunction",
+        "displayName": "Malfunction",
+        "description": "Indicates whether there is an error with the temperature regulator. True in case of error.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "schema": "boolean",
         "writable": false
@@ -1937,6 +2277,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -1944,6 +2285,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PowerConsumption",
+        "displayName": "PowerConsumption",
+        "description": "Contains information regarding the energy consumption of the temperature regulator.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:ConsumptionType"
       },
@@ -1951,6 +2294,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Temperature",
+        "displayName": "Temperature",
+        "description": "Temperature of the process gas.",
         "namespace": "http://opcfoundation.org/UA/PAEFS",
         "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
       }

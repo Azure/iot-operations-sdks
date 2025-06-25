@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CutEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "CutEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter;i=1002",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Cutter/CutEventType/{commandName}",
@@ -22,6 +23,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ActualOutput",
+        "displayName": "ActualOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "unsignedLong",
         "writable": false
@@ -29,6 +31,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CuttingProductId",
+        "displayName": "CuttingProductId",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "string",
         "writable": false
@@ -36,6 +39,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TotalOutput",
+        "displayName": "TotalOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "unsignedLong",
         "writable": false
@@ -54,6 +58,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CuttingProductsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CuttingProductsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter;i=1004",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Cutter/CuttingProductsType/{telemetryName}/{senderId}",
@@ -64,12 +69,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualCuttingProductId",
+        "displayName": "ActualCuttingProductId",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "string"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CuttingProduct_Nr",
+        "displayName": "CuttingProduct_<Nr>",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CuttingProductType"
       }
@@ -87,6 +94,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CuttingProductType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CuttingProductType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Cutter/CuttingProductType/{commandName}",
@@ -96,6 +104,7 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CuttingProductType:dataType:WallThickeningEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "WallThickeningEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -122,6 +131,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Id",
+        "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "string",
         "writable": false
@@ -129,6 +139,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "WallThickeningPosition",
+        "displayName": "WallThickeningPosition",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CuttingProductType:dataType:WallThickeningEnumeration;1",
         "writable": true
@@ -136,42 +147,49 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualOutput",
+        "displayName": "ActualOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Length",
+        "displayName": "Length",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LengthCorrection",
+        "displayName": "LengthCorrection",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetOutput",
+        "displayName": "SetOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TotalOutput",
+        "displayName": "TotalOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WallThickeningLength",
+        "displayName": "WallThickeningLength",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "double"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetOutput",
+        "displayName": "ResetOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter"
       }
     ]
@@ -188,6 +206,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:Cutter_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "Cutter_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter;i=1005",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Cutter/Cutter_InterfaceType/{commandName}",
@@ -199,47 +218,55 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SampleCuttingLength",
+        "displayName": "SampleCuttingLength",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SideClampClosed",
+        "displayName": "SideClampClosed",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TotalWasteLength",
+        "displayName": "TotalWasteLength",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WasteCuttingLength",
+        "displayName": "WasteCuttingLength",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WasteIndicator",
+        "displayName": "WasteIndicator",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "schema": "boolean"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ManualCut",
+        "displayName": "ManualCut",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SampleCut",
+        "displayName": "SampleCut",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter"
       },
       {
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CuttingProducts",
+        "displayName": "CuttingProducts",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CuttingProductsType"
       },
@@ -247,6 +274,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CuttingProgram",
+        "displayName": "CuttingProgram",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
       },
@@ -254,6 +282,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductSpeed",
+        "displayName": "ProductSpeed",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }

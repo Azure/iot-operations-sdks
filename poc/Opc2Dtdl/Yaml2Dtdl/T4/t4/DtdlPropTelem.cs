@@ -32,7 +32,18 @@ namespace Yaml2Dtdl
             this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(null)));
             this.Write(" ],\r\n        \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
-            this.Write("\",\r\n        \"namespace\": \"");
+            this.Write("\",\r\n");
+ if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { 
+            this.Write("        \"displayName\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.definedType.DisplayName));
+            this.Write("\",\r\n");
+ } 
+ if (this.definedType.Description != null && this.definedType.Description != string.Empty) { 
+            this.Write("        \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.definedType.Description));
+            this.Write("\",\r\n");
+ } 
+            this.Write("        \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\",\r\n");
  if (this.SubVars.Count == 0) { 
@@ -51,7 +62,18 @@ namespace Yaml2Dtdl
             this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(this.definedType)));
             this.Write(" ],\r\n              \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
-            this.Write("\",\r\n              \"namespace\": \"");
+            this.Write("\",\r\n");
+ if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { 
+            this.Write("              \"displayName\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.definedType.DisplayName));
+            this.Write("\",\r\n");
+ } 
+ if (this.definedType.Description != null && this.definedType.Description != string.Empty) { 
+            this.Write("              \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.definedType.Description));
+            this.Write("\",\r\n");
+ } 
+            this.Write("              \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\",\r\n");
  if (this.TryGetUnitInfo(this.definedType, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { 
@@ -67,7 +89,18 @@ namespace Yaml2Dtdl
             this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(subVar)));
             this.Write(" ],\r\n              \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(subVar.BrowseName)))));
-            this.Write("\",\r\n              \"namespace\": \"");
+            this.Write("\",\r\n");
+ if (subVar.DisplayName != null && subVar.DisplayName != string.Empty) { 
+            this.Write("              \"displayName\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(subVar.DisplayName));
+            this.Write("\",\r\n");
+ } 
+ if (subVar.Description != null && subVar.Description != string.Empty) { 
+            this.Write("              \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(subVar.Description));
+            this.Write("\",\r\n");
+ } 
+            this.Write("              \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))));
             this.Write("\",\r\n");
  if (this.TryGetUnitInfo(subVar, out unitInfo)) { 

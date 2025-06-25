@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:Mining_General:MiningEquipmentIdentificationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MiningEquipmentIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.General;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -21,6 +22,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeviceTypeImage",
+        "displayName": "DeviceTypeImage",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -28,6 +30,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Documentation",
+        "displayName": "Documentation",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -35,6 +38,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ImageSet",
+        "displayName": "ImageSet",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -42,6 +46,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProtocolSupport",
+        "displayName": "ProtocolSupport",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -59,6 +64,8 @@
     ],
     "@id": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MiningEquipmentType",
+    "description": "The MiningEquipmentType ObjectType describes the abstract blueprint for any type of mining field equipment or machinery",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.General;i=1002",
     "payloadFormat": "Json/ecma/404",

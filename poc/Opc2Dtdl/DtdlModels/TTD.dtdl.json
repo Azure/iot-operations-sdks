@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:TTD:TTDResultReadyEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "TTDResultReadyEventType",
+    "description": "Provides information of a complete or partial result.",
     "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1006",
     "payloadFormat": "Json/ecma/404",
@@ -31,6 +33,7 @@
     ],
     "@id": "dtmi:opcua:TTD:JobStatisticsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "JobStatisticsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1009",
     "commandTopic": "opcua/TTD/JobStatisticsType/{commandName}",
@@ -42,6 +45,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EndTime",
+        "displayName": "EndTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": "time",
         "writable": false
@@ -49,6 +53,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "StartTime",
+        "displayName": "StartTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": "time",
         "writable": false
@@ -56,6 +61,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TotalInitializingTime",
+        "displayName": "TotalInitializingTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": "duration",
         "writable": false
@@ -63,6 +69,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TotalInterruptedTime",
+        "displayName": "TotalInterruptedTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": "duration",
         "writable": false
@@ -70,6 +77,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TotalRunningTime",
+        "displayName": "TotalRunningTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": "duration",
         "writable": false
@@ -88,6 +96,7 @@
     ],
     "@id": "dtmi:opcua:TTD:MachineStatisticsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "MachineStatisticsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1012",
     "commandTopic": "opcua/TTD/MachineStatisticsType/{commandName}",
@@ -99,6 +108,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "StartTime",
+        "displayName": "StartTime",
         "namespace": "http://opcfoundation.org/UA/IA",
         "schema": "dateTime",
         "writable": true
@@ -106,6 +116,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetStatistics",
+        "displayName": "ResetStatistics",
         "namespace": "http://opcfoundation.org/UA/IA"
       }
     ]
@@ -122,6 +133,7 @@
     ],
     "@id": "dtmi:opcua:TTD:RecurrentPrognosisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RecurrentPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1004",
     "commandTopic": "opcua/TTD/RecurrentPrognosisType/{commandName}",
@@ -133,6 +145,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Interval",
+        "displayName": "Interval",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": "time",
         "writable": true
@@ -140,6 +153,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LastExecutionTime",
+        "displayName": "LastExecutionTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": "time",
         "writable": true
@@ -147,6 +161,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Activity",
+        "displayName": "Activity",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": "string"
       }
@@ -164,6 +179,7 @@
     ],
     "@id": "dtmi:opcua:TTD:RecipeManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RecipeManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1003",
     "commandTopic": "opcua/TTD/RecipeManagementType/{commandName}",
@@ -173,6 +189,8 @@
       {
         "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "RecipeIdDataType",
+        "description": "Human readable name for the recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3003",
         "fields": [
           {
@@ -220,6 +238,8 @@
       {
         "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "RecipeDataType",
+        "description": "RecipeId meta data describing this recipe.",
         "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3018",
         "fields": [
           {
@@ -244,6 +264,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RecipeIds",
+        "displayName": "RecipeIds",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": {
           "@type": "Array",
@@ -254,6 +275,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DeleteRecipe",
+        "displayName": "DeleteRecipe",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -273,6 +295,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetRecipe",
+        "displayName": "GetRecipe",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -306,6 +329,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetRecipeIds",
+        "displayName": "GetRecipeIds",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
@@ -328,6 +352,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetRecipes",
+        "displayName": "GetRecipes",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
@@ -350,6 +375,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetRecipe",
+        "displayName": "SetRecipe",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -374,6 +400,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetRecipes",
+        "displayName": "SetRecipes",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -412,6 +439,7 @@
     ],
     "@id": "dtmi:opcua:TTD:TTDResultManagementType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TTDResultManagementType",
     "extends": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1007",
     "payloadFormat": "Json/ecma/404",
@@ -432,6 +460,7 @@
     ],
     "@id": "dtmi:opcua:TTD:TextileTestingDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TextileTestingDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1010",
     "commandTopic": "opcua/TTD/TextileTestingDeviceType/{commandName}",
@@ -441,6 +470,8 @@
       {
         "@id": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:ExchangeablePartDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ExchangeablePartDataType",
+        "description": "Name of the machine part.",
         "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3006",
         "fields": [
           {
@@ -478,6 +509,8 @@
       {
         "@id": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:OptionalModuleDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "OptionalModuleDataType",
+        "description": "The name of the module.",
         "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3009",
         "fields": [
           {
@@ -505,6 +538,8 @@
       {
         "@id": "dtmi:opcua:TTD:TextileTestingDeviceType:dataType:TestProcedureIdDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "TestProcedureIdDataType",
+        "description": "The available test procedures are stored on the testing device and referenced by name (TestProcedureId).",
         "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3034",
         "fields": [
           {
@@ -537,6 +572,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AvailableExchangeableParts",
+        "displayName": "AvailableExchangeableParts",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": {
           "@type": "Array",
@@ -547,6 +583,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InstalledTesterModules",
+        "displayName": "InstalledTesterModules",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": {
           "@type": "Array",
@@ -557,6 +594,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TestProcedureIds",
+        "displayName": "TestProcedureIds",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "schema": {
           "@type": "Array",
@@ -568,6 +606,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineStatistics",
+        "displayName": "MachineStatistics",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "target": "dtmi:opcua:TTD:MachineStatisticsType"
       },
@@ -575,6 +614,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Notification",
+        "displayName": "Notification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:NotificationType"
       },
@@ -582,6 +622,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RecipeManagement",
+        "displayName": "RecipeManagement",
         "namespace": "http://opcfoundation.org/UA/TTD",
         "target": "dtmi:opcua:TTD:RecipeManagementType"
       }

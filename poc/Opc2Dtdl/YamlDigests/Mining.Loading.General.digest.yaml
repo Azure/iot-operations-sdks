@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -36,6 +45,8 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
+  DisplayName: "LongwallShieldOffsetDataType"
+  Description: "The LongwallShieldOffsetDataType describes a tuple containing a roof support shield number and its corresponding offset"
   Fields:
     ShieldNumber: [ UInt16, 0 ]
     ShieldOffset: [ Double, 0 ]
@@ -44,8 +55,11 @@ DefinedTypes:
 
   Mining.Loading.General:LoadingMachineType:
   - [ UAObjectType, Mining.Loading.General:1002, Mining.Loading.General:LoadingMachineType ]
+  - DisplayName: "LoadingMachineType"
   - HasProperty:
     - [ UAVariable, Mining.Loading.General:6017, Mining.Loading.General:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
@@ -54,6 +68,8 @@ DefinedTypes:
     - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
   - HasComponent:
     - [ UAObject, Mining.Loading.General:5002, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -62,10 +78,13 @@ DefinedTypes:
       - [ UAObjectType, Mining.Loading.General:1002, Mining.Loading.General:LoadingMachineType ]
     - HasComponent:
       - [ UAMethod, Mining.Loading.General:7003, Mining.Loading.General:PositioningComplete ]
+      - DisplayName: "PositioningComplete"
+      - Description: "The PositioningComplete method is called by a partnering machine when they have finished to position themselves in front of the loading machine"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6035, Mining.Loading.General:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             PositioningCompleteResult: [ Boolean, 0 ]
         - HasModellingRule:
@@ -78,10 +97,13 @@ DefinedTypes:
         - [ UAObject, Mining.Loading.General:5002, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, Mining.Loading.General:7001, Mining.Loading.General:RequestForLoading ]
+      - DisplayName: "RequestForLoading"
+      - Description: "The RequestForLoading method is called by a partnering machine when they want to start the loading procedure."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6021, Mining.Loading.General:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             LoadingStartAcknowledged: [ Boolean, 0 ]
         - HasModellingRule:
@@ -94,10 +116,13 @@ DefinedTypes:
         - [ UAObject, Mining.Loading.General:5002, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, Mining.Loading.General:7002, Mining.Loading.General:StopLoading ]
+      - DisplayName: "StopLoading"
+      - Description: "The StopLoading method is called by a partnering machine when they want to abort the loading procedure"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6022, Mining.Loading.General:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             LoadingStopAcknowledged: [ Boolean, 0 ]
         - HasModellingRule:
@@ -110,18 +135,23 @@ DefinedTypes:
         - [ UAObject, Mining.Loading.General:5002, DI:MethodSet ]
   - HasComponent:
     - [ UAObject, Mining.Loading.General:5003, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, Mining.Loading.General:6001, Mining.Loading.General:ExclusionZone, 3DFrame, 1, 0 ]
+      - DisplayName: "ExclusionZone"
+      - Description: "The ExclusionZone property describes the area that haulage machines, which are to be loaded, are not allowed to enter when approaching the loading machine"
       - HasTypeDefinition:
         - [ UAVariableType, 18791, 3DFrameType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6018, Mining.Loading.General:BaseFrame, NodeId, 0, 0 ]
+        - DisplayName: "BaseFrame"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -130,6 +160,7 @@ DefinedTypes:
           - [ UAVariable, Mining.Loading.General:6001, Mining.Loading.General:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6009, Mining.Loading.General:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+        - DisplayName: "CartesianCoordinates"
         - HasTypeDefinition:
           - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
         - HasModellingRule:
@@ -138,6 +169,7 @@ DefinedTypes:
           - [ UAVariable, Mining.Loading.General:6001, Mining.Loading.General:ExclusionZone, 3DFrame, 1, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6010, Mining.Loading.General:X, Double, 0, 0 ]
+          - DisplayName: "X"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -146,6 +178,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6009, Mining.Loading.General:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6011, Mining.Loading.General:Y, Double, 0, 0 ]
+          - DisplayName: "Y"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -154,6 +187,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6009, Mining.Loading.General:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6012, Mining.Loading.General:Z, Double, 0, 0 ]
+          - DisplayName: "Z"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -162,6 +196,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6009, Mining.Loading.General:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6019, Mining.Loading.General:Constant, Boolean, 0, 0 ]
+        - DisplayName: "Constant"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -172,6 +207,7 @@ DefinedTypes:
         - [ UAObject, Mining.Loading.General:5003, DI:ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6020, Mining.Loading.General:FixedBase, Boolean, 0, 0 ]
+        - DisplayName: "FixedBase"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -180,12 +216,14 @@ DefinedTypes:
           - [ UAVariable, Mining.Loading.General:6001, Mining.Loading.General:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6013, Mining.Loading.General:Orientation, 3DOrientation, 0, 0 ]
+        - DisplayName: "Orientation"
         - HasTypeDefinition:
           - [ UAVariableType, 18781, 3DOrientationType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6014, Mining.Loading.General:A, Double, 0, 0 ]
+          - DisplayName: "A"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -194,6 +232,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6013, Mining.Loading.General:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6015, Mining.Loading.General:B, Double, 0, 0 ]
+          - DisplayName: "B"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -202,6 +241,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6013, Mining.Loading.General:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6016, Mining.Loading.General:C, Double, 0, 0 ]
+          - DisplayName: "C"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -212,12 +252,15 @@ DefinedTypes:
           - [ UAVariable, Mining.Loading.General:6001, Mining.Loading.General:ExclusionZone, 3DFrame, 1, 0 ]
     - HasComponent:
       - [ UAVariable, Mining.Loading.General:6023, Mining.Loading.General:MachinePose, 3DFrame, 0, 0 ]
+      - DisplayName: "MachinePose"
+      - Description: "The MachinePose variable describes the pose of the loading machine in terms of location coordinates, orientation and (optional) base frame."
       - HasTypeDefinition:
         - [ UAVariableType, 18791, 3DFrameType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6032, Mining.Loading.General:BaseFrame, NodeId, 0, 0 ]
+        - DisplayName: "BaseFrame"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -226,6 +269,7 @@ DefinedTypes:
           - [ UAVariable, Mining.Loading.General:6023, Mining.Loading.General:MachinePose, 3DFrame, 0, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6024, Mining.Loading.General:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+        - DisplayName: "CartesianCoordinates"
         - HasTypeDefinition:
           - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
         - HasModellingRule:
@@ -234,6 +278,7 @@ DefinedTypes:
           - [ UAVariable, Mining.Loading.General:6023, Mining.Loading.General:MachinePose, 3DFrame, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6025, Mining.Loading.General:X, Double, 0, 0 ]
+          - DisplayName: "X"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -242,6 +287,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6024, Mining.Loading.General:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6026, Mining.Loading.General:Y, Double, 0, 0 ]
+          - DisplayName: "Y"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -250,6 +296,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6024, Mining.Loading.General:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6027, Mining.Loading.General:Z, Double, 0, 0 ]
+          - DisplayName: "Z"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -258,6 +305,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6024, Mining.Loading.General:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6033, Mining.Loading.General:Constant, Boolean, 0, 0 ]
+        - DisplayName: "Constant"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -266,6 +314,7 @@ DefinedTypes:
           - [ UAVariable, Mining.Loading.General:6023, Mining.Loading.General:MachinePose, 3DFrame, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6034, Mining.Loading.General:FixedBase, Boolean, 0, 0 ]
+        - DisplayName: "FixedBase"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -276,12 +325,14 @@ DefinedTypes:
         - [ UAObject, Mining.Loading.General:5003, DI:ParameterSet ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6028, Mining.Loading.General:Orientation, 3DOrientation, 0, 0 ]
+        - DisplayName: "Orientation"
         - HasTypeDefinition:
           - [ UAVariableType, 18781, 3DOrientationType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6029, Mining.Loading.General:A, Double, 0, 0 ]
+          - DisplayName: "A"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -290,6 +341,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6028, Mining.Loading.General:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6030, Mining.Loading.General:B, Double, 0, 0 ]
+          - DisplayName: "B"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -298,6 +350,7 @@ DefinedTypes:
             - [ UAVariable, Mining.Loading.General:6028, Mining.Loading.General:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6031, Mining.Loading.General:C, Double, 0, 0 ]
+          - DisplayName: "C"
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:

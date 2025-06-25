@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkProtocolType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PowerlinkProtocolType",
     "extends": "dtmi:opcua:DI:ProtocolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=6",
     "payloadFormat": "Json/ecma/404",
@@ -31,6 +32,8 @@
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkConnectionPointType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PowerlinkConnectionPointType",
+    "description": "defines the POWERLINK Objects, which are common for both POWERLINK Managing Node and POWERLINK Controlled Node",
     "extends": "dtmi:opcua:DI:ConnectionPointType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=3",
     "payloadFormat": "Json/ecma/404",
@@ -40,6 +43,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProfileId",
+        "displayName": "<ProfileId>",
         "namespace": "http://opcfoundation.org/UA/DI",
         "target": "dtmi:opcua:POWERLINK:PowerlinkProtocolType"
       },
@@ -47,6 +51,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Configuration",
+        "displayName": "Configuration",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -54,6 +59,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Control",
+        "displayName": "Control",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -61,6 +67,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Diagnostics",
+        "displayName": "Diagnostics",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -68,6 +75,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SdoServices",
+        "displayName": "SdoServices",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
@@ -75,6 +83,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Status",
+        "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       }
@@ -92,6 +101,7 @@
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkCnConnectionPointType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PowerlinkCnConnectionPointType",
     "extends": "dtmi:opcua:POWERLINK:PowerlinkConnectionPointType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=4",
     "payloadFormat": "Json/ecma/404",
@@ -101,6 +111,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DeviceProfileIdentifier",
+        "displayName": "<DeviceProfileIdentifier>",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:POWERLINK:PowerlinkDeviceProfileType"
       }
@@ -118,6 +129,7 @@
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkMnConnectionPointType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PowerlinkMnConnectionPointType",
     "extends": "dtmi:opcua:POWERLINK:PowerlinkConnectionPointType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=5",
     "payloadFormat": "Json/ecma/404",
@@ -138,6 +150,8 @@
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PowerlinkDeviceType",
+    "description": "example for a DeviceType that only implements POWERLINK Managing Node (MN) and/or POWERLINK Controlled Node (CN) interfaces",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=2",
     "payloadFormat": "Json/ecma/404",
@@ -147,12 +161,14 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CNIdentifier",
+        "displayName": "<CNIdentifier>",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:POWERLINK:PowerlinkCnConnectionPointType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MNIdentifier",
+        "displayName": "<MNIdentifier>",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "target": "dtmi:opcua:POWERLINK:PowerlinkMnConnectionPointType"
       }
@@ -170,6 +186,7 @@
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkDeviceProfileType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PowerlinkDeviceProfileType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK;i=1",
     "commandTopic": "opcua/POWERLINK/PowerlinkDeviceProfileType/{commandName}",
@@ -181,6 +198,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IndexRangeSize",
+        "displayName": "IndexRangeSize",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "schema": "unsignedShort",
         "writable": false
@@ -188,6 +206,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IndexRangeStart",
+        "displayName": "IndexRangeStart",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
         "schema": "unsignedShort",
         "writable": false

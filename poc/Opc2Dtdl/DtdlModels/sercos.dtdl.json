@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FunctionalGroupType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=6012",
     "payloadFormat": "Json/ecma/404",
@@ -31,6 +32,7 @@
     ],
     "@id": "dtmi:opcua:sercos:SercosProfileType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SercosProfileType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -51,6 +53,7 @@
     ],
     "@id": "dtmi:opcua:sercos:SercosClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SercosClassType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -71,6 +74,7 @@
     ],
     "@id": "dtmi:opcua:sercos:SercosFunctionGroupType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SercosFunctionGroupType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=1004",
     "payloadFormat": "Json/ecma/404",
@@ -91,6 +95,7 @@
     ],
     "@id": "dtmi:opcua:sercos:SercosDeviceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SercosDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=1001",
     "payloadFormat": "Json/ecma/404",
@@ -101,6 +106,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProfileSet",
+        "displayName": "ProfileSet",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"
       },
@@ -108,6 +114,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ClassSet",
+        "displayName": "ClassSet",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"
       },
@@ -115,6 +122,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FunctionGroupSet",
+        "displayName": "FunctionGroupSet",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"
       }
@@ -132,6 +140,7 @@
     ],
     "@id": "dtmi:opcua:sercos:ProfileSet;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ProfileSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=6075",
     "payloadFormat": "Json/ecma/404",
@@ -141,6 +150,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SercosProfileIdentifier",
+        "displayName": "<SercosProfileIdentifier>",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:SercosProfileType"
       }
@@ -158,6 +168,7 @@
     ],
     "@id": "dtmi:opcua:sercos:ClassSet;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ClassSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=6077",
     "payloadFormat": "Json/ecma/404",
@@ -167,6 +178,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SercosClassIdentifier",
+        "displayName": "<SercosClassIdentifier>",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:SercosClassType"
       }
@@ -184,6 +196,7 @@
     ],
     "@id": "dtmi:opcua:sercos:FunctionGroupSet;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FunctionGroupSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA;i=6079",
     "payloadFormat": "Json/ecma/404",
@@ -193,6 +206,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FunctionGroupIdentifier",
+        "displayName": "<FunctionGroupIdentifier>",
         "namespace": "http://sercos.org/UA",
         "target": "dtmi:opcua:sercos:SercosFunctionGroupType"
       }

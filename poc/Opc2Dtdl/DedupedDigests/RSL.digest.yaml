@@ -4,57 +4,72 @@ DefinedTypes:
 
   RSL:SpatialObjectsListType:
   - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
+  - DisplayName: "SpatialObjectsListType"
   - HasProperty:
     - [ UAVariable, RSL:6024, RSL:Identifier, String, 0, 3 ]
+    - DisplayName: "Identifier"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, RSL:6027, RSL:NodeVersion, String, 0, 3 ]
+    - DisplayName: "NodeVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, RSL:6025, RSL:WorldFrame ]
+    - DisplayName: "WorldFrame"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, RSL:6026, RSL:Base, NodeId, 0, 3 ]
+      - DisplayName: "Base"
+      - Description: "WorldFrame as the origin of the coordinate system has no Base i.e. it must be null."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
 
   RSL:SpatialObjectType:
   - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
+  - DisplayName: "SpatialObjectType"
   - HasComponent:
     - [ UAObject, RSL:5004, RSL:AlternativeFrames ]
+    - DisplayName: "AlternativeFrames"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, RSL:5002, RSL:AttachPoints ]
+    - DisplayName: "AttachPoints"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, RSL:6017, RSL:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasProperty:
     - [ UAVariable, RSL:6016, RSL:Identifier, String, 0, 3 ]
+    - DisplayName: "Identifier"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, RSL:5003, RSL:InternalFrames ]
+    - DisplayName: "InternalFrames"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, RSL:6014, RSL:PositionFrame ]
+    - DisplayName: "PositionFrame"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, RSL:6015, RSL:Base, NodeId, 0, 3 ]
+      - DisplayName: "Base"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:

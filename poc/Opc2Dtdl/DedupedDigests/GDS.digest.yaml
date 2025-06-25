@@ -1,5 +1,6 @@
 DataTypes:
 - UADataType: [ GDS:1, GDS:ApplicationRecordDataType ]
+  DisplayName: "ApplicationRecordDataType"
   Fields:
     ApplicationId: [ NodeId, 0 ]
     ApplicationUri: [ String, 0 ]
@@ -13,82 +14,98 @@ DefinedTypes:
 
   GDS:DirectoryType:
   - [ UAObjectType, GDS:13, GDS:DirectoryType ]
+  - DisplayName: "DirectoryType"
   - HasComponent:
     - [ UAObject, GDS:14, GDS:Applications ]
+    - DisplayName: "Applications"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:15, GDS:FindApplications ]
+    - DisplayName: "FindApplications"
     - HasProperty:
       - [ UAVariable, GDS:16, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationUri: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:17, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Applications: [ GDS:ApplicationRecordDataType, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:18, GDS:RegisterApplication ]
+    - DisplayName: "RegisterApplication"
     - HasProperty:
       - [ UAVariable, GDS:19, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Application: [ GDS:ApplicationRecordDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:20, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:188, GDS:UpdateApplication ]
+    - DisplayName: "UpdateApplication"
     - HasProperty:
       - [ UAVariable, GDS:189, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Application: [ GDS:ApplicationRecordDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:21, GDS:UnregisterApplication ]
+    - DisplayName: "UnregisterApplication"
     - HasProperty:
       - [ UAVariable, GDS:22, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:210, GDS:GetApplication ]
+    - DisplayName: "GetApplication"
     - HasProperty:
       - [ UAVariable, GDS:211, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:212, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           Application: [ GDS:ApplicationRecordDataType, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:868, GDS:QueryApplications ]
+    - DisplayName: "QueryApplications"
     - HasProperty:
       - [ UAVariable, GDS:869, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -99,6 +116,7 @@ DefinedTypes:
           ApplicationType: [ UInt32, 0 ]
           ProductUri: [ String, 0 ]
           Capabilities: [ String, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -107,12 +125,14 @@ DefinedTypes:
           LastCounterResetTime: [ UtcTime, 0 ]
           NextRecordId: [ UInt32, 0 ]
           Applications: [ ApplicationDescription, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:23, GDS:QueryServers ]
+    - DisplayName: "QueryServers"
     - HasProperty:
       - [ UAVariable, GDS:24, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -122,6 +142,7 @@ DefinedTypes:
           ApplicationUri: [ String, 0 ]
           ProductUri: [ String, 0 ]
           ServerCapabilities: [ String, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -129,6 +150,7 @@ DefinedTypes:
       - Arguments:
           LastCounterResetTime: [ UtcTime, 0 ]
           Servers: [ ServerOnNetwork, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -138,13 +160,16 @@ DefinedTypes:
 
   GDS:ApplicationRegistrationChangedAuditEventType:
   - [ UAObjectType, GDS:26, GDS:ApplicationRegistrationChangedAuditEventType ]
+  - DisplayName: "ApplicationRegistrationChangedAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
   GDS:CertificateDirectoryType:
   - [ UAObjectType, GDS:63, GDS:CertificateDirectoryType ]
+  - DisplayName: "CertificateDirectoryType"
   - HasComponent:
     - [ UAMethod, GDS:79, GDS:StartSigningRequest ]
+    - DisplayName: "StartSigningRequest"
     - HasProperty:
       - [ UAVariable, GDS:80, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -152,18 +177,21 @@ DefinedTypes:
           CertificateGroupId: [ NodeId, 0 ]
           CertificateTypeId: [ NodeId, 0 ]
           CertificateRequest: [ ByteString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:81, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RequestId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:76, GDS:StartNewKeyPairRequest ]
+    - DisplayName: "StartNewKeyPairRequest"
     - HasProperty:
       - [ UAVariable, GDS:77, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -174,23 +202,27 @@ DefinedTypes:
           DomainNames: [ String, 1 ]
           PrivateKeyFormat: [ String, 0 ]
           PrivateKeyPassword: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:78, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RequestId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:85, GDS:FinishRequest ]
+    - DisplayName: "FinishRequest"
     - HasProperty:
       - [ UAVariable, GDS:86, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
           RequestId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -199,44 +231,52 @@ DefinedTypes:
           Certificate: [ ByteString, 0 ]
           PrivateKey: [ ByteString, 0 ]
           IssuerCertificates: [ ByteString, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:15003, GDS:RevokeCertificate ]
+    - DisplayName: "RevokeCertificate"
     - HasProperty:
       - [ UAVariable, GDS:15004, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
           Certificate: [ ByteString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, GDS:369, GDS:GetCertificateGroups ]
+    - DisplayName: "GetCertificateGroups"
     - HasProperty:
       - [ UAVariable, GDS:370, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:371, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           CertificateGroupIds: [ NodeId, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:89, GDS:GetCertificates ]
+    - DisplayName: "GetCertificates"
     - HasProperty:
       - [ UAVariable, GDS:90, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
           CertificateGroupId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -244,51 +284,60 @@ DefinedTypes:
       - Arguments:
           CertificateTypeIds: [ NodeId, 1 ]
           Certificates: [ ByteString, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, GDS:197, GDS:GetTrustList ]
+    - DisplayName: "GetTrustList"
     - HasProperty:
       - [ UAVariable, GDS:198, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
           CertificateGroupId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:199, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           TrustListId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:222, GDS:GetCertificateStatus ]
+    - DisplayName: "GetCertificateStatus"
     - HasProperty:
       - [ UAVariable, GDS:223, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ApplicationId: [ NodeId, 0 ]
           CertificateGroupId: [ NodeId, 0 ]
           CertificateTypeId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:224, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           UpdateRequired: [ Boolean, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:126, GDS:CheckRevocationStatus ]
+    - DisplayName: "CheckRevocationStatus"
     - HasProperty:
       - [ UAVariable, GDS:160, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Certificate: [ ByteString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -296,6 +345,7 @@ DefinedTypes:
       - Arguments:
           CertificateStatus: [ StatusCode, 0 ]
           ValidityTime: [ UtcTime, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -305,12 +355,15 @@ DefinedTypes:
 
   GDS:CertificateRequestedAuditEventType:
   - [ UAObjectType, GDS:91, GDS:CertificateRequestedAuditEventType ]
+  - DisplayName: "CertificateRequestedAuditEventType"
   - HasProperty:
     - [ UAVariable, GDS:717, GDS:CertificateGroup, NodeId, 0, 0 ]
+    - DisplayName: "CertificateGroup"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, GDS:718, GDS:CertificateType, NodeId, 0, 0 ]
+    - DisplayName: "CertificateType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -318,12 +371,15 @@ DefinedTypes:
 
   GDS:CertificateDeliveredAuditEventType:
   - [ UAObjectType, GDS:109, GDS:CertificateDeliveredAuditEventType ]
+  - DisplayName: "CertificateDeliveredAuditEventType"
   - HasProperty:
     - [ UAVariable, GDS:719, GDS:CertificateGroup, NodeId, 0, 0 ]
+    - DisplayName: "CertificateGroup"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, GDS:720, GDS:CertificateType, NodeId, 0, 0 ]
+    - DisplayName: "CertificateType"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -331,8 +387,10 @@ DefinedTypes:
 
   GDS:KeyCredentialManagementFolderType:
   - [ UAObjectType, GDS:55, GDS:KeyCredentialManagementFolderType ]
+  - DisplayName: "KeyCredentialManagementFolderType"
   - HasComponent:
     - [ UAObject, GDS:61, GDS:<ServiceName> ]
+    - DisplayName: "<ServiceName>"
     - HasTypeDefinition:
       - [ UAObjectType, GDS:1020, GDS:KeyCredentialServiceType ]
     - HasModellingRule:
@@ -342,20 +400,25 @@ DefinedTypes:
 
   GDS:KeyCredentialServiceType:
   - [ UAObjectType, GDS:1020, GDS:KeyCredentialServiceType ]
+  - DisplayName: "KeyCredentialServiceType"
   - HasProperty:
     - [ UAVariable, GDS:1021, GDS:ResourceUri, String, 0, 0 ]
+    - DisplayName: "ResourceUri"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, GDS:1022, GDS:ProfileUris, String, 1, 0 ]
+    - DisplayName: "ProfileUris"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, GDS:495, GDS:SecurityPolicyUris, String, 1, 0 ]
+    - DisplayName: "SecurityPolicyUris"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, GDS:1023, GDS:StartRequest ]
+    - DisplayName: "StartRequest"
     - HasProperty:
       - [ UAVariable, GDS:1024, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -363,23 +426,27 @@ DefinedTypes:
           PublicKey: [ ByteString, 0 ]
           SecurityPolicyUri: [ String, 0 ]
           RequestedRoles: [ NodeId, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:1025, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RequestId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:1026, GDS:FinishRequest ]
+    - DisplayName: "FinishRequest"
     - HasProperty:
       - [ UAVariable, GDS:1027, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RequestId: [ NodeId, 0 ]
           CancelRequest: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -390,16 +457,19 @@ DefinedTypes:
           CertificateThumbprint: [ String, 0 ]
           SecurityPolicyUri: [ String, 0 ]
           GrantedRoles: [ NodeId, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:1029, GDS:Revoke ]
+    - DisplayName: "Revoke"
     - HasProperty:
       - [ UAVariable, GDS:1030, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           CredentialId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -409,63 +479,76 @@ DefinedTypes:
 
   GDS:KeyCredentialRequestedAuditEventType:
   - [ UAObjectType, GDS:1039, GDS:KeyCredentialRequestedAuditEventType ]
+  - DisplayName: "KeyCredentialRequestedAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
 
   GDS:KeyCredentialDeliveredAuditEventType:
   - [ UAObjectType, GDS:1057, GDS:KeyCredentialDeliveredAuditEventType ]
+  - DisplayName: "KeyCredentialDeliveredAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
 
   GDS:KeyCredentialRevokedAuditEventType:
   - [ UAObjectType, GDS:1075, GDS:KeyCredentialRevokedAuditEventType ]
+  - DisplayName: "KeyCredentialRevokedAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
 
   GDS:AuthorizationServicesFolderType:
   - [ UAObjectType, GDS:233, GDS:AuthorizationServicesFolderType ]
+  - DisplayName: "AuthorizationServicesFolderType"
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
   GDS:AuthorizationServiceType:
   - [ UAObjectType, GDS:966, GDS:AuthorizationServiceType ]
+  - DisplayName: "AuthorizationServiceType"
   - HasProperty:
     - [ UAVariable, GDS:1003, GDS:ServiceUri, String, 0, 0 ]
+    - DisplayName: "ServiceUri"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, GDS:968, GDS:ServiceCertificate, ByteString, 0, 0 ]
+    - DisplayName: "ServiceCertificate"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, GDS:967, GDS:UserTokenPolicies, UserTokenPolicy, 1, 0 ]
+    - DisplayName: "UserTokenPolicies"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, GDS:1004, GDS:GetServiceDescription ]
+    - DisplayName: "GetServiceDescription"
     - HasProperty:
       - [ UAVariable, GDS:1005, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ServiceUri: [ String, 0 ]
           ServiceCertificate: [ ByteString, 0 ]
           UserTokenPolicies: [ UserTokenPolicy, 1 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, GDS:969, GDS:RequestAccessToken ]
+    - DisplayName: "RequestAccessToken"
     - HasProperty:
       - [ UAVariable, GDS:970, GDS:InputArguments, Argument, 1, 0 ]
       - Arguments:
           IdentityToken: [ UserIdentityToken, 0 ]
           ResourceId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, GDS:971, GDS:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           AccessToken: [ String, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -475,5 +558,6 @@ DefinedTypes:
 
   GDS:AccessTokenIssuedAuditEventType:
   - [ UAObjectType, GDS:975, GDS:AccessTokenIssuedAuditEventType ]
+  - DisplayName: "AccessTokenIssuedAuditEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, 2127, AuditUpdateMethodEventType ]

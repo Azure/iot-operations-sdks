@@ -1,5 +1,6 @@
 DataTypes:
 - UADataType: [ FDI7:2048, FDI7:EddDataTypeEnum ]
+  DisplayName: "EddDataTypeEnum"
   Enums:
     BOOLEAN: 1
     DOUBLE: 2
@@ -21,10 +22,13 @@ DataTypes:
     PASSWORD: 18
     VISIBLE: 19
 - UADataType: [ FDI7:2050, FDI7:EddDataTypeInfo ]
+  DisplayName: "EddDataTypeInfo"
   Fields:
     EddDataType: [ FDI7:EddDataTypeEnum, 0 ]
     Size: [ UInt32, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -35,25 +39,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -65,43 +76,52 @@ DefinedTypes:
 
   FDI7:Foundation_H1:
   - [ UAObjectType, FDI7:1371, FDI7:Foundation_H1 ]
+  - DisplayName: "Foundation_H1"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   FDI7:Foundation_HSE:
   - [ UAObjectType, FDI7:1372, FDI7:Foundation_HSE ]
+  - DisplayName: "Foundation_HSE"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   FDI7:Profibus_DP:
   - [ UAObjectType, FDI7:1373, FDI7:Profibus_DP ]
+  - DisplayName: "Profibus_DP"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   FDI7:Profibus_PA:
   - [ UAObjectType, FDI7:1374, FDI7:Profibus_PA ]
+  - DisplayName: "Profibus_PA"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   FDI7:Profinet_IO:
   - [ UAObjectType, FDI7:1375, FDI7:Profinet_IO ]
+  - DisplayName: "Profinet_IO"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   FDI7:HART:
   - [ UAObjectType, FDI7:1376, FDI7:HART ]
+  - DisplayName: "HART"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   FDI7:ISA100_Wireless:
   - [ UAObjectType, FDI7:1377, FDI7:ISA100_Wireless ]
+  - DisplayName: "ISA100_Wireless"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
   FDI7:GenericProtocol:
   - [ UAObjectType, FDI7:1378, FDI7:GenericProtocol ]
+  - DisplayName: "GenericProtocol"
   - HasProperty:
     - [ UAVariable, FDI7:1379, FDI7:ProtocolIdentifier, String, 0, 0 ]
+    - DisplayName: "ProtocolIdentifier"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -113,8 +133,10 @@ DefinedTypes:
 
   FDI7:ConnectionPoint_Foundation_H1:
   - [ UAObjectType, FDI7:1380, FDI7:ConnectionPoint_Foundation_H1 ]
+  - DisplayName: "ConnectionPoint_Foundation_H1"
   - HasProperty:
     - [ UAVariable, FDI7:1421, FDI7:Address, Byte, 0, 0 ]
+    - DisplayName: "Address"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -123,6 +145,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1380, FDI7:ConnectionPoint_Foundation_H1 ]
   - HasProperty:
     - [ UAVariable, FDI7:1422, FDI7:OrdinalNumber, Int32, 0, 0 ]
+    - DisplayName: "OrdinalNumber"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -131,6 +154,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1380, FDI7:ConnectionPoint_Foundation_H1 ]
   - HasProperty:
     - [ UAVariable, FDI7:1423, FDI7:SIFConnection, Boolean, 0, 0 ]
+    - DisplayName: "SIFConnection"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -142,8 +166,10 @@ DefinedTypes:
 
   FDI7:ConnectionPoint_Foundation_HSE:
   - [ UAObjectType, FDI7:1424, FDI7:ConnectionPoint_Foundation_HSE ]
+  - DisplayName: "ConnectionPoint_Foundation_HSE"
   - HasProperty:
     - [ UAVariable, FDI7:1465, FDI7:Address, Byte, 1, 0 ]
+    - DisplayName: "Address"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -152,6 +178,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1424, FDI7:ConnectionPoint_Foundation_HSE ]
   - HasProperty:
     - [ UAVariable, FDI7:1466, FDI7:OrdinalNumber, Int32, 0, 0 ]
+    - DisplayName: "OrdinalNumber"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -163,8 +190,10 @@ DefinedTypes:
 
   FDI7:ConnectionPoint_Profibus_DP:
   - [ UAObjectType, FDI7:1467, FDI7:ConnectionPoint_Profibus_DP ]
+  - DisplayName: "ConnectionPoint_Profibus_DP"
   - HasProperty:
     - [ UAVariable, FDI7:1508, FDI7:Address, Byte, 0, 0 ]
+    - DisplayName: "Address"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -176,8 +205,10 @@ DefinedTypes:
 
   FDI7:ConnectionPoint_Profinet_IO:
   - [ UAObjectType, FDI7:1509, FDI7:ConnectionPoint_Profinet_IO ]
+  - DisplayName: "ConnectionPoint_Profinet_IO"
   - HasProperty:
     - [ UAVariable, FDI7:1550, FDI7:MAC, Byte, 1, 0 ]
+    - DisplayName: "MAC"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -186,6 +217,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1509, FDI7:ConnectionPoint_Profinet_IO ]
   - HasProperty:
     - [ UAVariable, FDI7:1551, FDI7:IPv4, Byte, 1, 0 ]
+    - DisplayName: "IPv4"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -194,6 +226,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1509, FDI7:ConnectionPoint_Profinet_IO ]
   - HasProperty:
     - [ UAVariable, FDI7:1552, FDI7:DNSNAME, String, 0, 0 ]
+    - DisplayName: "DNSNAME"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -202,6 +235,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1509, FDI7:ConnectionPoint_Profinet_IO ]
   - HasProperty:
     - [ UAVariable, FDI7:1553, FDI7:VALID, Boolean, 0, 0 ]
+    - DisplayName: "VALID"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -213,8 +247,10 @@ DefinedTypes:
 
   FDI7:ConnectionPoint_HART_TP5:
   - [ UAObjectType, FDI7:1554, FDI7:ConnectionPoint_HART_TP5 ]
+  - DisplayName: "ConnectionPoint_HART_TP5"
   - HasProperty:
     - [ UAVariable, FDI7:1595, FDI7:DevAddr, Byte, 1, 0 ]
+    - DisplayName: "DevAddr"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -223,6 +259,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1554, FDI7:ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1596, FDI7:DevMfg, UInt16, 0, 0 ]
+    - DisplayName: "DevMfg"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -231,6 +268,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1554, FDI7:ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1597, FDI7:DevType, UInt16, 0, 0 ]
+    - DisplayName: "DevType"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -239,6 +277,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1554, FDI7:ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1598, FDI7:DevRev, UInt16, 0, 0 ]
+    - DisplayName: "DevRev"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -247,6 +286,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1554, FDI7:ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1599, FDI7:DevTag, String, 0, 0 ]
+    - DisplayName: "DevTag"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -255,6 +295,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1554, FDI7:ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1600, FDI7:DevPollAddr, Byte, 0, 0 ]
+    - DisplayName: "DevPollAddr"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -266,8 +307,10 @@ DefinedTypes:
 
   FDI7:ConnectionPoint_HART_TP6:
   - [ UAObjectType, FDI7:1601, FDI7:ConnectionPoint_HART_TP6 ]
+  - DisplayName: "ConnectionPoint_HART_TP6"
   - HasProperty:
     - [ UAVariable, FDI7:1642, FDI7:DevAddr, Byte, 1, 0 ]
+    - DisplayName: "DevAddr"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -276,6 +319,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1601, FDI7:ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1643, FDI7:DevMfg, UInt16, 0, 0 ]
+    - DisplayName: "DevMfg"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -284,6 +328,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1601, FDI7:ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1644, FDI7:DevType, UInt16, 0, 0 ]
+    - DisplayName: "DevType"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -292,6 +337,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1601, FDI7:ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1645, FDI7:DevRev, UInt16, 0, 0 ]
+    - DisplayName: "DevRev"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -300,6 +346,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1601, FDI7:ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1646, FDI7:DevTag, String, 0, 0 ]
+    - DisplayName: "DevTag"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -308,6 +355,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1601, FDI7:ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1647, FDI7:DevPollAddr, Byte, 0, 0 ]
+    - DisplayName: "DevPollAddr"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -319,8 +367,10 @@ DefinedTypes:
 
   FDI7:ConnectionPoint_HART_TP7:
   - [ UAObjectType, FDI7:1648, FDI7:ConnectionPoint_HART_TP7 ]
+  - DisplayName: "ConnectionPoint_HART_TP7"
   - HasProperty:
     - [ UAVariable, FDI7:1689, FDI7:DevAddr, Byte, 1, 0 ]
+    - DisplayName: "DevAddr"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -329,6 +379,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1648, FDI7:ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1690, FDI7:DevMfg, UInt16, 0, 0 ]
+    - DisplayName: "DevMfg"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -337,6 +388,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1648, FDI7:ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1691, FDI7:DevType, UInt16, 0, 0 ]
+    - DisplayName: "DevType"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -345,6 +397,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1648, FDI7:ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1692, FDI7:DevRev, UInt16, 0, 0 ]
+    - DisplayName: "DevRev"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -353,6 +406,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1648, FDI7:ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1693, FDI7:DevTag, String, 0, 0 ]
+    - DisplayName: "DevTag"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -361,6 +415,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1648, FDI7:ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1694, FDI7:DevPollAddr, Byte, 0, 0 ]
+    - DisplayName: "DevPollAddr"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -372,8 +427,10 @@ DefinedTypes:
 
   FDI7:ConnectionPoint_ISA100_Wireless:
   - [ UAObjectType, FDI7:1695, FDI7:ConnectionPoint_ISA100_Wireless ]
+  - DisplayName: "ConnectionPoint_ISA100_Wireless"
   - HasProperty:
     - [ UAVariable, FDI7:1736, FDI7:IPAddress, ByteString, 0, 0 ]
+    - DisplayName: "IPAddress"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -382,6 +439,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1695, FDI7:ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1737, FDI7:DevMfg, UInt32, 0, 0 ]
+    - DisplayName: "DevMfg"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -390,6 +448,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1695, FDI7:ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1738, FDI7:DevType, UInt16, 0, 0 ]
+    - DisplayName: "DevType"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -398,6 +457,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1695, FDI7:ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1739, FDI7:DevRev, UInt16, 0, 0 ]
+    - DisplayName: "DevRev"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -406,6 +466,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1695, FDI7:ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1740, FDI7:DevTag, String, 0, 0 ]
+    - DisplayName: "DevTag"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -414,6 +475,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1695, FDI7:ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1741, FDI7:DevPollAddr, Byte, 0, 0 ]
+    - DisplayName: "DevPollAddr"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -425,8 +487,10 @@ DefinedTypes:
 
   FDI7:GenericConnectionPoint:
   - [ UAObjectType, FDI7:1742, FDI7:GenericConnectionPoint ]
+  - DisplayName: "GenericConnectionPoint"
   - HasProperty:
     - [ UAVariable, FDI7:1783, FDI7:Address, ByteString, 0, 0 ]
+    - DisplayName: "Address"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -435,6 +499,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1742, FDI7:GenericConnectionPoint ]
   - HasProperty:
     - [ UAVariable, FDI7:1784, FDI7:ProtocolIdentifier, String, 0, 0 ]
+    - DisplayName: "ProtocolIdentifier"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -446,8 +511,11 @@ DefinedTypes:
 
   FDI7:CommunicationServerType:
   - [ UAObjectType, FDI7:11, FDI7:CommunicationServerType ]
+  - DisplayName: "CommunicationServerType"
   - HasComponent:
     - [ UAObject, FDI7:12, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -456,10 +524,14 @@ DefinedTypes:
       - [ UAObjectType, FDI7:11, FDI7:CommunicationServerType ]
   - HasComponent:
     - [ UAObject, FDI7:14, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:75, FDI7:Initialize ]
+      - DisplayName: "Initialize"
       - HasProperty:
         - [ UAVariable, FDI7:76, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -474,8 +546,10 @@ DefinedTypes:
         - [ UAObject, FDI7:14, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:77, FDI7:Reset ]
+      - DisplayName: "Reset"
       - HasProperty:
         - [ UAVariable, FDI7:78, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -490,8 +564,10 @@ DefinedTypes:
         - [ UAObject, FDI7:14, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:79, FDI7:AddComponent ]
+      - DisplayName: "AddComponent"
       - HasProperty:
         - [ UAVariable, FDI7:80, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             ModuleTypeName: [ String, 0 ]
             InstanceName: [ String, 0 ]
@@ -504,6 +580,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:79, FDI7:AddComponent ]
       - HasProperty:
         - [ UAVariable, FDI7:81, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             InstanceNodeId: [ NodeId, 0 ]
             ServiceError: [ Integer, 0 ]
@@ -519,8 +596,10 @@ DefinedTypes:
         - [ UAObject, FDI7:14, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:82, FDI7:RemoveComponent ]
+      - DisplayName: "RemoveComponent"
       - HasProperty:
         - [ UAVariable, FDI7:83, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             ModuleNodeId: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -531,6 +610,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:82, FDI7:RemoveComponent ]
       - HasProperty:
         - [ UAVariable, FDI7:84, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -551,6 +631,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:11, FDI7:CommunicationServerType ]
   - HasComponent:
     - [ UAObject, FDI7:85, FDI7:SubDevices ]
+    - DisplayName: "SubDevices"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -562,12 +643,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationDeviceType:
   - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
+  - DisplayName: "ServerCommunicationDeviceType"
   - HasComponent:
     - [ UAObject, FDI7:96, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:157, FDI7:Scan ]
+      - DisplayName: "Scan"
       - HasProperty:
         - [ UAVariable, FDI7:158, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             TopologyScanResult: [ XmlElement, 0 ]
             ServiceError: [ Integer, 0 ]
@@ -583,8 +669,10 @@ DefinedTypes:
         - [ UAObject, FDI7:96, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:159, FDI7:ResetScan ]
+      - DisplayName: "ResetScan"
       - HasProperty:
         - [ UAVariable, FDI7:160, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -599,8 +687,10 @@ DefinedTypes:
         - [ UAObject, FDI7:96, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:164, FDI7:AddComponent ]
+      - DisplayName: "AddComponent"
       - HasProperty:
         - [ UAVariable, FDI7:165, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             ModuleTypeName: [ String, 0 ]
             InstanceName: [ String, 0 ]
@@ -613,6 +703,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:164, FDI7:AddComponent ]
       - HasProperty:
         - [ UAVariable, FDI7:166, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             InstanceNodeId: [ NodeId, 0 ]
             ServiceError: [ Integer, 0 ]
@@ -628,8 +719,10 @@ DefinedTypes:
         - [ UAObject, FDI7:96, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:167, FDI7:RemoveComponent ]
+      - DisplayName: "RemoveComponent"
       - HasProperty:
         - [ UAVariable, FDI7:168, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             ModuleNodeId: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -640,6 +733,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:167, FDI7:RemoveComponent ]
       - HasProperty:
         - [ UAVariable, FDI7:169, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -660,6 +754,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:93, FDI7:ServerCommunicationDeviceType ]
   - HasProperty:
     - [ UAVariable, FDI7:15001, FDI7:ListOfCommunicationProfiles, String, 1, 0 ]
+    - DisplayName: "ListOfCommunicationProfiles"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -671,12 +766,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationFFH1DeviceType:
   - [ UAObjectType, FDI7:324, FDI7:ServerCommunicationFFH1DeviceType ]
+  - DisplayName: "ServerCommunicationFFH1DeviceType"
   - HasComponent:
     - [ UAObject, FDI7:327, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:398, FDI7:SetAddress ]
+      - DisplayName: "SetAddress"
       - HasProperty:
         - [ UAVariable, FDI7:399, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             OPERATION: [ String, 0 ]
             LinkId: [ UInt16, 0 ]
@@ -692,6 +792,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:398, FDI7:SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:400, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             DelayForNextCall: [ UInt32, 0 ]
             ServiceError: [ Integer, 0 ]
@@ -713,12 +814,17 @@ DefinedTypes:
       - [ UAObjectType, FDI7:324, FDI7:ServerCommunicationFFH1DeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
+    - DisplayName: "ServiceProvider"
     - HasComponent:
       - [ UAObject, FDI7:404, DI:MethodSet ]
+      - DisplayName: "MethodSet"
+      - Description: "Flat list of Methods"
       - HasComponent:
         - [ UAMethod, FDI7:440, FDI7:Disconnect ]
+        - DisplayName: "Disconnect"
         - HasProperty:
           - [ UAVariable, FDI7:441, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -729,6 +835,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:440, FDI7:Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:442, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -743,8 +850,10 @@ DefinedTypes:
           - [ UAObject, FDI7:404, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:443, FDI7:Connect ]
+        - DisplayName: "Connect"
         - HasProperty:
           - [ UAVariable, FDI7:444, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               LinkId: [ UInt16, 0 ]
@@ -760,6 +869,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:443, FDI7:Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:445, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               DelayForNextCall: [ UInt32, 0 ]
               ServiceError: [ Integer, 0 ]
@@ -775,8 +885,10 @@ DefinedTypes:
           - [ UAObject, FDI7:404, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:446, FDI7:Transfer ]
+        - DisplayName: "Transfer"
         - HasProperty:
           - [ UAVariable, FDI7:447, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               OPERATION: [ String, 0 ]
@@ -793,6 +905,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:446, FDI7:Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:448, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ReadData: [ Byte, 1 ]
               DelayForNextCall: [ UInt32, 0 ]
@@ -815,6 +928,8 @@ DefinedTypes:
         - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:424, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "Name of the company that manufactured the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -823,6 +938,8 @@ DefinedTypes:
         - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:425, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "Model name of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -831,6 +948,8 @@ DefinedTypes:
         - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:429, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
+      - Description: "Revision level of the hardware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -839,6 +958,8 @@ DefinedTypes:
         - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:428, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
+      - Description: "Revision level of the software/firmware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -847,6 +968,8 @@ DefinedTypes:
         - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:427, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
+      - Description: "Overall revision level of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -855,6 +978,8 @@ DefinedTypes:
         - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:426, DI:DeviceManual, String, 0, 0 ]
+      - DisplayName: "DeviceManual"
+      - Description: "Address (pathname in the file system or a URL | Web address) of user manual for the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -863,6 +988,8 @@ DefinedTypes:
         - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:422, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "Identifier that uniquely identifies, within a manufacturer, a device instance"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -871,6 +998,8 @@ DefinedTypes:
         - [ UAObject, FDI7:401, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:423, DI:RevisionCounter, Int32, 0, 0 ]
+      - DisplayName: "RevisionCounter"
+      - Description: "An incremental counter indicating the number of times the static data within the Device has been modified"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -888,12 +1017,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationFFHSEDeviceType:
   - [ UAObjectType, FDI7:452, FDI7:ServerCommunicationFFHSEDeviceType ]
+  - DisplayName: "ServerCommunicationFFHSEDeviceType"
   - HasComponent:
     - [ UAObject, FDI7:455, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:526, FDI7:SetAddress ]
+      - DisplayName: "SetAddress"
       - HasProperty:
         - [ UAVariable, FDI7:527, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             OPERATION: [ String, 0 ]
             NewPDTag: [ String, 0 ]
@@ -906,6 +1040,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:526, FDI7:SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:528, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             DelayForNextCall: [ UInt32, 0 ]
             ServiceError: [ Integer, 0 ]
@@ -927,12 +1062,17 @@ DefinedTypes:
       - [ UAObjectType, FDI7:452, FDI7:ServerCommunicationFFHSEDeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
+    - DisplayName: "ServiceProvider"
     - HasComponent:
       - [ UAObject, FDI7:532, DI:MethodSet ]
+      - DisplayName: "MethodSet"
+      - Description: "Flat list of Methods"
       - HasComponent:
         - [ UAMethod, FDI7:568, FDI7:Disconnect ]
+        - DisplayName: "Disconnect"
         - HasProperty:
           - [ UAVariable, FDI7:569, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -943,6 +1083,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:568, FDI7:Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:570, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -957,8 +1098,10 @@ DefinedTypes:
           - [ UAObject, FDI7:532, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:571, FDI7:Connect ]
+        - DisplayName: "Connect"
         - HasProperty:
           - [ UAVariable, FDI7:572, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               Address: [ ByteString, 0 ]
@@ -972,6 +1115,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:571, FDI7:Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:573, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               DelayForNextCall: [ UInt32, 0 ]
               ServiceError: [ Integer, 0 ]
@@ -987,8 +1131,10 @@ DefinedTypes:
           - [ UAObject, FDI7:532, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:574, FDI7:Transfer ]
+        - DisplayName: "Transfer"
         - HasProperty:
           - [ UAVariable, FDI7:575, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               OPERATION: [ String, 0 ]
@@ -1005,6 +1151,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:574, FDI7:Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:576, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ReadData: [ Byte, 1 ]
               DelayForNextCall: [ UInt32, 0 ]
@@ -1027,6 +1174,8 @@ DefinedTypes:
         - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:552, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "Name of the company that manufactured the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1035,6 +1184,8 @@ DefinedTypes:
         - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:553, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "Model name of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1043,6 +1194,8 @@ DefinedTypes:
         - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:557, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
+      - Description: "Revision level of the hardware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1051,6 +1204,8 @@ DefinedTypes:
         - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:556, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
+      - Description: "Revision level of the software/firmware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1059,6 +1214,8 @@ DefinedTypes:
         - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:555, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
+      - Description: "Overall revision level of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1067,6 +1224,8 @@ DefinedTypes:
         - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:554, DI:DeviceManual, String, 0, 0 ]
+      - DisplayName: "DeviceManual"
+      - Description: "Address (pathname in the file system or a URL | Web address) of user manual for the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1075,6 +1234,8 @@ DefinedTypes:
         - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:550, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "Identifier that uniquely identifies, within a manufacturer, a device instance"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1083,6 +1244,8 @@ DefinedTypes:
         - [ UAObject, FDI7:529, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:551, DI:RevisionCounter, Int32, 0, 0 ]
+      - DisplayName: "RevisionCounter"
+      - Description: "An incremental counter indicating the number of times the static data within the Device has been modified"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1100,12 +1263,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationPROFIBUSDeviceType:
   - [ UAObjectType, FDI7:580, FDI7:ServerCommunicationPROFIBUSDeviceType ]
+  - DisplayName: "ServerCommunicationPROFIBUSDeviceType"
   - HasComponent:
     - [ UAObject, FDI7:583, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:654, FDI7:SetAddress ]
+      - DisplayName: "SetAddress"
       - HasProperty:
         - [ UAVariable, FDI7:655, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             OldAddress: [ Byte, 0 ]
             NewAddress: [ Byte, 0 ]
@@ -1117,6 +1285,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:654, FDI7:SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:656, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -1137,12 +1306,17 @@ DefinedTypes:
       - [ UAObjectType, FDI7:580, FDI7:ServerCommunicationPROFIBUSDeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
+    - DisplayName: "ServiceProvider"
     - HasComponent:
       - [ UAObject, FDI7:660, DI:MethodSet ]
+      - DisplayName: "MethodSet"
+      - Description: "Flat list of Methods"
       - HasComponent:
         - [ UAMethod, FDI7:696, FDI7:Disconnect ]
+        - DisplayName: "Disconnect"
         - HasProperty:
           - [ UAVariable, FDI7:697, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -1153,6 +1327,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:696, FDI7:Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:698, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1167,8 +1342,10 @@ DefinedTypes:
           - [ UAObject, FDI7:660, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:699, FDI7:Connect ]
+        - DisplayName: "Connect"
         - HasProperty:
           - [ UAVariable, FDI7:700, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               Address: [ Byte, 0 ]
@@ -1181,6 +1358,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:699, FDI7:Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:701, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1195,8 +1373,10 @@ DefinedTypes:
           - [ UAObject, FDI7:660, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:702, FDI7:Transfer ]
+        - DisplayName: "Transfer"
         - HasProperty:
           - [ UAVariable, FDI7:703, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               OPERATION: [ String, 0 ]
@@ -1211,6 +1391,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:702, FDI7:Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:704, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               REPLY: [ ByteString, 0 ]
               RESPONSE_CODES: [ ByteString, 0 ]
@@ -1233,6 +1414,8 @@ DefinedTypes:
         - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:680, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "Name of the company that manufactured the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1241,6 +1424,8 @@ DefinedTypes:
         - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:681, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "Model name of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1249,6 +1434,8 @@ DefinedTypes:
         - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:685, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
+      - Description: "Revision level of the hardware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1257,6 +1444,8 @@ DefinedTypes:
         - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:684, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
+      - Description: "Revision level of the software/firmware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1265,6 +1454,8 @@ DefinedTypes:
         - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:683, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
+      - Description: "Overall revision level of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1273,6 +1464,8 @@ DefinedTypes:
         - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:682, DI:DeviceManual, String, 0, 0 ]
+      - DisplayName: "DeviceManual"
+      - Description: "Address (pathname in the file system or a URL | Web address) of user manual for the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1281,6 +1474,8 @@ DefinedTypes:
         - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:678, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "Identifier that uniquely identifies, within a manufacturer, a device instance"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1289,6 +1484,8 @@ DefinedTypes:
         - [ UAObject, FDI7:657, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:679, DI:RevisionCounter, Int32, 0, 0 ]
+      - DisplayName: "RevisionCounter"
+      - Description: "An incremental counter indicating the number of times the static data within the Device has been modified"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1306,12 +1503,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationPROFINETDeviceType:
   - [ UAObjectType, FDI7:705, FDI7:ServerCommunicationPROFINETDeviceType ]
+  - DisplayName: "ServerCommunicationPROFINETDeviceType"
   - HasComponent:
     - [ UAObject, FDI7:708, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:779, FDI7:SetAddress ]
+      - DisplayName: "SetAddress"
       - HasProperty:
         - [ UAVariable, FDI7:780, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             MAC: [ Byte, 1 ]
             IP: [ Byte, 1 ]
@@ -1326,6 +1528,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:779, FDI7:SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:781, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -1346,12 +1549,17 @@ DefinedTypes:
       - [ UAObjectType, FDI7:705, FDI7:ServerCommunicationPROFINETDeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
+    - DisplayName: "ServiceProvider"
     - HasComponent:
       - [ UAObject, FDI7:785, DI:MethodSet ]
+      - DisplayName: "MethodSet"
+      - Description: "Flat list of Methods"
       - HasComponent:
         - [ UAMethod, FDI7:821, FDI7:Disconnect ]
+        - DisplayName: "Disconnect"
         - HasProperty:
           - [ UAVariable, FDI7:822, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -1362,6 +1570,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:821, FDI7:Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:823, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1376,8 +1585,10 @@ DefinedTypes:
           - [ UAObject, FDI7:785, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:824, FDI7:Connect ]
+        - DisplayName: "Connect"
         - HasProperty:
           - [ UAVariable, FDI7:825, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               DNSNAME: [ String, 0 ]
@@ -1391,6 +1602,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:824, FDI7:Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:826, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1405,8 +1617,10 @@ DefinedTypes:
           - [ UAObject, FDI7:785, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:827, FDI7:Transfer ]
+        - DisplayName: "Transfer"
         - HasProperty:
           - [ UAVariable, FDI7:828, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               OPERATION: [ String, 0 ]
@@ -1423,6 +1637,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:827, FDI7:Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:829, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               REPLY: [ ByteString, 0 ]
               RESPONSE_CODES: [ ByteString, 0 ]
@@ -1445,6 +1660,8 @@ DefinedTypes:
         - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:805, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "Name of the company that manufactured the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1453,6 +1670,8 @@ DefinedTypes:
         - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:806, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "Model name of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1461,6 +1680,8 @@ DefinedTypes:
         - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:810, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
+      - Description: "Revision level of the hardware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1469,6 +1690,8 @@ DefinedTypes:
         - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:809, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
+      - Description: "Revision level of the software/firmware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1477,6 +1700,8 @@ DefinedTypes:
         - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:808, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
+      - Description: "Overall revision level of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1485,6 +1710,8 @@ DefinedTypes:
         - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:807, DI:DeviceManual, String, 0, 0 ]
+      - DisplayName: "DeviceManual"
+      - Description: "Address (pathname in the file system or a URL | Web address) of user manual for the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1493,6 +1720,8 @@ DefinedTypes:
         - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:803, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "Identifier that uniquely identifies, within a manufacturer, a device instance"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1501,6 +1730,8 @@ DefinedTypes:
         - [ UAObject, FDI7:782, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:804, DI:RevisionCounter, Int32, 0, 0 ]
+      - DisplayName: "RevisionCounter"
+      - Description: "An incremental counter indicating the number of times the static data within the Device has been modified"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1518,12 +1749,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationHARType:
   - [ UAObjectType, FDI7:830, FDI7:ServerCommunicationHARType ]
+  - DisplayName: "ServerCommunicationHARType"
   - HasComponent:
     - [ UAObject, FDI7:833, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:904, FDI7:SetAddress ]
+      - DisplayName: "SetAddress"
       - HasProperty:
         - [ UAVariable, FDI7:905, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             OldPollAddress: [ Byte, 0 ]
             NewPollAddress: [ Byte, 0 ]
@@ -1535,6 +1771,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:904, FDI7:SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:906, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -1555,12 +1792,17 @@ DefinedTypes:
       - [ UAObjectType, FDI7:830, FDI7:ServerCommunicationHARType ]
   - HasComponent:
     - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
+    - DisplayName: "ServiceProvider"
     - HasComponent:
       - [ UAObject, FDI7:910, DI:MethodSet ]
+      - DisplayName: "MethodSet"
+      - Description: "Flat list of Methods"
       - HasComponent:
         - [ UAMethod, FDI7:946, FDI7:Disconnect ]
+        - DisplayName: "Disconnect"
         - HasProperty:
           - [ UAVariable, FDI7:947, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -1571,6 +1813,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:946, FDI7:Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:948, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1585,8 +1828,10 @@ DefinedTypes:
           - [ UAObject, FDI7:910, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:949, FDI7:Connect ]
+        - DisplayName: "Connect"
         - HasProperty:
           - [ UAVariable, FDI7:950, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               LongAddress: [ ByteString, 0 ]
@@ -1598,6 +1843,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:949, FDI7:Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:951, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1612,8 +1858,10 @@ DefinedTypes:
           - [ UAObject, FDI7:910, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:952, FDI7:Transfer ]
+        - DisplayName: "Transfer"
         - HasProperty:
           - [ UAVariable, FDI7:953, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               Command: [ UInt16, 0 ]
@@ -1626,6 +1874,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:952, FDI7:Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:954, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               Reply: [ ByteString, 0 ]
               ServiceError: [ Integer, 0 ]
@@ -1647,6 +1896,8 @@ DefinedTypes:
         - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:930, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "Name of the company that manufactured the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1655,6 +1906,8 @@ DefinedTypes:
         - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:931, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "Model name of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1663,6 +1916,8 @@ DefinedTypes:
         - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:935, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
+      - Description: "Revision level of the hardware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1671,6 +1926,8 @@ DefinedTypes:
         - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:934, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
+      - Description: "Revision level of the software/firmware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1679,6 +1936,8 @@ DefinedTypes:
         - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:933, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
+      - Description: "Overall revision level of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1687,6 +1946,8 @@ DefinedTypes:
         - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:932, DI:DeviceManual, String, 0, 0 ]
+      - DisplayName: "DeviceManual"
+      - Description: "Address (pathname in the file system or a URL | Web address) of user manual for the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1695,6 +1956,8 @@ DefinedTypes:
         - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:928, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "Identifier that uniquely identifies, within a manufacturer, a device instance"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1703,6 +1966,8 @@ DefinedTypes:
         - [ UAObject, FDI7:907, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:929, DI:RevisionCounter, Int32, 0, 0 ]
+      - DisplayName: "RevisionCounter"
+      - Description: "An incremental counter indicating the number of times the static data within the Device has been modified"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1720,14 +1985,20 @@ DefinedTypes:
 
   FDI7:ServerCommunicationISA100_WirelessDeviceType:
   - [ UAObjectType, FDI7:1788, FDI7:ServerCommunicationISA100_WirelessDeviceType ]
+  - DisplayName: "ServerCommunicationISA100_WirelessDeviceType"
   - HasComponent:
     - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
+    - DisplayName: "ServiceProvider"
     - HasComponent:
       - [ UAObject, FDI7:1865, DI:MethodSet ]
+      - DisplayName: "MethodSet"
+      - Description: "Flat list of Methods"
       - HasComponent:
         - [ UAMethod, FDI7:1901, FDI7:Disconnect ]
+        - DisplayName: "Disconnect"
         - HasProperty:
           - [ UAVariable, FDI7:1902, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -1738,6 +2009,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:1901, FDI7:Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:1903, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1752,8 +2024,10 @@ DefinedTypes:
           - [ UAObject, FDI7:1865, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:1904, FDI7:Connect ]
+        - DisplayName: "Connect"
         - HasProperty:
           - [ UAVariable, FDI7:1905, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               IPAddress: [ ByteString, 0 ]
@@ -1766,6 +2040,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:1904, FDI7:Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:1906, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1780,8 +2055,10 @@ DefinedTypes:
           - [ UAObject, FDI7:1865, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:1907, FDI7:Transfer ]
+        - DisplayName: "Transfer"
         - HasProperty:
           - [ UAVariable, FDI7:1908, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               OPERATION: [ String, 0 ]
@@ -1799,6 +2076,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:1907, FDI7:Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:1909, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ReadData: [ Byte, 1 ]
               ServiceError: [ Integer, 0 ]
@@ -1820,6 +2098,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1885, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "Name of the company that manufactured the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1828,6 +2108,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1886, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "Model name of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1836,6 +2118,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1890, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
+      - Description: "Revision level of the hardware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1844,6 +2128,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1889, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
+      - Description: "Revision level of the software/firmware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1852,6 +2138,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1888, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
+      - Description: "Overall revision level of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1860,6 +2148,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1887, DI:DeviceManual, String, 0, 0 ]
+      - DisplayName: "DeviceManual"
+      - Description: "Address (pathname in the file system or a URL | Web address) of user manual for the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1868,6 +2158,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1883, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "Identifier that uniquely identifies, within a manufacturer, a device instance"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1876,6 +2168,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1862, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1884, DI:RevisionCounter, Int32, 0, 0 ]
+      - DisplayName: "RevisionCounter"
+      - Description: "An incremental counter indicating the number of times the static data within the Device has been modified"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1893,12 +2187,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationGENERICDeviceType:
   - [ UAObjectType, FDI7:1913, FDI7:ServerCommunicationGENERICDeviceType ]
+  - DisplayName: "ServerCommunicationGENERICDeviceType"
   - HasComponent:
     - [ UAObject, FDI7:1916, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:1988, FDI7:SetAddress ]
+      - DisplayName: "SetAddress"
       - HasProperty:
         - [ UAVariable, FDI7:1989, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             OldAddress: [ ByteString, 0 ]
             NewAddress: [ ByteString, 0 ]
@@ -1910,6 +2209,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1988, FDI7:SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:1990, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -1930,6 +2230,7 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1913, FDI7:ServerCommunicationGENERICDeviceType ]
   - HasProperty:
     - [ UAVariable, FDI7:1987, FDI7:ProtocolIdentifier, String, 0, 0 ]
+    - DisplayName: "ProtocolIdentifier"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1938,12 +2239,17 @@ DefinedTypes:
       - [ UAObjectType, FDI7:1913, FDI7:ServerCommunicationGENERICDeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
+    - DisplayName: "ServiceProvider"
     - HasComponent:
       - [ UAObject, FDI7:1994, DI:MethodSet ]
+      - DisplayName: "MethodSet"
+      - Description: "Flat list of Methods"
       - HasComponent:
         - [ UAMethod, FDI7:2030, FDI7:Disconnect ]
+        - DisplayName: "Disconnect"
         - HasProperty:
           - [ UAVariable, FDI7:2031, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
           - HasTypeDefinition:
@@ -1954,6 +2260,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:2030, FDI7:Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:2032, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1968,8 +2275,10 @@ DefinedTypes:
           - [ UAObject, FDI7:1994, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:2033, FDI7:Connect ]
+        - DisplayName: "Connect"
         - HasProperty:
           - [ UAVariable, FDI7:2034, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               Address: [ ByteString, 0 ]
@@ -1981,6 +2290,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:2033, FDI7:Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:2035, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ServiceError: [ Integer, 0 ]
           - HasTypeDefinition:
@@ -1995,8 +2305,10 @@ DefinedTypes:
           - [ UAObject, FDI7:1994, DI:MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:2036, FDI7:Transfer ]
+        - DisplayName: "Transfer"
         - HasProperty:
           - [ UAVariable, FDI7:2037, FDI7:InputArguments, Argument, 1, 0 ]
+          - DisplayName: "InputArguments"
           - Arguments:
               CommunicationRelationId: [ ByteString, 0 ]
               Header: [ String, 0 ]
@@ -2011,6 +2323,7 @@ DefinedTypes:
             - [ UAMethod, FDI7:2036, FDI7:Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:2038, FDI7:OutputArguments, Argument, 1, 0 ]
+          - DisplayName: "OutputArguments"
           - Arguments:
               ResponseData: [ ByteString, 0 ]
               RESPONSE_CODES: [ ByteString, 0 ]
@@ -2033,6 +2346,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2014, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "Name of the company that manufactured the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2041,6 +2356,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2015, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "Model name of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2049,6 +2366,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2019, DI:HardwareRevision, String, 0, 0 ]
+      - DisplayName: "HardwareRevision"
+      - Description: "Revision level of the hardware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2057,6 +2376,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2018, DI:SoftwareRevision, String, 0, 0 ]
+      - DisplayName: "SoftwareRevision"
+      - Description: "Revision level of the software/firmware of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2065,6 +2386,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2017, DI:DeviceRevision, String, 0, 0 ]
+      - DisplayName: "DeviceRevision"
+      - Description: "Overall revision level of the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2073,6 +2396,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2016, DI:DeviceManual, String, 0, 0 ]
+      - DisplayName: "DeviceManual"
+      - Description: "Address (pathname in the file system or a URL | Web address) of user manual for the device"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2081,6 +2406,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2012, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "Identifier that uniquely identifies, within a manufacturer, a device instance"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2089,6 +2416,8 @@ DefinedTypes:
         - [ UAObject, FDI7:1991, FDI7:ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2013, DI:RevisionCounter, Int32, 0, 0 ]
+      - DisplayName: "RevisionCounter"
+      - Description: "An incremental counter indicating the number of times the static data within the Device has been modified"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2106,12 +2435,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationServiceType:
   - [ UAObjectType, FDI7:233, FDI7:ServerCommunicationServiceType ]
+  - DisplayName: "ServerCommunicationServiceType"
   - HasComponent:
     - [ UAObject, FDI7:236, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:300, FDI7:Disconnect ]
+      - DisplayName: "Disconnect"
       - HasProperty:
         - [ UAVariable, FDI7:301, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -2122,6 +2456,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:300, FDI7:Disconnect ]
       - HasProperty:
         - [ UAVariable, FDI7:302, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -2145,12 +2480,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationFFH1ServiceType:
   - [ UAObjectType, FDI7:997, FDI7:ServerCommunicationFFH1ServiceType ]
+  - DisplayName: "ServerCommunicationFFH1ServiceType"
   - HasComponent:
     - [ UAObject, FDI7:1000, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:1064, FDI7:Connect ]
+      - DisplayName: "Connect"
       - HasProperty:
         - [ UAVariable, FDI7:1065, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             LinkId: [ UInt16, 0 ]
@@ -2166,6 +2506,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1064, FDI7:Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1066, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             DelayForNextCall: [ UInt32, 0 ]
             ServiceError: [ Integer, 0 ]
@@ -2181,8 +2522,10 @@ DefinedTypes:
         - [ UAObject, FDI7:1000, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1067, FDI7:Transfer ]
+      - DisplayName: "Transfer"
       - HasProperty:
         - [ UAVariable, FDI7:1068, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             OPERATION: [ String, 0 ]
@@ -2199,6 +2542,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1067, FDI7:Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1069, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ReadData: [ Byte, 1 ]
             DelayForNextCall: [ UInt32, 0 ]
@@ -2215,8 +2559,10 @@ DefinedTypes:
         - [ UAObject, FDI7:1000, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1070, FDI7:GetPublishedData ]
+      - DisplayName: "GetPublishedData"
       - HasProperty:
         - [ UAVariable, FDI7:1071, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             ServiceId: [ UInt32, 0 ]
@@ -2228,6 +2574,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1070, FDI7:GetPublishedData ]
       - HasProperty:
         - [ UAVariable, FDI7:1072, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             BlockTag: [ String, 0 ]
             AlarmEventData: [ Byte, 1 ]
@@ -2256,12 +2603,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationFFHSEServiceType:
   - [ UAObjectType, FDI7:1073, FDI7:ServerCommunicationFFHSEServiceType ]
+  - DisplayName: "ServerCommunicationFFHSEServiceType"
   - HasComponent:
     - [ UAObject, FDI7:1076, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:1140, FDI7:Connect ]
+      - DisplayName: "Connect"
       - HasProperty:
         - [ UAVariable, FDI7:1141, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             Address: [ ByteString, 0 ]
@@ -2275,6 +2627,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1140, FDI7:Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1142, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             DelayForNextCall: [ UInt32, 0 ]
             ServiceError: [ Integer, 0 ]
@@ -2290,8 +2643,10 @@ DefinedTypes:
         - [ UAObject, FDI7:1076, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1143, FDI7:Transfer ]
+      - DisplayName: "Transfer"
       - HasProperty:
         - [ UAVariable, FDI7:1144, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             OPERATION: [ String, 0 ]
@@ -2308,6 +2663,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1143, FDI7:Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1145, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ReadData: [ Byte, 1 ]
             DelayForNextCall: [ UInt32, 0 ]
@@ -2324,8 +2680,10 @@ DefinedTypes:
         - [ UAObject, FDI7:1076, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1146, FDI7:GetPublishedData ]
+      - DisplayName: "GetPublishedData"
       - HasProperty:
         - [ UAVariable, FDI7:1147, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             ServiceId: [ UInt32, 0 ]
@@ -2337,6 +2695,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1146, FDI7:GetPublishedData ]
       - HasProperty:
         - [ UAVariable, FDI7:1148, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             BlockTag: [ String, 0 ]
             AlarmEventData: [ Byte, 1 ]
@@ -2365,12 +2724,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationPROFIBUSServiceType:
   - [ UAObjectType, FDI7:1149, FDI7:ServerCommunicationPROFIBUSServiceType ]
+  - DisplayName: "ServerCommunicationPROFIBUSServiceType"
   - HasComponent:
     - [ UAObject, FDI7:1152, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:1216, FDI7:Connect ]
+      - DisplayName: "Connect"
       - HasProperty:
         - [ UAVariable, FDI7:1217, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             Address: [ Byte, 0 ]
@@ -2383,6 +2747,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1216, FDI7:Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1218, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -2397,8 +2762,10 @@ DefinedTypes:
         - [ UAObject, FDI7:1152, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1219, FDI7:Transfer ]
+      - DisplayName: "Transfer"
       - HasProperty:
         - [ UAVariable, FDI7:1220, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             OPERATION: [ String, 0 ]
@@ -2413,6 +2780,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1219, FDI7:Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1221, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             REPLY: [ ByteString, 0 ]
             RESPONSE_CODES: [ ByteString, 0 ]
@@ -2438,12 +2806,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationPROFINETServiceType:
   - [ UAObjectType, FDI7:1222, FDI7:ServerCommunicationPROFINETServiceType ]
+  - DisplayName: "ServerCommunicationPROFINETServiceType"
   - HasComponent:
     - [ UAObject, FDI7:1225, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:1289, FDI7:Connect ]
+      - DisplayName: "Connect"
       - HasProperty:
         - [ UAVariable, FDI7:1290, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             DNSNAME: [ String, 0 ]
@@ -2457,6 +2830,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1289, FDI7:Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1291, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -2471,8 +2845,10 @@ DefinedTypes:
         - [ UAObject, FDI7:1225, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1292, FDI7:Transfer ]
+      - DisplayName: "Transfer"
       - HasProperty:
         - [ UAVariable, FDI7:1293, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             OPERATION: [ String, 0 ]
@@ -2489,6 +2865,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1292, FDI7:Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1294, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             REPLY: [ ByteString, 0 ]
             RESPONSE_CODES: [ ByteString, 0 ]
@@ -2514,12 +2891,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationHARTServiceType:
   - [ UAObjectType, FDI7:1295, FDI7:ServerCommunicationHARTServiceType ]
+  - DisplayName: "ServerCommunicationHARTServiceType"
   - HasComponent:
     - [ UAObject, FDI7:1298, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:1362, FDI7:Connect ]
+      - DisplayName: "Connect"
       - HasProperty:
         - [ UAVariable, FDI7:1363, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             LongAddress: [ ByteString, 0 ]
@@ -2531,6 +2913,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1362, FDI7:Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1364, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -2545,8 +2928,10 @@ DefinedTypes:
         - [ UAObject, FDI7:1298, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1365, FDI7:Transfer ]
+      - DisplayName: "Transfer"
       - HasProperty:
         - [ UAVariable, FDI7:1366, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             Command: [ UInt16, 0 ]
@@ -2559,6 +2944,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1365, FDI7:Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1367, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Reply: [ ByteString, 0 ]
             ServiceError: [ Integer, 0 ]
@@ -2574,8 +2960,10 @@ DefinedTypes:
         - [ UAObject, FDI7:1298, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1368, FDI7:GetPublishedData ]
+      - DisplayName: "GetPublishedData"
       - HasProperty:
         - [ UAVariable, FDI7:1369, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -2586,6 +2974,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:1368, FDI7:GetPublishedData ]
       - HasProperty:
         - [ UAVariable, FDI7:1370, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Command: [ UInt16, 0 ]
             Reply: [ ByteString, 0 ]
@@ -2612,12 +3001,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationISA100_WirelessServiceType:
   - [ UAObjectType, FDI7:2057, FDI7:ServerCommunicationISA100_WirelessServiceType ]
+  - DisplayName: "ServerCommunicationISA100_WirelessServiceType"
   - HasComponent:
     - [ UAObject, FDI7:2060, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:2124, FDI7:Connect ]
+      - DisplayName: "Connect"
       - HasProperty:
         - [ UAVariable, FDI7:2125, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             IPAddress: [ ByteString, 0 ]
@@ -2630,6 +3024,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:2124, FDI7:Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:2126, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -2644,8 +3039,10 @@ DefinedTypes:
         - [ UAObject, FDI7:2060, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:2127, FDI7:Transfer ]
+      - DisplayName: "Transfer"
       - HasProperty:
         - [ UAVariable, FDI7:2128, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             OPERATION: [ String, 0 ]
@@ -2663,6 +3060,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:2127, FDI7:Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:2129, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ReadData: [ Byte, 1 ]
             ServiceError: [ Integer, 0 ]
@@ -2678,8 +3076,10 @@ DefinedTypes:
         - [ UAObject, FDI7:2060, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:2130, FDI7:GetPublishedData ]
+      - DisplayName: "GetPublishedData"
       - HasProperty:
         - [ UAVariable, FDI7:2131, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -2690,6 +3090,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:2130, FDI7:GetPublishedData ]
       - HasProperty:
         - [ UAVariable, FDI7:2132, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             AppID: [ UInt16, 0 ]
             ObjectID: [ UInt16, 0 ]
@@ -2718,12 +3119,17 @@ DefinedTypes:
 
   FDI7:ServerCommunicationGENERICServiceType:
   - [ UAObjectType, FDI7:2133, FDI7:ServerCommunicationGENERICServiceType ]
+  - DisplayName: "ServerCommunicationGENERICServiceType"
   - HasComponent:
     - [ UAObject, FDI7:2136, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasComponent:
       - [ UAMethod, FDI7:2200, FDI7:Connect ]
+      - DisplayName: "Connect"
       - HasProperty:
         - [ UAVariable, FDI7:2201, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             Address: [ ByteString, 0 ]
@@ -2735,6 +3141,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:2200, FDI7:Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:2202, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ServiceError: [ Integer, 0 ]
         - HasTypeDefinition:
@@ -2749,8 +3156,10 @@ DefinedTypes:
         - [ UAObject, FDI7:2136, DI:MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:2203, FDI7:Transfer ]
+      - DisplayName: "Transfer"
       - HasProperty:
         - [ UAVariable, FDI7:2204, FDI7:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             CommunicationRelationId: [ ByteString, 0 ]
             Header: [ String, 0 ]
@@ -2765,6 +3174,7 @@ DefinedTypes:
           - [ UAMethod, FDI7:2203, FDI7:Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:2205, FDI7:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ResponseData: [ ByteString, 0 ]
             RESPONSE_CODES: [ ByteString, 0 ]

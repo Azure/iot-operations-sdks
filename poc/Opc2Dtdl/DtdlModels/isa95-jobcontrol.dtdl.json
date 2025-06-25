@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ISA95JobOrderStatusEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1006",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobOrderStatusEventType/{commandName}",
@@ -20,6 +21,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95JobOrderDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95JobOrderDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3008",
         "fields": [
           {
@@ -103,6 +106,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95JobResponseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95JobResponseDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3013",
         "fields": [
           {
@@ -183,6 +188,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95StateDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95StateDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
         "fields": [
           {
@@ -205,6 +212,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95WorkMasterDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95WorkMasterDataType",
+        "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3007",
         "fields": [
           {
@@ -230,6 +239,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95ParameterDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95ParameterDataType",
+        "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
         "fields": [
           {
@@ -268,6 +279,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95PersonnelDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PersonnelDataType",
+        "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
         "fields": [
           {
@@ -311,6 +324,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95PropertyDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PropertyDataType",
+        "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
         "fields": [
           {
@@ -349,6 +364,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95EquipmentDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95EquipmentDataType",
+        "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
         "fields": [
           {
@@ -392,6 +409,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95PhysicalAssetDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PhysicalAssetDataType",
+        "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
         "fields": [
           {
@@ -435,6 +454,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95MaterialDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95MaterialDataType",
+        "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
         "fields": [
           {
@@ -495,6 +516,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobOrder",
+        "displayName": "JobOrder",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95JobOrderDataType;1",
         "writable": true
@@ -502,6 +524,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobResponse",
+        "displayName": "JobResponse",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95JobResponseDataType;1",
         "writable": true
@@ -509,6 +532,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "JobState",
+        "displayName": "JobState",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -530,6 +554,8 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISA95JobResponseProviderObjectType",
+    "description": "The OPENSCSJobResponseProviderObjectType contains a method to receive unsolicited job response requests.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1003",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobResponseProviderObjectType/{commandName}",
@@ -539,6 +565,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95JobResponseDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3013",
         "fields": [
           {
@@ -619,6 +647,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95StateDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95StateDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
         "fields": [
           {
@@ -641,6 +671,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95ParameterDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95ParameterDataType",
+        "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
         "fields": [
           {
@@ -679,6 +711,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PersonnelDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PersonnelDataType",
+        "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
         "fields": [
           {
@@ -722,6 +756,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PropertyDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PropertyDataType",
+        "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
         "fields": [
           {
@@ -760,6 +796,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95EquipmentDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95EquipmentDataType",
+        "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
         "fields": [
           {
@@ -803,6 +841,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PhysicalAssetDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PhysicalAssetDataType",
+        "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
         "fields": [
           {
@@ -846,6 +886,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95MaterialDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95MaterialDataType",
+        "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
         "fields": [
           {
@@ -906,6 +948,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "JobOrderResponseList",
+        "displayName": "JobOrderResponseList",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -915,6 +958,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RequestJobResponseByJobOrderID",
+        "displayName": "RequestJobResponseByJobOrderID",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -953,6 +997,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RequestJobResponseByJobOrderState",
+        "displayName": "RequestJobResponseByJobOrderState",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1008,6 +1053,8 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISA95JobResponseReceiverObjectType",
+    "description": "A Job Response Receiver receives unsolicited Job Responses, usually as the result of completion of a job, or at intermediate points within the job.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1004",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobResponseReceiverObjectType/{commandName}",
@@ -1016,6 +1063,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType:dataType:ISA95JobResponseDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95JobResponseDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3013",
         "fields": [
           {
@@ -1096,6 +1145,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType:dataType:ISA95StateDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95StateDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
         "fields": [
           {
@@ -1118,6 +1169,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType:dataType:ISA95ParameterDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95ParameterDataType",
+        "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
         "fields": [
           {
@@ -1156,6 +1209,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType:dataType:ISA95PersonnelDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PersonnelDataType",
+        "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
         "fields": [
           {
@@ -1199,6 +1254,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType:dataType:ISA95PropertyDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PropertyDataType",
+        "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
         "fields": [
           {
@@ -1237,6 +1294,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType:dataType:ISA95EquipmentDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95EquipmentDataType",
+        "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
         "fields": [
           {
@@ -1280,6 +1339,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType:dataType:ISA95PhysicalAssetDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PhysicalAssetDataType",
+        "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
         "fields": [
           {
@@ -1323,6 +1384,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType:dataType:ISA95MaterialDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95MaterialDataType",
+        "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
         "fields": [
           {
@@ -1383,6 +1446,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ReceiveJobResponse",
+        "displayName": "ReceiveJobResponse",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -1427,6 +1491,7 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95EndedStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISA95EndedStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -1437,6 +1502,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Closed",
+        "displayName": "Closed",
+        "description": "The job order has been completed and no further post processing is performed.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -1444,6 +1511,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Completed",
+        "displayName": "Completed",
+        "description": "The job order has been completed and is no longer in execution.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -1451,6 +1520,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromCompletedToClosed",
+        "displayName": "FromCompletedToClosed",
+        "description": "This transition is triggered when the system has finalized post processing of a ended job order.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
@@ -1468,6 +1539,7 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95InterruptedStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISA95InterruptedStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1007",
     "payloadFormat": "Json/ecma/404",
@@ -1478,6 +1550,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromHeldToSuspended",
+        "displayName": "FromHeldToSuspended",
+        "description": "This transition is triggered when the system has switched the job order from internally held to externally suspended, for example by a call of the Pause Method.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -1485,6 +1559,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSuspendedToHeld",
+        "displayName": "FromSuspendedToHeld",
+        "description": "This transition is triggered when the system has switched the job order from externally suspended to an internal held, for example by a call of the Resume Method.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -1492,6 +1568,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Held",
+        "displayName": "Held",
+        "description": "The job order has been temporarily stopped due to a constraint of some form.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -1499,6 +1577,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Suspended",
+        "displayName": "Suspended",
+        "description": "The job order has been temporarily stopped due to a deliberate decision within the execution system.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }
@@ -1516,6 +1596,8 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISA95JobOrderReceiverObjectType",
+    "description": "The OPENSCSJobOrderReciverObjectType contains a method to receive job order commands and optional definitions of allowable job order information",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1002",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobOrderReceiverObjectType/{commandName}",
@@ -1525,6 +1607,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderAndStateDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95JobOrderAndStateDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3015",
         "fields": [
           {
@@ -1545,6 +1629,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95WorkMasterDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95WorkMasterDataType",
+        "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3007",
         "fields": [
           {
@@ -1570,6 +1656,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95ParameterDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95ParameterDataType",
+        "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
         "fields": [
           {
@@ -1608,6 +1696,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95JobOrderDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3008",
         "fields": [
           {
@@ -1691,6 +1781,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PersonnelDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PersonnelDataType",
+        "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
         "fields": [
           {
@@ -1734,6 +1826,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95EquipmentDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95EquipmentDataType",
+        "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
         "fields": [
           {
@@ -1777,6 +1871,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PropertyDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PropertyDataType",
+        "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
         "fields": [
           {
@@ -1815,6 +1911,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95StateDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95StateDataType",
+        "description": "Defines the information needed to schedule and execute a job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
         "fields": [
           {
@@ -1837,6 +1935,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PhysicalAssetDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95PhysicalAssetDataType",
+        "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
         "fields": [
           {
@@ -1880,6 +1980,8 @@
       {
         "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95MaterialDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ISA95MaterialDataType",
+        "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
         "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
         "fields": [
           {
@@ -1940,6 +2042,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaxDownloadableJobOrders",
+        "displayName": "MaxDownloadableJobOrders",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": "unsignedShort",
         "writable": false
@@ -1947,6 +2050,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EquipmentID",
+        "displayName": "EquipmentID",
+        "description": "Defines a read-only set of Equipment Class IDs and Equipment IDs that may be specified in a job order.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -1956,6 +2061,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "JobOrderList",
+        "displayName": "JobOrderList",
+        "description": "Defines a read-only list of job order information available from the server.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -1965,6 +2072,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaterialClassID",
+        "displayName": "MaterialClassID",
+        "description": "Defines a read-only set of Material Classes IDs that may be specified in a job order.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -1974,6 +2083,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaterialDefinitionID",
+        "displayName": "MaterialDefinitionID",
+        "description": "Defines a read-only set of Material Classes IDs that may be specified in a job order.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -1983,6 +2094,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PersonnelID",
+        "displayName": "PersonnelID",
+        "description": "Defines a read-only set of Personnel IDs and Person IDs that may be specified in a job order.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -1992,6 +2105,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PhysicalAssetID",
+        "displayName": "PhysicalAssetID",
+        "description": "Defines a read-only set of Physical Asset Class IDs and Physical Asset IDs that may be specified in a job order.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -2001,6 +2116,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WorkMaster",
+        "displayName": "WorkMaster",
+        "description": "Defines a read-only set of work master IDs that may be specified in a job order, and the read-only set of parameters that may be specified for a specific work master.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "schema": {
           "@type": "Array",
@@ -2010,6 +2127,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Abort",
+        "displayName": "Abort",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2051,6 +2169,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Cancel",
+        "displayName": "Cancel",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2092,6 +2211,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Clear",
+        "displayName": "Clear",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2133,6 +2253,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Pause",
+        "displayName": "Pause",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2174,6 +2295,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Resume",
+        "displayName": "Resume",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2215,6 +2337,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RevokeStart",
+        "displayName": "RevokeStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2256,6 +2379,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Start",
+        "displayName": "Start",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2297,6 +2421,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Stop",
+        "displayName": "Stop",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2338,6 +2463,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Store",
+        "displayName": "Store",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2379,6 +2505,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StoreAndStart",
+        "displayName": "StoreAndStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2420,6 +2547,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Update",
+        "displayName": "Update",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -2462,6 +2590,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Aborted",
+        "displayName": "Aborted",
+        "description": "The job order is aborted.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -2469,6 +2599,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AllowedToStart",
+        "displayName": "AllowedToStart",
+        "description": "The job order is stored and may be executed.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -2476,6 +2608,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Ended",
+        "displayName": "Ended",
+        "description": "The job order has been completed and is no longer in execution.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -2483,6 +2617,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromAllowedToStartToAborted",
+        "displayName": "FromAllowedToStartToAborted",
+        "description": "This transition is triggered when Abort Method is called.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2490,6 +2626,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromAllowedToStartToAllowedToStart",
+        "displayName": "FromAllowedToStartToAllowedToStart",
+        "description": "This transition is triggered when the Update Method is called and the job order is modified.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2497,6 +2635,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromAllowedToStartToNotAllowedToStart",
+        "displayName": "FromAllowedToStartToNotAllowedToStart",
+        "description": "This transition is triggered when the RevokeStart Method is called.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2504,6 +2644,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromAllowedToStartToRunning",
+        "displayName": "FromAllowedToStartToRunning",
+        "description": "This transition is triggered when a job order is started to be executed.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2511,6 +2653,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromInterruptedToAborted",
+        "displayName": "FromInterruptedToAborted",
+        "description": "This transition is triggered when Abort Method is called.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2518,6 +2662,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromInterruptedToEnded",
+        "displayName": "FromInterruptedToEnded",
+        "description": "This transition is triggered when Stop Method is called.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2525,6 +2671,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromInterruptedToRunning",
+        "displayName": "FromInterruptedToRunning",
+        "description": "This transition is triggered when Resume Method is called.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2532,6 +2680,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromNotAllowedToStartToAborted",
+        "displayName": "FromNotAllowedToStartToAborted",
+        "description": "This transition is triggered when Abort Method is called.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2539,6 +2689,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromNotAllowedToStartToAllowedToStart",
+        "displayName": "FromNotAllowedToStartToAllowedToStart",
+        "description": "This transition is triggered when the Start Method is called.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2546,6 +2698,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromNotAllowedToStartToNotAllowedToStart",
+        "displayName": "FromNotAllowedToStartToNotAllowedToStart",
+        "description": "This transition is triggered when the Update Method is called and the job order is modified.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2553,6 +2707,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromRunningToAborted",
+        "displayName": "FromRunningToAborted",
+        "description": "This transition is triggered when Abort Method is called.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2560,6 +2716,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromRunningToEnded",
+        "displayName": "FromRunningToEnded",
+        "description": "This transition is triggered when the execution of a job order has finished, either internally or by the Stop Method.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2567,6 +2725,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromRunningToInterrupted",
+        "displayName": "FromRunningToInterrupted",
+        "description": "This transition is triggered when an executing job order gets interrupted, either internally or by the Pause Method.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2574,6 +2734,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Interrupted",
+        "displayName": "Interrupted",
+        "description": "The job order has been temporarily stopped.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -2581,6 +2743,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "NotAllowedToStart",
+        "displayName": "NotAllowedToStart",
+        "description": "The job order is stored but may not be executed.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -2588,6 +2752,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Running",
+        "displayName": "Running",
+        "description": "The job order is executing.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }
@@ -2605,6 +2771,7 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverSubStatesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISA95JobOrderReceiverSubStatesType",
     "extends": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1008",
     "payloadFormat": "Json/ecma/404",
@@ -2615,6 +2782,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AllowedToStartSubstates",
+        "displayName": "AllowedToStartSubstates",
+        "description": "Substates of AllowedToStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
       },
@@ -2622,6 +2791,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EndedSubstates",
+        "displayName": "EndedSubstates",
+        "description": "Substates of Ended",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95EndedStateMachineType"
       },
@@ -2629,6 +2800,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InterruptedSubstates",
+        "displayName": "InterruptedSubstates",
+        "description": "Substates of Interrupted",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95InterruptedStateMachineType"
       },
@@ -2636,6 +2809,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "NotAllowedToStartSubstates",
+        "displayName": "NotAllowedToStartSubstates",
+        "description": "Substates of NotAllowedToStart",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
       }
@@ -2653,6 +2828,7 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ISA95PrepareStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1001",
     "payloadFormat": "Json/ecma/404",
@@ -2663,6 +2839,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLoadedToReady",
+        "displayName": "FromLoadedToReady",
+        "description": "This transition is triggered when the program or configuration to execute the job order is unloaded.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2670,6 +2848,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLoadedToWaiting",
+        "displayName": "FromLoadedToWaiting",
+        "description": "This transition is triggered when the system is not ready to start the execution of the job order anymore.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2677,6 +2857,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromReadyToLoaded",
+        "displayName": "FromReadyToLoaded",
+        "description": "This transition is triggered when the program or configuration to execute the job order is loaded.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2684,6 +2866,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromReadyToWaiting",
+        "displayName": "FromReadyToWaiting",
+        "description": "This transition is triggered when the system is not ready to start the execution of the job order anymore.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2691,6 +2875,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromWaitingToReady",
+        "displayName": "FromWaitingToReady",
+        "description": "This transition is triggered when the system is ready to start the execution of the job order.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -2698,6 +2884,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Loaded",
+        "displayName": "Loaded",
+        "description": "In situations where only one job may be in active memory and is able to be run, then the job is loaded in active memory, the necessary pre-conditions have been met, and the job order is ready to run, awaiting a Start command.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -2705,6 +2893,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Ready",
+        "displayName": "Ready",
+        "description": "The necessary pre-conditions have been met and the job order is ready to run, awaiting a Start command.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -2712,6 +2902,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Waiting",
+        "displayName": "Waiting",
+        "description": "The necessary pre-conditions have not been met and the job order is not ready to run.",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }

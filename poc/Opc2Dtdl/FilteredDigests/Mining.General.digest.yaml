@@ -1,9 +1,13 @@
 DataTypes:
 - UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
+  DisplayName: "LongwallShieldOffsetDataType"
+  Description: "The LongwallShieldOffsetDataType describes a tuple containing a roof support shield number and its corresponding offset"
   Fields:
     ShieldNumber: [ UInt16, 0 ]
     ShieldOffset: [ Double, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -14,25 +18,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -44,46 +55,61 @@ DefinedTypes:
 
   Mining.General:MiningEquipmentIdentificationType:
   - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
+  - DisplayName: "MiningEquipmentIdentificationType"
   - HasProperty:
     - [ UAVariable, Mining.General:6027, DI:AssetId, String, 0, 0 ]
+    - DisplayName: "AssetId"
+    - Description: "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Mining.General:6026, Mining.General:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of this type"
   - HasProperty:
     - [ UAVariable, Mining.General:6032, DI:DeviceClass, String, 0, 0 ]
+    - DisplayName: "DeviceClass"
+    - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Mining.General:5006, DI:DeviceTypeImage ]
+    - DisplayName: "DeviceTypeImage"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, Mining.General:5007, DI:Documentation ]
+    - DisplayName: "Documentation"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, Mining.General:5008, DI:ImageSet ]
+    - DisplayName: "ImageSet"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, Mining.General:6028, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
+    - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasProperty:
     - [ UAVariable, Mining.General:6029, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
+    - Description: "A human-readable, localized name of the model of the MachineryItem."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Mining.General:5009, DI:ProtocolSupport ]
+    - DisplayName: "ProtocolSupport"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -91,5 +117,7 @@ DefinedTypes:
 
   Mining.General:MiningEquipmentType:
   - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
+  - DisplayName: "MiningEquipmentType"
+  - Description: "The MiningEquipmentType ObjectType describes the abstract blueprint for any type of mining field equipment or machinery"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]

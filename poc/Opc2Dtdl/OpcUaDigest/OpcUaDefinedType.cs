@@ -12,6 +12,8 @@ namespace OpcUaDigest
             Datatype = datatype;
             ValueRank = valueRank;
             AccessLevel = accessLevel;
+            DisplayName = null;
+            Description = null;
             Contents = new List<OpcUaContent>();
             Arguments = new Dictionary<string, (string?, int)>();
             UnitId = null;
@@ -28,6 +30,10 @@ namespace OpcUaDigest
         public int ValueRank { get; }
 
         public int AccessLevel { get; }
+
+        public string? DisplayName { get; set; }
+
+        public string? Description { get; set; }
 
         public List<OpcUaContent> Contents { get; }
 

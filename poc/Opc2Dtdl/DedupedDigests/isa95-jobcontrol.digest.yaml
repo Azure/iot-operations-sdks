@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ isa95-jobcontrol:3005, isa95-jobcontrol:ISA95EquipmentDataType ]
+  DisplayName: "ISA95EquipmentDataType"
+  Description: "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties."
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
@@ -8,10 +10,14 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3015, isa95-jobcontrol:ISA95JobOrderAndStateDataType ]
+  DisplayName: "ISA95JobOrderAndStateDataType"
+  Description: "Defines the information needed to schedule and execute a job."
   Fields:
     JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
     State: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3008, isa95-jobcontrol:ISA95JobOrderDataType ]
+  DisplayName: "ISA95JobOrderDataType"
+  Description: "Defines the information needed to schedule and execute a job."
   Fields:
     JobOrderID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
@@ -25,6 +31,8 @@ DataTypes:
     PhysicalAssetRequirements: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
     MaterialRequirements: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3013, isa95-jobcontrol:ISA95JobResponseDataType ]
+  DisplayName: "ISA95JobResponseDataType"
+  Description: "Defines the information needed to schedule and execute a job."
   Fields:
     JobResponseID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
@@ -38,6 +46,8 @@ DataTypes:
     PhysicalAssetActuals: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
     MaterialActuals: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3010, isa95-jobcontrol:ISA95MaterialDataType ]
+  DisplayName: "ISA95MaterialDataType"
+  Description: "Defines a material resource, a quantity, an optional description, and an optional collection of properties."
   Fields:
     MaterialClassID: [ String, 0 ]
     MaterialDefinitionID: [ String, 0 ]
@@ -49,6 +59,8 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3003, isa95-jobcontrol:ISA95ParameterDataType ]
+  DisplayName: "ISA95ParameterDataType"
+  Description: "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter."
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
@@ -56,6 +68,8 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Subparameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3011, isa95-jobcontrol:ISA95PersonnelDataType ]
+  DisplayName: "ISA95PersonnelDataType"
+  Description: "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties."
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
@@ -64,6 +78,8 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3012, isa95-jobcontrol:ISA95PhysicalAssetDataType ]
+  DisplayName: "ISA95PhysicalAssetDataType"
+  Description: "Defines a physical asset, a quantity, an optional description, and an optional collection of properties."
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
@@ -72,6 +88,8 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3002, isa95-jobcontrol:ISA95PropertyDataType ]
+  DisplayName: "ISA95PropertyDataType"
+  Description: "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property."
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
@@ -79,11 +97,15 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Subproperties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3006, isa95-jobcontrol:ISA95StateDataType ]
+  DisplayName: "ISA95StateDataType"
+  Description: "Defines the information needed to schedule and execute a job."
   Fields:
     BrowsePath: [ RelativePath, 0 ]
     StateText: [ LocalizedText, 0 ]
     StateNumber: [ UInt32, 0 ]
 - UADataType: [ isa95-jobcontrol:3007, isa95-jobcontrol:ISA95WorkMasterDataType ]
+  DisplayName: "ISA95WorkMasterDataType"
+  Description: "Defines a Work Master ID and the defined parameters for the Work Master."
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
@@ -93,16 +115,20 @@ DefinedTypes:
 
   isa95-jobcontrol:ISA95JobOrderStatusEventType:
   - [ UAObjectType, isa95-jobcontrol:1006, isa95-jobcontrol:ISA95JobOrderStatusEventType ]
+  - DisplayName: "ISA95JobOrderStatusEventType"
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6047, isa95-jobcontrol:JobOrder, isa95-jobcontrol:ISA95JobOrderDataType, 0, 3 ]
+    - DisplayName: "JobOrder"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6049, isa95-jobcontrol:JobResponse, isa95-jobcontrol:ISA95JobResponseDataType, 0, 3 ]
+    - DisplayName: "JobResponse"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6048, isa95-jobcontrol:JobState, isa95-jobcontrol:ISA95StateDataType, 1, 3 ]
+    - DisplayName: "JobState"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -110,18 +136,23 @@ DefinedTypes:
 
   isa95-jobcontrol:ISA95JobResponseProviderObjectType:
   - [ UAObjectType, isa95-jobcontrol:1003, isa95-jobcontrol:ISA95JobResponseProviderObjectType ]
+  - DisplayName: "ISA95JobResponseProviderObjectType"
+  - Description: "The OPENSCSJobResponseProviderObjectType contains a method to receive unsolicited job response requests."
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6050, isa95-jobcontrol:JobOrderResponseList, isa95-jobcontrol:ISA95JobResponseDataType, 1, 3 ]
+    - DisplayName: "JobOrderResponseList"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7002, isa95-jobcontrol:RequestJobResponseByJobOrderID ]
+    - DisplayName: "RequestJobResponseByJobOrderID"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6042, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderID: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -129,18 +160,21 @@ DefinedTypes:
       - Arguments:
           JobResponse: [ isa95-jobcontrol:ISA95JobResponseDataType, 0 ]
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7014, isa95-jobcontrol:RequestJobResponseByJobOrderState ]
+    - DisplayName: "RequestJobResponseByJobOrderState"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6016, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobOrderState: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -148,25 +182,31 @@ DefinedTypes:
       - Arguments:
           JobResponses: [ isa95-jobcontrol:ISA95JobResponseDataType, 1 ]
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
 
   isa95-jobcontrol:ISA95JobResponseReceiverObjectType:
   - [ UAObjectType, isa95-jobcontrol:1004, isa95-jobcontrol:ISA95JobResponseReceiverObjectType ]
+  - DisplayName: "ISA95JobResponseReceiverObjectType"
+  - Description: "A Job Response Receiver receives unsolicited Job Responses, usually as the result of completion of a job, or at intermediate points within the job."
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7003, isa95-jobcontrol:ReceiveJobResponse ]
+    - DisplayName: "ReceiveJobResponse"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6044, isa95-jobcontrol:InputArguments, Argument, 1, 0 ]
       - Arguments:
           JobResponse: [ isa95-jobcontrol:ISA95JobResponseDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6045, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -174,16 +214,23 @@ DefinedTypes:
 
   isa95-jobcontrol:ISA95EndedStateMachineType:
   - [ UAObjectType, isa95-jobcontrol:1005, isa95-jobcontrol:ISA95EndedStateMachineType ]
+  - DisplayName: "ISA95EndedStateMachineType"
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5057, isa95-jobcontrol:Closed ]
+    - DisplayName: "Closed"
+    - Description: "The job order has been completed and no further post processing is performed."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5056, isa95-jobcontrol:Completed ]
+    - DisplayName: "Completed"
+    - Description: "The job order has been completed and is no longer in execution."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5058, isa95-jobcontrol:FromCompletedToClosed ]
+    - DisplayName: "FromCompletedToClosed"
+    - Description: "This transition is triggered when the system has finalized post processing of a ended job order."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
@@ -191,20 +238,29 @@ DefinedTypes:
 
   isa95-jobcontrol:ISA95InterruptedStateMachineType:
   - [ UAObjectType, isa95-jobcontrol:1007, isa95-jobcontrol:ISA95InterruptedStateMachineType ]
+  - DisplayName: "ISA95InterruptedStateMachineType"
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5061, isa95-jobcontrol:FromHeldToSuspended ]
+    - DisplayName: "FromHeldToSuspended"
+    - Description: "This transition is triggered when the system has switched the job order from internally held to externally suspended, for example by a call of the Pause Method."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5062, isa95-jobcontrol:FromSuspendedToHeld ]
+    - DisplayName: "FromSuspendedToHeld"
+    - Description: "This transition is triggered when the system has switched the job order from externally suspended to an internal held, for example by a call of the Resume Method."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5059, isa95-jobcontrol:Held ]
+    - DisplayName: "Held"
+    - Description: "The job order has been temporarily stopped due to a constraint of some form."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5060, isa95-jobcontrol:Suspended ]
+    - DisplayName: "Suspended"
+    - Description: "The job order has been temporarily stopped due to a deliberate decision within the execution system."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasSubtype_reverse:
@@ -212,8 +268,11 @@ DefinedTypes:
 
   isa95-jobcontrol:ISA95JobOrderReceiverObjectType:
   - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
+  - DisplayName: "ISA95JobOrderReceiverObjectType"
+  - Description: "The OPENSCSJobOrderReciverObjectType contains a method to receive job order commands and optional definitions of allowable job order information"
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7010, isa95-jobcontrol:Abort ]
+    - DisplayName: "Abort"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -221,24 +280,31 @@ DefinedTypes:
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6064, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5040, isa95-jobcontrol:Aborted ]
+    - DisplayName: "Aborted"
+    - Description: "The job order is aborted."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5036, isa95-jobcontrol:AllowedToStart ]
+    - DisplayName: "AllowedToStart"
+    - Description: "The job order is stored and may be executed."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7011, isa95-jobcontrol:Cancel ]
+    - DisplayName: "Cancel"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -246,16 +312,19 @@ DefinedTypes:
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6066, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7012, isa95-jobcontrol:Clear ]
+    - DisplayName: "Clear"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -263,100 +332,144 @@ DefinedTypes:
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6068, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5039, isa95-jobcontrol:Ended ]
+    - DisplayName: "Ended"
+    - Description: "The job order has been completed and is no longer in execution."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6037, isa95-jobcontrol:EquipmentID, String, 1, 0 ]
+    - DisplayName: "EquipmentID"
+    - Description: "Defines a read-only set of Equipment Class IDs and Equipment IDs that may be specified in a job order."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5085, isa95-jobcontrol:FromAllowedToStartToAborted ]
+    - DisplayName: "FromAllowedToStartToAborted"
+    - Description: "This transition is triggered when Abort Method is called."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5044, isa95-jobcontrol:FromAllowedToStartToAllowedToStart ]
+    - DisplayName: "FromAllowedToStartToAllowedToStart"
+    - Description: "This transition is triggered when the Update Method is called and the job order is modified."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5043, isa95-jobcontrol:FromAllowedToStartToNotAllowedToStart ]
+    - DisplayName: "FromAllowedToStartToNotAllowedToStart"
+    - Description: "This transition is triggered when the RevokeStart Method is called."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5045, isa95-jobcontrol:FromAllowedToStartToRunning ]
+    - DisplayName: "FromAllowedToStartToRunning"
+    - Description: "This transition is triggered when a job order is started to be executed."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5049, isa95-jobcontrol:FromInterruptedToAborted ]
+    - DisplayName: "FromInterruptedToAborted"
+    - Description: "This transition is triggered when Abort Method is called."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5051, isa95-jobcontrol:FromInterruptedToEnded ]
+    - DisplayName: "FromInterruptedToEnded"
+    - Description: "This transition is triggered when Stop Method is called."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5050, isa95-jobcontrol:FromInterruptedToRunning ]
+    - DisplayName: "FromInterruptedToRunning"
+    - Description: "This transition is triggered when Resume Method is called."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5084, isa95-jobcontrol:FromNotAllowedToStartToAborted ]
+    - DisplayName: "FromNotAllowedToStartToAborted"
+    - Description: "This transition is triggered when Abort Method is called."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5042, isa95-jobcontrol:FromNotAllowedToStartToAllowedToStart ]
+    - DisplayName: "FromNotAllowedToStartToAllowedToStart"
+    - Description: "This transition is triggered when the Start Method is called."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5041, isa95-jobcontrol:FromNotAllowedToStartToNotAllowedToStart ]
+    - DisplayName: "FromNotAllowedToStartToNotAllowedToStart"
+    - Description: "This transition is triggered when the Update Method is called and the job order is modified."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5048, isa95-jobcontrol:FromRunningToAborted ]
+    - DisplayName: "FromRunningToAborted"
+    - Description: "This transition is triggered when Abort Method is called."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5047, isa95-jobcontrol:FromRunningToEnded ]
+    - DisplayName: "FromRunningToEnded"
+    - Description: "This transition is triggered when the execution of a job order has finished, either internally or by the Stop Method."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5046, isa95-jobcontrol:FromRunningToInterrupted ]
+    - DisplayName: "FromRunningToInterrupted"
+    - Description: "This transition is triggered when an executing job order gets interrupted, either internally or by the Pause Method."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5038, isa95-jobcontrol:Interrupted ]
+    - DisplayName: "Interrupted"
+    - Description: "The job order has been temporarily stopped."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6033, isa95-jobcontrol:JobOrderList, isa95-jobcontrol:ISA95JobOrderAndStateDataType, 1, 0 ]
+    - DisplayName: "JobOrderList"
+    - Description: "Defines a read-only list of job order information available from the server."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6035, isa95-jobcontrol:MaterialClassID, String, 1, 0 ]
+    - DisplayName: "MaterialClassID"
+    - Description: "Defines a read-only set of Material Classes IDs that may be specified in a job order."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6036, isa95-jobcontrol:MaterialDefinitionID, String, 1, 0 ]
+    - DisplayName: "MaterialDefinitionID"
+    - Description: "Defines a read-only set of Material Classes IDs that may be specified in a job order."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6088, isa95-jobcontrol:MaxDownloadableJobOrders, UInt16, 0, 0 ]
+    - DisplayName: "MaxDownloadableJobOrders"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5035, isa95-jobcontrol:NotAllowedToStart ]
+    - DisplayName: "NotAllowedToStart"
+    - Description: "The job order is stored but may not be executed."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7007, isa95-jobcontrol:Pause ]
+    - DisplayName: "Pause"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -364,24 +477,31 @@ DefinedTypes:
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6058, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6039, isa95-jobcontrol:PersonnelID, String, 1, 0 ]
+    - DisplayName: "PersonnelID"
+    - Description: "Defines a read-only set of Personnel IDs and Person IDs that may be specified in a job order."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6038, isa95-jobcontrol:PhysicalAssetID, String, 1, 0 ]
+    - DisplayName: "PhysicalAssetID"
+    - Description: "Defines a read-only set of Physical Asset Class IDs and Physical Asset IDs that may be specified in a job order."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7008, isa95-jobcontrol:Resume ]
+    - DisplayName: "Resume"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -389,16 +509,19 @@ DefinedTypes:
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6060, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7013, isa95-jobcontrol:RevokeStart ]
+    - DisplayName: "RevokeStart"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -406,20 +529,25 @@ DefinedTypes:
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6070, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5037, isa95-jobcontrol:Running ]
+    - DisplayName: "Running"
+    - Description: "The job order is executing."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7005, isa95-jobcontrol:Start ]
+    - DisplayName: "Start"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -427,16 +555,19 @@ DefinedTypes:
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6054, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7006, isa95-jobcontrol:Stop ]
+    - DisplayName: "Stop"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -444,16 +575,19 @@ DefinedTypes:
       - Arguments:
           JobOrderID: [ String, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6056, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7001, isa95-jobcontrol:Store ]
+    - DisplayName: "Store"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -461,16 +595,19 @@ DefinedTypes:
       - Arguments:
           JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6041, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7004, isa95-jobcontrol:StoreAndStart ]
+    - DisplayName: "StoreAndStart"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -478,16 +615,19 @@ DefinedTypes:
       - Arguments:
           JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6052, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7009, isa95-jobcontrol:Update ]
+    - DisplayName: "Update"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -495,16 +635,20 @@ DefinedTypes:
       - Arguments:
           JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
           Comment: [ LocalizedText, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6062, isa95-jobcontrol:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ReturnStatus: [ UInt64, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6034, isa95-jobcontrol:WorkMaster, isa95-jobcontrol:ISA95WorkMasterDataType, 1, 0 ]
+    - DisplayName: "WorkMaster"
+    - Description: "Defines a read-only set of work master IDs that may be specified in a job order, and the read-only set of parameters that may be specified for a specific work master."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -512,20 +656,27 @@ DefinedTypes:
 
   isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType:
   - [ UAObjectType, isa95-jobcontrol:1008, isa95-jobcontrol:ISA95JobOrderReceiverSubStatesType ]
+  - DisplayName: "ISA95JobOrderReceiverSubStatesType"
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5081, isa95-jobcontrol:AllowedToStartSubstates ]
+    - DisplayName: "AllowedToStartSubstates"
+    - Description: "Substates of AllowedToStart"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, isa95-jobcontrol:1001, isa95-jobcontrol:ISA95PrepareStateMachineType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5082, isa95-jobcontrol:EndedSubstates ]
+    - DisplayName: "EndedSubstates"
+    - Description: "Substates of Ended"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, isa95-jobcontrol:1005, isa95-jobcontrol:ISA95EndedStateMachineType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5083, isa95-jobcontrol:InterruptedSubstates ]
+    - DisplayName: "InterruptedSubstates"
+    - Description: "Substates of Interrupted"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -534,6 +685,8 @@ DefinedTypes:
     - [ UAObjectType, isa95-jobcontrol:1002, isa95-jobcontrol:ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5080, isa95-jobcontrol:NotAllowedToStartSubstates ]
+    - DisplayName: "NotAllowedToStartSubstates"
+    - Description: "Substates of NotAllowedToStart"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -541,36 +694,53 @@ DefinedTypes:
 
   isa95-jobcontrol:ISA95PrepareStateMachineType:
   - [ UAObjectType, isa95-jobcontrol:1001, isa95-jobcontrol:ISA95PrepareStateMachineType ]
+  - DisplayName: "ISA95PrepareStateMachineType"
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5089, isa95-jobcontrol:FromLoadedToReady ]
+    - DisplayName: "FromLoadedToReady"
+    - Description: "This transition is triggered when the program or configuration to execute the job order is unloaded."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5090, isa95-jobcontrol:FromLoadedToWaiting ]
+    - DisplayName: "FromLoadedToWaiting"
+    - Description: "This transition is triggered when the system is not ready to start the execution of the job order anymore."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5055, isa95-jobcontrol:FromReadyToLoaded ]
+    - DisplayName: "FromReadyToLoaded"
+    - Description: "This transition is triggered when the program or configuration to execute the job order is loaded."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5088, isa95-jobcontrol:FromReadyToWaiting ]
+    - DisplayName: "FromReadyToWaiting"
+    - Description: "This transition is triggered when the system is not ready to start the execution of the job order anymore."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5054, isa95-jobcontrol:FromWaitingToReady ]
+    - DisplayName: "FromWaitingToReady"
+    - Description: "This transition is triggered when the system is ready to start the execution of the job order."
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5053, isa95-jobcontrol:Loaded ]
+    - DisplayName: "Loaded"
+    - Description: "In situations where only one job may be in active memory and is able to be run, then the job is loaded in active memory, the necessary pre-conditions have been met, and the job order is ready to run, awaiting a Start command."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5052, isa95-jobcontrol:Ready ]
+    - DisplayName: "Ready"
+    - Description: "The necessary pre-conditions have been met and the job order is ready to run, awaiting a Start command."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5000, isa95-jobcontrol:Waiting ]
+    - DisplayName: "Waiting"
+    - Description: "The necessary pre-conditions have not been met and the job order is not ready to run."
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasSubtype_reverse:

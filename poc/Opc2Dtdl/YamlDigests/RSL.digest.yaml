@@ -4,8 +4,11 @@ DefinedTypes:
 
   RSL:RpyOrientationType:
   - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
+  - DisplayName: "RpyOrientationType"
   - HasComponent:
     - [ UAVariable, RSL:6037, RSL:A, Double, 0, 3 ]
+    - DisplayName: "A"
+    - Description: "Rotation around X Axis (Roll) as per ISO 9787:2013"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -14,6 +17,8 @@ DefinedTypes:
       - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
   - HasComponent:
     - [ UAVariable, RSL:6040, RSL:B, Double, 0, 3 ]
+    - DisplayName: "B"
+    - Description: "Rotation around Y Axis (Pitch) as per ISO 9787:2013"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -22,6 +27,8 @@ DefinedTypes:
       - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
   - HasComponent:
     - [ UAVariable, RSL:6041, RSL:C, Double, 0, 3 ]
+    - DisplayName: "C"
+    - Description: "Rotation around Z Axis (Yaw) as per ISO 9787:2013"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -33,8 +40,10 @@ DefinedTypes:
 
   RSL:RelativeValueType:
   - [ UAVariableType, RSL:2002, RSL:RelativeValueType ]
+  - DisplayName: "RelativeValueType"
   - HasComponent:
     - [ UAVariable, RSL:6001, RSL:Base, NodeId, 0, 3 ]
+    - DisplayName: "Base"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -46,8 +55,10 @@ DefinedTypes:
 
   RSL:SpatialLocationType:
   - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
+  - DisplayName: "SpatialLocationType"
   - HasComponent:
     - [ UAVariable, RSL:6002, RSL:Base, NodeId, 0, 3 ]
+    - DisplayName: "Base"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -56,6 +67,7 @@ DefinedTypes:
       - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
   - HasComponent:
     - [ UAVariable, RSL:6004, RSL:Orientation ]
+    - DisplayName: "Orientation"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -64,6 +76,7 @@ DefinedTypes:
       - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
   - HasComponent:
     - [ UAVariable, RSL:6003, RSL:Position ]
+    - DisplayName: "Position"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -75,8 +88,10 @@ DefinedTypes:
 
   RSL:CartesianFrameAngleOrientationType:
   - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
+  - DisplayName: "CartesianFrameAngleOrientationType"
   - HasComponent:
     - [ UAVariable, RSL:6005, RSL:Base, NodeId, 0, 3 ]
+    - DisplayName: "Base"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -87,12 +102,15 @@ DefinedTypes:
     - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
   - HasComponent:
     - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
+    - DisplayName: "Orientation"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, RSL:2005, RSL:RpyOrientationType, 3DOrientation, 0, 0 ]
     - HasComponent:
       - [ UAVariable, RSL:6042, RSL:A, Double, 0, 3 ]
+      - DisplayName: "A"
+      - Description: "Rotation around X Axis (Roll) as per ISO 9787:2013"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -101,6 +119,7 @@ DefinedTypes:
         - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - HasProperty:
       - [ UAVariable, RSL:6036, RSL:AngleUnit, EUInformation, 0, 0 ]
+      - DisplayName: "AngleUnit"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -109,6 +128,8 @@ DefinedTypes:
         - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - HasComponent:
       - [ UAVariable, RSL:6043, RSL:B, Double, 0, 3 ]
+      - DisplayName: "B"
+      - Description: "Rotation around Y Axis (Pitch) as per ISO 9787:2013"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -117,6 +138,8 @@ DefinedTypes:
         - [ UAVariable, RSL:6006, RSL:Orientation, 3DOrientation, 0, 3 ]
     - HasComponent:
       - [ UAVariable, RSL:6044, RSL:C, Double, 0, 3 ]
+      - DisplayName: "C"
+      - Description: "Rotation around Z Axis (Yaw) as per ISO 9787:2013"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -127,12 +150,14 @@ DefinedTypes:
       - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
   - HasComponent:
     - [ UAVariable, RSL:6007, RSL:Position, 3DCartesianCoordinates, 0, 3 ]
+    - DisplayName: "Position"
     - HasTypeDefinition:
       - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, RSL:6045, RSL:LengthUnit, EUInformation, 0, 0 ]
+      - DisplayName: "LengthUnit"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -143,6 +168,7 @@ DefinedTypes:
       - [ UAVariableType, RSL:2004, RSL:CartesianFrameAngleOrientationType, 3DFrame, 0, 0 ]
     - HasComponent:
       - [ UAVariable, RSL:6011, RSL:X, Double, 0, 0 ]
+      - DisplayName: "X"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -151,6 +177,7 @@ DefinedTypes:
         - [ UAVariable, RSL:6007, RSL:Position, 3DCartesianCoordinates, 0, 3 ]
     - HasComponent:
       - [ UAVariable, RSL:6012, RSL:Y, Double, 0, 0 ]
+      - DisplayName: "Y"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -159,6 +186,7 @@ DefinedTypes:
         - [ UAVariable, RSL:6007, RSL:Position, 3DCartesianCoordinates, 0, 3 ]
     - HasComponent:
       - [ UAVariable, RSL:6013, RSL:Z, Double, 0, 0 ]
+      - DisplayName: "Z"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -168,8 +196,10 @@ DefinedTypes:
 
   RSL:SpatialObjectsListType:
   - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
+  - DisplayName: "SpatialObjectsListType"
   - Organizes:
     - [ UAObject, RSL:5006, RSL:<SpatialObject> ]
+    - DisplayName: "<SpatialObject>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -178,6 +208,8 @@ DefinedTypes:
       - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
     - HasProperty:
       - [ UAVariable, RSL:6035, RSL:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+      - DisplayName: "DefaultInstanceBrowseName"
+      - Description: "The default BrowseName for instances of the type."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -186,12 +218,14 @@ DefinedTypes:
         - [ UAObject, RSL:5006, RSL:<SpatialObject> ]
     - HasComponent:
       - [ UAVariable, RSL:6038, RSL:PositionFrame ]
+      - DisplayName: "PositionFrame"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
       - HasComponent:
         - [ UAVariable, RSL:6039, RSL:Base, NodeId, 0, 3 ]
+        - DisplayName: "Base"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -204,6 +238,7 @@ DefinedTypes:
     - [ UAObjectType, 2133, GeneralModelChangeEventType ]
   - HasProperty:
     - [ UAVariable, RSL:6024, RSL:Identifier, String, 0, 3 ]
+    - DisplayName: "Identifier"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -212,6 +247,7 @@ DefinedTypes:
       - [ UAObjectType, RSL:1003, RSL:SpatialObjectsListType ]
   - HasProperty:
     - [ UAVariable, RSL:6027, RSL:NodeVersion, String, 0, 3 ]
+    - DisplayName: "NodeVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -222,12 +258,15 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, RSL:6025, RSL:WorldFrame ]
+    - DisplayName: "WorldFrame"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
     - HasComponent:
       - [ UAVariable, RSL:6026, RSL:Base, NodeId, 0, 3 ]
+      - DisplayName: "Base"
+      - Description: "WorldFrame as the origin of the coordinate system has no Base i.e. it must be null."
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -239,14 +278,17 @@ DefinedTypes:
 
   RSL:SpatialObjectType:
   - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
+  - DisplayName: "SpatialObjectType"
   - HasComponent:
     - [ UAObject, RSL:5004, RSL:AlternativeFrames ]
+    - DisplayName: "AlternativeFrames"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, RSL:6020, RSL:<FrameIdentifier> ]
+      - DisplayName: "<FrameIdentifier>"
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
@@ -255,6 +297,7 @@ DefinedTypes:
         - [ UAObject, RSL:5004, RSL:AlternativeFrames ]
       - HasComponent:
         - [ UAVariable, RSL:6021, RSL:Base, NodeId, 0, 3 ]
+        - DisplayName: "Base"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -265,12 +308,14 @@ DefinedTypes:
       - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasComponent:
     - [ UAObject, RSL:5002, RSL:AttachPoints ]
+    - DisplayName: "AttachPoints"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, RSL:6018, RSL:<FrameIdentifier> ]
+      - DisplayName: "<FrameIdentifier>"
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
@@ -279,6 +324,7 @@ DefinedTypes:
         - [ UAObject, RSL:5002, RSL:AttachPoints ]
       - HasComponent:
         - [ UAVariable, RSL:6019, RSL:Base, NodeId, 0, 3 ]
+        - DisplayName: "Base"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -289,12 +335,15 @@ DefinedTypes:
       - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasProperty:
     - [ UAVariable, RSL:6017, RSL:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
       - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasProperty:
     - [ UAVariable, RSL:6016, RSL:Identifier, String, 0, 3 ]
+    - DisplayName: "Identifier"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -303,12 +352,14 @@ DefinedTypes:
       - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasComponent:
     - [ UAObject, RSL:5003, RSL:InternalFrames ]
+    - DisplayName: "InternalFrames"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, RSL:6022, RSL:<FrameIdentifier> ]
+      - DisplayName: "<FrameIdentifier>"
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
@@ -317,6 +368,7 @@ DefinedTypes:
         - [ UAObject, RSL:5003, RSL:InternalFrames ]
       - HasComponent:
         - [ UAVariable, RSL:6023, RSL:Base, NodeId, 0, 3 ]
+        - DisplayName: "Base"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -327,12 +379,14 @@ DefinedTypes:
       - [ UAObjectType, RSL:1002, RSL:SpatialObjectType ]
   - HasComponent:
     - [ UAVariable, RSL:6014, RSL:PositionFrame ]
+    - DisplayName: "PositionFrame"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, RSL:2003, RSL:SpatialLocationType ]
     - HasComponent:
       - [ UAVariable, RSL:6015, RSL:Base, NodeId, 0, 3 ]
+      - DisplayName: "Base"
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:

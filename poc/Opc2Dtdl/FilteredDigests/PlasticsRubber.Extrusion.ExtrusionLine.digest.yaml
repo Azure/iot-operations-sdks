@@ -1,10 +1,13 @@
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion.ExtrusionLine:3003, PlasticsRubber.Extrusion.ExtrusionLine:MaterialMappingType ]
+  DisplayName: "MaterialMappingType"
   Fields:
     MaterialId: [ String, 0 ]
     MaterialLot: [ String, 0 ]
     HopperId: [ String, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -15,25 +18,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -41,12 +51,16 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
+  DisplayName: "CavityCycleQualityEnumeration"
+  Description: "Quality of the cycle for each cavity"
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
+  DisplayName: "ControlModeEnumeration"
+  Description: "Indication how the parameter is currently controlled"
   Enums:
     OTHER: 0
     OFF: 1
@@ -56,12 +70,16 @@ DataTypes:
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
 - UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
+  DisplayName: "CycleQualityEnumeration"
+  Description: "Quality of the whole cycle"
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
+  DisplayName: "DiagnosticsStatusEnumeration"
+  Description: "Diagnostics inactive"
   Enums:
     OFF: 0
     ACTIVE_OK: 1
@@ -69,6 +87,8 @@ DataTypes:
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
+  DisplayName: "EventOriginatorEnumeration"
+  Description: "Originator of an event"
   Enums:
     OTHER: 0
     MACHINE: 1
@@ -76,6 +96,8 @@ DataTypes:
     MES: 3
     PERIPHERAL_DEVICE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
+  DisplayName: "JobStatusEnumeration"
+  Description: "Current status of the job"
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -90,6 +112,8 @@ DataTypes:
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
 - UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
+  DisplayName: "LogbookEventsEnumeration"
+  Description: "Information which LogbookEvents are supported by the machine"
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -103,6 +127,8 @@ DataTypes:
     MESSAGE: 9
     USER_FEEDBACK: 10
 - UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
+  DisplayName: "MachineModeEnumeration"
+  Description: "Current machine mode (as defined by mode selector on the machine)"
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -111,17 +137,23 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
+  DisplayName: "MaintenanceStatusEnumeration"
+  Description: "Maintenance status of a machine/device/component"
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
 - UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
+  DisplayName: "MouldStatusEnumeration"
+  Description: "Current (physical) status of the mould"
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
+  DisplayName: "ProductionStatusEnumeration"
+  Description: "Production status of the machine"
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -130,6 +162,8 @@ DataTypes:
     PRODUCTION: 4
     DRY_RUN: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
+  DisplayName: "SequenceChangeEnumeration"
+  Description: "Classification of production sequence change"
   Enums:
     UPDATE: 0
     ADD: 1
@@ -137,6 +171,7 @@ DataTypes:
     MOVE: 3
     DELETE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
+  DisplayName: "StartEnumeration"
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -145,11 +180,15 @@ DataTypes:
     STARTED: 4
     STOP_REQUESTED: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
+  DisplayName: "StorageEnumeration"
+  Description: "Indication which parts of the production dataset shall be activated in the machine control after writing"
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
+  DisplayName: "TemperatureZoneClassificationEnumeration"
+  Description: "Type of the temperature zone"
   Enums:
     OTHER: 0
     HEATING: 1
@@ -158,25 +197,35 @@ DataTypes:
     HOT_RUNNER: 4
     MEASURING: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
+  DisplayName: "UserChangeEnumeration"
+  Description: "Information if a user logs in or off"
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
 - UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
+  DisplayName: "ActiveErrorDataType"
+  Description: "Iinformation about an active error in a device"
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
+  DisplayName: "ClassifiedActiveErrorDataType"
+  Description: "Iinformation about an active error in a device including the SoureNodes and a Classification"
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
+  DisplayName: "ConfigurationParameterType"
+  Description: "Unique identifier"
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
+  DisplayName: "JobListElementType"
+  Description: "Description of a job in a job list"
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -192,6 +241,8 @@ DataTypes:
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
+  DisplayName: "CyclicJobListElementType"
+  Description: "Description of a job in a cyclic job list"
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
@@ -199,19 +250,26 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
+  DisplayName: "PageEntryDataType"
+  Description: "Information on a page that is implemented in the machine control system and shown on the screen of the machine"
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
+  DisplayName: "ParameterSettingType"
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
+  DisplayName: "PIDParametersDataType"
+  Description: "Structure for storing the parameters of a PID controller"
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
+  DisplayName: "ProductionDatasetInformationType"
+  Description: "Information on a production dataset"
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -231,15 +289,21 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
+  DisplayName: "ProductionDatasetReadOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForRead in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
+  DisplayName: "ProductionDatasetWriteOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForWrite in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
+  DisplayName: "StandstillReasonType"
+  Description: "Description of a standstill reason"
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
@@ -249,54 +313,67 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1012, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupStatusChangedEventType ]
+  - DisplayName: "JobGroupStatusChangedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6189, PlasticsRubber.Extrusion.ExtrusionLine:ActiveStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
+    - DisplayName: "ActiveStatus"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6187, PlasticsRubber.Extrusion.ExtrusionLine:Id, String, 0, 0 ]
+    - DisplayName: "Id"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6188, PlasticsRubber.Extrusion.ExtrusionLine:LastStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
+    - DisplayName: "LastStatus"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1008, PlasticsRubber.Extrusion.ExtrusionLine:JobStatusChangedEventType ]
+  - DisplayName: "JobStatusChangedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6098, PlasticsRubber.Extrusion.ExtrusionLine:ActiveStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
+    - DisplayName: "ActiveStatus"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6095, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupId, String, 0, 0 ]
+    - DisplayName: "JobGroupId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6096, PlasticsRubber.Extrusion.ExtrusionLine:JobId, String, 0, 0 ]
+    - DisplayName: "JobId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6097, PlasticsRubber.Extrusion.ExtrusionLine:LastStatus, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
+    - DisplayName: "LastStatus"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1010, PlasticsRubber.Extrusion.ExtrusionLine:LotFinishedEventType ]
+  - DisplayName: "LotFinishedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6103, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupId, String, 0, 0 ]
+    - DisplayName: "JobGroupId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6104, PlasticsRubber.Extrusion.ExtrusionLine:JobId, String, 0, 0 ]
+    - DisplayName: "JobId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6105, PlasticsRubber.Extrusion.ExtrusionLine:Lot, UInt32, 0, 0 ]
+    - DisplayName: "Lot"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -304,8 +381,10 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1006, PlasticsRubber.Extrusion.ExtrusionLine:RequestAddMaterialEventType ]
+  - DisplayName: "RequestAddMaterialEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6142, PlasticsRubber.Extrusion.ExtrusionLine:Id, String, 0, 3 ]
+    - DisplayName: "Id"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -313,20 +392,25 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1009, PlasticsRubber.Extrusion.ExtrusionLine:UnitFinishedEventType ]
+  - DisplayName: "UnitFinishedEventType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6102, PlasticsRubber.Extrusion.ExtrusionLine:GoodProduct, Boolean, 0, 0 ]
+    - DisplayName: "GoodProduct"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6099, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupId, String, 0, 0 ]
+    - DisplayName: "JobGroupId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6100, PlasticsRubber.Extrusion.ExtrusionLine:JobId, String, 0, 0 ]
+    - DisplayName: "JobId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6101, PlasticsRubber.Extrusion.ExtrusionLine:Unit, UInt32, 0, 0 ]
+    - DisplayName: "Unit"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -334,86 +418,102 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.ExtrusionLine:ExtrusionLine_InterfaceType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1003, PlasticsRubber.Extrusion.ExtrusionLine:ExtrusionLine_InterfaceType ]
+  - DisplayName: "ExtrusionLine_InterfaceType"
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7005, PlasticsRubber.Extrusion.ExtrusionLine:ClearMESMessage ]
+    - DisplayName: "ClearMESMessage"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6165, PlasticsRubber.Extrusion.ExtrusionLine:ConfigurationParameters, PlasticsRubber.GeneralTypes:ConfigurationParameterType, 1, 0 ]
+    - DisplayName: "ConfigurationParameters"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5025, PlasticsRubber.Extrusion.ExtrusionLine:JobGroups ]
+    - DisplayName: "JobGroups"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1013, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6031, PlasticsRubber.Extrusion.ExtrusionLine:LineId, String, 0, 3 ]
+    - DisplayName: "LineId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6058, PlasticsRubber.Extrusion.ExtrusionLine:LineStatus, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration, 0, 0 ]
+    - DisplayName: "LineStatus"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5002, PlasticsRubber.Extrusion.ExtrusionLine:MachineConfiguration ]
+    - DisplayName: "MachineConfiguration"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, PlasticsRubber.GeneralTypes:MachineConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5001, PlasticsRubber.Extrusion.ExtrusionLine:MachineInformation ]
+    - DisplayName: "MachineInformation"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1009, PlasticsRubber.GeneralTypes:MachineInformationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5003, PlasticsRubber.Extrusion.ExtrusionLine:MachineMESConfiguration ]
+    - DisplayName: "MachineMESConfiguration"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1018, PlasticsRubber.GeneralTypes:MachineMESConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5020, PlasticsRubber.Extrusion.ExtrusionLine:MaterialList ]
+    - DisplayName: "MaterialList"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1059, PlasticsRubber.GeneralTypes:MaterialListType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5004, PlasticsRubber.Extrusion.ExtrusionLine:MESMessage ]
+    - DisplayName: "MESMessage"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1051, PlasticsRubber.GeneralTypes:MESMessageType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5011, PlasticsRubber.Extrusion.ExtrusionLine:ProductionDatasetManagement ]
+    - DisplayName: "ProductionDatasetManagement"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1008, PlasticsRubber.GeneralTypes:ProductionDatasetManagementType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5006, PlasticsRubber.Extrusion.ExtrusionLine:ProductionParameters ]
+    - DisplayName: "ProductionParameters"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1002, PlasticsRubber.Extrusion.ExtrusionLine:ProductionParametersType ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7004, PlasticsRubber.Extrusion.ExtrusionLine:SetMESMessage ]
+    - DisplayName: "SetMESMessage"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6057, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
           Message: [ String, 0 ]
           Message2: [ UInt16, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5005, PlasticsRubber.Extrusion.ExtrusionLine:Users ]
+    - DisplayName: "Users"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -421,8 +521,10 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobGroupsType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1013, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupsType ]
+  - DisplayName: "JobGroupsType"
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7027, PlasticsRubber.Extrusion.ExtrusionLine:AddJobGroup ]
+    - DisplayName: "AddJobGroup"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6217, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -436,6 +538,7 @@ DefinedTypes:
           PlannedProductionTime: [ Duration, 0 ]
           PlannedSetUpTime: [ Duration, 0 ]
           LatestEnd: [ UtcTime, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -444,30 +547,36 @@ DefinedTypes:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6218, PlasticsRubber.Extrusion.ExtrusionLine:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JobGroupNodeId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7031, PlasticsRubber.Extrusion.ExtrusionLine:FinishJobGroupById ]
+    - DisplayName: "FinishJobGroupById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6216, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7030, PlasticsRubber.Extrusion.ExtrusionLine:InterruptJobGroupById ]
+    - DisplayName: "InterruptJobGroupById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6215, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5021, PlasticsRubber.Extrusion.ExtrusionLine:JobGroup_<Nr> ]
+    - DisplayName: "JobGroup_<Nr>"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1011, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupType ]
     - HasModellingRule:
@@ -476,24 +585,29 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6190, PlasticsRubber.Extrusion.ExtrusionLine:NodeVersion, String, 0, 0 ]
+    - DisplayName: "NodeVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7028, PlasticsRubber.Extrusion.ExtrusionLine:RemoveJobGroupById ]
+    - DisplayName: "RemoveJobGroupById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6214, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7029, PlasticsRubber.Extrusion.ExtrusionLine:StartJobGroupById ]
+    - DisplayName: "StartJobGroupById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6213, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -501,8 +615,10 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobGroupType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1011, PlasticsRubber.Extrusion.ExtrusionLine:JobGroupType ]
+  - DisplayName: "JobGroupType"
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7006, PlasticsRubber.Extrusion.ExtrusionLine:AddJob ]
+    - DisplayName: "AddJob"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6171, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -516,6 +632,7 @@ DefinedTypes:
           ParameterSetting: [ PlasticsRubber.GeneralTypes:ParameterSettingType, 1 ]
           SetOutput: [ Double, 0 ]
           LotSize: [ Double, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -524,54 +641,66 @@ DefinedTypes:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6173, PlasticsRubber.Extrusion.ExtrusionLine:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           JobNodeId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6112, PlasticsRubber.Extrusion.ExtrusionLine:ConfigurationParameters, PlasticsRubber.GeneralTypes:ConfigurationParameterType, 1, 0 ]
+    - DisplayName: "ConfigurationParameters"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6108, PlasticsRubber.Extrusion.ExtrusionLine:Description, String, 0, 0 ]
+    - DisplayName: "Description"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6152, PlasticsRubber.Extrusion.ExtrusionLine:ElectricalEnergyConsumption, Double, 0, 0 ]
+    - DisplayName: "ElectricalEnergyConsumption"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6109, PlasticsRubber.Extrusion.ExtrusionLine:EquipmentDescription, String, 0, 0 ]
+    - DisplayName: "EquipmentDescription"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7010, PlasticsRubber.Extrusion.ExtrusionLine:FinishJobById ]
+    - DisplayName: "FinishJobById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6177, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6153, PlasticsRubber.Extrusion.ExtrusionLine:FluidEnergyConsumption, Double, 0, 0 ]
+    - DisplayName: "FluidEnergyConsumption"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6107, PlasticsRubber.Extrusion.ExtrusionLine:Id, String, 0, 0 ]
+    - DisplayName: "Id"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7009, PlasticsRubber.Extrusion.ExtrusionLine:InterruptJobById ]
+    - DisplayName: "InterruptJobById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6176, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5010, PlasticsRubber.Extrusion.ExtrusionLine:Job_<Nr> ]
+    - DisplayName: "Job_<Nr>"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1007, PlasticsRubber.Extrusion.ExtrusionLine:JobType ]
     - HasModellingRule:
@@ -580,182 +709,225 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6148, PlasticsRubber.Extrusion.ExtrusionLine:LatestEnd, UtcTime, 0, 0 ]
+    - DisplayName: "LatestEnd"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6111, PlasticsRubber.Extrusion.ExtrusionLine:MaterialMapping, PlasticsRubber.Extrusion.ExtrusionLine:MaterialMappingType, 1, 0 ]
+    - DisplayName: "MaterialMapping"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6106, PlasticsRubber.Extrusion.ExtrusionLine:NodeVersion, String, 0, 0 ]
+    - DisplayName: "NodeVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6149, PlasticsRubber.Extrusion.ExtrusionLine:PlannedProductionTime, Duration, 0, 0 ]
+    - DisplayName: "PlannedProductionTime"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6150, PlasticsRubber.Extrusion.ExtrusionLine:PlannedSetUpTime, Duration, 0, 0 ]
+    - DisplayName: "PlannedSetUpTime"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6116, PlasticsRubber.Extrusion.ExtrusionLine:PlannedStart, UtcTime, 0, 0 ]
+    - DisplayName: "PlannedStart"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6154, PlasticsRubber.Extrusion.ExtrusionLine:PressureAirConsumption, Double, 0, 0 ]
+    - DisplayName: "PressureAirConsumption"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6113, PlasticsRubber.Extrusion.ExtrusionLine:Priority, UInt32, 0, 0 ]
+    - DisplayName: "Priority"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6110, PlasticsRubber.Extrusion.ExtrusionLine:ProductionDatasetName, String, 0, 0 ]
+    - DisplayName: "ProductionDatasetName"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7007, PlasticsRubber.Extrusion.ExtrusionLine:RemoveJobById ]
+    - DisplayName: "RemoveJobById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6174, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion.ExtrusionLine:7008, PlasticsRubber.Extrusion.ExtrusionLine:StartJobById ]
+    - DisplayName: "StartJobById"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6175, PlasticsRubber.Extrusion.ExtrusionLine:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Id: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6151, PlasticsRubber.Extrusion.ExtrusionLine:Status, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
+    - DisplayName: "Status"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:JobType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1007, PlasticsRubber.Extrusion.ExtrusionLine:JobType ]
+  - DisplayName: "JobType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6092, PlasticsRubber.Extrusion.ExtrusionLine:ActualBadOutput, Double, 0, 0 ]
+    - DisplayName: "ActualBadOutput"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6091, PlasticsRubber.Extrusion.ExtrusionLine:ActualGoodOutput, Double, 0, 0 ]
+    - DisplayName: "ActualGoodOutput"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6088, PlasticsRubber.Extrusion.ExtrusionLine:ActualLot, UInt32, 0, 0 ]
+    - DisplayName: "ActualLot"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6089, PlasticsRubber.Extrusion.ExtrusionLine:ActualLotName, String, 0, 3 ]
+    - DisplayName: "ActualLotName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6090, PlasticsRubber.Extrusion.ExtrusionLine:ActualOutput, Double, 0, 0 ]
+    - DisplayName: "ActualOutput"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6094, PlasticsRubber.Extrusion.ExtrusionLine:ActualOutputRate, Double, 0, 0 ]
+    - DisplayName: "ActualOutputRate"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6093, PlasticsRubber.Extrusion.ExtrusionLine:ActualSampleOutput, Double, 0, 0 ]
+    - DisplayName: "ActualSampleOutput"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6079, PlasticsRubber.Extrusion.ExtrusionLine:CustomerName, String, 0, 0 ]
+    - DisplayName: "CustomerName"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6078, PlasticsRubber.Extrusion.ExtrusionLine:Description, String, 0, 0 ]
+    - DisplayName: "Description"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6026, PlasticsRubber.Extrusion.ExtrusionLine:GoodProduct, Boolean, 0, 0 ]
+    - DisplayName: "GoodProduct"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6077, PlasticsRubber.Extrusion.ExtrusionLine:Id, String, 0, 0 ]
+    - DisplayName: "Id"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6137, PlasticsRubber.Extrusion.ExtrusionLine:LineSpeed, Double, 0, 0 ]
+    - DisplayName: "LineSpeed"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6086, PlasticsRubber.Extrusion.ExtrusionLine:LotSize, Double, 0, 0 ]
+    - DisplayName: "LotSize"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6084, PlasticsRubber.Extrusion.ExtrusionLine:ParameterSetting, PlasticsRubber.GeneralTypes:ParameterSettingType, 1, 0 ]
+    - DisplayName: "ParameterSetting"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6081, PlasticsRubber.Extrusion.ExtrusionLine:ProductDescription, String, 0, 0 ]
+    - DisplayName: "ProductDescription"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6080, PlasticsRubber.Extrusion.ExtrusionLine:ProductId, String, 0, 0 ]
+    - DisplayName: "ProductId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6134, PlasticsRubber.Extrusion.ExtrusionLine:ProductWeight, Double, 0, 0 ]
+    - DisplayName: "ProductWeight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6083, PlasticsRubber.Extrusion.ExtrusionLine:Sequence, UInt32, 0, 0 ]
+    - DisplayName: "Sequence"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6085, PlasticsRubber.Extrusion.ExtrusionLine:SetOutput, Double, 0, 0 ]
+    - DisplayName: "SetOutput"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6087, PlasticsRubber.Extrusion.ExtrusionLine:Status, PlasticsRubber.GeneralTypes:JobStatusEnumeration, 0, 0 ]
+    - DisplayName: "Status"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6082, PlasticsRubber.Extrusion.ExtrusionLine:Strand, UInt32, 0, 0 ]
+    - DisplayName: "Strand"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6131, PlasticsRubber.Extrusion.ExtrusionLine:Throughput, Double, 0, 0 ]
+    - DisplayName: "Throughput"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   PlasticsRubber.Extrusion.ExtrusionLine:ProductionParametersType:
   - [ UAObjectType, PlasticsRubber.Extrusion.ExtrusionLine:1002, PlasticsRubber.Extrusion.ExtrusionLine:ProductionParametersType ]
+  - DisplayName: "ProductionParametersType"
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5017, PlasticsRubber.Extrusion.ExtrusionLine:ElectricalEnergy ]
+    - DisplayName: "ElectricalEnergy"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, PlasticsRubber.GeneralTypes:EnergyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5016, PlasticsRubber.Extrusion.ExtrusionLine:FluidEnergy ]
+    - DisplayName: "FluidEnergy"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, PlasticsRubber.GeneralTypes:EnergyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6001, PlasticsRubber.Extrusion.ExtrusionLine:GoodProduct, Boolean, 0, 0 ]
+    - DisplayName: "GoodProduct"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6007, PlasticsRubber.Extrusion.ExtrusionLine:LineSpeed, Double, 0, 0 ]
+    - DisplayName: "LineSpeed"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.ExtrusionLine:5018, PlasticsRubber.Extrusion.ExtrusionLine:PressureAir ]
+    - DisplayName: "PressureAir"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, PlasticsRubber.GeneralTypes:EnergyType ]
     - HasModellingRule:
@@ -764,9 +936,11 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6005, PlasticsRubber.Extrusion.ExtrusionLine:ProductWeight, Double, 0, 0 ]
+    - DisplayName: "ProductWeight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion.ExtrusionLine:6002, PlasticsRubber.Extrusion.ExtrusionLine:Throughput, Double, 0, 0 ]
+    - DisplayName: "Throughput"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]

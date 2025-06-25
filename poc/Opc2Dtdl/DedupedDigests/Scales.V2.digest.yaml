@@ -1,15 +1,19 @@
 DataTypes:
 - UADataType: [ Scales.V2:65, Scales.V2:DraftShieldType ]
+  DisplayName: "DraftShieldType"
   Enums:
     Right_0: 0
     Left_1: 1
     Top_2: 2
     All_3: 3
 - UADataType: [ Scales.V2:62, Scales.V2:EdgeOperator ]
+  DisplayName: "EdgeOperator"
   Enums:
     Rising_0: 0
     Falling_1: 1
 - UADataType: [ Scales.V2:61, Scales.V2:EqualityAndRelationalOperator ]
+  DisplayName: "EqualityAndRelationalOperator"
+  Description: "This enumeration describes the different condition modes for an analog condition."
   Enums:
     Equal_0: 0
     NotEqual_1: 1
@@ -18,16 +22,19 @@ DataTypes:
     LessThan_4: 4
     GreaterThan_5: 5
 - UADataType: [ Scales.V2:30003, Scales.V2:RateControlMode ]
+  DisplayName: "RateControlMode"
   Enums:
     Gravimetric_0: 0
     Volumetric_1: 1
 - UADataType: [ Scales.V2:54, Scales.V2:TareMode ]
+  DisplayName: "TareMode"
   Enums:
     None_0: 0
     MeasuredTare_1: 1
     PresetTare_2: 2
     ProportionalTare_3: 3
 - UADataType: [ Scales.V2:60, Scales.V2:ToleranceState ]
+  DisplayName: "ToleranceState"
   Enums:
     In_0: 0
     Under_1: 1
@@ -37,30 +44,37 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ Scales.V2:56, Scales.V2:PrintableWeightType ]
+  DisplayName: "PrintableWeightType"
   Fields:
     Gross: [ String, 0 ]
     Net: [ String, 0 ]
     Tare: [ String, 0 ]
 - UADataType: [ Scales.V2:55, Scales.V2:WeightType ]
+  DisplayName: "WeightType"
   Fields:
     Gross: [ Double, 0 ]
     Net: [ Double, 0 ]
     Tare: [ Double, 0 ]
 - UADataType: [ Scales.V2:59, Scales.V2:RecipeReportElementType ]
+  DisplayName: "RecipeReportElementType"
   Fields:
     ReportMessage: [ LocalizedText, 0 ]
     Timestamp: [ UtcTime, 0 ]
 - UADataType: [ Scales.V2:58, Scales.V2:RecipeTargetValueType ]
+  DisplayName: "RecipeTargetValueType"
   Fields:
     TargetValueId: [ UInt32, 0 ]
     TargetValueNodeId: [ NodeId, 0 ]
     TargetValueName: [ LocalizedText, 0 ]
 - UADataType: [ Scales.V2:57, Scales.V2:RecipeThresholdType ]
+  DisplayName: "RecipeThresholdType"
   Fields:
     ThresholdId: [ UInt32, 0 ]
     ThresholdNodeId: [ NodeId, 0 ]
     ThresholdName: [ LocalizedText, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -71,25 +85,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -97,11 +118,15 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ IA:3003, IA:LevelDisplayMode ]
+  DisplayName: "LevelDisplayMode"
+  Description: "Contains the values used to indicate how a percentual value is displayed if the stacklight unit works in Levelmeter mode."
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
 - UADataType: [ IA:3004, IA:SignalColor ]
+  DisplayName: "SignalColor"
+  Description: "Holds the possible colour values for stacklight lamps."
   Enums:
     Off: 0
     Red: 1
@@ -112,24 +137,32 @@ DataTypes:
     Cyan: 6
     White: 7
 - UADataType: [ IA:3005, IA:SignalModeLight ]
+  DisplayName: "SignalModeLight"
+  Description: "Contains the values used to indicate in what way a lamp behaves when switched on."
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
 - UADataType: [ IA:3002, IA:StacklightOperationMode ]
+  DisplayName: "StacklightOperationMode"
+  Description: "Contains the values used to indicate how a stacklight (as a whole unit) is used."
   Enums:
     Segmented: 0
     Levelmeter: 1
     Running_Light: 2
     Other: 3
 - UADataType: [ PackML:11, PackML:ProductionMaintenanceModeEnum ]
+  DisplayName: "ProductionMaintenanceModeEnum"
+  Description: "This is an invalid mode"
   Enums:
     Invalid: 0
     Produce: 1
     Maintenance: 2
     Manual: 3
 - UADataType: [ PackML:15, PackML:PackMLAlarmDataType ]
+  DisplayName: "PackMLAlarmDataType"
+  Description: "A unique number assigned to each type of alarm, stop or warning."
   Fields:
     ID: [ Int32, 0 ]
     Value: [ Int32, 0 ]
@@ -139,6 +172,8 @@ DataTypes:
     AckDateTime: [ UtcTime, 0 ]
     Trigger: [ Boolean, 0 ]
 - UADataType: [ PackML:14, PackML:PackMLCountDataType ]
+  DisplayName: "PackMLCountDataType"
+  Description: "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number."
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
@@ -146,21 +181,29 @@ DataTypes:
     Count: [ Int32, 0 ]
     AccCount: [ Int32, 0 ]
 - UADataType: [ PackML:16, PackML:PackMLDescriptorDataType ]
+  DisplayName: "PackMLDescriptorDataType"
+  Description: "A unique number assigned to the parameter"
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
     Unit: [ EUInformation, 0 ]
     Value: [ Float, 0 ]
 - UADataType: [ PackML:17, PackML:PackMLIngredientsDataType ]
+  DisplayName: "PackMLIngredientsDataType"
+  Description: "A unique number assigned to the ingredient."
   Fields:
     IngredientID: [ Int32, 0 ]
     Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
 - UADataType: [ PackML:18, PackML:PackMLProductDataType ]
+  DisplayName: "PackMLProductDataType"
+  Description: "A unique number assigned to the product."
   Fields:
     ProductID: [ Int32, 0 ]
     ProcessVariables: [ PackML:PackMLDescriptorDataType, 1 ]
     Ingredients: [ PackML:PackMLIngredientsDataType, 1 ]
 - UADataType: [ PackML:19, PackML:PackMLRemoteInterfaceDataType ]
+  DisplayName: "PackMLRemoteInterfaceDataType"
+  Description: "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine."
   Fields:
     Number: [ Int32, 0 ]
     ControlCmdNumber: [ Int32, 0 ]
@@ -171,24 +214,30 @@ DefinedTypes:
 
   Scales.V2:ScaleAlarmType:
   - [ UAObjectType, Scales.V2:21, Scales.V2:ScaleAlarmType ]
+  - DisplayName: "ScaleAlarmType"
   - HasProperty:
     - [ UAVariable, Scales.V2:763, Scales.V2:AuxParameters, String, 1, 3 ]
+    - DisplayName: "AuxParameters"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:764, Scales.V2:HelpSource, String, 0, 3 ]
+    - DisplayName: "HelpSource"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:328, Scales.V2:NotificationCategory, UInteger, 0, 3 ]
+    - DisplayName: "NotificationCategory"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:353, Scales.V2:NotificationId, UInteger, 0, 3 ]
+    - DisplayName: "NotificationId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:1020, Scales.V2:VendorNotificationId, String, 0, 3 ]
+    - DisplayName: "VendorNotificationId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -196,24 +245,30 @@ DefinedTypes:
 
   Scales.V2:ScaleEventType:
   - [ UAObjectType, Scales.V2:13, Scales.V2:ScaleEventType ]
+  - DisplayName: "ScaleEventType"
   - HasProperty:
     - [ UAVariable, Scales.V2:312, Scales.V2:AuxParameters, String, 1, 3 ]
+    - DisplayName: "AuxParameters"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:319, Scales.V2:HelpSource, String, 0, 3 ]
+    - DisplayName: "HelpSource"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:325, Scales.V2:NotificationCategory, UInteger, 0, 3 ]
+    - DisplayName: "NotificationCategory"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:134, Scales.V2:NotificationId, UInteger, 0, 3 ]
+    - DisplayName: "NotificationId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:948, Scales.V2:VendorNotificationId, String, 0, 3 ]
+    - DisplayName: "VendorNotificationId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -221,12 +276,18 @@ DefinedTypes:
 
   Scales.V2:MaterialType:
   - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
+  - DisplayName: "MaterialType"
+  - Description: "Represents a material."
   - HasComponent:
     - [ UAVariable, Scales.V2:309, Scales.V2:MaterialId, String, 0, 3 ]
+    - DisplayName: "MaterialId"
+    - Description: "Defines a unique identifier for the material."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:308, Scales.V2:MaterialName, LocalizedText, 0, 3 ]
+    - DisplayName: "MaterialName"
+    - Description: "Defines a user-readable name of the material."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -234,8 +295,12 @@ DefinedTypes:
 
   Scales.V2:MaterialAutomaticType:
   - [ UAObjectType, Scales.V2:41, Scales.V2:MaterialAutomaticType ]
+  - DisplayName: "MaterialAutomaticType"
+  - Description: "Represents a material in a recipe that will be filled automatically."
   - HasComponent:
     - [ UAObject, Scales.V2:113, Scales.V2:FillingProductInformation ]
+    - DisplayName: "FillingProductInformation"
+    - Description: "Defines the parameters necessary for filling of the material."
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:16, Scales.V2:AutomaticFillingProductType ]
     - HasModellingRule:
@@ -245,8 +310,12 @@ DefinedTypes:
 
   Scales.V2:ProductionPresetType:
   - [ UAObjectType, Scales.V2:14, Scales.V2:ProductionPresetType ]
+  - DisplayName: "ProductionPresetType"
+  - Description: "Provides methods to manage the Production preset."
   - HasComponent:
     - [ UAMethod, Scales.V2:638, Scales.V2:AddProduct ]
+    - DisplayName: "AddProduct"
+    - Description: "Creates an object with the JobType from the address space."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -255,62 +324,76 @@ DefinedTypes:
           ProductName: [ String, 0 ]
           ProductId: [ String, 0 ]
           ProductType: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scales.V2:177, Scales.V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductNodeId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:436, Scales.V2:CurrentProducts, String, 1, 3 ]
+    - DisplayName: "CurrentProducts"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:576, Scales.V2:DeselectProduct ]
+    - DisplayName: "DeselectProduct"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:176, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:75, Scales.V2:Products ]
+    - DisplayName: "Products"
+    - Description: "The products used in the scale aggregated in the Products Object."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:646, Scales.V2:RemoveProduct ]
+    - DisplayName: "RemoveProduct"
+    - Description: "Removes an object with the JobType from the address space."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:647, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:464, Scales.V2:SelectProduct ]
+    - DisplayName: "SelectProduct"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:175, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1021, Scales.V2:SwitchProduct ]
+    - DisplayName: "SwitchProduct"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:988, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -318,46 +401,65 @@ DefinedTypes:
 
   Scales.V2:ProductType:
   - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
+  - DisplayName: "ProductType"
+  - Description: "Represents a product related to the scale."
   - HasProperty:
     - [ UAVariable, Scales.V2:648, Scales.V2:BatchId, String, 0, 3 ]
+    - DisplayName: "BatchId"
+    - Description: "Defines a unique Id of this Batch."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:649, Scales.V2:BatchName, LocalizedText, 0, 3 ]
+    - DisplayName: "BatchName"
+    - Description: "Defines the name of this Batch."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:185, Scales.V2:JobId, String, 0, 3 ]
+    - DisplayName: "JobId"
+    - Description: "Defines a unique Id of this job."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:310, Scales.V2:JobName, LocalizedText, 0, 3 ]
+    - DisplayName: "JobName"
+    - Description: "Defines the name of this job."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:1181, Scales.V2:Lock ]
+    - DisplayName: "Lock"
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60169, Scales.V2:PresetTare, Number, 0, 3 ]
+    - DisplayName: "PresetTare"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:963, Scales.V2:ProductId, String, 0, 3 ]
+    - DisplayName: "ProductId"
+    - Description: "Defines a unique Id of this product."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:360, Scales.V2:ProductMode, Boolean, 0, 3 ]
+    - DisplayName: "ProductMode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:166, Scales.V2:ProductName, LocalizedText, 0, 3 ]
+    - DisplayName: "ProductName"
+    - Description: "Defines the name of this product."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:95, Scales.V2:Statistic ]
+    - DisplayName: "Statistic"
+    - Description: "Contains the different statistic values of the product."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -367,55 +469,80 @@ DefinedTypes:
 
   Scales.V2:AutomaticFillingProductType:
   - [ UAObjectType, Scales.V2:16, Scales.V2:AutomaticFillingProductType ]
+  - DisplayName: "AutomaticFillingProductType"
+  - Description: "Represents a product of an automatic filling scale."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:552, Scales.V2:FeedRateMeasuringInterval, Duration, 0, 3 ]
+    - DisplayName: "FeedRateMeasuringInterval"
+    - Description: "Defines the measuring interval for evaluating the current flowrate."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:551, Scales.V2:FillingTime, Duration, 0, 3 ]
+    - DisplayName: "FillingTime"
+    - Description: "Defines the maximal duration for the filling process to take place. Needs to be completed during this period."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:546, Scales.V2:FineFeedWeight, Number, 0, 3 ]
+    - DisplayName: "FineFeedWeight"
+    - Description: "Defines the volume to be dosed in fine flow."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:545, Scales.V2:InFlightWeight, Number, 0, 3 ]
+    - DisplayName: "InFlightWeight"
+    - Description: "Defines the volume that is behind the valve / in flight after feeding is stopped."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:549, Scales.V2:JogFeed, Boolean, 0, 3 ]
+    - DisplayName: "JogFeed"
+    - Description: "Defines if an additional dosage is necessary."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:553, Scales.V2:MinimumDeltaPerFeedRateMeasuringInterval, Number, 0, 3 ]
+    - DisplayName: "MinimumDeltaPerFeedRateMeasuringInterval"
+    - Description: "Defines the minimum amount of weight data which needs to change within the FeedRateMeasuringInterval."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:547, Scales.V2:SettlingTime, Duration, 0, 3 ]
+    - DisplayName: "SettlingTime"
+    - Description: "Defines the time that needs to be passed before measurement process can be triggered."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:555, Scales.V2:TareId, String, 0, 3 ]
+    - DisplayName: "TareId"
+    - Description: "Defines an Id of tare value for the current product or item."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:544, Scales.V2:TargetWeight, Number, 0, 3 ]
+    - DisplayName: "TargetWeight"
+    - Description: "Defines the preset of the volume to be processed."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Scales.V2:CatchweigherProductType:
   - [ UAObjectType, Scales.V2:17, Scales.V2:CatchweigherProductType ]
+  - DisplayName: "CatchweigherProductType"
+  - Description: "Represents a product of a Catchweigher."
   - HasComponent:
     - [ UAObject, Scales.V2:68, Scales.V2:<Zones> ]
+    - DisplayName: "<Zones>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:42, Scales.V2:ZoneType ]
   - HasComponent:
     - [ UAMethod, Scales.V2:525, Scales.V2:AddZone ]
+    - DisplayName: "AddZone"
+    - Description: "Adds a zone to the zone array."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -425,148 +552,205 @@ DefinedTypes:
           LowerLimit: [ Double, 0 ]
           UpperLimit: [ Double, 0 ]
           EngineeringUnits: [ EUInformation, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scales.V2:146, Scales.V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ZoneNodeId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
     - [ UAObject, Scales.V2:87, Scales.V2:LastItem ]
+    - DisplayName: "LastItem"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:24, Scales.V2:WeighingItemType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60171, Scales.V2:PresetHeight, Number, 0, 3 ]
+    - DisplayName: "PresetHeight"
+    - Description: "Defines the predefined height (in direction of global gravity) of the measured item. The value must be write before the item is measured."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60173, Scales.V2:PresetLength, Number, 0, 3 ]
+    - DisplayName: "PresetLength"
+    - Description: "Defines the predefined length (in direction of travel) of the measured item. The value must be written before the item is measured."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60175, Scales.V2:PresetWidth, Number, 0, 3 ]
+    - DisplayName: "PresetWidth"
+    - Description: "Defines the predefined width (in third possible orthogonal direction to height and length) of the measured item. The value must be write before the item is measured."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:526, Scales.V2:RemoveZone ]
+    - DisplayName: "RemoveZone"
+    - Description: "Removes a zone from the zone array."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:147, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ZoneNodeId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:472, Scales.V2:TargetThroughput, Number, 0, 3 ]
+    - DisplayName: "TargetThroughput"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:AutomaticWeightPriceLabelerProductType:
   - [ UAObjectType, Scales.V2:47, Scales.V2:AutomaticWeightPriceLabelerProductType ]
+  - DisplayName: "AutomaticWeightPriceLabelerProductType"
+  - Description: "Represents a product of a automatic weight-price-labeler."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:17, Scales.V2:CatchweigherProductType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:1357, Scales.V2:UnitPrice, Number, 0, 3 ]
+    - DisplayName: "UnitPrice"
+    - Description: "Defines the price per weight unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:CheckweigherProductType:
   - [ UAObjectType, Scales.V2:46, Scales.V2:CheckweigherProductType ]
+  - DisplayName: "CheckweigherProductType"
+  - Description: "Represents a product of a Checkweigher."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:17, Scales.V2:CatchweigherProductType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60138, Scales.V2:LowerToleranceLimit1, Number, 0, 3 ]
+    - DisplayName: "LowerToleranceLimit1"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60140, Scales.V2:LowerToleranceLimit2, Number, 0, 3 ]
+    - DisplayName: "LowerToleranceLimit2"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:378, Scales.V2:NominalWeight, Number, 0, 3 ]
+    - DisplayName: "NominalWeight"
+    - Description: "Defines the nominal (printed) weight of the product."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Scales.V2:ContinuousProductType:
   - [ UAObjectType, Scales.V2:18, Scales.V2:ContinuousProductType ]
+  - DisplayName: "ContinuousProductType"
+  - Description: "Represents a product of a continuous scale."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60217, Scales.V2:MaterialDensity, Number, 0, 3 ]
+    - DisplayName: "MaterialDensity"
+    - Description: "Defines the density of the used material."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:235, Scales.V2:TargetFlowRate, Number, 0, 3 ]
+    - DisplayName: "TargetFlowRate"
+    - Description: "Defines a preset of flowrate that needs to be conveyed. This value defines the setpoint for the FlowRate control loop."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:531, Scales.V2:TargetWeight, Number, 0, 3 ]
+    - DisplayName: "TargetWeight"
+    - Description: "Defines a preset of the volume to be processed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:PieceCountingProductType:
   - [ UAObjectType, Scales.V2:12, Scales.V2:PieceCountingProductType ]
+  - DisplayName: "PieceCountingProductType"
+  - Description: "Represents a product of a piece counting scale."
   - HasComponent:
     - [ UAVariable, Scales.V2:261, Scales.V2:CurrentItemCount, UInteger, 0, 3 ]
+    - DisplayName: "CurrentItemCount"
+    - Description: "Defines the current number of items that are captured by the scale."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:597, Scales.V2:FeedRateMeasuringInterval, Duration, 0, 3 ]
+    - DisplayName: "FeedRateMeasuringInterval"
+    - Description: "Defines the measurement interval for evaluating the current flowrate."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:274, Scales.V2:FillingTime, Duration, 0, 3 ]
+    - DisplayName: "FillingTime"
+    - Description: "Defines the interval during which the filling has to be completed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:376, Scales.V2:FineFeedCount, UInteger, 0, 3 ]
+    - DisplayName: "FineFeedCount"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:578, Scales.V2:InFlightCount, UInteger, 0, 3 ]
+    - DisplayName: "InFlightCount"
+    - Description: "Defines the number of items that is behind valve / in flight after feeding is stopped."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:589, Scales.V2:JogFeed, Boolean, 0, 3 ]
+    - DisplayName: "JogFeed"
+    - Description: "Defines if an additional dosage is necessary."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:590, Scales.V2:MinimumDeltaPerFeedRateMeasuringInterval, Number, 0, 3 ]
+    - DisplayName: "MinimumDeltaPerFeedRateMeasuringInterval"
+    - Description: "Defines the minimum amount of weight that needs to change within the FeedRateMeasuringInterval. Otherwise the filling procedure is not valid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:167, Scales.V2:NumberOfReferencePieces, UInteger, 0, 3 ]
+    - DisplayName: "NumberOfReferencePieces"
+    - Description: "Defines the number of pieces that need to be used for reference process."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:173, Scales.V2:ReferencePieceWeight, Number, 0, 3 ]
+    - DisplayName: "ReferencePieceWeight"
+    - Description: "Defines the reference weight of a piece."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:579, Scales.V2:RegisteredPieceCount, UInteger, 0, 3 ]
+    - DisplayName: "RegisteredPieceCount"
+    - Description: "Defines the number of pieces that were actually counted related to the ReferencePieceWeight."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:460, Scales.V2:SetTargetItemCount ]
+    - DisplayName: "SetTargetItemCount"
+    - Description: "Set the number of TargetItemCount."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:398, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           TargetItemCount: [ UInt32, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:577, Scales.V2:SetTargetPieceCount ]
+    - DisplayName: "SetTargetPieceCount"
+    - Description: "Sets the value of TargetPieceCount. See TargetPieceCount."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -575,47 +759,68 @@ DefinedTypes:
           TargetPieceCount: [ UInt32, 0 ]
           PlusTolerance: [ UInt32, 0 ]
           MinusTolerance: [ UInt32, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:580, Scales.V2:SettlingTime, Duration, 0, 3 ]
+    - DisplayName: "SettlingTime"
+    - Description: "Defines the time that needs to be passed before measurement process can be triggered."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:592, Scales.V2:TareId, String, 0, 3 ]
+    - DisplayName: "TareId"
+    - Description: "Defines the Id of tare value for the current product or item."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:587, Scales.V2:TargetItemCount, UInteger, 0, 3 ]
+    - DisplayName: "TargetItemCount"
+    - Description: "Defines the number of items that are supposed to be counted during the measurement process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:178, Scales.V2:TargetPieceCount, UInteger, 0, 3 ]
+    - DisplayName: "TargetPieceCount"
+    - Description: "Defines the number of pieces that need to be counted."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:581, Scales.V2:TotalizedItemCount, UInteger, 0, 3 ]
+    - DisplayName: "TotalizedItemCount"
+    - Description: "Defines the summed up number of items. Will be reset either triggered by the user or a different product selection."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:582, Scales.V2:TotalizedWeight, Scales.V2:WeightType, 0, 3 ]
+    - DisplayName: "TotalizedWeight"
+    - Description: "Defines the summed up number of weight. Will be reset either triggered by the user or a different product selection."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:RecipeProductType:
   - [ UAObjectType, Scales.V2:19, Scales.V2:RecipeProductType ]
+  - DisplayName: "RecipeProductType"
+  - Description: "Represents a product of a recipe scale."
   - HasComponent:
     - [ UAVariable, Scales.V2:633, Scales.V2:RecipeNodeId, NodeId, 0, 3 ]
+    - DisplayName: "RecipeNodeId"
+    - Description: "Defines the NodeId of the recipe that is being produced."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:632, Scales.V2:Report, Scales.V2:RecipeReportElementType, 1, 3 ]
+    - DisplayName: "Report"
+    - Description: "Defines an array with the various messages from the recipe. Each RecipeElement generates its own report message."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:131, Scales.V2:ReportFile ]
+    - DisplayName: "ReportFile"
+    - Description: "Defines the file (binary, xml or other) that contains the report of the current process."
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
@@ -623,118 +828,150 @@ DefinedTypes:
 
   Scales.V2:SimpleProductType:
   - [ UAObjectType, Scales.V2:20, Scales.V2:SimpleProductType ]
+  - DisplayName: "SimpleProductType"
+  - Description: "Represents a product of a simple scale."
   - HasProperty:
     - [ UAVariable, Scales.V2:1012, Scales.V2:ContainerId, String, 0, 3 ]
+    - DisplayName: "ContainerId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:1318, Scales.V2:UnitPrice, Number, 0, 3 ]
+    - DisplayName: "UnitPrice"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:TotalizingHopperProductType:
   - [ UAObjectType, Scales.V2:22, Scales.V2:TotalizingHopperProductType ]
+  - DisplayName: "TotalizingHopperProductType"
+  - Description: "Represents a product of a totalizing hopper scale."
   - HasComponent:
     - [ UAVariable, Scales.V2:637, Scales.V2:TipCounter, UInteger, 0, 3 ]
+    - DisplayName: "TipCounter"
+    - Description: "Defines the number of fillings (downpour, bulk produce)"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:634, Scales.V2:VolumeTargetValue, Number, 0, 3 ]
+    - DisplayName: "VolumeTargetValue"
+    - Description: "Defines the preset of the volume to be processed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:VehicleProductType:
   - [ UAObjectType, Scales.V2:832, Scales.V2:VehicleProductType ]
+  - DisplayName: "VehicleProductType"
   - HasProperty:
     - [ UAVariable, Scales.V2:858, Scales.V2:CarrierDisplayName, LocalizedText, 0, 3 ]
+    - DisplayName: "CarrierDisplayName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:859, Scales.V2:CarrierId, String, 0, 3 ]
+    - DisplayName: "CarrierId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:860, Scales.V2:Customer, LocalizedText, 0, 3 ]
+    - DisplayName: "Customer"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:861, Scales.V2:DeltaWeight, Scales.V2:WeightType, 0, 3 ]
+    - DisplayName: "DeltaWeight"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:870, Scales.V2:Destination, LocalizedText, 0, 3 ]
+    - DisplayName: "Destination"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:871, Scales.V2:DriverDisplayName, LocalizedText, 0, 3 ]
+    - DisplayName: "DriverDisplayName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:872, Scales.V2:DriverId, String, 0, 3 ]
+    - DisplayName: "DriverId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1396, Scales.V2:GetVehicleInformation ]
+    - DisplayName: "GetVehicleInformation"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:1208, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VehicleId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:874, Scales.V2:InboundScale, NodeId, 0, 3 ]
+    - DisplayName: "InboundScale"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:887, Scales.V2:InboundWeight, Scales.V2:WeightType, 0, 3 ]
+    - DisplayName: "InboundWeight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:835, Scales.V2:Material ]
+    - DisplayName: "Material"
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:877, Scales.V2:OutboundScale, NodeId, 0, 3 ]
+    - DisplayName: "OutboundScale"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:878, Scales.V2:OutboundWeight, Scales.V2:WeightType, 0, 3 ]
+    - DisplayName: "OutboundWeight"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:896, Scales.V2:ScaleOperatorId, String, 0, 3 ]
+    - DisplayName: "ScaleOperatorId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:897, Scales.V2:Supplier, LocalizedText, 0, 3 ]
+    - DisplayName: "Supplier"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:1117, Scales.V2:Tare, Number, 0, 3 ]
+    - DisplayName: "Tare"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:898, Scales.V2:TareExpirationDate, DateTime, 0, 3 ]
+    - DisplayName: "TareExpirationDate"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:1210, Scales.V2:TotalWeight, Scales.V2:WeightType, 0, 3 ]
+    - DisplayName: "TotalWeight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:873, Scales.V2:TotalWeightResetDate, DateTime, 0, 3 ]
+    - DisplayName: "TotalWeightResetDate"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:900, Scales.V2:VehicleId, String, 0, 3 ]
+    - DisplayName: "VehicleId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -742,60 +979,87 @@ DefinedTypes:
 
   Scales.V2:RecipeElementType:
   - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
+  - DisplayName: "RecipeElementType"
+  - Description: "Represents a step, process or action in a recipe."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Scales.V2:ActivationType:
   - [ UAObjectType, Scales.V2:40, Scales.V2:ActivationType ]
+  - DisplayName: "ActivationType"
+  - Description: "Represents an activation step in a recipe."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60219, Scales.V2:TargetValue, Number, 0, 3 ]
+    - DisplayName: "TargetValue"
+    - Description: "Defines the value to be reached of the TargetValue of an aggregate that is referenced by TargetValueId."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:306, Scales.V2:TargetValueId, String, 0, 3 ]
+    - DisplayName: "TargetValueId"
+    - Description: "Defines a unique Id of the aggregate that is being activated. A list of all possible TargetValueIds is defined in RecipeScaleDeviceType."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:307, Scales.V2:TargetValueNodeId, NodeId, 0, 3 ]
+    - DisplayName: "TargetValueNodeId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:ConditionSleepType:
   - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType ]
+  - DisplayName: "ConditionSleepType"
+  - Description: "Represents a condition sleep step in a recipe."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:299, Scales.V2:TargetThresholdValue ]
+    - DisplayName: "TargetThresholdValue"
+    - Description: "The target value with which the threshold value is compared."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:943, Scales.V2:ThresholdValueId, String, 0, 3 ]
+    - DisplayName: "ThresholdValueId"
+    - Description: "Defines an Id of process value that needs to be monitored and is element of the SupportedThresholdValues in the RecipeScale."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60240, Scales.V2:ThresholdValueNodeId, NodeId, 0, 3 ]
+    - DisplayName: "ThresholdValueNodeId"
+    - Description: "The NodeId of process value that needs to be monitored and is element of the SupportedThresholdValues in the RecipeScale. This variable should be used if the value is part of the address space."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:945, Scales.V2:Timeout, Duration, 0, 3 ]
+    - DisplayName: "Timeout"
+    - Description: "Timeout specifies the duration within the TargetThresholdValue needs to be reached. If Timeout is exceeded and operator intervention is necessary."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:AnalogConditionSleepType:
   - [ UAObjectType, Scales.V2:38, Scales.V2:AnalogConditionSleepType ]
+  - DisplayName: "AnalogConditionSleepType"
+  - Description: "Represents a condition sleep step in a recipe."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType ]
   - HasProperty:
     - [ UAVariable, Scales.V2:302, Scales.V2:ConditionMode, Scales.V2:EqualityAndRelationalOperator, 0, 3 ]
+    - DisplayName: "ConditionMode"
+    - Description: "Defines the type of condition operator that is used."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Scales.V2:EdgeTriggeredSleepType:
   - [ UAObjectType, Scales.V2:39, Scales.V2:EdgeTriggeredSleepType ]
+  - DisplayName: "EdgeTriggeredSleepType"
+  - Description: "Represents a condition sleep step in a recipe."
   - HasProperty:
     - [ UAVariable, Scales.V2:303, Scales.V2:ConditionMode, Scales.V2:EdgeOperator, 0, 3 ]
+    - DisplayName: "ConditionMode"
+    - Description: "Defines the type of condition operator that is used."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -803,8 +1067,12 @@ DefinedTypes:
 
   Scales.V2:TimerType:
   - [ UAObjectType, Scales.V2:36, Scales.V2:TimerType ]
+  - DisplayName: "TimerType"
+  - Description: "TimerType represents a timer step in a recipe. The recipe waits until at least Duration has passed from now."
   - HasComponent:
     - [ UAVariable, Scales.V2:298, Scales.V2:Duration, Duration, 0, 3 ]
+    - DisplayName: "Duration"
+    - Description: "Defines the period of time the processing needs to wait before processing the next RecipeElement."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -812,12 +1080,18 @@ DefinedTypes:
 
   Scales.V2:UserInstructionType:
   - [ UAObjectType, Scales.V2:33, Scales.V2:UserInstructionType ]
+  - DisplayName: "UserInstructionType"
+  - Description: "UserInstructionType represents a recipe step that requires user interaction. The recipe scale display instruction (a text and/or some application- specific symbols) on an HMI and waits until the user acknowledged the instruction."
   - HasComponent:
     - [ UAVariable, Scales.V2:292, Scales.V2:DisplayText, LocalizedText, 0, 3 ]
+    - DisplayName: "DisplayText"
+    - Description: "Defines instructions for this RecipeElement that will be displayed to the user."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:293, Scales.V2:InstructionId, UInteger, 0, 3 ]
+    - DisplayName: "InstructionId"
+    - Description: "Defines a unique Id used to identify the instruction that is displayed via DisplayText."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -825,18 +1099,26 @@ DefinedTypes:
 
   Scales.V2:WeighingType:
   - [ UAObjectType, Scales.V2:34, Scales.V2:WeighingType ]
+  - DisplayName: "WeighingType"
+  - Description: "Represents a weighing process in a recipe. The process can be an automatic or manual filling process."
   - HasComponent:
     - [ UAObject, Scales.V2:86, Scales.V2:Material ]
+    - DisplayName: "Material"
+    - Description: "Defines the material which needs to be measured. Each material has different characteristics that are defined in MaterialType."
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:294, Scales.V2:TargetWeight, Number, 0, 3 ]
+    - DisplayName: "TargetWeight"
+    - Description: "Defines the preset of the volume to be processed."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:297, Scales.V2:WeighingModuleNodeId, NodeId, 0, 3 ]
+    - DisplayName: "WeighingModuleNodeId"
+    - Description: "Defines the Id of the load cell which is used for weighing the product."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -844,14 +1126,20 @@ DefinedTypes:
 
   Scales.V2:RecipeManagementType:
   - [ UAObjectType, Scales.V2:30, Scales.V2:RecipeManagementType ]
+  - DisplayName: "RecipeManagementType"
+  - Description: "Contains methods and properties required for managing recipes."
   - HasComponent:
     - [ UAObject, Scales.V2:112, Scales.V2:<Recipe_No> ]
+    - DisplayName: "<Recipe_No>"
+    - Description: "Defines an instance of a recipe with the number No."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:31, Scales.V2:RecipeType ]
   - HasComponent:
     - [ UAMethod, Scales.V2:456, Scales.V2:AddRecipe ]
+    - DisplayName: "AddRecipe"
+    - Description: "Method to add an additional recipe of RecipeType."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -859,22 +1147,27 @@ DefinedTypes:
       - Arguments:
           RecipeId: [ String, 0 ]
           RecipeName: [ LocalizedText, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scales.V2:182, Scales.V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:459, Scales.V2:RemoveRecipe ]
+    - DisplayName: "RemoveRecipe"
+    - Description: "Method to remove a recipe of RecipeType."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:180, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -882,8 +1175,11 @@ DefinedTypes:
 
   Scales.V2:RecipeType:
   - [ UAObjectType, Scales.V2:31, Scales.V2:RecipeType ]
+  - DisplayName: "RecipeType"
+  - Description: "Represents a recipe. It defines additional methods and properties required for managing a recipe."
   - HasComponent:
     - [ UAMethod, Scales.V2:465, Scales.V2:AddRecipeElement ]
+    - DisplayName: "AddRecipeElement"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -892,42 +1188,53 @@ DefinedTypes:
           ElementType: [ NodeId, 0 ]
           ElementName: [ String, 0 ]
           PreviousElements: [ NodeId, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scales.V2:438, Scales.V2:OutputArguments, Argument, 1, 0 ]
       - Arguments:
           ElementNodeId: [ NodeId, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:82, Scales.V2:RecipeElements ]
+    - DisplayName: "RecipeElements"
+    - Description: "Defines a Placeholder for all RecipeElements that are part of the Recipe."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:50006, Scales.V2:RecipeFile ]
+    - DisplayName: "RecipeFile"
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:288, Scales.V2:RecipeId, String, 0, 3 ]
+    - DisplayName: "RecipeId"
+    - Description: "RecipeId defines a unique identifier of a recipe."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:287, Scales.V2:RecipeName, LocalizedText, 0, 3 ]
+    - DisplayName: "RecipeName"
+    - Description: "Defines a user-readable name of the recipe."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:466, Scales.V2:RemoveRecipeElement ]
+    - DisplayName: "RemoveRecipeElement"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:439, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeElementNodeId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -935,8 +1242,12 @@ DefinedTypes:
 
   Scales.V2:StatisticCounterType:
   - [ UAObjectType, Scales.V2:43, Scales.V2:StatisticCounterType ]
+  - DisplayName: "StatisticCounterType"
+  - Description: "Container for the different statisticvalues needed in a Checkweigher."
   - HasProperty:
     - [ UAVariable, Scales.V2:162, Scales.V2:Weighed, Boolean, 0, 3 ]
+    - DisplayName: "Weighed"
+    - Description: "This flag indicates that the element is considered in the weighed statistic."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -944,28 +1255,37 @@ DefinedTypes:
 
   Scales.V2:AcceptedStatisticCounterType:
   - [ UAObjectType, Scales.V2:1027, Scales.V2:AcceptedStatisticCounterType ]
+  - DisplayName: "AcceptedStatisticCounterType"
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:43, Scales.V2:StatisticCounterType ]
 
   Scales.V2:RejectedStatisticCounterType:
   - [ UAObjectType, Scales.V2:1028, Scales.V2:RejectedStatisticCounterType ]
+  - DisplayName: "RejectedStatisticCounterType"
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:43, Scales.V2:StatisticCounterType ]
 
   Scales.V2:StatisticType:
   - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
+  - DisplayName: "StatisticType"
+  - Description: "Container for the different statisticvalues. All variables are optional, so that the statistics can be instantiated application-specific."
   - HasComponent:
     - [ UAObject, Scales.V2:1182, Scales.V2:LastItem ]
+    - DisplayName: "LastItem"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:24, Scales.V2:WeighingItemType ]
   - HasProperty:
     - [ UAVariable, Scales.V2:986, IA:ResetCondition, String, 0, 3 ]
+    - DisplayName: "ResetCondition"
+    - Description: "The reason and context for the reset of the statistics, which is done without a trigger from an OPC UA Client, like calling the ResetStatistics Method. ResetCondition is a vendor-specific, human readable string. ResetCondition is non-localized and might contain an expression that can be parsed by certain clients. Examples are: “AFTER 4 HOURS”, “AFTER 1000 ITEMS”, “OPERATOR”. “OPERATOR” means, that an operator resets the statistics on a local HMI."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:283, IA:StartTime, DateTime, 0, 0 ]
+    - DisplayName: "StartTime"
+    - Description: "Indicates the point in time at which the collection of the statistical data has been started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -973,48 +1293,67 @@ DefinedTypes:
 
   Scales.V2:CheckweigherStatisticType:
   - [ UAObjectType, Scales.V2:48, Scales.V2:CheckweigherStatisticType ]
+  - DisplayName: "CheckweigherStatisticType"
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
 
   Scales.V2:FloatingStatisticType:
   - [ UAObjectType, Scales.V2:26, Scales.V2:FloatingStatisticType ]
+  - DisplayName: "FloatingStatisticType"
+  - Description: "Container for the different statisticvalues. All variables are optional, so that the statistics can be instantiated application-specific. Should be used for application-specific statistics."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
   - HasProperty:
     - [ UAVariable, Scales.V2:60063, IA:WindowNumberOfValues, UInt32, 0, 3 ]
+    - DisplayName: "WindowNumberOfValues"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Scales.V2:FeederModuleType:
   - [ UAObjectType, Scales.V2:28, Scales.V2:FeederModuleType ]
+  - DisplayName: "FeederModuleType"
+  - Description: "Represents a feeder system. A feeder system is a subdevice of an automatic scale for conveying the product to or from the WeighingBridge."
   - HasComponent:
     - [ UAVariable, Scales.V2:338, Scales.V2:FeederLoad, Number, 0, 0 ]
+    - DisplayName: "FeederLoad"
+    - Description: "Defines the current loaded weight on the feeder system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:925, Scales.V2:FeederRunning, Boolean, 0, 0 ]
+    - DisplayName: "FeederRunning"
+    - Description: "Indicates that the feeder system is running."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:334, Scales.V2:FeederSpeed, Number, 0, 0 ]
+    - DisplayName: "FeederSpeed"
+    - Description: "Defines the current speed of a feeder system. The unit of the FeederSpeed depends on the construction system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:50019, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60143, Scales.V2:MaximumFeederSpeed, Number, 0, 0 ]
+    - DisplayName: "MaximumFeederSpeed"
+    - Description: "Defines the maximal possible speed of the feeder."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60160, Scales.V2:MinimalFeederSpeed, Number, 0, 0 ]
+    - DisplayName: "MinimalFeederSpeed"
+    - Description: "Defines the minimal possible speed of the feeder."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:453, Scales.V2:SetFeederSpeed ]
+    - DisplayName: "SetFeederSpeed"
+    - Description: "Allows to set a new value for the speed of the feeder system. The OPC UA server must check if the value is between the minimal and maximum allowed speed and if the unit is allowed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1022,6 +1361,7 @@ DefinedTypes:
       - Arguments:
           FeederSpeed: [ Float, 0 ]
           EngineeringUnits: [ EUInformation, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1029,30 +1369,43 @@ DefinedTypes:
 
   Scales.V2:PrinterModuleType:
   - [ UAObjectType, Scales.V2:29, Scales.V2:PrinterModuleType ]
+  - DisplayName: "PrinterModuleType"
+  - Description: "Represents a printing device. A printing device is a subdevice of a scale, that prints labels or other documents releated to the scale or the measurement results."
   - HasComponent:
     - [ UAVariable, Scales.V2:60056, Scales.V2:LabelLength, Number, 0, 0 ]
+    - DisplayName: "LabelLength"
+    - Description: "Defines the length of the labels in stock."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:343, Scales.V2:LabelStock, Number, 0, 0 ]
+    - DisplayName: "LabelStock"
+    - Description: "Indicates the level of labels in stock in percent."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:351, Scales.V2:LabelTypeId, String, 0, 0 ]
+    - DisplayName: "LabelTypeId"
+    - Description: "Defines the Id of the label to be printed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60163, Scales.V2:LabelWidth, Number, 0, 0 ]
+    - DisplayName: "LabelWidth"
+    - Description: "Defines the width of the labels in stock."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:50020, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:349, Scales.V2:PrintMediaStock, Number, 0, 0 ]
+    - DisplayName: "PrintMediaStock"
+    - Description: "Defines the level of the print media in percent (e.g. ink, wear of thermal element, etc)"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1060,72 +1413,95 @@ DefinedTypes:
 
   Scales.V2:ScaleDeviceType:
   - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
+  - DisplayName: "ScaleDeviceType"
+  - Description: "Represents a scale."
   - HasComponent:
     - [ UAObject, Scales.V2:94, Scales.V2:<ListOfWeighingRanges> ]
+    - DisplayName: "<ListOfWeighingRanges>"
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:23, Scales.V2:WeighingRangeElementType ]
   - HasProperty:
     - [ UAVariable, Scales.V2:989, Scales.V2:AllowedEngineeringUnits, EUInformation, 1, 3 ]
+    - DisplayName: "AllowedEngineeringUnits"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1406, Scales.V2:ClearTare ]
+    - DisplayName: "ClearTare"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:203, Scales.V2:CurrentWeight, Scales.V2:WeightType, 0, 3 ]
+    - DisplayName: "CurrentWeight"
+    - Description: "Defines the current value that is measured at the sensor at the current timestamp. Might be a highly fluctuating value."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:50021, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:234, Scales.V2:MaterialClass, LocalizedText, 0, 3 ]
+    - DisplayName: "MaterialClass"
+    - Description: "Defines the allowed material the scale may measure. Only relevant for certain scales (e.g. totalizing hopper scale or continuous scale)"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60053, Scales.V2:MinimalWeight, Number, 0, 3 ]
+    - DisplayName: "MinimalWeight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:60048, Scales.V2:Policy, LocalizedText, 1, 3 ]
+    - DisplayName: "Policy"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:229, Scales.V2:ProcessStateId, String, 0, 3 ]
+    - DisplayName: "ProcessStateId"
+    - Description: "Contains an relating identification for the occurring ProcessStateMessage."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:161, Scales.V2:ProcessStateMessage, LocalizedText, 0, 3 ]
+    - DisplayName: "ProcessStateMessage"
+    - Description: "Contains the message of the current overall state of the scale."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:50031, Scales.V2:ProductionOutput ]
+    - DisplayName: "ProductionOutput"
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:85, Scales.V2:ProductionPreset ]
+    - DisplayName: "ProductionPreset"
+    - Description: "Contains the productions presets."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:14, Scales.V2:ProductionPresetType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:211, Scales.V2:RegisteredWeight, Scales.V2:WeightType, 0, 3 ]
+    - DisplayName: "RegisteredWeight"
+    - Description: "Defines the last valid measurement that was recorded and will be used for further processing. This is the legal registered value of the scale."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:471, Scales.V2:RegisterWeight ]
+    - DisplayName: "RegisterWeight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1407, Scales.V2:SetPresetTare ]
+    - DisplayName: "SetPresetTare"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1133,24 +1509,29 @@ DefinedTypes:
       - Arguments:
           PresetTare: [ Double, 0 ]
           EngineeringUnits: [ EUInformation, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1409, Scales.V2:SetTare ]
+    - DisplayName: "SetTare"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1408, Scales.V2:SetZero ]
+    - DisplayName: "SetZero"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:50005, Scales.V2:State ]
+    - DisplayName: "State"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
   - HasComponent:
     - [ UAObject, Scales.V2:67, Scales.V2:SubDevices ]
+    - DisplayName: "SubDevices"
     - HasTypeDefinition:
       - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
     - HasModellingRule:
@@ -1160,40 +1541,58 @@ DefinedTypes:
 
   Scales.V2:AutomaticFillingScaleType:
   - [ UAObjectType, Scales.V2:5, Scales.V2:AutomaticFillingScaleType ]
+  - DisplayName: "AutomaticFillingScaleType"
+  - Description: "Represents an automatic filling scale."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60189, Scales.V2:Deviation, Number, 0, 3 ]
+    - DisplayName: "Deviation"
+    - Description: "Defines the relative amount of over (positive value) or under (negative value) dosed value in relation of the TargetWeight."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:543, Scales.V2:ToleranceState, Scales.V2:ToleranceState, 0, 3 ]
+    - DisplayName: "ToleranceState"
+    - Description: "Describes the state of the tolerance deviation. The option under and over needs to be determined via TargetItemType information of TargetWeight."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:CatchweigherType:
   - [ UAObjectType, Scales.V2:4, Scales.V2:CatchweigherType ]
+  - DisplayName: "CatchweigherType"
+  - Description: "Represents a Catchweigher. It has no method or properties defined."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
 
   Scales.V2:AutomaticWeightPriceLabelerType:
   - [ UAObjectType, Scales.V2:49, Scales.V2:AutomaticWeightPriceLabelerType ]
+  - DisplayName: "AutomaticWeightPriceLabelerType"
+  - Description: "Represents an automatic weight-price-labeler."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:4, Scales.V2:CatchweigherType ]
 
   Scales.V2:CheckweigherType:
   - [ UAObjectType, Scales.V2:45, Scales.V2:CheckweigherType ]
+  - DisplayName: "CheckweigherType"
+  - Description: "Represents a Checkweigher."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:4, Scales.V2:CatchweigherType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:447, Scales.V2:TU1Percent, Number, 0, 3 ]
+    - DisplayName: "TU1Percent"
+    - Description: "Permitted percentage of items with weight less than TU1"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:ContinuousScaleType:
   - [ UAObjectType, Scales.V2:10, Scales.V2:ContinuousScaleType ]
+  - DisplayName: "ContinuousScaleType"
+  - Description: "Represents a continuous scale."
   - HasComponent:
     - [ UAObject, Scales.V2:72, Scales.V2:<Totalizer> ]
+    - DisplayName: "<Totalizer>"
+    - Description: "Defines the overall volume that was conveyed over a defined duration. Multiple object may be instantiated depending on the use case."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -1202,108 +1601,147 @@ DefinedTypes:
     - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60153, Scales.V2:ControlMagnitude, Number, 0, 3 ]
+    - DisplayName: "ControlMagnitude"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:517, Scales.V2:FlowRate ]
+    - DisplayName: "FlowRate"
+    - Description: "Defines the conveying capacity in volume per time."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60232, Scales.V2:Load, Number, 0, 3 ]
+    - DisplayName: "Load"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:73, Scales.V2:MasterTotalizer ]
+    - DisplayName: "MasterTotalizer"
+    - Description: "Defines the overall volume that was conveyed over the lifetime of the scale."
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:27, Scales.V2:TotalizerType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60213, Scales.V2:MaxFlowRate, Number, 0, 3 ]
+    - DisplayName: "MaxFlowRate"
+    - Description: "Defines the maximum volume that may be conveyed. Largest volume per time."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60215, Scales.V2:MinFlowRate, Number, 0, 3 ]
+    - DisplayName: "MinFlowRate"
+    - Description: "Defines the minimum volume that can be conveyed. Smallest volume per time."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60152, Scales.V2:RateControlMode, Scales.V2:RateControlMode, 0, 3 ]
+    - DisplayName: "RateControlMode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60154, Scales.V2:Speed, Number, 0, 3 ]
+    - DisplayName: "Speed"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60148, Scales.V2:TargetFlowRate, Number, 0, 3 ]
+    - DisplayName: "TargetFlowRate"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:LossInWeightScaleType:
   - [ UAObjectType, Scales.V2:50, Scales.V2:LossInWeightScaleType ]
+  - DisplayName: "LossInWeightScaleType"
+  - Description: "Represents a loss in weight scale."
   - HasComponent:
     - [ UAVariable, Scales.V2:60150, Scales.V2:BinWeight ]
+    - DisplayName: "BinWeight"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:539, Scales.V2:DischargeStart ]
+    - DisplayName: "DischargeStart"
+    - Description: "Starts a discharging process."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:540, Scales.V2:DischargeStop ]
+    - DisplayName: "DischargeStop"
+    - Description: "Stops a discharging process."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:916, Scales.V2:Discharging, Boolean, 0, 3 ]
+    - DisplayName: "Discharging"
+    - Description: "Indicates that a discharging process is taking place."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60157, Scales.V2:HopperFillLevel, Number, 0, 3 ]
+    - DisplayName: "HopperFillLevel"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60144, Scales.V2:HopperWeight ]
+    - DisplayName: "HopperWeight"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:10, Scales.V2:ContinuousScaleType ]
   - HasProperty:
     - [ UAVariable, Scales.V2:917, Scales.V2:Refilling, Boolean, 0, 3 ]
+    - DisplayName: "Refilling"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:537, Scales.V2:RefillStart ]
+    - DisplayName: "RefillStart"
+    - Description: "Starts a refilling process."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:538, Scales.V2:RefillStop ]
+    - DisplayName: "RefillStop"
+    - Description: "Stops a refilling process."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Scales.V2:PieceCountingScaleType:
   - [ UAObjectType, Scales.V2:6, Scales.V2:PieceCountingScaleType ]
+  - DisplayName: "PieceCountingScaleType"
+  - Description: "Represents a piece counting scale."
   - HasComponent:
     - [ UAVariable, Scales.V2:607, Scales.V2:CurrentPieceCount, Number, 0, 3 ]
+    - DisplayName: "CurrentPieceCount"
+    - Description: "Defines the number of pieces that are currently measured related to the ReferencePieceWeight."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:605, Scales.V2:ReferenceOptimisationRange, Number, 0, 3 ]
+    - DisplayName: "ReferenceOptimisationRange"
+    - Description: "Defines the tolerance range within the scale may optimize the ReferencePieceWeight."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1026, Scales.V2:SetNumberOfReferencePieces ]
+    - DisplayName: "SetNumberOfReferencePieces"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Scales.V2:990, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NumberOfReferencePieces: [ UInt32, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:603, Scales.V2:SetReferencePieceWeight ]
+    - DisplayName: "SetReferencePieceWeight"
+    - Description: "Sets the value for the ReferencePieceWeight (product-specific data)."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1311,43 +1749,55 @@ DefinedTypes:
       - Arguments:
           ReferencePieceWeight: [ UInt32, 0 ]
           EngineeringUnits: [ EUInformation, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:602, Scales.V2:StartReference ]
+    - DisplayName: "StartReference"
+    - Description: "Triggers the reference weighing process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:1013, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           NumberOfReferencePieces: [ UInt32, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
 
   Scales.V2:RecipeScaleType:
   - [ UAObjectType, Scales.V2:7, Scales.V2:RecipeScaleType ]
+  - DisplayName: "RecipeScaleType"
+  - Description: "RecipeScaleType represents a recipe scale."
   - HasComponent:
     - [ UAMethod, Scales.V2:786, Scales.V2:AbortRecipe ]
+    - DisplayName: "AbortRecipe"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:1017, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:784, Scales.V2:ContinueRecipe ]
+    - DisplayName: "ContinueRecipe"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:1015, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:127, Scales.V2:Recipes ]
+    - DisplayName: "Recipes"
+    - Description: "Defines a folder that contains all recipes. Elements in this folder must have the RecipeType."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1356,188 +1806,253 @@ DefinedTypes:
     - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
     - [ UAMethod, Scales.V2:785, Scales.V2:SkipCurrentRecipeElement ]
+    - DisplayName: "SkipCurrentRecipeElement"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:1016, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:458, Scales.V2:StartRecipe ]
+    - DisplayName: "StartRecipe"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:373, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:783, Scales.V2:StopRecipe ]
+    - DisplayName: "StopRecipe"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:1014, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           RecipeNodeId: [ NodeId, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:69, Scales.V2:SupportedMaterial ]
+    - DisplayName: "SupportedMaterial"
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:612, Scales.V2:SupportedTargetValues, Scales.V2:RecipeTargetValueType, 1, 3 ]
+    - DisplayName: "SupportedTargetValues"
+    - Description: "Defines a list of values that may be set via the recipe."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:611, Scales.V2:SupportedThresholdValues, Scales.V2:RecipeThresholdType, 1, 3 ]
+    - DisplayName: "SupportedThresholdValues"
+    - Description: "Defines a list of threshold values that may be used within one recipe."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:SimpleScaleType:
   - [ UAObjectType, Scales.V2:3, Scales.V2:SimpleScaleType ]
+  - DisplayName: "SimpleScaleType"
+  - Description: "Represents a simple scale."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
 
   Scales.V2:HopperScaleType:
   - [ UAObjectType, Scales.V2:9, Scales.V2:HopperScaleType ]
+  - DisplayName: "HopperScaleType"
+  - Description: "Represents a hopper scale."
   - HasProperty:
     - [ UAVariable, Scales.V2:381, Scales.V2:<Limits>, Boolean, 0, 3 ]
+    - DisplayName: "<Limits>"
+    - Description: "Defines a placeholder for individual additional limits that may be reached."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:3, Scales.V2:SimpleScaleType ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60221, Scales.V2:LevelMax, Number, 0, 3 ]
+    - DisplayName: "LevelMax"
+    - Description: "Defines a the maximum fill level where a action is necessary."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60223, Scales.V2:LevelMin, Number, 0, 3 ]
+    - DisplayName: "LevelMin"
+    - Description: "Defines a the minimum fill level where a action is necessary."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:388, Scales.V2:LimitMax, Boolean, 0, 3 ]
+    - DisplayName: "LimitMax"
+    - Description: "The current fill level exceeds the allowed maximum level."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:389, Scales.V2:LimitMin, Boolean, 0, 3 ]
+    - DisplayName: "LimitMin"
+    - Description: "The current fill level falls below the allowed minimum level."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Scales.V2:LaboratoryScaleType:
   - [ UAObjectType, Scales.V2:15, Scales.V2:LaboratoryScaleType ]
+  - DisplayName: "LaboratoryScaleType"
+  - Description: "Represents a laboratory scale."
   - HasProperty:
     - [ UAVariable, Scales.V2:265, Scales.V2:CalibrationNeeded, Boolean, 0, 3 ]
+    - DisplayName: "CalibrationNeeded"
+    - Description: "Defines if a calibration procedure is needed and the current process should be paused."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:264, Scales.V2:CalibrationRunning, Boolean, 0, 3 ]
+    - DisplayName: "CalibrationRunning"
+    - Description: "Defines if a calibration procedure is running."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:761, Scales.V2:CloseDraftShields ]
+    - DisplayName: "CloseDraftShields"
+    - Description: "Method to close a certain or all draft shields."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:762, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Shield: [ Scales.V2:DraftShieldType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Scales.V2:238, Scales.V2:DraftShieldLeftClosed, Boolean, 0, 3 ]
+    - DisplayName: "DraftShieldLeftClosed"
+    - Description: "Defines if the left draft shield is closed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:239, Scales.V2:DraftShieldRightClosed, Boolean, 0, 3 ]
+    - DisplayName: "DraftShieldRightClosed"
+    - Description: "Defines if the right draft shield is closed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:240, Scales.V2:DraftShieldTopClosed, Boolean, 0, 3 ]
+    - DisplayName: "DraftShieldTopClosed"
+    - Description: "Defines if the top draft shield is closed."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:1207, Scales.V2:IonisatorRunning, Boolean, 0, 3 ]
+    - DisplayName: "IonisatorRunning"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:3, Scales.V2:SimpleScaleType ]
   - HasProperty:
     - [ UAVariable, Scales.V2:263, Scales.V2:LevelingRunning, Boolean, 0, 3 ]
+    - DisplayName: "LevelingRunning"
+    - Description: "Defines if a levelling process is running."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:758, Scales.V2:OpenDraftShields ]
+    - DisplayName: "OpenDraftShields"
+    - Description: "Method to open a certain or all draft shields."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:759, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           Shield: [ Scales.V2:DraftShieldType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:455, Scales.V2:StartCalibration ]
+    - DisplayName: "StartCalibration"
+    - Description: "Method to start the automatic calibration procedure."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:457, Scales.V2:StartIonisator ]
+    - DisplayName: "StartIonisator"
+    - Description: "Method to start the ionization process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:454, Scales.V2:StartLeveling ]
+    - DisplayName: "StartLeveling"
+    - Description: "Method to start the automatic leveling procedure of the scale."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, Scales.V2:463, Scales.V2:StopIonisator ]
+    - DisplayName: "StopIonisator"
+    - Description: "Method to stop the ionization process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Scales.V2:WeighingModuleType:
   - [ UAObjectType, Scales.V2:1, Scales.V2:WeighingModuleType ]
+  - DisplayName: "WeighingModuleType"
+  - Description: "Represents a weighing bridge."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:3, Scales.V2:SimpleScaleType ]
 
   Scales.V2:TotalizingHopperScaleType:
   - [ UAObjectType, Scales.V2:8, Scales.V2:TotalizingHopperScaleType ]
+  - DisplayName: "TotalizingHopperScaleType"
+  - Description: "Represents a totalizing hopper scale."
   - HasSubtype_reverse:
     - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
 
   Scales.V2:VehicleScaleType:
   - [ UAObjectType, Scales.V2:834, Scales.V2:VehicleScaleType ]
+  - DisplayName: "VehicleScaleType"
   - HasComponent:
     - [ UAMethod, Scales.V2:1022, Scales.V2:InboundWeighing ]
+    - DisplayName: "InboundWeighing"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:946, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VehicleId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1024, Scales.V2:OnePassWeighing ]
+    - DisplayName: "OnePassWeighing"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:949, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VehicleId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1023, Scales.V2:OutboundWeighing ]
+    - DisplayName: "OutboundWeighing"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:947, Scales.V2:InputArguments, Argument, 1, 0 ]
       - Arguments:
           VehicleId: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1545,48 +2060,64 @@ DefinedTypes:
 
   Scales.V2:ScaleSystemType:
   - [ UAObjectType, Scales.V2:44, Scales.V2:ScaleSystemType ]
+  - DisplayName: "ScaleSystemType"
+  - Description: "Represents a scale system and contains one or more scales."
   - HasComponent:
     - [ UAObject, Scales.V2:50022, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:140, Scales.V2:Policy, LocalizedText, 1, 0 ]
+    - DisplayName: "Policy"
+    - Description: "Defines the legal guidelines that apply for the scale or need to be complied by the scale."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:356, Scales.V2:ProcessStateId, String, 0, 3 ]
+    - DisplayName: "ProcessStateId"
+    - Description: "Contains an relating identification for the occurring ProcessStateMessage."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:357, Scales.V2:ProcessStateMessage, LocalizedText, 0, 3 ]
+    - DisplayName: "ProcessStateMessage"
+    - Description: "Contains the message of the current overall state of the scale."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:79, Scales.V2:ProductionOutput ]
+    - DisplayName: "ProductionOutput"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
   - HasComponent:
     - [ UAObject, Scales.V2:70, Scales.V2:ProductionPreset ]
+    - DisplayName: "ProductionPreset"
+    - Description: "Contains the productions presets."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Scales.V2:14, Scales.V2:ProductionPresetType ]
   - HasComponent:
     - [ UAMethod, Scales.V2:1025, Scales.V2:ResetGlobalStatistics ]
+    - DisplayName: "ResetGlobalStatistics"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:837, Scales.V2:SubDevices ]
+    - DisplayName: "SubDevices"
+    - Description: "The Scales must be a subtype of the ScaleDeviceType but must not be from the same type."
     - HasTypeDefinition:
       - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Scales.V2:50008, Scales.V2:SystemState ]
+    - DisplayName: "SystemState"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1596,12 +2127,18 @@ DefinedTypes:
 
   Scales.V2:TotalizerType:
   - [ UAObjectType, Scales.V2:27, Scales.V2:TotalizerType ]
+  - DisplayName: "TotalizerType"
+  - Description: "Contains the sum over the last measurement results."
   - HasComponent:
     - [ UAMethod, Scales.V2:451, Scales.V2:ResetTotalizer ]
+    - DisplayName: "ResetTotalizer"
+    - Description: "Resets the TotalizedValue of this totalizer object. Only useful if reset is not related to a period of time."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:329, Scales.V2:TotalizedValue, Scales.V2:AbstractWeightType, 0, 0 ]
+    - DisplayName: "TotalizedValue"
+    - Description: "Defines a summed up/totalized volume within a period of time."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1609,32 +2146,46 @@ DefinedTypes:
 
   Scales.V2:WeighingItemType:
   - [ UAObjectType, Scales.V2:24, Scales.V2:WeighingItemType ]
+  - DisplayName: "WeighingItemType"
   - HasProperty:
     - [ UAVariable, Scales.V2:248, Scales.V2:ItemId, String, 0, 3 ]
+    - DisplayName: "ItemId"
+    - Description: "Defines a unique number that is assigned to an item."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60177, Scales.V2:MeasuredHeight, Number, 0, 3 ]
+    - DisplayName: "MeasuredHeight"
+    - Description: "Defines the maximum height (in direction of travel) of the measured item."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60179, Scales.V2:MeasuredLength, Number, 0, 3 ]
+    - DisplayName: "MeasuredLength"
+    - Description: "Defines the maximum measured length (in direction of travel) of the measured item."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60181, Scales.V2:MeasuredVolume, Number, 0, 3 ]
+    - DisplayName: "MeasuredVolume"
+    - Description: "Defines the volume of the item."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Scales.V2:247, Scales.V2:MeasuredWeight, Scales.V2:WeightType, 0, 3 ]
+    - DisplayName: "MeasuredWeight"
+    - Description: "Defines the registered weight that may be unmistakeable referenced to one item."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60183, Scales.V2:MeasuredWidth, Number, 0, 3 ]
+    - DisplayName: "MeasuredWidth"
+    - Description: "Defines the maximum width (in third possible orthogonal direction to height and length) of the measured item."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Scales.V2:1029, Scales.V2:ZoneName, String, 0, 3 ]
+    - DisplayName: "ZoneName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1642,8 +2193,11 @@ DefinedTypes:
 
   Scales.V2:PriceItemType:
   - [ UAObjectType, Scales.V2:833, Scales.V2:PriceItemType ]
+  - DisplayName: "PriceItemType"
   - HasComponent:
     - [ UAVariable, Scales.V2:1354, Scales.V2:ItemPrice, Number, 0, 3 ]
+    - DisplayName: "ItemPrice"
+    - Description: "ItemPrice defines the price related to measured weight and UnitPrice."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -1651,16 +2205,24 @@ DefinedTypes:
 
   Scales.V2:WeighingRangeElementType:
   - [ UAObjectType, Scales.V2:23, Scales.V2:WeighingRangeElementType ]
+  - DisplayName: "WeighingRangeElementType"
+  - Description: "For each weighing range a scale supports the OPC UA server provides an object of WeighingRangeElementType that contains the propertys of the weighing range like the ScaleDivision."
   - HasComponent:
     - [ UAVariable, Scales.V2:262, Scales.V2:ActualScaleInterval, Double, 0, 3 ]
+    - DisplayName: "ActualScaleInterval"
+    - Description: "Value expressed in units of mass of the difference between two consecutive indicated values, for digital indication ('d' as described in Welmec /OIML)."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:291, Scales.V2:Range, Range, 0, 3 ]
+    - DisplayName: "Range"
+    - Description: "Defines the range within the scale may be operated depending on the additional parameters within this type."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:417, Scales.V2:VerificationScaleInterval, Double, 0, 3 ]
+    - DisplayName: "VerificationScaleInterval"
+    - Description: "Value, expressed in units of mass, used for the classification and verification of an instrument. ('e' as described in Welmec /OIML)"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1668,20 +2230,30 @@ DefinedTypes:
 
   Scales.V2:ZoneType:
   - [ UAObjectType, Scales.V2:42, Scales.V2:ZoneType ]
+  - DisplayName: "ZoneType"
+  - Description: "Container for the weighing zones in a Checkweigher."
   - HasComponent:
     - [ UAVariable, Scales.V2:60201, Scales.V2:LowerLimit, Number, 0, 3 ]
+    - DisplayName: "LowerLimit"
+    - Description: "Defines the lower weight limit of this zone. The lower limit is prior to the upper limit if two zones are beside each other."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:311, Scales.V2:Name, LocalizedText, 0, 3 ]
+    - DisplayName: "Name"
+    - Description: "Defines the user-readable name of the zone."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Scales.V2:60203, Scales.V2:UpperLimit, Number, 0, 3 ]
+    - DisplayName: "UpperLimit"
+    - Description: "Defines the upper weight limit of this zone."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Scales.V2:115, Scales.V2:ZoneStatistic ]
+    - DisplayName: "ZoneStatistic"
+    - Description: "Contains statistics regarding this zone."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:

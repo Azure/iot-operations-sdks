@@ -1,16 +1,22 @@
 DataTypes:
 - UADataType: [ CAS:3022, CAS:AirnetHealthStateEnum ]
+  DisplayName: "AirnetHealthStateEnum"
+  Description: "All requirements can be fulfilled."
   Enums:
     OK: 0
     Warning: 1
     Error: 2
     Critical: 3
 - UADataType: [ CAS:3023, CAS:AirnetIntegratedStateEnum ]
+  DisplayName: "AirnetIntegratedStateEnum"
+  Description: "The MCS controls all compressors of this airnet."
   Enums:
     FullyIntegrated: 0
     PartiallyIntegrated: 1
     FullyIsolated: 2
 - UADataType: [ CAS:3024, CAS:AirnetOperatingStateEnum ]
+  DisplayName: "AirnetOperatingStateEnum"
+  Description: "The airnet is in a state not specified by this enumeration."
   Enums:
     Other: 0
     Stopped: 1
@@ -18,6 +24,8 @@ DataTypes:
     Stopping: 3
     Operational: 4
 - UADataType: [ CAS:3025, CAS:CompressorOperatingStateEnum ]
+  DisplayName: "CompressorOperatingStateEnum"
+  Description: "The compressor is in a state not specified by this enumeration."
   Enums:
     Other: 0
     Stopped: 1
@@ -28,6 +36,8 @@ DataTypes:
     Unloading: 6
     Loaded: 7
 - UADataType: [ CAS:3018, CAS:CompressorTypeEnum ]
+  DisplayName: "CompressorTypeEnum"
+  Description: "possible compressor types"
   Enums:
     Other: 0
     AxialTurboCompressor: 1
@@ -43,20 +53,28 @@ DataTypes:
     StraightLobeCompressor: 11
     VaneCompressor: 12
 - UADataType: [ CAS:3015, CAS:ConverterTypeEnum ]
+  DisplayName: "ConverterTypeEnum"
+  Description: "possible converter types"
   Enums:
     Other: 0
     CatalyticHCConverter: 1
 - UADataType: [ CAS:3020, CAS:DisplacementTypeEnum ]
+  DisplayName: "DisplacementTypeEnum"
+  Description: "possible displacement types for a compressor"
   Enums:
     PositiveDisplacement: 0
     DynamicDisplacement: 1
 - UADataType: [ CAS:3012, CAS:DrainTypeEnum ]
+  DisplayName: "DrainTypeEnum"
+  Description: "possible condensate drain types"
   Enums:
     Other: 0
     CapacitiveDrain: 1
     LevelControlledDrain: 2
     TimedDrain: 3
 - UADataType: [ CAS:3026, CAS:DryerOperatingStateEnum ]
+  DisplayName: "DryerOperatingStateEnum"
+  Description: "The dryer is in a state not specified by this enumeration."
   Enums:
     Other: 0
     Stopped: 1
@@ -72,6 +90,8 @@ DataTypes:
     Pressurizing: 11
     RegeneratedVesselInStand-by: 12
 - UADataType: [ CAS:3017, CAS:DryerTypeEnum ]
+  DisplayName: "DryerTypeEnum"
+  Description: "possible dryer types"
   Enums:
     Other: 0
     AbsorptionDryer: 1
@@ -79,6 +99,8 @@ DataTypes:
     MembraneDryer: 3
     RefrigerationDryer: 4
 - UADataType: [ CAS:3008, CAS:FilterClassEnum ]
+  DisplayName: "FilterClassEnum"
+  Description: "possible filter classes according to ISO 8573-1"
   Enums:
     0: 0
     1: 1
@@ -92,6 +114,8 @@ DataTypes:
     9: 9
     X: 10
 - UADataType: [ CAS:3005, CAS:FilterTypeEnum ]
+  DisplayName: "FilterTypeEnum"
+  Description: "possible filter types"
   Enums:
     Other: 0
     ActivatedCarbonFilter: 1
@@ -101,32 +125,44 @@ DataTypes:
     FabricFilter: 5
     SterileFilter: 6
 - UADataType: [ CAS:3006, CAS:FluidTypeEnum ]
+  DisplayName: "FluidTypeEnum"
+  Description: "possible process fluid types"
   Enums:
     Air: 0
     Condensate: 1
     Oil: 2
     Water: 3
 - UADataType: [ CAS:3003, CAS:HealthStateEnum ]
+  DisplayName: "HealthStateEnum"
+  Description: "The main function can be fulfilled."
   Enums:
     OK: 0
     Warning: 1
     Error: 2
     Critical: 3
 - UADataType: [ CAS:3009, CAS:IntegratedStateEnum ]
+  DisplayName: "IntegratedStateEnum"
+  Description: "Compressed air generation or treatment is fully controlled by the MCS."
   Enums:
     FullyIntegrated: 0
     PartiallyIntegrated: 1
     FullyIsolated: 2
 - UADataType: [ CAS:3016, CAS:IpVersionEnum ]
+  DisplayName: "IpVersionEnum"
+  Description: "IP address is in IPv4 format"
   Enums:
     IPv4: 0
     IPv6: 1
 - UADataType: [ CAS:3019, CAS:LubricationTypeEnum ]
+  DisplayName: "LubricationTypeEnum"
+  Description: "possible lubrication types for the compression process of a compressor"
   Enums:
     NoLubrication: 0
     OilLubricated: 1
     WaterLubricated: 2
 - UADataType: [ CAS:3014, CAS:OperatingStateEnum ]
+  DisplayName: "OperatingStateEnum"
+  Description: "The component is in a state not specified by this enumeration."
   Enums:
     Other: 0
     Stopped: 1
@@ -134,11 +170,15 @@ DataTypes:
     Stopping: 3
     Operational: 4
 - UADataType: [ CAS:3004, CAS:ReceiverTypeEnum ]
+  DisplayName: "ReceiverTypeEnum"
+  Description: "possible receiver types"
   Enums:
     Other: 0
     DryReceiver: 1
     WetReceiver: 2
 - UADataType: [ CAS:3021, CAS:SensorTypeEnum ]
+  DisplayName: "SensorTypeEnum"
+  Description: "possible sensor types"
   Enums:
     Other: 0
     Ammeter: 1
@@ -154,6 +194,8 @@ DataTypes:
     VolumeSensor: 11
     Wattmeter: 12
 - UADataType: [ CAS:3013, CAS:SeparatorTypeEnum ]
+  DisplayName: "SeparatorTypeEnum"
+  Description: "possible condensate separator types"
   Enums:
     Other: 0
     CentrifugalOilyWaterSeparator: 1
@@ -162,6 +204,8 @@ DataTypes:
     GravityPlateSeparator: 4
     HydrocycloneOilyWaterSeparator: 5
 - UADataType: [ CAS:3011, CAS:ValveTypeEnum ]
+  DisplayName: "ValveTypeEnum"
+  Description: "possible valve types"
   Enums:
     Other: 0
     CheckValve: 1
@@ -170,11 +214,15 @@ DataTypes:
     PressureValve: 4
     SwitchingValve: 5
 - UADataType: [ CAS:3007, CAS:FilterClassDataType ]
+  DisplayName: "FilterClassDataType"
+  Description: "information about the used filter class according to ISO 8573-1 of a filter"
   Fields:
     A: [ CAS:FilterClassEnum, 0 ]
     B: [ CAS:FilterClassEnum, 0 ]
     C: [ CAS:FilterClassEnum, 0 ]
 - UADataType: [ CAS:3010, CAS:SensorTechnologyOptionSet ]
+  DisplayName: "SensorTechnologyOptionSet"
+  Description: "flags for the used sensor technologies for a sensor"
   Enums:
     CapacitiveSensor: 0
     ElectronTube: 1
@@ -189,6 +237,8 @@ DataTypes:
     ThermalSensor: 10
     UltrasoundSensor: 11
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -199,25 +249,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -225,11 +282,15 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ IA:3003, IA:LevelDisplayMode ]
+  DisplayName: "LevelDisplayMode"
+  Description: "Contains the values used to indicate how a percentual value is displayed if the stacklight unit works in Levelmeter mode."
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
 - UADataType: [ IA:3004, IA:SignalColor ]
+  DisplayName: "SignalColor"
+  Description: "Holds the possible colour values for stacklight lamps."
   Enums:
     Off: 0
     Red: 1
@@ -240,12 +301,16 @@ DataTypes:
     Cyan: 6
     White: 7
 - UADataType: [ IA:3005, IA:SignalModeLight ]
+  DisplayName: "SignalModeLight"
+  Description: "Contains the values used to indicate in what way a lamp behaves when switched on."
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
 - UADataType: [ IA:3002, IA:StacklightOperationMode ]
+  DisplayName: "StacklightOperationMode"
+  Description: "Contains the values used to indicate how a stacklight (as a whole unit) is used."
   Enums:
     Segmented: 0
     Levelmeter: 1
@@ -256,23 +321,33 @@ DefinedTypes:
 
   CAS:AnalysisType:
   - [ UAObjectType, CAS:1004, CAS:AnalysisType ]
+  - DisplayName: "AnalysisType"
+  - Description: "Invokable analysis for the topology element."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, CAS:5059, CAS:OutputFile ]
+    - DisplayName: "OutputFile"
+    - Description: "File containing the result of an analysis."
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:7919, CAS:Trigger ]
+    - DisplayName: "Trigger"
+    - Description: "Triggers the analysis on the MCS in a compressed air system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   CAS:CASType:
   - [ UAObjectType, CAS:1035, CAS:CASType ]
+  - DisplayName: "CASType"
+  - Description: "Compressed air system type"
   - HasComponent:
     - [ UAObject, CAS:5006, CAS:Airnets ]
+    - DisplayName: "Airnets"
+    - Description: "All airnets in a compressed air system as browsable objects."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1038, CAS:AirnetsType ]
     - HasModellingRule:
@@ -281,18 +356,24 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, CAS:5013, Machinery:Components ]
+    - DisplayName: "Components"
+    - Description: "All components in a compressed air system as browsable objects."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1047, CAS:ComponentsGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5003, DI:Identification ]
+    - DisplayName: "Identification"
+    - Description: "Identification properties of the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1051, CAS:CASIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5387, CAS:MCS ]
+    - DisplayName: "MCS"
+    - Description: "Representation of the MCS in a compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1017, CAS:MCSType ]
     - HasModellingRule:
@@ -300,55 +381,81 @@ DefinedTypes:
 
   CAS:CommunicationSettingsType:
   - [ UAObjectType, CAS:1048, CAS:CommunicationSettingsType ]
+  - DisplayName: "CommunicationSettingsType"
+  - Description: "OPC UA communication settings of the MCS in a compressed air system."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, CAS:10520, CAS:DefaultGateway, String, 0, 0 ]
+    - DisplayName: "DefaultGateway"
+    - Description: "IP Address of the default gateway used by the MCS."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:11298, CAS:Dhcp, Boolean, 0, 0 ]
+    - DisplayName: "Dhcp"
+    - Description: "States if DHCP is enabled or disabled on the MCS."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:10521, CAS:DnsServer, String, 0, 0 ]
+    - DisplayName: "DnsServer"
+    - Description: "IP Address of the DNS server used by the MCS."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:6324, CAS:DomainName, String, 0, 0 ]
+    - DisplayName: "DomainName"
+    - Description: "Domain name the MCS is assigned to."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:6325, CAS:Hostname, String, 0, 0 ]
+    - DisplayName: "Hostname"
+    - Description: "Host name of the MCS."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:6326, CAS:IpAddress, String, 0, 0 ]
+    - DisplayName: "IpAddress"
+    - Description: "IP address of the MCS."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, CAS:10527, CAS:IpVersion, CAS:IpVersionEnum, 0, 0 ]
+    - DisplayName: "IpVersion"
+    - Description: "Version of the internet protocol used for the MCS."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6460, CAS:MacAddress, String, 0, 0 ]
+    - DisplayName: "MacAddress"
+    - Description: "MAC address of the NIC of the MCS."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:10528, CAS:SubnetMask, String, 0, 0 ]
+    - DisplayName: "SubnetMask"
+    - Description: "Subnet mask of the MCS."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   CAS:ElectricalCircuitType:
   - [ UAObjectType, CAS:1014, CAS:ElectricalCircuitType ]
+  - DisplayName: "ElectricalCircuitType"
+  - Description: "Measurements and calculations of the electrical ports and delta of the topology element."
   - HasComponent:
     - [ UAObject, CAS:5060, CAS:<Other> ]
+    - DisplayName: "<Other>"
+    - Description: "Placeholder for manufacturer or system specific groups."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1011, CAS:ElectricalQuantitiesType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, CAS:5108, CAS:Delta ]
+    - DisplayName: "Delta"
+    - Description: "Measured or calculated deltas of electrical properties between inlet and outlet of the component."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1011, CAS:ElectricalQuantitiesType ]
     - HasModellingRule:
@@ -357,12 +464,16 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, CAS:5066, CAS:Input ]
+    - DisplayName: "Input"
+    - Description: "Measured or calculated electrical properties at the input of the component."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1011, CAS:ElectricalQuantitiesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5067, CAS:Output ]
+    - DisplayName: "Output"
+    - Description: "Measured or calculated electrical properties at the output of the component."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1011, CAS:ElectricalQuantitiesType ]
     - HasModellingRule:
@@ -370,47 +481,69 @@ DefinedTypes:
 
   CAS:ElectricalQuantitiesType:
   - [ UAObjectType, CAS:1011, CAS:ElectricalQuantitiesType ]
+  - DisplayName: "ElectricalQuantitiesType"
+  - Description: "Contains parameters for measurements and calculations of electrical connections at the component."
   - HasComponent:
     - [ UAVariable, CAS:6440, CAS:ApparentPower, Double, 0, 0 ]
+    - DisplayName: "ApparentPower"
+    - Description: "Measured or calculated actual apparent power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …)."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6093, CAS:Current, Double, 0, 0 ]
+    - DisplayName: "Current"
+    - Description: "Measured or calculated actual root mean square of the electric power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …)."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, CAS:6094, CAS:Energy, Double, 0, 0 ]
+    - DisplayName: "Energy"
+    - Description: "Measured or calculated accumulated electrical energy consumed including all auxiliary components (e.g. on a compressor including fans, controller, …) since last reset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6099, CAS:Power, Double, 0, 0 ]
+    - DisplayName: "Power"
+    - Description: "Measured or calculated actual electric real power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …)."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:7814, IA:ResetStatistics ]
+    - DisplayName: "ResetStatistics"
+    - Description: "Restarts all statistical data, including a reset of the StartTime to the current time."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:6113, IA:StartTime, DateTime, 0, 0 ]
+    - DisplayName: "StartTime"
+    - Description: "Indicates the point in time at which the collection of the statistical data has been started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6112, CAS:Voltage, Double, 0, 0 ]
+    - DisplayName: "Voltage"
+    - Description: "Measured or calculated actual root mean square of the voltage applied including all auxiliary components (e.g. on a compressor including fans, controller, …)."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   CAS:FluidCircuitType:
   - [ UAObjectType, CAS:1013, CAS:FluidCircuitType ]
+  - DisplayName: "FluidCircuitType"
+  - Description: "Measurements and calculations of a fluid of the topology element."
   - HasComponent:
     - [ UAObject, CAS:5179, CAS:<Other> ]
+    - DisplayName: "<Other>"
+    - Description: "Placeholder for manufacturer or system specific groups."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1012, CAS:FluidQuantitiesType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, CAS:5202, CAS:Delta ]
+    - DisplayName: "Delta"
+    - Description: "Measured or calculated deltas of fluid properties between inlet and outlet of the component."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1012, CAS:FluidQuantitiesType ]
     - HasModellingRule:
@@ -419,16 +552,22 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, CAS:6274, CAS:FluidType, CAS:FluidTypeEnum, 0, 0 ]
+    - DisplayName: "FluidType"
+    - Description: "Enumeration of possible fluid types."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5217, CAS:Inlet ]
+    - DisplayName: "Inlet"
+    - Description: "Measured or calculated fluid properties at the inlet of the component."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1012, CAS:FluidQuantitiesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5251, CAS:Outlet ]
+    - DisplayName: "Outlet"
+    - Description: "Measured or calculated fluid properties at the outlet of the component."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1012, CAS:FluidQuantitiesType ]
     - HasModellingRule:
@@ -436,71 +575,105 @@ DefinedTypes:
 
   CAS:FluidQuantitiesType:
   - [ UAObjectType, CAS:1012, CAS:FluidQuantitiesType ]
+  - DisplayName: "FluidQuantitiesType"
+  - Description: "Contains parameters for fluid conditions at the component."
   - HasComponent:
     - [ UAVariable, CAS:6159, CAS:<Quantity>, Number, 0, 0 ]
+    - DisplayName: "<Quantity>"
+    - Description: "Manufacturer or system specific measurements or calculations."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAVariable, CAS:7791, CAS:AbsolutePressure, Double, 0, 0 ]
+    - DisplayName: "AbsolutePressure"
+    - Description: "Measured or calculated actual absolute pressure of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6161, CAS:AccumulatedVolume, Double, 0, 0 ]
+    - DisplayName: "AccumulatedVolume"
+    - Description: "Measured or calculated accumulated volume of a fluid since last reset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6170, CAS:DewPoint, Double, 0, 0 ]
+    - DisplayName: "DewPoint"
+    - Description: "Measured or calculated actual dew point of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, CAS:6171, CAS:GaugePressure, Double, 0, 0 ]
+    - DisplayName: "GaugePressure"
+    - Description: "Measured or calculated actual gauge pressure of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6178, CAS:MassFlowRate, Double, 0, 0 ]
+    - DisplayName: "MassFlowRate"
+    - Description: "Measured or calculated actual mass flow rate of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6187, CAS:OilConcentration, Double, 0, 0 ]
+    - DisplayName: "OilConcentration"
+    - Description: "Measured or calculated actual oil concentration of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5007, CAS:ParticlesPerSizeRange ]
+    - DisplayName: "ParticlesPerSizeRange"
+    - Description: "Collection of particle counts for a fluid according to ISO 8573."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1043, CAS:ParticleType ]
   - HasComponent:
     - [ UAVariable, CAS:6188, CAS:RelativeHumidity, Double, 0, 0 ]
+    - DisplayName: "RelativeHumidity"
+    - Description: "Measured or calculated actual relative humidity of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:7007, IA:ResetStatistics ]
+    - DisplayName: "ResetStatistics"
+    - Description: "Restarts all statistical data, including a reset of the StartTime to the current time."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:6541, IA:StartTime, DateTime, 0, 0 ]
+    - DisplayName: "StartTime"
+    - Description: "Indicates the point in time at which the collection of the statistical data has been started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6189, CAS:Temperature, Double, 0, 0 ]
+    - DisplayName: "Temperature"
+    - Description: "Measured or calculated actual temperature of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6194, CAS:Volume, Double, 0, 0 ]
+    - DisplayName: "Volume"
+    - Description: "Measured or calculated actual volume of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6195, CAS:VolumeFlowRate, Double, 0, 0 ]
+    - DisplayName: "VolumeFlowRate"
+    - Description: "Measured or calculated actual volume flow rate of a fluid."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   CAS:AirnetComponentsType:
   - [ UAObjectType, CAS:1050, CAS:AirnetComponentsType ]
+  - DisplayName: "AirnetComponentsType"
+  - Description: "All components connected to the airnet."
   - HasComponent:
     - [ UAObject, CAS:5193, CAS:<ComponentsGroup> ]
+    - DisplayName: "<ComponentsGroup>"
+    - Description: "All components of a specific type connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -509,72 +682,96 @@ DefinedTypes:
     - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, CAS:5194, CAS:ChargingSystems ]
+    - DisplayName: "ChargingSystems"
+    - Description: "Organizes all charging systems connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5195, CAS:Compressors ]
+    - DisplayName: "Compressors"
+    - Description: "Organizes all compressors connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5196, CAS:CondensateDrains ]
+    - DisplayName: "CondensateDrains"
+    - Description: "Organizes all condensate drains connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5212, CAS:CondensateSeparators ]
+    - DisplayName: "CondensateSeparators"
+    - Description: "Organizes all condensate separators connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5213, CAS:Converters ]
+    - DisplayName: "Converters"
+    - Description: "Organizes all converters connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5214, CAS:CoolingSystems ]
+    - DisplayName: "CoolingSystems"
+    - Description: "Organizes all cooling systems connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5215, CAS:Dryers ]
+    - DisplayName: "Dryers"
+    - Description: "Organizes all dryers connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5218, CAS:Filters ]
+    - DisplayName: "Filters"
+    - Description: "Organizes all filters connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5219, CAS:HeatRecoverySystems ]
+    - DisplayName: "HeatRecoverySystems"
+    - Description: "Organizes all heat recovery systems connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5220, CAS:Receivers ]
+    - DisplayName: "Receivers"
+    - Description: "Organizes all receivers connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5221, CAS:Sensors ]
+    - DisplayName: "Sensors"
+    - Description: "Organizes all sensors connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5222, CAS:Valves ]
+    - DisplayName: "Valves"
+    - Description: "Organizes all valves connected to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -582,14 +779,20 @@ DefinedTypes:
 
   CAS:AnalysesType:
   - [ UAObjectType, CAS:1049, CAS:AnalysesType ]
+  - DisplayName: "AnalysesType"
+  - Description: "Invokable analyses for the topology element."
   - HasComponent:
     - [ UAObject, CAS:5093, CAS:<Analysis> ]
+    - DisplayName: "<Analysis>"
+    - Description: "Manufacturer or system specific analyses."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1004, CAS:AnalysisType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, CAS:5027, CAS:<PrefabAnalysis> ]
+    - DisplayName: "<PrefabAnalysis>"
+    - Description: "Prefabricated analysis provided by the MCS."
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
@@ -598,6 +801,8 @@ DefinedTypes:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, CAS:5092, CAS:EnergyReportISO50001 ]
+    - DisplayName: "EnergyReportISO50001"
+    - Description: "Energy report according to ISO 50001."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1004, CAS:AnalysisType ]
     - HasModellingRule:
@@ -605,43 +810,61 @@ DefinedTypes:
 
   CAS:CalibrationType:
   - [ UAObjectType, CAS:1054, CAS:CalibrationType ]
+  - DisplayName: "CalibrationType"
+  - Description: "Dates important for the calibration of a sensor."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, CAS:6715, CAS:LastCalibrationDate, DateTime, 0, 0 ]
+    - DisplayName: "LastCalibrationDate"
+    - Description: "Date when the sensor was last calibrated."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CAS:6716, CAS:NextCalibrationDate, DateTime, 0, 0 ]
+    - DisplayName: "NextCalibrationDate"
+    - Description: "Date when the sensor is scheduled for the next calibration."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   CAS:CASIdentificationType:
   - [ UAObjectType, CAS:1051, CAS:CASIdentificationType ]
+  - DisplayName: "CASIdentificationType"
+  - Description: "Identification properties for compressed air systems and airnets."
   - HasProperty:
     - [ UAVariable, CAS:7702, CAS:AssetId, String, 0, 3 ]
+    - DisplayName: "AssetId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasProperty:
     - [ UAVariable, CAS:7703, CAS:ComponentName, LocalizedText, 0, 3 ]
+    - DisplayName: "ComponentName"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   CAS:ConfigurationType:
   - [ UAObjectType, CAS:1037, CAS:ConfigurationType ]
+  - DisplayName: "ConfigurationType"
+  - Description: "Configure the behavior of the topology element."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
   CAS:AirnetConfigurationType:
   - [ UAObjectType, CAS:1016, CAS:AirnetConfigurationType ]
+  - DisplayName: "AirnetConfigurationType"
+  - Description: "Configure the behavior of an airnet."
   - HasComponent:
     - [ UAVariable, CAS:6255, CAS:OperatingModes, UInt16, 0, 3 ]
+    - DisplayName: "OperatingModes"
+    - Description: "Configured operating mode for an airnet in a compressed air system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6260, CAS:OperatingProfiles, UInt16, 0, 3 ]
+    - DisplayName: "OperatingProfiles"
+    - Description: "Configured operating profile for an airnet in a compressed air system."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -649,24 +872,34 @@ DefinedTypes:
 
   CAS:MCSConfigurationType:
   - [ UAObjectType, CAS:1019, CAS:MCSConfigurationType ]
+  - DisplayName: "MCSConfigurationType"
+  - Description: "Contains parameters and methods for configuring the behaviour of the MCS."
   - HasComponent:
     - [ UAObject, CAS:5026, CAS:CommunicationSettings ]
+    - DisplayName: "CommunicationSettings"
+    - Description: "OPC UA communication settings of the MCS in a compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1048, CAS:CommunicationSettingsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5025, CAS:ConfigurationFile ]
+    - DisplayName: "ConfigurationFile"
+    - Description: "Configuration file for the MCS in a compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:9785, CAS:LoadConfigurationFile ]
+    - DisplayName: "LoadConfigurationFile"
+    - Description: "Loads the configuration stored in ConfigurationFile to the MCS."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:10123, CAS:SaveConfigurationFile ]
+    - DisplayName: "SaveConfigurationFile"
+    - Description: "Saves the current configuration of the MCS to the stored ConfigurationFile."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -674,8 +907,12 @@ DefinedTypes:
 
   CAS:DesignType:
   - [ UAObjectType, CAS:1044, CAS:DesignType ]
+  - DisplayName: "DesignType"
+  - Description: "Static design properties of the topology element."
   - HasComponent:
     - [ UAVariable, CAS:6273, CAS:ComponentClass, Enumeration, 0, 0 ]
+    - DisplayName: "ComponentClass"
+    - Description: "Enumeration of possible types of the component’s device class."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -683,20 +920,30 @@ DefinedTypes:
 
   CAS:CompressorDesignType:
   - [ UAObjectType, CAS:1008, CAS:CompressorDesignType ]
+  - DisplayName: "CompressorDesignType"
+  - Description: "Static design properties of a compressor."
   - HasComponent:
     - [ UAVariable, CAS:6316, CAS:DisplacementType, CAS:DisplacementTypeEnum, 0, 0 ]
+    - DisplayName: "DisplacementType"
+    - Description: "Enumeration of possible displacement types."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6317, CAS:LubricationType, CAS:LubricationTypeEnum, 0, 0 ]
+    - DisplayName: "LubricationType"
+    - Description: "Enumeration of possible lubrication types for the compression process of a compressor."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6318, CAS:NumberOfStages, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfStages"
+    - Description: "Number of stages the compressor has available."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6319, CAS:VariableFlow, Boolean, 0, 0 ]
+    - DisplayName: "VariableFlow"
+    - Description: "Indicates if a compressor has a variable or fixed flow."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -704,18 +951,26 @@ DefinedTypes:
 
   CAS:ConverterDesignType:
   - [ UAObjectType, CAS:1041, CAS:ConverterDesignType ]
+  - DisplayName: "ConverterDesignType"
+  - Description: "Static design properties of a converter."
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1044, CAS:DesignType ]
 
   CAS:DrainDesignType:
   - [ UAObjectType, CAS:1036, CAS:DrainDesignType ]
+  - DisplayName: "DrainDesignType"
+  - Description: "Static design properties of a condensate drain."
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1044, CAS:DesignType ]
 
   CAS:DryerDesignType:
   - [ UAObjectType, CAS:1033, CAS:DryerDesignType ]
+  - DisplayName: "DryerDesignType"
+  - Description: "Static design properties of a dryer."
   - HasComponent:
     - [ UAVariable, CAS:6625, CAS:LowestAmbientTemperature, Double, 0, 0 ]
+    - DisplayName: "LowestAmbientTemperature"
+    - Description: "Lowest allowable ambient temperature for the dryer to work as intended."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -723,8 +978,12 @@ DefinedTypes:
 
   CAS:FilterDesignType:
   - [ UAObjectType, CAS:1009, CAS:FilterDesignType ]
+  - DisplayName: "FilterDesignType"
+  - Description: "Static design properties of a filter."
   - HasComponent:
     - [ UAVariable, CAS:6589, CAS:FilterClass, CAS:FilterClassDataType, 0, 0 ]
+    - DisplayName: "FilterClass"
+    - Description: "Filter classes according to ISO 8573-1."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -732,8 +991,12 @@ DefinedTypes:
 
   CAS:ReceiverDesignType:
   - [ UAObjectType, CAS:1023, CAS:ReceiverDesignType ]
+  - DisplayName: "ReceiverDesignType"
+  - Description: "Static design properties of a receiver."
   - HasComponent:
     - [ UAVariable, CAS:7890, CAS:Volume, Double, 0, 0 ]
+    - DisplayName: "Volume"
+    - Description: "Total volume of the receiver."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -741,12 +1004,18 @@ DefinedTypes:
 
   CAS:SensorDesignType:
   - [ UAObjectType, CAS:1031, CAS:SensorDesignType ]
+  - DisplayName: "SensorDesignType"
+  - Description: "Static design properties of a sensor."
   - HasComponent:
     - [ UAVariable, CAS:6615, CAS:SensorTechnology, CAS:SensorTechnologyOptionSet, 0, 0 ]
+    - DisplayName: "SensorTechnology"
+    - Description: "Selection of sensor technologies this sensor uses."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6616, CAS:SoftSensor, Boolean, 0, 0 ]
+    - DisplayName: "SoftSensor"
+    - Description: "Indicates if the sensor is a software or hardware sensor."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -754,13 +1023,19 @@ DefinedTypes:
 
   CAS:SeparatorDesignType:
   - [ UAObjectType, CAS:1040, CAS:SeparatorDesignType ]
+  - DisplayName: "SeparatorDesignType"
+  - Description: "Static design properties of a separator."
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1044, CAS:DesignType ]
 
   CAS:ValveDesignType:
   - [ UAObjectType, CAS:1032, CAS:ValveDesignType ]
+  - DisplayName: "ValveDesignType"
+  - Description: "Static design properties of a valve."
   - HasComponent:
     - [ UAVariable, CAS:6621, CAS:NumberOfPorts, UInt16, 0, 0 ]
+    - DisplayName: "NumberOfPorts"
+    - Description: "Number of ports of a valve."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -768,14 +1043,20 @@ DefinedTypes:
 
   CAS:EventsType:
   - [ UAObjectType, CAS:1020, CAS:EventsType ]
+  - DisplayName: "EventsType"
+  - Description: "Alarms and conditions of the topology element."
   - HasComponent:
     - [ UAObject, CAS:5080, CAS:<Event> ]
+    - DisplayName: "<Event>"
+    - Description: "Manufacturer or system specific conditions."
     - HasTypeDefinition:
       - [ UAObjectType, 2782, ConditionType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, CAS:5082, CAS:EmergencyStop ]
+    - DisplayName: "EmergencyStop"
+    - Description: "Indicating an emergency stop of a component."
     - HasTypeDefinition:
       - [ UAObjectType, 10637, OffNormalAlarmType ]
     - HasModellingRule:
@@ -784,18 +1065,24 @@ DefinedTypes:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, CAS:5083, CAS:Service ]
+    - DisplayName: "Service"
+    - Description: "Indicates that a component requires service."
     - HasTypeDefinition:
       - [ UAObjectType, 10637, OffNormalAlarmType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5084, CAS:Shutdown ]
+    - DisplayName: "Shutdown"
+    - Description: "Indicating a shutdown of a component."
     - HasTypeDefinition:
       - [ UAObjectType, 10637, OffNormalAlarmType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5085, CAS:Warning ]
+    - DisplayName: "Warning"
+    - Description: "Indicating a general warning of a component."
     - HasTypeDefinition:
       - [ UAObjectType, 10637, OffNormalAlarmType ]
     - HasModellingRule:
@@ -803,33 +1090,49 @@ DefinedTypes:
 
   CAS:MaintenanceType:
   - [ UAObjectType, CAS:1028, CAS:MaintenanceType ]
+  - DisplayName: "MaintenanceType"
+  - Description: "Maintenance purposes of sensors."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, CAS:6292, CAS:RealTimeSinceLastService, Double, 0, 0 ]
+    - DisplayName: "RealTimeSinceLastService"
+    - Description: "Real time passed since the sensor was last serviced."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CAS:6714, CAS:RealTimeToNextService, Double, 0, 0 ]
+    - DisplayName: "RealTimeToNextService"
+    - Description: "Real time left until the sensor is scheduled for the next servicing."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   CAS:OperationalType:
   - [ UAObjectType, CAS:1006, CAS:OperationalType ]
+  - DisplayName: "OperationalType"
+  - Description: "Data for normal operation of the topology element."
   - HasComponent:
     - [ UAVariable, CAS:6064, CAS:HealthState, Enumeration, 0, 0 ]
+    - DisplayName: "HealthState"
+    - Description: "Actual health state of the part."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6065, CAS:IntegratedState, Enumeration, 0, 0 ]
+    - DisplayName: "IntegratedState"
+    - Description: "Actual integrated state of the part."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6655, CAS:OnOff, Boolean, 0, 0 ]
+    - DisplayName: "OnOff"
+    - Description: "Actual OnOff state of the component."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6066, CAS:OperatingState, Enumeration, 0, 0 ]
+    - DisplayName: "OperatingState"
+    - Description: "Actual operating state of the part."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -837,40 +1140,60 @@ DefinedTypes:
 
   CAS:AirnetOperationalType:
   - [ UAObjectType, CAS:1002, CAS:AirnetOperationalType ]
+  - DisplayName: "AirnetOperationalType"
+  - Description: "Contains parameters and methods related to counting process or maintenance data of the airnet."
   - HasComponent:
     - [ UAVariable, CAS:10532, CAS:AirDeliveryRate, Double, 0, 0 ]
+    - DisplayName: "AirDeliveryRate"
+    - Description: "Volume of generated compressed air per time frame."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6017, CAS:CompressorsIntegrated, UInt16, 0, 0 ]
+    - DisplayName: "CompressorsIntegrated"
+    - Description: "Number of integrated compressors in the airnet."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6019, CAS:CompressorsIsolated, UInt16, 0, 0 ]
+    - DisplayName: "CompressorsIsolated"
+    - Description: "Number of isolated compressors in the airnet."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6027, CAS:CompressorsNotAvailable, UInt16, 0, 0 ]
+    - DisplayName: "CompressorsNotAvailable"
+    - Description: "Number of unavailable compressors in the airnet."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:8283, CAS:ControlPressure, Double, 0, 0 ]
+    - DisplayName: "ControlPressure"
+    - Description: "Current pressure in the airnet."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:10534, CAS:SpecificEnergy, Double, 0, 0 ]
+    - DisplayName: "SpecificEnergy"
+    - Description: "Electrical energy consumed in the generation of a volume of compressed air."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:10536, CAS:SpecificEnergyCost, Double, 0, 0 ]
+    - DisplayName: "SpecificEnergyCost"
+    - Description: "Costs for generating a volume of compressed air."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6029, CAS:VolumeFlowRateAvailable, Double, 0, 0 ]
+    - DisplayName: "VolumeFlowRateAvailable"
+    - Description: "Measured or calculated available volume flow rate of the process fluid in the airnet."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6031, CAS:VolumeFlowRateUnavailable, Double, 0, 0 ]
+    - DisplayName: "VolumeFlowRateUnavailable"
+    - Description: "Calculated unavailable volume flow rate of the process fluid in the airnet."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -878,29 +1201,43 @@ DefinedTypes:
 
   CAS:CompressorOperationalType:
   - [ UAObjectType, CAS:1045, CAS:CompressorOperationalType ]
+  - DisplayName: "CompressorOperationalType"
+  - Description: "Contains parameters and methods useful for normal operation of the compressor, like process data."
   - HasComponent:
     - [ UAVariable, CAS:6644, CAS:ActivePressureBand, UInt16, 0, 0 ]
+    - DisplayName: "ActivePressureBand"
+    - Description: "Indicates the actual active pressure band."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1006, CAS:OperationalType ]
   - HasComponent:
     - [ UAVariable, CAS:6646, CAS:FlowRateRatio, Double, 0, 0 ]
+    - DisplayName: "FlowRateRatio"
+    - Description: "Calculated ratio of actual and maximum possible flow rate of a compressor."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6648, CAS:IsentropicEfficiency, Double, 0, 0 ]
+    - DisplayName: "IsentropicEfficiency"
+    - Description: "Calculated isentropic efficiency."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6659, CAS:SpecificEnergyRequirement, Double, 0, 0 ]
+    - DisplayName: "SpecificEnergyRequirement"
+    - Description: "Calculated shaft input energy per unit of compressor actual rate of flow."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   CAS:ConverterOperationalType:
   - [ UAObjectType, CAS:1046, CAS:ConverterOperationalType ]
+  - DisplayName: "ConverterOperationalType"
+  - Description: "Contains parameters and methods useful for normal operation of the converter, like process data."
   - HasComponent:
     - [ UAVariable, CAS:6693, CAS:CatalyticMaterialTemperature, Double, 0, 0 ]
+    - DisplayName: "CatalyticMaterialTemperature"
+    - Description: "Measured actual temperature of the catalytic material inside a converter."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -908,8 +1245,12 @@ DefinedTypes:
 
   CAS:DrainOperationalType:
   - [ UAObjectType, CAS:1003, CAS:DrainOperationalType ]
+  - DisplayName: "DrainOperationalType"
+  - Description: "Contains parameters and methods useful for normal operation of the condensate drain, like process data."
   - HasComponent:
     - [ UAMethod, CAS:10530, CAS:DrainTest ]
+    - DisplayName: "DrainTest"
+    - Description: "Invoke a drain test on a condensate drain."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -917,21 +1258,31 @@ DefinedTypes:
 
   CAS:DryerOperationalType:
   - [ UAObjectType, CAS:1052, CAS:DryerOperationalType ]
+  - DisplayName: "DryerOperationalType"
+  - Description: "Contains parameters and methods useful for normal operation of the dryer, like process data."
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1006, CAS:OperationalType ]
   - HasComponent:
     - [ UAVariable, CAS:6701, CAS:PressureDewPoint, Double, 0, 0 ]
+    - DisplayName: "PressureDewPoint"
+    - Description: "Measured or calculated actual pressure dew point of the process fluid at a dryer."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   CAS:ValveOperationalType:
   - [ UAObjectType, CAS:1053, CAS:ValveOperationalType ]
+  - DisplayName: "ValveOperationalType"
+  - Description: "Contains parameters and methods useful for normal operation of the valve, like process data."
   - HasComponent:
     - [ UAVariable, CAS:6712, CAS:ContinuousPosition, Double, 0, 0 ]
+    - DisplayName: "ContinuousPosition"
+    - Description: "Actual valve stroke."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:11343, CAS:PortUsed, UInt16, 0, 0 ]
+    - DisplayName: "PortUsed"
+    - Description: "Actual port used."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -939,32 +1290,48 @@ DefinedTypes:
 
   CAS:StatisticsType:
   - [ UAObjectType, CAS:1018, CAS:StatisticsType ]
+  - DisplayName: "StatisticsType"
+  - Description: "Data for statistics applications for the topology element."
   - HasComponent:
     - [ UAVariable, CAS:6002, CAS:RealTime, Double, 0, 0 ]
+    - DisplayName: "RealTime"
+    - Description: "Real time passed since last counter reset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6005, CAS:RealTimeToNextService, Double, 0, 0 ]
+    - DisplayName: "RealTimeToNextService"
+    - Description: "Real time left until the real time of the next service level is exceeded."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:6231, IA:ResetCondition, String, 0, 0 ]
+    - DisplayName: "ResetCondition"
+    - Description: "The reason and context for the reset of the statistics, which is done without a trigger from an OPC UA Client, like calling the ResetStatistics Method. ResetCondition is a vendor-specific, human readable string. ResetCondition is non-localized and might contain an expression that can be parsed by certain clients. Examples are: “AFTER 4 HOURS”, “AFTER 1000 ITEMS”, “OPERATOR”. “OPERATOR” means, that an operator resets the statistics on a local HMI."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, CAS:7793, IA:ResetStatistics ]
+    - DisplayName: "ResetStatistics"
+    - Description: "Restarts all statistical data, including a reset of the StartTime to the current time."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6006, CAS:RunningTime, Double, 0, 0 ]
+    - DisplayName: "RunningTime"
+    - Description: "Time spent running since last counter reset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6001, CAS:RunningTimeToNextService, Double, 0, 0 ]
+    - DisplayName: "RunningTimeToNextService"
+    - Description: "Running time left until the running time of the next service level is exceeded."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, CAS:6230, IA:StartTime, DateTime, 0, 0 ]
+    - DisplayName: "StartTime"
+    - Description: "Indicates the point in time at which the collection of the statistical data has been started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -972,32 +1339,45 @@ DefinedTypes:
 
   CAS:CompressorStatisticsType:
   - [ UAObjectType, CAS:1027, CAS:CompressorStatisticsType ]
+  - DisplayName: "CompressorStatisticsType"
+  - Description: "Contains parameters and methods related to counting process or maintenance data of the compressor."
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1018, CAS:StatisticsType ]
   - HasComponent:
     - [ UAVariable, CAS:6083, CAS:LoadedTime, Double, 0, 0 ]
+    - DisplayName: "LoadedTime"
+    - Description: "Time spent in loaded state since last counter reset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, CAS:6122, CAS:UnloadedTime, Double, 0, 0 ]
+    - DisplayName: "UnloadedTime"
+    - Description: "Time spent in unloaded state since last counter reset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   CAS:AirnetsType:
   - [ UAObjectType, CAS:1038, CAS:AirnetsType ]
+  - DisplayName: "AirnetsType"
   - HasSubtype_reverse:
     - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
 
   CAS:ComponentsGroupType:
   - [ UAObjectType, CAS:1047, CAS:ComponentsGroupType ]
+  - DisplayName: "ComponentsGroupType"
+  - Description: "All components of a specific type in a compressed air system as browsable objects."
   - HasComponent:
     - [ UAObject, CAS:5187, CAS:<ComponentsGroup> ]
+    - DisplayName: "<ComponentsGroup>"
+    - Description: "All components of a specific type in a compressed air system as browsable objects."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, CAS:5012, CAS:ChargingSystems ]
+    - DisplayName: "ChargingSystems"
+    - Description: "Organizes all charging systems connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
@@ -1006,66 +1386,88 @@ DefinedTypes:
     - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
   - HasComponent:
     - [ UAObject, CAS:5011, CAS:Compressors ]
+    - DisplayName: "Compressors"
+    - Description: "Organizes all compressors connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5014, CAS:CondensateDrains ]
+    - DisplayName: "CondensateDrains"
+    - Description: "Organizes all condensate drains connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5016, CAS:CondensateSeparators ]
+    - DisplayName: "CondensateSeparators"
+    - Description: "Organizes all condensate separators connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5023, CAS:Converters ]
+    - DisplayName: "Converters"
+    - Description: "Organizes all converters connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5024, CAS:CoolingSystems ]
+    - DisplayName: "CoolingSystems"
+    - Description: "Organizes all cooling systems connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5028, CAS:Dryers ]
+    - DisplayName: "Dryers"
+    - Description: "Organizes all dryers connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5091, CAS:Filters ]
+    - DisplayName: "Filters"
+    - Description: "Organizes all filters connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5188, CAS:HeatRecoverySystems ]
+    - DisplayName: "HeatRecoverySystems"
+    - Description: "Organizes all heat recovery systems connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5190, CAS:Receivers ]
+    - DisplayName: "Receivers"
+    - Description: "Organizes all receivers connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5191, CAS:Sensors ]
+    - DisplayName: "Sensors"
+    - Description: "Organizes all sensors connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5192, CAS:Valves ]
+    - DisplayName: "Valves"
+    - Description: "Organizes all valves connected to the compressed air system."
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
     - HasModellingRule:
@@ -1073,16 +1475,23 @@ DefinedTypes:
 
   CAS:ParticleType:
   - [ UAObjectType, CAS:1043, CAS:ParticleType ]
+  - DisplayName: "ParticleType"
   - HasComponent:
     - [ UAVariable, CAS:6010, CAS:Fine, UInt64, 0, 0 ]
+    - DisplayName: "Fine"
+    - Description: "Particle count of sizes from 0.1 to 0.5 um."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CAS:6011, CAS:Large, UInt64, 0, 0 ]
+    - DisplayName: "Large"
+    - Description: "Particle count of sizes from 1.0 to 5.0 um."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, CAS:6012, CAS:Medium, UInt64, 0, 0 ]
+    - DisplayName: "Medium"
+    - Description: "Particle count of sizes from 0.5 to 1.0 um."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1090,40 +1499,54 @@ DefinedTypes:
 
   CAS:AirnetType:
   - [ UAObjectType, CAS:1007, CAS:AirnetType ]
+  - DisplayName: "AirnetType"
+  - Description: "In a compressed air system the airnet describes the piping, including valves and vessels, and all components between the inlet of the compressed air station and the distribution point to the customer, including compressors, dryers, filters, etc. A compressed air system may contain several airnets and it’s possible for the master control system to manage all airnets simultaniously. A component, like a compressor, must not be assigned to more than one airnet."
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]
   - HasComponent:
     - [ UAObject, CAS:5051, CAS:Ambient ]
+    - DisplayName: "Ambient"
+    - Description: "Measurements and calculations of ambient air at the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1012, CAS:FluidQuantitiesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5001, Machinery:Components ]
+    - DisplayName: "Components"
+    - Description: "Organizes components assigned to the airnet."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1050, CAS:AirnetComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5015, DI:Configuration ]
+    - DisplayName: "Configuration"
+    - Description: "Configure the behavior of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1016, CAS:AirnetConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5050, CAS:ElectricalCircuit ]
+    - DisplayName: "ElectricalCircuit"
+    - Description: "Measurements and calculations of the electrical ports and delta of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1014, CAS:ElectricalCircuitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5008, DI:Operational ]
+    - DisplayName: "Operational"
+    - Description: "Data for normal operation of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1002, CAS:AirnetOperationalType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5031, CAS:ProcessFluidCircuit ]
+    - DisplayName: "ProcessFluidCircuit"
+    - Description: "Measurements and calculations of the process fluid ports and delta of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1013, CAS:FluidCircuitType ]
     - HasModellingRule:
@@ -1131,12 +1554,17 @@ DefinedTypes:
 
   CAS:CASComponentType:
   - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
+  - DisplayName: "CASComponentType"
   - HasProperty:
     - [ UAVariable, CAS:12533, CAS:ActiveAirnet, NodeId, 0, 3 ]
+    - DisplayName: "ActiveAirnet"
+    - Description: "Indicates which airnet is currently using this component."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5140, CAS:Ambient ]
+    - DisplayName: "Ambient"
+    - Description: "Measurements and calculations of ambient air at the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1012, CAS:FluidQuantitiesType ]
     - HasModellingRule:
@@ -1145,48 +1573,64 @@ DefinedTypes:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]
   - HasComponent:
     - [ UAObject, CAS:5038, DI:Configuration ]
+    - DisplayName: "Configuration"
+    - Description: "Configure the behavior of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1037, CAS:ConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5138, CAS:CoolantCircuit ]
+    - DisplayName: "CoolantCircuit"
+    - Description: "Measurements and calculations of the coolant ports and delta of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1013, CAS:FluidCircuitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5010, CAS:Design ]
+    - DisplayName: "Design"
+    - Description: "Static design properties of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1044, CAS:DesignType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5145, CAS:ElectricalCircuit ]
+    - DisplayName: "ElectricalCircuit"
+    - Description: "Measurements and calculations of the electrical ports and delta of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1014, CAS:ElectricalCircuitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5035, CAS:Events ]
+    - DisplayName: "Events"
+    - Description: "Alarms and conditions of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1020, CAS:EventsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5036, DI:Operational ]
+    - DisplayName: "Operational"
+    - Description: "Data for normal operation of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1006, CAS:OperationalType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5135, CAS:ProcessFluidCircuit ]
+    - DisplayName: "ProcessFluidCircuit"
+    - Description: "Measurements and calculations of the process fluid ports and delta of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1013, CAS:FluidCircuitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5130, DI:Statistics ]
+    - DisplayName: "Statistics"
+    - Description: "Data for statistics applications for the topology element."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1194,59 +1638,73 @@ DefinedTypes:
 
   CAS:ChargingSystemType:
   - [ UAObjectType, CAS:1005, CAS:ChargingSystemType ]
+  - DisplayName: "ChargingSystemType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:CompressorType:
   - [ UAObjectType, CAS:1039, CAS:CompressorType ]
+  - DisplayName: "CompressorType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:ConverterType:
   - [ UAObjectType, CAS:1029, CAS:ConverterType ]
+  - DisplayName: "ConverterType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:CoolingSystemType:
   - [ UAObjectType, CAS:1001, CAS:CoolingSystemType ]
+  - DisplayName: "CoolingSystemType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:DrainType:
   - [ UAObjectType, CAS:1025, CAS:DrainType ]
+  - DisplayName: "DrainType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:DryerType:
   - [ UAObjectType, CAS:1030, CAS:DryerType ]
+  - DisplayName: "DryerType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:FilterType:
   - [ UAObjectType, CAS:1034, CAS:FilterType ]
+  - DisplayName: "FilterType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:HeatRecoverySystemType:
   - [ UAObjectType, CAS:1042, CAS:HeatRecoverySystemType ]
+  - DisplayName: "HeatRecoverySystemType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:ReceiverType:
   - [ UAObjectType, CAS:1022, CAS:ReceiverType ]
+  - DisplayName: "ReceiverType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:SensorType:
   - [ UAObjectType, CAS:1015, CAS:SensorType ]
+  - DisplayName: "SensorType"
   - HasComponent:
     - [ UAObject, CAS:5002, CAS:Calibration ]
+    - DisplayName: "Calibration"
+    - Description: "Dates important for the calibration of a sensor."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1054, CAS:CalibrationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5149, DI:Maintenance ]
+    - DisplayName: "Maintenance"
+    - Description: "Servicing intervals for the sensor."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1028, CAS:MaintenanceType ]
     - HasModellingRule:
@@ -1256,36 +1714,47 @@ DefinedTypes:
 
   CAS:SeparatorType:
   - [ UAObjectType, CAS:1026, CAS:SeparatorType ]
+  - DisplayName: "SeparatorType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:ValveType:
   - [ UAObjectType, CAS:1024, CAS:ValveType ]
+  - DisplayName: "ValveType"
   - HasSubtype_reverse:
     - [ UAObjectType, CAS:1021, CAS:CASComponentType ]
 
   CAS:MCSType:
   - [ UAObjectType, CAS:1017, CAS:MCSType ]
+  - DisplayName: "MCSType"
   - HasComponent:
     - [ UAObject, CAS:5022, CAS:Analyses ]
+    - DisplayName: "Analyses"
+    - Description: "Invokable analyses for the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1049, CAS:AnalysesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5019, DI:Configuration ]
+    - DisplayName: "Configuration"
+    - Description: "Configure the behavior of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1019, CAS:MCSConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5055, CAS:ElectricalCircuit ]
+    - DisplayName: "ElectricalCircuit"
+    - Description: "Measurements and calculations of the electrical ports and delta of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1014, CAS:ElectricalCircuitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5020, CAS:Events ]
+    - DisplayName: "Events"
+    - Description: "Alarms and conditions of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1020, CAS:EventsType ]
     - HasModellingRule:
@@ -1294,12 +1763,16 @@ DefinedTypes:
     - [ UAObjectType, DI:1001, DI:TopologyElementType ]
   - HasComponent:
     - [ UAObject, CAS:5021, DI:Operational ]
+    - DisplayName: "Operational"
+    - Description: "Data for normal operation of the topology element."
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1006, CAS:OperationalType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, CAS:5018, DI:Statistics ]
+    - DisplayName: "Statistics"
+    - Description: "Data for statistics applications for the topology element."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:

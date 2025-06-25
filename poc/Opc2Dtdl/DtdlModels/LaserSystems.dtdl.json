@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:ActivityDataMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ActivityDataMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1008",
     "commandTopic": "opcua/LaserSystems/ActivityDataMonitoringType/{commandName}",
@@ -22,6 +23,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NumberInList",
+        "displayName": "NumberInList",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "unsignedShort",
         "writable": false
@@ -29,6 +31,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ParameterIdentifier",
+        "displayName": "ParameterIdentifier",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": false
@@ -36,18 +39,21 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentValue",
+        "displayName": "CurrentValue",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Description",
+        "displayName": "Description",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreviousValue",
+        "displayName": "PreviousValue",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "integer"
       }
@@ -65,6 +71,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:ConditionDataMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConditionDataMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1006",
     "commandTopic": "opcua/LaserSystems/ConditionDataMonitoringType/{commandName}",
@@ -76,6 +83,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConditionParameterIdentifier",
+        "displayName": "ConditionParameterIdentifier",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": false
@@ -83,36 +91,42 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Description",
+        "displayName": "Description",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LowerErrorLevel",
+        "displayName": "LowerErrorLevel",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LowerWarningLevel",
+        "displayName": "LowerWarningLevel",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UpperErrorLevel",
+        "displayName": "UpperErrorLevel",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UpperWarningLevel",
+        "displayName": "UpperWarningLevel",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Value",
+        "displayName": "Value",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "integer"
       }
@@ -130,6 +144,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:ConsumptionDataMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConsumptionDataMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1004",
     "commandTopic": "opcua/LaserSystems/ConsumptionDataMonitoringType/{commandName}",
@@ -141,6 +156,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConsumableIdentifier",
+        "displayName": "ConsumableIdentifier",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": false
@@ -148,12 +164,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Description",
+        "displayName": "Description",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Value",
+        "displayName": "Value",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "integer"
       }
@@ -171,6 +189,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemOperationCounterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LaserSystemOperationCounterType",
     "extends": "dtmi:opcua:Machinery:MachineryOperationCounterType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1010",
     "payloadFormat": "Json/ecma/404",
@@ -191,6 +210,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemMonitoringType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LaserSystemMonitoringType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -201,6 +221,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ActivityData",
+        "displayName": "ActivityData",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:OrderedListType"
       },
@@ -208,6 +229,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConditionData",
+        "displayName": "ConditionData",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -215,6 +237,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ConsumptionData",
+        "displayName": "ConsumptionData",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -222,6 +245,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LaserSystemStatus",
+        "displayName": "LaserSystemStatus",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemStatusType"
       },
@@ -229,6 +253,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Stacklight",
+        "displayName": "Stacklight",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:IA:BasicStacklightType"
       }
@@ -246,6 +271,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemProductionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LaserSystemProductionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -256,6 +282,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "RecipeSettingsAndOverviews",
+        "displayName": "RecipeSettingsAndOverviews",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -273,6 +300,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemStatusType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LaserSystemStatusType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1012",
     "payloadFormat": "Json/ecma/404",
@@ -283,6 +311,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LaserSystemState",
+        "displayName": "LaserSystemState",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType"
       },
@@ -290,6 +319,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineToolsLaserStatus",
+        "displayName": "MachineToolsLaserStatus",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:MachineTool:LaserMonitoringType"
       }
@@ -307,6 +337,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LaserSystemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -317,6 +348,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
+        "displayName": "MachineryBuildingBlocks",
         "namespace": "http://opcfoundation.org/UA/Machinery",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -324,6 +356,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Monitoring",
+        "displayName": "Monitoring",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemMonitoringType"
       },
@@ -331,6 +364,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Notification",
+        "displayName": "Notification",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
         "target": "dtmi:opcua:MachineTool:NotificationType"
       },
@@ -338,6 +372,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Production",
+        "displayName": "Production",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:LaserSystems:LaserSystemProductionType"
       }
@@ -355,6 +390,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemMaintenancePrognosisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LaserSystemMaintenancePrognosisType",
     "extends": "dtmi:opcua:MachineTool:MaintenancePrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1013",
     "commandTopic": "opcua/LaserSystems/LaserSystemMaintenancePrognosisType/{commandName}",
@@ -366,6 +402,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Code",
+        "displayName": "Code",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": false
@@ -373,6 +410,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Description",
+        "displayName": "Description",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string"
       }
@@ -390,6 +428,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemUtilityChangePrognosisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LaserSystemUtilityChangePrognosisType",
     "extends": "dtmi:opcua:MachineTool:UtilityChangePrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1014",
     "commandTopic": "opcua/LaserSystems/LaserSystemUtilityChangePrognosisType/{commandName}",
@@ -401,6 +440,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Code",
+        "displayName": "Code",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": false
@@ -408,6 +448,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Description",
+        "displayName": "Description",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string"
       }
@@ -425,6 +466,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:RecipeSettingsAndOverviewType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "RecipeSettingsAndOverviewType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1007",
     "commandTopic": "opcua/LaserSystems/RecipeSettingsAndOverviewType/{commandName}",
@@ -436,6 +478,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CreationDate",
+        "displayName": "CreationDate",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "time",
         "writable": false
@@ -443,6 +486,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LastModification",
+        "displayName": "LastModification",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "time",
         "writable": false
@@ -450,6 +494,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LastUsage",
+        "displayName": "LastUsage",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "time",
         "writable": false
@@ -457,6 +502,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RecipeIdentifier",
+        "displayName": "RecipeIdentifier",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": false
@@ -464,6 +510,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RecipeName",
+        "displayName": "RecipeName",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": false
@@ -471,6 +518,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "RecipeRevision",
+        "displayName": "RecipeRevision",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": false
@@ -478,12 +526,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Description",
+        "displayName": "Description",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RunsCompleted",
+        "displayName": "RunsCompleted",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "unsignedLong"
       }
@@ -501,6 +551,7 @@
     ],
     "@id": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LaserSystemState_StateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems;i=1009",
     "commandTopic": "opcua/LaserSystems/LaserSystemState_StateMachineType/{commandName}",
@@ -512,6 +563,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of the type",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "schema": "string",
         "writable": true
@@ -520,6 +573,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EnergySaving",
+        "displayName": "EnergySaving",
+        "description": "The laser system is actively reducing its energy consumption",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -527,6 +582,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Error",
+        "displayName": "Error",
+        "description": "The laser system is not operational as it is in an error state",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -534,6 +591,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromEnergySavingToEnergySaving",
+        "displayName": "FromEnergySavingToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -541,6 +599,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromEnergySavingToError",
+        "displayName": "FromEnergySavingToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -548,6 +607,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromEnergySavingToIdle",
+        "displayName": "FromEnergySavingToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -555,6 +615,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromEnergySavingToLaserOn",
+        "displayName": "FromEnergySavingToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -562,6 +623,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromEnergySavingToLaserReady",
+        "displayName": "FromEnergySavingToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -569,6 +631,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromEnergySavingToMaintenance",
+        "displayName": "FromEnergySavingToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -576,6 +639,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromEnergySavingToOff",
+        "displayName": "FromEnergySavingToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -583,6 +647,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromEnergySavingToSetUp",
+        "displayName": "FromEnergySavingToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -590,6 +655,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromErrorToEnergySaving",
+        "displayName": "FromErrorToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -597,6 +663,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromErrorToError",
+        "displayName": "FromErrorToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -604,6 +671,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromErrorToIdle",
+        "displayName": "FromErrorToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -611,6 +679,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromErrorToLaserOn",
+        "displayName": "FromErrorToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -618,6 +687,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromErrorToLaserReady",
+        "displayName": "FromErrorToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -625,6 +695,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromErrorToMaintenance",
+        "displayName": "FromErrorToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -632,6 +703,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromErrorToOff",
+        "displayName": "FromErrorToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -639,6 +711,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromErrorToSetUp",
+        "displayName": "FromErrorToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -646,6 +719,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromIdleToEnergySaving",
+        "displayName": "FromIdleToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -653,6 +727,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromIdleToError",
+        "displayName": "FromIdleToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -660,6 +735,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromIdleToIdle",
+        "displayName": "FromIdleToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -667,6 +743,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromIdleToLaserOn",
+        "displayName": "FromIdleToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -674,6 +751,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromIdleToLaserReady",
+        "displayName": "FromIdleToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -681,6 +759,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromIdleToMaintenance",
+        "displayName": "FromIdleToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -688,6 +767,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromIdleToOff",
+        "displayName": "FromIdleToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -695,6 +775,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromIdleToSetUp",
+        "displayName": "FromIdleToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -702,6 +783,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserOnToEnergySaving",
+        "displayName": "FromLaserOnToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -709,6 +791,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserOnToError",
+        "displayName": "FromLaserOnToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -716,6 +799,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserOnToIdle",
+        "displayName": "FromLaserOnToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -723,6 +807,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserOnToLaserOn",
+        "displayName": "FromLaserOnToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -730,6 +815,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserOnToLaserReady",
+        "displayName": "FromLaserOnToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -737,6 +823,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserOnToMaintenance",
+        "displayName": "FromLaserOnToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -744,6 +831,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserOnToOff",
+        "displayName": "FromLaserOnToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -751,6 +839,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserOnToSetUp",
+        "displayName": "FromLaserOnToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -758,6 +847,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserReadyToEnergySaving",
+        "displayName": "FromLaserReadyToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -765,6 +855,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserReadyToError",
+        "displayName": "FromLaserReadyToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -772,6 +863,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserReadyToIdle",
+        "displayName": "FromLaserReadyToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -779,6 +871,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserReadyToLaserOn",
+        "displayName": "FromLaserReadyToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -786,6 +879,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserReadyToLaserReady",
+        "displayName": "FromLaserReadyToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -793,6 +887,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserReadyToMaintenance",
+        "displayName": "FromLaserReadyToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -800,6 +895,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserReadyToOff",
+        "displayName": "FromLaserReadyToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -807,6 +903,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromLaserReadyToSetUp",
+        "displayName": "FromLaserReadyToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -814,6 +911,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromMaintenanceToEnergySaving",
+        "displayName": "FromMaintenanceToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -821,6 +919,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromMaintenanceToError",
+        "displayName": "FromMaintenanceToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -828,6 +927,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromMaintenanceToIdle",
+        "displayName": "FromMaintenanceToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -835,6 +935,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromMaintenanceToLaserOn",
+        "displayName": "FromMaintenanceToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -842,6 +943,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromMaintenanceToLaserReady",
+        "displayName": "FromMaintenanceToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -849,6 +951,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromMaintenanceToMaintenance",
+        "displayName": "FromMaintenanceToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -856,6 +959,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromMaintenanceToOff",
+        "displayName": "FromMaintenanceToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -863,6 +967,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromMaintenanceToSetUp",
+        "displayName": "FromMaintenanceToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -870,6 +975,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromOffToEnergySaving",
+        "displayName": "FromOffToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -877,6 +983,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromOffToError",
+        "displayName": "FromOffToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -884,6 +991,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromOffToIdle",
+        "displayName": "FromOffToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -891,6 +999,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromOffToLaserOn",
+        "displayName": "FromOffToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -898,6 +1007,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromOffToLaserReady",
+        "displayName": "FromOffToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -905,6 +1015,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromOffToMaintenance",
+        "displayName": "FromOffToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -912,6 +1023,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromOffToOff",
+        "displayName": "FromOffToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -919,6 +1031,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromOffToSetUp",
+        "displayName": "FromOffToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -926,6 +1039,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSetUpToEnergySaving",
+        "displayName": "FromSetUpToEnergySaving",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -933,6 +1047,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSetUpToError",
+        "displayName": "FromSetUpToError",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -940,6 +1055,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSetUpToIdle",
+        "displayName": "FromSetUpToIdle",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -947,6 +1063,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSetUpToLaserOn",
+        "displayName": "FromSetUpToLaserOn",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -954,6 +1071,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSetUpToLaserReady",
+        "displayName": "FromSetUpToLaserReady",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -961,6 +1079,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSetUpToMaintenance",
+        "displayName": "FromSetUpToMaintenance",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -968,6 +1087,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSetUpToOff",
+        "displayName": "FromSetUpToOff",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -975,6 +1095,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "FromSetUpToSetUp",
+        "displayName": "FromSetUpToSetUp",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
@@ -982,6 +1103,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Idle",
+        "displayName": "Idle",
+        "description": "The laser system is operational but not perusing any activities to achieve the LaserReady state",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -989,6 +1112,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LaserOn",
+        "displayName": "LaserOn",
+        "description": "The laser system is actively emitting radiation",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -996,6 +1121,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LaserReady",
+        "displayName": "LaserReady",
+        "description": "The laser system is ready and is merely missing a trigger to actively emit radiation",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -1003,6 +1130,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Maintenance",
+        "displayName": "Maintenance",
+        "description": "The laser system is currently not operational as maintenance is being performed on it",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -1010,6 +1139,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Off",
+        "displayName": "Off",
+        "description": "The laser system is currently off or very close to off",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
@@ -1017,6 +1148,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SetUp",
+        "displayName": "SetUp",
+        "description": "The laser system is performing activities to achieve the LaserReady state",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }

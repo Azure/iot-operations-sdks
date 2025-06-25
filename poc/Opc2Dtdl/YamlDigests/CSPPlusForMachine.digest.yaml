@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -40,8 +49,10 @@ DefinedTypes:
 
   CsppAnalogItemType:
   - [ UAVariableType, CSPPlusForMachine:2001, CSPPlusForMachine:CsppAnalogItemType, Number, -2, 0 ]
+  - DisplayName: "CsppAnalogItemType"
   - HasProperty:
     - [ UAVariable, CSPPlusForMachine:6006, CSPPlusForMachine:Duration, Number, 0, 0 ]
+    - DisplayName: "Duration"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -53,10 +64,13 @@ DefinedTypes:
 
   CSPPlusForMachine:CsppMachineType:
   - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType ]
+  - DisplayName: "CsppMachineType"
   - HasComponent:
     - [ UAObject, CSPPlusForMachine:5001, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
     - HasComponent:
       - [ UAVariable, CSPPlusForMachine:6001, CSPPlusForMachine:<VariableName> ]
+      - DisplayName: "<VariableName>"
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
@@ -65,6 +79,7 @@ DefinedTypes:
         - [ UAObject, CSPPlusForMachine:5001, DI:ParameterSet ]
     - HasComponent:
       - [ UAVariable, CSPPlusForMachine:6002, CSPPlusForMachine:<ConfigurationName> ]
+      - DisplayName: "<ConfigurationName>"
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
@@ -79,10 +94,13 @@ DefinedTypes:
       - [ UAObjectType, CSPPlusForMachine:1001, CSPPlusForMachine:CsppMachineType ]
   - HasComponent:
     - [ UAObject, CSPPlusForMachine:5002, CSPPlusForMachine:<CommIfSection> ]
+    - DisplayName: "<CommIfSection>"
     - HasComponent:
       - [ UAObject, CSPPlusForMachine:5003, CSPPlusForMachine:<CommIfVariablePart> ]
+      - DisplayName: "<CommIfVariablePart>"
       - Organizes:
         - [ UAVariable, CSPPlusForMachine:6004, CSPPlusForMachine:<VariableName> ]
+        - DisplayName: "<VariableName>"
         - HasTypeDefinition:
           - [ UAVariableType, 2365, DataItemType ]
         - HasModellingRule:
@@ -97,8 +115,10 @@ DefinedTypes:
         - [ UAObject, CSPPlusForMachine:5002, CSPPlusForMachine:<CommIfSection> ]
     - HasComponent:
       - [ UAObject, CSPPlusForMachine:5004, CSPPlusForMachine:<CommIfConfigurationPart> ]
+      - DisplayName: "<CommIfConfigurationPart>"
       - Organizes:
         - [ UAVariable, CSPPlusForMachine:6005, CSPPlusForMachine:<ConfigurationName> ]
+        - DisplayName: "<ConfigurationName>"
         - HasTypeDefinition:
           - [ UAVariableType, 2365, DataItemType ]
         - HasModellingRule:
@@ -113,6 +133,7 @@ DefinedTypes:
         - [ UAObject, CSPPlusForMachine:5002, CSPPlusForMachine:<CommIfSection> ]
     - Organizes:
       - [ UAVariable, CSPPlusForMachine:6003, CSPPlusForMachine:<VariableOrConfigurationName> ]
+      - DisplayName: "<VariableOrConfigurationName>"
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:

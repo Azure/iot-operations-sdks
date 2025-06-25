@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -36,12 +45,16 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
+  DisplayName: "CavityCycleQualityEnumeration"
+  Description: "Quality of the cycle for each cavity"
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
+  DisplayName: "ControlModeEnumeration"
+  Description: "Indication how the parameter is currently controlled"
   Enums:
     OTHER: 0
     OFF: 1
@@ -51,12 +64,16 @@ DataTypes:
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
 - UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
+  DisplayName: "CycleQualityEnumeration"
+  Description: "Quality of the whole cycle"
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
+  DisplayName: "DiagnosticsStatusEnumeration"
+  Description: "Diagnostics inactive"
   Enums:
     OFF: 0
     ACTIVE_OK: 1
@@ -64,6 +81,8 @@ DataTypes:
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
+  DisplayName: "EventOriginatorEnumeration"
+  Description: "Originator of an event"
   Enums:
     OTHER: 0
     MACHINE: 1
@@ -71,6 +90,8 @@ DataTypes:
     MES: 3
     PERIPHERAL_DEVICE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
+  DisplayName: "JobStatusEnumeration"
+  Description: "Current status of the job"
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -85,6 +106,8 @@ DataTypes:
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
 - UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
+  DisplayName: "LogbookEventsEnumeration"
+  Description: "Information which LogbookEvents are supported by the machine"
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -98,6 +121,8 @@ DataTypes:
     MESSAGE: 9
     USER_FEEDBACK: 10
 - UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
+  DisplayName: "MachineModeEnumeration"
+  Description: "Current machine mode (as defined by mode selector on the machine)"
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -106,17 +131,23 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
+  DisplayName: "MaintenanceStatusEnumeration"
+  Description: "Maintenance status of a machine/device/component"
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
 - UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
+  DisplayName: "MouldStatusEnumeration"
+  Description: "Current (physical) status of the mould"
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
 - UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
+  DisplayName: "ProductionStatusEnumeration"
+  Description: "Production status of the machine"
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -125,6 +156,8 @@ DataTypes:
     PRODUCTION: 4
     DRY_RUN: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
+  DisplayName: "SequenceChangeEnumeration"
+  Description: "Classification of production sequence change"
   Enums:
     UPDATE: 0
     ADD: 1
@@ -132,6 +165,7 @@ DataTypes:
     MOVE: 3
     DELETE: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
+  DisplayName: "StartEnumeration"
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -140,11 +174,15 @@ DataTypes:
     STARTED: 4
     STOP_REQUESTED: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
+  DisplayName: "StorageEnumeration"
+  Description: "Indication which parts of the production dataset shall be activated in the machine control after writing"
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
 - UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
+  DisplayName: "TemperatureZoneClassificationEnumeration"
+  Description: "Type of the temperature zone"
   Enums:
     OTHER: 0
     HEATING: 1
@@ -153,25 +191,35 @@ DataTypes:
     HOT_RUNNER: 4
     MEASURING: 5
 - UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
+  DisplayName: "UserChangeEnumeration"
+  Description: "Information if a user logs in or off"
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
 - UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
+  DisplayName: "ActiveErrorDataType"
+  Description: "Iinformation about an active error in a device"
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
+  DisplayName: "ClassifiedActiveErrorDataType"
+  Description: "Iinformation about an active error in a device including the SoureNodes and a Classification"
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
+  DisplayName: "ConfigurationParameterType"
+  Description: "Unique identifier"
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
+  DisplayName: "JobListElementType"
+  Description: "Description of a job in a job list"
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -187,6 +235,8 @@ DataTypes:
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
+  DisplayName: "CyclicJobListElementType"
+  Description: "Description of a job in a cyclic job list"
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
@@ -194,19 +244,26 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
+  DisplayName: "PageEntryDataType"
+  Description: "Information on a page that is implemented in the machine control system and shown on the screen of the machine"
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
+  DisplayName: "ParameterSettingType"
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
+  DisplayName: "PIDParametersDataType"
+  Description: "Structure for storing the parameters of a PID controller"
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
+  DisplayName: "ProductionDatasetInformationType"
+  Description: "Information on a production dataset"
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -226,20 +283,27 @@ DataTypes:
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
+  DisplayName: "ProductionDatasetReadOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForRead in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
+  DisplayName: "ProductionDatasetWriteOptionsType"
+  Description: "Used as GenerateOptions in the Method GenerateFileForWrite in ProductionDatasetTransfer"
   Fields:
     Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
 - UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
+  DisplayName: "StandstillReasonType"
+  Description: "Description of a standstill reason"
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
     LockedByMES: [ Boolean, 0 ]
 - UADataType: [ PlasticsRubber.Extrusion_v2.GeneralTypes:3001, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionMessageClassificationEnumeration ]
+  DisplayName: "ExtrusionMessageClassificationEnumeration"
   Enums:
     OTHER: 0
     LINE_CONTROL: 1
@@ -275,8 +339,10 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion_v2.Pelletizer:DiePlateType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1002, PlasticsRubber.Extrusion_v2.Pelletizer:DiePlateType ]
+  - DisplayName: "DiePlateType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6006, PlasticsRubber.Extrusion_v2.Pelletizer:ActiveTime, Duration, 0, 0 ]
+    - DisplayName: "ActiveTime"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1002, PlasticsRubber.Extrusion_v2.Pelletizer:DiePlateType ]
     - HasModellingRule:
@@ -287,6 +353,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6001, PlasticsRubber.Extrusion_v2.Pelletizer:Name, LocalizedText, 0, 0 ]
+    - DisplayName: "Name"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:
@@ -296,14 +363,17 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion_v2.Pelletizer:Pelletizer_InterfaceType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1004, PlasticsRubber.Extrusion_v2.Pelletizer:Pelletizer_InterfaceType ]
+  - DisplayName: "Pelletizer_InterfaceType"
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6110, PlasticsRubber.Extrusion_v2.Pelletizer:CutGap, Double, 0, 0 ]
+    - DisplayName: "CutGap"
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasComponent_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1004, PlasticsRubber.Extrusion_v2.Pelletizer:Pelletizer_InterfaceType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6111, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasProperty_reverse:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6110, PlasticsRubber.Extrusion_v2.Pelletizer:CutGap, Double, 0, 0 ]
       - HasModellingRule:
@@ -314,8 +384,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5013, PlasticsRubber.Extrusion_v2.Pelletizer:DiePlate_<Nr> ]
+    - DisplayName: "DiePlate_<Nr>"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6135, PlasticsRubber.Extrusion_v2.Pelletizer:ActiveTime, Duration, 0, 0 ]
+      - DisplayName: "ActiveTime"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5013, PlasticsRubber.Extrusion_v2.Pelletizer:DiePlate_<Nr> ]
       - HasModellingRule:
@@ -328,6 +400,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1002, PlasticsRubber.Extrusion_v2.Pelletizer:DiePlateType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6131, PlasticsRubber.Extrusion_v2.Pelletizer:Name, LocalizedText, 0, 0 ]
+      - DisplayName: "Name"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -338,8 +411,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5001, PlasticsRubber.Extrusion_v2.Pelletizer:Drive ]
+    - DisplayName: "Drive"
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5002, PlasticsRubber.GeneralTypes:AdditionalMeasuringDevices ]
+      - DisplayName: "AdditionalMeasuringDevices"
       - HasComponent_reverse:
         - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5001, PlasticsRubber.Extrusion_v2.Pelletizer:Drive ]
       - GeneratesEvent:
@@ -348,6 +423,7 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, PlasticsRubber.GeneralTypes:MeasuringDevicesType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6011, PlasticsRubber.Extrusion_v2.Pelletizer:NodeVersion, String, 0, 0 ]
+        - DisplayName: "NodeVersion"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty_reverse:
@@ -362,14 +438,17 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1068, PlasticsRubber.GeneralTypes:DriveType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5003, PlasticsRubber.GeneralTypes:Energy ]
+      - DisplayName: "Energy"
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6018, PlasticsRubber.GeneralTypes:ActualPower, Double, 0, 0 ]
+        - DisplayName: "ActualPower"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5003, PlasticsRubber.GeneralTypes:Energy ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6019, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6018, PlasticsRubber.GeneralTypes:ActualPower, Double, 0, 0 ]
           - HasModellingRule:
@@ -380,12 +459,14 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6020, PlasticsRubber.GeneralTypes:ActualSpecificEnergy, Double, 0, 0 ]
+        - DisplayName: "ActualSpecificEnergy"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5003, PlasticsRubber.GeneralTypes:Energy ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6021, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6020, PlasticsRubber.GeneralTypes:ActualSpecificEnergy, Double, 0, 0 ]
           - HasModellingRule:
@@ -402,10 +483,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6022, PlasticsRubber.GeneralTypes:PowerConsumption, Double, 0, 0 ]
+        - DisplayName: "PowerConsumption"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6023, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6022, PlasticsRubber.GeneralTypes:PowerConsumption, Double, 0, 0 ]
           - HasModellingRule:
@@ -418,6 +501,7 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5003, PlasticsRubber.GeneralTypes:Energy ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6024, PlasticsRubber.GeneralTypes:PowerFactor, Double, 0, 0 ]
+        - DisplayName: "PowerFactor"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -426,8 +510,11 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5003, PlasticsRubber.GeneralTypes:Energy ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5004, PlasticsRubber.GeneralTypes:Maintenance ]
+      - DisplayName: "Maintenance"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6025, PlasticsRubber.GeneralTypes:AdditionalInformation, String, 0, 0 ]
+        - DisplayName: "AdditionalInformation"
+        - Description: "Additional information on the necessary maintenance. Can be also a link to another document."
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5004, PlasticsRubber.GeneralTypes:Maintenance ]
         - HasModellingRule:
@@ -436,10 +523,13 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6026, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
+        - DisplayName: "Interval"
+        - Description: "Regular interval between two maintenances"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6027, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6026, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -448,6 +538,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6028, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6026, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -466,10 +557,13 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6029, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
+        - DisplayName: "RemainingInterval"
+        - Description: "Interval before next maintenance is due"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6030, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6029, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -478,6 +572,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6031, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6029, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -490,12 +585,16 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5004, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Pelletizer:7001, PlasticsRubber.GeneralTypes:Reset ]
+        - DisplayName: "Reset"
+        - Description: "This Method sets the CurrentInterval to 0 and Status to NOT_DUE_0"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5004, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6012, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration, 0, 0 ]
+        - DisplayName: "Status"
+        - Description: "Maintenance status of the machine/device/component (represented by the parent element)"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -504,10 +603,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5004, PlasticsRubber.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6032, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
+        - DisplayName: "TotalOperation"
+        - Description: "How long is the component running in total"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6033, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6032, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -516,6 +618,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6034, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6032, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -530,14 +633,18 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
+      - DisplayName: "Speed"
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6013, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
+        - DisplayName: "ActualValue"
+        - Description: "Actual value of the monitored parameter"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6104, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6013, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
           - HasModellingRule:
@@ -546,6 +653,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6014, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6013, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
           - HasModellingRule:
@@ -556,10 +664,13 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6035, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
+        - DisplayName: "AlarmSuppression"
+        - Description: "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6036, PlasticsRubber.Extrusion_v2.Pelletizer:EnumValues, EnumValueType, 1, 0 ]
+          - DisplayName: "EnumValues"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6035, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
           - HasModellingRule:
@@ -572,6 +683,7 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6037, PlasticsRubber.Extrusion_v2.Pelletizer:ValueAsText, LocalizedText, 0, 0 ]
+          - DisplayName: "ValueAsText"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -580,6 +692,8 @@ DefinedTypes:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6035, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6038, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
+        - DisplayName: "AutomaticMonitoring"
+        - Description: "Determination if monitoring tolerance parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
         - HasModellingRule:
@@ -588,10 +702,13 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6039, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
+        - DisplayName: "LowerTolerance"
+        - Description: "Lower relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6040, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6039, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -600,6 +717,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6041, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6039, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -612,10 +730,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6042, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
+        - DisplayName: "LowerTolerance2"
+        - Description: "Second lower relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6043, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6042, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -624,6 +745,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6044, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6042, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -636,10 +758,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6045, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
+        - DisplayName: "MaxValue"
+        - Description: "Maximum absolute value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6046, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6045, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -648,6 +773,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6047, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6045, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -660,10 +786,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6048, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
+        - DisplayName: "MinValue"
+        - Description: "Minimum absolute value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6049, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6048, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -672,6 +801,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6050, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6048, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -686,8 +816,11 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6051, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
+        - DisplayName: "MonitoringSensitivity"
+        - Description: "Defines how closely the tolerances are set during the automatic limit setting"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6052, PlasticsRubber.Extrusion_v2.Pelletizer:EnumValues, EnumValueType, 1, 0 ]
+          - DisplayName: "EnumValues"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6051, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
           - HasModellingRule:
@@ -702,6 +835,7 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6053, PlasticsRubber.Extrusion_v2.Pelletizer:ValueAsText, LocalizedText, 0, 0 ]
+          - DisplayName: "ValueAsText"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -712,16 +846,21 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Pelletizer:7002, PlasticsRubber.GeneralTypes:ResetMonitoring ]
+        - DisplayName: "ResetMonitoring"
+        - Description: "With this method the tolerance values are set according to the actual value and the set monitoring sensitivity"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6054, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
+        - DisplayName: "SetRampDown"
+        - Description: "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6055, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6054, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
@@ -730,6 +869,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6056, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6054, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
@@ -742,10 +882,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6057, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
+        - DisplayName: "SetRampUp"
+        - Description: "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6058, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6057, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
@@ -754,6 +897,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6059, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6057, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
@@ -766,10 +910,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6060, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
+        - DisplayName: "SetValue"
+        - Description: "Set/nominal/target value of the monitored parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6061, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6060, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -778,6 +925,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6062, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6060, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -792,10 +940,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5001, PlasticsRubber.Extrusion_v2.Pelletizer:Drive ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6063, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
+        - DisplayName: "UpperTolerance"
+        - Description: "Upper relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6064, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6063, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -804,6 +955,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6065, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6063, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -816,10 +968,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6066, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
+        - DisplayName: "UpperTolerance2"
+        - Description: "Second upper relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6067, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6066, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -828,6 +983,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6068, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6066, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -840,10 +996,12 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5005, PlasticsRubber.GeneralTypes:Speed ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5006, PlasticsRubber.GeneralTypes:StartDrive ]
+      - DisplayName: "StartDrive"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6069, PlasticsRubber.GeneralTypes:StartBlockedByClient, Boolean, 0, 3 ]
+        - DisplayName: "StartBlockedByClient"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -856,12 +1014,14 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5001, PlasticsRubber.Extrusion_v2.Pelletizer:Drive ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Pelletizer:7003, PlasticsRubber.GeneralTypes:StartRequest ]
+        - DisplayName: "StartRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5006, PlasticsRubber.GeneralTypes:StartDrive ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6015, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:StartEnumeration, 0, 0 ]
+        - DisplayName: "Status"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -870,20 +1030,25 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5006, PlasticsRubber.GeneralTypes:StartDrive ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Pelletizer:7004, PlasticsRubber.GeneralTypes:StopRequest ]
+        - DisplayName: "StopRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5006, PlasticsRubber.GeneralTypes:StartDrive ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
+      - DisplayName: "Torque"
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6016, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
+        - DisplayName: "ActualValue"
+        - Description: "Actual value of the monitored parameter"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6105, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6016, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
           - HasModellingRule:
@@ -892,6 +1057,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6017, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6016, PlasticsRubber.GeneralTypes:ActualValue, Double, 0, 0 ]
           - HasModellingRule:
@@ -902,10 +1068,13 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6070, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
+        - DisplayName: "AlarmSuppression"
+        - Description: "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump"
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6071, PlasticsRubber.Extrusion_v2.Pelletizer:EnumValues, EnumValueType, 1, 0 ]
+          - DisplayName: "EnumValues"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6070, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
           - HasModellingRule:
@@ -918,6 +1087,7 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6072, PlasticsRubber.Extrusion_v2.Pelletizer:ValueAsText, LocalizedText, 0, 0 ]
+          - DisplayName: "ValueAsText"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -926,6 +1096,8 @@ DefinedTypes:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6070, PlasticsRubber.GeneralTypes:AlarmSuppression, UInt16, 0, 3 ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6073, PlasticsRubber.GeneralTypes:AutomaticMonitoring, Boolean, 0, 3 ]
+        - DisplayName: "AutomaticMonitoring"
+        - Description: "Determination if monitoring tolerance parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
         - HasModellingRule:
@@ -934,10 +1106,13 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6074, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
+        - DisplayName: "LowerTolerance"
+        - Description: "Lower relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6075, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6074, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -946,6 +1121,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6076, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6074, PlasticsRubber.GeneralTypes:LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -958,10 +1134,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6077, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
+        - DisplayName: "LowerTolerance2"
+        - Description: "Second lower relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6078, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6077, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -970,6 +1149,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6079, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6077, PlasticsRubber.GeneralTypes:LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -982,10 +1162,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6080, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
+        - DisplayName: "MaxValue"
+        - Description: "Maximum absolute value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6081, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6080, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -994,6 +1177,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6082, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6080, PlasticsRubber.GeneralTypes:MaxValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1006,10 +1190,13 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6083, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
+        - DisplayName: "MinValue"
+        - Description: "Minimum absolute value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6084, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6083, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1018,6 +1205,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6085, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6083, PlasticsRubber.GeneralTypes:MinValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1032,8 +1220,11 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6086, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
+        - DisplayName: "MonitoringSensitivity"
+        - Description: "Defines how closely the tolerances are set during the automatic limit setting"
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6087, PlasticsRubber.Extrusion_v2.Pelletizer:EnumValues, EnumValueType, 1, 0 ]
+          - DisplayName: "EnumValues"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6086, PlasticsRubber.GeneralTypes:MonitoringSensitivity, UInt16, 0, 3 ]
           - HasModellingRule:
@@ -1048,6 +1239,7 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6088, PlasticsRubber.Extrusion_v2.Pelletizer:ValueAsText, LocalizedText, 0, 0 ]
+          - DisplayName: "ValueAsText"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1058,16 +1250,21 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Pelletizer:7005, PlasticsRubber.GeneralTypes:ResetMonitoring ]
+        - DisplayName: "ResetMonitoring"
+        - Description: "With this method the tolerance values are set according to the actual value and the set monitoring sensitivity"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6089, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
+        - DisplayName: "SetRampDown"
+        - Description: "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6090, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6089, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
@@ -1076,6 +1273,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6091, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6089, PlasticsRubber.GeneralTypes:SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
@@ -1088,10 +1286,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6092, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
+        - DisplayName: "SetRampUp"
+        - Description: "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6093, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6092, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
@@ -1100,6 +1301,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6094, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6092, PlasticsRubber.GeneralTypes:SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
@@ -1112,10 +1314,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6095, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
+        - DisplayName: "SetValue"
+        - Description: "Set/nominal/target value of the monitored parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6096, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6095, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1124,6 +1329,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6097, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6095, PlasticsRubber.GeneralTypes:SetValue, Double, 0, 3 ]
           - HasModellingRule:
@@ -1138,10 +1344,13 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5001, PlasticsRubber.Extrusion_v2.Pelletizer:Drive ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6098, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
+        - DisplayName: "UpperTolerance"
+        - Description: "Upper relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6099, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6098, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -1150,6 +1359,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6100, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6098, PlasticsRubber.GeneralTypes:UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
@@ -1162,10 +1372,13 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6101, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
+        - DisplayName: "UpperTolerance2"
+        - Description: "Second upper relative tolerance value of the process parameter"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6102, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6101, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -1174,6 +1387,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6103, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6101, PlasticsRubber.GeneralTypes:UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
@@ -1186,8 +1400,10 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5007, PlasticsRubber.GeneralTypes:Torque ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5012, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackage_<Nr> ]
+    - DisplayName: "KnifePackage_<Nr>"
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6136, PlasticsRubber.Extrusion_v2.Pelletizer:ActiveTime, Duration, 0, 0 ]
+      - DisplayName: "ActiveTime"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5012, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackage_<Nr> ]
       - HasModellingRule:
@@ -1196,6 +1412,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6127, PlasticsRubber.Extrusion_v2.Pelletizer:Amount, UInt16, 0, 0 ]
+      - DisplayName: "Amount"
       - HasProperty_reverse:
         - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5012, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackage_<Nr> ]
       - HasModellingRule:
@@ -1208,6 +1425,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1003, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackageType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6128, PlasticsRubber.Extrusion_v2.Pelletizer:Name, LocalizedText, 0, 0 ]
+      - DisplayName: "Name"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1218,6 +1436,7 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6108, PlasticsRubber.Extrusion_v2.Pelletizer:PelletizerClosed, Boolean, 0, 0 ]
+    - DisplayName: "PelletizerClosed"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty_reverse:
@@ -1226,12 +1445,14 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5011, PlasticsRubber.Extrusion_v2.Pelletizer:PressureZones ]
+    - DisplayName: "PressureZones"
     - GeneratesEvent:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, PlasticsRubber.GeneralTypes:MeasuringDevicesType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6126, PlasticsRubber.Extrusion_v2.Pelletizer:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1244,14 +1465,17 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1004, PlasticsRubber.Extrusion_v2.Pelletizer:Pelletizer_InterfaceType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5008, PlasticsRubber.Extrusion_v2.Pelletizer:TemperatureZones ]
+    - DisplayName: "TemperatureZones"
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1017, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionTemperatureZonesType ]
     - GeneratesEvent:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5009, PlasticsRubber.Extrusion_v2.GeneralTypes:Maintenance ]
+      - DisplayName: "Maintenance"
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6114, PlasticsRubber.GeneralTypes:AdditionalInformation, String, 0, 0 ]
+        - DisplayName: "AdditionalInformation"
         - HasProperty_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5009, PlasticsRubber.Extrusion_v2.GeneralTypes:Maintenance ]
         - HasModellingRule:
@@ -1260,10 +1484,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6115, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
+        - DisplayName: "Interval"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6122, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6115, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -1272,6 +1498,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6116, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6115, PlasticsRubber.GeneralTypes:Interval, Double, 0, 0 ]
           - HasModellingRule:
@@ -1290,10 +1517,12 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6117, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
+        - DisplayName: "RemainingInterval"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6123, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6117, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -1302,6 +1531,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6118, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6117, PlasticsRubber.GeneralTypes:RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
@@ -1314,12 +1544,14 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5009, PlasticsRubber.Extrusion_v2.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Pelletizer:7006, PlasticsRubber.GeneralTypes:Reset ]
+        - DisplayName: "Reset"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasComponent_reverse:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5009, PlasticsRubber.Extrusion_v2.GeneralTypes:Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6107, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration, 0, 0 ]
+        - DisplayName: "Status"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1328,10 +1560,12 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5009, PlasticsRubber.Extrusion_v2.GeneralTypes:Maintenance ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6119, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
+        - DisplayName: "TotalOperation"
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6124, PlasticsRubber.Extrusion_v2.Pelletizer:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6119, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -1340,6 +1574,7 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6120, PlasticsRubber.Extrusion_v2.Pelletizer:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasProperty_reverse:
             - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6119, PlasticsRubber.GeneralTypes:TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
@@ -1352,6 +1587,7 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5009, PlasticsRubber.Extrusion_v2.GeneralTypes:Maintenance ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6106, PlasticsRubber.Extrusion_v2.Pelletizer:NodeVersion, String, 0, 0 ]
+      - DisplayName: "NodeVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty_reverse:
@@ -1362,10 +1598,12 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5010, PlasticsRubber.Extrusion_v2.GeneralTypes:StartTempering ]
+      - DisplayName: "StartTempering"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6121, PlasticsRubber.GeneralTypes:StartBlockedByClient, Boolean, 0, 3 ]
+        - DisplayName: "StartBlockedByClient"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1376,6 +1614,7 @@ DefinedTypes:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, PlasticsRubber.GeneralTypes:StartDeviceType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Pelletizer:7007, PlasticsRubber.GeneralTypes:StartRequest ]
+        - DisplayName: "StartRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
@@ -1384,6 +1623,7 @@ DefinedTypes:
         - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5008, PlasticsRubber.Extrusion_v2.Pelletizer:TemperatureZones ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6113, PlasticsRubber.GeneralTypes:Status, PlasticsRubber.GeneralTypes:StartEnumeration, 0, 0 ]
+        - DisplayName: "Status"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1392,6 +1632,7 @@ DefinedTypes:
           - [ UAObject, PlasticsRubber.Extrusion_v2.Pelletizer:5010, PlasticsRubber.Extrusion_v2.GeneralTypes:StartTempering ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Pelletizer:7008, PlasticsRubber.GeneralTypes:StopRequest ]
+        - DisplayName: "StopRequest"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasComponent_reverse:
@@ -1400,6 +1641,7 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1004, PlasticsRubber.Extrusion_v2.Pelletizer:Pelletizer_InterfaceType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6109, PlasticsRubber.Extrusion_v2.Pelletizer:WaterFlowActive, Boolean, 0, 0 ]
+    - DisplayName: "WaterFlowActive"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1411,8 +1653,10 @@ DefinedTypes:
 
   PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackageType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1003, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackageType ]
+  - DisplayName: "KnifePackageType"
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6010, PlasticsRubber.Extrusion_v2.Pelletizer:ActiveTime, Duration, 0, 0 ]
+    - DisplayName: "ActiveTime"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1003, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackageType ]
     - HasModellingRule:
@@ -1421,6 +1665,7 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6009, PlasticsRubber.Extrusion_v2.Pelletizer:Amount, UInt16, 0, 0 ]
+    - DisplayName: "Amount"
     - HasProperty_reverse:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Pelletizer:1003, PlasticsRubber.Extrusion_v2.Pelletizer:KnifePackageType ]
     - HasModellingRule:
@@ -1431,6 +1676,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Pelletizer:6008, PlasticsRubber.Extrusion_v2.Pelletizer:Name, LocalizedText, 0, 0 ]
+    - DisplayName: "Name"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty_reverse:

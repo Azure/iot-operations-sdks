@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ IJT.Base:3003, IJT.Base:CalibrationDataType ]
+  DisplayName: "CalibrationDataType"
+  Description: "This structure contains the Calibration information. It is used as an input argument in SetCalibration method. Note: The input data sent in SetCalibration shall be updated in the respective parameters of the asset under Maintenance/Calibration."
   Fields:
     LastCalibration: [ UtcTime, 0 ]
     CalibrationPlace: [ String, 0 ]
@@ -9,12 +11,16 @@ DataTypes:
     CertificateUri: [ UriString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3015, IJT.Base:DesignValueDataType ]
+  DisplayName: "DesignValueDataType"
+  Description: "This structure provides the design value for a given physical quantity. It is used in JointDesignDataType."
   Fields:
     PhysicalQuantity: [ Byte, 0 ]
     Name: [ String, 0 ]
     DesignValue: [ null, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3010, IJT.Base:EntityDataType ]
+  DisplayName: "EntityDataType"
+  Description: "This structure provides the identification data for a given entity in the system."
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -23,21 +29,29 @@ DataTypes:
     IsExternal: [ Boolean, 0 ]
     EntityType: [ Int16, 0 ]
 - UADataType: [ IJT.Base:3006, IJT.Base:ErrorInformationDataType ]
+  DisplayName: "ErrorInformationDataType"
+  Description: "This structure represents the errors occurred in the system which are outside the boundaries of the given program."
   Fields:
     ErrorType: [ Byte, 0 ]
     ErrorId: [ TrimmedString, 0 ]
     LegacyError: [ String, 0 ]
     ErrorMessage: [ LocalizedText, 0 ]
 - UADataType: [ IJT.Base:3016, IJT.Base:JoiningProcessDataType ]
+  DisplayName: "JoiningProcessDataType"
+  Description: "This structure provides the base container for any joining process in a joining system. Note: This specification defines the meta data of a JoiningProcess, and the actual content of the Joining Process is application specific."
   Fields:
     JoiningProcessMetaData: [ IJT.Base:JoiningProcessMetaDataType, 0 ]
     JoiningProcessContent: [ null, 1 ]
 - UADataType: [ IJT.Base:3029, IJT.Base:JoiningProcessIdentificationDataType ]
+  DisplayName: "JoiningProcessIdentificationDataType"
+  Description: "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType."
   Fields:
     JoiningProcessId: [ TrimmedString, 0 ]
     JoiningProcessOriginId: [ TrimmedString, 0 ]
     SelectionName: [ TrimmedString, 0 ]
 - UADataType: [ IJT.Base:3024, IJT.Base:JoiningProcessMetaDataType ]
+  DisplayName: "JoiningProcessMetaDataType"
+  Description: "This structure provides the meta data which describes the joining process."
   Fields:
     JoiningProcessId: [ TrimmedString, 0 ]
     JoiningProcessOriginId: [ TrimmedString, 0 ]
@@ -49,6 +63,8 @@ DataTypes:
     Classification: [ Int16, 0 ]
     AssociatedEntities: [ IJT.Base:EntityDataType, 1 ]
 - UADataType: [ IJT.Base:3005, IJT.Base:JoiningResultDataType ]
+  DisplayName: "JoiningResultDataType"
+  Description: "This structure represents the data associated with Joining Result and the corresponding measurement values."
   Fields:
     FailureReason: [ Byte, 0 ]
     OverallResultValues: [ IJT.Base:ResultValueDataType, 1 ]
@@ -57,6 +73,8 @@ DataTypes:
     FailingStepResultId: [ TrimmedString, 0 ]
     Trace: [ IJT.Base:JoiningTraceDataType, 0 ]
 - UADataType: [ IJT.Base:3021, IJT.Base:JointComponentDataType ]
+  DisplayName: "JointComponentDataType"
+  Description: "This structure is the base container for any joint component such as Bolt, Rivet, Gasket, Glue string, etc. Note: The concrete definition of joint component is not defined in this version of the specification."
   Fields:
     JointComponentId: [ TrimmedString, 0 ]
     Name: [ String, 0 ]
@@ -65,6 +83,8 @@ DataTypes:
     ManufacturerUri: [ String, 0 ]
     JointComponentContent: [ null, 0 ]
 - UADataType: [ IJT.Base:3028, IJT.Base:JointDataType ]
+  DisplayName: "JointDataType"
+  Description: "This structure provides the joint information. Joint is the physical outcome of the joining operation which determines the properties of the point where multiple parts are assembled."
   Fields:
     JointId: [ TrimmedString, 0 ]
     JointOriginId: [ TrimmedString, 0 ]
@@ -79,6 +99,8 @@ DataTypes:
     AssociatedEntities: [ IJT.Base:EntityDataType, 1 ]
     JoiningTechnology: [ LocalizedText, 0 ]
 - UADataType: [ IJT.Base:3025, IJT.Base:JointDesignDataType ]
+  DisplayName: "JointDesignDataType"
+  Description: "This structure provides the design information of a given joint."
   Fields:
     JointDesignId: [ TrimmedString, 0 ]
     Name: [ String, 0 ]
@@ -86,10 +108,14 @@ DataTypes:
     JointDesignContent: [ IJT.Base:DesignValueDataType, 1 ]
     JointComponentIdList: [ TrimmedString, 1 ]
 - UADataType: [ IJT.Base:3008, IJT.Base:KeyValueDataType ]
+  DisplayName: "KeyValueDataType"
+  Description: "This structure is similar to 0:KeyValuePair which uses 0:TrimmedString instead of 0:QualifiedName."
   Fields:
     Key: [ TrimmedString, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ IJT.Base:3022, IJT.Base:ReportedValueDataType ]
+  DisplayName: "ReportedValueDataType"
+  Description: "This structure provides the given value and corresponding limits for a given physical quantity (if applicable)."
   Fields:
     PhysicalQuantity: [ Byte, 0 ]
     Name: [ String, 0 ]
@@ -99,11 +125,15 @@ DataTypes:
     HighLimit: [ Double, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3004, IJT.Base:ResultCounterDataType ]
+  DisplayName: "ResultCounterDataType"
+  Description: "This structure is used to provide various types of counters associated to a Result. These counters are related to a joining process with sub-processes."
   Fields:
     Name: [ String, 0 ]
     CounterValue: [ UInt32, 0 ]
     CounterType: [ Int16, 0 ]
 - UADataType: [ IJT.Base:3020, IJT.Base:JoiningResultMetaDataType ]
+  DisplayName: "JoiningResultMetaDataType"
+  Description: "This structure is a subtype of ResultMetaDataType. It is used to define additional meta data of a Result in a joining system."
   Fields:
     JoiningTechnology: [ LocalizedText, 0 ]
     SequenceNumber: [ UInt64, 0 ]
@@ -118,6 +148,8 @@ DataTypes:
     IsGeneratedOffline: [ Boolean, 0 ]
     ExtendedMetaData: [ IJT.Base:KeyValueDataType, 1 ]
 - UADataType: [ IJT.Base:3007, IJT.Base:ResultValueDataType ]
+  DisplayName: "ResultValueDataType"
+  Description: "It is used to report measurement values of the joining operation. Those are meant to characterize the quality of the process. It is used in JoiningResultDataType and StepResultDataType."
   Fields:
     MeasuredValue: [ Double, 0 ]
     Name: [ String, 0 ]
@@ -137,12 +169,16 @@ DataTypes:
     PhysicalQuantity: [ Byte, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3019, IJT.Base:SignalDataType ]
+  DisplayName: "SignalDataType"
+  Description: "This structure contains the signal information which is used in SetIOSignals and GetIOSignals methods."
   Fields:
     SignalId: [ TrimmedString, 0 ]
     SignalValue: [ Number, 0 ]
     SignalDescription: [ String, 0 ]
     SignalType: [ Int16, 0 ]
 - UADataType: [ IJT.Base:3009, IJT.Base:StepResultDataType ]
+  DisplayName: "StepResultDataType"
+  Description: "This structure represents the measurement values corresponding to a given step in the program. It is used in JoiningResultDataType."
   Fields:
     StepResultId: [ TrimmedString, 0 ]
     ProgramStepId: [ TrimmedString, 0 ]
@@ -153,6 +189,8 @@ DataTypes:
     StepTraceId: [ TrimmedString, 0 ]
     StepResultValues: [ IJT.Base:ResultValueDataType, 1 ]
 - UADataType: [ IJT.Base:3013, IJT.Base:StepTraceDataType ]
+  DisplayName: "StepTraceDataType"
+  Description: "It is to describe of the trace for a given program step. It is used in JoiningTraceDataType."
   Fields:
     StepTraceId: [ TrimmedString, 0 ]
     StepResultId: [ TrimmedString, 0 ]
@@ -161,6 +199,8 @@ DataTypes:
     StartTimeOffset: [ Duration, 0 ]
     StepTraceContent: [ IJT.Base:TraceContentDataType, 1 ]
 - UADataType: [ IJT.Base:3014, IJT.Base:TraceContentDataType ]
+  DisplayName: "TraceContentDataType"
+  Description: "It is to describe of the trace samples for a given program step. It is used in StepTraceDataType."
   Fields:
     Values: [ Double, 1 ]
     SensorId: [ TrimmedString, 0 ]
@@ -169,13 +209,19 @@ DataTypes:
     PhysicalQuantity: [ Byte, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3011, IJT.Base:TraceDataType ]
+  DisplayName: "TraceDataType"
+  Description: "It is a base type to encapsulate common data for a Trace."
   Fields:
     TraceId: [ TrimmedString, 0 ]
     ResultId: [ TrimmedString, 0 ]
 - UADataType: [ IJT.Base:3012, IJT.Base:JoiningTraceDataType ]
+  DisplayName: "JoiningTraceDataType"
+  Description: "This structure is to describe the content of traces for all the steps in the given program. It is used in JoiningResultDataType."
   Fields:
     StepTraces: [ IJT.Base:StepTraceDataType, 1 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -186,25 +232,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -212,40 +265,56 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
+  DisplayName: "MaintenanceMethodEnum"
+  Description: "Maintenance close to the asset"
   Enums:
     Local: 0
     Remote: 1
 - UADataType: [ AMB:3003, AMB:NameNodeIdDataType ]
+  DisplayName: "NameNodeIdDataType"
+  Description: "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace"
   Fields:
     Name: [ LocalizedText, 0 ]
     NodeId: [ NodeId, 0 ]
 - UADataType: [ AMB:3002, AMB:RootCauseDataType ]
+  DisplayName: "RootCauseDataType"
+  Description: "Root cause of an alarm"
   Fields:
     RootCauseId: [ NodeId, 0 ]
     RootCause: [ LocalizedText, 0 ]
 - UADataType: [ Machinery.Result:3002, Machinery.Result:ResultEvaluationEnum ]
+  DisplayName: "ResultEvaluationEnum"
+  Description: "Indicates whether a result was in tolerance"
   Enums:
     Undefined: 0
     OK: 1
     NotOK: 2
     NotDecidable: 3
 - UADataType: [ Machinery.Result:3005, Machinery.Result:BaseResultTransferOptionsDataType ]
+  DisplayName: "BaseResultTransferOptionsDataType"
+  Description: "Abstract type containing information which file should be provided."
   Fields:
     ResultId: [ TrimmedString, 0 ]
 - UADataType: [ Machinery.Result:3004, Machinery.Result:ResultTransferOptionsDataType ]
   Bases:
   - Machinery.Result:BaseResultTransferOptionsDataType
 - UADataType: [ Machinery.Result:3006, Machinery.Result:ProcessingTimesDataType ]
+  DisplayName: "ProcessingTimesDataType"
+  Description: "Contains measured times that were generated during the execution of a recipe."
   Fields:
     StartTime: [ UtcTime, 0 ]
     EndTime: [ UtcTime, 0 ]
     AcquisitionDuration: [ Duration, 0 ]
     ProcessingDuration: [ Duration, 0 ]
 - UADataType: [ Machinery.Result:3008, Machinery.Result:ResultDataType ]
+  DisplayName: "ResultDataType"
+  Description: "Contains fields that were created during the execution of a recipe."
   Fields:
     ResultMetaData: [ Machinery.Result:ResultMetaDataType, 0 ]
     ResultContent: [ null, 1 ]
 - UADataType: [ Machinery.Result:3007, Machinery.Result:ResultMetaDataType ]
+  DisplayName: "ResultMetaDataType"
+  Description: "Meta data of a result, describing the result."
   Fields:
     ResultId: [ TrimmedString, 0 ]
     HasTransferableDataOnFile: [ Boolean, 0 ]
@@ -272,173 +341,245 @@ DefinedTypes:
 
   IJT.Base:AcceptedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1090, IJT.Base:AcceptedEntityConditionClassType ]
+  - DisplayName: "AcceptedEntityConditionClassType"
+  - Description: "Indicates that an entity is accepted."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:AddedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1096, IJT.Base:AddedEntityConditionClassType ]
+  - DisplayName: "AddedEntityConditionClassType"
+  - Description: "Indicates that an entity is added."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:AssetConnectedConditionClassType:
   - [ UAObjectType, IJT.Base:1018, IJT.Base:AssetConnectedConditionClassType ]
+  - DisplayName: "AssetConnectedConditionClassType"
+  - Description: "Indicates that the asset is connected."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:AssetDisabledConditionClassType:
   - [ UAObjectType, IJT.Base:1027, IJT.Base:AssetDisabledConditionClassType ]
+  - DisplayName: "AssetDisabledConditionClassType"
+  - Description: "Indicates that the asset is disabled."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:AssetDisconnectedConditionClassType:
   - [ UAObjectType, IJT.Base:1021, IJT.Base:AssetDisconnectedConditionClassType ]
+  - DisplayName: "AssetDisconnectedConditionClassType"
+  - Description: "Indicates that the asset is disconnected."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:AssetEnabledConditionClassType:
   - [ UAObjectType, IJT.Base:1024, IJT.Base:AssetEnabledConditionClassType ]
+  - DisplayName: "AssetEnabledConditionClassType"
+  - Description: "Indicates that the asset is enabled."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:AssetLocationConditionClassType:
   - [ UAObjectType, IJT.Base:1048, IJT.Base:AssetLocationConditionClassType ]
+  - DisplayName: "AssetLocationConditionClassType"
+  - Description: "Indicates a change in the asset location."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:CertificateConditionClassType:
   - [ UAObjectType, IJT.Base:1072, IJT.Base:CertificateConditionClassType ]
+  - DisplayName: "CertificateConditionClassType"
+  - Description: "Indicates a change in the certificate."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:ConfigurationChangeConditionClassType:
   - [ UAObjectType, IJT.Base:1030, IJT.Base:ConfigurationChangeConditionClassType ]
+  - DisplayName: "ConfigurationChangeConditionClassType"
+  - Description: "Indicates a change in the configuration."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:DataValidationFailureConditionClassType:
   - [ UAObjectType, IJT.Base:1057, IJT.Base:DataValidationFailureConditionClassType ]
+  - DisplayName: "DataValidationFailureConditionClassType"
+  - Description: "Indicates a failure in the data validation."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:ErrorConditionClassType:
   - [ UAObjectType, IJT.Base:1063, IJT.Base:ErrorConditionClassType ]
+  - DisplayName: "ErrorConditionClassType"
+  - Description: "Indicates an error in the system."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:ExpiredEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1081, IJT.Base:ExpiredEntityConditionClassType ]
+  - DisplayName: "ExpiredEntityConditionClassType"
+  - Description: "Indicates that an entity is expired."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:HardwareConditionClassType:
   - [ UAObjectType, IJT.Base:1069, IJT.Base:HardwareConditionClassType ]
+  - DisplayName: "HardwareConditionClassType"
+  - Description: "Indicates a change in the hardware entity."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:IncompatibleEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1087, IJT.Base:IncompatibleEntityConditionClassType ]
+  - DisplayName: "IncompatibleEntityConditionClassType"
+  - Description: "Indicates that an entity is incompatible."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:InputValidationFailureConditionClassType:
   - [ UAObjectType, IJT.Base:1060, IJT.Base:InputValidationFailureConditionClassType ]
+  - DisplayName: "InputValidationFailureConditionClassType"
+  - Description: "Indicates a failure in the input validation."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:InvalidEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1084, IJT.Base:InvalidEntityConditionClassType ]
+  - DisplayName: "InvalidEntityConditionClassType"
+  - Description: "Indicates that an entity is invalid."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:JoiningSystemUserLoggedInConditionClassType:
   - [ UAObjectType, IJT.Base:1039, IJT.Base:JoiningSystemUserLoggedInConditionClassType ]
+  - DisplayName: "JoiningSystemUserLoggedInConditionClassType"
+  - Description: "Indicates that a joining system user has logged-in."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:JoiningSystemUserLoggedOutConditionClassType:
   - [ UAObjectType, IJT.Base:1042, IJT.Base:JoiningSystemUserLoggedOutConditionClassType ]
+  - DisplayName: "JoiningSystemUserLoggedOutConditionClassType"
+  - Description: "Indicates that a joining system user logged-out."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:LicenseConditionClassType:
   - [ UAObjectType, IJT.Base:1075, IJT.Base:LicenseConditionClassType ]
+  - DisplayName: "LicenseConditionClassType"
+  - Description: "Indicates a change in the license."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:LocationInZoneConditionClassType:
   - [ UAObjectType, IJT.Base:1051, IJT.Base:LocationInZoneConditionClassType ]
+  - DisplayName: "LocationInZoneConditionClassType"
+  - Description: "Indicates the change of the entity location from out-of-zone to in-zone."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:LocationOutOfZoneConditionClassType:
   - [ UAObjectType, IJT.Base:1054, IJT.Base:LocationOutOfZoneConditionClassType ]
+  - DisplayName: "LocationOutOfZoneConditionClassType"
+  - Description: "Indicates the change in the entity location from in-zone to out-of-zone."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:MissingEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1078, IJT.Base:MissingEntityConditionClassType ]
+  - DisplayName: "MissingEntityConditionClassType"
+  - Description: "Indicates that an entity is missing."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:ReceivedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1105, IJT.Base:ReceivedEntityConditionClassType ]
+  - DisplayName: "ReceivedEntityConditionClassType"
+  - Description: "Indicates that an entity is received."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:RejectedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1093, IJT.Base:RejectedEntityConditionClassType ]
+  - DisplayName: "RejectedEntityConditionClassType"
+  - Description: "Indicates that an entity is rejected."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:RemovedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1102, IJT.Base:RemovedEntityConditionClassType ]
+  - DisplayName: "RemovedEntityConditionClassType"
+  - Description: "Indicates that an entity is removed."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:SoftwareConditionClassType:
   - [ UAObjectType, IJT.Base:1066, IJT.Base:SoftwareConditionClassType ]
+  - DisplayName: "SoftwareConditionClassType"
+  - Description: "Indicates a change in the software entity."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:ThresholdViolationConditionClassType:
   - [ UAObjectType, IJT.Base:1033, IJT.Base:ThresholdViolationConditionClassType ]
+  - DisplayName: "ThresholdViolationConditionClassType"
+  - Description: "Indicates that a threshold is violated."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:ThresholdViolationResolvedConditionClassType:
   - [ UAObjectType, IJT.Base:1036, IJT.Base:ThresholdViolationResolvedConditionClassType ]
+  - DisplayName: "ThresholdViolationResolvedConditionClassType"
+  - Description: "Indicates that a violated threshold is resolved."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:UpdatedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1099, IJT.Base:UpdatedEntityConditionClassType ]
+  - DisplayName: "UpdatedEntityConditionClassType"
+  - Description: "Indicates that an entity is updated."
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IJT.Base:JoiningSystemConditionType:
   - [ UAObjectType, IJT.Base:1020, IJT.Base:JoiningSystemConditionType ]
+  - DisplayName: "JoiningSystemConditionType"
+  - Description: "The JoiningSystemConditionType is used to send any type of events with acknowledgement mechanism from a joining system. Note: The type of event is determined by the usage of respective Condition Class(es) and Condition SubClass(es) properties defined in 0:ConditionType."
   - HasComponent:
     - [ UAVariable, IJT.Base:6177, IJT.Base:JoiningSystemEventContent ]
+    - DisplayName: "JoiningSystemEventContent"
+    - Description: "JoiningSystemEventContent is the common payload of the event from a joining system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6281, IJT.Base:AssociatedEntities, IJT.Base:EntityDataType, 1, 0 ]
+      - DisplayName: "AssociatedEntities"
+      - Description: "AssociatedEntities is a list of identifiers of various entities/objects available in the given system. Example: An event maybe associated to Asset, Result, Joint, Error, etc."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6282, IJT.Base:EventCode, Int64, 0, 0 ]
+      - DisplayName: "EventCode"
+      - Description: "EventCode is a system specific event code associated to the given event."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6283, IJT.Base:EventText, LocalizedText, 0, 0 ]
+      - DisplayName: "EventText"
+      - Description: "EventText is a human readable text related to the context of the event."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6284, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
+      - DisplayName: "JoiningTechnology"
+      - Description: "JoiningTechnology is a human readable text to identify the joining technology which has triggered the event. Examples: Tightening, Gluing, Riveting, Flow Drill Fastening, etc."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6285, IJT.Base:ReportedValues, IJT.Base:ReportedValueDataType, 1, 0 ]
+      - DisplayName: "ReportedValues"
+      - Description: "ReportedValues is a list of values associated with the given event payload. Example: If it is an over temperature event, then the ReportedValue can be the measured value along with the corresponding limits."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -446,28 +587,42 @@ DefinedTypes:
 
   IJT.Base:JoiningSystemEventType:
   - [ UAObjectType, IJT.Base:1006, IJT.Base:JoiningSystemEventType ]
+  - DisplayName: "JoiningSystemEventType"
+  - Description: "The JoiningSystemEventType is used to send any type of events from a joining system. Note: The type of event is determined by the usage of respective Condition Class(es) and Condition SubClass(es) properties defined in 0:BaseEventType."
   - HasComponent:
     - [ UAVariable, IJT.Base:6039, IJT.Base:JoiningSystemEventContent ]
+    - DisplayName: "JoiningSystemEventContent"
+    - Description: "JoiningSystemEventContent is the common payload of the event from a joining system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6275, IJT.Base:AssociatedEntities, IJT.Base:EntityDataType, 1, 0 ]
+      - DisplayName: "AssociatedEntities"
+      - Description: "AssociatedEntities is a list of identifiers of various entities/objects available in the given system. Example: An event maybe associated to Asset, Result, Joint, Error, etc."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6276, IJT.Base:EventCode, Int64, 0, 0 ]
+      - DisplayName: "EventCode"
+      - Description: "EventCode is a system specific event code associated to the given event."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6277, IJT.Base:EventText, LocalizedText, 0, 0 ]
+      - DisplayName: "EventText"
+      - Description: "EventText is a human readable text related to the context of the event."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6278, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
+      - DisplayName: "JoiningTechnology"
+      - Description: "JoiningTechnology is a human readable text to identify the joining technology which has triggered the event. Examples: Tightening, Gluing, Riveting, Flow Drill Fastening, etc."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6280, IJT.Base:ReportedValues, IJT.Base:ReportedValueDataType, 1, 0 ]
+      - DisplayName: "ReportedValues"
+      - Description: "ReportedValues is a list of values associated with the given event payload. Example: If it is an over temperature event, then the ReportedValue can be the measured value along with the corresponding limits."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -475,8 +630,11 @@ DefinedTypes:
 
   IJT.Base:JoiningSystemResultReadyEventType:
   - [ UAObjectType, IJT.Base:1007, IJT.Base:JoiningSystemResultReadyEventType ]
+  - DisplayName: "JoiningSystemResultReadyEventType"
+  - Description: "This EventType provides information of a complete or partial result from a joining system."
   - HasComponent:
     - [ UAVariable, IJT.Base:6001, Machinery.Result:Result, Machinery.Result:ResultDataType, 0, 3 ]
+    - DisplayName: "Result"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -484,16 +642,24 @@ DefinedTypes:
 
   IJT.Base:IJoiningAdditionalInformationType:
   - [ UAObjectType, IJT.Base:1017, IJT.Base:IJoiningAdditionalInformationType ]
+  - DisplayName: "IJoiningAdditionalInformationType"
+  - Description: "The IJoiningAdditionalInformationType provides additional parameters for Identification of a given asset."
   - HasProperty:
     - [ UAVariable, IJT.Base:6175, IJT.Base:Description, LocalizedText, 0, 0 ]
+    - DisplayName: "Description"
+    - Description: "Description is the system specific description of the asset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6176, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
+    - DisplayName: "JoiningTechnology"
+    - Description: "JoiningTechnology is a human readable text to identify the joining technology."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6452, IJT.Base:SupplierCode, String, 0, 0 ]
+    - DisplayName: "SupplierCode"
+    - Description: "SupplierCode is the SAP or ERP Supplier Code of the asset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -501,26 +667,35 @@ DefinedTypes:
 
   IJT.Base:IJoiningSystemAssetType:
   - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
+  - DisplayName: "IJoiningSystemAssetType"
+  - Description: "This is a generic interface common for all assets in a given Joining System. The purpose of this interface is to provide a standard way of identification and common information for all the assets. This interface has a standard MachineryItemIdentificationType add-in which can be assigned with MachineIdentificationType or MachineryComponentIdentificationType for a given asset based on the requirement of the system."
   - HasComponent:
     - [ UAObject, IJT.Base:5045, IJT.Base:Health ]
+    - DisplayName: "Health"
+    - Description: "The Health Object is an instance of 2:FunctionalGroupType to group health related parameters for all the assets in a Joining System."
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, IJT.Base:5080, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, IJT.Base:5027, DI:Maintenance ]
+    - DisplayName: "Maintenance"
+    - Description: "The Maintenance Object is an instance of 2:FunctionalGroupType to group maintenance related parameters for the given asset in a Joining System."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5015, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -530,10 +705,13 @@ DefinedTypes:
 
   IJT.Base:IAccessoryType:
   - [ UAObjectType, IJT.Base:1015, IJT.Base:IAccessoryType ]
+  - DisplayName: "IAccessoryType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5024, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -541,10 +719,13 @@ DefinedTypes:
 
   IJT.Base:IBatteryType:
   - [ UAObjectType, IJT.Base:1010, IJT.Base:IBatteryType ]
+  - DisplayName: "IBatteryType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5009, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -552,10 +733,13 @@ DefinedTypes:
 
   IJT.Base:ICableType:
   - [ UAObjectType, IJT.Base:1014, IJT.Base:ICableType ]
+  - DisplayName: "ICableType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5010, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -563,10 +747,13 @@ DefinedTypes:
 
   IJT.Base:IControllerType:
   - [ UAObjectType, IJT.Base:1003, IJT.Base:IControllerType ]
+  - DisplayName: "IControllerType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5006, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -574,10 +761,13 @@ DefinedTypes:
 
   IJT.Base:IFeederType:
   - [ UAObjectType, IJT.Base:1012, IJT.Base:IFeederType ]
+  - DisplayName: "IFeederType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5011, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -585,10 +775,13 @@ DefinedTypes:
 
   IJT.Base:IMemoryDeviceType:
   - [ UAObjectType, IJT.Base:1013, IJT.Base:IMemoryDeviceType ]
+  - DisplayName: "IMemoryDeviceType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5013, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -596,10 +789,13 @@ DefinedTypes:
 
   IJT.Base:IPowerSupplyType:
   - [ UAObjectType, IJT.Base:1009, IJT.Base:IPowerSupplyType ]
+  - DisplayName: "IPowerSupplyType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5012, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -607,10 +803,13 @@ DefinedTypes:
 
   IJT.Base:ISensorType:
   - [ UAObjectType, IJT.Base:1011, IJT.Base:ISensorType ]
+  - DisplayName: "ISensorType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5014, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -618,10 +817,13 @@ DefinedTypes:
 
   IJT.Base:IServoType:
   - [ UAObjectType, IJT.Base:1008, IJT.Base:IServoType ]
+  - DisplayName: "IServoType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5007, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -629,15 +831,19 @@ DefinedTypes:
 
   IJT.Base:ISoftwareType:
   - [ UAObjectType, IJT.Base:1019, IJT.Base:ISoftwareType ]
+  - DisplayName: "ISoftwareType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
 
   IJT.Base:ISubComponentType:
   - [ UAObjectType, IJT.Base:1016, IJT.Base:ISubComponentType ]
+  - DisplayName: "ISubComponentType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5019, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -645,10 +851,13 @@ DefinedTypes:
 
   IJT.Base:IToolType:
   - [ UAObjectType, IJT.Base:1004, IJT.Base:IToolType ]
+  - DisplayName: "IToolType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5008, IJT.Base:Parameters ]
+    - DisplayName: "Parameters"
+    - Description: "The Parameters Object is an instance of 0:FolderType to group set of common parameters of an asset in a joining system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -656,60 +865,89 @@ DefinedTypes:
 
   IJT.Base:IVirtualStationType:
   - [ UAObjectType, IJT.Base:1031, IJT.Base:IVirtualStationType ]
+  - DisplayName: "IVirtualStationType"
   - HasSubtype_reverse:
     - [ UAObjectType, IJT.Base:1002, IJT.Base:IJoiningSystemAssetType ]
 
   IJT.Base:JoiningSystemIdentificationType:
   - [ UAObjectType, IJT.Base:1029, IJT.Base:JoiningSystemIdentificationType ]
+  - DisplayName: "JoiningSystemIdentificationType"
+  - Description: "It provides identification parameters of the joining system."
   - HasProperty:
     - [ UAVariable, IJT.Base:6234, IJT.Base:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasProperty:
     - [ UAVariable, IJT.Base:6242, IJT.Base:Description, LocalizedText, 0, 3 ]
+    - DisplayName: "Description"
+    - Description: "Description is the description of the system which could be written by the customer to identify the system. It could be the purpose of the system in the assembly line."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6241, IJT.Base:IntegratorName, String, 0, 3 ]
+    - DisplayName: "IntegratorName"
+    - Description: "IntegratorName is the name of the system integrator."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6244, IJT.Base:JoiningTechnology, LocalizedText, 0, 0 ]
+    - DisplayName: "JoiningTechnology"
+    - Description: "JoiningTechnology is a human readable text to identify the joining technology of the joining system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6458, Machinery:Location, String, 0, 3 ]
+    - DisplayName: "Location"
+    - Description: "Location is the location of the given system in the given plant or factory in text format."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6245, DI:Manufacturer, LocalizedText, 0, 3 ]
+    - DisplayName: "Manufacturer"
+    - Description: "Manufacturer provides a human-readable, localized name of the joining system manufacturer."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6246, DI:ManufacturerUri, String, 0, 0 ]
+    - DisplayName: "ManufacturerUri"
+    - Description: "ManufacturerUri provides a unique identifier for this company. This identifier should be a fully qualified domain name; however, it may be a GUID or similar construct that ensures global uniqueness."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6247, DI:Model, LocalizedText, 0, 3 ]
+    - DisplayName: "Model"
+    - Description: "Model provides the type of the joining system. Examples: Fixtured System, Handheld System, etc."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6240, IJT.Base:Name, String, 0, 0 ]
+    - DisplayName: "Name"
+    - Description: "Name is the name of the joining system. It can also be the standard browse name of the instance of JoiningSystemType."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6236, DI:ProductInstanceUri, String, 0, 0 ]
+    - DisplayName: "ProductInstanceUri"
+    - Description: "ProductInstanceUri is a globally unique resource identifier provided by the manufacturer."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6248, IJT.Base:SystemId, String, 0, 3 ]
+    - DisplayName: "SystemId"
+    - Description: "SystemId is the system integrator specific identifier for the system. It represents a reference to the manufacturer ERP system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   IJT.Base:JoiningProcessManagementType:
   - [ UAObjectType, IJT.Base:1025, IJT.Base:JoiningProcessManagementType ]
+  - DisplayName: "JoiningProcessManagementType"
+  - Description: "The JoiningProcessManagementType provides access to various joining processes in a joining system."
   - HasComponent:
     - [ UAMethod, IJT.Base:7053, IJT.Base:AbortJoiningProcess ]
+    - DisplayName: "AbortJoiningProcess"
+    - Description: "The Method AbortJoiningProcess is used to abort the input joining process if it is under execution."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -718,6 +956,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
           AbortMessage: [ LocalizedText, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -725,10 +964,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7049, IJT.Base:DecrementJoiningProcessCounter ]
+    - DisplayName: "DecrementJoiningProcessCounter"
+    - Description: "The Method DecrementJoiningProcessCounter used to decrement the counter of the sequential joining processes such as Job, etc."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -737,6 +979,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
           DecrementCount: [ UInt32, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -744,12 +987,17 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6338, IJT.Base:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasComponent:
     - [ UAMethod, IJT.Base:7054, IJT.Base:DeleteJoiningProcess ]
+    - DisplayName: "DeleteJoiningProcess"
+    - Description: "The Method DeleteJoiningProcess is used to delete the input joining process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -757,6 +1005,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -764,16 +1013,20 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7047, IJT.Base:DeselectJoiningProcess ]
+    - DisplayName: "DeselectJoiningProcess"
+    - Description: "The Method DeselectJoiningProcess is used to deselect any selected joining process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6356, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -781,10 +1034,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7093, IJT.Base:GetJoiningProcess ]
+    - DisplayName: "GetJoiningProcess"
+    - Description: "The Method GetJoiningProcess is used to get the joining process based on the input identifier."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -792,6 +1048,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -801,16 +1058,20 @@ DefinedTypes:
           SelectionName: [ TrimmedString, 0 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7043, IJT.Base:GetJoiningProcessList ]
+    - DisplayName: "GetJoiningProcessList"
+    - Description: "The Method GetJoiningProcessList is used to get the list of joining process meta data available in the system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6348, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -819,10 +1080,13 @@ DefinedTypes:
           JoiningProcessList: [ IJT.Base:JoiningProcessMetaDataType, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7044, IJT.Base:GetJoiningProcessRevisionList ]
+    - DisplayName: "GetJoiningProcessRevisionList"
+    - Description: "The Method GetJoiningProcessRevisionList is used to get the list available revisions of a specific joining process based on the joiningProcessOriginId."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -830,6 +1094,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessOriginId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -838,10 +1103,13 @@ DefinedTypes:
           JoiningProcessList: [ IJT.Base:JoiningProcessMetaDataType, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7048, IJT.Base:IncrementJoiningProcessCounter ]
+    - DisplayName: "IncrementJoiningProcessCounter"
+    - Description: "The Method IncrementJoiningProcessCounter is used to increment the counter of the sequential joining processes such as Job, etc."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -850,6 +1118,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
           IncrementCount: [ UInt32, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -857,10 +1126,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7052, IJT.Base:ResetJoiningProcess ]
+    - DisplayName: "ResetJoiningProcess"
+    - Description: "The Method ResetJoiningProcess is used to reset/restart the sequential joining processes such as Job, etc."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -868,6 +1140,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -875,10 +1148,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7046, IJT.Base:SelectJoiningProcess ]
+    - DisplayName: "SelectJoiningProcess"
+    - Description: "The Method SelectJoiningProcess is used to select the joining process based on the input arguments."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -886,6 +1162,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -893,10 +1170,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7042, IJT.Base:SendJoiningProcess ]
+    - DisplayName: "SendJoiningProcess"
+    - Description: "The Method SendJoiningProcess is used to send a joining process to the joining system. It can be used to insert a joining program or joining batch or joining job or any other process applicable to a joining system. It shall overwrite the joining process if it already exists in the joining system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -905,6 +1185,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcess: [ IJT.Base:JoiningProcessDataType, 0 ]
           SelectionName: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -912,10 +1193,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7050, IJT.Base:SetJoiningProcessCounter ]
+    - DisplayName: "SetJoiningProcessCounter"
+    - Description: "The Method SetJoiningProcessCounter is used to set the counter of a sequential joining processes (such as Job, etc.) to the given input value."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -924,6 +1208,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
           CounterValue: [ UInt32, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -931,10 +1216,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7045, IJT.Base:SetJoiningProcessMapping ]
+    - DisplayName: "SetJoiningProcessMapping"
+    - Description: "The Method SetJoiningProcessMapping is used to set the mapping of the joining process in a joining system. It can be used to map a joining process to a selection name."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -942,6 +1230,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -949,10 +1238,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7051, IJT.Base:SetJoiningProcessSize ]
+    - DisplayName: "SetJoiningProcessSize"
+    - Description: "The Method SetJoiningProcessSize is used to set the size of the batch joining process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -961,6 +1253,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
           MaxCounterSize: [ UInt32, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -968,10 +1261,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7056, IJT.Base:StartJoiningProcess ]
+    - DisplayName: "StartJoiningProcess"
+    - Description: "The Method StartJoiningProcess is used to start the input joining process. Note: It is not intended to be used in a hard real-time use case."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -980,6 +1276,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JoiningProcessIdentification: [ IJT.Base:JoiningProcessIdentificationDataType, 0 ]
           AssociatedEntities: [ IJT.Base:EntityDataType, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -987,10 +1284,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7073, IJT.Base:StartSelectedJoining ]
+    - DisplayName: "StartSelectedJoining"
+    - Description: "The Method StartSelectedJoining is used to start the selected joining. The joining operation can be selected using SelectJoiningProcess or SelectJoint. Note: It is not intended to be used in a hard real-time use case."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -998,6 +1298,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           DeselectAfterJoining: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1005,6 +1306,7 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1012,10 +1314,16 @@ DefinedTypes:
 
   IJT.Base:JoiningSystemAssetMethodSetType:
   - [ UAObjectType, IJT.Base:1026, IJT.Base:JoiningSystemAssetMethodSetType ]
+  - DisplayName: "JoiningSystemAssetMethodSetType"
+  - Description: "The JoiningSystemAssetMethodSetType provides a set of methods for various assets in a joining system."
   - HasProperty:
     - [ UAVariable, IJT.Base:6295, IJT.Base:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasComponent:
     - [ UAMethod, IJT.Base:7007, IJT.Base:DisconnectAsset ]
+    - DisplayName: "DisconnectAsset"
+    - Description: "The Method DisconnectAsset is used to disconnect or connect the asset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1023,6 +1331,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           Disconnect: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1030,10 +1339,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7006, IJT.Base:EnableAsset ]
+    - DisplayName: "EnableAsset"
+    - Description: "The Method EnableAsset is used to Enable or Disable a given asset. It is mostly applicable for Tool. The joining system can report a respective event when an asset is enabled or disabled."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1041,6 +1353,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           Enable: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1048,10 +1361,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7018, IJT.Base:ExecuteOperation ]
+    - DisplayName: "ExecuteOperation"
+    - Description: "The Method ExecuteOperation is an application specific interface to execute any generic operations supported by a joining system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1061,6 +1377,7 @@ DefinedTypes:
           OperationType: [ Int32, 0 ]
           OperationText: [ String, 0 ]
           VendorName: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1068,10 +1385,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7019, IJT.Base:GetErrorInformation ]
+    - DisplayName: "GetErrorInformation"
+    - Description: "The Method GetErrorInformation is used to get the error information based on the input identifier. The details returned from the joining system is application specific."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1079,6 +1399,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           ErrorId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1087,16 +1408,20 @@ DefinedTypes:
           ErrorContent: [ BaseDataType, 0 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7011, IJT.Base:GetFeedbackFileList ]
+    - DisplayName: "GetFeedbackFileList"
+    - Description: "The Method GetFeedbackFileList is used to get the list of feedback files from the asset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6061, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1105,10 +1430,13 @@ DefinedTypes:
           FeedbackFileList: [ String, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7014, IJT.Base:GetIdentifiers ]
+    - DisplayName: "GetIdentifiers"
+    - Description: "The Method GetIdentifiers is used to get the list of identifiers available in the system which were managed by external systems."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1116,6 +1444,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           IdentifierNames: [ TrimmedString, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1124,10 +1453,13 @@ DefinedTypes:
           EntityList: [ IJT.Base:EntityDataType, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7013, IJT.Base:GetIOSignals ]
+    - DisplayName: "GetIOSignals"
+    - Description: "The Method GetIOSignals is used to get the list of available signals from the asset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1135,6 +1467,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           SignalIdList: [ TrimmedString, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1143,16 +1476,20 @@ DefinedTypes:
           SignalList: [ IJT.Base:SignalDataType, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7008, IJT.Base:RebootAsset ]
+    - DisplayName: "RebootAsset"
+    - Description: "The Method RebootAsset is used to reboot an asset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6053, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1160,10 +1497,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7017, IJT.Base:ResetIdentifiers ]
+    - DisplayName: "ResetIdentifiers"
+    - Description: "The Method ResetIdentifiers is used to reset the specified identifiers."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1173,6 +1513,7 @@ DefinedTypes:
           IdentifierList: [ TrimmedString, 1 ]
           ResetAll: [ Boolean, 0 ]
           ResetLatest: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1180,10 +1521,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7010, IJT.Base:SendFeedback ]
+    - DisplayName: "SendFeedback"
+    - Description: "The Method SendFeedback is used to send any type of feedback to a given asset. The feedback can be a text input or other types of feedback supported by the asset."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1193,6 +1537,7 @@ DefinedTypes:
           FeedbackType: [ Int16, 0 ]
           FeedbackText: [ String, 0 ]
           FeedbackFile: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1200,10 +1545,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7015, IJT.Base:SendIdentifiers ]
+    - DisplayName: "SendIdentifiers"
+    - Description: "The Method SendIdentifiers is used to send one or more identifiers to the joining system. These identifiers can be used for selection of a joining process, etc. These identifiers can often be part of the generated result. The input argument to this method is an array of EntityDataType structure where every entity in the joining system can be associated to a specific type for filtering."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1211,6 +1559,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           EntityList: [ IJT.Base:EntityDataType, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1218,10 +1567,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7016, IJT.Base:SendTextIdentifiers ]
+    - DisplayName: "SendTextIdentifiers"
+    - Description: "The Method SendTextIdentifiers is used to send one or more identifiers to a joining system. These identifiers can be used for selection of a joining process, etc. These identifiers can often be part of the generated result. Note: The decision on which set of identifiers are used for the selection of a joining process and which set of identifiers should be part of the generated result is application specific."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1229,6 +1581,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           IdentifierList: [ TrimmedString, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1236,10 +1589,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7005, IJT.Base:SetCalibration ]
+    - DisplayName: "SetCalibration"
+    - Description: "The Method SetCalibration is used to set the calibration information of a given asset. It is intended to set the basic calibration information and does not cover the certification process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1247,6 +1603,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           CalibrationData: [ IJT.Base:CalibrationDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1254,10 +1611,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7012, IJT.Base:SetIOSignals ]
+    - DisplayName: "SetIOSignals"
+    - Description: "The Method SetIOSignals is used to set a list of IO signals of the asset. The type of operations mapped to each signal is application specific."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1265,6 +1625,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           SignalList: [ IJT.Base:SignalDataType, 1 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1273,10 +1634,13 @@ DefinedTypes:
           SignalStatusList: [ Int32, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7009, IJT.Base:SetOfflineTimer ]
+    - DisplayName: "SetOfflineTimer"
+    - Description: "The Method SetOfflineTimer is used to set the offline timer for the asset to determine how long the asset can perform the joining operations in an offline mode. Note: If an asset performs the joining operation in offline mode after setting the offline timer, the corresponding results generated shall have the IsGeneratedOffline flag set to TRUE."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1284,6 +1648,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           OfflineTimer: [ Duration, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1291,10 +1656,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7072, IJT.Base:SetTime ]
+    - DisplayName: "SetTime"
+    - Description: "The Method SetTime is used to set the time of the asset manually. It is recommended to be used only when an asset does not have automated time synchronization. The joining system can report a respective event when the time is configured manually using this method."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1302,6 +1670,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           InputTime: [ UtcTime, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1309,6 +1678,7 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1316,14 +1686,19 @@ DefinedTypes:
 
   IJT.Base:JoiningSystemType:
   - [ UAObjectType, IJT.Base:1005, IJT.Base:JoiningSystemType ]
+  - DisplayName: "JoiningSystemType"
+  - Description: "The JoiningSystemType provides the overview of the information exposed from a given joining system."
   - HasComponent:
     - [ UAObject, IJT.Base:5004, IJT.Base:AssetManagement ]
+    - DisplayName: "AssetManagement"
+    - Description: "The AssetManagement Object is an instance of FolderType to group assets and related objects in the joining system."
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, IJT.Base:5074, Machinery:MachineryBuildingBlocks ]
+    - DisplayName: "MachineryBuildingBlocks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1333,10 +1708,16 @@ DefinedTypes:
 
   IJT.Base:JointManagementType:
   - [ UAObjectType, IJT.Base:1023, IJT.Base:JointManagementType ]
+  - DisplayName: "JointManagementType"
+  - Description: "The JointManagementType provides access to the Joint and associated information."
   - HasProperty:
     - [ UAVariable, IJT.Base:6339, IJT.Base:DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
   - HasComponent:
     - [ UAMethod, IJT.Base:7055, IJT.Base:DeleteJoint ]
+    - DisplayName: "DeleteJoint"
+    - Description: "The Method DeleteJoint is used to delete the joint based on the input identifier."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1345,6 +1726,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JointId: [ TrimmedString, 0 ]
           JointOriginId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1352,10 +1734,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7071, IJT.Base:DeleteJointComponent ]
+    - DisplayName: "DeleteJointComponent"
+    - Description: "The Method DeleteJointComponent is used to delete the joint component based on the input identifier."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1363,6 +1748,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointComponentId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1370,10 +1756,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7064, IJT.Base:DeleteJointDesign ]
+    - DisplayName: "DeleteJointDesign"
+    - Description: "The Method DeleteJointDesign is used to delete the joint design based on the input identifier."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1381,6 +1770,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointDesignId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1388,10 +1778,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7028, IJT.Base:GetJoint ]
+    - DisplayName: "GetJoint"
+    - Description: "The Method GetJoint is used to get the joint based on the input identifier."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1399,6 +1792,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1407,10 +1801,13 @@ DefinedTypes:
           Joint: [ IJT.Base:JointDataType, 0 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7030, IJT.Base:GetJointComponent ]
+    - DisplayName: "GetJointComponent"
+    - Description: "The Method GetJointComponent is used to get the joint component based on the input identifier."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1418,6 +1815,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointComponentId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1426,16 +1824,20 @@ DefinedTypes:
           JointComponent: [ IJT.Base:JointComponentDataType, 0 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7026, IJT.Base:GetJointComponentList ]
+    - DisplayName: "GetJointComponentList"
+    - Description: "The Method GetJointComponentList is used to get the list of available joint components in the system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6306, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1444,10 +1846,13 @@ DefinedTypes:
           JointComponentList: [ IJT.Base:JointComponentDataType, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7029, IJT.Base:GetJointDesign ]
+    - DisplayName: "GetJointDesign"
+    - Description: "The Method GetJointDesign is used to get the joint design based on the input identifier."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1455,6 +1860,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointDesignId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1463,16 +1869,20 @@ DefinedTypes:
           JointDesign: [ IJT.Base:JointDesignDataType, 0 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7025, IJT.Base:GetJointDesignList ]
+    - DisplayName: "GetJointDesignList"
+    - Description: "The Method GetJointDesignList is used to get the list of available joint designs in the system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6304, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1481,16 +1891,20 @@ DefinedTypes:
           JointDesignList: [ IJT.Base:JointDesignDataType, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7024, IJT.Base:GetJointList ]
+    - DisplayName: "GetJointList"
+    - Description: "The Method GetJointList is used to get the list of available joints in the system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6235, IJT.Base:InputArguments, Argument, 1, 0 ]
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1499,10 +1913,13 @@ DefinedTypes:
           JointList: [ IJT.Base:JointDataType, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7027, IJT.Base:GetJointRevisionList ]
+    - DisplayName: "GetJointRevisionList"
+    - Description: "The Method GetJointRevisionList is used to get the list available revisions of a specific joint based on the JointOriginId."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1510,6 +1927,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointOriginId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1518,10 +1936,13 @@ DefinedTypes:
           JointList: [ IJT.Base:JointDataType, 1 ]
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7023, IJT.Base:SelectJoint ]
+    - DisplayName: "SelectJoint"
+    - Description: "The Method SelectJoint is used to select the joint and the associated joining process."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1530,6 +1951,7 @@ DefinedTypes:
           ProductInstanceUri: [ String, 0 ]
           JointId: [ TrimmedString, 0 ]
           JointOriginId: [ TrimmedString, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1537,10 +1959,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7020, IJT.Base:SendJoint ]
+    - DisplayName: "SendJoint"
+    - Description: "The Method SendJoint is used to send a joint to a joining system. If the input joint already exists in the system, it shall be overwritten."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1548,6 +1973,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           Joint: [ IJT.Base:JointDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1555,10 +1981,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7022, IJT.Base:SendJointComponent ]
+    - DisplayName: "SendJointComponent"
+    - Description: "The Method SendJointComponent is used to send a joint component to a joining system. If the input joint component already exists in the system, it shall be overwritten."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1566,6 +1995,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointComponent: [ IJT.Base:JointComponentDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1573,10 +2003,13 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7021, IJT.Base:SendJointDesign ]
+    - DisplayName: "SendJointDesign"
+    - Description: "The Method SendJointDesign is used to send a joint design to a joining system. If the input joint design already exists in the system, it shall be overwritten."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1584,6 +2017,7 @@ DefinedTypes:
       - Arguments:
           ProductInstanceUri: [ String, 0 ]
           JointDesign: [ IJT.Base:JointDesignDataType, 0 ]
+      - DisplayName: "InputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1591,6 +2025,7 @@ DefinedTypes:
       - Arguments:
           Status: [ Int64, 0 ]
           StatusMessage: [ LocalizedText, 0 ]
+      - DisplayName: "OutputArguments"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -1598,8 +2033,11 @@ DefinedTypes:
 
   IJT.Base:JoiningSystemResultManagementType:
   - [ UAObjectType, IJT.Base:1022, IJT.Base:JoiningSystemResultManagementType ]
+  - DisplayName: "JoiningSystemResultManagementType"
+  - Description: "The JoiningSystemResultManagementType is a subtype of ResultManagementType and provides mechanism to access results generated by the underlying joining system."
   - HasComponent:
     - [ UAObject, IJT.Base:5098, Machinery.Result:Results ]
+    - DisplayName: "Results"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:

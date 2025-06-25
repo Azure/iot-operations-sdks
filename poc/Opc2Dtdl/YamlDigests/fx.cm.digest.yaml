@@ -1,10 +1,14 @@
 DataTypes:
 - UADataType: [ FX.CM:3001, FX.CM:FxEditEnum ]
+  DisplayName: "FxEditEnum"
+  Description: "The ConnectionManager shall allow editing of the ConnectionConfigurationSets."
   Enums:
     StartEditing: 0
     CommitUpdates: 1
     DiscardUpdates: 2
 - UADataType: [ FX.CM:3002, FX.CM:FxProcessEnum ]
+  DisplayName: "FxProcessEnum"
+  Description: "The ConnectionManager shall establish enabled Connections from the ConnectionConfigurationSets."
   Enums:
     ActionEstablishConnectionsEnabled: 0
     ActionEstablishConnectionsDisabled: 1
@@ -13,16 +17,20 @@ DataTypes:
     ActionEnableConnections: 4
     ActionDisableConnections: 5
 - UADataType: [ FX.CM:13054, FX.CM:ConnectionConfigurationSetOperation ]
+  DisplayName: "ConnectionConfigurationSetOperation"
+  Description: "The ConnectionConfigurationSet is added to the ConnectionManager configuration."
   Enums:
     ElementAdd: 0
     ElementRemove: 1
     ElementReplace: 2
 - UADataType: [ FX.CM:13048, FX.CM:AddressSelectionDataType ]
+  DisplayName: "AddressSelectionDataType"
   Fields:
     Address: [ NetworkAddressDataType, 0 ]
     AddressSelection: [ NetworkAddressDataType, 1 ]
     AddressModify: [ Boolean, 0 ]
 - UADataType: [ FX.CM:13030, FX.CM:AssetVerificationConfDataType ]
+  DisplayName: "AssetVerificationConfDataType"
   Fields:
     AssetToVerify: [ FX.CM:NodeIdentifier, 0 ]
     VerificationMode: [ FX.Data:AssetVerificationModeEnum, 0 ]
@@ -31,6 +39,7 @@ DataTypes:
     ExpectedAdditionalVerificationVariables: [ FX.CM:NodeIdentifierValuePair, 1 ]
     AssetProperties: [ KeyValuePair, 1 ]
 - UADataType: [ FX.CM:13021, FX.CM:AutomationComponentConfigurationConfDataType ]
+  DisplayName: "AutomationComponentConfigurationConfDataType"
   Fields:
     BrowseName: [ String, 0 ]
     AutomationComponentNode: [ FX.CM:NodeIdentifier, 0 ]
@@ -42,10 +51,12 @@ DataTypes:
     AutomationComponentProperties: [ KeyValuePair, 1 ]
     ServerAddressIndex: [ Int32, 0 ]
 - UADataType: [ FX.CM:13012, FX.CM:CommunicationFlowConfigurationConfDataType ]
+  DisplayName: "CommunicationFlowConfigurationConfDataType"
   Fields:
     BrowseName: [ String, 0 ]
     FlowProperties: [ KeyValuePair, 1 ]
 - UADataType: [ FX.CM:13015, FX.CM:PubSubCommunicationFlowConfigurationConfDataType ]
+  DisplayName: "PubSubCommunicationFlowConfigurationConfDataType"
   Fields:
     Address: [ FX.CM:AddressSelectionDataType, 0 ]
     TransportProfileUri: [ String, 0 ]
@@ -68,6 +79,7 @@ DataTypes:
     SecurityGroupIdModify: [ Boolean, 0 ]
     SubscriberConfigurations: [ FX.CM:SubscriberConfigurationConfDataType, 1 ]
 - UADataType: [ FX.CM:3004, FX.CM:CommunicationFlowQosDataType ]
+  DisplayName: "CommunicationFlowQosDataType"
   Fields:
     QosCategory: [ String, 0 ]
     TransmitQos: [ TransmitQosDataType, 1 ]
@@ -76,17 +88,20 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.CM:13036, FX.CM:PubSubCommunicationModelConfigurationDataType ]
+  DisplayName: "PubSubCommunicationModelConfigurationDataType"
   Fields:
     PubSubConfiguration: [ PubSubConfiguration2DataType, 0 ]
     TranslationTable: [ FX.CM:NodeIdTranslationDataType, 1 ]
     ConfigurationReferences: [ PubSubConfigurationRefDataType, 1 ]
 - UADataType: [ FX.CM:13006, FX.CM:ConnectionConfigurationConfDataType ]
+  DisplayName: "ConnectionConfigurationConfDataType"
   Fields:
     BrowseName: [ String, 0 ]
     Endpoint1: [ FX.CM:ConnectionEndpointConfigurationConfDataType, 0 ]
     Endpoint2: [ FX.CM:ConnectionEndpointConfigurationConfDataType, 0 ]
     ConnectionProperties: [ KeyValuePair, 1 ]
 - UADataType: [ FX.CM:13003, FX.CM:ConnectionConfigurationSetConfDataType ]
+  DisplayName: "ConnectionConfigurationSetConfDataType"
   Fields:
     BrowseName: [ String, 0 ]
     ConnectionConfigurationSetFolder: [ String, 1 ]
@@ -99,6 +114,7 @@ DataTypes:
     Version: [ UInt32, 0 ]
     ConnectionConfigurationSetProperties: [ KeyValuePair, 1 ]
 - UADataType: [ FX.CM:13009, FX.CM:ConnectionEndpointConfigurationConfDataType ]
+  DisplayName: "ConnectionEndpointConfigurationConfDataType"
   Fields:
     FunctionalEntityNode: [ FX.CM:NodeIdentifier, 0 ]
     FunctionalEntityNodeSelection: [ FX.CM:NodeIdentifier, 1 ]
@@ -125,42 +141,51 @@ DataTypes:
     OutboundFlowIndex: [ Int32, 0 ]
     InboundFlowIndex: [ Int32, 1 ]
 - UADataType: [ FX.CM:13042, FX.CM:NodeIdentifierValuePair ]
+  DisplayName: "NodeIdentifierValuePair"
   Fields:
     Key: [ FX.CM:NodeIdentifier, 0 ]
     ArrayIndex: [ UInt32, 1 ]
     Value: [ null, 0 ]
 - UADataType: [ FX.CM:13045, FX.CM:NodeIdTranslationConfDataType ]
+  DisplayName: "NodeIdTranslationConfDataType"
   Fields:
     NodePlaceholder: [ NodeId, 0 ]
     Node: [ FX.CM:NodeIdentifier, 0 ]
 - UADataType: [ FX.CM:3006, FX.CM:NodeIdTranslationDataType ]
+  DisplayName: "NodeIdTranslationDataType"
   Fields:
     NodePlaceholder: [ NodeId, 0 ]
     PortableNode: [ FX.CM:PortableNodeIdentifier, 0 ]
 - UADataType: [ FX.CM:1035, FX.CM:PortableKeyValuePair ]
+  DisplayName: "PortableKeyValuePair"
   Fields:
     Key: [ PortableQualifiedName, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ FX.CM:3005, FX.CM:PortableNodeIdentifierValuePair ]
+  DisplayName: "PortableNodeIdentifierValuePair"
   Fields:
     Key: [ FX.CM:PortableNodeIdentifier, 0 ]
     ArrayIndex: [ UInt32, 1 ]
     Value: [ null, 0 ]
 - UADataType: [ FX.CM:1047, FX.CM:PortableRelativePath ]
+  DisplayName: "PortableRelativePath"
   Fields:
     Elements: [ FX.CM:PortableRelativePathElement, 1 ]
 - UADataType: [ FX.CM:1051, FX.CM:PortableRelativePathElement ]
+  DisplayName: "PortableRelativePathElement"
   Fields:
     ReferenceTypeId: [ PortableNodeId, 0 ]
     IsInverse: [ Boolean, 0 ]
     IncludeSubtypes: [ Boolean, 0 ]
     TargetName: [ PortableQualifiedName, 0 ]
 - UADataType: [ FX.CM:13051, FX.CM:ReceiveQosSelectionDataType ]
+  DisplayName: "ReceiveQosSelectionDataType"
   Fields:
     ReceiveQos: [ ReceiveQosDataType, 1 ]
     ReceiveQosSelection: [ null, 0 ]
     ReceiveQosModify: [ Boolean, 0 ]
 - UADataType: [ FX.CM:13024, FX.CM:SecurityKeyServerAddressConfDataType ]
+  DisplayName: "SecurityKeyServerAddressConfDataType"
   Fields:
     Address: [ UriString, 0 ]
     AddressSelection: [ UriString, 1 ]
@@ -176,12 +201,14 @@ DataTypes:
     PubSubKeyPushTargets: [ PubSubKeyPushTargetDataType, 1 ]
     SksProperties: [ KeyValuePair, 1 ]
 - UADataType: [ FX.CM:3021, FX.CM:SecurityKeyServerAddressDataType ]
+  DisplayName: "SecurityKeyServerAddressDataType"
   Fields:
     Address: [ UriString, 0 ]
     SecurityPolicyUri: [ String, 0 ]
     ServerUri: [ UriString, 0 ]
     UsePushModel: [ Boolean, 0 ]
 - UADataType: [ FX.CM:13027, FX.CM:ServerAddressConfDataType ]
+  DisplayName: "ServerAddressConfDataType"
   Fields:
     BrowseName: [ String, 0 ]
     Address: [ UriString, 0 ]
@@ -199,12 +226,14 @@ DataTypes:
     ServerProperties: [ KeyValuePair, 1 ]
     Namespaces: [ String, 1 ]
 - UADataType: [ FX.CM:1036, FX.CM:ServerAddressDataType ]
+  DisplayName: "ServerAddressDataType"
   Fields:
     Address: [ UriString, 0 ]
     SecurityMode: [ MessageSecurityMode, 0 ]
     SecurityPolicyUri: [ String, 0 ]
     ServerUri: [ UriString, 0 ]
 - UADataType: [ FX.CM:13018, FX.CM:SubscriberConfigurationConfDataType ]
+  DisplayName: "SubscriberConfigurationConfDataType"
   Fields:
     BrowseName: [ String, 0 ]
     Address: [ FX.CM:AddressSelectionDataType, 0 ]
@@ -214,16 +243,20 @@ DataTypes:
     ReceiveQos: [ FX.CM:ReceiveQosSelectionDataType, 0 ]
     SubscriberProperties: [ KeyValuePair, 1 ]
 - UADataType: [ FX.CM:13039, FX.CM:NodeIdentifier ]
+  DisplayName: "NodeIdentifier"
   Fields:
     Node: [ NodeId, 0 ]
     Alias: [ String, 0 ]
     IdentifierBrowsePath: [ RelativePath, 0 ]
 - UADataType: [ FX.CM:3012, FX.CM:PortableNodeIdentifier ]
+  DisplayName: "PortableNodeIdentifier"
   Fields:
     Node: [ PortableNodeId, 0 ]
     Alias: [ String, 0 ]
     IdentifierBrowsePath: [ FX.CM:PortableRelativePath, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -234,25 +267,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -260,27 +300,37 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ FX.Data:1029, FX.Data:AssetVerificationModeEnum ]
+  DisplayName: "AssetVerificationModeEnum"
+  Description: "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering."
   Enums:
     AssetCompatibility: 0
     AssetIdentity: 1
     AssetIdentityAndCompatibility: 2
 - UADataType: [ FX.Data:1037, FX.Data:AssetVerificationResultEnum ]
+  DisplayName: "AssetVerificationResultEnum"
+  Description: "The verification result is not set."
   Enums:
     NotSet: 0
     Match: 1
     Compatible: 2
     Mismatch: 3
 - UADataType: [ FX.Data:3002, FX.Data:FunctionalEntityVerificationResultEnum ]
+  DisplayName: "FunctionalEntityVerificationResultEnum"
+  Description: "The verification result is not set."
   Enums:
     NotSet: 0
     Match: 1
     Mismatch: 2
 - UADataType: [ FX.Data:31, FX.Data:PubSubConnectionEndpointModeEnum ]
+  DisplayName: "PubSubConnectionEndpointModeEnum"
+  Description: "Reference to DataSetReader and DataSetWriter required."
   Enums:
     PublisherSubscriber: 1
     Publisher: 2
     Subscriber: 3
 - UADataType: [ FX.Data:1024, FX.Data:FxCommandMask ]
+  DisplayName: "FxCommandMask"
+  Description: "This OptionSet defines flags indicating the commands a ConnectionManager may use in its call to the EstablishConnections Method."
   Enums:
     VerifyAssetCmd: 0
     VerifyFunctionalEntityCmd: 1
@@ -292,6 +342,7 @@ DataTypes:
     SetCommunicationConfigurationCmd: 7
     EnableCommunicationCmd: 8
 - UADataType: [ FX.Data:1048, FX.Data:AssetVerificationDataType ]
+  DisplayName: "AssetVerificationDataType"
   Fields:
     AssetToVerify: [ NodeId, 0 ]
     VerificationMode: [ FX.Data:AssetVerificationModeEnum, 0 ]
@@ -299,6 +350,7 @@ DataTypes:
     ExpectedVerificationVariables: [ KeyValuePair, 1 ]
     ExpectedAdditionalVerificationVariables: [ FX.Data:NodeIdValuePair, 1 ]
 - UADataType: [ FX.Data:1038, FX.Data:AssetVerificationResultDataType ]
+  DisplayName: "AssetVerificationResultDataType"
   Fields:
     VerificationStatus: [ StatusCode, 0 ]
     VerificationResult: [ FX.Data:AssetVerificationResultEnum, 0 ]
@@ -308,6 +360,7 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:1045, FX.Data:PubSubCommunicationConfigurationDataType ]
+  DisplayName: "PubSubCommunicationConfigurationDataType"
   Fields:
     PubSubConfiguration: [ PubSubConfiguration2DataType, 0 ]
     RequireCompleteUpdate: [ Boolean, 0 ]
@@ -316,6 +369,7 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:1039, FX.Data:PubSubCommunicationConfigurationResultDataType ]
+  DisplayName: "PubSubCommunicationConfigurationResultDataType"
   Fields:
     Result: [ StatusCode, 0 ]
     ChangesApplied: [ Boolean, 0 ]
@@ -326,12 +380,14 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:1031, FX.Data:PubSubCommunicationLinkConfigurationDataType ]
+  DisplayName: "PubSubCommunicationLinkConfigurationDataType"
   Fields:
     DataSetReaderRef: [ PubSubConfigurationRefDataType, 0 ]
     ExpectedSubscribedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
     DataSetWriterRef: [ PubSubConfigurationRefDataType, 0 ]
     ExpectedPublishedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
 - UADataType: [ FX.Data:1044, FX.Data:ConnectionEndpointConfigurationDataType ]
+  DisplayName: "ConnectionEndpointConfigurationDataType"
   Fields:
     FunctionalEntityNode: [ NodeId, 0 ]
     ConnectionEndpoint: [ FX.Data:ConnectionEndpointDefinitionDataType, 0 ]
@@ -340,6 +396,7 @@ DataTypes:
     ConfigurationData: [ FX.Data:NodeIdValuePair, 1 ]
     CommunicationLinks: [ FX.Data:CommunicationLinkConfigurationDataType, 0 ]
 - UADataType: [ FX.Data:3008, FX.Data:ConnectionEndpointConfigurationResultDataType ]
+  DisplayName: "ConnectionEndpointConfigurationResultDataType"
   Fields:
     ConnectionEndpointId: [ NodeId, 0 ]
     FunctionalEntityNodeResult: [ StatusCode, 0 ]
@@ -353,6 +410,7 @@ DataTypes:
     CommunicationLinksResult: [ StatusCode, 0 ]
     EnableCommunicationResult: [ StatusCode, 0 ]
 - UADataType: [ FX.Data:3009, FX.Data:ConnectionEndpointParameterDataType ]
+  DisplayName: "ConnectionEndpointParameterDataType"
   Fields:
     Name: [ String, 0 ]
     ConnectionEndpointTypeId: [ NodeId, 0 ]
@@ -363,17 +421,21 @@ DataTypes:
     RelatedEndpoint: [ FX.Data:RelatedEndpointDataType, 0 ]
     IsPreconfigured: [ Boolean, 0 ]
 - UADataType: [ FX.Data:3006, FX.Data:PubSubConnectionEndpointParameterDataType ]
+  DisplayName: "PubSubConnectionEndpointParameterDataType"
   Fields:
     Mode: [ FX.Data:PubSubConnectionEndpointModeEnum, 0 ]
 - UADataType: [ FX.Data:1034, FX.Data:NodeIdArray ]
+  DisplayName: "NodeIdArray"
   Fields:
     Node: [ NodeId, 0 ]
     ArrayIndex: [ UInt32, 1 ]
 - UADataType: [ FX.Data:1028, FX.Data:NodeIdValuePair ]
+  DisplayName: "NodeIdValuePair"
   Fields:
     Key: [ FX.Data:NodeIdArray, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ FX.Data:3003, FX.Data:RelatedEndpointDataType ]
+  DisplayName: "RelatedEndpointDataType"
   Fields:
     Address: [ UriString, 0 ]
     ConnectionEndpointPath: [ PortableQualifiedName, 1 ]
@@ -382,6 +444,7 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:3018, FX.Data:PubSubReserveCommunicationIdsDataType ]
+  DisplayName: "PubSubReserveCommunicationIdsDataType"
   Fields:
     TransportProfileUri: [ String, 0 ]
     NumReqWriterGroupIds: [ UInt16, 0 ]
@@ -390,12 +453,14 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ FX.Data:3020, FX.Data:PubSubReserveCommunicationIdsResultDataType ]
+  DisplayName: "PubSubReserveCommunicationIdsResultDataType"
   Fields:
     Result: [ StatusCode, 0 ]
     DefaultPublisherId: [ null, 0 ]
     WriterGroupIds: [ UInt16, 1 ]
     DataSetWriterIds: [ UInt16, 1 ]
 - UADataType: [ FX.Data:3011, FX.Data:ConnectionEndpointDefinitionDataType ]
+  DisplayName: "ConnectionEndpointDefinitionDataType"
   Fields:
     Parameter: [ FX.Data:ConnectionEndpointParameterDataType, 0 ]
     Node: [ NodeId, 0 ]
@@ -404,8 +469,10 @@ DefinedTypes:
 
   FX.CM:SecurityKeyServerAddressType:
   - [ UAVariableType, FX.CM:2002, FX.CM:SecurityKeyServerAddressType, FX.CM:SecurityKeyServerAddressDataType, 0, 0 ]
+  - DisplayName: "SecurityKeyServerAddressType"
   - HasComponent:
     - [ UAVariable, FX.CM:6039, FX.CM:Address, UriString, 0, 3 ]
+    - DisplayName: "Address"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -414,6 +481,7 @@ DefinedTypes:
       - [ UAVariableType, FX.CM:2002, FX.CM:SecurityKeyServerAddressType, FX.CM:SecurityKeyServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6040, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -422,6 +490,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6039, FX.CM:Address, UriString, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6041, FX.CM:SecurityPolicyUri, String, 0, 3 ]
+    - DisplayName: "SecurityPolicyUri"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -430,6 +499,7 @@ DefinedTypes:
       - [ UAVariableType, FX.CM:2002, FX.CM:SecurityKeyServerAddressType, FX.CM:SecurityKeyServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6042, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -438,12 +508,14 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6041, FX.CM:SecurityPolicyUri, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6043, FX.CM:ServerUri, UriString, 0, 3 ]
+    - DisplayName: "ServerUri"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, FX.CM:6044, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -454,6 +526,7 @@ DefinedTypes:
       - [ UAVariableType, FX.CM:2002, FX.CM:SecurityKeyServerAddressType, FX.CM:SecurityKeyServerAddressDataType, 0, 0 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6065, FX.CM:UsePushModel, Boolean, 0, 3 ]
+    - DisplayName: "UsePushModel"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -465,8 +538,10 @@ DefinedTypes:
 
   FX.CM:ServerAddressType:
   - [ UAVariableType, FX.CM:2003, FX.CM:ServerAddressType, FX.CM:ServerAddressDataType, 0, 0 ]
+  - DisplayName: "ServerAddressType"
   - HasComponent:
     - [ UAVariable, FX.CM:6066, FX.CM:Address, UriString, 0, 3 ]
+    - DisplayName: "Address"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -475,6 +550,7 @@ DefinedTypes:
       - [ UAVariableType, FX.CM:2003, FX.CM:ServerAddressType, FX.CM:ServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6067, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -483,6 +559,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6066, FX.CM:Address, UriString, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6069, FX.CM:SecurityMode, MessageSecurityMode, 0, 3 ]
+    - DisplayName: "SecurityMode"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -491,6 +568,7 @@ DefinedTypes:
       - [ UAVariableType, FX.CM:2003, FX.CM:ServerAddressType, FX.CM:ServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6075, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -499,6 +577,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6069, FX.CM:SecurityMode, MessageSecurityMode, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6076, FX.CM:SecurityPolicyUri, String, 0, 3 ]
+    - DisplayName: "SecurityPolicyUri"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -507,6 +586,7 @@ DefinedTypes:
       - [ UAVariableType, FX.CM:2003, FX.CM:ServerAddressType, FX.CM:ServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6078, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -515,12 +595,14 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6076, FX.CM:SecurityPolicyUri, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6079, FX.CM:ServerUri, UriString, 0, 3 ]
+    - DisplayName: "ServerUri"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, FX.CM:6080, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -534,8 +616,10 @@ DefinedTypes:
 
   FX.CM:AssetVerificationType:
   - [ UAObjectType, FX.CM:1247, FX.CM:AssetVerificationType ]
+  - DisplayName: "AssetVerificationType"
   - HasComponent:
     - [ UAVariable, FX.CM:6095, FX.CM:AssetToVerify, FX.CM:PortableNodeIdentifier, 0, 3 ]
+    - DisplayName: "AssetToVerify"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -544,6 +628,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1247, FX.CM:AssetVerificationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6157, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -552,6 +637,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6095, FX.CM:AssetToVerify, FX.CM:PortableNodeIdentifier, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6526, FX.CM:ExpectedAdditionalVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+    - DisplayName: "ExpectedAdditionalVerificationVariables"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -560,6 +646,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1247, FX.CM:AssetVerificationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6158, FX.CM:ExpectedVerificationResult, FX.Data:AssetVerificationResultEnum, 0, 3 ]
+    - DisplayName: "ExpectedVerificationResult"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -568,6 +655,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1247, FX.CM:AssetVerificationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6159, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+    - DisplayName: "ExpectedVerificationVariables"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -576,6 +664,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1247, FX.CM:AssetVerificationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6160, FX.CM:VerificationMode, FX.Data:AssetVerificationModeEnum, 0, 3 ]
+    - DisplayName: "VerificationMode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -587,8 +676,10 @@ DefinedTypes:
 
   FX.CM:AutomationComponentConfigurationType:
   - [ UAObjectType, FX.CM:1246, FX.CM:AutomationComponentConfigurationType ]
+  - DisplayName: "AutomationComponentConfigurationType"
   - HasAssetToVerify:
     - [ UAObject, FX.CM:5007, FX.CM:<AssetVerification> ]
+    - DisplayName: "<AssetVerification>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -597,6 +688,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1246, FX.CM:AutomationComponentConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6052, FX.CM:AssetToVerify, FX.CM:PortableNodeIdentifier, 0, 3 ]
+      - DisplayName: "AssetToVerify"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -605,6 +697,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5007, FX.CM:<AssetVerification> ]
       - HasProperty:
         - [ UAVariable, FX.CM:6053, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -613,6 +706,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6052, FX.CM:AssetToVerify, FX.CM:PortableNodeIdentifier, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6527, FX.CM:ExpectedAdditionalVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+      - DisplayName: "ExpectedAdditionalVerificationVariables"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -621,6 +715,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5007, FX.CM:<AssetVerification> ]
     - HasComponent:
       - [ UAVariable, FX.CM:6054, FX.CM:ExpectedVerificationResult, FX.Data:AssetVerificationResultEnum, 0, 3 ]
+      - DisplayName: "ExpectedVerificationResult"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -629,6 +724,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5007, FX.CM:<AssetVerification> ]
     - HasComponent:
       - [ UAVariable, FX.CM:6055, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+      - DisplayName: "ExpectedVerificationVariables"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -637,6 +733,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5007, FX.CM:<AssetVerification> ]
     - HasComponent:
       - [ UAVariable, FX.CM:6056, FX.CM:VerificationMode, FX.Data:AssetVerificationModeEnum, 0, 3 ]
+      - DisplayName: "VerificationMode"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -645,6 +742,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5007, FX.CM:<AssetVerification> ]
   - HasComponent:
     - [ UAVariable, FX.CM:6045, FX.CM:AutomationComponentNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+    - DisplayName: "AutomationComponentNode"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -653,6 +751,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1246, FX.CM:AutomationComponentConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6046, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -661,6 +760,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6045, FX.CM:AutomationComponentNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
   - HasCharacteristic:
     - [ UAVariable, FX.CM:6009, FX.CM:CommandBundleRequired, Boolean, 0, 3 ]
+    - DisplayName: "CommandBundleRequired"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -669,6 +769,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1246, FX.CM:AutomationComponentConfigurationType ]
   - HasComponent:
     - [ UAObject, FX.CM:5013, FX.CM:CommunicationModelConfig ]
+    - DisplayName: "CommunicationModelConfig"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -680,8 +781,10 @@ DefinedTypes:
 
   FX.CM:ConnectionConfigurationSetEventType:
   - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
+  - DisplayName: "ConnectionConfigurationSetEventType"
   - HasProperty:
     - [ UAVariable, FX.CM:6354, FX.CM:Action, FX.CM:FxProcessEnum, 0, 3 ]
+    - DisplayName: "Action"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -690,6 +793,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
   - HasProperty:
     - [ UAVariable, FX.CM:6352, FX.CM:ConnectionConfigurationSetNode, NodeId, 0, 3 ]
+    - DisplayName: "ConnectionConfigurationSetNode"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -698,6 +802,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
   - HasProperty:
     - [ UAVariable, FX.CM:6353, FX.CM:Name, String, 0, 3 ]
+    - DisplayName: "Name"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -709,6 +814,7 @@ DefinedTypes:
 
   FX.CM:ConnectionConfigurationSetProcessingFailedEventType:
   - [ UAObjectType, FX.CM:1009, FX.CM:ConnectionConfigurationSetProcessingFailedEventType ]
+  - DisplayName: "ConnectionConfigurationSetProcessingFailedEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
   - HasEffect_reverse:
@@ -716,6 +822,7 @@ DefinedTypes:
 
   FX.CM:ConnectionConfigurationSetProcessingStartedEventType:
   - [ UAObjectType, FX.CM:1007, FX.CM:ConnectionConfigurationSetProcessingStartedEventType ]
+  - DisplayName: "ConnectionConfigurationSetProcessingStartedEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
   - HasEffect_reverse:
@@ -725,6 +832,7 @@ DefinedTypes:
 
   FX.CM:ConnectionConfigurationSetProcessingSucceededEventType:
   - [ UAObjectType, FX.CM:1008, FX.CM:ConnectionConfigurationSetProcessingSucceededEventType ]
+  - DisplayName: "ConnectionConfigurationSetProcessingSucceededEventType"
   - HasSubtype_reverse:
     - [ UAObjectType, FX.CM:1006, FX.CM:ConnectionConfigurationSetEventType ]
   - HasEffect_reverse:
@@ -732,20 +840,24 @@ DefinedTypes:
 
   FX.CM:IConnectionManagerType:
   - [ UAObjectType, FX.CM:1019, FX.CM:IConnectionManagerType ]
+  - DisplayName: "IConnectionManagerType"
   - HasComponent:
     - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
+    - DisplayName: "ConnectionManagerConfiguration"
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1011, FX.CM:ConnectionManagerConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAMethod, FX.CM:7005, FX.CM:Close ]
+      - DisplayName: "Close"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:16036, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -756,12 +868,14 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7005, FX.CM:Close ]
     - HasComponent:
       - [ UAMethod, FX.CM:7004, FX.CM:CloseAndUpdate ]
+      - DisplayName: "CloseAndUpdate"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:16034, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             RequireCompleteUpdate: [ Boolean, 0 ]
@@ -774,6 +888,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7004, FX.CM:CloseAndUpdate ]
       - HasProperty:
         - [ UAVariable, FX.CM:16035, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ChangesApplied: [ Boolean, 0 ]
             OperationResults: [ StatusCode, 1 ]
@@ -788,12 +903,14 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1019, FX.CM:IConnectionManagerType ]
     - HasComponent:
       - [ UAMethod, FX.CM:7006, FX.CM:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:16037, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -804,6 +921,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7006, FX.CM:GetPosition ]
       - HasProperty:
         - [ UAVariable, FX.CM:16038, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasTypeDefinition:
@@ -814,10 +932,12 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7006, FX.CM:GetPosition ]
     - HasComponent:
       - [ UAMethod, FX.CM:7007, FX.CM:Open ]
+      - DisplayName: "Open"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:16039, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasTypeDefinition:
@@ -830,6 +950,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:16040, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -840,6 +961,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7007, FX.CM:Open ]
     - HasProperty:
       - [ UAVariable, FX.CM:16041, FX.CM:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -848,10 +970,12 @@ DefinedTypes:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7008, FX.CM:Read ]
+      - DisplayName: "Read"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:16042, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -863,6 +987,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7008, FX.CM:Read ]
       - HasProperty:
         - [ UAVariable, FX.CM:16043, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -875,10 +1000,12 @@ DefinedTypes:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7009, FX.CM:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:16044, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -892,6 +1019,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:16045, FX.CM:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -900,6 +1028,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:16046, FX.CM:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -908,6 +1037,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:16047, FX.CM:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -916,10 +1046,12 @@ DefinedTypes:
         - [ UAObject, FX.CM:5083, FX.CM:ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7010, FX.CM:Write ]
+      - DisplayName: "Write"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:16048, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -936,13 +1068,16 @@ DefinedTypes:
 
   FX.CM:CommunicationFlowConfigurationType:
   - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
+  - DisplayName: "CommunicationFlowConfigurationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   FX.CM:PubSubCommunicationFlowConfigurationType:
   - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
+  - DisplayName: "PubSubCommunicationFlowConfigurationType"
   - HasComponent:
     - [ UAObject, FX.CM:5024, FX.CM:<SubscriberConfiguration> ]
+    - DisplayName: "<SubscriberConfiguration>"
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1001, FX.CM:SubscriberConfigurationType ]
     - HasModellingRule:
@@ -951,6 +1086,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6110, FX.CM:Address, NetworkAddressDataType, 0, 3 ]
+      - DisplayName: "Address"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -959,6 +1095,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5024, FX.CM:<SubscriberConfiguration> ]
       - HasProperty:
         - [ UAVariable, FX.CM:6111, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -967,6 +1104,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6110, FX.CM:Address, NetworkAddressDataType, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6182, FX.CM:MessageReceiveTimeout, Duration, 0, 3 ]
+      - DisplayName: "MessageReceiveTimeout"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -975,6 +1113,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5024, FX.CM:<SubscriberConfiguration> ]
       - HasProperty:
         - [ UAVariable, FX.CM:6183, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -983,6 +1122,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6182, FX.CM:MessageReceiveTimeout, Duration, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:1459, FX.CM:Address, NetworkAddressDataType, 0, 3 ]
+    - DisplayName: "Address"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -991,6 +1131,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1460, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -999,6 +1140,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:1459, FX.CM:Address, NetworkAddressDataType, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6196, FX.CM:HeaderLayoutUri, String, 0, 3 ]
+    - DisplayName: "HeaderLayoutUri"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -1007,6 +1149,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6197, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1015,6 +1158,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6196, FX.CM:HeaderLayoutUri, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:1461, FX.CM:PublishingInterval, Duration, 0, 3 ]
+    - DisplayName: "PublishingInterval"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -1023,6 +1167,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1462, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1033,6 +1178,7 @@ DefinedTypes:
     - [ UAObjectType, FX.CM:1003, FX.CM:CommunicationFlowConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6113, FX.CM:Qos, FX.CM:CommunicationFlowQosDataType, 0, 3 ]
+    - DisplayName: "Qos"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -1041,6 +1187,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6114, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1049,6 +1196,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6113, FX.CM:Qos, FX.CM:CommunicationFlowQosDataType, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6524, FX.CM:SecurityGroupId, String, 0, 3 ]
+    - DisplayName: "SecurityGroupId"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -1057,6 +1205,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6525, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1065,6 +1214,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6524, FX.CM:SecurityGroupId, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6520, FX.CM:SecurityMode, MessageSecurityMode, 0, 3 ]
+    - DisplayName: "SecurityMode"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -1073,6 +1223,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1014, FX.CM:PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6521, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1081,12 +1232,14 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6520, FX.CM:SecurityMode, MessageSecurityMode, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6194, FX.CM:TransportProfileUri, String, 0, 3 ]
+    - DisplayName: "TransportProfileUri"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, FX.CM:6195, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -1098,13 +1251,16 @@ DefinedTypes:
 
   FX.CM:CommunicationModelConfigurationType:
   - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType ]
+  - DisplayName: "CommunicationModelConfigurationType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   FX.CM:PubSubCommunicationModelConfigurationType:
   - [ UAObjectType, FX.CM:1042, FX.CM:PubSubCommunicationModelConfigurationType ]
+  - DisplayName: "PubSubCommunicationModelConfigurationType"
   - HasComponent:
     - [ UAVariable, FX.CM:6529, FX.CM:ConfigurationReferences, PubSubConfigurationRefDataType, 1, 3 ]
+    - DisplayName: "ConfigurationReferences"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1113,6 +1269,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1042, FX.CM:PubSubCommunicationModelConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6530, FX.CM:ConfigurationValues, PubSubConfigurationValueDataType, 1, 3 ]
+    - DisplayName: "ConfigurationValues"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1121,6 +1278,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1042, FX.CM:PubSubCommunicationModelConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6184, FX.CM:Namespaces, String, 1, 3 ]
+    - DisplayName: "Namespaces"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1131,6 +1289,7 @@ DefinedTypes:
     - [ UAObjectType, FX.CM:1016, FX.CM:CommunicationModelConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6528, FX.CM:PubSubConfiguration, PubSubConfiguration2DataType, 0, 3 ]
+    - DisplayName: "PubSubConfiguration"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1139,6 +1298,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1042, FX.CM:PubSubCommunicationModelConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6185, FX.CM:TranslationTable, FX.CM:NodeIdTranslationDataType, 1, 3 ]
+    - DisplayName: "TranslationTable"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1148,8 +1308,10 @@ DefinedTypes:
 
   FX.CM:ConnectionConfigurationSetType:
   - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
+  - DisplayName: "ConnectionConfigurationSetType"
   - HasAutomationComponentConfiguration:
     - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
+    - DisplayName: "<AutomationComponentConfiguration>"
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
@@ -1158,6 +1320,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6057, FX.CM:AutomationComponentNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+      - DisplayName: "AutomationComponentNode"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -1166,6 +1329,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
       - HasProperty:
         - [ UAVariable, FX.CM:6058, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1174,6 +1338,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6057, FX.CM:AutomationComponentNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
     - HasCharacteristic:
       - [ UAVariable, FX.CM:6010, FX.CM:CommandBundleRequired, Boolean, 0, 3 ]
+      - DisplayName: "CommandBundleRequired"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1182,6 +1347,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
     - HasComponent:
       - [ UAObject, FX.CM:5101, FX.CM:CommunicationModelConfig ]
+      - DisplayName: "CommunicationModelConfig"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -1190,12 +1356,14 @@ DefinedTypes:
         - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
     - ToConnectionEndpointConfiguration:
       - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
+      - DisplayName: "Endpoint1"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
       - HasComponent:
         - [ UAVariable, FX.CM:6283, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+        - DisplayName: "ConfigurationData"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1204,12 +1372,14 @@ DefinedTypes:
           - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
       - HasComponent:
         - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
+        - DisplayName: "ConnectionEndpoint"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
         - HasComponent:
           - [ UAVariable, FX.CM:6145, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+          - DisplayName: "CleanupTimeout"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1218,6 +1388,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6146, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1226,6 +1397,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6145, FX.CM:CleanupTimeout, Duration, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6177, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+          - DisplayName: "ConnectionEndpointTypeId"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1234,6 +1406,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6147, FX.CM:IsPersistent, Boolean, 0, 3 ]
+          - DisplayName: "IsPersistent"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1242,6 +1415,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6148, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1250,6 +1424,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6147, FX.CM:IsPersistent, Boolean, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6149, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+          - DisplayName: "IsPreconfigured"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1258,6 +1433,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6150, FX.CM:Name, String, 0, 3 ]
+          - DisplayName: "Name"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1266,6 +1442,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6151, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1276,6 +1453,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6284, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+        - DisplayName: "ControlGroups"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1288,6 +1466,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5022, FX.CM:<Connection> ]
       - HasComponent:
         - [ UAVariable, FX.CM:6285, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+        - DisplayName: "ExpectedVerificationVariables"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1296,6 +1475,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6135, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+        - DisplayName: "FunctionalEntityNode"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -1304,6 +1484,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
         - HasProperty:
           - [ UAVariable, FX.CM:6136, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1312,12 +1493,14 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6135, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
     - ToConnectionEndpointConfiguration:
       - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
+      - DisplayName: "Endpoint2"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
       - ToInboundFlow:
         - [ UAObject, FX.CM:1202, FX.CM:<CommunicationFlow> ]
+        - DisplayName: "<CommunicationFlow>"
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
@@ -1330,6 +1513,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - ToOutboundFlow:
         - [ UAObject, FX.CM:1202, FX.CM:<CommunicationFlow> ]
+        - DisplayName: "<CommunicationFlow>"
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
@@ -1342,6 +1526,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6299, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+        - DisplayName: "ConfigurationData"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1350,12 +1535,14 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
+        - DisplayName: "ConnectionEndpoint"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
         - HasComponent:
           - [ UAVariable, FX.CM:6152, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+          - DisplayName: "CleanupTimeout"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1364,6 +1551,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6153, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1372,6 +1560,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6152, FX.CM:CleanupTimeout, Duration, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6178, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+          - DisplayName: "ConnectionEndpointTypeId"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1380,6 +1569,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6154, FX.CM:IsPersistent, Boolean, 0, 3 ]
+          - DisplayName: "IsPersistent"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1388,6 +1578,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6161, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1396,6 +1587,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6154, FX.CM:IsPersistent, Boolean, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6162, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+          - DisplayName: "IsPreconfigured"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1404,6 +1596,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6163, FX.CM:Name, String, 0, 3 ]
+          - DisplayName: "Name"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1412,6 +1605,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6164, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1422,6 +1616,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6300, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+        - DisplayName: "ControlGroups"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1434,6 +1629,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5022, FX.CM:<Connection> ]
       - HasComponent:
         - [ UAVariable, FX.CM:6301, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+        - DisplayName: "ExpectedVerificationVariables"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1442,6 +1638,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6176, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+        - DisplayName: "FunctionalEntityNode"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -1450,6 +1647,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
         - HasProperty:
           - [ UAVariable, FX.CM:6229, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1460,6 +1658,7 @@ DefinedTypes:
       - [ UAVariable, FX.CM:6038, FX.CM:<ServerAddress>, FX.CM:ServerAddressDataType, 0, 3 ]
   - HasCommunicationFlowConfiguration:
     - [ UAObject, FX.CM:1202, FX.CM:<CommunicationFlow> ]
+    - DisplayName: "<CommunicationFlow>"
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
@@ -1472,6 +1671,7 @@ DefinedTypes:
       - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
   - HasConnectionConfiguration:
     - [ UAObject, FX.CM:5022, FX.CM:<Connection> ]
+    - DisplayName: "<Connection>"
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
@@ -1480,12 +1680,14 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
+      - DisplayName: "Endpoint1"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
       - HasComponent:
         - [ UAVariable, FX.CM:6283, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+        - DisplayName: "ConfigurationData"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1494,12 +1696,14 @@ DefinedTypes:
           - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
       - HasComponent:
         - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
+        - DisplayName: "ConnectionEndpoint"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
         - HasComponent:
           - [ UAVariable, FX.CM:6145, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+          - DisplayName: "CleanupTimeout"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1508,6 +1712,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6146, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1516,6 +1721,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6145, FX.CM:CleanupTimeout, Duration, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6177, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+          - DisplayName: "ConnectionEndpointTypeId"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1524,6 +1730,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6147, FX.CM:IsPersistent, Boolean, 0, 3 ]
+          - DisplayName: "IsPersistent"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1532,6 +1739,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6148, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1540,6 +1748,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6147, FX.CM:IsPersistent, Boolean, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6149, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+          - DisplayName: "IsPreconfigured"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1548,6 +1757,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6150, FX.CM:Name, String, 0, 3 ]
+          - DisplayName: "Name"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1556,6 +1766,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6151, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1566,6 +1777,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6284, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+        - DisplayName: "ControlGroups"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1578,6 +1790,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5022, FX.CM:<Connection> ]
       - HasComponent:
         - [ UAVariable, FX.CM:6285, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+        - DisplayName: "ExpectedVerificationVariables"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1586,6 +1799,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6135, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+        - DisplayName: "FunctionalEntityNode"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -1594,6 +1808,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
         - HasProperty:
           - [ UAVariable, FX.CM:6136, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1602,12 +1817,14 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6135, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
     - HasComponent:
       - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
+      - DisplayName: "Endpoint2"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
       - ToInboundFlow:
         - [ UAObject, FX.CM:1202, FX.CM:<CommunicationFlow> ]
+        - DisplayName: "<CommunicationFlow>"
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
@@ -1620,6 +1837,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - ToOutboundFlow:
         - [ UAObject, FX.CM:1202, FX.CM:<CommunicationFlow> ]
+        - DisplayName: "<CommunicationFlow>"
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
@@ -1632,6 +1850,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6299, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+        - DisplayName: "ConfigurationData"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1640,12 +1859,14 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
+        - DisplayName: "ConnectionEndpoint"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
         - HasComponent:
           - [ UAVariable, FX.CM:6152, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+          - DisplayName: "CleanupTimeout"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1654,6 +1875,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6153, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1662,6 +1884,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6152, FX.CM:CleanupTimeout, Duration, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6178, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+          - DisplayName: "ConnectionEndpointTypeId"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1670,6 +1893,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6154, FX.CM:IsPersistent, Boolean, 0, 3 ]
+          - DisplayName: "IsPersistent"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1678,6 +1902,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6161, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1686,6 +1911,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6154, FX.CM:IsPersistent, Boolean, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6162, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+          - DisplayName: "IsPreconfigured"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -1694,6 +1920,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6163, FX.CM:Name, String, 0, 3 ]
+          - DisplayName: "Name"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1702,6 +1929,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6164, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1712,6 +1940,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6300, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+        - DisplayName: "ControlGroups"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1724,6 +1953,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5022, FX.CM:<Connection> ]
       - HasComponent:
         - [ UAVariable, FX.CM:6301, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+        - DisplayName: "ExpectedVerificationVariables"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1732,6 +1962,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6176, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+        - DisplayName: "FunctionalEntityNode"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -1740,6 +1971,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
         - HasProperty:
           - [ UAVariable, FX.CM:6229, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1748,6 +1980,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6176, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6137, FX.CM:ProcessingResult, StatusCode, 0, 0 ]
+      - DisplayName: "ProcessingResult"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1756,12 +1989,14 @@ DefinedTypes:
         - [ UAObject, FX.CM:5022, FX.CM:<Connection> ]
   - HasServerAddress:
     - [ UAVariable, FX.CM:6038, FX.CM:<ServerAddress>, FX.CM:ServerAddressDataType, 0, 3 ]
+    - DisplayName: "<ServerAddress>"
     - HasTypeDefinition:
       - [ UAVariableType, FX.CM:2003, FX.CM:ServerAddressType, FX.CM:ServerAddressDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - ToAutomationComponentConfiguration:
       - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
+      - DisplayName: "<AutomationComponentConfiguration>"
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
@@ -1770,6 +2005,7 @@ DefinedTypes:
         - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
       - HasComponent:
         - [ UAVariable, FX.CM:6057, FX.CM:AutomationComponentNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+        - DisplayName: "AutomationComponentNode"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -1778,6 +2014,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
         - HasProperty:
           - [ UAVariable, FX.CM:6058, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1786,6 +2023,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6057, FX.CM:AutomationComponentNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
       - HasCharacteristic:
         - [ UAVariable, FX.CM:6010, FX.CM:CommandBundleRequired, Boolean, 0, 3 ]
+        - DisplayName: "CommandBundleRequired"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1794,6 +2032,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
       - HasComponent:
         - [ UAObject, FX.CM:5101, FX.CM:CommunicationModelConfig ]
+        - DisplayName: "CommunicationModelConfig"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -1802,12 +2041,14 @@ DefinedTypes:
           - [ UAObject, FX.CM:5004, FX.CM:<AutomationComponentConfiguration> ]
       - ToConnectionEndpointConfiguration:
         - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
+        - DisplayName: "Endpoint1"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
         - HasComponent:
           - [ UAVariable, FX.CM:6283, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+          - DisplayName: "ConfigurationData"
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
@@ -1816,12 +2057,14 @@ DefinedTypes:
             - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
         - HasComponent:
           - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
+          - DisplayName: "ConnectionEndpoint"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
           - HasComponent:
             - [ UAVariable, FX.CM:6145, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+            - DisplayName: "CleanupTimeout"
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
@@ -1830,6 +2073,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6146, FX.CM:Selections ]
+              - DisplayName: "Selections"
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
@@ -1838,6 +2082,7 @@ DefinedTypes:
                 - [ UAVariable, FX.CM:6145, FX.CM:CleanupTimeout, Duration, 0, 3 ]
           - HasComponent:
             - [ UAVariable, FX.CM:6177, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+            - DisplayName: "ConnectionEndpointTypeId"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -1846,6 +2091,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
           - HasComponent:
             - [ UAVariable, FX.CM:6147, FX.CM:IsPersistent, Boolean, 0, 3 ]
+            - DisplayName: "IsPersistent"
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
@@ -1854,6 +2100,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6148, FX.CM:Selections ]
+              - DisplayName: "Selections"
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
@@ -1862,6 +2109,7 @@ DefinedTypes:
                 - [ UAVariable, FX.CM:6147, FX.CM:IsPersistent, Boolean, 0, 3 ]
           - HasComponent:
             - [ UAVariable, FX.CM:6149, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+            - DisplayName: "IsPreconfigured"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -1870,6 +2118,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
           - HasComponent:
             - [ UAVariable, FX.CM:6150, FX.CM:Name, String, 0, 3 ]
+            - DisplayName: "Name"
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
@@ -1878,6 +2127,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5020, FX.CM:ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6151, FX.CM:Selections ]
+              - DisplayName: "Selections"
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
@@ -1888,6 +2138,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6284, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+          - DisplayName: "ControlGroups"
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
@@ -1900,6 +2151,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5022, FX.CM:<Connection> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6285, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+          - DisplayName: "ExpectedVerificationVariables"
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
@@ -1908,6 +2160,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6135, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+          - DisplayName: "FunctionalEntityNode"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -1916,6 +2169,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5023, FX.CM:Endpoint1 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6136, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -1924,12 +2178,14 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6135, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
       - ToConnectionEndpointConfiguration:
         - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
+        - DisplayName: "Endpoint2"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
         - ToInboundFlow:
           - [ UAObject, FX.CM:1202, FX.CM:<CommunicationFlow> ]
+          - DisplayName: "<CommunicationFlow>"
           - HasModellingRule:
             - [ UAObject, 11510, MandatoryPlaceholder ]
           - HasTypeDefinition:
@@ -1942,6 +2198,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
         - ToOutboundFlow:
           - [ UAObject, FX.CM:1202, FX.CM:<CommunicationFlow> ]
+          - DisplayName: "<CommunicationFlow>"
           - HasModellingRule:
             - [ UAObject, 11510, MandatoryPlaceholder ]
           - HasTypeDefinition:
@@ -1954,6 +2211,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6299, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+          - DisplayName: "ConfigurationData"
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
@@ -1962,12 +2220,14 @@ DefinedTypes:
             - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
         - HasComponent:
           - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
+          - DisplayName: "ConnectionEndpoint"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
           - HasComponent:
             - [ UAVariable, FX.CM:6152, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+            - DisplayName: "CleanupTimeout"
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
@@ -1976,6 +2236,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6153, FX.CM:Selections ]
+              - DisplayName: "Selections"
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
@@ -1984,6 +2245,7 @@ DefinedTypes:
                 - [ UAVariable, FX.CM:6152, FX.CM:CleanupTimeout, Duration, 0, 3 ]
           - HasComponent:
             - [ UAVariable, FX.CM:6178, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+            - DisplayName: "ConnectionEndpointTypeId"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -1992,6 +2254,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
           - HasComponent:
             - [ UAVariable, FX.CM:6154, FX.CM:IsPersistent, Boolean, 0, 3 ]
+            - DisplayName: "IsPersistent"
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
@@ -2000,6 +2263,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6161, FX.CM:Selections ]
+              - DisplayName: "Selections"
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
@@ -2008,6 +2272,7 @@ DefinedTypes:
                 - [ UAVariable, FX.CM:6154, FX.CM:IsPersistent, Boolean, 0, 3 ]
           - HasComponent:
             - [ UAVariable, FX.CM:6162, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+            - DisplayName: "IsPreconfigured"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -2016,6 +2281,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
           - HasComponent:
             - [ UAVariable, FX.CM:6163, FX.CM:Name, String, 0, 3 ]
+            - DisplayName: "Name"
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
@@ -2024,6 +2290,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5021, FX.CM:ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6164, FX.CM:Selections ]
+              - DisplayName: "Selections"
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
@@ -2034,6 +2301,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6300, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+          - DisplayName: "ControlGroups"
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
@@ -2046,6 +2314,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5022, FX.CM:<Connection> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6301, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+          - DisplayName: "ExpectedVerificationVariables"
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
@@ -2054,6 +2323,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6176, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+          - DisplayName: "FunctionalEntityNode"
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
@@ -2062,6 +2332,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5028, FX.CM:Endpoint2 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6229, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
@@ -2074,6 +2345,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6085, FX.CM:Address, UriString, 0, 3 ]
+      - DisplayName: "Address"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2082,6 +2354,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6038, FX.CM:<ServerAddress>, FX.CM:ServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6086, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2090,6 +2363,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6085, FX.CM:Address, UriString, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6087, FX.CM:SecurityMode, MessageSecurityMode, 0, 3 ]
+      - DisplayName: "SecurityMode"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2098,6 +2372,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6038, FX.CM:<ServerAddress>, FX.CM:ServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6088, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2106,6 +2381,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6087, FX.CM:SecurityMode, MessageSecurityMode, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6089, FX.CM:SecurityPolicyUri, String, 0, 3 ]
+      - DisplayName: "SecurityPolicyUri"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2114,6 +2390,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6038, FX.CM:<ServerAddress>, FX.CM:ServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6099, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2122,12 +2399,14 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6089, FX.CM:SecurityPolicyUri, String, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6100, FX.CM:ServerUri, UriString, 0, 3 ]
+      - DisplayName: "ServerUri"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:6101, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2138,12 +2417,14 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6038, FX.CM:<ServerAddress>, FX.CM:ServerAddressDataType, 0, 3 ]
   - HasComponent:
     - [ UAObject, FX.CM:5045, FX.CM:ConnectionConfigurationSetStateMachine ]
+    - DisplayName: "ConnectionConfigurationSetStateMachine"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6236, FX.CM:AvailableStates, NodeId, 1, 0 ]
+      - DisplayName: "AvailableStates"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2152,6 +2433,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5045, FX.CM:ConnectionConfigurationSetStateMachine ]
     - HasComponent:
       - [ UAVariable, FX.CM:6237, FX.CM:AvailableTransitions, NodeId, 1, 0 ]
+      - DisplayName: "AvailableTransitions"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2162,6 +2444,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6019, FX.CM:CurrentState, LocalizedText, 0, 0 ]
+      - DisplayName: "CurrentState"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2170,6 +2453,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5045, FX.CM:ConnectionConfigurationSetStateMachine ]
       - HasProperty:
         - [ UAVariable, FX.CM:6083, FX.CM:Id, NodeId, 0, 0 ]
+        - DisplayName: "Id"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2178,12 +2462,14 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6019, FX.CM:CurrentState, LocalizedText, 0, 0 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6017, FX.CM:LastTransition, LocalizedText, 0, 0 ]
+      - DisplayName: "LastTransition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2767, FiniteTransitionVariableType ]
       - HasProperty:
         - [ UAVariable, FX.CM:6018, FX.CM:Id, NodeId, 0, 0 ]
+        - DisplayName: "Id"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2194,6 +2480,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5045, FX.CM:ConnectionConfigurationSetStateMachine ]
   - HasProperty:
     - [ UAVariable, FX.CM:6487, FX.CM:Edit, Boolean, 0, 0 ]
+    - DisplayName: "Edit"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -2202,18 +2489,21 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
   - HasComponent:
     - [ UAObject, FX.CM:5095, DI:Lock ]
+    - DisplayName: "Lock"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasComponent:
       - [ UAMethod, FX.CM:7037, DI:BreakLock ]
+      - DisplayName: "BreakLock"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5095, DI:Lock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6382, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             BreakLockStatus: [ Int32, 0 ]
         - HasTypeDefinition:
@@ -2224,12 +2514,14 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7037, DI:BreakLock ]
     - HasComponent:
       - [ UAMethod, FX.CM:7038, DI:ExitLock ]
+      - DisplayName: "ExitLock"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5095, DI:Lock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6383, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ExitLockStatus: [ Int32, 0 ]
         - HasTypeDefinition:
@@ -2240,12 +2532,14 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7038, DI:ExitLock ]
     - HasComponent:
       - [ UAMethod, FX.CM:7039, DI:InitLock ]
+      - DisplayName: "InitLock"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5095, DI:Lock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6384, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Context: [ String, 0 ]
         - HasTypeDefinition:
@@ -2256,6 +2550,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7039, DI:InitLock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6385, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             InitLockStatus: [ Int32, 0 ]
         - HasTypeDefinition:
@@ -2268,6 +2563,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6386, DI:Locked, Boolean, 0, 0 ]
+      - DisplayName: "Locked"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2276,6 +2572,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5095, DI:Lock ]
     - HasProperty:
       - [ UAVariable, FX.CM:6387, DI:LockingClient, String, 0, 0 ]
+      - DisplayName: "LockingClient"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2284,6 +2581,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5095, DI:Lock ]
     - HasProperty:
       - [ UAVariable, FX.CM:6388, DI:LockingUser, String, 0, 0 ]
+      - DisplayName: "LockingUser"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2292,6 +2590,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5095, DI:Lock ]
     - HasProperty:
       - [ UAVariable, FX.CM:6389, DI:RemainingLockTime, Duration, 0, 0 ]
+      - DisplayName: "RemainingLockTime"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2300,10 +2599,12 @@ DefinedTypes:
         - [ UAObject, FX.CM:5095, DI:Lock ]
     - HasComponent:
       - [ UAMethod, FX.CM:7040, DI:RenewLock ]
+      - DisplayName: "RenewLock"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:6390, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             RenewLockStatus: [ Int32, 0 ]
         - HasTypeDefinition:
@@ -2316,6 +2617,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5095, DI:Lock ]
   - HasComponent:
     - [ UAVariable, FX.CM:6209, FX.CM:PubSubKeyPushTargets, PubSubKeyPushTargetDataType, 1, 3 ]
+    - DisplayName: "PubSubKeyPushTargets"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -2324,6 +2626,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
   - HasProperty:
     - [ UAVariable, FX.CM:1272, FX.CM:RollbackOnError, Boolean, 0, 3 ]
+    - DisplayName: "RollbackOnError"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -2332,6 +2635,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6208, FX.CM:SecurityGroups, SecurityGroupDataType, 1, 3 ]
+    - DisplayName: "SecurityGroups"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -2340,12 +2644,14 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6102, FX.CM:SecurityKeyServer, FX.CM:SecurityKeyServerAddressDataType, 0, 3 ]
+    - DisplayName: "SecurityKeyServer"
     - HasTypeDefinition:
       - [ UAVariableType, FX.CM:2002, FX.CM:SecurityKeyServerAddressType, FX.CM:SecurityKeyServerAddressDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, FX.CM:6103, FX.CM:Address, UriString, 0, 3 ]
+      - DisplayName: "Address"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2354,6 +2660,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6102, FX.CM:SecurityKeyServer, FX.CM:SecurityKeyServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6104, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2364,6 +2671,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1012, FX.CM:ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6105, FX.CM:SecurityPolicyUri, String, 0, 3 ]
+      - DisplayName: "SecurityPolicyUri"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2372,6 +2680,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6102, FX.CM:SecurityKeyServer, FX.CM:SecurityKeyServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6106, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2380,12 +2689,14 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6105, FX.CM:SecurityPolicyUri, String, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6112, FX.CM:ServerUri, UriString, 0, 3 ]
+      - DisplayName: "ServerUri"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:6115, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2396,6 +2707,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6102, FX.CM:SecurityKeyServer, FX.CM:SecurityKeyServerAddressDataType, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6116, FX.CM:UsePushModel, Boolean, 0, 3 ]
+      - DisplayName: "UsePushModel"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2406,6 +2718,7 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6219, FX.CM:Version, UInt32, 0, 0 ]
+    - DisplayName: "Version"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -2415,14 +2728,17 @@ DefinedTypes:
 
   FX.CM:ConnectionConfigurationType:
   - [ UAObjectType, FX.CM:1013, FX.CM:ConnectionConfigurationType ]
+  - DisplayName: "ConnectionConfigurationType"
   - HasComponent:
     - [ UAObject, FX.CM:5008, FX.CM:Endpoint1 ]
+    - DisplayName: "Endpoint1"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6280, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+      - DisplayName: "ConfigurationData"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2431,12 +2747,14 @@ DefinedTypes:
         - [ UAObject, FX.CM:5008, FX.CM:Endpoint1 ]
     - HasComponent:
       - [ UAObject, FX.CM:5010, FX.CM:ConnectionEndpoint ]
+      - DisplayName: "ConnectionEndpoint"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
       - HasComponent:
         - [ UAVariable, FX.CM:6126, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+        - DisplayName: "CleanupTimeout"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -2445,6 +2763,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5010, FX.CM:ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6127, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -2455,6 +2774,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5008, FX.CM:Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6174, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+        - DisplayName: "ConnectionEndpointTypeId"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2463,6 +2783,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5010, FX.CM:ConnectionEndpoint ]
       - HasComponent:
         - [ UAVariable, FX.CM:6128, FX.CM:IsPersistent, Boolean, 0, 3 ]
+        - DisplayName: "IsPersistent"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -2471,6 +2792,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5010, FX.CM:ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6129, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -2479,6 +2801,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6128, FX.CM:IsPersistent, Boolean, 0, 3 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6130, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+        - DisplayName: "IsPreconfigured"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2487,6 +2810,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5010, FX.CM:ConnectionEndpoint ]
       - HasComponent:
         - [ UAVariable, FX.CM:6131, FX.CM:Name, String, 0, 3 ]
+        - DisplayName: "Name"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -2495,6 +2819,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5010, FX.CM:ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6132, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -2503,6 +2828,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6131, FX.CM:Name, String, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6281, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+      - DisplayName: "ControlGroups"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2513,6 +2839,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1013, FX.CM:ConnectionConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6282, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+      - DisplayName: "ExpectedVerificationVariables"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2521,6 +2848,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5008, FX.CM:Endpoint1 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6123, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+      - DisplayName: "FunctionalEntityNode"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2529,6 +2857,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5008, FX.CM:Endpoint1 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6124, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2537,12 +2866,14 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6123, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
   - HasComponent:
     - [ UAObject, FX.CM:5009, FX.CM:Endpoint2 ]
+    - DisplayName: "Endpoint2"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6269, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+      - DisplayName: "ConfigurationData"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2551,12 +2882,14 @@ DefinedTypes:
         - [ UAObject, FX.CM:5009, FX.CM:Endpoint2 ]
     - HasComponent:
       - [ UAObject, FX.CM:5014, FX.CM:ConnectionEndpoint ]
+      - DisplayName: "ConnectionEndpoint"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
       - HasComponent:
         - [ UAVariable, FX.CM:6138, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+        - DisplayName: "CleanupTimeout"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -2565,6 +2898,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5014, FX.CM:ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6139, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -2575,6 +2909,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5009, FX.CM:Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6175, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+        - DisplayName: "ConnectionEndpointTypeId"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2583,6 +2918,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5014, FX.CM:ConnectionEndpoint ]
       - HasComponent:
         - [ UAVariable, FX.CM:6140, FX.CM:IsPersistent, Boolean, 0, 3 ]
+        - DisplayName: "IsPersistent"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -2591,6 +2927,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5014, FX.CM:ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6141, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -2599,6 +2936,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6140, FX.CM:IsPersistent, Boolean, 0, 3 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6142, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+        - DisplayName: "IsPreconfigured"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -2607,6 +2945,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5014, FX.CM:ConnectionEndpoint ]
       - HasComponent:
         - [ UAVariable, FX.CM:6143, FX.CM:Name, String, 0, 3 ]
+        - DisplayName: "Name"
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
@@ -2615,6 +2954,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5014, FX.CM:ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6144, FX.CM:Selections ]
+          - DisplayName: "Selections"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -2623,6 +2963,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6143, FX.CM:Name, String, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6270, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+      - DisplayName: "ControlGroups"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2633,6 +2974,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1013, FX.CM:ConnectionConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6298, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+      - DisplayName: "ExpectedVerificationVariables"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -2641,6 +2983,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5009, FX.CM:Endpoint2 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6133, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+      - DisplayName: "FunctionalEntityNode"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2649,6 +2992,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5009, FX.CM:Endpoint2 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6134, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2657,6 +3001,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6133, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:1273, FX.CM:ProcessingResult, StatusCode, 0, 0 ]
+    - DisplayName: "ProcessingResult"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2668,8 +3013,10 @@ DefinedTypes:
 
   FX.CM:ConnectionEndpointConfigurationType:
   - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
+  - DisplayName: "ConnectionEndpointConfigurationType"
   - HasComponent:
     - [ UAVariable, FX.CM:6109, FX.CM:ConfigurationData, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+    - DisplayName: "ConfigurationData"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2678,12 +3025,14 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
   - HasComponent:
     - [ UAObject, FX.CM:5002, FX.CM:ConnectionEndpoint ]
+    - DisplayName: "ConnectionEndpoint"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6117, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+      - DisplayName: "CleanupTimeout"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2692,6 +3041,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5002, FX.CM:ConnectionEndpoint ]
       - HasProperty:
         - [ UAVariable, FX.CM:6118, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2702,6 +3052,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6173, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+      - DisplayName: "ConnectionEndpointTypeId"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2710,6 +3061,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5002, FX.CM:ConnectionEndpoint ]
     - HasComponent:
       - [ UAVariable, FX.CM:6119, FX.CM:IsPersistent, Boolean, 0, 3 ]
+      - DisplayName: "IsPersistent"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2718,6 +3070,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5002, FX.CM:ConnectionEndpoint ]
       - HasProperty:
         - [ UAVariable, FX.CM:6120, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2726,6 +3079,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6119, FX.CM:IsPersistent, Boolean, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6121, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+      - DisplayName: "IsPreconfigured"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2734,6 +3088,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5002, FX.CM:ConnectionEndpoint ]
     - HasComponent:
       - [ UAVariable, FX.CM:6122, FX.CM:Name, String, 0, 3 ]
+      - DisplayName: "Name"
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
@@ -2742,6 +3097,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5002, FX.CM:ConnectionEndpoint ]
       - HasProperty:
         - [ UAVariable, FX.CM:6125, FX.CM:Selections ]
+        - DisplayName: "Selections"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -2750,6 +3106,7 @@ DefinedTypes:
           - [ UAVariable, FX.CM:6122, FX.CM:Name, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6108, FX.CM:ControlGroups, FX.CM:PortableNodeIdentifier, 1, 3 ]
+    - DisplayName: "ControlGroups"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2758,6 +3115,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6107, FX.CM:ExpectedVerificationVariables, FX.CM:PortableNodeIdentifierValuePair, 1, 3 ]
+    - DisplayName: "ExpectedVerificationVariables"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2766,6 +3124,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6097, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+    - DisplayName: "FunctionalEntityNode"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -2774,6 +3133,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6098, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2785,8 +3145,10 @@ DefinedTypes:
 
   FX.CM:ConnectionEndpointParameterType:
   - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
+  - DisplayName: "ConnectionEndpointParameterType"
   - HasComponent:
     - [ UAVariable, FX.CM:6073, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+    - DisplayName: "CleanupTimeout"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -2795,6 +3157,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6074, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2803,6 +3166,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6073, FX.CM:CleanupTimeout, Duration, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6179, FX.CM:CommunicationLinks, FX.Data:CommunicationLinkConfigurationDataType, 0, 3 ]
+    - DisplayName: "CommunicationLinks"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2811,6 +3175,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6172, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+    - DisplayName: "ConnectionEndpointTypeId"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2819,6 +3184,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6068, FX.CM:InputVariableIds, FX.CM:PortableNodeIdentifier, 1, 3 ]
+    - DisplayName: "InputVariableIds"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2827,6 +3193,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6072, FX.CM:IsPersistent, Boolean, 0, 3 ]
+    - DisplayName: "IsPersistent"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -2835,6 +3202,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6077, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2843,6 +3211,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6072, FX.CM:IsPersistent, Boolean, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6498, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+    - DisplayName: "IsPreconfigured"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2851,6 +3220,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6070, FX.CM:Name, String, 0, 3 ]
+    - DisplayName: "Name"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -2859,6 +3229,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6071, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -2867,6 +3238,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6070, FX.CM:Name, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6082, FX.CM:OutputVariableIds, FX.CM:PortableNodeIdentifier, 1, 3 ]
+    - DisplayName: "OutputVariableIds"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2875,6 +3247,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6180, FX.CM:PreconfiguredPublishedDataSet, String, 0, 3 ]
+    - DisplayName: "PreconfiguredPublishedDataSet"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2883,6 +3256,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6181, FX.CM:PreconfiguredSubscribedDataSet, String, 0, 3 ]
+    - DisplayName: "PreconfiguredSubscribedDataSet"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2894,8 +3268,10 @@ DefinedTypes:
 
   FX.CM:ConnectionManagerType:
   - [ UAObjectType, FX.CM:1002, FX.CM:ConnectionManagerType ]
+  - DisplayName: "ConnectionManagerType"
   - HasComponent:
     - [ UAVariable, FX.CM:6205, FX.CM:AggregatedCurrentState, Boolean, 0, 3 ]
+    - DisplayName: "AggregatedCurrentState"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -2904,6 +3280,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1002, FX.CM:ConnectionManagerType ]
   - HasComponent:
     - [ UAObject, FX.CM:5085, FX.CM:Capabilities ]
+    - DisplayName: "Capabilities"
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1010, FX.CM:ConnectionManagerCapabilitiesType ]
     - HasModellingRule:
@@ -2912,12 +3289,14 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1002, FX.CM:ConnectionManagerType ]
   - HasComponent:
     - [ UAObject, FX.CM:1163, FX.CM:ConnectionConfigurationSets ]
+    - DisplayName: "ConnectionConfigurationSets"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent:
       - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
+      - DisplayName: "<ConnectionConfigurationSet>"
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
@@ -2926,6 +3305,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:1163, FX.CM:ConnectionConfigurationSets ]
       - HasAutomationComponentConfiguration:
         - [ UAObject, FX.CM:5006, FX.CM:AutomationComponentConfiguration ]
+        - DisplayName: "AutomationComponentConfiguration"
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
@@ -2934,6 +3314,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6008, FX.CM:AutomationComponentNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+          - DisplayName: "AutomationComponentNode"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -2942,6 +3323,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5006, FX.CM:AutomationComponentConfiguration ]
           - HasProperty:
             - [ UAVariable, FX.CM:6011, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -2950,6 +3332,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6008, FX.CM:AutomationComponentNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
         - HasCharacteristic:
           - [ UAVariable, FX.CM:6016, FX.CM:CommandBundleRequired, Boolean, 0, 3 ]
+          - DisplayName: "CommandBundleRequired"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -2958,6 +3341,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5006, FX.CM:AutomationComponentConfiguration ]
       - HasCommunicationFlowConfiguration:
         - [ UAObject, FX.CM:5046, FX.CM:CommunicationFlow ]
+        - DisplayName: "CommunicationFlow"
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
@@ -2966,6 +3350,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
       - HasConnectionConfiguration:
         - [ UAObject, FX.CM:5047, FX.CM:Connection ]
+        - DisplayName: "Connection"
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
@@ -2974,18 +3359,21 @@ DefinedTypes:
           - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
         - HasComponent:
           - [ UAObject, FX.CM:5052, FX.CM:Endpoint1 ]
+          - DisplayName: "Endpoint1"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAObjectType, FX.CM:1129, FX.CM:ConnectionEndpointConfigurationType ]
           - HasComponent:
             - [ UAObject, FX.CM:5053, FX.CM:ConnectionEndpoint ]
+            - DisplayName: "ConnectionEndpoint"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAObjectType, FX.CM:1261, FX.CM:ConnectionEndpointParameterType ]
             - HasComponent:
               - [ UAVariable, FX.CM:6027, FX.CM:CleanupTimeout, Duration, 0, 3 ]
+              - DisplayName: "CleanupTimeout"
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
@@ -2994,6 +3382,7 @@ DefinedTypes:
                 - [ UAObject, FX.CM:5053, FX.CM:ConnectionEndpoint ]
               - HasProperty:
                 - [ UAVariable, FX.CM:6028, FX.CM:Selections ]
+                - DisplayName: "Selections"
                 - HasModellingRule:
                   - [ UAObject, 78, Mandatory ]
                 - HasTypeDefinition:
@@ -3004,6 +3393,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5052, FX.CM:Endpoint1 ]
             - HasComponent:
               - [ UAVariable, FX.CM:6059, FX.CM:ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
+              - DisplayName: "ConnectionEndpointTypeId"
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
@@ -3012,6 +3402,7 @@ DefinedTypes:
                 - [ UAObject, FX.CM:5053, FX.CM:ConnectionEndpoint ]
             - HasComponent:
               - [ UAVariable, FX.CM:6060, FX.CM:IsPersistent, Boolean, 0, 3 ]
+              - DisplayName: "IsPersistent"
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
@@ -3020,6 +3411,7 @@ DefinedTypes:
                 - [ UAObject, FX.CM:5053, FX.CM:ConnectionEndpoint ]
               - HasProperty:
                 - [ UAVariable, FX.CM:6061, FX.CM:Selections ]
+                - DisplayName: "Selections"
                 - HasModellingRule:
                   - [ UAObject, 78, Mandatory ]
                 - HasTypeDefinition:
@@ -3028,6 +3420,7 @@ DefinedTypes:
                   - [ UAVariable, FX.CM:6060, FX.CM:IsPersistent, Boolean, 0, 3 ]
             - HasComponent:
               - [ UAVariable, FX.CM:6062, FX.CM:IsPreconfigured, Boolean, 0, 3 ]
+              - DisplayName: "IsPreconfigured"
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
@@ -3036,6 +3429,7 @@ DefinedTypes:
                 - [ UAObject, FX.CM:5053, FX.CM:ConnectionEndpoint ]
             - HasComponent:
               - [ UAVariable, FX.CM:6084, FX.CM:Name, String, 0, 3 ]
+              - DisplayName: "Name"
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
@@ -3044,6 +3438,7 @@ DefinedTypes:
                 - [ UAObject, FX.CM:5053, FX.CM:ConnectionEndpoint ]
               - HasProperty:
                 - [ UAVariable, FX.CM:6165, FX.CM:Selections ]
+                - DisplayName: "Selections"
                 - HasModellingRule:
                   - [ UAObject, 78, Mandatory ]
                 - HasTypeDefinition:
@@ -3054,6 +3449,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5047, FX.CM:Connection ]
           - HasComponent:
             - [ UAVariable, FX.CM:6166, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
+            - DisplayName: "FunctionalEntityNode"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -3062,6 +3458,7 @@ DefinedTypes:
               - [ UAObject, FX.CM:5052, FX.CM:Endpoint1 ]
             - HasProperty:
               - [ UAVariable, FX.CM:6167, FX.CM:Selections ]
+              - DisplayName: "Selections"
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
@@ -3070,6 +3467,7 @@ DefinedTypes:
                 - [ UAVariable, FX.CM:6166, FX.CM:FunctionalEntityNode, FX.CM:PortableNodeIdentifier, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6168, FX.CM:ProcessingResult, StatusCode, 0, 0 ]
+          - DisplayName: "ProcessingResult"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3078,6 +3476,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5047, FX.CM:Connection ]
       - HasComponent:
         - [ UAObject, FX.CM:5079, FX.CM:ConnectionConfigurationSetStateMachine ]
+        - DisplayName: "ConnectionConfigurationSetStateMachine"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -3086,6 +3485,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6216, FX.CM:CurrentState, LocalizedText, 0, 0 ]
+          - DisplayName: "CurrentState"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3094,6 +3494,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5079, FX.CM:ConnectionConfigurationSetStateMachine ]
           - HasProperty:
             - [ UAVariable, FX.CM:6217, FX.CM:Id, NodeId, 0, 0 ]
+            - DisplayName: "Id"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -3102,12 +3503,14 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6216, FX.CM:CurrentState, LocalizedText, 0, 0 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6218, FX.CM:LastTransition, LocalizedText, 0, 0 ]
+          - DisplayName: "LastTransition"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2767, FiniteTransitionVariableType ]
           - HasProperty:
             - [ UAVariable, FX.CM:6220, FX.CM:Id, NodeId, 0, 0 ]
+            - DisplayName: "Id"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -3118,18 +3521,21 @@ DefinedTypes:
             - [ UAObject, FX.CM:5079, FX.CM:ConnectionConfigurationSetStateMachine ]
       - HasComponent:
         - [ UAObject, FX.CM:5086, DI:Lock ]
+        - DisplayName: "Lock"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, DI:6388, DI:LockingServicesType ]
         - HasComponent:
           - [ UAMethod, FX.CM:7018, DI:BreakLock ]
+          - DisplayName: "BreakLock"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
             - [ UAObject, FX.CM:5086, DI:Lock ]
           - HasProperty:
             - [ UAVariable, FX.CM:6221, FX.CM:OutputArguments, Argument, 1, 0 ]
+            - DisplayName: "OutputArguments"
             - Arguments:
                 BreakLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -3140,12 +3546,14 @@ DefinedTypes:
               - [ UAMethod, FX.CM:7018, DI:BreakLock ]
         - HasComponent:
           - [ UAMethod, FX.CM:7019, DI:ExitLock ]
+          - DisplayName: "ExitLock"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
             - [ UAObject, FX.CM:5086, DI:Lock ]
           - HasProperty:
             - [ UAVariable, FX.CM:6222, FX.CM:OutputArguments, Argument, 1, 0 ]
+            - DisplayName: "OutputArguments"
             - Arguments:
                 ExitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -3156,12 +3564,14 @@ DefinedTypes:
               - [ UAMethod, FX.CM:7019, DI:ExitLock ]
         - HasComponent:
           - [ UAMethod, FX.CM:7020, DI:InitLock ]
+          - DisplayName: "InitLock"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasComponent_reverse:
             - [ UAObject, FX.CM:5086, DI:Lock ]
           - HasProperty:
             - [ UAVariable, FX.CM:6223, FX.CM:InputArguments, Argument, 1, 0 ]
+            - DisplayName: "InputArguments"
             - Arguments:
                 Context: [ String, 0 ]
             - HasModellingRule:
@@ -3172,6 +3582,7 @@ DefinedTypes:
               - [ UAMethod, FX.CM:7020, DI:InitLock ]
           - HasProperty:
             - [ UAVariable, FX.CM:6224, FX.CM:OutputArguments, Argument, 1, 0 ]
+            - DisplayName: "OutputArguments"
             - Arguments:
                 InitLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -3184,6 +3595,7 @@ DefinedTypes:
           - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
         - HasProperty:
           - [ UAVariable, FX.CM:6225, DI:Locked, Boolean, 0, 0 ]
+          - DisplayName: "Locked"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3192,6 +3604,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5086, DI:Lock ]
         - HasProperty:
           - [ UAVariable, FX.CM:6226, DI:LockingClient, String, 0, 0 ]
+          - DisplayName: "LockingClient"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3200,6 +3613,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5086, DI:Lock ]
         - HasProperty:
           - [ UAVariable, FX.CM:6227, DI:LockingUser, String, 0, 0 ]
+          - DisplayName: "LockingUser"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3208,6 +3622,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5086, DI:Lock ]
         - HasProperty:
           - [ UAVariable, FX.CM:6228, DI:RemainingLockTime, Duration, 0, 0 ]
+          - DisplayName: "RemainingLockTime"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3216,10 +3631,12 @@ DefinedTypes:
             - [ UAObject, FX.CM:5086, DI:Lock ]
         - HasComponent:
           - [ UAMethod, FX.CM:7021, DI:RenewLock ]
+          - DisplayName: "RenewLock"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasProperty:
             - [ UAVariable, FX.CM:6230, FX.CM:OutputArguments, Argument, 1, 0 ]
+            - DisplayName: "OutputArguments"
             - Arguments:
                 RenewLockStatus: [ Int32, 0 ]
             - HasModellingRule:
@@ -3232,6 +3649,7 @@ DefinedTypes:
             - [ UAObject, FX.CM:5086, DI:Lock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6231, FX.CM:RollbackOnError, Boolean, 0, 3 ]
+        - DisplayName: "RollbackOnError"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -3240,12 +3658,14 @@ DefinedTypes:
           - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
       - HasServerAddress:
         - [ UAVariable, FX.CM:6169, FX.CM:ServerAddress, FX.CM:ServerAddressDataType, 0, 3 ]
+        - DisplayName: "ServerAddress"
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAVariableType, FX.CM:2003, FX.CM:ServerAddressType, FX.CM:ServerAddressDataType, 0, 0 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6170, FX.CM:Address, UriString, 0, 3 ]
+          - DisplayName: "Address"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3254,6 +3674,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6169, FX.CM:ServerAddress, FX.CM:ServerAddressDataType, 0, 3 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6171, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -3262,6 +3683,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6170, FX.CM:Address, UriString, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6210, FX.CM:SecurityMode, MessageSecurityMode, 0, 3 ]
+          - DisplayName: "SecurityMode"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3270,6 +3692,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6169, FX.CM:ServerAddress, FX.CM:ServerAddressDataType, 0, 3 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6211, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -3278,6 +3701,7 @@ DefinedTypes:
               - [ UAVariable, FX.CM:6210, FX.CM:SecurityMode, MessageSecurityMode, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6212, FX.CM:SecurityPolicyUri, String, 0, 3 ]
+          - DisplayName: "SecurityPolicyUri"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -3286,6 +3710,7 @@ DefinedTypes:
             - [ UAVariable, FX.CM:6169, FX.CM:ServerAddress, FX.CM:ServerAddressDataType, 0, 3 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6213, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -3296,12 +3721,14 @@ DefinedTypes:
           - [ UAObject, FX.CM:5005, FX.CM:<ConnectionConfigurationSet> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6214, FX.CM:ServerUri, UriString, 0, 3 ]
+          - DisplayName: "ServerUri"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasProperty:
             - [ UAVariable, FX.CM:6215, FX.CM:Selections ]
+            - DisplayName: "Selections"
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
@@ -3314,18 +3741,21 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1002, FX.CM:ConnectionManagerType ]
   - HasComponent:
     - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
+    - DisplayName: "ConnectionManagerConfiguration"
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1011, FX.CM:ConnectionManagerConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAMethod, FX.CM:7012, FX.CM:Close ]
+      - DisplayName: "Close"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:6048, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -3336,12 +3766,14 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7012, FX.CM:Close ]
     - HasComponent:
       - [ UAMethod, FX.CM:7011, FX.CM:CloseAndUpdate ]
+      - DisplayName: "CloseAndUpdate"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:6029, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             RequireCompleteUpdate: [ Boolean, 0 ]
@@ -3354,6 +3786,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7011, FX.CM:CloseAndUpdate ]
       - HasProperty:
         - [ UAVariable, FX.CM:6030, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             ChangesApplied: [ Boolean, 0 ]
             OperationResults: [ StatusCode, 1 ]
@@ -3368,12 +3801,14 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1002, FX.CM:ConnectionManagerType ]
     - HasComponent:
       - [ UAMethod, FX.CM:7013, FX.CM:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:6049, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -3384,6 +3819,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7013, FX.CM:GetPosition ]
       - HasProperty:
         - [ UAVariable, FX.CM:6050, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasTypeDefinition:
@@ -3394,10 +3830,12 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7013, FX.CM:GetPosition ]
     - HasComponent:
       - [ UAMethod, FX.CM:7014, FX.CM:Open ]
+      - DisplayName: "Open"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:6051, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasTypeDefinition:
@@ -3410,6 +3848,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:6063, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -3420,6 +3859,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7014, FX.CM:Open ]
     - HasProperty:
       - [ UAVariable, FX.CM:6064, FX.CM:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3428,10 +3868,12 @@ DefinedTypes:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7015, FX.CM:Read ]
+      - DisplayName: "Read"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:6198, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -3443,6 +3885,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7015, FX.CM:Read ]
       - HasProperty:
         - [ UAVariable, FX.CM:6199, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -3455,10 +3898,12 @@ DefinedTypes:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7016, FX.CM:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:6200, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -3472,6 +3917,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:6201, FX.CM:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3480,6 +3926,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:6202, FX.CM:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3488,6 +3935,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:6203, FX.CM:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3496,10 +3944,12 @@ DefinedTypes:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7017, FX.CM:Write ]
+      - DisplayName: "Write"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, FX.CM:6204, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -3513,6 +3963,7 @@ DefinedTypes:
         - [ UAObject, FX.CM:5084, FX.CM:ConnectionManagerConfiguration ]
   - HasComponent:
     - [ UAMethod, FX.CM:1481, FX.CM:EditConnectionConfigurationSets ]
+    - DisplayName: "EditConnectionConfigurationSets"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - GeneratesEvent:
@@ -3521,6 +3972,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1002, FX.CM:ConnectionManagerType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1265, FX.CM:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Action: [ FX.CM:FxEditEnum, 0 ]
           ConnectionConfigurationSets: [ NodeId, 1 ]
@@ -3532,6 +3984,7 @@ DefinedTypes:
         - [ UAMethod, FX.CM:1481, FX.CM:EditConnectionConfigurationSets ]
     - HasProperty:
       - [ UAVariable, FX.CM:1267, FX.CM:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasTypeDefinition:
@@ -3542,12 +3995,14 @@ DefinedTypes:
         - [ UAMethod, FX.CM:1481, FX.CM:EditConnectionConfigurationSets ]
   - HasComponent:
     - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
+    - DisplayName: "ProcessConnectionConfigurationSets"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - GeneratesEvent:
       - [ UAObjectType, FX.Data:1025, FX.Data:AuditUpdateMethodResultEventType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1270, FX.CM:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Action: [ FX.CM:FxProcessEnum, 0 ]
           ConnectionConfigurationSets: [ NodeId, 1 ]
@@ -3559,6 +4014,7 @@ DefinedTypes:
         - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
     - HasProperty:
       - [ UAVariable, FX.CM:1271, FX.CM:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           Results: [ StatusCode, 1 ]
       - HasTypeDefinition:
@@ -3580,14 +4036,17 @@ DefinedTypes:
 
   FX.CM:ConnectionManagerConfigurationType:
   - [ UAObjectType, FX.CM:1011, FX.CM:ConnectionManagerConfigurationType ]
+  - DisplayName: "ConnectionManagerConfigurationType"
   - HasComponent:
     - [ UAMethod, FX.CM:7003, FX.CM:CloseAndUpdate ]
+    - DisplayName: "CloseAndUpdate"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, FX.CM:1011, FX.CM:ConnectionManagerConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:16032, FX.CM:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           FileHandle: [ UInt32, 0 ]
           RequireCompleteUpdate: [ Boolean, 0 ]
@@ -3600,6 +4059,7 @@ DefinedTypes:
         - [ UAMethod, FX.CM:7003, FX.CM:CloseAndUpdate ]
     - HasProperty:
       - [ UAVariable, FX.CM:16033, FX.CM:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           ChangesApplied: [ Boolean, 0 ]
           OperationResults: [ StatusCode, 1 ]
@@ -3615,8 +4075,10 @@ DefinedTypes:
 
   FX.CM:ConnectionManagerCapabilitiesType:
   - [ UAObjectType, FX.CM:1010, FX.CM:ConnectionManagerCapabilitiesType ]
+  - DisplayName: "ConnectionManagerCapabilitiesType"
   - HasCMCapability:
     - [ UAVariable, FX.CM:6206, FX.CM:<Capability> ]
+    - DisplayName: "<Capability>"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -3627,6 +4089,7 @@ DefinedTypes:
     - [ UAObjectType, 61, FolderType ]
   - HasCMCapability:
     - [ UAVariable, FX.CM:6207, FX.CM:MaxConnectionConfigurationSets, UInt32, 0, 3 ]
+    - DisplayName: "MaxConnectionConfigurationSets"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -3636,14 +4099,17 @@ DefinedTypes:
 
   FX.CM:ConnectionConfigurationSetStateMachineType:
   - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
+  - DisplayName: "ConnectionConfigurationSetStateMachineType"
   - HasComponent:
     - [ UAObject, FX.CM:1171, FX.CM:Error ]
+    - DisplayName: "Error"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
     - HasComponent_reverse:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1388, FX.CM:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3656,6 +4122,7 @@ DefinedTypes:
       - [ UAObject, FX.CM:1177, FX.CM:ErrorToProcessing ]
   - HasComponent:
     - [ UAObject, FX.CM:1177, FX.CM:ErrorToProcessing ]
+    - DisplayName: "ErrorToProcessing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasEffect:
@@ -3666,12 +4133,14 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
     - HasCause:
       - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
+      - DisplayName: "ProcessConnectionConfigurationSets"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - GeneratesEvent:
         - [ UAObjectType, FX.Data:1025, FX.Data:AuditUpdateMethodResultEventType ]
       - HasProperty:
         - [ UAVariable, FX.CM:1270, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Action: [ FX.CM:FxProcessEnum, 0 ]
             ConnectionConfigurationSets: [ NodeId, 1 ]
@@ -3683,6 +4152,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
       - HasProperty:
         - [ UAVariable, FX.CM:1271, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Results: [ StatusCode, 1 ]
         - HasTypeDefinition:
@@ -3703,6 +4173,7 @@ DefinedTypes:
       - [ UAObject, FX.CM:1170, FX.CM:Processing ]
     - HasProperty:
       - [ UAVariable, FX.CM:1394, FX.CM:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3711,12 +4182,14 @@ DefinedTypes:
         - [ UAObject, FX.CM:1177, FX.CM:ErrorToProcessing ]
   - HasComponent:
     - [ UAVariable, FX.CM:6081, FX.CM:LastTransition, LocalizedText, 0, 0 ]
+    - DisplayName: "LastTransition"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2767, FiniteTransitionVariableType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6024, FX.CM:Id, NodeId, 0, 0 ]
+      - DisplayName: "Id"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3727,12 +4200,14 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
   - HasComponent:
     - [ UAObject, FX.CM:1170, FX.CM:Processing ]
+    - DisplayName: "Processing"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
     - HasComponent_reverse:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1387, FX.CM:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3749,6 +4224,7 @@ DefinedTypes:
       - [ UAObject, FX.CM:1177, FX.CM:ErrorToProcessing ]
   - HasComponent:
     - [ UAObject, FX.CM:1176, FX.CM:ProcessingToError ]
+    - DisplayName: "ProcessingToError"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasEffect:
@@ -3761,6 +4237,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1393, FX.CM:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3769,18 +4246,21 @@ DefinedTypes:
         - [ UAObject, FX.CM:1176, FX.CM:ProcessingToError ]
   - HasComponent:
     - [ UAObject, FX.CM:1175, FX.CM:ProcessingToReady ]
+    - DisplayName: "ProcessingToReady"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasEffect:
       - [ UAObjectType, FX.CM:1008, FX.CM:ConnectionConfigurationSetProcessingSucceededEventType ]
     - HasCause:
       - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
+      - DisplayName: "ProcessConnectionConfigurationSets"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - GeneratesEvent:
         - [ UAObjectType, FX.Data:1025, FX.Data:AuditUpdateMethodResultEventType ]
       - HasProperty:
         - [ UAVariable, FX.CM:1270, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Action: [ FX.CM:FxProcessEnum, 0 ]
             ConnectionConfigurationSets: [ NodeId, 1 ]
@@ -3792,6 +4272,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
       - HasProperty:
         - [ UAVariable, FX.CM:1271, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Results: [ StatusCode, 1 ]
         - HasTypeDefinition:
@@ -3816,6 +4297,7 @@ DefinedTypes:
       - [ UAObject, FX.CM:1169, FX.CM:Ready ]
     - HasProperty:
       - [ UAVariable, FX.CM:1392, FX.CM:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3824,12 +4306,14 @@ DefinedTypes:
         - [ UAObject, FX.CM:1175, FX.CM:ProcessingToReady ]
   - HasComponent:
     - [ UAObject, FX.CM:1169, FX.CM:Ready ]
+    - DisplayName: "Ready"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
     - HasComponent_reverse:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1386, FX.CM:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3842,18 +4326,21 @@ DefinedTypes:
       - [ UAObject, FX.CM:1175, FX.CM:ProcessingToReady ]
   - HasComponent:
     - [ UAObject, FX.CM:1174, FX.CM:ReadyToProcessing ]
+    - DisplayName: "ReadyToProcessing"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - HasEffect:
       - [ UAObjectType, FX.CM:1007, FX.CM:ConnectionConfigurationSetProcessingStartedEventType ]
     - HasCause:
       - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
+      - DisplayName: "ProcessConnectionConfigurationSets"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - GeneratesEvent:
         - [ UAObjectType, FX.Data:1025, FX.Data:AuditUpdateMethodResultEventType ]
       - HasProperty:
         - [ UAVariable, FX.CM:1270, FX.CM:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Action: [ FX.CM:FxProcessEnum, 0 ]
             ConnectionConfigurationSets: [ NodeId, 1 ]
@@ -3865,6 +4352,7 @@ DefinedTypes:
           - [ UAMethod, FX.CM:1483, FX.CM:ProcessConnectionConfigurationSets ]
       - HasProperty:
         - [ UAVariable, FX.CM:1271, FX.CM:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Results: [ StatusCode, 1 ]
         - HasTypeDefinition:
@@ -3889,6 +4377,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1018, FX.CM:ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1391, FX.CM:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3900,8 +4389,10 @@ DefinedTypes:
 
   FX.CM:SubscriberConfigurationType:
   - [ UAObjectType, FX.CM:1001, FX.CM:SubscriberConfigurationType ]
+  - DisplayName: "SubscriberConfigurationType"
   - HasComponent:
     - [ UAVariable, FX.CM:6188, FX.CM:Address, NetworkAddressDataType, 0, 3 ]
+    - DisplayName: "Address"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -3910,6 +4401,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1001, FX.CM:SubscriberConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6189, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3918,6 +4410,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6188, FX.CM:Address, NetworkAddressDataType, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6190, FX.CM:MessageReceiveTimeout, Duration, 0, 3 ]
+    - DisplayName: "MessageReceiveTimeout"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -3926,6 +4419,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1001, FX.CM:SubscriberConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6191, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -3934,6 +4428,7 @@ DefinedTypes:
         - [ UAVariable, FX.CM:6190, FX.CM:MessageReceiveTimeout, Duration, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6192, FX.CM:ReceiveQos, ReceiveQosDataType, 1, 3 ]
+    - DisplayName: "ReceiveQos"
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
@@ -3942,6 +4437,7 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1001, FX.CM:SubscriberConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6193, FX.CM:Selections ]
+      - DisplayName: "Selections"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:

@@ -5,8 +5,14 @@
 <# if (!this.IsPlaceholder()) { #>
         "maxMultiplicity": 1,
 <# } #>
-        "name": "<#=TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName))#>",
-        "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>"<#=this.Target != null ? "," : ""#>
+        "name": "<#=TypeConverter.StripAngles(TypeConverter.Dequalify(relationshipDefinedType.BrowseName))#>",
+<# if (this.relationshipDefinedType.DisplayName != null && this.relationshipDefinedType.DisplayName != string.Empty) { #>
+        "displayName": "<#=relationshipDefinedType.DisplayName#>",
+<# } #>
+<# if (this.relationshipDefinedType.Description != null && this.relationshipDefinedType.Description != string.Empty) { #>
+        "description": "<#=relationshipDefinedType.Description#>",
+<# } #>
+        "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(relationshipDefinedType))#>"<#=this.Target != null ? "," : ""#>
 <# if (this.Target != null) { #>
         "target": "<#=this.Target#>"
 <# } #>

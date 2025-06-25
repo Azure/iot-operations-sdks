@@ -1,15 +1,19 @@
 DataTypes:
 - UADataType: [ MetalForming:3004, MetalForming:CyclicPartInformationDataType ]
+  DisplayName: "CyclicPartInformationDataType"
   Fields:
     CycleCount: [ Counter, 0 ]
     PartId: [ String, 0 ]
 - UADataType: [ MetalForming:3003, MetalForming:CyclicProcessValueDataType ]
+  DisplayName: "CyclicProcessValueDataType"
   Fields:
     AnalogSignal: [ Number, 0 ]
     Setpoint: [ Number, 0 ]
     CycleCount: [ Counter, 0 ]
     IsActive: [ Boolean, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -20,25 +24,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -46,11 +57,15 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ IA:3003, IA:LevelDisplayMode ]
+  DisplayName: "LevelDisplayMode"
+  Description: "Contains the values used to indicate how a percentual value is displayed if the stacklight unit works in Levelmeter mode."
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
 - UADataType: [ IA:3004, IA:SignalColor ]
+  DisplayName: "SignalColor"
+  Description: "Holds the possible colour values for stacklight lamps."
   Enums:
     Off: 0
     Red: 1
@@ -61,37 +76,47 @@ DataTypes:
     Cyan: 6
     White: 7
 - UADataType: [ IA:3005, IA:SignalModeLight ]
+  DisplayName: "SignalModeLight"
+  Description: "Contains the values used to indicate in what way a lamp behaves when switched on."
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
 - UADataType: [ IA:3002, IA:StacklightOperationMode ]
+  DisplayName: "StacklightOperationMode"
+  Description: "Contains the values used to indicate how a stacklight (as a whole unit) is used."
   Enums:
     Segmented: 0
     Levelmeter: 1
     Running_Light: 2
     Other: 3
 - UADataType: [ PADIM:1156, PADIM:ResetModeEnum ]
+  DisplayName: "ResetModeEnum"
   Enums:
     Application: 1
     Communication: 2712
     Factory: 2713
 - UADataType: [ PADIM:1158, PADIM:ExecutionModeEnum ]
+  DisplayName: "ExecutionModeEnum"
   Enums:
     Start: 2
     Abort: 255
 - UADataType: [ PADIM:1276, PADIM:PatDictionaryEnum ]
+  DisplayName: "PatDictionaryEnum"
   Enums:
     CAS: 0
     PAT: 1
     User-defined: 2
 - UADataType: [ PADIM:1275, PADIM:ChemicalSubstanceDataType ]
+  DisplayName: "ChemicalSubstanceDataType"
   Fields:
     PatDictionary: [ PADIM:PatDictionaryEnum, 0 ]
     Label: [ LocalizedText, 0 ]
     Id: [ LocalizedText, 0 ]
 - UADataType: [ MachineTool:67, MachineTool:ChannelMode ]
+  DisplayName: "ChannelMode"
+  Description: "NC channel mode Automatic – execute CNC part programs."
   Enums:
     Automatic: 0
     MdaMdi: 1
@@ -102,11 +127,15 @@ DataTypes:
     Reference: 6
     Other: 7
 - UADataType: [ MachineTool:64, MachineTool:ChannelState ]
+  DisplayName: "ChannelState"
+  Description: "There is an active command being executed by the NC channel."
   Enums:
     Active: 0
     Interrupted: 1
     Reset: 2
 - UADataType: [ MachineTool:71, MachineTool:EDMGeneratorState ]
+  DisplayName: "EDMGeneratorState"
+  Description: "The EDM spark generator state cannot be indicated."
   Enums:
     Undefined: 0
     Ready: 1
@@ -114,12 +143,16 @@ DataTypes:
     Active_High_Voltage: 3
     Error: 4
 - UADataType: [ MachineTool:70, MachineTool:LaserState ]
+  DisplayName: "LaserState"
+  Description: "The laser state cannot be indicated, for example because the device does not provide this information or because it is currently unavailable. This can be e.g. during the startup phase."
   Enums:
     Undefined: 0
     Ready: 1
     Active: 2
     Error: 3
 - UADataType: [ MachineTool:65, MachineTool:MachineOperationMode ]
+  DisplayName: "MachineOperationMode"
+  Description: "The machine tool is controlled manually, by the operator. Depending on technology specific norms, the maximum axis movement speeds of the machine tool are limited."
   Enums:
     Manual: 0
     Automatic: 1
@@ -128,6 +161,8 @@ DataTypes:
     Service: 4
     Other: 5
 - UADataType: [ MachineTool:63, MachineTool:PartQuality ]
+  DisplayName: "PartQuality"
+  Description: "The machine tool is not able to give a statement about the part quality."
   Enums:
     CapabilityUnavailable: 0
     Good: 1
@@ -135,12 +170,16 @@ DataTypes:
     NotYetMeasured: 3
     WillNotBeMeasured: 4
 - UADataType: [ MachineTool:62, MachineTool:ProcessIrregularity ]
+  DisplayName: "ProcessIrregularity"
+  Description: "The machine tool is not able to give a statement about process irregularities."
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
 - UADataType: [ MachineTool:68, MachineTool:ToolLifeIndication ]
+  DisplayName: "ToolLifeIndication"
+  Description: "The tool life indicates the time the tool has been in use or can still be used. The value shall be given in hours (decimal value)."
   Enums:
     Time: 0
     NumberOfParts: 1
@@ -151,6 +190,8 @@ DataTypes:
     Diameter: 6
     Other: 7
 - UADataType: [ MachineTool:66, MachineTool:ToolLocked ]
+  DisplayName: "ToolLocked"
+  Description: "The reason for locking the tool cannot be given."
   Enums:
     CapabilityUnavailable: 0
     ByOperator: 1
@@ -159,11 +200,15 @@ DataTypes:
     MeasurementError: 4
     Other: 5
 - UADataType: [ MachineTool:69, MachineTool:ToolManagement ]
+  DisplayName: "ToolManagement"
+  Description: "The tool is addressed using a single identifier."
   Enums:
     NumberBased: 0
     GroupBased: 1
     Other: 2
 - UADataType: [ isa95-jobcontrol:3005, isa95-jobcontrol:ISA95EquipmentDataType ]
+  DisplayName: "ISA95EquipmentDataType"
+  Description: "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties."
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
@@ -172,10 +217,14 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3015, isa95-jobcontrol:ISA95JobOrderAndStateDataType ]
+  DisplayName: "ISA95JobOrderAndStateDataType"
+  Description: "Defines the information needed to schedule and execute a job."
   Fields:
     JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
     State: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3008, isa95-jobcontrol:ISA95JobOrderDataType ]
+  DisplayName: "ISA95JobOrderDataType"
+  Description: "Defines the information needed to schedule and execute a job."
   Fields:
     JobOrderID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
@@ -189,6 +238,8 @@ DataTypes:
     PhysicalAssetRequirements: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
     MaterialRequirements: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3013, isa95-jobcontrol:ISA95JobResponseDataType ]
+  DisplayName: "ISA95JobResponseDataType"
+  Description: "Defines the information needed to schedule and execute a job."
   Fields:
     JobResponseID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
@@ -202,6 +253,8 @@ DataTypes:
     PhysicalAssetActuals: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
     MaterialActuals: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3010, isa95-jobcontrol:ISA95MaterialDataType ]
+  DisplayName: "ISA95MaterialDataType"
+  Description: "Defines a material resource, a quantity, an optional description, and an optional collection of properties."
   Fields:
     MaterialClassID: [ String, 0 ]
     MaterialDefinitionID: [ String, 0 ]
@@ -213,6 +266,8 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3003, isa95-jobcontrol:ISA95ParameterDataType ]
+  DisplayName: "ISA95ParameterDataType"
+  Description: "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter."
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
@@ -220,6 +275,8 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Subparameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3011, isa95-jobcontrol:ISA95PersonnelDataType ]
+  DisplayName: "ISA95PersonnelDataType"
+  Description: "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties."
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
@@ -228,6 +285,8 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3012, isa95-jobcontrol:ISA95PhysicalAssetDataType ]
+  DisplayName: "ISA95PhysicalAssetDataType"
+  Description: "Defines a physical asset, a quantity, an optional description, and an optional collection of properties."
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
@@ -236,6 +295,8 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3002, isa95-jobcontrol:ISA95PropertyDataType ]
+  DisplayName: "ISA95PropertyDataType"
+  Description: "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property."
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
@@ -243,46 +304,64 @@ DataTypes:
     EngineeringUnits: [ EUInformation, 0 ]
     Subproperties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
 - UADataType: [ isa95-jobcontrol:3006, isa95-jobcontrol:ISA95StateDataType ]
+  DisplayName: "ISA95StateDataType"
+  Description: "Defines the information needed to schedule and execute a job."
   Fields:
     BrowsePath: [ RelativePath, 0 ]
     StateText: [ LocalizedText, 0 ]
     StateNumber: [ UInt32, 0 ]
 - UADataType: [ isa95-jobcontrol:3007, isa95-jobcontrol:ISA95WorkMasterDataType ]
+  DisplayName: "ISA95WorkMasterDataType"
+  Description: "Defines a Work Master ID and the defined parameters for the Work Master."
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
     Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
 - UADataType: [ Machinery.Jobs:3003, Machinery.Jobs:JobExecutionMode ]
+  DisplayName: "JobExecutionMode"
+  Description: "Machine running in simulation mode with no workpiece involved."
   Enums:
     SimulationMode: 0
     TestMode: 1
     ProductionMode: 2
 - UADataType: [ Machinery.Jobs:3006, Machinery.Jobs:JobResult ]
+  DisplayName: "JobResult"
+  Description: "Unknown state. Used when result is not known, e.g. because job order is still running."
   Enums:
     Unknown: 0
     Successful: 1
     Unsuccessful: 2
 - UADataType: [ Machinery.Jobs:3004, Machinery.Jobs:ProcessIrregularity ]
+  DisplayName: "ProcessIrregularity"
+  Description: "The machine is not able to give a statement about process irregularities."
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
 - UADataType: [ Machinery.Jobs:3009, Machinery.Jobs:OutputInfoType ]
+  DisplayName: "OutputInfoType"
+  Description: "Identifier identifies the order (order identifier)."
   Enums:
     OrderNumber: 0
     LotNumber: 1
     SerialNumber: 2
 - UADataType: [ Machinery.Jobs:3015, Machinery.Jobs:BOMComponentInformationDataType ]
+  DisplayName: "BOMComponentInformationDataType"
+  Description: "Identification of the output."
   Fields:
     Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     Quantity: [ Double, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ Machinery.Jobs:3018, Machinery.Jobs:BOMInformationDataType ]
+  DisplayName: "BOMInformationDataType"
+  Description: "Identification of the output."
   Fields:
     Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     ComponentInformation: [ Machinery.Jobs:BOMComponentInformationDataType, 1 ]
 - UADataType: [ Machinery.Jobs:3012, Machinery.Jobs:OutputInformationDataType ]
+  DisplayName: "OutputInformationDataType"
+  Description: "ItemNumber defines an Identifier to identify the Type of the item (Material Identifier)."
   Fields:
     ItemNumber: [ String, 0 ]
     OutputInfo: [ Machinery.Jobs:OutputInfoType, 0 ]
@@ -290,6 +369,8 @@ DataTypes:
     LotNumber: [ String, 0 ]
     SerialNumber: [ String, 0 ]
 - UADataType: [ Machinery.Jobs:3021, Machinery.Jobs:OutputPerformanceInfoDataType ]
+  DisplayName: "OutputPerformanceInfoDataType"
+  Description: "Identification of the output."
   Fields:
     Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     StartTime: [ DateTime, 0 ]
@@ -300,59 +381,72 @@ DefinedTypes:
 
   MetalForming:CyclicProcessValueVariableType:
   - [ UAVariableType, MetalForming:2001, MetalForming:CyclicProcessValueVariableType, MetalForming:CyclicProcessValueDataType, 0, 0 ]
+  - DisplayName: "CyclicProcessValueVariableType"
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   MetalForming:FormingProcessConditionClassType:
   - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
+  - DisplayName: "FormingProcessConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, 11164, ProcessConditionClassType ]
 
   MetalForming:AllowableTiltingExceededConditionClassType:
   - [ UAObjectType, MetalForming:1011, MetalForming:AllowableTiltingExceededConditionClassType ]
+  - DisplayName: "AllowableTiltingExceededConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
   MetalForming:BreakthroughTonnageExceededConditionClassType:
   - [ UAObjectType, MetalForming:1014, MetalForming:BreakthroughTonnageExceededConditionClassType ]
+  - DisplayName: "BreakthroughTonnageExceededConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
   MetalForming:CorrectionValueOutOfRangeConditionClassType:
   - [ UAObjectType, MetalForming:1020, MetalForming:CorrectionValueOutOfRangeConditionClassType ]
+  - DisplayName: "CorrectionValueOutOfRangeConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
   MetalForming:EccentricLoadExceededConditionClassType:
   - [ UAObjectType, MetalForming:1006, MetalForming:EccentricLoadExceededConditionClassType ]
+  - DisplayName: "EccentricLoadExceededConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
   MetalForming:OverloadTriggeredConditionClassType:
   - [ UAObjectType, MetalForming:1005, MetalForming:OverloadTriggeredConditionClassType ]
+  - DisplayName: "OverloadTriggeredConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
   MetalForming:PositionOutOfRangeConditionClassType:
   - [ UAObjectType, MetalForming:1017, MetalForming:PositionOutOfRangeConditionClassType ]
+  - DisplayName: "PositionOutOfRangeConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
   MetalForming:ProcessForceExceededConditionClassType:
   - [ UAObjectType, MetalForming:1009, MetalForming:ProcessForceExceededConditionClassType ]
+  - DisplayName: "ProcessForceExceededConditionClassType"
   - HasSubtype_reverse:
     - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
   MetalForming:CyclicEventType:
   - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType ]
+  - DisplayName: "CyclicEventType"
   - HasComponent:
     - [ UAObject, MetalForming:5019, MetalForming:CurrentProcessValue ]
+    - DisplayName: "CurrentProcessValue"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6051, PADIM:AnalogSignal, Number, -2, 3 ]
+      - DisplayName: "AnalogSignal"
+      - Description: "The process value."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -361,6 +455,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5019, MetalForming:CurrentProcessValue ]
       - HasProperty:
         - [ UAVariable, MetalForming:6052, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -369,6 +464,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6051, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6053, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -379,6 +475,7 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6054, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -387,6 +484,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5019, MetalForming:CurrentProcessValue ]
   - HasComponent:
     - [ UAVariable, MetalForming:6055, MetalForming:CycleCount, Counter, 0, 3 ]
+    - DisplayName: "CycleCount"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -397,6 +495,7 @@ DefinedTypes:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasComponent:
     - [ UAVariable, MetalForming:6056, MetalForming:PartId, String, 0, 3 ]
+    - DisplayName: "PartId"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -406,10 +505,12 @@ DefinedTypes:
 
   MetalForming:FormingToolType:
   - [ UAObjectType, MetalForming:1010, MetalForming:FormingToolType ]
+  - DisplayName: "FormingToolType"
   - HasSubtype_reverse:
     - [ UAObjectType, MachineTool:49, MachineTool:BaseToolType ]
   - HasComponent:
     - [ UAObject, MetalForming:5004, MachineTool:Location ]
+    - DisplayName: "Location"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -418,6 +519,7 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1010, MetalForming:FormingToolType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6111, MachineTool:Name, String, 0, 3 ]
+      - DisplayName: "Name"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -426,6 +528,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5004, MachineTool:Location ]
     - HasProperty:
       - [ UAVariable, MetalForming:6046, MetalForming:Orientation, String, 0, 3 ]
+      - DisplayName: "Orientation"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -434,6 +537,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5004, MachineTool:Location ]
     - HasProperty:
       - [ UAVariable, MetalForming:6112, MachineTool:PlaceNumber, UInt16, 0, 3 ]
+      - DisplayName: "PlaceNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -442,12 +546,14 @@ DefinedTypes:
         - [ UAObject, MetalForming:5004, MachineTool:Location ]
     - HasComponent:
       - [ UAVariable, MetalForming:6048, MetalForming:Position, Double, 0, 3 ]
+      - DisplayName: "Position"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 17570, AnalogUnitRangeType ]
       - HasProperty:
         - [ UAVariable, MetalForming:6049, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -456,6 +562,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6048, MetalForming:Position, Double, 0, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6050, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -466,6 +573,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5004, MachineTool:Location ]
     - HasProperty:
       - [ UAVariable, MetalForming:6047, MetalForming:Stage, UInt16, 0, 3 ]
+      - DisplayName: "Stage"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -475,8 +583,10 @@ DefinedTypes:
 
   MetalForming:FormingMultiToolType:
   - [ UAObjectType, MetalForming:1012, MetalForming:FormingMultiToolType ]
+  - DisplayName: "FormingMultiToolType"
   - HasComponent:
     - [ UAObject, MetalForming:5005, MetalForming:<FormingTool> ]
+    - DisplayName: "<FormingTool>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -485,6 +595,7 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1012, MetalForming:FormingMultiToolType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6085, MachineTool:Identifier, String, 0, 0 ]
+      - DisplayName: "Identifier"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -493,6 +604,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5005, MetalForming:<FormingTool> ]
     - HasComponent:
       - [ UAObject, MetalForming:5020, MachineTool:Location ]
+      - DisplayName: "Location"
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
@@ -501,6 +613,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5005, MetalForming:<FormingTool> ]
       - HasProperty:
         - [ UAVariable, MetalForming:6113, MachineTool:Name, String, 0, 3 ]
+        - DisplayName: "Name"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -509,6 +622,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5020, MachineTool:Location ]
       - HasProperty:
         - [ UAVariable, MetalForming:6114, MachineTool:PlaceNumber, UInt16, 0, 3 ]
+        - DisplayName: "PlaceNumber"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -517,6 +631,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5020, MachineTool:Location ]
     - HasProperty:
       - [ UAVariable, MetalForming:6086, MachineTool:Name, String, 0, 0 ]
+      - DisplayName: "Name"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -528,8 +643,10 @@ DefinedTypes:
 
   MetalForming:ProcessWorkingUnitType:
   - [ UAObjectType, MetalForming:1004, MetalForming:ProcessWorkingUnitType ]
+  - DisplayName: "ProcessWorkingUnitType"
   - HasComponent:
     - [ UAObject, MetalForming:5010, MetalForming:<CyclicProcessValue> ]
+    - DisplayName: "<CyclicProcessValue>"
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
     - HasModellingRule:
@@ -538,6 +655,8 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1004, MetalForming:ProcessWorkingUnitType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6022, PADIM:AnalogSignal, Number, -2, 3 ]
+      - DisplayName: "AnalogSignal"
+      - Description: "The process value."
       - HasTypeDefinition:
         - [ UAVariableType, Machinery.ProcessValues:2002, Machinery.ProcessValues:ProcessValueVariableType ]
       - HasModellingRule:
@@ -546,6 +665,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5010, MetalForming:<CyclicProcessValue> ]
       - HasProperty:
         - [ UAVariable, MetalForming:6023, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -554,6 +674,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6022, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6024, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -562,12 +683,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6022, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6071, Machinery.ProcessValues:HighHighLimit, Number, 0, 3 ]
+        - DisplayName: "HighHighLimit"
+        - Description: "Defines the absolute high high limit"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6072, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -578,12 +702,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6022, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6073, Machinery.ProcessValues:HighLimit, Number, 0, 3 ]
+        - DisplayName: "HighLimit"
+        - Description: "Defines the absolute high limit"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6074, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -594,12 +721,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6022, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6075, Machinery.ProcessValues:LowLimit, Number, 0, 3 ]
+        - DisplayName: "LowLimit"
+        - Description: "Defines the absolute low limit"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6076, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -610,12 +740,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6022, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6077, Machinery.ProcessValues:LowLowLimit, Number, 0, 3 ]
+        - DisplayName: "LowLowLimit"
+        - Description: "Defines the absolute low low limit"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6078, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -626,12 +759,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6022, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6079, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
+        - DisplayName: "PercentageValue"
+        - Description: "Provides the process value in percentage."
         - HasTypeDefinition:
           - [ UAVariableType, 17570, AnalogUnitRangeType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6080, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - UnitId: 20529
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
@@ -641,6 +777,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6079, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6081, MetalForming:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -651,6 +788,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6022, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6021, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+      - DisplayName: "CyclicProcessValue"
       - HasTypeDefinition:
         - [ UAVariableType, MetalForming:2001, MetalForming:CyclicProcessValueVariableType, MetalForming:CyclicProcessValueDataType, 0, 0 ]
       - HasModellingRule:
@@ -659,12 +797,15 @@ DefinedTypes:
         - [ UAObject, MetalForming:5010, MetalForming:<CyclicProcessValue> ]
     - HasComponent:
       - [ UAVariable, MetalForming:6082, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
+      - DisplayName: "ProcessValueSetpoint"
+      - Description: "The desired value, may or may not be controlled by the server."
       - HasTypeDefinition:
         - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, MetalForming:6083, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -673,6 +814,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6082, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6084, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -683,6 +825,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5010, MetalForming:<CyclicProcessValue> ]
     - HasProperty:
       - [ UAVariable, MetalForming:6025, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -691,6 +834,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5010, MetalForming:<CyclicProcessValue> ]
   - HasComponent:
     - [ UAObject, MetalForming:5009, MetalForming:<ProcessValue> ]
+    - DisplayName: "<ProcessValue>"
     - HasTypeDefinition:
       - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - HasModellingRule:
@@ -699,6 +843,8 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1004, MetalForming:ProcessWorkingUnitType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6016, PADIM:AnalogSignal, Number, -2, 3 ]
+      - DisplayName: "AnalogSignal"
+      - Description: "The process value."
       - HasTypeDefinition:
         - [ UAVariableType, Machinery.ProcessValues:2002, Machinery.ProcessValues:ProcessValueVariableType ]
       - HasModellingRule:
@@ -707,6 +853,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5009, MetalForming:<ProcessValue> ]
       - HasProperty:
         - [ UAVariable, MetalForming:6017, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -715,6 +862,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6016, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6018, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -723,12 +871,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6016, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6057, Machinery.ProcessValues:HighHighLimit, Number, 0, 3 ]
+        - DisplayName: "HighHighLimit"
+        - Description: "Defines the absolute high high limit"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6058, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -739,12 +890,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6016, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6059, Machinery.ProcessValues:HighLimit, Number, 0, 3 ]
+        - DisplayName: "HighLimit"
+        - Description: "Defines the absolute high limit"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6060, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -755,12 +909,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6016, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6061, Machinery.ProcessValues:LowLimit, Number, 0, 3 ]
+        - DisplayName: "LowLimit"
+        - Description: "Defines the absolute low limit"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6062, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -771,12 +928,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6016, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6063, Machinery.ProcessValues:LowLowLimit, Number, 0, 3 ]
+        - DisplayName: "LowLowLimit"
+        - Description: "Defines the absolute low low limit"
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6064, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -787,12 +947,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6016, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6065, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
+        - DisplayName: "PercentageValue"
+        - Description: "Provides the process value in percentage."
         - HasTypeDefinition:
           - [ UAVariableType, 17570, AnalogUnitRangeType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasProperty:
           - [ UAVariable, MetalForming:6066, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - UnitId: 20529
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
@@ -802,6 +965,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6065, Machinery.ProcessValues:PercentageValue, Double, 0, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6067, MetalForming:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -812,12 +976,15 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6016, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6068, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
+      - DisplayName: "ProcessValueSetpoint"
+      - Description: "The desired value, may or may not be controlled by the server."
       - HasTypeDefinition:
         - [ UAVariableType, Machinery.ProcessValues:2003, Machinery.ProcessValues:ProcessValueSetpointVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasProperty:
         - [ UAVariable, MetalForming:6069, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -826,6 +993,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6068, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6070, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -836,6 +1004,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5009, MetalForming:<ProcessValue> ]
     - HasProperty:
       - [ UAVariable, MetalForming:6019, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -844,12 +1013,14 @@ DefinedTypes:
         - [ UAObject, MetalForming:5009, MetalForming:<ProcessValue> ]
   - HasComponent:
     - [ UAObject, MetalForming:5007, MetalForming:MachineryItemState ]
+    - DisplayName: "MachineryItemState"
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1002, Machinery:MachineryItemState_StateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, MetalForming:6014, MetalForming:CurrentState, LocalizedText, 0, 0 ]
+      - DisplayName: "CurrentState"
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
@@ -858,6 +1029,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5007, MetalForming:MachineryItemState ]
       - HasProperty:
         - [ UAVariable, MetalForming:6015, MetalForming:Id, NodeId, 0, 0 ]
+        - DisplayName: "Id"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -871,20 +1043,25 @@ DefinedTypes:
 
   MetalForming:FormingProcessWorkingUnitType:
   - [ UAObjectType, MetalForming:1008, MetalForming:FormingProcessWorkingUnitType ]
+  - DisplayName: "FormingProcessWorkingUnitType"
   - HasComponent:
     - [ UAObject, MetalForming:5008, MetalForming:FormingPositions ]
+    - DisplayName: "FormingPositions"
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1003, MetalForming:FormingPositionsType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAObject, MetalForming:5021, MetalForming:BDC ]
+      - DisplayName: "BDC"
       - HasTypeDefinition:
         - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, MetalForming:6026, PADIM:AnalogSignal, Number, -2, 3 ]
+        - DisplayName: "AnalogSignal"
+        - Description: "The process value."
         - HasTypeDefinition:
           - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType ]
         - HasModellingRule:
@@ -893,6 +1070,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5021, MetalForming:BDC ]
         - HasProperty:
           - [ UAVariable, MetalForming:6087, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -901,6 +1079,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6026, PADIM:AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6088, MetalForming:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -911,6 +1090,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5008, MetalForming:FormingPositions ]
       - HasComponent:
         - [ UAVariable, MetalForming:6089, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+        - DisplayName: "CyclicProcessValue"
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, MetalForming:CyclicProcessValueVariableType, MetalForming:CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
@@ -919,6 +1099,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5021, MetalForming:BDC ]
       - HasProperty:
         - [ UAVariable, MetalForming:6090, PADIM:SignalTag, String, 0, 3 ]
+        - DisplayName: "Tag"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -929,12 +1110,15 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1008, MetalForming:FormingProcessWorkingUnitType ]
     - HasComponent:
       - [ UAObject, MetalForming:5022, MetalForming:Retract ]
+      - DisplayName: "Retract"
       - HasTypeDefinition:
         - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, MetalForming:6091, PADIM:AnalogSignal, Number, -2, 3 ]
+        - DisplayName: "AnalogSignal"
+        - Description: "The process value."
         - HasTypeDefinition:
           - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType ]
         - HasModellingRule:
@@ -943,6 +1127,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5022, MetalForming:Retract ]
         - HasProperty:
           - [ UAVariable, MetalForming:6092, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -951,6 +1136,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6091, PADIM:AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6093, MetalForming:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -959,6 +1145,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6091, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6094, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+        - DisplayName: "CyclicProcessValue"
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, MetalForming:CyclicProcessValueVariableType, MetalForming:CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
@@ -969,6 +1156,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5008, MetalForming:FormingPositions ]
       - HasProperty:
         - [ UAVariable, MetalForming:6095, PADIM:SignalTag, String, 0, 3 ]
+        - DisplayName: "Tag"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -977,12 +1165,15 @@ DefinedTypes:
           - [ UAObject, MetalForming:5022, MetalForming:Retract ]
     - HasComponent:
       - [ UAObject, MetalForming:5023, MetalForming:Start ]
+      - DisplayName: "Start"
       - HasTypeDefinition:
         - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, MetalForming:6096, PADIM:AnalogSignal, Number, -2, 3 ]
+        - DisplayName: "AnalogSignal"
+        - Description: "The process value."
         - HasTypeDefinition:
           - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType ]
         - HasModellingRule:
@@ -991,6 +1182,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5023, MetalForming:Start ]
         - HasProperty:
           - [ UAVariable, MetalForming:6097, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -999,6 +1191,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6096, PADIM:AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6098, MetalForming:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1007,6 +1200,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6096, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6099, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+        - DisplayName: "CyclicProcessValue"
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, MetalForming:CyclicProcessValueVariableType, MetalForming:CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
@@ -1017,6 +1211,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5008, MetalForming:FormingPositions ]
       - HasProperty:
         - [ UAVariable, MetalForming:6100, PADIM:SignalTag, String, 0, 3 ]
+        - DisplayName: "Tag"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1025,12 +1220,15 @@ DefinedTypes:
           - [ UAObject, MetalForming:5023, MetalForming:Start ]
     - HasComponent:
       - [ UAObject, MetalForming:5024, MetalForming:TDC ]
+      - DisplayName: "TDC"
       - HasTypeDefinition:
         - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, MetalForming:6101, PADIM:AnalogSignal, Number, -2, 3 ]
+        - DisplayName: "AnalogSignal"
+        - Description: "The process value."
         - HasTypeDefinition:
           - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType ]
         - HasModellingRule:
@@ -1039,6 +1237,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5024, MetalForming:TDC ]
         - HasProperty:
           - [ UAVariable, MetalForming:6102, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1047,6 +1246,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6101, PADIM:AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6103, MetalForming:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1055,6 +1255,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6101, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6104, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+        - DisplayName: "CyclicProcessValue"
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, MetalForming:CyclicProcessValueVariableType, MetalForming:CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
@@ -1063,6 +1264,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5024, MetalForming:TDC ]
       - HasProperty:
         - [ UAVariable, MetalForming:6105, PADIM:SignalTag, String, 0, 3 ]
+        - DisplayName: "Tag"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1073,12 +1275,15 @@ DefinedTypes:
         - [ UAObject, MetalForming:5008, MetalForming:FormingPositions ]
     - HasComponent:
       - [ UAObject, MetalForming:5025, MetalForming:Touch ]
+      - DisplayName: "Touch"
       - HasTypeDefinition:
         - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, MetalForming:6106, PADIM:AnalogSignal, Number, -2, 3 ]
+        - DisplayName: "AnalogSignal"
+        - Description: "The process value."
         - HasTypeDefinition:
           - [ UAVariableType, PADIM:1111, PADIM:AnalogSignalVariableType ]
         - HasModellingRule:
@@ -1087,6 +1292,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5025, MetalForming:Touch ]
         - HasProperty:
           - [ UAVariable, MetalForming:6107, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+          - DisplayName: "EngineeringUnits"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1095,6 +1301,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6106, PADIM:AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6108, MetalForming:EURange, Range, 0, 0 ]
+          - DisplayName: "EURange"
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
@@ -1103,6 +1310,7 @@ DefinedTypes:
             - [ UAVariable, MetalForming:6106, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6109, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+        - DisplayName: "CyclicProcessValue"
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, MetalForming:CyclicProcessValueVariableType, MetalForming:CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
@@ -1111,6 +1319,7 @@ DefinedTypes:
           - [ UAObject, MetalForming:5025, MetalForming:Touch ]
       - HasProperty:
         - [ UAVariable, MetalForming:6110, PADIM:SignalTag, String, 0, 3 ]
+        - DisplayName: "Tag"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -1124,14 +1333,18 @@ DefinedTypes:
 
   MetalForming:FormingPositionsType:
   - [ UAObjectType, MetalForming:1003, MetalForming:FormingPositionsType ]
+  - DisplayName: "FormingPositionsType"
   - HasComponent:
     - [ UAObject, MetalForming:5016, MetalForming:BDC ]
+    - DisplayName: "BDC"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6042, PADIM:AnalogSignal, Number, -2, 3 ]
+      - DisplayName: "AnalogSignal"
+      - Description: "The process value."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1140,6 +1353,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5016, MetalForming:BDC ]
       - HasProperty:
         - [ UAVariable, MetalForming:6043, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1148,6 +1362,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6042, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6044, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1158,6 +1373,7 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1003, MetalForming:FormingPositionsType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6041, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+      - DisplayName: "CyclicProcessValue"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1166,6 +1382,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5016, MetalForming:BDC ]
     - HasProperty:
       - [ UAVariable, MetalForming:6045, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1176,12 +1393,15 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, MetalForming:5012, MetalForming:Retract ]
+    - DisplayName: "Retract"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6009, PADIM:AnalogSignal, Number, -2, 3 ]
+      - DisplayName: "AnalogSignal"
+      - Description: "The process value."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1190,6 +1410,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5012, MetalForming:Retract ]
       - HasProperty:
         - [ UAVariable, MetalForming:6010, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1198,6 +1419,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6009, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6011, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1206,6 +1428,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6009, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6008, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+      - DisplayName: "CyclicProcessValue"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1216,6 +1439,7 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1003, MetalForming:FormingPositionsType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6012, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1224,12 +1448,15 @@ DefinedTypes:
         - [ UAObject, MetalForming:5012, MetalForming:Retract ]
   - HasComponent:
     - [ UAObject, MetalForming:5013, MetalForming:Start ]
+    - DisplayName: "Start"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6027, PADIM:AnalogSignal, Number, -2, 3 ]
+      - DisplayName: "AnalogSignal"
+      - Description: "The process value."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1238,6 +1465,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5013, MetalForming:Start ]
       - HasProperty:
         - [ UAVariable, MetalForming:6028, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1246,6 +1474,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6027, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6029, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1254,6 +1483,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6027, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6013, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+      - DisplayName: "CyclicProcessValue"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1264,6 +1494,7 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1003, MetalForming:FormingPositionsType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6030, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1272,12 +1503,15 @@ DefinedTypes:
         - [ UAObject, MetalForming:5013, MetalForming:Start ]
   - HasComponent:
     - [ UAObject, MetalForming:5014, MetalForming:TDC ]
+    - DisplayName: "TDC"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6032, PADIM:AnalogSignal, Number, -2, 3 ]
+      - DisplayName: "AnalogSignal"
+      - Description: "The process value."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1286,6 +1520,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5014, MetalForming:TDC ]
       - HasProperty:
         - [ UAVariable, MetalForming:6033, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1294,6 +1529,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6032, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6034, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1302,6 +1538,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6032, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6031, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+      - DisplayName: "CyclicProcessValue"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1310,6 +1547,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5014, MetalForming:TDC ]
     - HasProperty:
       - [ UAVariable, MetalForming:6035, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1320,12 +1558,15 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1003, MetalForming:FormingPositionsType ]
   - HasComponent:
     - [ UAObject, MetalForming:5015, MetalForming:Touch ]
+    - DisplayName: "Touch"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6037, PADIM:AnalogSignal, Number, -2, 3 ]
+      - DisplayName: "AnalogSignal"
+      - Description: "The process value."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1334,6 +1575,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5015, MetalForming:Touch ]
       - HasProperty:
         - [ UAVariable, MetalForming:6038, MetalForming:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1342,6 +1584,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6037, PADIM:AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6039, MetalForming:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1350,6 +1593,7 @@ DefinedTypes:
           - [ UAVariable, MetalForming:6037, PADIM:AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6036, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+      - DisplayName: "CyclicProcessValue"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1358,6 +1602,7 @@ DefinedTypes:
         - [ UAObject, MetalForming:5015, MetalForming:Touch ]
     - HasProperty:
       - [ UAVariable, MetalForming:6040, PADIM:SignalTag, String, 0, 3 ]
+      - DisplayName: "Tag"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1369,8 +1614,10 @@ DefinedTypes:
 
   MetalForming:CyclicProcessValueType:
   - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
+  - DisplayName: "CyclicProcessValueType"
   - HasComponent:
     - [ UAVariable, MetalForming:6020, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
+    - DisplayName: "CyclicProcessValue"
     - HasTypeDefinition:
       - [ UAVariableType, MetalForming:2001, MetalForming:CyclicProcessValueVariableType, MetalForming:CyclicProcessValueDataType, 0, 0 ]
     - HasModellingRule:

@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ Woodworking:3004, Woodworking:WwEventCategoryEnumeration ]
+  DisplayName: "WwEventCategoryEnumeration"
+  Description: "No other event category applies or it is unknown."
   Enums:
     OTHER: 0
     DIAGNOSTIC: 1
@@ -8,6 +10,8 @@ DataTypes:
     ALARM: 4
     ERROR: 5
 - UADataType: [ Woodworking:20, Woodworking:WwUnitModeEnumeration ]
+  DisplayName: "WwUnitModeEnumeration"
+  Description: "This enumeration represents the generalized mode of a unit."
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -16,6 +20,8 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ Woodworking:21, Woodworking:WwUnitStateEnumeration ]
+  DisplayName: "WwUnitStateEnumeration"
+  Description: "This enumeration represents the generalized state of a unit."
   Enums:
     OFFLINE: 0
     STANDBY: 1
@@ -23,9 +29,13 @@ DataTypes:
     WORKING: 3
     ERROR: 4
 - UADataType: [ Woodworking:3003, Woodworking:WwMessageArgumentDataType ]
+  DisplayName: "WwMessageArgumentDataType"
+  Description: "The WwArgumentDataType definition extends the argument structure with an argument value."
   Fields:
     Value: [ Woodworking:WwMessageArgumentValueDataType, 0 ]
 - UADataType: [ Woodworking:3002, Woodworking:WwMessageArgumentValueDataType ]
+  DisplayName: "WwMessageArgumentValueDataType"
+  Description: "The WwArgumentValueDataType definition defines the possible types of an argument value."
   Fields:
     Array: [ Woodworking:WwMessageArgumentValueDataType, 1 ]
     Boolean: [ Boolean, 0 ]
@@ -45,6 +55,8 @@ DataTypes:
     String: [ String, 0 ]
     Other: [ String, 0 ]
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -55,25 +67,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -85,32 +104,48 @@ DefinedTypes:
 
   Woodworking:WwBaseEventType:
   - [ UAObjectType, Woodworking:13, Woodworking:WwBaseEventType ]
+  - DisplayName: "WwBaseEventType"
+  - Description: "The WwBaseEventType represents a message event from a module"
   - HasProperty:
     - [ UAVariable, Woodworking:6232, Woodworking:Arguments, Woodworking:WwMessageArgumentDataType, 1, 0 ]
+    - DisplayName: "Arguments"
+    - Description: "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Woodworking:6056, Woodworking:EventCategory, Woodworking:WwEventCategoryEnumeration, 0, 0 ]
+    - DisplayName: "EventCategory"
+    - Description: "The EventCategory Variable provides the category of the event."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Woodworking:259, Woodworking:Group, String, 0, 0 ]
+    - DisplayName: "Group"
+    - Description: "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”. See chapter “Categorizing and grouping the messages, events, alarms and conditions”."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Woodworking:260, Woodworking:LocalizedMessages, LocalizedText, 1, 0 ]
+    - DisplayName: "LocalizedMessages"
+    - Description: "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Woodworking:256, Woodworking:MessageId, String, 0, 0 ]
+    - DisplayName: "MessageId"
+    - Description: "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Woodworking:257, Woodworking:MessageName, String, 0, 0 ]
+    - DisplayName: "MessageName"
+    - Description: "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Woodworking:258, Woodworking:PathParts, String, 1, 0 ]
+    - DisplayName: "PathParts"
+    - Description: "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -118,14 +153,20 @@ DefinedTypes:
 
   Woodworking:IWwBaseStateType:
   - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
+  - DisplayName: "IWwBaseStateType"
+  - Description: "The IWwBaseStateType represents the state of an unit. An unit can be a machine of part of a machine."
   - HasComponent:
     - [ UAObject, Woodworking:5003, Woodworking:Flags ]
+    - DisplayName: "Flags"
+    - Description: "The Flags Object provides the flags of the unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, Woodworking:5004, Woodworking:Overview ]
+    - DisplayName: "Overview"
+    - Description: "The Overview Object provides a general state of the unit."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -134,6 +175,8 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAObject, Woodworking:5006, Woodworking:Values ]
+    - DisplayName: "Values"
+    - Description: "The Values Object provides the counters of the unit."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -141,41 +184,61 @@ DefinedTypes:
 
   Woodworking:IWwEventMessageType:
   - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
+  - DisplayName: "IWwEventMessageType"
+  - Description: "The interface definition IWwEventMessageType describes the common extensions for all events and conditions. Each instance definition that includes this interface with a HasInterface reference defines the predefined extensions"
   - HasProperty:
     - [ UAVariable, Woodworking:6222, Woodworking:Arguments, Woodworking:WwMessageArgumentDataType, 1, 0 ]
+    - DisplayName: "Arguments"
+    - Description: "The Arguments Variable is an argument value array of one dimension that can be used to parameterize the message. The number of the indexing in the array corresponds to the placeholder number in the message text. This ensures that the formatting functions of the implementations enable the localized message texts to be created."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Woodworking:6169, Woodworking:EventCategory, Woodworking:WwEventCategoryEnumeration, 0, 0 ]
+    - DisplayName: "EventCategory"
+    - Description: "The EventCategory Variable provides the category of the event."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Woodworking:6220, Woodworking:Group, String, 0, 0 ]
+    - DisplayName: "Group"
+    - Description: "The Group Variable specifies the class or group of the Message like “safety”, “emergency”, “consumable”. See chapter “Categorizing and grouping the messages, events, alarms and conditions”."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasProperty:
     - [ UAVariable, Woodworking:6221, Woodworking:LocalizedMessages, LocalizedText, 1, 0 ]
+    - DisplayName: "LocalizedMessages"
+    - Description: "The LocalizedMessages Variable contains an array of localized messages corresponding to the installed server languages."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Woodworking:6217, Woodworking:MessageId, String, 0, 0 ]
+    - DisplayName: "MessageId"
+    - Description: "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Woodworking:6218, Woodworking:MessageName, String, 0, 0 ]
+    - DisplayName: "MessageName"
+    - Description: "The MessageName Variable is a short name like a number or title to reference a translation of the general message text. Example: “ID_MSG_EmergencyAlarm”."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Woodworking:6219, Woodworking:PathParts, String, 1, 0 ]
+    - DisplayName: "PathParts"
+    - Description: "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName. Example: “Machine”, “FixedSide”, “Sizing”, “Milling1”"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   Woodworking:IWwStateType:
   - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType ]
+  - DisplayName: "IWwStateType"
+  - Description: "The IWwStateType provides a list of machine states."
   - HasComponent:
     - [ UAObject, Woodworking:5009, Woodworking:Machine ]
+    - DisplayName: "Machine"
+    - Description: "State of the whole machine."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -184,6 +247,8 @@ DefinedTypes:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAObject, Woodworking:5016, Woodworking:SubUnits ]
+    - DisplayName: "SubUnits"
+    - Description: "The SubUnits Object is used when a machine has multiple states. For example, a CNC machine can have several places where independent jobs are produced."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -191,8 +256,12 @@ DefinedTypes:
 
   Woodworking:IWwSubUnitsType:
   - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType ]
+  - DisplayName: "IWwSubUnitsType"
+  - Description: "The IWwSubUnitsType provides a list of subUnits."
   - HasComponent:
     - [ UAObject, Woodworking:5002, Woodworking:<SubUnit> ]
+    - DisplayName: "<SubUnit>"
+    - Description: "Each <SubUnit> Object represents an instance of a state. For example, a CNC machine can have two places where independent jobs are produced. Then there are two <SubUnit> Objects. They may be named “Place 1” and “Place 2”."
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
@@ -202,108 +271,161 @@ DefinedTypes:
 
   Woodworking:IWwUnitFlagsType:
   - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
+  - DisplayName: "IWwUnitFlagsType"
+  - Description: "The IWwUnitFlagsType represents the flags of a unit"
   - HasComponent:
     - [ UAVariable, Woodworking:88, Woodworking:AirPresent, Boolean, 0, 0 ]
+    - DisplayName: "AirPresent"
+    - Description: "The AirPresent Variable is true if the air pressure present in the machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:97, Woodworking:Alarm, Boolean, 0, 0 ]
+    - DisplayName: "Alarm"
+    - Description: "The Alarm Variable is true if at least one alarm exists."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:92, Woodworking:Calibrated, Boolean, 0, 0 ]
+    - DisplayName: "Calibrated"
+    - Description: "The Calibrated Variable is true if all devices are calibrated."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:89, Woodworking:DustChipSuction, Boolean, 0, 0 ]
+    - DisplayName: "DustChipSuction"
+    - Description: "The DustChipSuction Variable is true if the dust and chip suction is ready."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:90, Woodworking:Emergency, Boolean, 0, 0 ]
+    - DisplayName: "Emergency"
+    - Description: "The Emergency Variable is true if at least one emergency button is pressed."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:108, Woodworking:EnergySaving, Boolean, 0, 0 ]
+    - DisplayName: "EnergySaving"
+    - Description: "The EnergySaving Variable is true if energy saving is activated on the machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:96, Woodworking:Error, Boolean, 0, 0 ]
+    - DisplayName: "Error"
+    - Description: "The Error Variable is true if at least one reason exists which prevents the machine from working."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:109, Woodworking:ExternalEmergency, Boolean, 0, 0 ]
+    - DisplayName: "ExternalEmergency"
+    - Description: "The ExternalEmergency Variable is true if there is an emergency from the line controller."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:111, Woodworking:FeedRuns, Boolean, 0, 0 ]
+    - DisplayName: "FeedRuns"
+    - Description: "The FeedRuns Variable is true if the feed is running on a throughfeed machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:99, Woodworking:Hold, Boolean, 0, 0 ]
+    - DisplayName: "Hold"
+    - Description: "The Hold Variable is true if the movements are paused by the operator."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6033, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
+    - DisplayName: "LoadingEnabled"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:86, Woodworking:MachineInitialized, Boolean, 0, 0 ]
+    - DisplayName: "MachineInitialized"
+    - Description: "The MachineInitialized Variable is true if the MachineOn is true, the PLC and the control processes are running. The machine is ready for usage for the operator."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:85, Woodworking:MachineOn, Boolean, 0, 0 ]
+    - DisplayName: "MachineOn"
+    - Description: "The MachineOn Variable is true if the machine is switched on. If the OPC UA Server runs on the machine this value is always true."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:110, Woodworking:MaintenanceRequired, Boolean, 0, 0 ]
+    - DisplayName: "MaintenanceRequired"
+    - Description: "The MaintenanceRequired Variable is true if maintenance is required."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:103, Woodworking:ManualActivityRequired, Boolean, 0, 0 ]
+    - DisplayName: "ManualActivityRequired"
+    - Description: "The ManualActivityRequired Variable is true if a manual activity by the operator is required. The RecipeInRun is not affected."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:95, Woodworking:Moving, Boolean, 0, 0 ]
+    - DisplayName: "Moving"
+    - Description: "The Moving Variable is true if at least one axis is moving."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:87, Woodworking:PowerPresent, Boolean, 0, 0 ]
+    - DisplayName: "PowerPresent"
+    - Description: "The PowerPresent Variable is true if 400V are present (the drives are ready to move)."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:102, Woodworking:RecipeInHold, Boolean, 0, 0 ]
+    - DisplayName: "RecipeInHold"
+    - Description: "The RecipeInHold Variable is true if the machine is paused by the program. This is only possible if the RecipeInRun Variable is also true."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:100, Woodworking:RecipeInRun, Boolean, 0, 0 ]
+    - DisplayName: "RecipeInRun"
+    - Description: "The RecipeInRun Variable is true if the machine runs its program. This is only possible if the Error Variable is false. However, if the machine is paused by the program, the machine is considered to still be running its program, i.e. while the RecipeInHold Variable is true, the RecipeInRun cannot be false."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:101, Woodworking:RecipeInSetup, Boolean, 0, 0 ]
+    - DisplayName: "RecipeInSetup"
+    - Description: "The RecipeInSetup Variable is true if the RecipeInRun is true and the machine is in the setup phase (example: automatic tool change)."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:93, Woodworking:Remote, Boolean, 0, 0 ]
+    - DisplayName: "Remote"
+    - Description: "The Remote Variable is true if the machine is working with programs sent by the supervisor or other external application."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:91, Woodworking:Safety, Boolean, 0, 0 ]
+    - DisplayName: "Safety"
+    - Description: "The Safety Variable is true if at least one safety device (light curtain, safety mat, …) has intervened."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:107, Woodworking:WaitLoad, Boolean, 0, 0 ]
+    - DisplayName: "WaitLoad"
+    - Description: "The WaitLoad Variable is true if the machine is waiting for pieces."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:106, Woodworking:WaitUnload, Boolean, 0, 0 ]
+    - DisplayName: "WaitUnload"
+    - Description: "The WaitUnload Variable is true if the machine is waiting to unload pieces."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:98, Woodworking:Warning, Boolean, 0, 0 ]
+    - DisplayName: "Warning"
+    - Description: "The Warning Variable is true if at least one warning exists."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:94, Woodworking:WorkpiecePresent, Boolean, 0, 0 ]
+    - DisplayName: "WorkpiecePresent"
+    - Description: "The WorkpiecePresent Variable is true if at least one piece is inside the machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -311,12 +433,18 @@ DefinedTypes:
 
   Woodworking:IWwUnitOverviewType:
   - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
+  - DisplayName: "IWwUnitOverviewType"
+  - Description: "The IWwUnitOverviewType represents the generalized state of a unit."
   - HasComponent:
     - [ UAVariable, Woodworking:130, Woodworking:CurrentMode, Woodworking:WwUnitModeEnumeration, 0, 0 ]
+    - DisplayName: "CurrentMode"
+    - Description: "The CurrentMode Variable provides the generalized mode of the component."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Woodworking:129, Woodworking:CurrentState, Woodworking:WwUnitStateEnumeration, 0, 0 ]
+    - DisplayName: "CurrentState"
+    - Description: "The CurrentState Variable provides the generalized state of the component."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -324,170 +452,252 @@ DefinedTypes:
 
   Woodworking:IWwUnitValuesType:
   - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
+  - DisplayName: "IWwUnitValuesType"
+  - Description: "The IWwUnitValuesType represents the values of a unit"
   - HasComponent:
     - [ UAVariable, Woodworking:6034, Woodworking:AbsoluteErrorTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteErrorTime"
+    - Description: "The AbsoluteErrorTime Variable provides the absolute time in msec of the ERROR_4 state in msec."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6035, Woodworking:AbsoluteLength, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteLength"
+    - Description: "The AbsoluteLength Variable provides the absolute produced length in mm."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6037, Woodworking:AbsoluteMachineOffTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteMachineOffTime"
+    - Description: "The AbsoluteOfflineTime can be calculated by the machine. The shutdown time and the starting time have to be stored on the machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6036, Woodworking:AbsoluteMachineOnTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteMachineOnTime"
+    - Description: "The AbsoluteMachineOnTime Variable provides the absolute time in msec the machine is turned on based on the MachineOn state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6038, Woodworking:AbsolutePiecesIn, UInt64, 0, 0 ]
+    - DisplayName: "AbsolutePiecesIn"
+    - Description: "The AbsolutePiecesIn Variable provides the absolute count of pieces which came into the machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6039, Woodworking:AbsolutePiecesOut, UInt64, 0, 0 ]
+    - DisplayName: "AbsolutePiecesOut"
+    - Description: "The AbsolutePiecesOut Variable provides the absolute count of pieces which came out of the machine."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6040, Woodworking:AbsolutePowerPresentTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsolutePowerPresentTime"
+    - Description: "The AbsolutePowerPresentTime Variable provides the absolute time in msec the machine has power on based on the PowerPresent state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6041, Woodworking:AbsoluteProductionTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteProductionTime"
+    - Description: "The AbsoluteProductionTime Variable provides the absolute time in msec of the machine is working at least with one workpiece based on the RecipeInRun and PiecesPresent state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6042, Woodworking:AbsoluteProductionWaitWorkpieceTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteProductionWaitWorkpieceTime"
+    - Description: "The AbsoluteProductionWaitWorkpieceTime Variable provides the absolute time in msec of the machine is in working mode, bring the consent out to insert workpiece but no workpiece incoming from the previous machine based on the ReceipeInRun and WaitLoad state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6043, Woodworking:AbsoluteProductionWithoutWorkpieceTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteProductionWithoutWorkpieceTime"
+    - Description: "The AbsoluteProductionWithoutWorkpieceTime Variable provides the absolute time in msec of the machine is working but without workpieces inside based on the RecipeInRun and !PiecesPresent state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6044, Woodworking:AbsoluteReadyTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteReadyTime"
+    - Description: "The AbsoluteReadyTime Variable provides the absolute time in msec of the READY_2 state in msec."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6045, Woodworking:AbsoluteRunsAborted, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteRunsAborted"
+    - Description: "The AbsoluteRunsAborted Variable provides the absolute count of aborted runs."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6046, Woodworking:AbsoluteRunsGood, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteRunsGood"
+    - Description: "The AbsoluteRunsGood Variable provides the absolute count of finished runs."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6047, Woodworking:AbsoluteRunsTotal, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteRunsTotal"
+    - Description: "The AbsoluteRunsTotal Variable provides the absolute count of total runs."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6048, Woodworking:AbsoluteStandbyTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteStandbyTime"
+    - Description: "The AbsoluteStandbyTime Variable provides the absolute time in msec of the STANDBY_1 state in msec."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6049, Woodworking:AbsoluteWorkingTime, UInt64, 0, 0 ]
+    - DisplayName: "AbsoluteWorkingTime"
+    - Description: "The AbsoluteWorkingTime Variable provides the absolute time in msec of the WORKING_3 state in msec."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6050, Woodworking:ActualCycle, Double, 0, 0 ]
+    - DisplayName: "ActualCycle"
+    - Description: "The ActualCycle Variable provides the parts per minutes."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6051, Woodworking:AxisOverride, UInt32, 0, 0 ]
+    - DisplayName: "AxisOverride"
+    - Description: "The AxisOverride Variable provides the override for the axis in percent."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6052, Woodworking:FeedSpeed, Double, 0, 0 ]
+    - DisplayName: "FeedSpeed"
+    - Description: "The FeedSpeed Variable provides the feed speed in m/min for throughfeed machines."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, Woodworking:6053, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativeErrorTime"
+    - Description: "The RelativeErrorTime Variable provides the relative time since startup of the ERROR_4 state in msec."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6054, Woodworking:RelativeLength, UInt64, 0, 0 ]
+    - DisplayName: "RelativeLength"
+    - Description: "The RelativeLength Variable provides the relative produced length in mm since the machine has started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6055, Woodworking:RelativeMachineOnTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativeMachineOnTime"
+    - Description: "The RelativeMachineOnTime Variable provides the relative time in msec since startup the machine is turned on based on the MachineOn state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6057, Woodworking:RelativePiecesIn, UInt64, 0, 0 ]
+    - DisplayName: "RelativePiecesIn"
+    - Description: "The RelativePiecesIn Variable provides the relative count of pieces which came into the machine since the machine has started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6058, Woodworking:RelativePiecesOut, UInt64, 0, 0 ]
+    - DisplayName: "RelativePiecesOut"
+    - Description: "The RelativePiecesOut Variable provides the relative count of pieces which came out of the machine since the machine has started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6059, Woodworking:RelativePowerPresentTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativePowerPresentTime"
+    - Description: "The RelativePowerPresentTime Variable provides the relative time in msec since startup the machine has power on based on the PowerPresent state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6060, Woodworking:RelativeProductionTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativeProductionTime"
+    - Description: "The RelativeProductionTime Variable provides the relative time in msec since startup of the machine is working at least with one workpiece based on the RecipeInRun and PiecesPresent state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6061, Woodworking:RelativeProductionWaitWorkpieceTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativeProductionWaitWorkpieceTime"
+    - Description: "The RelativeProductionWaitWorkpieceTime Variable provides the relative time in msec waiting for workpieces since startup of the machine is in working mode, bring the consent out to insert workpiece but no workpiece incoming from the previous machine based on the ReceipeInRun and WaitLoad state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6062, Woodworking:RelativeProductionWithoutWorkpieceTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativeProductionWithoutWorkpieceTime"
+    - Description: "The RelativeProductionWithoutWorkpieceTime Variable provides the relative time in msec since startup of the machine is working but without workpieces inside based on the RecipeInRun and !PiecesPresent state."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6063, Woodworking:RelativeReadyTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativeReadyTime"
+    - Description: "The RelativeReadyTime Variable provides the relative time since startup of the READY_2 state in msec."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6064, Woodworking:RelativeRunsAborted, UInt64, 0, 0 ]
+    - DisplayName: "RelativeRunsAborted"
+    - Description: "The RelativeRunsAborted Variable provides the relative count of aborted runs since the machine has started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6065, Woodworking:RelativeRunsGood, UInt64, 0, 0 ]
+    - DisplayName: "RelativeRunsGood"
+    - Description: "The RelativeRunsGood Variable provides the relative count of finished runs since the machine has started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6066, Woodworking:RelativeRunsTotal, UInt64, 0, 0 ]
+    - DisplayName: "RelativeRunsTotal"
+    - Description: "The RelativeRunsTotal Variable provides the relative count of total runs since the machine has started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6067, Woodworking:RelativeStandbyTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativeStandbyTime"
+    - Description: "The RelativeStandbyTime Variable provides the relative time since startup of the STANDBY_1 state in msec."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6068, Woodworking:RelativeWorkingTime, UInt64, 0, 0 ]
+    - DisplayName: "RelativeWorkingTime"
+    - Description: "The RelativeWorkingTime Variable provides the relative time since startup of the WORKING_3 state in msec."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Woodworking:6069, Woodworking:SpindleOverride, UInt32, 0, 0 ]
+    - DisplayName: "SpindleOverride"
+    - Description: "The SpindleOverride Variable provides the override for the spindle in percent."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   Woodworking:WwEventsDispatcherType:
   - [ UAObjectType, Woodworking:15, Woodworking:WwEventsDispatcherType ]
+  - DisplayName: "WwEventsDispatcherType"
+  - Description: "The WwEventsDispatcherType represents a container that is an event dispatcher for machine diagnostic and information events."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   Woodworking:WwMachineType:
   - [ UAObjectType, Woodworking:2, Woodworking:WwMachineType ]
+  - DisplayName: "WwMachineType"
+  - Description: "The WwMachineType represents a woodworking machine."
   - HasComponent:
     - [ UAObject, Woodworking:5008, Woodworking:Events ]
+    - DisplayName: "Events"
+    - Description: "The Event Object provides events."
     - HasTypeDefinition:
       - [ UAObjectType, Woodworking:15, Woodworking:WwEventsDispatcherType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Woodworking:35, Woodworking:ManufacturerSpecific ]
+    - DisplayName: "ManufacturerSpecific"
+    - Description: "The ManufacturerSpecific Object provides manufacturer specific functionality."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, Woodworking:5001, Woodworking:State ]
+    - DisplayName: "State"
+    - Description: "The State Object provides information about the states of the machine."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:

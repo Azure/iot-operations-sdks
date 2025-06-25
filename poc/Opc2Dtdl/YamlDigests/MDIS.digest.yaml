@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ MDIS:15009, MDIS:ArbitrationModeEnum ]
+  DisplayName: "ArbitrationModeEnum"
+  Description: "Build the average of both values (if both available)"
   Enums:
     Average: 1
     DefaultA: 2
@@ -9,60 +11,83 @@ DataTypes:
     High: 32
     Low: 64
 - UADataType: [ MDIS:701, MDIS:ChokeCommandEnum ]
+  DisplayName: "ChokeCommandEnum"
+  Description: "The command to the Choke is Close"
   Enums:
     Close: 1
     Open: 2
 - UADataType: [ MDIS:602, MDIS:ChokeMoveEnum ]
+  DisplayName: "ChokeMoveEnum"
+  Description: "The choke is currently moving (in progress)"
   Enums:
     Moving: 1
     Stopped: 2
 - UADataType: [ MDIS:15007, MDIS:CIMVMoveEnum ]
+  DisplayName: "CIMVMoveEnum"
+  Description: "The CIMV is moving in the close direction"
   Enums:
     MoveClose: 1
     MoveOpen: 2
     Stop: 4
 - UADataType: [ MDIS:15102, MDIS:CIMVOperationModeEnum ]
+  DisplayName: "CIMVOperationModeEnum"
+  Description: "The CIMV is in closed-loop Position control mode. Sending fix position"
   Enums:
     Position: 1
     Flow: 2
     Manual: 4
 - UADataType: [ MDIS:3, MDIS:CommandEnum ]
+  DisplayName: "CommandEnum"
+  Description: "The last command to the valve was Close"
   Enums:
     Close: 1
     Open: 2
     None: 4
 - UADataType: [ MDIS:15013, MDIS:MotorOperationEnum ]
+  DisplayName: "MotorOperationEnum"
+  Description: "The Motor cannot be started either automatically or manually"
   Enums:
     Off: 1
     Auto: 2
     Manual: 4
 - UADataType: [ MDIS:15011, MDIS:MotorStateEnum ]
+  DisplayName: "MotorStateEnum"
+  Description: "The Motor is in active state"
   Enums:
     Active: 1
     NonActive: 2
 - UADataType: [ MDIS:5, MDIS:SEMEnum ]
+  DisplayName: "SEMEnum"
+  Description: "Valve move command selection SEM A"
   Enums:
     SEM_A: 1
     SEM_B: 2
     Auto: 4
 - UADataType: [ MDIS:1287, MDIS:SetCalculatedPositionEnum ]
+  DisplayName: "SetCalculatedPositionEnum"
+  Description: "no command (initial state)"
   Enums:
     Initial: 0
     Inprogress: 1
     Complete: 2
     Fault: 4
 - UADataType: [ MDIS:699, MDIS:SignatureStatusEnum ]
+  DisplayName: "SignatureStatusEnum"
+  Description: "The profile / signature is not available (in progress)"
   Enums:
     NotAvailable: 1
     Completed: 2
     Failed: 4
 - UADataType: [ MDIS:703, MDIS:ValvePositionEnum ]
+  DisplayName: "ValvePositionEnum"
+  Description: "The Valve is Closed"
   Enums:
     Closed: 1
     Open: 2
     Moving: 4
     Unknown: 8
 - UADataType: [ MDIS:1289, MDIS:MDISVersionDataType ]
+  DisplayName: "MDISVersionDataType"
   Fields:
     MajorVersion: [ Byte, 0 ]
     MinorVersion: [ Byte, 0 ]
@@ -72,15 +97,20 @@ DefinedTypes:
 
   MDIS:InterlockVariableType:
   - [ UAVariableType, MDIS:1279, MDIS:InterlockVariableType, Boolean, 0, 0 ]
+  - DisplayName: "InterlockVariableType"
+  - Description: "This Variable type returns a Boolean indicating if the interlock is active, it shall also contain an InterlockFor reference"
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
 
   MDIS:MDISVersionVariableType:
   - [ UAVariableType, MDIS:1290, MDIS:MDISVersionVariableType, MDIS:MDISVersionDataType, 0, 0 ]
+  - DisplayName: "MDISVersionVariableType"
+  - Description: "The standard representation of the version information that is related the MDIS Specification"
   - HasSubtype_reverse:
     - [ UAVariableType, 63, BaseDataVariableType ]
   - HasProperty:
     - [ UAVariable, MDIS:1293, MDIS:Build, Byte, 0, 0 ]
+    - DisplayName: "Build"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -89,6 +119,7 @@ DefinedTypes:
       - [ UAVariableType, MDIS:1290, MDIS:MDISVersionVariableType, MDIS:MDISVersionDataType, 0, 0 ]
   - HasProperty:
     - [ UAVariable, MDIS:1291, MDIS:MajorVersion, Byte, 0, 0 ]
+    - DisplayName: "MajorVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -97,6 +128,7 @@ DefinedTypes:
       - [ UAVariableType, MDIS:1290, MDIS:MDISVersionVariableType, MDIS:MDISVersionDataType, 0, 0 ]
   - HasProperty:
     - [ UAVariable, MDIS:1292, MDIS:MinorVersion, Byte, 0, 0 ]
+    - DisplayName: "MinorVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -106,10 +138,13 @@ DefinedTypes:
 
   MDIS:MDISBaseObjectType:
   - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
+  - DisplayName: "MDISBaseObjectType"
+  - Description: "The definition of a MDIS base Object type from which all other object types are derived"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:476, MDIS:Enabled, Boolean, 0, 0 ]
+    - DisplayName: "Enabled"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -118,12 +153,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:195, MDIS:EnableDisable ]
+    - DisplayName: "EnableDisable"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:196, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Enable: [ Boolean, 0 ]
       - HasModellingRule:
@@ -134,6 +171,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:195, MDIS:EnableDisable ]
   - HasComponent:
     - [ UAVariable, MDIS:489, MDIS:Fault, Boolean, 0, 0 ]
+    - DisplayName: "Fault"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -142,6 +180,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1165, MDIS:FaultCode, UInt32, 0, 0 ]
+    - DisplayName: "FaultCode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -150,6 +189,8 @@ DefinedTypes:
       - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:197, MDIS:TagId, String, 0, 0 ]
+    - DisplayName: "Tag ID"
+    - Description: "The id used in other parts of the system"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -158,6 +199,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:497, MDIS:Warning, Boolean, 0, 0 ]
+    - DisplayName: "Warning"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -166,6 +208,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1166, MDIS:WarningCode, UInt32, 0, 0 ]
+    - DisplayName: "WarningCode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -175,10 +218,13 @@ DefinedTypes:
 
   MDIS:MDISAggregateObjectType:
   - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
+  - DisplayName: "MDISAggregateObjectType"
+  - Description: "The definition of a MDIS standard Aggregate Object"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasComponent:
     - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
+    - DisplayName: "<ChokePlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -187,12 +233,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAMethod, MDIS:1459, MDIS:Abort ]
+      - DisplayName: "Abort"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:1446, MDIS:CalculatedPosition, Float, 0, 0 ]
+      - DisplayName: "CalculatedPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -201,6 +249,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:1438, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -209,12 +258,14 @@ DefinedTypes:
         - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
     - HasComponent:
       - [ UAMethod, MDIS:1455, MDIS:Move ]
+      - DisplayName: "Move"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:1456, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Position: [ Float, 0 ]
             OverrideInterlocks: [ Boolean, 0 ]
@@ -227,6 +278,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1455, MDIS:Move ]
     - HasComponent:
       - [ UAVariable, MDIS:1449, MDIS:Moving, MDIS:ChokeMoveEnum, 0, 0 ]
+      - DisplayName: "Moving"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -235,12 +287,14 @@ DefinedTypes:
         - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
     - HasComponent:
       - [ UAMethod, MDIS:1460, MDIS:SetCalculatedPosition ]
+      - DisplayName: "SetCalculatedPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1437, MDIS:<ChokePlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:1461, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Position: [ Float, 0 ]
         - HasModellingRule:
@@ -251,6 +305,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1460, MDIS:SetCalculatedPosition ]
   - HasComponent:
     - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
+    - DisplayName: "<CIMVPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -259,12 +314,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAMethod, MDIS:15381, MDIS:Abort ]
+      - DisplayName: "Abort"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15312, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -273,6 +330,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15329, MDIS:FlowRate, Float, 0, 0 ]
+      - DisplayName: "FlowRate"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -281,6 +339,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:15334, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -289,6 +348,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:15329, MDIS:FlowRate, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, MDIS:15333, MDIS:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -297,6 +357,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:15329, MDIS:FlowRate, Float, 0, 0 ]
     - HasComponent:
       - [ UAVariable, MDIS:15342, MDIS:Moving, MDIS:CIMVMoveEnum, 0, 0 ]
+      - DisplayName: "Moving"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -305,6 +366,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15328, MDIS:OperationMode, MDIS:CIMVOperationModeEnum, 0, 0 ]
+      - DisplayName: "OperationMode"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -313,6 +375,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15341, MDIS:Position, Float, 0, 0 ]
+      - DisplayName: "Position"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -321,12 +384,14 @@ DefinedTypes:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
     - HasComponent:
       - [ UAMethod, MDIS:15375, MDIS:SetFlowRate ]
+      - DisplayName: "SetFlowRate"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:15376, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FlowRate: [ Float, 0 ]
             SEM: [ MDIS:SEMEnum, 0 ]
@@ -339,12 +404,14 @@ DefinedTypes:
           - [ UAMethod, MDIS:15375, MDIS:SetFlowRate ]
     - HasComponent:
       - [ UAMethod, MDIS:15373, MDIS:SetOperationMode ]
+      - DisplayName: "SetOperationMode"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:15374, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ MDIS:CIMVOperationModeEnum, 0 ]
             SEM: [ MDIS:SEMEnum, 0 ]
@@ -357,12 +424,14 @@ DefinedTypes:
           - [ UAMethod, MDIS:15373, MDIS:SetOperationMode ]
     - HasComponent:
       - [ UAMethod, MDIS:15377, MDIS:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:15378, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Position: [ Float, 0 ]
             SEM: [ MDIS:SEMEnum, 0 ]
@@ -375,6 +444,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:15377, MDIS:SetPosition ]
     - HasComponent:
       - [ UAVariable, MDIS:15403, MDIS:TargetFlowRate, Float, 0, 0 ]
+      - DisplayName: "TargetFlowRate"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -383,6 +453,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:15408, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -391,6 +462,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:15403, MDIS:TargetFlowRate, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, MDIS:15407, MDIS:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -399,6 +471,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:15403, MDIS:TargetFlowRate, Float, 0, 0 ]
     - HasComponent:
       - [ UAVariable, MDIS:15409, MDIS:TargetPosition, Float, 0, 0 ]
+      - DisplayName: "TargetPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -407,6 +480,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15311, MDIS:<CIMVPlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:15382, MDIS:<CounterPlaceholder> ]
+    - DisplayName: "<CounterPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -415,6 +489,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:15383, MDIS:Count, Number, 0, 0 ]
+      - DisplayName: "Count"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -423,6 +498,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15382, MDIS:<CounterPlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:15241, MDIS:<DigitalArbitrationPlaceholder> ]
+    - DisplayName: "<DigitalArbitrationPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -431,6 +507,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:15253, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
+      - DisplayName: "ArbitrationMode"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -439,6 +516,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15241, MDIS:<DigitalArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15242, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -447,6 +525,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15241, MDIS:<DigitalArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15251, MDIS:SourceA, Boolean, 0, 0 ]
+      - DisplayName: "SourceA"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -455,6 +534,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15241, MDIS:<DigitalArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15252, MDIS:SourceB, Boolean, 0, 0 ]
+      - DisplayName: "SourceB"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -463,6 +543,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15241, MDIS:<DigitalArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15250, MDIS:State, Boolean, 0, 0 ]
+      - DisplayName: "State"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -471,6 +552,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15241, MDIS:<DigitalArbitrationPlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:1392, MDIS:<DigitalOutPlaceholder> ]
+    - DisplayName: "<DigitalOutPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -479,6 +561,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:1393, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -487,6 +570,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1392, MDIS:<DigitalOutPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:1401, MDIS:State, Boolean, 0, 0 ]
+      - DisplayName: "State"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -495,12 +579,14 @@ DefinedTypes:
         - [ UAObject, MDIS:1392, MDIS:<DigitalOutPlaceholder> ]
     - HasComponent:
       - [ UAMethod, MDIS:1402, MDIS:WriteState ]
+      - DisplayName: "WriteState"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1392, MDIS:<DigitalOutPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:1403, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             State: [ Boolean, 0 ]
         - HasModellingRule:
@@ -511,6 +597,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1402, MDIS:WriteState ]
   - HasComponent:
     - [ UAObject, MDIS:1347, MDIS:<DigitalPlaceholder> ]
+    - DisplayName: "<DigitalPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -519,6 +606,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:1348, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -527,6 +615,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1347, MDIS:<DigitalPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:1356, MDIS:State, Boolean, 0, 0 ]
+      - DisplayName: "State"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -535,6 +624,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1347, MDIS:<DigitalPlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:15256, MDIS:<DiscreteArbitrationPlaceholder> ]
+    - DisplayName: "<DiscreteArbitrationPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -543,6 +633,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:15268, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
+      - DisplayName: "ArbitrationMode"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -551,6 +642,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15256, MDIS:<DiscreteArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15257, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -559,6 +651,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15256, MDIS:<DiscreteArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15266, MDIS:SourceA, UInt32, 0, 0 ]
+      - DisplayName: "SourceA"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -567,6 +660,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15256, MDIS:<DiscreteArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15267, MDIS:SourceB, UInt32, 0, 0 ]
+      - DisplayName: "SourceB"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -575,6 +669,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15256, MDIS:<DiscreteArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15265, MDIS:State, UInt32, 0, 0 ]
+      - DisplayName: "State"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -583,6 +678,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15256, MDIS:<DiscreteArbitrationPlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:1404, MDIS:<DiscreteOutPlaceholder> ]
+    - DisplayName: "<DiscreteOutPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -591,6 +687,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:1405, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -599,6 +696,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1404, MDIS:<DiscreteOutPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:1413, MDIS:State, UInt32, 0, 0 ]
+      - DisplayName: "State"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -607,12 +705,14 @@ DefinedTypes:
         - [ UAObject, MDIS:1404, MDIS:<DiscreteOutPlaceholder> ]
     - HasComponent:
       - [ UAMethod, MDIS:1414, MDIS:WriteValue ]
+      - DisplayName: "WriteValue"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1404, MDIS:<DiscreteOutPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:1415, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             State: [ UInt32, 0 ]
         - HasModellingRule:
@@ -623,6 +723,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1414, MDIS:WriteValue ]
   - HasComponent:
     - [ UAObject, MDIS:1357, MDIS:<DiscretePlaceholder> ]
+    - DisplayName: "<DiscretePlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -631,6 +732,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:1358, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -639,6 +741,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1357, MDIS:<DiscretePlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:1366, MDIS:State, UInt32, 0, 0 ]
+      - DisplayName: "State"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -647,6 +750,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1357, MDIS:<DiscretePlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:15271, MDIS:<ElectricChokePlaceholder> ]
+    - DisplayName: "<ElectricChokePlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -655,12 +759,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAMethod, MDIS:15289, MDIS:Abort ]
+      - DisplayName: "Abort"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:15271, MDIS:<ElectricChokePlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15280, MDIS:ActualPosition, Float, 0, 0 ]
+      - DisplayName: "ActualPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -669,6 +775,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15271, MDIS:<ElectricChokePlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15272, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -677,12 +784,14 @@ DefinedTypes:
         - [ UAObject, MDIS:15271, MDIS:<ElectricChokePlaceholder> ]
     - HasComponent:
       - [ UAMethod, MDIS:15287, MDIS:Move ]
+      - DisplayName: "Move"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:15271, MDIS:<ElectricChokePlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:15288, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Position: [ Float, 0 ]
             OverrideInterlocks: [ Boolean, 0 ]
@@ -695,6 +804,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:15287, MDIS:Move ]
     - HasComponent:
       - [ UAVariable, MDIS:15281, MDIS:Moving, MDIS:ChokeMoveEnum, 0, 0 ]
+      - DisplayName: "Moving"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -703,6 +813,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15271, MDIS:<ElectricChokePlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:15212, MDIS:<InstrumentArbitrationPlaceholder> ]
+    - DisplayName: "<InstrumentArbitrationPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -711,6 +822,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:15237, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
+      - DisplayName: "ArbitrationMode"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -719,6 +831,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15212, MDIS:<InstrumentArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15213, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -727,6 +840,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15212, MDIS:<InstrumentArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15221, MDIS:ProcessVariable, Float, 0, 0 ]
+      - DisplayName: "ProcessVariable"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -735,6 +849,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15212, MDIS:<InstrumentArbitrationPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:15226, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -743,6 +858,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:15221, MDIS:ProcessVariable, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, MDIS:15225, MDIS:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -751,6 +867,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:15221, MDIS:ProcessVariable, Float, 0, 0 ]
     - HasComponent:
       - [ UAVariable, MDIS:15235, MDIS:SourceA, Float, 0, 0 ]
+      - DisplayName: "SourceA"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -759,6 +876,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15212, MDIS:<InstrumentArbitrationPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15236, MDIS:SourceB, Float, 0, 0 ]
+      - DisplayName: "SourceB"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -767,6 +885,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15212, MDIS:<InstrumentArbitrationPlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:1367, MDIS:<InstrumentOutPlaceholder> ]
+    - DisplayName: "<InstrumentOutPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -775,6 +894,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:1368, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -783,6 +903,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1367, MDIS:<InstrumentOutPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:1376, MDIS:ProcessVariable, Float, 0, 0 ]
+      - DisplayName: "ProcessVariable"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -791,6 +912,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1367, MDIS:<InstrumentOutPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:1381, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -799,6 +921,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:1376, MDIS:ProcessVariable, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, MDIS:1380, MDIS:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -807,12 +930,14 @@ DefinedTypes:
           - [ UAVariable, MDIS:1376, MDIS:ProcessVariable, Float, 0, 0 ]
     - HasComponent:
       - [ UAMethod, MDIS:1390, MDIS:WriteValue ]
+      - DisplayName: "WriteValue"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1367, MDIS:<InstrumentOutPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:1391, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Value: [ Float, 0 ]
         - HasModellingRule:
@@ -823,6 +948,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1390, MDIS:WriteValue ]
   - HasComponent:
     - [ UAObject, MDIS:1324, MDIS:<InstrumentPlaceholder> ]
+    - DisplayName: "<InstrumentPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -831,6 +957,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:1325, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -839,6 +966,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1324, MDIS:<InstrumentPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:1333, MDIS:ProcessVariable, Float, 0, 0 ]
+      - DisplayName: "ProcessVariable"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -847,6 +975,7 @@ DefinedTypes:
         - [ UAObject, MDIS:1324, MDIS:<InstrumentPlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:1338, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -855,6 +984,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:1333, MDIS:ProcessVariable, Float, 0, 0 ]
       - HasProperty:
         - [ UAVariable, MDIS:1337, MDIS:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -863,6 +993,7 @@ DefinedTypes:
           - [ UAVariable, MDIS:1333, MDIS:ProcessVariable, Float, 0, 0 ]
   - HasInterlock:
     - [ UAVariable, MDIS:1465, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
+    - DisplayName: "<InterlockPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -871,6 +1002,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
   - HasComponent:
     - [ UAObject, MDIS:15290, MDIS:<MotorPlaceholder> ]
+    - DisplayName: "<MotorPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -879,6 +1011,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:15291, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -887,6 +1020,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15290, MDIS:<MotorPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15300, MDIS:Operation, MDIS:MotorOperationEnum, 0, 0 ]
+      - DisplayName: "Operation"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -895,6 +1029,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15290, MDIS:<MotorPlaceholder> ]
     - HasComponent:
       - [ UAVariable, MDIS:15299, MDIS:Running, Boolean, 0, 0 ]
+      - DisplayName: "Running"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -903,6 +1038,7 @@ DefinedTypes:
         - [ UAObject, MDIS:15290, MDIS:<MotorPlaceholder> ]
   - HasComponent:
     - [ UAObject, MDIS:1416, MDIS:<ValvePlaceholder> ]
+    - DisplayName: "<ValvePlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -911,6 +1047,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1315, MDIS:MDISAggregateObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:1417, MDIS:Fault, Boolean, 0, 0 ]
+      - DisplayName: "Fault"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -919,12 +1056,14 @@ DefinedTypes:
         - [ UAObject, MDIS:1416, MDIS:<ValvePlaceholder> ]
     - HasComponent:
       - [ UAMethod, MDIS:1433, MDIS:Move ]
+      - DisplayName: "Move"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1416, MDIS:<ValvePlaceholder> ]
       - HasProperty:
         - [ UAVariable, MDIS:1434, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Direction: [ MDIS:CommandEnum, 0 ]
             OverrideInterlock: [ Boolean, 0 ]
@@ -939,6 +1078,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1433, MDIS:Move ]
     - HasComponent:
       - [ UAVariable, MDIS:1425, MDIS:Position, MDIS:ValvePositionEnum, 0, 0 ]
+      - DisplayName: "Position"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -948,10 +1088,13 @@ DefinedTypes:
 
   MDIS:MDISChokeObjectType:
   - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
+  - DisplayName: "MDISChokeObjectType"
+  - Description: "The definition of a MDIS standard Choke Object"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasInterlock:
     - [ UAVariable, MDIS:1281, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
+    - DisplayName: "<InterlockPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -960,12 +1103,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:1159, MDIS:Abort ]
+    - DisplayName: "Abort"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1147, MDIS:CalculatedPosition, Float, 0, 0 ]
+    - DisplayName: "CalculatedPosition"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -974,6 +1119,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1150, MDIS:CommandRejected, Boolean, 0, 0 ]
+    - DisplayName: "CommandRejected"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -982,6 +1128,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1154, MDIS:DefeatableCloseInterlock, Boolean, 0, 0 ]
+    - DisplayName: "DefeatableCloseInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -990,6 +1137,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1152, MDIS:DefeatableOpenInterlock, Boolean, 0, 0 ]
+    - DisplayName: "DefeatableOpenInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -998,12 +1146,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:1155, MDIS:Move ]
+    - DisplayName: "Move"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1156, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Position: [ Float, 0 ]
           OverrideInterlocks: [ Boolean, 0 ]
@@ -1016,6 +1166,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:1155, MDIS:Move ]
   - HasComponent:
     - [ UAVariable, MDIS:1149, MDIS:Moving, MDIS:ChokeMoveEnum, 0, 0 ]
+    - DisplayName: "Moving"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1024,6 +1175,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1153, MDIS:NonDefeatableCloseInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableCloseInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1032,6 +1184,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1151, MDIS:NonDefeatableOpenInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableOpenInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1040,6 +1193,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1148, MDIS:PositionInSteps, Int16, 0, 0 ]
+    - DisplayName: "PositionInSteps"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1048,12 +1202,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:1284, MDIS:SetCalculatedPosition ]
+    - DisplayName: "SetCalculatedPosition"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1285, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Position: [ Float, 0 ]
       - HasModellingRule:
@@ -1064,6 +1220,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:1284, MDIS:SetCalculatedPosition ]
   - HasComponent:
     - [ UAVariable, MDIS:1314, MDIS:SetCalculatedPositionStatus, MDIS:SetCalculatedPositionEnum, 0, 0 ]
+    - DisplayName: "SetCalculatedPositionStatus"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1072,12 +1229,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:1157, MDIS:Step ]
+    - DisplayName: "Step"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1158, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Direction: [ MDIS:ChokeCommandEnum, 0 ]
           Steps: [ UInt16, 0 ]
@@ -1091,6 +1250,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:1157, MDIS:Step ]
   - HasProperty:
     - [ UAVariable, MDIS:1163, MDIS:StepDurationClose, Duration, 0, 0 ]
+    - DisplayName: "StepDurationClose"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1099,6 +1259,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:1162, MDIS:StepDurationOpen, Duration, 0, 0 ]
+    - DisplayName: "StepDurationOpen"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1107,6 +1268,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1066, MDIS:MDISChokeObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:1164, MDIS:TotalSteps, UInt16, 0, 0 ]
+    - DisplayName: "TotalSteps"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1116,10 +1278,13 @@ DefinedTypes:
 
   MDIS:MDISCIMVObjectType:
   - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
+  - DisplayName: "MDISCIMVObjectType"
+  - Description: "The definition of a MDIS standard CIMV Object"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasInterlock:
     - [ UAVariable, MDIS:15177, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
+    - DisplayName: "<InterlockPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -1128,12 +1293,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15176, MDIS:Abort ]
+    - DisplayName: "Abort"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15162, MDIS:CommandRejected, Boolean, 0, 0 ]
+    - DisplayName: "CommandRejected"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1142,6 +1309,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15138, MDIS:DeviceCurrent, Float, 0, 0 ]
+    - DisplayName: "DeviceCurrent"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1150,6 +1318,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15143, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1158,6 +1327,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15138, MDIS:DeviceCurrent, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:15142, MDIS:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1166,6 +1336,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15138, MDIS:DeviceCurrent, Float, 0, 0 ]
   - HasComponent:
     - [ UAVariable, MDIS:15124, MDIS:FlowRate, Float, 0, 0 ]
+    - DisplayName: "FlowRate"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1174,6 +1345,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15129, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1182,6 +1354,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15124, MDIS:FlowRate, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:15128, MDIS:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1190,6 +1363,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15124, MDIS:FlowRate, Float, 0, 0 ]
   - HasComponent:
     - [ UAVariable, MDIS:15144, MDIS:InletPressure, Float, 0, 0 ]
+    - DisplayName: "InletPressure"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1198,6 +1372,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15149, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1206,6 +1381,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15144, MDIS:InletPressure, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:15148, MDIS:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1214,6 +1390,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15144, MDIS:InletPressure, Float, 0, 0 ]
   - HasComponent:
     - [ UAVariable, MDIS:15150, MDIS:InternalPressure, Float, 0, 0 ]
+    - DisplayName: "InternalPressure"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1222,6 +1399,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15155, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1230,6 +1408,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15150, MDIS:InternalPressure, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:15154, MDIS:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1238,6 +1417,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15150, MDIS:InternalPressure, Float, 0, 0 ]
   - HasComponent:
     - [ UAObject, MDIS:15180, MDIS:MotorOperationsCount ]
+    - DisplayName: "MotorOperationsCount"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1246,6 +1426,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:15181, MDIS:Count, UInt32, 0, 0 ]
+      - DisplayName: "Count"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1254,12 +1435,14 @@ DefinedTypes:
         - [ UAObject, MDIS:15180, MDIS:MotorOperationsCount ]
     - HasComponent:
       - [ UAMethod, MDIS:15182, MDIS:SetCount ]
+      - DisplayName: "SetCount"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:15180, MDIS:MotorOperationsCount ]
       - HasProperty:
         - [ UAVariable, MDIS:15183, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Initial: [ Number, 0 ]
         - HasModellingRule:
@@ -1270,6 +1453,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:15182, MDIS:SetCount ]
   - HasComponent:
     - [ UAVariable, MDIS:15137, MDIS:Moving, MDIS:CIMVMoveEnum, 0, 0 ]
+    - DisplayName: "Moving"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1278,6 +1462,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15165, MDIS:NonDefeatableCloseInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableCloseInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1286,6 +1471,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15164, MDIS:NonDefeatableCommandInProgressInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableCommandInProgressInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1294,6 +1480,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15163, MDIS:NonDefeatableOpenInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableOpenInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1302,6 +1489,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15123, MDIS:OperationMode, MDIS:CIMVOperationModeEnum, 0, 0 ]
+    - DisplayName: "OperationMode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1310,6 +1498,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15156, MDIS:OutletPressure, Float, 0, 0 ]
+    - DisplayName: "OutletPressure"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1318,6 +1507,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15161, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1326,6 +1516,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15156, MDIS:OutletPressure, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:15160, MDIS:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1334,6 +1525,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15156, MDIS:OutletPressure, Float, 0, 0 ]
   - HasComponent:
     - [ UAVariable, MDIS:15136, MDIS:Position, Float, 0, 0 ]
+    - DisplayName: "Position"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1342,12 +1534,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15166, MDIS:ResetTotalFlow ]
+    - DisplayName: "ResetTotalFlow"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15167, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Initial: [ Float, 0 ]
       - HasModellingRule:
@@ -1358,12 +1552,14 @@ DefinedTypes:
         - [ UAMethod, MDIS:15166, MDIS:ResetTotalFlow ]
   - HasComponent:
     - [ UAMethod, MDIS:15170, MDIS:SetFlowRate ]
+    - DisplayName: "SetFlowRate"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15171, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           FlowRate: [ Float, 0 ]
           SEM: [ MDIS:SEMEnum, 0 ]
@@ -1376,12 +1572,14 @@ DefinedTypes:
         - [ UAMethod, MDIS:15170, MDIS:SetFlowRate ]
   - HasComponent:
     - [ UAMethod, MDIS:15174, MDIS:SetManual ]
+    - DisplayName: "SetManual"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15175, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Direction: [ MDIS:CIMVMoveEnum, 0 ]
           Delta: [ Float, 0 ]
@@ -1395,12 +1593,14 @@ DefinedTypes:
         - [ UAMethod, MDIS:15174, MDIS:SetManual ]
   - HasComponent:
     - [ UAMethod, MDIS:15168, MDIS:SetOperationMode ]
+    - DisplayName: "SetOperationMode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15169, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Mode: [ MDIS:CIMVOperationModeEnum, 0 ]
           SEM: [ MDIS:SEMEnum, 0 ]
@@ -1413,12 +1613,14 @@ DefinedTypes:
         - [ UAMethod, MDIS:15168, MDIS:SetOperationMode ]
   - HasComponent:
     - [ UAMethod, MDIS:15172, MDIS:SetPosition ]
+    - DisplayName: "SetPosition"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15173, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Position: [ Float, 0 ]
           SEM: [ MDIS:SEMEnum, 0 ]
@@ -1431,6 +1633,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:15172, MDIS:SetPosition ]
   - HasComponent:
     - [ UAVariable, MDIS:15202, MDIS:TargetFlowRate, Float, 0, 0 ]
+    - DisplayName: "TargetFlowRate"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1439,6 +1642,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15303, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1447,6 +1651,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15202, MDIS:TargetFlowRate, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:15302, MDIS:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1455,6 +1660,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15202, MDIS:TargetFlowRate, Float, 0, 0 ]
   - HasComponent:
     - [ UAVariable, MDIS:15304, MDIS:TargetPosition, Float, 0, 0 ]
+    - DisplayName: "TargetPosition"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1463,6 +1669,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15130, MDIS:TotalFlow, Float, 0, 0 ]
+    - DisplayName: "TotalFlow"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1471,6 +1678,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15114, MDIS:MDISCIMVObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15135, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1479,6 +1687,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:15130, MDIS:TotalFlow, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:15134, MDIS:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1487,12 +1696,14 @@ DefinedTypes:
         - [ UAVariable, MDIS:15130, MDIS:TotalFlow, Float, 0, 0 ]
   - HasComponent:
     - [ UAObject, MDIS:15005, MDIS:TotalMotorRuntime ]
+    - DisplayName: "TotalMotorRuntime"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MDIS:15098, MDIS:MDISCounterObjectType ]
     - HasComponent:
       - [ UAVariable, MDIS:15006, MDIS:Count, Duration, 0, 0 ]
+      - DisplayName: "Count"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1501,12 +1712,14 @@ DefinedTypes:
         - [ UAObject, MDIS:15005, MDIS:TotalMotorRuntime ]
     - HasComponent:
       - [ UAMethod, MDIS:15178, MDIS:SetCount ]
+      - DisplayName: "SetCount"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:15005, MDIS:TotalMotorRuntime ]
       - HasProperty:
         - [ UAVariable, MDIS:15179, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Initial: [ Number, 0 ]
         - HasModellingRule:
@@ -1520,10 +1733,13 @@ DefinedTypes:
 
   MDIS:MDISDigitalInstrumentObjectType:
   - [ UAObjectType, MDIS:889, MDIS:MDISDigitalInstrumentObjectType ]
+  - DisplayName: "MDISDigitalInstrumentObjectType"
+  - Description: "The definition of a MDIS standard Digital Instrument"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:970, MDIS:State, Boolean, 0, 0 ]
+    - DisplayName: "State"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1533,10 +1749,13 @@ DefinedTypes:
 
   MDIS:MDISDigitalArbitrationObjectType:
   - [ UAObjectType, MDIS:15015, MDIS:MDISDigitalArbitrationObjectType ]
+  - DisplayName: "MDISDigitalArbitrationObjectType"
+  - Description: "The definition of a MDIS standard Digital Arbitration"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:889, MDIS:MDISDigitalInstrumentObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15027, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
+    - DisplayName: "ArbitrationMode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1545,12 +1764,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15015, MDIS:MDISDigitalArbitrationObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15028, MDIS:SetArbitrationMode ]
+    - DisplayName: "SetArbitrationMode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15015, MDIS:MDISDigitalArbitrationObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15029, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ArbitrationMode: [ MDIS:ArbitrationModeEnum, 0 ]
       - HasModellingRule:
@@ -1561,6 +1782,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:15028, MDIS:SetArbitrationMode ]
   - HasComponent:
     - [ UAVariable, MDIS:15025, MDIS:SourceA, Boolean, 0, 0 ]
+    - DisplayName: "SourceA"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1569,6 +1791,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15015, MDIS:MDISDigitalArbitrationObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15026, MDIS:SourceB, Boolean, 0, 0 ]
+    - DisplayName: "SourceB"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1578,16 +1801,20 @@ DefinedTypes:
 
   MDIS:MDISDigitalOutObjectType:
   - [ UAObjectType, MDIS:1230, MDIS:MDISDigitalOutObjectType ]
+  - DisplayName: "MDISDigitalOutObjectType"
+  - Description: "The definition of a MDIS standard Digital Output"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:889, MDIS:MDISDigitalInstrumentObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:1240, MDIS:WriteState ]
+    - DisplayName: "WriteState"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:1230, MDIS:MDISDigitalOutObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1241, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           State: [ Boolean, 0 ]
       - HasModellingRule:
@@ -1599,10 +1826,13 @@ DefinedTypes:
 
   MDIS:MDISDiscreteInstrumentObjectType:
   - [ UAObjectType, MDIS:1214, MDIS:MDISDiscreteInstrumentObjectType ]
+  - DisplayName: "MDISDiscreteInstrumentObjectType"
+  - Description: "The definition of a MDIS standard Discrete Instrument"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1223, MDIS:State, UInt32, 0, 0 ]
+    - DisplayName: "State"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1612,10 +1842,13 @@ DefinedTypes:
 
   MDIS:MDISDiscreteArbitrationObjectType:
   - [ UAObjectType, MDIS:15032, MDIS:MDISDiscreteArbitrationObjectType ]
+  - DisplayName: "MDISDiscreteArbitrationObjectType"
+  - Description: "The definition of a MDIS standard Digital Arbitration"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:1214, MDIS:MDISDiscreteInstrumentObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15544, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
+    - DisplayName: "ArbitrationMode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1624,12 +1857,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15032, MDIS:MDISDiscreteArbitrationObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15545, MDIS:SetArbitrationMode ]
+    - DisplayName: "SetArbitrationMode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15032, MDIS:MDISDiscreteArbitrationObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15546, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ArbitrationMode: [ MDIS:ArbitrationModeEnum, 0 ]
       - HasModellingRule:
@@ -1640,6 +1875,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:15545, MDIS:SetArbitrationMode ]
   - HasComponent:
     - [ UAVariable, MDIS:15042, MDIS:SourceA, UInt32, 0, 0 ]
+    - DisplayName: "SourceA"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1648,6 +1884,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15032, MDIS:MDISDiscreteArbitrationObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15043, MDIS:SourceB, UInt32, 0, 0 ]
+    - DisplayName: "SourceB"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1657,16 +1894,20 @@ DefinedTypes:
 
   MDIS:MDISDiscreteOutObjectType:
   - [ UAObjectType, MDIS:1242, MDIS:MDISDiscreteOutObjectType ]
+  - DisplayName: "MDISDiscreteOutObjectType"
+  - Description: "The definition of a MDIS standard Discrete Output"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:1214, MDIS:MDISDiscreteInstrumentObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:1252, MDIS:WriteValue ]
+    - DisplayName: "WriteValue"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:1242, MDIS:MDISDiscreteOutObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1253, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           State: [ UInt32, 0 ]
       - HasModellingRule:
@@ -1678,10 +1919,13 @@ DefinedTypes:
 
   MDIS:MDISElectricChokeObjectType:
   - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
+  - DisplayName: "MDISElectricChokeObjectType"
+  - Description: "The definition of a MDIS standard Electric Choke Object"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasInterlock:
     - [ UAVariable, MDIS:15095, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
+    - DisplayName: "<InterlockPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -1690,12 +1934,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15094, MDIS:Abort ]
+    - DisplayName: "Abort"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15085, MDIS:ActualPosition, Float, 0, 0 ]
+    - DisplayName: "ActualPosition"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1704,6 +1950,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15087, MDIS:CommandRejected, Boolean, 0, 0 ]
+    - DisplayName: "CommandRejected"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1712,6 +1959,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15091, MDIS:DefeatableCloseInterlock, Boolean, 0, 0 ]
+    - DisplayName: "DefeatableCloseInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1720,6 +1968,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15089, MDIS:DefeatableOpenInterlock, Boolean, 0, 0 ]
+    - DisplayName: "DefeatableOpenInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1728,12 +1977,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15092, MDIS:Move ]
+    - DisplayName: "Move"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15093, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Position: [ Float, 0 ]
           OverrideInterlocks: [ Boolean, 0 ]
@@ -1746,6 +1997,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:15092, MDIS:Move ]
   - HasComponent:
     - [ UAVariable, MDIS:15086, MDIS:Moving, MDIS:ChokeMoveEnum, 0, 0 ]
+    - DisplayName: "Moving"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1754,6 +2006,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15090, MDIS:NonDefeatableCloseInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableCloseInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1762,6 +2015,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15076, MDIS:MDISElectricChokeObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15088, MDIS:NonDefeatableOpenInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableOpenInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1771,10 +2025,13 @@ DefinedTypes:
 
   MDIS:MDISInstrumentObjectType:
   - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
+  - DisplayName: "MDISInstrumentObjectType"
+  - Description: "The definition of a MDIS standard Instrument"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1058, MDIS:HHlimit, Boolean, 0, 0 ]
+    - DisplayName: "HHlimit"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1783,6 +2040,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:1062, MDIS:HHSetPoint, Float, 0, 3 ]
+    - DisplayName: "HHSetPoint"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1791,6 +2049,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1059, MDIS:Hlimit, Boolean, 0, 0 ]
+    - DisplayName: "Hlimit"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1799,6 +2058,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:1063, MDIS:HSetPoint, Float, 0, 3 ]
+    - DisplayName: "HSetPoint"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1807,6 +2067,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1060, MDIS:Llimit, Boolean, 0, 0 ]
+    - DisplayName: "Llimit"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1815,6 +2076,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1061, MDIS:LLlimit, Boolean, 0, 0 ]
+    - DisplayName: "LLlimit"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1823,6 +2085,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:1065, MDIS:LLSetPoint, Float, 0, 3 ]
+    - DisplayName: "LLSetPoint"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1831,6 +2094,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:1064, MDIS:LSetPoint, Float, 0, 3 ]
+    - DisplayName: "LSetPoint"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1839,6 +2103,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1052, MDIS:ProcessVariable, Float, 0, 0 ]
+    - DisplayName: "ProcessVariable"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1847,6 +2112,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1057, MDIS:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1855,6 +2121,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:1052, MDIS:ProcessVariable, Float, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:1056, MDIS:EURange, Range, 0, 0 ]
+      - DisplayName: "EURange"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -1864,10 +2131,13 @@ DefinedTypes:
 
   MDIS:MDISInstrumentArbitrationObjectType:
   - [ UAObjectType, MDIS:15547, MDIS:MDISInstrumentArbitrationObjectType ]
+  - DisplayName: "MDISInstrumentArbitrationObjectType"
+  - Description: "The definition of a MDIS standard Instrument Arbitration"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15072, MDIS:ArbitrationMode, MDIS:ArbitrationModeEnum, 0, 0 ]
+    - DisplayName: "ArbitrationMode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1876,6 +2146,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15547, MDIS:MDISInstrumentArbitrationObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:15073, MDIS:DiscrepancySetPoint, Float, 0, 3 ]
+    - DisplayName: "DiscrepancySetPoint"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1884,10 +2155,12 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15547, MDIS:MDISInstrumentArbitrationObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15074, MDIS:SetArbitrationMode ]
+    - DisplayName: "SetArbitrationMode"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, MDIS:15075, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ArbitrationMode: [ MDIS:ArbitrationModeEnum, 0 ]
       - HasModellingRule:
@@ -1900,6 +2173,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15547, MDIS:MDISInstrumentArbitrationObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15070, MDIS:SourceA, Float, 0, 0 ]
+    - DisplayName: "SourceA"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1908,6 +2182,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15547, MDIS:MDISInstrumentArbitrationObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15071, MDIS:SourceB, Float, 0, 0 ]
+    - DisplayName: "SourceB"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1917,16 +2192,20 @@ DefinedTypes:
 
   MDIS:MDISInstrumentOutObjectType:
   - [ UAObjectType, MDIS:1254, MDIS:MDISInstrumentOutObjectType ]
+  - DisplayName: "MDISInstrumentOutObjectType"
+  - Description: "The definition of a MDIS standard Instrument Output"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:971, MDIS:MDISInstrumentObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:1277, MDIS:WriteValue ]
+    - DisplayName: "WriteValue"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:1254, MDIS:MDISInstrumentOutObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1278, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Value: [ Float, 0 ]
       - HasModellingRule:
@@ -1938,10 +2217,13 @@ DefinedTypes:
 
   MDIS:MDISMotorObjectType:
   - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
+  - DisplayName: "MDISMotorObjectType"
+  - Description: "The definition of a MDIS standard Motor Object"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasInterlock:
     - [ UAVariable, MDIS:15211, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
+    - DisplayName: "<InterlockPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -1950,6 +2232,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15396, MDIS:DefeatableStartInterlock, Boolean, 0, 0 ]
+    - DisplayName: "DefeatableStartInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1958,6 +2241,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15398, MDIS:DefeatableStopInterlock, Boolean, 0, 0 ]
+    - DisplayName: "DefeatableStopInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1966,6 +2250,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15395, MDIS:NonDefeatableStartInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableStartInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1974,6 +2259,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15397, MDIS:NonDefeatableStopInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableStopInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1982,6 +2268,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15200, MDIS:Operation, MDIS:MotorOperationEnum, 0, 0 ]
+    - DisplayName: "Operation"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1990,6 +2277,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15199, MDIS:Running, Boolean, 0, 0 ]
+    - DisplayName: "Running"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1998,12 +2286,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15209, MDIS:SetOperation ]
+    - DisplayName: "SetOperation"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15210, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Mode: [ MDIS:MotorOperationEnum, 0 ]
       - HasModellingRule:
@@ -2014,12 +2304,14 @@ DefinedTypes:
         - [ UAMethod, MDIS:15209, MDIS:SetOperation ]
   - HasComponent:
     - [ UAMethod, MDIS:15205, MDIS:Start ]
+    - DisplayName: "Start"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15206, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           OverrideInterlocks: [ Boolean, 0 ]
       - HasModellingRule:
@@ -2030,12 +2322,14 @@ DefinedTypes:
         - [ UAMethod, MDIS:15205, MDIS:Start ]
   - HasComponent:
     - [ UAMethod, MDIS:15207, MDIS:Stop ]
+    - DisplayName: "Stop"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15190, MDIS:MDISMotorObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15208, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           OverrideInterlocks: [ Boolean, 0 ]
       - HasModellingRule:
@@ -2047,10 +2341,13 @@ DefinedTypes:
 
   MDIS:MDISValveObjectType:
   - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
+  - DisplayName: "MDISValveObjectType"
+  - Description: "The definition of a MDIS standard Valve Object"
   - HasSubtype_reverse:
     - [ UAObjectType, MDIS:194, MDIS:MDISBaseObjectType ]
   - HasInterlock:
     - [ UAVariable, MDIS:1280, MDIS:<InterlockPlaceholder>, Boolean, 0, 0 ]
+    - DisplayName: "<InterlockPlaceholder>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -2059,6 +2356,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasSignature:
     - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
+    - DisplayName: "<ValveSignature>"
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -2067,12 +2365,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
     - HasComponent:
       - [ UAMethod, MDIS:1302, MDIS:Close ]
+      - DisplayName: "Close"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
       - HasProperty:
         - [ UAVariable, MDIS:1303, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2083,12 +2383,14 @@ DefinedTypes:
           - [ UAMethod, MDIS:1302, MDIS:Close ]
     - HasComponent:
       - [ UAMethod, MDIS:1309, MDIS:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
       - HasProperty:
         - [ UAVariable, MDIS:1310, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2099,6 +2401,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1309, MDIS:GetPosition ]
       - HasProperty:
         - [ UAVariable, MDIS:1311, MDIS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasModellingRule:
@@ -2109,12 +2412,14 @@ DefinedTypes:
           - [ UAMethod, MDIS:1309, MDIS:GetPosition ]
     - HasComponent:
       - [ UAMethod, MDIS:1299, MDIS:Open ]
+      - DisplayName: "Open"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
       - HasProperty:
         - [ UAVariable, MDIS:1300, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasModellingRule:
@@ -2125,6 +2430,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1299, MDIS:Open ]
       - HasProperty:
         - [ UAVariable, MDIS:1301, MDIS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasModellingRule:
@@ -2135,6 +2441,8 @@ DefinedTypes:
           - [ UAMethod, MDIS:1299, MDIS:Open ]
     - HasProperty:
       - [ UAVariable, MDIS:1298, MDIS:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
+      - Description: "The current number of open file handles."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2143,12 +2451,14 @@ DefinedTypes:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
     - HasComponent:
       - [ UAMethod, MDIS:1304, MDIS:Read ]
+      - DisplayName: "Read"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
       - HasProperty:
         - [ UAVariable, MDIS:1305, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -2160,6 +2470,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1304, MDIS:Read ]
       - HasProperty:
         - [ UAVariable, MDIS:1306, MDIS:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasModellingRule:
@@ -2170,12 +2481,14 @@ DefinedTypes:
           - [ UAMethod, MDIS:1304, MDIS:Read ]
     - HasComponent:
       - [ UAMethod, MDIS:1312, MDIS:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
       - HasProperty:
         - [ UAVariable, MDIS:1313, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -2187,6 +2500,8 @@ DefinedTypes:
           - [ UAMethod, MDIS:1312, MDIS:SetPosition ]
     - HasProperty:
       - [ UAVariable, MDIS:1295, MDIS:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
+      - Description: "The size of the file in bytes."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2195,6 +2510,8 @@ DefinedTypes:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
     - HasProperty:
       - [ UAVariable, MDIS:1297, MDIS:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
+      - Description: "Whether the file is writable by the current user."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2203,6 +2520,8 @@ DefinedTypes:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
     - HasProperty:
       - [ UAVariable, MDIS:1296, MDIS:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
+      - Description: "Whether the file is writable."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2211,12 +2530,14 @@ DefinedTypes:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
     - HasComponent:
       - [ UAMethod, MDIS:1307, MDIS:Write ]
+      - DisplayName: "Write"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1294, MDIS:<ValveSignature> ]
       - HasProperty:
         - [ UAVariable, MDIS:1308, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -2228,6 +2549,7 @@ DefinedTypes:
           - [ UAMethod, MDIS:1307, MDIS:Write ]
   - HasProperty:
     - [ UAVariable, MDIS:888, MDIS:CloseTimeDuration, Duration, 0, 0 ]
+    - DisplayName: "CloseTimeDuration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2236,6 +2558,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:876, MDIS:CommandRejected, Boolean, 0, 0 ]
+    - DisplayName: "CommandRejected"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2244,6 +2567,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:882, MDIS:DefeatableCloseInterlock, Boolean, 0, 0 ]
+    - DisplayName: "DefeatableCloseInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2252,6 +2576,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:880, MDIS:DefeatableOpenInterlock, Boolean, 0, 0 ]
+    - DisplayName: "DefeatableOpenInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2260,6 +2585,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:878, MDIS:LastCommand, MDIS:CommandEnum, 0, 0 ]
+    - DisplayName: "LastCommand"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2268,12 +2594,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:883, MDIS:Move ]
+    - DisplayName: "Move"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:884, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Direction: [ MDIS:CommandEnum, 0 ]
           OverrideInterlock: [ Boolean, 0 ]
@@ -2288,6 +2616,7 @@ DefinedTypes:
         - [ UAMethod, MDIS:883, MDIS:Move ]
   - HasComponent:
     - [ UAVariable, MDIS:881, MDIS:NonDefeatableCloseInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableCloseInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2296,6 +2625,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:879, MDIS:NonDefeatableOpenInterlock, Boolean, 0, 0 ]
+    - DisplayName: "NonDefeatableOpenInterlock"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2304,6 +2634,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasProperty:
     - [ UAVariable, MDIS:887, MDIS:OpenTimeDuration, Duration, 0, 0 ]
+    - DisplayName: "OpenTimeDuration"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2312,6 +2643,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:875, MDIS:Position, MDIS:ValvePositionEnum, 0, 0 ]
+    - DisplayName: "Position"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2320,6 +2652,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:794, MDIS:MDISValveObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:877, MDIS:SignatureRequestStatus, MDIS:SignatureStatusEnum, 0, 0 ]
+    - DisplayName: "SignatureRequestStatus"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2329,10 +2662,13 @@ DefinedTypes:
 
   MDIS:MDISCounterObjectType:
   - [ UAObjectType, MDIS:15098, MDIS:MDISCounterObjectType ]
+  - DisplayName: "MDISCounterObjectType"
+  - Description: "The definition of a MDIS Counter object that is used in other Object types"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:15099, MDIS:Count, Number, 0, 0 ]
+    - DisplayName: "Count"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2341,12 +2677,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:15098, MDIS:MDISCounterObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:15100, MDIS:SetCount ]
+    - DisplayName: "SetCount"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:15098, MDIS:MDISCounterObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:15101, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Initial: [ Number, 0 ]
       - HasModellingRule:
@@ -2358,10 +2696,13 @@ DefinedTypes:
 
   MDIS:MDISInformationObjectType:
   - [ UAObjectType, MDIS:1471, MDIS:MDISInformationObjectType ]
+  - DisplayName: "MDISInformationObjectType"
+  - Description: "The definition of a MDIS standard Information object"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, MDIS:1476, MDIS:MDISVersion, MDIS:MDISVersionDataType, 0, 0 ]
+    - DisplayName: "MDISVersion"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -2370,6 +2711,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1471, MDIS:MDISInformationObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1479, MDIS:Build, Byte, 0, 0 ]
+      - DisplayName: "Build"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2378,6 +2720,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:1476, MDIS:MDISVersion, MDIS:MDISVersionDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:1477, MDIS:MajorVersion, Byte, 0, 0 ]
+      - DisplayName: "MajorVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2386,6 +2729,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:1476, MDIS:MDISVersion, MDIS:MDISVersionDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, MDIS:1478, MDIS:MinorVersion, Byte, 0, 0 ]
+      - DisplayName: "MinorVersion"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -2394,6 +2738,7 @@ DefinedTypes:
         - [ UAVariable, MDIS:1476, MDIS:MDISVersion, MDIS:MDISVersionDataType, 0, 0 ]
   - HasComponent:
     - [ UAObject, MDIS:1475, MDIS:Signatures ]
+    - DisplayName: "Signatures"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2402,6 +2747,7 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1471, MDIS:MDISInformationObjectType ]
   - HasComponent:
     - [ UAObject, MDIS:1472, MDIS:TimeSynchronization ]
+    - DisplayName: "TimeSynchronization"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -2410,12 +2756,14 @@ DefinedTypes:
       - [ UAObjectType, MDIS:1471, MDIS:MDISInformationObjectType ]
     - HasComponent:
       - [ UAMethod, MDIS:1473, MDIS:SetTime ]
+      - DisplayName: "SetTime"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, MDIS:1472, MDIS:TimeSynchronization ]
       - HasProperty:
         - [ UAVariable, MDIS:1474, MDIS:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             TargetTime: [ UtcTime, 0 ]
         - HasModellingRule:
@@ -2427,16 +2775,20 @@ DefinedTypes:
 
   MDIS:MDISTimeSyncObjectType:
   - [ UAObjectType, MDIS:1468, MDIS:MDISTimeSyncObjectType ]
+  - DisplayName: "MDISTimeSyncObjectType"
+  - Description: "The definition of a MDIS standard Time Sync object"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAMethod, MDIS:1469, MDIS:SetTime ]
+    - DisplayName: "SetTime"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, MDIS:1468, MDIS:MDISTimeSyncObjectType ]
     - HasProperty:
       - [ UAVariable, MDIS:1470, MDIS:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           TargetTime: [ UtcTime, 0 ]
       - HasModellingRule:

@@ -1,10 +1,14 @@
 DataTypes:
 - UADataType: [ IA:3003, IA:LevelDisplayMode ]
+  DisplayName: "LevelDisplayMode"
+  Description: "Contains the values used to indicate how a percentual value is displayed if the stacklight unit works in Levelmeter mode."
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
 - UADataType: [ IA:3004, IA:SignalColor ]
+  DisplayName: "SignalColor"
+  Description: "Holds the possible colour values for stacklight lamps."
   Enums:
     Off: 0
     Red: 1
@@ -15,18 +19,24 @@ DataTypes:
     Cyan: 6
     White: 7
 - UADataType: [ IA:3005, IA:SignalModeLight ]
+  DisplayName: "SignalModeLight"
+  Description: "Contains the values used to indicate in what way a lamp behaves when switched on."
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
 - UADataType: [ IA:3002, IA:StacklightOperationMode ]
+  DisplayName: "StacklightOperationMode"
+  Description: "Contains the values used to indicate how a stacklight (as a whole unit) is used."
   Enums:
     Segmented: 0
     Levelmeter: 1
     Running_Light: 2
     Other: 3
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -37,25 +47,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -67,87 +84,125 @@ DefinedTypes:
 
   IA:AcousticSignalType:
   - [ UAObjectType, IA:1009, IA:AcousticSignalType ]
+  - DisplayName: "AcousticSignalType"
+  - Description: "Represents an acoustic signal."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, IA:6029, IA:AudioSample, AudioDataType, 0, 3 ]
+    - DisplayName: "AudioSample"
+    - Description: "Contains the audio data, e.g. for devices capable of audio playback."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IA:6028, IA:NumberInList, UInteger, 0, 3 ]
+    - DisplayName: "NumberInList"
+    - Description: "Enumerate the acoustic signals. Instances of StackElementAcousticType index into this number using the OperationMode Property."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   IA:BaseCalibrationTargetCategoryType:
   - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
+  - DisplayName: "BaseCalibrationTargetCategoryType"
+  - Description: "Abstract base type for categorizing calibration targets. Subtypes define the concrete categories."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
   IA:DynamicCalibrationTargetCategoryType:
   - [ UAObjectType, IA:1018, IA:DynamicCalibrationTargetCategoryType ]
+  - DisplayName: "DynamicCalibrationTargetCategoryType"
+  - Description: "Characterizes a calibration target to be used together with a measurement instrument, that determines the values to be calibrated. It can be a piece created during the normal production process or an item specifically created for calibration purposes. The calibration target represents an individual piece or item, that is, if a new piece should be used or item is created, a new Object of this ObjectType is created."
   - HasSubtype_reverse:
     - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
 
   IA:OneTimeCalibrationTargetCategoryType:
   - [ UAObjectType, IA:1017, IA:OneTimeCalibrationTargetCategoryType ]
+  - DisplayName: "OneTimeCalibrationTargetCategoryType"
+  - Description: "Categorizes a calibration target to be used only once, for example because the calibration destroys the target. Typically, Objects of this ObjectType do not represent one individual calibration target, but a batch of calibration targets with the same characteristics."
   - HasSubtype_reverse:
     - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
 
   IA:ReusableCalibrationTargetCategoryType:
   - [ UAObjectType, IA:1015, IA:ReusableCalibrationTargetCategoryType ]
+  - DisplayName: "ReusableCalibrationTargetCategoryType"
+  - Description: "Categorizes a calibration target to be reused several times. For example, a calibration target like a meter, that is bought specifically for calibration and not destroyed by an individual usage is of this category."
   - HasSubtype_reverse:
     - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
 
   IA:ReusableDeviceCalibrationTargetCategoryType:
   - [ UAObjectType, IA:1016, IA:ReusableDeviceCalibrationTargetCategoryType ]
+  - DisplayName: "ReusableDeviceCalibrationTargetCategoryType"
+  - Description: "Categorizes a calibration target to be a reusable device that produces a certain environment like pressure that can be used for calibration."
   - HasSubtype_reverse:
     - [ UAObjectType, IA:1015, IA:ReusableCalibrationTargetCategoryType ]
 
   IA:IStatisticsType:
   - [ UAObjectType, IA:1011, IA:IStatisticsType ]
+  - DisplayName: "IStatisticsType"
+  - Description: "Base interface for managing statistical data."
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAMethod, IA:7001, IA:ResetStatistics ]
+    - DisplayName: "ResetStatistics"
+    - Description: "Restarts all statistical data, including a reset of the StartTime to the current time."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IA:6046, IA:StartTime, DateTime, 0, 3 ]
+    - DisplayName: "StartTime"
+    - Description: "Indicates the point in time at which the collection of the statistical data has been started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   IA:IAggregateStatisticsType:
   - [ UAObjectType, IA:1012, IA:IAggregateStatisticsType ]
+  - DisplayName: "IAggregateStatisticsType"
+  - Description: "Base interface for managing statistical data that is not rolled over all data from the start of tracking the statistical data are considered, until the tracking gets reset."
   - HasSubtype_reverse:
     - [ UAObjectType, IA:1011, IA:IStatisticsType ]
   - HasProperty:
     - [ UAVariable, IA:6047, IA:ResetCondition, String, 0, 3 ]
+    - DisplayName: "ResetCondition"
+    - Description: "The reason and context for the reset of the statistics, which is done without a trigger from an OPC UA Client, like calling the ResetStatistics Method. ResetCondition is a vendor-specific, human readable string. ResetCondition is non-localized and might contain an expression that can be parsed by certain clients. Examples are: “AFTER 4 HOURS”, “AFTER 1000 ITEMS”, “OPERATOR”. “OPERATOR” means, that an operator resets the statistics on a local HMI."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   IA:IRollingStatisticsType:
   - [ UAObjectType, IA:1013, IA:IRollingStatisticsType ]
+  - DisplayName: "IRollingStatisticsType"
+  - Description: "Base interface for managing statistical data that is rolled over, i.e. only a certain amount of data is considered for statistical data."
   - HasSubtype_reverse:
     - [ UAObjectType, IA:1011, IA:IStatisticsType ]
   - HasProperty:
     - [ UAVariable, IA:6048, IA:WindowDuration, Duration, 0, 3 ]
+    - DisplayName: "WindowDuration"
+    - Description: "The duration after the statistical data are rolled over. Only the data that were gathered during that duration are considered for the statistical data, even if the time intervals between the StartTime and the current time is longer."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IA:6049, IA:WindowNumberOfValues, UInt32, 0, 3 ]
+    - DisplayName: "WindowNumberOfValues"
+    - Description: "The number of values before the data gets rolled over. For the statistical data, only the data fitting into the number of values is considered, even if more data were gathered since StartTime."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   IA:CalibrationTargetType:
   - [ UAObjectType, IA:1019, IA:CalibrationTargetType ]
+  - DisplayName: "CalibrationTargetType"
+  - Description: "Provides information about a calibration target."
   - HasComponent:
     - [ UAObject, IA:5011, IA:CalibrationTargetCategory ]
+    - DisplayName: "CalibrationTargetCategory"
+    - Description: "Defines what category the calibration target is of."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, IA:1014, IA:BaseCalibrationTargetCategoryType ]
   - HasComponent:
     - [ UAObject, IA:5013, IA:CalibrationTargetFeatures ]
+    - DisplayName: "CalibrationTargetFeatures"
+    - Description: "A folder containing information about the features of a calibration target, that is, what can be calibrated with the calibration target."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -156,70 +211,100 @@ DefinedTypes:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, IA:6063, IA:CertificateUri, String, 0, 3 ]
+    - DisplayName: "CertificateUri"
+    - Description: "Contains the Uri of a certificate of the calibration target, in case the calibration target is certified and the information available. Otherwise, the Property should be omitted."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, IA:5010, DI:Identification ]
+    - DisplayName: "Identification"
+    - Description: "Provides identification information."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasProperty:
     - [ UAVariable, IA:6060, IA:LastValidationDate, UtcTime, 0, 3 ]
+    - DisplayName: "LastValidationDate"
+    - Description: "Provides the date, the calibration target was validated the last time. If there is no specific validation date known, the date when the calibration target was bought or created should be used."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IA:6061, IA:NextValidationDate, UtcTime, 0, 3 ]
+    - DisplayName: "NextValidationDate"
+    - Description: "Provides the date, when the calibration target should be validated the next time. If this date is not known, the Property should be omitted. Note: Potentially the NextValidationDate is in the past, when the next validation did not take place."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, IA:5012, IA:OperationalConditions ]
+    - DisplayName: "OperationalConditions"
+    - Description: "A folder containing information about operational conditions of the calibration target. For example, it might provide in what ranges of humidity the calibration target can be operated. It might also provide correction information, for example, depending on the temperature the calibration values need to be corrected (in case of a length, the length might increase with high temperatures). If no operational conditions are provided, this folder should be omitted."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasProperty:
     - [ UAVariable, IA:6062, IA:Quality, Byte, 0, 3 ]
+    - DisplayName: "Quality"
+    - Description: "Provides the quality of the calibration target in percentage, this is, the value shall be between 0 and 100. 100 means the highest quality, 0 the lowest. The semantic of the quality is application-specific."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
   IA:ControlChannelType:
   - [ UAObjectType, IA:1008, IA:ControlChannelType ]
+  - DisplayName: "ControlChannelType"
+  - Description: "Used for control channels of single colour elements within a stack element (e.g. RGB elements would use three ControlChannels, one for each controllable colour)."
   - HasComponent:
     - [ UAVariable, IA:6024, IA:ChannelColor, IA:SignalColor, 0, 3 ]
+    - DisplayName: "ChannelColor"
+    - Description: "Indicates in what mode (continuously on, blinking, flashing) the channel operates when switched on."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, IA:6026, IA:Intensity, Float, 0, 3 ]
+    - DisplayName: "Intensity"
+    - Description: "Shows the channel’s intensity, thus its brightness. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, IA:6025, IA:SignalMode, IA:SignalModeLight, 0, 3 ]
+    - DisplayName: "SignalMode"
+    - Description: "Contains a list of audio signals used by this acoustic stacklight element."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, IA:6023, IA:SignalOn, Boolean, 0, 3 ]
+    - DisplayName: "SignalOn"
+    - Description: "Indicates if the colour is switched on."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
   IA:BasicStacklightType:
   - [ UAObjectType, IA:1002, IA:BasicStacklightType ]
+  - DisplayName: "BasicStacklightType"
+  - Description: "Entry point to a stacklight containing elements of the stacklight as well as additional information valid for the whole unit."
   - HasSubtype_reverse:
     - [ UAObjectType, 23518, OrderedListType ]
   - HasComponent:
     - [ UAObject, IA:5001, IA:StackLevel ]
+    - DisplayName: "StackLevel"
+    - Description: "Valid if the stacklight is used in “Levelmeter” StacklightMode. If so, the whole stack is controlled by a single percentual value. In this case, the SignalOn parameter of any stack element of StackElementLightType has no meaning."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, IA:1003, IA:StackLevelType ]
   - HasProperty:
     - [ UAVariable, IA:6009, IA:StacklightMode, IA:StacklightOperationMode, 0, 3 ]
+    - DisplayName: "StacklightMode"
+    - Description: "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, IA:5005, IA:StackRunning ]
+    - DisplayName: "StackRunning"
+    - Description: "Valid if the stacklight is used in “Running_Light” StacklightMode."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -227,12 +312,18 @@ DefinedTypes:
 
   IA:StacklightType:
   - [ UAObjectType, IA:1010, IA:StacklightType ]
+  - DisplayName: "StacklightType"
+  - Description: "Entry point to a stacklight with the possibility to show the stacklight’s health status."
   - HasComponent:
     - [ UAVariable, IA:6038, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 3 ]
+    - DisplayName: "DeviceHealth"
+    - Description: "Contains the health status information of the stacklight."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, IA:5007, DI:DeviceHealthAlarms ]
+    - DisplayName: "DeviceHealthAlarms"
+    - Description: "Contains alarms of the stacklights providing more detailed information on the health of the stacklight."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -242,16 +333,24 @@ DefinedTypes:
 
   IA:StackElementType:
   - [ UAObjectType, IA:1005, IA:StackElementType ]
+  - DisplayName: "StackElementType"
+  - Description: "Base class for elements in a stacklight."
   - HasProperty:
     - [ UAVariable, IA:6014, IA:IsPartOfBase, Boolean, 0, 3 ]
+    - DisplayName: "IsPartOfBase"
+    - Description: "Indicates, if the element is contained in the mounting base of the stacklight. All elements contained in the mounting base shall be at the beginning of the list of stack elements."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, IA:6015, IA:NumberInList, UInteger, 0, 0 ]
+    - DisplayName: "NumberInList"
+    - Description: "Enumerate the stacklight elements counting upwards beginning from the base of the stacklight."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, IA:6013, IA:SignalOn, Boolean, 0, 3 ]
+    - DisplayName: "SignalOn"
+    - Description: "Indicates if the signal emitted by the stack element is currently switched on or not."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -259,18 +358,26 @@ DefinedTypes:
 
   IA:StackElementAcousticType:
   - [ UAObjectType, IA:1007, IA:StackElementAcousticType ]
+  - DisplayName: "StackElementAcousticType"
+  - Description: "Represents an acoustic element in a stacklight."
   - HasComponent:
     - [ UAObject, IA:5003, IA:AcousticSignals ]
+    - DisplayName: "AcousticSignals"
+    - Description: "Contains a list of audio signals used by this acoustic stacklight element."
     - HasTypeDefinition:
       - [ UAObjectType, 23518, OrderedListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, IA:6021, IA:Intensity, Float, 0, 3 ]
+    - DisplayName: "Intensity"
+    - Description: "Indicates the sound pressure level of the acoustic signal when switched on. This value shall only have positive values. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, IA:6020, IA:OperationMode, UInteger, 0, 3 ]
+    - DisplayName: "OperationMode"
+    - Description: "Indicates what signal of the list of AcousticSignalType nodes is played when the acoustic element is switched on. It shall contain an index into the NumberInList of the respective AcousticSignalType Object of AcousticSignals."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -278,22 +385,32 @@ DefinedTypes:
 
   IA:StackElementLightType:
   - [ UAObjectType, IA:1006, IA:StackElementLightType ]
+  - DisplayName: "StackElementLightType"
+  - Description: "Represents a lamp element in a stacklight."
   - HasComponent:
     - [ UAObject, IA:5002, IA:<ControlChannel> ]
+    - DisplayName: "<ControlChannel>"
+    - Description: "The list of <ControlChannel> instances shows the control information for each independent colour channel of the stacked element."
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, IA:1008, IA:ControlChannelType ]
   - HasComponent:
     - [ UAVariable, IA:6018, IA:Intensity, Float, 0, 3 ]
+    - DisplayName: "Intensity"
+    - Description: "Intensity of the lamp, thus its brightness. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, IA:6016, IA:SignalColor, IA:SignalColor, 0, 3 ]
+    - DisplayName: "SignalColor"
+    - Description: "Indicates the colour the lamp element has when switched on."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, IA:6017, IA:SignalMode, IA:SignalModeLight, 0, 3 ]
+    - DisplayName: "SignalMode"
+    - Description: "Shows in what way the lamp is used (continuous light, flashing, blinking) when switched on."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -301,12 +418,18 @@ DefinedTypes:
 
   IA:StackLevelType:
   - [ UAObjectType, IA:1003, IA:StackLevelType ]
+  - DisplayName: "StackLevelType"
+  - Description: "Contains information relevant to a stacklight operating as a level meter. The whole stack is controlled by a percentual value."
   - HasComponent:
     - [ UAVariable, IA:6012, IA:DisplayMode, IA:LevelDisplayMode, 0, 3 ]
+    - DisplayName: "DisplayMode"
+    - Description: "Indicates in what way the percentual value is displayed with the stacklight."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, IA:6010, IA:LevelPercent, Float, 0, 3 ]
+    - DisplayName: "LevelPercent"
+    - Description: "Shows the percentual value the stacklight is representing. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -314,5 +437,7 @@ DefinedTypes:
 
   IA:StackRunningType:
   - [ UAObjectType, IA:1004, IA:StackRunningType ]
+  - DisplayName: "StackRunningType"
+  - Description: "Contains information relevant to a stacklight operating as a running light. This base type does not define any specific information, but can be extended."
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

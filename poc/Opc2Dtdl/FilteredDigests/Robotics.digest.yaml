@@ -1,10 +1,14 @@
 DataTypes:
 - UADataType: [ Robotics:18191, Robotics:ExecutionModeEnumeration ]
+  DisplayName: "ExecutionModeEnumeration"
+  Description: "Single execution of a task program according to ISO 8373."
   Enums:
     CYCLE: 0
     CONTINUOUS: 1
     STEP: 2
 - UADataType: [ Robotics:18193, Robotics:MotionDeviceCategoryEnumeration ]
+  DisplayName: "MotionDeviceCategoryEnumeration"
+  Description: "Any MotionDevice which is not defined by the MotionDeviceCategoryEnumeration."
   Enums:
     OTHER: 0
     ARTICULATED_ROBOT: 1
@@ -14,6 +18,8 @@ DataTypes:
     PARALLEL_ROBOT: 5
     CYLINDRICAL_ROBOT: 6
 - UADataType: [ Robotics:3008, Robotics:AxisMotionProfileEnumeration ]
+  DisplayName: "AxisMotionProfileEnumeration"
+  Description: "Any motion-profile which is not defined by the AxisMotionProfileEnumeration."
   Enums:
     OTHER: 0
     ROTARY: 1
@@ -21,6 +27,8 @@ DataTypes:
     LINEAR: 3
     LINEAR_ENDLESS: 4
 - UADataType: [ Robotics:3006, Robotics:OperationalModeEnumeration ]
+  DisplayName: "OperationalModeEnumeration"
+  Description: "Other for when there is a system-boot (unknown) or a failure of the safety, there is no valid operational mode."
   Enums:
     OTHER: 0
     MANUAL_REDUCED_SPEED: 1
@@ -28,6 +36,8 @@ DataTypes:
     AUTOMATIC: 3
     AUTOMATIC_EXTERNAL: 4
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -38,25 +48,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -68,20 +85,28 @@ DefinedTypes:
 
   Robotics:MotionDeviceSystemType:
   - [ UAObjectType, Robotics:1002, Robotics:MotionDeviceSystemType ]
+  - DisplayName: "MotionDeviceSystemType"
+  - Description: "Contains the set of controllers and motion devices in a closely-coupled motion device system."
   - HasComponent:
     - [ UAObject, Robotics:5002, Robotics:MotionDevices ]
+    - DisplayName: "MotionDevices"
+    - Description: "Contains any kinematic or motion device which is part of the motion device system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:5001, Robotics:Controllers ]
+    - DisplayName: "Controllers"
+    - Description: "Contains the set of controllers in the motion device system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:5010, Robotics:SafetyStates ]
+    - DisplayName: "SafetyStates"
+    - Description: "Contains safety-related data from motion device system."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -91,52 +116,70 @@ DefinedTypes:
 
   Robotics:MotionDeviceType:
   - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
+  - DisplayName: "MotionDeviceType"
+  - Description: "Represents a specific motion device in the motion device system like a robot, a linear unit or a positioner. A MotionDevice should have at least one axis."
   - HasComponent:
     - [ UAObject, Robotics:5029, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:16351, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:16353, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:16359, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:16354, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:16362, Robotics:MotionDeviceCategory, Robotics:MotionDeviceCategoryEnumeration, 0, 0 ]
+    - DisplayName: "MotionDeviceCategory"
+    - Description: "The variable MotionDeviceCategory provides the kind of motion device defined by MotionDeviceCategoryEnumeration based on ISO 8373."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:15305, Robotics:Axes ]
+    - DisplayName: "Axes"
+    - Description: "Axes is a container for one or more instances of the AxisType."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:16443, Robotics:PowerTrains ]
+    - DisplayName: "PowerTrains"
+    - Description: "PowerTrains is a container for one or more instances of the PowerTrainType."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:5091, Robotics:FlangeLoad ]
+    - DisplayName: "FlangeLoad"
+    - Description: "The FlangeLoad is the load on the flange or at the mounting point of the MotionDevice. This can be the maximum load of the MotionDevice."
     - HasTypeDefinition:
       - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Robotics:16566, Robotics:AdditionalComponents ]
+    - DisplayName: "AdditionalComponents"
+    - Description: "AdditionalComponents is a container for one or more instances of subtypes of ComponentType defined in OPC UA DI. The listed components are installed at the motion device, e.g. an IO-board."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -146,18 +189,26 @@ DefinedTypes:
 
   Robotics:AxisType:
   - [ UAObjectType, Robotics:16601, Robotics:AxisType ]
+  - DisplayName: "AxisType"
+  - Description: "The AxisType describes an axis of a motion device."
   - HasComponent:
     - [ UAObject, Robotics:16602, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:16637, Robotics:MotionProfile, Robotics:AxisMotionProfileEnumeration, 0, 0 ]
+    - DisplayName: "MotionProfile"
+    - Description: "The kind of axis motion as defined with the AxisMotionProfileEnumeration."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:16638, Robotics:AdditionalLoad ]
+    - DisplayName: "AdditionalLoad"
+    - Description: "The additional load which is mounted on this axis. E.g. for process-need a transformer for welding."
     - HasTypeDefinition:
       - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
     - HasModellingRule:
@@ -167,14 +218,18 @@ DefinedTypes:
 
   Robotics:PowerTrainType:
   - [ UAObjectType, Robotics:16794, Robotics:PowerTrainType ]
+  - DisplayName: "PowerTrainType"
+  - Description: "The PowerTrainType represents instances of powertrains of a motion device."
   - HasComponent:
     - [ UAObject, Robotics:15998, Robotics:<MotorIdentifier> ]
+    - DisplayName: "<MotorIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
     - [ UAObject, Robotics:16041, Robotics:<GearIdentifier> ]
+    - DisplayName: "<GearIdentifier>"
     - HasTypeDefinition:
       - [ UAObjectType, Robotics:1022, Robotics:GearType ]
     - HasModellingRule:
@@ -184,26 +239,34 @@ DefinedTypes:
 
   Robotics:MotorType:
   - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
+  - DisplayName: "MotorType"
+  - Description: "The MotorType is for representing instances of electric motors."
   - HasComponent:
     - [ UAObject, Robotics:5105, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17101, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17103, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17109, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17104, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -211,36 +274,48 @@ DefinedTypes:
 
   Robotics:GearType:
   - [ UAObjectType, Robotics:1022, Robotics:GearType ]
+  - DisplayName: "GearType"
+  - Description: "The GearType describes a gear in a powertrain, e.g. a gear box or a spindle."
   - HasProperty:
     - [ UAVariable, Robotics:17152, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17154, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17160, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17155, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:15941, Robotics:GearRatio, RationalNumber, 0, 0 ]
+    - DisplayName: "GearRatio"
+    - Description: "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side)."
     - HasComponent:
       - [ UAVariable, Robotics:15615, Robotics:Numerator, Int32, 0, 0 ]
+      - DisplayName: "Numerator"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, Robotics:15616, Robotics:Denominator, UInt32, 0, 0 ]
+      - DisplayName: "Denominator"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:17165, Robotics:Pitch, Double, 0, 0 ]
+    - DisplayName: "Pitch"
+    - Description: "Pitch describes the distance covered in millimeters (mm) for linear motion per one revolution of the output side of the driving unit. Pitch is used in combination with GearRatio to describe the overall transmission from input to output of the gear."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
@@ -248,20 +323,28 @@ DefinedTypes:
 
   Robotics:SafetyStateType:
   - [ UAObjectType, Robotics:1013, Robotics:SafetyStateType ]
+  - DisplayName: "SafetyStateType"
+  - Description: "SafetyStateType describes the safety states of the motion devices and controllers. One motion device system is associated with one or more instances of the SafetyStateType."
   - HasComponent:
     - [ UAObject, Robotics:5016, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:17221, Robotics:EmergencyStopFunctions ]
+    - DisplayName: "EmergencyStopFunctions"
+    - Description: "EmergencyStopFunctions is a container for one or more instances of the EmergencyStopFunctionType."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Robotics:17225, Robotics:ProtectiveStopFunctions ]
+    - DisplayName: "ProtectiveStopFunctions"
+    - Description: "ProtectiveStopFunctions is a container for one or more instances of the ProtectiveStopFunctionType."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -271,12 +354,18 @@ DefinedTypes:
 
   Robotics:EmergencyStopFunctionType:
   - [ UAObjectType, Robotics:17230, Robotics:EmergencyStopFunctionType ]
+  - DisplayName: "EmergencyStopFunctionType"
+  - Description: "According to ISO 10218-1:2011 Ch.5.5.2 Emergency stop the robot shall have one or more emergency stop functions."
   - HasProperty:
     - [ UAVariable, Robotics:17231, Robotics:Name, String, 0, 0 ]
+    - DisplayName: "Name"
+    - Description: "The Name of the EmergencyStopFunctionType provides a manufacturer-specific emergency stop function identifier within the safety system."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:17232, Robotics:Active, Boolean, 0, 0 ]
+    - DisplayName: "Active"
+    - Description: "The Active variable is TRUE if this particular emergency stop function is active, e.g. that the emergency stop button is pressed, FALSE otherwise."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -284,16 +373,24 @@ DefinedTypes:
 
   Robotics:ProtectiveStopFunctionType:
   - [ UAObjectType, Robotics:17233, Robotics:ProtectiveStopFunctionType ]
+  - DisplayName: "ProtectiveStopFunctionType"
+  - Description: "According to ISO 10218-1:2011 Ch.5.5.3 the robot shall have one or more protective stop functions designed for the connection of external protective devices."
   - HasProperty:
     - [ UAVariable, Robotics:17234, Robotics:Name, String, 0, 0 ]
+    - DisplayName: "Name"
+    - Description: "The Name of the ProtectiveStopFunctionType provides a manufacturer-specific protective stop function identifier within the safety system."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:17235, Robotics:Enabled, Boolean, 0, 0 ]
+    - DisplayName: "Enabled"
+    - Description: "– The Enabled variable is TRUE if this protective stop function is currently supervising the system, FALSE otherwise. A protective stop function may or may not be enabled at all times, e.g. the protective stop function of the safety doors are typically enabled in automatic operational mode and disabled in manual mode. On the other hand for example, the protective stop function of the teach pendant enabling device is enabled in manual modes and disabled in automatic modes."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:17236, Robotics:Active, Boolean, 0, 0 ]
+    - DisplayName: "Active"
+    - Description: "– The Active variable is TRUE if this particular protective stop function is active, i.e. that a stop is initiated, FALSE otherwise. If Enabled is FALSE then Active shall be FALSE."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -301,48 +398,64 @@ DefinedTypes:
 
   Robotics:ControllerType:
   - [ UAObjectType, Robotics:1003, Robotics:ControllerType ]
+  - DisplayName: "ControllerType"
+  - Description: "The ControllerType describes the control unit of motion devices. One motion device system can have one or more instances of the ControllerType."
   - HasComponent:
     - [ UAObject, Robotics:5004, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, Robotics:17237, DI:Manufacturer, LocalizedText, 0, 0 ]
+    - DisplayName: "Manufacturer"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17239, DI:Model, LocalizedText, 0, 0 ]
+    - DisplayName: "Model"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17245, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17240, DI:SerialNumber, String, 0, 0 ]
+    - DisplayName: "SerialNumber"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:17249, Robotics:CurrentUser ]
+    - DisplayName: "CurrentUser"
+    - Description: "The given name of the device."
     - HasTypeDefinition:
       - [ UAObjectType, Robotics:18175, Robotics:UserType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:17252, Robotics:Components ]
+    - DisplayName: "Components"
+    - Description: "Components is a container for one or more instances of subtypes of ComponentType defined in OPC UA DI. The listed components are installed in the motion device system, e.g. a processing-unit, a power-supply, an IO-board or a drive, and have an electrical interface to the controller."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, Robotics:15800, Robotics:Software ]
+    - DisplayName: "Software"
+    - Description: "Software is a container for one or more instances of SoftwareType defined in OPC UA DI."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, Robotics:15826, Robotics:TaskControls ]
+    - DisplayName: "TaskControls"
+    - Description: "TaskControls is a container for one or more instances of TaskControlType."
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -352,8 +465,12 @@ DefinedTypes:
 
   Robotics:AuxiliaryComponentType:
   - [ UAObjectType, Robotics:17725, Robotics:AuxiliaryComponentType ]
+  - DisplayName: "AuxiliaryComponentType"
+  - Description: "Components mounted in a controller cabinet or a motion device e.g. an IO-board or a power supply."
   - HasProperty:
     - [ UAVariable, Robotics:17756, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
+    - Description: "The ProductCode property provides a unique combination of numbers and letters used to identify the product. It may be the order information displayed on type shields or in ERP systems."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -361,8 +478,12 @@ DefinedTypes:
 
   Robotics:DriveType:
   - [ UAObjectType, Robotics:17793, Robotics:DriveType ]
+  - DisplayName: "DriveType"
+  - Description: "Drives (multi-slot or single-slot axis amplifier) mounted in a controller cabinet or a motion device."
   - HasProperty:
     - [ UAVariable, Robotics:17824, DI:ProductCode, String, 0, 0 ]
+    - DisplayName: "ProductCode"
+    - Description: "The ProductCode property provides a unique combination of numbers and letters used to identify the product. It may be the order information displayed on type shields or in ERP systems."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -370,14 +491,20 @@ DefinedTypes:
 
   Robotics:TaskControlType:
   - [ UAObjectType, Robotics:1011, Robotics:TaskControlType ]
+  - DisplayName: "TaskControlType"
+  - Description: "Represents a specific task control active on the controller."
   - HasComponent:
     - [ UAObject, Robotics:15883, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:17873, DI:ComponentName, LocalizedText, 0, 0 ]
+    - DisplayName: "ComponentName"
+    - Description: "A user writable name provided by the vendor, integrator or user of the device."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
@@ -385,40 +512,54 @@ DefinedTypes:
 
   Robotics:LoadType:
   - [ UAObjectType, Robotics:1018, Robotics:LoadType ]
+  - DisplayName: "LoadType"
+  - Description: "The LoadType is for describing loads mounted on the motion device typically by an integrator or a customer."
   - HasComponent:
     - [ UAVariable, Robotics:6723, Robotics:Mass, Double, 0, 0 ]
+    - DisplayName: "Mass"
+    - Description: "The weight of the load mounted on one mounting point."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, Robotics:6013, Robotics:CenterOfMass, 3DFrame, 0, 0 ]
+    - DisplayName: "CenterOfMass"
+    - Description: "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these values."
     - HasComponent:
       - [ UAVariable, Robotics:16130, Robotics:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+      - DisplayName: "CartesianCoordinates"
       - HasComponent:
         - [ UAVariable, Robotics:16134, Robotics:X, Double, 0, 0 ]
+        - DisplayName: "X"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, Robotics:16135, Robotics:Y, Double, 0, 0 ]
+        - DisplayName: "Y"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, Robotics:16136, Robotics:Z, Double, 0, 0 ]
+        - DisplayName: "Z"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, Robotics:16132, Robotics:Orientation, 3DOrientation, 0, 0 ]
+      - DisplayName: "Orientation"
       - HasComponent:
         - [ UAVariable, Robotics:16137, Robotics:A, Double, 0, 0 ]
+        - DisplayName: "A"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, Robotics:16138, Robotics:B, Double, 0, 0 ]
+        - DisplayName: "B"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, Robotics:16139, Robotics:C, Double, 0, 0 ]
+        - DisplayName: "C"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasModellingRule:
@@ -427,16 +568,21 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, Robotics:18170, Robotics:Inertia, 3DVector, 0, 0 ]
+    - DisplayName: "Inertia"
+    - Description: "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well."
     - HasComponent:
       - [ UAVariable, Robotics:18171, Robotics:X, Double, 0, 0 ]
+      - DisplayName: "X"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, Robotics:18172, Robotics:Y, Double, 0, 0 ]
+      - DisplayName: "Y"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, Robotics:18173, Robotics:Z, Double, 0, 0 ]
+      - DisplayName: "Z"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
@@ -446,12 +592,18 @@ DefinedTypes:
 
   Robotics:UserType:
   - [ UAObjectType, Robotics:18175, Robotics:UserType ]
+  - DisplayName: "UserType"
+  - Description: "The UserType ObjectType describes information of the registered user groups within the control system."
   - HasProperty:
     - [ UAVariable, Robotics:18176, Robotics:Level, String, 0, 0 ]
+    - DisplayName: "Level"
+    - Description: "The weight of the load mounted on one mounting point."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, Robotics:18177, Robotics:Name, String, 0, 0 ]
+    - DisplayName: "Name"
+    - Description: "The name for the current user within the control system."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:

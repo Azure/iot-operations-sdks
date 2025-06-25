@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -36,6 +45,8 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ Woodworking:3004, Woodworking:WwEventCategoryEnumeration ]
+  DisplayName: "WwEventCategoryEnumeration"
+  Description: "No other event category applies or it is unknown."
   Enums:
     OTHER: 0
     DIAGNOSTIC: 1
@@ -44,6 +55,8 @@ DataTypes:
     ALARM: 4
     ERROR: 5
 - UADataType: [ Woodworking:20, Woodworking:WwUnitModeEnumeration ]
+  DisplayName: "WwUnitModeEnumeration"
+  Description: "This enumeration represents the generalized mode of a unit."
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -52,6 +65,8 @@ DataTypes:
     SETUP: 4
     SLEEP: 5
 - UADataType: [ Woodworking:21, Woodworking:WwUnitStateEnumeration ]
+  DisplayName: "WwUnitStateEnumeration"
+  Description: "This enumeration represents the generalized state of a unit."
   Enums:
     OFFLINE: 0
     STANDBY: 1
@@ -59,9 +74,13 @@ DataTypes:
     WORKING: 3
     ERROR: 4
 - UADataType: [ Woodworking:3003, Woodworking:WwMessageArgumentDataType ]
+  DisplayName: "WwMessageArgumentDataType"
+  Description: "The WwArgumentDataType definition extends the argument structure with an argument value."
   Fields:
     Value: [ Woodworking:WwMessageArgumentValueDataType, 0 ]
 - UADataType: [ Woodworking:3002, Woodworking:WwMessageArgumentValueDataType ]
+  DisplayName: "WwMessageArgumentValueDataType"
+  Description: "The WwArgumentValueDataType definition defines the possible types of an argument value."
   Fields:
     Array: [ Woodworking:WwMessageArgumentValueDataType, 1 ]
     Boolean: [ Boolean, 0 ]

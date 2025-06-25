@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -36,40 +45,56 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
+  DisplayName: "MaintenanceMethodEnum"
+  Description: "Maintenance close to the asset"
   Enums:
     Local: 0
     Remote: 1
 - UADataType: [ AMB:3003, AMB:NameNodeIdDataType ]
+  DisplayName: "NameNodeIdDataType"
+  Description: "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace"
   Fields:
     Name: [ LocalizedText, 0 ]
     NodeId: [ NodeId, 0 ]
 - UADataType: [ AMB:3002, AMB:RootCauseDataType ]
+  DisplayName: "RootCauseDataType"
+  Description: "Root cause of an alarm"
   Fields:
     RootCauseId: [ NodeId, 0 ]
     RootCause: [ LocalizedText, 0 ]
 - UADataType: [ Machinery.Result:3002, Machinery.Result:ResultEvaluationEnum ]
+  DisplayName: "ResultEvaluationEnum"
+  Description: "Indicates whether a result was in tolerance"
   Enums:
     Undefined: 0
     OK: 1
     NotOK: 2
     NotDecidable: 3
 - UADataType: [ Machinery.Result:3005, Machinery.Result:BaseResultTransferOptionsDataType ]
+  DisplayName: "BaseResultTransferOptionsDataType"
+  Description: "Abstract type containing information which file should be provided."
   Fields:
     ResultId: [ TrimmedString, 0 ]
 - UADataType: [ Machinery.Result:3004, Machinery.Result:ResultTransferOptionsDataType ]
   Bases:
   - Machinery.Result:BaseResultTransferOptionsDataType
 - UADataType: [ Machinery.Result:3006, Machinery.Result:ProcessingTimesDataType ]
+  DisplayName: "ProcessingTimesDataType"
+  Description: "Contains measured times that were generated during the execution of a recipe."
   Fields:
     StartTime: [ UtcTime, 0 ]
     EndTime: [ UtcTime, 0 ]
     AcquisitionDuration: [ Duration, 0 ]
     ProcessingDuration: [ Duration, 0 ]
 - UADataType: [ Machinery.Result:3008, Machinery.Result:ResultDataType ]
+  DisplayName: "ResultDataType"
+  Description: "Contains fields that were created during the execution of a recipe."
   Fields:
     ResultMetaData: [ Machinery.Result:ResultMetaDataType, 0 ]
     ResultContent: [ null, 1 ]
 - UADataType: [ Machinery.Result:3007, Machinery.Result:ResultMetaDataType ]
+  DisplayName: "ResultMetaDataType"
+  Description: "Meta data of a result, describing the result."
   Fields:
     ResultId: [ TrimmedString, 0 ]
     HasTransferableDataOnFile: [ Boolean, 0 ]
@@ -92,6 +117,8 @@ DataTypes:
     ResultEvaluationDetails: [ LocalizedText, 0 ]
     FileFormat: [ String, 1 ]
 - UADataType: [ IJT.Base:3003, IJT.Base:CalibrationDataType ]
+  DisplayName: "CalibrationDataType"
+  Description: "This structure contains the Calibration information. It is used as an input argument in SetCalibration method. Note: The input data sent in SetCalibration shall be updated in the respective parameters of the asset under Maintenance/Calibration."
   Fields:
     LastCalibration: [ UtcTime, 0 ]
     CalibrationPlace: [ String, 0 ]
@@ -101,12 +128,16 @@ DataTypes:
     CertificateUri: [ UriString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3015, IJT.Base:DesignValueDataType ]
+  DisplayName: "DesignValueDataType"
+  Description: "This structure provides the design value for a given physical quantity. It is used in JointDesignDataType."
   Fields:
     PhysicalQuantity: [ Byte, 0 ]
     Name: [ String, 0 ]
     DesignValue: [ null, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3010, IJT.Base:EntityDataType ]
+  DisplayName: "EntityDataType"
+  Description: "This structure provides the identification data for a given entity in the system."
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -115,21 +146,29 @@ DataTypes:
     IsExternal: [ Boolean, 0 ]
     EntityType: [ Int16, 0 ]
 - UADataType: [ IJT.Base:3006, IJT.Base:ErrorInformationDataType ]
+  DisplayName: "ErrorInformationDataType"
+  Description: "This structure represents the errors occurred in the system which are outside the boundaries of the given program."
   Fields:
     ErrorType: [ Byte, 0 ]
     ErrorId: [ TrimmedString, 0 ]
     LegacyError: [ String, 0 ]
     ErrorMessage: [ LocalizedText, 0 ]
 - UADataType: [ IJT.Base:3016, IJT.Base:JoiningProcessDataType ]
+  DisplayName: "JoiningProcessDataType"
+  Description: "This structure provides the base container for any joining process in a joining system. Note: This specification defines the meta data of a JoiningProcess, and the actual content of the Joining Process is application specific."
   Fields:
     JoiningProcessMetaData: [ IJT.Base:JoiningProcessMetaDataType, 0 ]
     JoiningProcessContent: [ null, 1 ]
 - UADataType: [ IJT.Base:3029, IJT.Base:JoiningProcessIdentificationDataType ]
+  DisplayName: "JoiningProcessIdentificationDataType"
+  Description: "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType."
   Fields:
     JoiningProcessId: [ TrimmedString, 0 ]
     JoiningProcessOriginId: [ TrimmedString, 0 ]
     SelectionName: [ TrimmedString, 0 ]
 - UADataType: [ IJT.Base:3024, IJT.Base:JoiningProcessMetaDataType ]
+  DisplayName: "JoiningProcessMetaDataType"
+  Description: "This structure provides the meta data which describes the joining process."
   Fields:
     JoiningProcessId: [ TrimmedString, 0 ]
     JoiningProcessOriginId: [ TrimmedString, 0 ]
@@ -141,6 +180,8 @@ DataTypes:
     Classification: [ Int16, 0 ]
     AssociatedEntities: [ IJT.Base:EntityDataType, 1 ]
 - UADataType: [ IJT.Base:3005, IJT.Base:JoiningResultDataType ]
+  DisplayName: "JoiningResultDataType"
+  Description: "This structure represents the data associated with Joining Result and the corresponding measurement values."
   Fields:
     FailureReason: [ Byte, 0 ]
     OverallResultValues: [ IJT.Base:ResultValueDataType, 1 ]
@@ -149,6 +190,8 @@ DataTypes:
     FailingStepResultId: [ TrimmedString, 0 ]
     Trace: [ IJT.Base:JoiningTraceDataType, 0 ]
 - UADataType: [ IJT.Base:3021, IJT.Base:JointComponentDataType ]
+  DisplayName: "JointComponentDataType"
+  Description: "This structure is the base container for any joint component such as Bolt, Rivet, Gasket, Glue string, etc. Note: The concrete definition of joint component is not defined in this version of the specification."
   Fields:
     JointComponentId: [ TrimmedString, 0 ]
     Name: [ String, 0 ]
@@ -157,6 +200,8 @@ DataTypes:
     ManufacturerUri: [ String, 0 ]
     JointComponentContent: [ null, 0 ]
 - UADataType: [ IJT.Base:3028, IJT.Base:JointDataType ]
+  DisplayName: "JointDataType"
+  Description: "This structure provides the joint information. Joint is the physical outcome of the joining operation which determines the properties of the point where multiple parts are assembled."
   Fields:
     JointId: [ TrimmedString, 0 ]
     JointOriginId: [ TrimmedString, 0 ]
@@ -171,6 +216,8 @@ DataTypes:
     AssociatedEntities: [ IJT.Base:EntityDataType, 1 ]
     JoiningTechnology: [ LocalizedText, 0 ]
 - UADataType: [ IJT.Base:3025, IJT.Base:JointDesignDataType ]
+  DisplayName: "JointDesignDataType"
+  Description: "This structure provides the design information of a given joint."
   Fields:
     JointDesignId: [ TrimmedString, 0 ]
     Name: [ String, 0 ]
@@ -178,10 +225,14 @@ DataTypes:
     JointDesignContent: [ IJT.Base:DesignValueDataType, 1 ]
     JointComponentIdList: [ TrimmedString, 1 ]
 - UADataType: [ IJT.Base:3008, IJT.Base:KeyValueDataType ]
+  DisplayName: "KeyValueDataType"
+  Description: "This structure is similar to 0:KeyValuePair which uses 0:TrimmedString instead of 0:QualifiedName."
   Fields:
     Key: [ TrimmedString, 0 ]
     Value: [ null, 0 ]
 - UADataType: [ IJT.Base:3022, IJT.Base:ReportedValueDataType ]
+  DisplayName: "ReportedValueDataType"
+  Description: "This structure provides the given value and corresponding limits for a given physical quantity (if applicable)."
   Fields:
     PhysicalQuantity: [ Byte, 0 ]
     Name: [ String, 0 ]
@@ -191,11 +242,15 @@ DataTypes:
     HighLimit: [ Double, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3004, IJT.Base:ResultCounterDataType ]
+  DisplayName: "ResultCounterDataType"
+  Description: "This structure is used to provide various types of counters associated to a Result. These counters are related to a joining process with sub-processes."
   Fields:
     Name: [ String, 0 ]
     CounterValue: [ UInt32, 0 ]
     CounterType: [ Int16, 0 ]
 - UADataType: [ IJT.Base:3020, IJT.Base:JoiningResultMetaDataType ]
+  DisplayName: "JoiningResultMetaDataType"
+  Description: "This structure is a subtype of ResultMetaDataType. It is used to define additional meta data of a Result in a joining system."
   Fields:
     JoiningTechnology: [ LocalizedText, 0 ]
     SequenceNumber: [ UInt64, 0 ]
@@ -210,6 +265,8 @@ DataTypes:
     IsGeneratedOffline: [ Boolean, 0 ]
     ExtendedMetaData: [ IJT.Base:KeyValueDataType, 1 ]
 - UADataType: [ IJT.Base:3007, IJT.Base:ResultValueDataType ]
+  DisplayName: "ResultValueDataType"
+  Description: "It is used to report measurement values of the joining operation. Those are meant to characterize the quality of the process. It is used in JoiningResultDataType and StepResultDataType."
   Fields:
     MeasuredValue: [ Double, 0 ]
     Name: [ String, 0 ]
@@ -229,12 +286,16 @@ DataTypes:
     PhysicalQuantity: [ Byte, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3019, IJT.Base:SignalDataType ]
+  DisplayName: "SignalDataType"
+  Description: "This structure contains the signal information which is used in SetIOSignals and GetIOSignals methods."
   Fields:
     SignalId: [ TrimmedString, 0 ]
     SignalValue: [ Number, 0 ]
     SignalDescription: [ String, 0 ]
     SignalType: [ Int16, 0 ]
 - UADataType: [ IJT.Base:3009, IJT.Base:StepResultDataType ]
+  DisplayName: "StepResultDataType"
+  Description: "This structure represents the measurement values corresponding to a given step in the program. It is used in JoiningResultDataType."
   Fields:
     StepResultId: [ TrimmedString, 0 ]
     ProgramStepId: [ TrimmedString, 0 ]
@@ -245,6 +306,8 @@ DataTypes:
     StepTraceId: [ TrimmedString, 0 ]
     StepResultValues: [ IJT.Base:ResultValueDataType, 1 ]
 - UADataType: [ IJT.Base:3013, IJT.Base:StepTraceDataType ]
+  DisplayName: "StepTraceDataType"
+  Description: "It is to describe of the trace for a given program step. It is used in JoiningTraceDataType."
   Fields:
     StepTraceId: [ TrimmedString, 0 ]
     StepResultId: [ TrimmedString, 0 ]
@@ -253,6 +316,8 @@ DataTypes:
     StartTimeOffset: [ Duration, 0 ]
     StepTraceContent: [ IJT.Base:TraceContentDataType, 1 ]
 - UADataType: [ IJT.Base:3014, IJT.Base:TraceContentDataType ]
+  DisplayName: "TraceContentDataType"
+  Description: "It is to describe of the trace samples for a given program step. It is used in StepTraceDataType."
   Fields:
     Values: [ Double, 1 ]
     SensorId: [ TrimmedString, 0 ]
@@ -261,10 +326,14 @@ DataTypes:
     PhysicalQuantity: [ Byte, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
 - UADataType: [ IJT.Base:3011, IJT.Base:TraceDataType ]
+  DisplayName: "TraceDataType"
+  Description: "It is a base type to encapsulate common data for a Trace."
   Fields:
     TraceId: [ TrimmedString, 0 ]
     ResultId: [ TrimmedString, 0 ]
 - UADataType: [ IJT.Base:3012, IJT.Base:JoiningTraceDataType ]
+  DisplayName: "JoiningTraceDataType"
+  Description: "This structure is to describe the content of traces for all the steps in the given program. It is used in JoiningResultDataType."
   Fields:
     StepTraces: [ IJT.Base:StepTraceDataType, 1 ]
 
@@ -272,64 +341,94 @@ DefinedTypes:
 
   IJT.Tightening:ITighteningToolParametersType:
   - [ UAObjectType, IJT.Tightening:1003, IJT.Tightening:ITighteningToolParametersType ]
+  - DisplayName: "ITighteningToolParametersType"
+  - Description: "This interface is inherited from 0:BaseInterfaceType to add additional parameters of a tool in a tightening system. It shall be added to 2:Parameters object of the tool instance."
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6005, IJT.Tightening:DesignType, Byte, 0, 0 ]
+    - DisplayName: "DesignType"
+    - Description: "DesignType provides information on the design of the Tool."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6014, IJT.Tightening:DriveMethod, Byte, 0, 0 ]
+    - DisplayName: "DriveMethod"
+    - Description: "DriveMethod provides information on the drive method of the motor of the Tool."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6016, IJT.Tightening:DriveType, Byte, 0, 0 ]
+    - DisplayName: "DriveType"
+    - Description: "DriveType provides information on the drive type of the Tool."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6022, IJT.Tightening:MaxSpeed, Double, 0, 0 ]
+    - DisplayName: "MaxSpeed"
+    - Description: "MaxSpeed is the maximum rotation speed of the driving shaft."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6036, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - Description: "0:EngineeringUnits defines the engineering unit of the values."
       - UnitId: -1
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6026, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
+      - DisplayName: "PhysicalQuantity"
+      - Description: "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s)."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6020, IJT.Tightening:MaxTorque, Double, 0, 0 ]
+    - DisplayName: "MaxTorque"
+    - Description: "MaxTorque is the maximum allowed torque for which the tool may be used for tightening processes. For Click Wrenches, it may not be available."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6028, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - Description: "0:EngineeringUnits defines the engineering unit of the values."
       - UnitId: -1
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6029, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
+      - DisplayName: "PhysicalQuantity"
+      - Description: "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s)."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6021, IJT.Tightening:MinTorque, Double, 0, 0 ]
+    - DisplayName: "MinTorque"
+    - Description: "MinTorque is the minimum allowed torque for which the tool may be used for tightening processes."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6024, IJT.Base:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - Description: "0:EngineeringUnits defines the engineering unit of the values."
       - UnitId: -1
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6025, IJT.Base:PhysicalQuantity, Byte, 0, 0 ]
+      - DisplayName: "PhysicalQuantity"
+      - Description: "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s)."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6023, IJT.Tightening:MotorType, String, 0, 0 ]
+    - DisplayName: "MotorType"
+    - Description: "MotorType is the type of motor in the tool."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6018, IJT.Tightening:ShutOffMethod, Byte, 0, 0 ]
+    - DisplayName: "ShutOffMethod"
+    - Description: "ShutOffMethod provides information on the shutoff method of the tool."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]

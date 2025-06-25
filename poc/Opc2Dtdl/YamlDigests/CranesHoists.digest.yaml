@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ CranesHoists:3000, CranesHoists:CraneOperationalModeEnum ]
+  DisplayName: "CraneOperationalModeEnum"
+  Description: "Use if vendor specific"
   Enums:
     OTHER: 0
     MANUAL: 1
@@ -8,12 +10,16 @@ DataTypes:
     BYPASS_ON: 4
     MAINTENANCE: 5
 - UADataType: [ CranesHoists:3001, CranesHoists:ExternalControlRequestEnum ]
+  DisplayName: "ExternalControlRequestEnum"
+  Description: "No control request inputs have been received from any client"
   Enums:
     NOT_REQUESTED: 0
     REQUESTED_AND_CONTROL_ACTIVE: 1
     REQUESTED_AND_CONTROL_INACTIVE: 2
     REQUESTED_AND_CONTROL_BYPASSED: 3
 - UADataType: [ CranesHoists:3002, CranesHoists:ProtectiveFunctionEnum ]
+  DisplayName: "ProtectiveFunctionEnum"
+  Description: "Use if vendor specific"
   Enums:
     OTHER: 0
     FORCE_LIMITER: 1
@@ -21,6 +27,8 @@ DataTypes:
     MOTION_LIMITER: 3
     ANTICOLLISION: 4
 - UADataType: [ CranesHoists:3003, CranesHoists:CraneMotionDeviceCategoryEnum ]
+  DisplayName: "CraneMotionDeviceCategoryEnum"
+  Description: "Hoisting machinery"
   Enums:
     HOIST: 0
     TROLLEY_TRAVERSE: 1
@@ -31,6 +39,8 @@ DataTypes:
     POWER_SUPPLY_MACHINERY: 6
     OTHER: 7
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -41,25 +51,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -67,11 +84,15 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ Robotics:18191, Robotics:ExecutionModeEnumeration ]
+  DisplayName: "ExecutionModeEnumeration"
+  Description: "Single execution of a task program according to ISO 8373."
   Enums:
     CYCLE: 0
     CONTINUOUS: 1
     STEP: 2
 - UADataType: [ Robotics:18193, Robotics:MotionDeviceCategoryEnumeration ]
+  DisplayName: "MotionDeviceCategoryEnumeration"
+  Description: "Any MotionDevice which is not defined by the MotionDeviceCategoryEnumeration."
   Enums:
     OTHER: 0
     ARTICULATED_ROBOT: 1
@@ -81,6 +102,8 @@ DataTypes:
     PARALLEL_ROBOT: 5
     CYLINDRICAL_ROBOT: 6
 - UADataType: [ Robotics:3008, Robotics:AxisMotionProfileEnumeration ]
+  DisplayName: "AxisMotionProfileEnumeration"
+  Description: "Any motion-profile which is not defined by the AxisMotionProfileEnumeration."
   Enums:
     OTHER: 0
     ROTARY: 1
@@ -88,6 +111,8 @@ DataTypes:
     LINEAR: 3
     LINEAR_ENDLESS: 4
 - UADataType: [ Robotics:3006, Robotics:OperationalModeEnumeration ]
+  DisplayName: "OperationalModeEnumeration"
+  Description: "Other for when there is a system-boot (unknown) or a failure of the safety, there is no valid operational mode."
   Enums:
     OTHER: 0
     MANUAL_REDUCED_SPEED: 1
@@ -99,30 +124,36 @@ DefinedTypes:
 
   CranesHoists:BrakeType:
   - [ UAObjectType, CranesHoists:1556, CranesHoists:BrakeType ]
+  - DisplayName: "BrakeType"
   - HasSubtype_reverse:
     - [ UAObjectType, DI:15063, DI:ComponentType ]
 
   CranesHoists:CraneAxisType:
   - [ UAObjectType, CranesHoists:1369, CranesHoists:CraneAxisType ]
+  - DisplayName: "CraneAxisType"
   - HasSubtype_reverse:
     - [ UAObjectType, Robotics:16601, Robotics:AxisType ]
 
   CranesHoists:CraneMotionDeviceType:
   - [ UAObjectType, CranesHoists:1392, CranesHoists:CraneMotionDeviceType ]
+  - DisplayName: "CraneMotionDeviceType"
   - HasSubtype_reverse:
     - [ UAObjectType, Robotics:1004, Robotics:MotionDeviceType ]
 
   CranesHoists:CraneMotionDeviceSystemType:
   - [ UAObjectType, CranesHoists:2112, CranesHoists:CraneMotionDeviceSystemType ]
+  - DisplayName: "CraneMotionDeviceSystemType"
   - HasSubtype_reverse:
     - [ UAObjectType, Robotics:1002, Robotics:MotionDeviceSystemType ]
 
   CranesHoists:CraneMotorType:
   - [ UAObjectType, CranesHoists:1262, CranesHoists:CraneMotorType ]
+  - DisplayName: "CraneMotorType"
   - HasSubtype_reverse:
     - [ UAObjectType, Robotics:1019, Robotics:MotorType ]
 
   CranesHoists:ProtectiveFunctionType:
   - [ UAObjectType, CranesHoists:1462, CranesHoists:ProtectiveFunctionType ]
+  - DisplayName: "ProtectiveFunctionType"
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

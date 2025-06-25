@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -36,6 +45,8 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
+  DisplayName: "LongwallShieldOffsetDataType"
+  Description: "The LongwallShieldOffsetDataType describes a tuple containing a roof support shield number and its corresponding offset"
   Fields:
     ShieldNumber: [ UInt16, 0 ]
     ShieldOffset: [ Double, 0 ]
@@ -44,8 +55,11 @@ DefinedTypes:
 
   Mining.MineralProcessing.RockCrusher:RockCrusherControlType:
   - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, Mining.MineralProcessing.RockCrusher:RockCrusherControlType ]
+  - DisplayName: "RockCrusherControlType"
   - HasComponent:
     - [ UAObject, Mining.MineralProcessing.RockCrusher:5004, DI:MethodSet ]
+    - DisplayName: "MethodSet"
+    - Description: "Flat list of Methods"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -54,10 +68,12 @@ DefinedTypes:
       - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, Mining.MineralProcessing.RockCrusher:RockCrusherControlType ]
     - HasComponent:
       - [ UAMethod, Mining.MineralProcessing.RockCrusher:7001, Mining.MineralProcessing.RockCrusher:RequestUnloading ]
+      - DisplayName: "RequestUnloading"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, Mining.MineralProcessing.RockCrusher:6022, Mining.MineralProcessing.RockCrusher:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             RequestUnloadingAcknowledged: [ Boolean, 0 ]
         - HasTypeDefinition:
@@ -70,12 +86,15 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5004, DI:MethodSet ]
   - HasAddIn:
     - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
+    - DisplayName: "MiningEquipmentIdentification"
     - HasTypeDefinition:
       - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6007, DI:DeviceClass, String, 0, 0 ]
+      - DisplayName: "DeviceClass"
+      - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -84,6 +103,8 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6008, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -92,6 +113,8 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6009, DI:ManufacturerUri, String, 0, 0 ]
+      - DisplayName: "ManufacturerUri"
+      - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -102,6 +125,8 @@ DefinedTypes:
       - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1003, Mining.MineralProcessing.RockCrusher:RockCrusherControlType ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6010, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "A human-readable, localized name of the model of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -110,6 +135,8 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6011, DI:ProductInstanceUri, String, 0, 0 ]
+      - DisplayName: "ProductInstanceUri"
+      - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -118,6 +145,8 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6012, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -126,18 +155,23 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5003, Mining.General:MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.MineralProcessing.RockCrusher:5005, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasComponent:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
+      - DisplayName: "ExclusionZone"
+      - Description: "The ExclusionZone property describes the area that haulage machines, which are to be unloaded, are not allowed to enter when approaching the rock crusher system"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 18791, 3DFrameType ]
       - HasComponent:
         - [ UAVariable, Mining.MineralProcessing.RockCrusher:6023, Mining.MineralProcessing.RockCrusher:BaseFrame, NodeId, 0, 0 ]
+        - DisplayName: "BaseFrame"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -146,6 +180,7 @@ DefinedTypes:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, Mining.MineralProcessing.RockCrusher:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+        - DisplayName: "CartesianCoordinates"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -154,6 +189,7 @@ DefinedTypes:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6015, Mining.MineralProcessing.RockCrusher:X, Double, 0, 0 ]
+          - DisplayName: "X"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -162,6 +198,7 @@ DefinedTypes:
             - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, Mining.MineralProcessing.RockCrusher:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6016, Mining.MineralProcessing.RockCrusher:Y, Double, 0, 0 ]
+          - DisplayName: "Y"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -170,6 +207,7 @@ DefinedTypes:
             - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, Mining.MineralProcessing.RockCrusher:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6017, Mining.MineralProcessing.RockCrusher:Z, Double, 0, 0 ]
+          - DisplayName: "Z"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -178,6 +216,7 @@ DefinedTypes:
             - [ UAVariable, Mining.MineralProcessing.RockCrusher:6014, Mining.MineralProcessing.RockCrusher:CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.MineralProcessing.RockCrusher:6024, Mining.MineralProcessing.RockCrusher:Constant, Boolean, 0, 0 ]
+        - DisplayName: "Constant"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -188,6 +227,7 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5005, DI:ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.MineralProcessing.RockCrusher:6025, Mining.MineralProcessing.RockCrusher:FixedBase, Boolean, 0, 0 ]
+        - DisplayName: "FixedBase"
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
@@ -196,12 +236,14 @@ DefinedTypes:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6013, Mining.MineralProcessing.RockCrusher:ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Mining.MineralProcessing.RockCrusher:Orientation, 3DOrientation, 0, 0 ]
+        - DisplayName: "Orientation"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 18781, 3DOrientationType ]
         - HasComponent:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6019, Mining.MineralProcessing.RockCrusher:A, Double, 0, 0 ]
+          - DisplayName: "A"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -210,6 +252,7 @@ DefinedTypes:
             - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Mining.MineralProcessing.RockCrusher:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6020, Mining.MineralProcessing.RockCrusher:B, Double, 0, 0 ]
+          - DisplayName: "B"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -218,6 +261,7 @@ DefinedTypes:
             - [ UAVariable, Mining.MineralProcessing.RockCrusher:6018, Mining.MineralProcessing.RockCrusher:Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.MineralProcessing.RockCrusher:6021, Mining.MineralProcessing.RockCrusher:C, Double, 0, 0 ]
+          - DisplayName: "C"
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -233,8 +277,11 @@ DefinedTypes:
 
   Mining.MineralProcessing.RockCrusher:RockCrusherType:
   - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, Mining.MineralProcessing.RockCrusher:RockCrusherType ]
+  - DisplayName: "RockCrusherType"
   - HasAddIn:
     - [ UAObject, Mining.MineralProcessing.RockCrusher:5001, Mining.General:Components ]
+    - DisplayName: "Components"
+    - Description: "The components add-in contains placeholders for sub-components of an equipment asset"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -243,12 +290,15 @@ DefinedTypes:
       - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, Mining.MineralProcessing.RockCrusher:RockCrusherType ]
   - HasAddIn:
     - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
+    - DisplayName: "MiningEquipmentIdentification"
     - HasTypeDefinition:
       - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6001, DI:DeviceClass, String, 0, 0 ]
+      - DisplayName: "DeviceClass"
+      - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -257,6 +307,8 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6002, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -265,6 +317,8 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6003, DI:ManufacturerUri, String, 0, 0 ]
+      - DisplayName: "ManufacturerUri"
+      - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -275,6 +329,8 @@ DefinedTypes:
       - [ UAObjectType, Mining.MineralProcessing.RockCrusher:1002, Mining.MineralProcessing.RockCrusher:RockCrusherType ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6004, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "A human-readable, localized name of the model of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -283,6 +339,8 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6005, DI:ProductInstanceUri, String, 0, 0 ]
+      - DisplayName: "ProductInstanceUri"
+      - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -291,6 +349,8 @@ DefinedTypes:
         - [ UAObject, Mining.MineralProcessing.RockCrusher:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.MineralProcessing.RockCrusher:6006, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:

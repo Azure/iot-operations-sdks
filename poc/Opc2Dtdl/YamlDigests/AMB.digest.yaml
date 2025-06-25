@@ -1,13 +1,19 @@
 DataTypes:
 - UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
+  DisplayName: "MaintenanceMethodEnum"
+  Description: "Maintenance close to the asset"
   Enums:
     Local: 0
     Remote: 1
 - UADataType: [ AMB:3003, AMB:NameNodeIdDataType ]
+  DisplayName: "NameNodeIdDataType"
+  Description: "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace"
   Fields:
     Name: [ LocalizedText, 0 ]
     NodeId: [ NodeId, 0 ]
 - UADataType: [ AMB:3002, AMB:RootCauseDataType ]
+  DisplayName: "RootCauseDataType"
+  Description: "Root cause of an alarm"
   Fields:
     RootCauseId: [ NodeId, 0 ]
     RootCause: [ LocalizedText, 0 ]
@@ -16,78 +22,110 @@ DefinedTypes:
 
   AMB:CalibrationDueConditionClassType:
   - [ UAObjectType, AMB:1005, AMB:CalibrationDueConditionClassType ]
+  - DisplayName: "CalibrationDueConditionClassType"
+  - Description: "Calibration is due"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:ExternalCheckConditionClassType:
   - [ UAObjectType, AMB:1015, AMB:ExternalCheckConditionClassType ]
+  - DisplayName: "ExternalCheckConditionClassType"
+  - Description: "An external check maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:FlashUpdateInProgressConditionClassType:
   - [ UAObjectType, AMB:1007, AMB:FlashUpdateInProgressConditionClassType ]
+  - DisplayName: "FlashUpdateInProgressConditionClassType"
+  - Description: "Flash update in progress"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:ImprovementConditionClassType:
   - [ UAObjectType, AMB:1018, AMB:ImprovementConditionClassType ]
+  - DisplayName: "ImprovementConditionClassType"
+  - Description: "An improvement maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:InspectionConditionClassType:
   - [ UAObjectType, AMB:1014, AMB:InspectionConditionClassType ]
+  - DisplayName: "InspectionConditionClassType"
+  - Description: "An inspection maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:RepairConditionClassType:
   - [ UAObjectType, AMB:1017, AMB:RepairConditionClassType ]
+  - DisplayName: "RepairConditionClassType"
+  - Description: "A repair maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:ServicingConditionClassType:
   - [ UAObjectType, AMB:1016, AMB:ServicingConditionClassType ]
+  - DisplayName: "ServicingConditionClassType"
+  - Description: "A servicing maintenance activity"
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
   AMB:BadConfigurationConditionClassType:
   - [ UAObjectType, AMB:1008, AMB:BadConfigurationConditionClassType ]
+  - DisplayName: "BadConfigurationConditionClassType"
+  - Description: "Configuration is bad"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:ConnectionFailureConditionClassType:
   - [ UAObjectType, AMB:1003, AMB:ConnectionFailureConditionClassType ]
+  - DisplayName: "ConnectionFailureConditionClassType"
+  - Description: "One or more connections have failed"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:FlashUpdateFailedConditionClassType:
   - [ UAObjectType, AMB:1019, AMB:FlashUpdateFailedConditionClassType ]
+  - DisplayName: "FlashUpdateFailedConditionClassType"
+  - Description: "Flash update has failed"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:OutOfResourcesConditionClassType:
   - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType ]
+  - DisplayName: "OutOfResourcesConditionClassType"
+  - Description: "Out of resources issues"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:OutOfMemoryConditionClassType:
   - [ UAObjectType, AMB:1010, AMB:OutOfMemoryConditionClassType ]
+  - DisplayName: "OutOfMemoryConditionClassType"
+  - Description: "Out of memory issues"
   - HasSubtype_reverse:
     - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType ]
 
   AMB:OverTemperatureConditionClassType:
   - [ UAObjectType, AMB:1004, AMB:OverTemperatureConditionClassType ]
+  - DisplayName: "OverTemperatureConditionClassType"
+  - Description: "Over temperature"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:SelfTestFailureConditionClassType:
   - [ UAObjectType, AMB:1006, AMB:SelfTestFailureConditionClassType ]
+  - DisplayName: "SelfTestFailureConditionClassType"
+  - Description: "Self-Test failure"
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
   AMB:IMaintenanceEventType:
   - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
+  - DisplayName: "IMaintenanceEventType"
+  - Description: "Information on maintenance activities, should by applied to conditions (ConditionType or subtypes)"
   - HasProperty:
     - [ UAVariable, AMB:6042, AMB:ConfigurationChanged, Boolean, 0, 3 ]
+    - DisplayName: "ConfigurationChanged"
+    - Description: "Information if the configuration of the asset is planned to be changed or has changed during the maintenance activity. FALSE indicates no change, and TRUE indicates a change. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual configuration changes during the maintenance activity."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -96,6 +134,8 @@ DefinedTypes:
       - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
     - [ UAVariable, AMB:6036, AMB:EstimatedDowntime, Duration, 0, 3 ]
+    - DisplayName: "EstimatedDowntime"
+    - Description: "The estimated time the execution of the maintenance activity will take. In case of replanning, it is allowed to change the EstimatedDowntime. If during the execution of the maintenance activity the EstimatedDowntime can be adjusted (e.g., the asset needs to be repaired because an inspection found some issues) this should be done. Clients can access the history of Events to receive the information on the original estimates when the maintenance activity started."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -104,6 +144,8 @@ DefinedTypes:
       - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
     - [ UAVariable, AMB:6041, AMB:MaintenanceMethod, AMB:MaintenanceMethodEnum, 0, 3 ]
+    - DisplayName: "MaintenanceMethod"
+    - Description: "Information about the planned or used maintenance method. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual used maintenance method during the maintenance activity."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -112,18 +154,22 @@ DefinedTypes:
       - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasComponent:
     - [ UAObject, AMB:5014, AMB:MaintenanceState ]
+    - DisplayName: "MaintenanceState"
+    - Description: "Information if the maintenance activity is still planned, currently in execution, or has already been executed."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
     - HasComponent:
       - [ UAVariable, AMB:6033, AMB:CurrentState, LocalizedText, 0, 0 ]
+      - DisplayName: "CurrentState"
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasProperty:
         - [ UAVariable, AMB:6034, AMB:Id, NodeId, 0, 0 ]
+        - DisplayName: "Id"
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -136,6 +182,8 @@ DefinedTypes:
       - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
     - [ UAVariable, AMB:6037, AMB:MaintenanceSupplier, AMB:NameNodeIdDataType, 0, 3 ]
+    - DisplayName: "MaintenanceSupplier"
+    - Description: "Information on the supplier that is planned to execute, currently executing or has executed the maintenance activity. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual supplier that executed the maintenance activity. The value contains always a human-readable name of the supplier and optionally references a Node representing the supplier in the AddressSpace."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -144,6 +192,8 @@ DefinedTypes:
       - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
     - [ UAVariable, AMB:6039, AMB:PartsOfAssetReplaced, AMB:NameNodeIdDataType, 1, 3 ]
+    - DisplayName: "PartsOfAssetReplaced"
+    - Description: "Information on the parts of the assets that are planned to be serviced during the maintenance activity, currently serviced or have been serviced, depending on the different MaintenanceStates. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual parts of the assets serviced during the maintenance activity. The value contains always an array of a human-readable name of the qualification of the parts of the asset to be serviced and optionally references a Node representing the part of the asset in the AddressSpace."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -152,6 +202,8 @@ DefinedTypes:
       - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
     - [ UAVariable, AMB:6040, AMB:PartsOfAssetServiced, AMB:NameNodeIdDataType, 1, 3 ]
+    - DisplayName: "PartsOfAssetServiced"
+    - Description: "Information on the parts of the assets that are planned to be serviced during the maintenance activity, currently serviced or have been serviced, depending on the different MaintenanceStates. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual parts of the assets serviced during the maintenance activity. The value contains always an array of a human-readable name of the qualification of the parts of the asset to be serviced and optionally references a Node representing the part of the asset in the AddressSpace."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -160,6 +212,8 @@ DefinedTypes:
       - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
     - [ UAVariable, AMB:6035, AMB:PlannedDate, UtcTime, 0, 3 ]
+    - DisplayName: "PlannedDate"
+    - Description: "Date for which the maintenance activity has been scheduled. In case of replanning, it is allowed to change the PlannedDate. However, it is not the intention that the PlannedDate is modified because the maintenance activity starts to get executed. If the PlannedDate depends for example on the operation hours of the asset, it might get adapted depending on the passed operation hours."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -168,6 +222,8 @@ DefinedTypes:
       - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasProperty:
     - [ UAVariable, AMB:6038, AMB:QualificationOfPersonnel, AMB:NameNodeIdDataType, 0, 3 ]
+    - DisplayName: "QualificationOfPersonnel"
+    - Description: "Information on the qualification of the personnel that is planned to execute, currently executing or has executed the maintenance activity. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual qualification of the personnel that executed the maintenance activity. The value contains always a human-readable name of the qualification of the personnel and optionally references a Node representing the qualification of the personnel in the AddressSpace."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -179,8 +235,12 @@ DefinedTypes:
 
   AMB:IRootCauseIndicationType:
   - [ UAObjectType, AMB:1002, AMB:IRootCauseIndicationType ]
+  - DisplayName: "IRootCauseIndicationType"
+  - Description: "Information on the root cause of conditions, should be applied to alarms (AlarmType or subtypes)"
   - HasProperty:
     - [ UAVariable, AMB:6015, AMB:PotentialRootCauses, AMB:RootCauseDataType, 1, 3 ]
+    - DisplayName: "PotentialRootCauses"
+    - Description: "An array of potential root causes of the alarm. This is intended to be a hint to the client and might be a local view on the potential root causes of the alarm. The list might not contain all potential root causes, that is, other potential root causes might exist as well. If the alarm itself is considered to be the root cause, the array shall be empty. If no potential root causes have been identified, there shall be at least one entry in the array indicating that the root cause is unknown."
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -192,8 +252,12 @@ DefinedTypes:
 
   AMB:DocumentationLinksType:
   - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
+  - DisplayName: "DocumentationLinksType"
+  - Description: "AddIn to link documentation provided by the manufacturer and / or end-user."
   - HasComponent:
     - [ UAVariable, AMB:6017, AMB:<Link>, UriString, 0, 3 ]
+    - DisplayName: "<Link>"
+    - Description: "Represents links to externally managed documentation, typically URLs."
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -202,10 +266,13 @@ DefinedTypes:
       - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasComponent:
     - [ UAMethod, AMB:7004, AMB:AddLink ]
+    - DisplayName: "AddLink"
+    - Description: "Method to add an end-user specific link that is stored persistently in the server."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, AMB:6018, AMB:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           LinkToExternalSource: [ UriString, 0 ]
           BrowseName: [ QualifiedName, 0 ]
@@ -219,6 +286,7 @@ DefinedTypes:
         - [ UAMethod, AMB:7004, AMB:AddLink ]
     - HasProperty:
       - [ UAVariable, AMB:6019, AMB:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           LinkVariable: [ NodeId, 0 ]
       - HasModellingRule:
@@ -231,16 +299,20 @@ DefinedTypes:
       - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasProperty:
     - [ UAVariable, AMB:6016, AMB:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
       - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasComponent:
     - [ UAMethod, AMB:7005, AMB:RemoveLink ]
+    - DisplayName: "RemoveLink"
+    - Description: "Method to remove an end-user specific link that is managed in the server."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, AMB:6020, AMB:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           VariableToBeDeleted: [ NodeId, 0 ]
       - HasModellingRule:
@@ -256,12 +328,16 @@ DefinedTypes:
 
   AMB:MaintenanceEventStateMachineType:
   - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
+  - DisplayName: "MaintenanceEventStateMachineType"
+  - Description: "Information, whether a maintenance activity is planned, currently in execution, or has been executed"
   - HasComponent:
     - [ UAObject, AMB:5007, AMB:Executing ]
+    - DisplayName: "Executing"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
     - HasProperty:
       - [ UAVariable, AMB:6022, AMB:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -276,10 +352,12 @@ DefinedTypes:
       - [ UAObject, AMB:5009, AMB:FromPlannedToExecuting ]
   - HasComponent:
     - [ UAObject, AMB:5008, AMB:Finished ]
+    - DisplayName: "Finished"
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
     - HasProperty:
       - [ UAVariable, AMB:6023, AMB:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -294,6 +372,7 @@ DefinedTypes:
       - [ UAObject, AMB:5011, AMB:FromFinishedToPlanned ]
   - HasComponent:
     - [ UAObject, AMB:5010, AMB:FromExecutingToFinished ]
+    - DisplayName: "FromExecutingToFinished"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
@@ -302,6 +381,7 @@ DefinedTypes:
       - [ UAObject, AMB:5008, AMB:Finished ]
     - HasProperty:
       - [ UAVariable, AMB:6025, AMB:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -312,6 +392,7 @@ DefinedTypes:
       - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasComponent:
     - [ UAObject, AMB:5011, AMB:FromFinishedToPlanned ]
+    - DisplayName: "FromFinishedToPlanned"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
@@ -320,6 +401,7 @@ DefinedTypes:
       - [ UAObject, AMB:5006, AMB:Planned ]
     - HasProperty:
       - [ UAVariable, AMB:6026, AMB:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -330,6 +412,7 @@ DefinedTypes:
       - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasComponent:
     - [ UAObject, AMB:5009, AMB:FromPlannedToExecuting ]
+    - DisplayName: "FromPlannedToExecuting"
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
@@ -338,6 +421,7 @@ DefinedTypes:
       - [ UAObject, AMB:5006, AMB:Planned ]
     - HasProperty:
       - [ UAVariable, AMB:6024, AMB:TransitionNumber, UInt32, 0, 0 ]
+      - DisplayName: "TransitionNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -348,10 +432,12 @@ DefinedTypes:
       - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasComponent:
     - [ UAObject, AMB:5006, AMB:Planned ]
+    - DisplayName: "Planned"
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
     - HasProperty:
       - [ UAVariable, AMB:6021, AMB:StateNumber, UInt32, 0, 0 ]
+      - DisplayName: "StateNumber"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:

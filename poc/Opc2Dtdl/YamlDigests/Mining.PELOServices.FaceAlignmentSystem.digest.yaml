@@ -1,5 +1,7 @@
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -10,25 +12,32 @@ DataTypes:
   Bases:
   - Structure
 - UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
     ParameterDefs: [ DI:ParameterResultDataType, 1 ]
 - UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
 - UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
 - UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -36,6 +45,8 @@ DataTypes:
     WillReboot: 3
     NeedsPreparation: 4
 - UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
+  DisplayName: "LongwallShieldOffsetDataType"
+  Description: "The LongwallShieldOffsetDataType describes a tuple containing a roof support shield number and its corresponding offset"
   Fields:
     ShieldNumber: [ UInt16, 0 ]
     ShieldOffset: [ Double, 0 ]
@@ -44,16 +55,21 @@ DefinedTypes:
 
   Mining.PELOServices.FaceAlignmentSystem:FaceAlignmentSystemType:
   - [ UAObjectType, Mining.PELOServices.FaceAlignmentSystem:1002, Mining.PELOServices.FaceAlignmentSystem:FaceAlignmentSystemType ]
+  - DisplayName: "FaceAlignmentSystemType"
+  - Description: "The FaceAlignmentSystemType ObjectType describes a Face Alignment System (FAS) for longwall mining operations"
   - HasSubtype_reverse:
     - [ UAObjectType, Mining.General:1002, Mining.General:MiningEquipmentType ]
   - HasAddIn:
     - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, Mining.General:MiningEquipmentIdentification ]
+    - DisplayName: "MiningEquipmentIdentification"
     - HasTypeDefinition:
       - [ UAObjectType, Mining.General:1003, Mining.General:MiningEquipmentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6008, DI:DeviceClass, String, 0, 0 ]
+      - DisplayName: "DeviceClass"
+      - Description: "Indicates in which domain or for what purpose the MachineryItem is used."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -62,6 +78,8 @@ DefinedTypes:
         - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6010, DI:Manufacturer, LocalizedText, 0, 0 ]
+      - DisplayName: "Manufacturer"
+      - Description: "A human-readable, localized name of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -70,6 +88,8 @@ DefinedTypes:
         - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6011, DI:ManufacturerUri, String, 0, 0 ]
+      - DisplayName: "ManufacturerUri"
+      - Description: "A globally unique identifier of the manufacturer of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -80,6 +100,8 @@ DefinedTypes:
       - [ UAObjectType, Mining.PELOServices.FaceAlignmentSystem:1002, Mining.PELOServices.FaceAlignmentSystem:FaceAlignmentSystemType ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6012, DI:Model, LocalizedText, 0, 0 ]
+      - DisplayName: "Model"
+      - Description: "A human-readable, localized name of the model of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -88,6 +110,8 @@ DefinedTypes:
         - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6013, DI:ProductInstanceUri, String, 0, 0 ]
+      - DisplayName: "ProductInstanceUri"
+      - Description: "A globally unique resource identifier provided by the manufacturer of the machine"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -96,6 +120,8 @@ DefinedTypes:
         - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, Mining.General:MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6014, DI:SerialNumber, String, 0, 0 ]
+      - DisplayName: "SerialNumber"
+      - Description: "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem."
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -104,12 +130,16 @@ DefinedTypes:
         - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, Mining.General:MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5001, DI:ParameterSet ]
+    - DisplayName: "ParameterSet"
+    - Description: "Flat list of Parameters"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasComponent:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6009, Mining.PELOServices.FaceAlignmentSystem:CurrentSequenceNumber, UInt16, 0, 0 ]
+      - DisplayName: "CurrentSequenceNumber"
+      - Description: "The CurrentSequenceNumber variable describes the current sequence number on which the offset values are applicable. It is being increased when offset values change"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -118,12 +148,16 @@ DefinedTypes:
         - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5001, DI:ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6001, Mining.PELOServices.FaceAlignmentSystem:Offsets, Mining.General:LongwallShieldOffsetDataType, 1, 0 ]
+      - DisplayName: "Offsets"
+      - Description: "The Offsets variable describes the offsets calculated by the FAS which have to be considered by the RSS for optimal shield alignment in areal view."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, Mining.General:2003, Mining.General:LongwallShieldOffsetArrayItemType ]
       - HasProperty:
         - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6002, Mining.General:EngineeringUnits, EUInformation, 0, 0 ]
+        - DisplayName: "EngineeringUnits"
+        - Description: "This is the EngineeringUnit of the offsets."
         - UnitId: 5067858
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
@@ -133,6 +167,8 @@ DefinedTypes:
           - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6001, Mining.PELOServices.FaceAlignmentSystem:Offsets, Mining.General:LongwallShieldOffsetDataType, 1, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6007, Mining.General:EURange, Range, 0, 0 ]
+        - DisplayName: "EURange"
+        - Description: "This is the EURange of the offsets."
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:

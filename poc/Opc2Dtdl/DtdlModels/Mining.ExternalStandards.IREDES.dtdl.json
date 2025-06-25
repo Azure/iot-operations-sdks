@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:DisplayToOperatorType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "DisplayToOperatorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1004",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/DisplayToOperatorType/{commandName}",
@@ -20,6 +21,8 @@
       {
         "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:DisplayToOperatorType:dataType:DispFlag;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "DispFlag",
+        "description": "To be displayed when the machine is started. Machine start is defined as switching on the main power supply or power generation.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=3006",
         "valueSchema": "integer",
         "enumValues": [
@@ -38,6 +41,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -45,18 +50,24 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AckFlag",
+        "displayName": "AckFlag",
+        "description": "Acknowledgement by the operator that he has read the message. (Will be transferred back as soon as the SiteHead is returned to the mine’s computer system with the next protocol exchange. Contains the name of the operator (user name in the Automation system) or simply ACK if automation system does not work with user logins.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DispFlag",
+        "displayName": "DispFlag",
+        "description": "States under which circumstances the line (message) has to be displayed to the operator.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:DisplayToOperatorType:dataType:DispFlag;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DispText",
+        "displayName": "DispText",
+        "description": "Text to be displayed.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -74,6 +85,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:EquipmentInfoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EquipmentInfoType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1006",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/EquipmentInfoType/{commandName}",
@@ -85,6 +97,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -92,6 +106,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EqpManufact",
+        "displayName": "EqpManufact",
+        "description": "Name of the manufacturer.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": false
@@ -99,6 +115,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EqpModel",
+        "displayName": "EqpModel",
+        "description": "Equipment model describing the model in the specified EqpType. To be stated if required for unequivocal machine type identification.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -106,6 +124,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EqpSerNo",
+        "displayName": "EqpSerNo",
+        "description": "Serial number of the machine.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -113,6 +133,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EqpType",
+        "displayName": "EqpType",
+        "description": "Manufacturer internal type name of the machine.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": false
@@ -120,18 +142,24 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EqpInfo",
+        "displayName": "EqpInfo",
+        "description": "Other equipment specific information. Free text.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EqpName",
+        "displayName": "EqpName",
+        "description": "Used for designation of the machine.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EqpSysVer",
+        "displayName": "EqpSysVer",
+        "description": "Version Info Automation System / Software.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -149,6 +177,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:GenHeadType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "GenHeadType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1009",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/GenHeadType/{commandName}",
@@ -160,6 +189,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -167,6 +198,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DownCompat",
+        "displayName": "DownCompat",
+        "description": "Downward compatibility of the profile version stated in “version” can be guaranteed down to the version number stated in this attribute. Fixed 2.0.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -174,6 +207,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "FileCreateDate",
+        "displayName": "FileCreateDate",
+        "description": "Date of file creation. This is the date/time stamp for initialization of the Data Set.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -181,6 +216,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IRVersion",
+        "displayName": "IRVersion",
+        "description": "Version of the IREDES main components of the standard. This version number changes any time IREDES top level schemas are modified. Please note to state downward compatibility in the separate Attribute. Type definition see below. Fixed 2.0.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -199,6 +236,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:GenTrailerType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "GenTrailerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1015",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/GenTrailerType/{commandName}",
@@ -210,6 +248,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ChkSum",
+        "displayName": "ChkSum",
+        "description": "CRC 32 checksum.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "bytes",
         "writable": true
@@ -217,6 +257,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -224,6 +266,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "FileCloseDate",
+        "displayName": "FileCloseDate",
+        "description": "Date the file was created.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -242,6 +286,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IREDESType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IREDESType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1005",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IREDESType/{commandName}",
@@ -253,6 +298,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -260,6 +307,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IRDownwCompat",
+        "displayName": "IRDownwCompat",
+        "description": "Earliest version the IREDES Base system version stated in IRVersion is downward compatible to. Since this version, only extensions have been made but no changes affecting compatibility issues (data type changes etc).",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -267,6 +316,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IRVersion",
+        "displayName": "IRVersion",
+        "description": "IREDES Base version needed to process this scheme.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -285,6 +336,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRLHDTruckType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRLHDTruckType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1030",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRLHDTruckType/{commandName}",
@@ -296,6 +348,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -314,6 +368,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRLTMMonType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRLTMMonType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1011",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTMMonType/{commandName}",
@@ -325,6 +380,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -332,6 +389,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTMMonDownwCompat",
+        "displayName": "LTMMonDownwCompat",
+        "description": "2.0.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -339,6 +398,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTMMonVersion",
+        "displayName": "LTMMonVersion",
+        "description": "2.0.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -357,6 +418,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRLTPlanType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRLTPlanType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1014",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTPlanType/{commandName}",
@@ -368,6 +430,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -375,6 +439,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPlanDownwCompat",
+        "displayName": "LTPlanDownwCompat",
+        "description": "2.0.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -382,6 +448,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPlanVersion",
+        "displayName": "LTPlanVersion",
+        "description": "2.0.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -400,6 +468,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRLTPPerfType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRLTPPerfType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1026",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRLTPPerfType/{commandName}",
@@ -411,6 +480,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -418,6 +489,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPerfDownwCompat",
+        "displayName": "LTPPerfDownwCompat",
+        "description": "2.0.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -425,6 +498,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPerfVersion",
+        "displayName": "LTPPerfVersion",
+        "description": "2.0.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -443,6 +518,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IROptionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IROptionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1008",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IROptionType/{commandName}",
@@ -454,6 +530,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -461,6 +539,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OptionSchema",
+        "displayName": "OptionSchema",
+        "description": "URI for the schema that will extend the IREDES standard. This schema won’t be processed.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -478,6 +558,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRplanGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRplanGenType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1017",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRplanGenType/{commandName}",
@@ -489,6 +570,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -496,6 +579,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PlanId",
+        "displayName": "PlanId",
+        "description": "IREDES internal production plan ID used for reference e.g. by Production Quality data sets basing on a particular production plan.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -503,6 +588,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PlanName",
+        "displayName": "PlanName",
+        "description": "Plan logical name to identify this specific plan to the human user. Useful to help the operator of a machine to logical identify a specific plan.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -510,6 +597,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Comment",
+        "displayName": "Comment",
+        "description": "Comments to the plan for example type of plan, purpose, tools to use.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -519,12 +608,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Project",
+        "displayName": "Project",
+        "description": "Project ID code. To identify the target project for this plan.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WorkOrder",
+        "displayName": "WorkOrder",
+        "description": "Work order ID code. To identify the work order associated with this plan.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -542,6 +635,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRpPerfGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRpPerfGenType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1013",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRpPerfGenType/{commandName}",
@@ -553,6 +647,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -560,6 +656,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EndLogTine",
+        "displayName": "EndLogTine",
+        "description": "End of the reporting period. Date and time when the last entry to this xml-set was made.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -567,6 +665,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ReportId",
+        "displayName": "ReportId",
+        "description": "Report ID code, to uniquely identify this log report.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -574,6 +674,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "StartLogTime",
+        "displayName": "StartLogTime",
+        "description": "Start of the reporting period. Date and time when the first entry to this xml-set was made.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -581,6 +683,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Comment",
+        "displayName": "Comment",
+        "description": "Project information concerning this log.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -598,6 +702,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRreplyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRreplyType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1016",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRreplyType/{commandName}",
@@ -609,6 +714,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -616,6 +722,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Comment",
+        "displayName": "Comment",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -636,6 +743,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRStatusGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRStatusGenType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1020",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRStatusGenType/{commandName}",
@@ -647,6 +755,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -654,6 +764,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "EndLogTime",
+        "displayName": "EndLogTime",
+        "description": "End of the reporting period. Date and time when the last entry to this xml-set was made.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -661,6 +773,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ReportId",
+        "displayName": "ReportId",
+        "description": "Report ID code, to uniquely identify this log report.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -668,6 +782,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "StartLogTime",
+        "displayName": "StartLogTime",
+        "description": "Start of the reporting period. Date and time when the first entry to this xml-set was made.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -675,12 +791,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Comment",
+        "displayName": "Comment",
+        "description": "Project information concerning this log.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperatorId",
+        "displayName": "OperatorId",
+        "description": "Identify the operator of the machine for reference.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -698,6 +818,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRWorkOrderGenType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1021",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRWorkOrderGenType/{commandName}",
@@ -707,6 +828,8 @@
       {
         "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderGenType:dataType:JobAssignmentTimeDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "JobAssignmentTimeDataType",
+        "description": "Time Machine is expected to finish the job.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=3004",
         "fields": [
           {
@@ -726,6 +849,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -733,6 +857,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Issuer",
+        "displayName": "Issuer",
+        "description": "ID of the person or institute who issued this work order.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -740,6 +866,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "WorkOrderId",
+        "displayName": "WorkOrderId",
+        "description": "Identification of this work order. This ID has nothing to do with the, for example, work plan ID.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -747,12 +875,15 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AssignmentTime",
+        "displayName": "AssignmentTime",
+        "description": "Time the execution of the job is expected to take.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderGenType:dataType:JobAssignmentTimeDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Comment",
+        "displayName": "Comment",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -762,6 +893,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MachineId",
+        "displayName": "MachineId",
+        "description": "Machine assigned to the work.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -771,6 +904,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperatorId",
+        "displayName": "OperatorId",
+        "description": "Operators assigned to the work.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -780,12 +915,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PriorityLevel",
+        "displayName": "PriorityLevel",
+        "description": "Priority of the workorder. Level from 1 to 10 as 10 representing top priority.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SafetyAdvice",
+        "displayName": "SafetyAdvice",
+        "description": "Work order shall be carried out. Schema should be defined separately within the IRoptionType.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -795,6 +934,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SpecialCondition",
+        "displayName": "SpecialCondition",
+        "description": "E.g. electricity will be switched off in some region in mine during operation.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -804,6 +945,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SpecialTask",
+        "displayName": "SpecialTask",
+        "description": "Tasks that are not or hard to describe in workorder.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -813,6 +956,7 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WorkOrderType",
+        "displayName": "WorkOrderType",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -830,6 +974,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IRWorkOrderReplyGenType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1010",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/IRWorkOrderReplyGenType/{commandName}",
@@ -839,6 +984,8 @@
       {
         "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType:dataType:Answer;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "Answer",
+        "description": "Order is accepted.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=3009",
         "valueSchema": "integer",
         "enumValues": [
@@ -865,6 +1012,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -872,24 +1020,31 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Answer",
+        "displayName": "Answer",
+        "description": "See Answer enumeration.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType:dataType:Answer;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Condition",
+        "displayName": "Condition",
+        "description": "Only for 'AcceptedWithCondition' option. Free text field for condition such as 'need consumable', etc.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Duration",
+        "displayName": "Duration",
+        "description": "For delayed option only.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Extra",
+        "displayName": "Extra",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -899,6 +1054,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Reason",
+        "displayName": "Reason",
+        "description": "Place to clarify reasons for delaying or denying the work order.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": {
           "@type": "Array",
@@ -919,6 +1076,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPaccPtsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LTPPaccPtsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1018",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPaccPtsType/{commandName}",
@@ -930,6 +1088,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -937,6 +1097,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPLdrawPtN",
+        "displayName": "LTPPLdrawPtN",
+        "description": "Name of the draw (load point) accessed in the reported job.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -944,6 +1106,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPLdumpPtN",
+        "displayName": "LTPPLdumpPtN",
+        "description": "Name of the dump point in this combination.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -951,36 +1115,48 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPLcycl",
+        "displayName": "LTPPLcycl",
+        "description": "Number of cycles travelled between this point pair during reporting period.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPLdist",
+        "displayName": "LTPPLdist",
+        "description": "Distance travelled between those two points during reporting period. Accumulated distance of al rounds travelled. Both routes are counted! Accuracy: 0.01 km.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPLdrawPtID",
+        "displayName": "LTPPLdrawPtID",
+        "description": "Electronic (tag) ID of the draw (load point) in this combination (Name in 1.1.1.1).",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPLdumpPtID",
+        "displayName": "LTPPLdumpPtID",
+        "description": "Electronic (tag) ID of the draw (load point) in this combination (Name in 1.1.1.1).",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPLmass",
+        "displayName": "LTPPLmass",
+        "description": "Mass transported between this point pair during reporting period in t. Min accuracy: 0.01 t.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPLopObserv",
+        "displayName": "LTPPLopObserv",
+        "description": "Operator observations regarding the travel way, load or dump points during reporting period (e.g. loose rock, bad roadway,...). Preliminarily a string, later we can add preselect-lists for easier operator input!",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -998,6 +1174,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPLoadRepType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LTPPLoadRepType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1019",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPLoadRepType/{commandName}",
@@ -1009,6 +1186,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -1016,24 +1195,32 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPCyclTot",
+        "displayName": "LTPPCyclTot",
+        "description": "Total number of working cycles (rounds) completed during the reporting period.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPdistTot",
+        "displayName": "LTPPdistTot",
+        "description": "Overall distance travelled in during the reporting period. This includes also non-performance related tramming e.g. to workshop. Minimum accuracy required by the standard: 0.1 km.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPloadTot",
+        "displayName": "LTPPloadTot",
+        "description": "Total load carried under all completed working cycles during reporting period. Minimum accuracy required by the standard: 0.01.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPwrkDist",
+        "displayName": "LTPPwrkDist",
+        "description": "Total distance travelled in a working mode (as reported by MWorking) during the reporting period.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "float"
       }
@@ -1051,6 +1238,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LTPPMissionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1028",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPMissionType/{commandName}",
@@ -1060,6 +1248,8 @@
       {
         "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMaction;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "LTPPMaction",
+        "description": "Load.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=3018",
         "valueSchema": "integer",
         "enumValues": [
@@ -1088,6 +1278,8 @@
       {
         "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptFromType;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "LTPPMptFromType",
+        "description": "Load point.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=3012",
         "valueSchema": "integer",
         "enumValues": [
@@ -1116,6 +1308,8 @@
       {
         "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptToType;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "LTPPMptToType",
+        "description": "Load point.",
         "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=3015",
         "valueSchema": "integer",
         "enumValues": [
@@ -1150,6 +1344,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -1157,6 +1353,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPMissEnd",
+        "displayName": "LTPPMissEnd",
+        "description": "End time of the mission. Counting ends when the machine is ready to start the next mission, including all waiting before the next mission can be started.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -1164,6 +1362,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPMisstart",
+        "displayName": "LTPPMisstart",
+        "description": "Time tag when the mission started.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -1171,6 +1371,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPMtramEnd",
+        "displayName": "LTPPMtramEnd",
+        "description": "Tramming end time: Time stamp when the tramming ended at destination point.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime",
         "writable": true
@@ -1178,90 +1380,120 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMaction",
+        "displayName": "LTPPMaction",
+        "description": "Action to be carried out at destination point specified in LTPPMptTo.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMaction;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMarea",
+        "displayName": "LTPPMarea",
+        "description": "ID for the mine area the machine is operating in. Usually both departure and destination points should be located in this area.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMisSeq",
+        "displayName": "LTPPMisSeq",
+        "description": "Sequence number of the mission. Starting at 1 with the first mission in the reporting period.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "unsignedLong"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMopID",
+        "displayName": "LTPPMopID",
+        "description": "Operator ID.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMpayld",
+        "displayName": "LTPPMpayld",
+        "description": "Tonnage of payload carried between start and destination points.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMptFromID",
+        "displayName": "LTPPMptFromID",
+        "description": "Electronic (Tag) ID of the point where the mission originated (tramming started). Electronic ID of the point stated in LTPPMptFromN.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMptFromN",
+        "displayName": "LTPPMptFromN",
+        "description": "Name of the point where the mission originated (tramming started).",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMptFromType",
+        "displayName": "LTPPMptFromType",
+        "description": "Type of the point where the mission started.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptFromType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMptToID",
+        "displayName": "LTPPMptToID",
+        "description": "Electronic (tag) ID of the point where the mission ended (destination point).",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMptToN",
+        "displayName": "LTPPMptToN",
+        "description": "Name of the destination point, where the tramming finished and the mission ended.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMptToType",
+        "displayName": "LTPPMptToType",
+        "description": "Type of the point where the mission ended.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptToType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMtimeAct",
+        "displayName": "LTPPMtimeAct",
+        "description": "Duration of the action carried out at the destination point in LTPPMaction.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMtramDist",
+        "displayName": "LTPPMtramDist",
+        "description": "Tramming distance between start and destination point. Unit: km; Resolution: 0.0001 km (10 cm).",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMwaitgen",
+        "displayName": "LTPPMwaitgen",
+        "description": "Accumulated waiting time during the mission, excluding the time reported in LTPPMwaitPoint.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LTPPMwaitPoint",
+        "displayName": "LTPPMwaitPoint",
+        "description": "Waiting time for destination point availability.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       }
@@ -1279,6 +1511,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPTimeRepType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LTPPTimeRepType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1025",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPTimeRepType/{commandName}",
@@ -1290,6 +1523,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -1297,6 +1532,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPEndTime",
+        "displayName": "LTPPEndTime",
+        "description": "Mission end time.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "time",
         "writable": true
@@ -1304,6 +1541,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LTPPStartTime",
+        "displayName": "LTPPStartTime",
+        "description": "Mission start time.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "time",
         "writable": true
@@ -1322,6 +1561,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPwaitProcType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LTPPwaitProcType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1022",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/LTPPwaitProcType/{commandName}",
@@ -1333,6 +1573,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -1340,36 +1582,48 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BlastDelay",
+        "displayName": "BlastDelay",
+        "description": "Any Delay caused by blasting operations.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CantDump",
+        "displayName": "CantDump",
+        "description": "Dump point blocked by another machine, boulders or dump shaft filled / truck missing.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MineUtils",
+        "displayName": "MineUtils",
+        "description": "Waiting for mine utilities.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NoRock",
+        "displayName": "NoRock",
+        "description": "Wait for material to handle - No access to material to load.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RoadMaint",
+        "displayName": "RoadMaint",
+        "description": "Waiting for roadway maintenance.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Traffic",
+        "displayName": "Traffic",
+        "description": "Traffic caused delays: roadway blocked by another machine / cars / other traffic.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "dateTime"
       }
@@ -1387,6 +1641,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:OpPerfLogType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OpPerfLogType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1007",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/OpPerfLogType/{commandName}",
@@ -1398,6 +1653,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -1405,36 +1662,48 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Mworking",
+        "displayName": "Mworking",
+        "description": "Machine working.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TurnedOff",
+        "displayName": "TurnedOff",
+        "description": "Machine intentionally put in “OFF” state. This state is only counted if the machine is intentionally deactivated by an operator. Observe that a “switch off” while the machine is in “Wait Repair” mode will be counted as “wait repair” until the machine is switched on again.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WaitOperator",
+        "displayName": "WaitOperator",
+        "description": "Time the machine waits for operator assistance during the reporting period. See “IREDES Drill Rig profile description” document.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WaitProcess",
+        "displayName": "WaitProcess",
+        "description": "Machine waiting for other partners in the process or for process reasons not caused by the machine itself. This may be an (autonomous) machine waiting for access to a shared tramming zone or waiting for access to a dump shaft, a truck to become available etc. See “IREDES Drill Rig profile description” document.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WaitRepair",
+        "displayName": "WaitRepair",
+        "description": "Waiting time for repair until the repair is finished and the machine manually is switched on again. See “IREDES Drill Rig profile description” document.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WaitSamples",
+        "displayName": "WaitSamples",
+        "description": "Waiting time for external supplies like electric power, network connection for remote control (if not in local operation mode), water, material etc. See “IREDES Drill Rig profile description” document.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "duration"
       }
@@ -1452,6 +1721,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:ProjectInfoType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ProjectInfoType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1003",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/ProjectInfoType/{commandName}",
@@ -1463,6 +1733,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true
@@ -1470,12 +1742,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Comment",
+        "displayName": "Comment",
+        "description": "Comments concerning the project can be added here.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Signature",
+        "displayName": "Signature",
+        "description": "Project signature.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string"
       }
@@ -1493,6 +1769,7 @@
     ],
     "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:SiteHeadType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SiteHeadType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES;i=1012",
     "commandTopic": "opcua/Mining_ExternalStandards_IREDES/SiteHeadType/{commandName}",
@@ -1504,6 +1781,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DefaultInstanceBrowseName",
+        "displayName": "DefaultInstanceBrowseName",
+        "description": "The default BrowseName for instances of this type.",
         "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
         "schema": "string",
         "writable": true

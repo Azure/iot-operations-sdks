@@ -27,7 +27,18 @@ namespace Yaml2Dtdl
  int ix;
             this.Write("      {\r\n        \"@type\": [ \"Command\", \"Qualified\" ],\r\n        \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.Dequalify(definedType.BrowseName)));
-            this.Write("\",\r\n        \"namespace\": \"");
+            this.Write("\",\r\n");
+ if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { 
+            this.Write("        \"displayName\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(definedType.DisplayName));
+            this.Write("\",\r\n");
+ } 
+ if (this.definedType.Description != null && this.definedType.Description != string.Empty) { 
+            this.Write("        \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(definedType.Description));
+            this.Write("\",\r\n");
+ } 
+            this.Write("        \"namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.InputArgs != null || this.OutputArgs != null ? "," : ""));

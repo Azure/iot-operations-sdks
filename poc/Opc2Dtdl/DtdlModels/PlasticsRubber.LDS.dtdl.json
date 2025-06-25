@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AdditiveType",
+    "description": "Information about used additives",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1004",
     "commandTopic": "opcua/PlasticsRubber_LDS/AdditiveType/{commandName}",
@@ -20,6 +22,8 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType:dataType:AdditiveStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "AdditiveStatusEnumeration",
+        "description": "Actual status of the additive provides a minimal error handling for devices without event support.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3002",
         "valueSchema": "integer",
         "enumValues": [
@@ -50,6 +54,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ActivateAdditive",
+        "displayName": "ActivateAdditive",
+        "description": "Set value to activate the additive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean",
         "writable": true
@@ -57,6 +63,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ActivateClosedLoopControl",
+        "displayName": "ActivateClosedLoopControl",
+        "description": "Activate the closed loop control of the additive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean",
         "writable": true
@@ -64,6 +72,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AdditiveActivated",
+        "displayName": "AdditiveActivated",
+        "description": "Is true if the additive is activated.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean",
         "writable": false
@@ -71,6 +81,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ClosedLoopControlActivated",
+        "displayName": "ClosedLoopControlActivated",
+        "description": "Is true if the closed loop control of the additive is activated",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean",
         "writable": false
@@ -78,6 +90,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsPresent",
+        "displayName": "IsPresent",
+        "description": "Informs the client if the additive is physically present.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean",
         "writable": false
@@ -85,6 +99,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Status",
+        "displayName": "Status",
+        "description": "Actual status of the additive provides a minimal error handling for devices without event support.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType:dataType:AdditiveStatusEnumeration;1",
         "writable": false
@@ -93,6 +109,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AdditiveFraction",
+        "displayName": "AdditiveFraction",
+        "description": "Contains the SetValue, ActualValue, LowerTolerance and UpperTolerance of the additive fraction in percent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
       },
@@ -100,6 +118,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "AdditiveStrokeVolume",
+        "displayName": "AdditiveStrokeVolume",
+        "description": "Defines the value of additive per shot/stroke",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
       }
@@ -117,6 +137,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:AdditiveAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AdditiveAlarmType",
+    "description": "Represent additive-related text messages",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -137,6 +159,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:ComponentAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ComponentAlarmType",
+    "description": "Represent component-related text messages",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1003",
     "payloadFormat": "Json/ecma/404",
@@ -157,6 +181,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:LDSCycleParametersEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "LDSCycleParametersEventType",
+    "description": "Information on a dosing cycle",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1008",
     "commandTopic": "opcua/PlasticsRubber_LDS/LDSCycleParametersEventType/{commandName}",
@@ -168,6 +194,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "CycleNumber",
+        "displayName": "CycleNumber",
+        "description": "Number of the dosing cycle",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "unsignedLong",
         "writable": false
@@ -175,6 +203,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DosingTime",
+        "displayName": "DosingTime",
+        "description": "Duration of the dosing cycle",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "duration",
         "writable": false
@@ -182,6 +212,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AdditivesPressure",
+        "displayName": "AdditivesPressure",
+        "description": "Average pressure of the additive during the last cycle at the measuring point",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": {
           "@type": "Array",
@@ -191,6 +223,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AdditivesRatioActual",
+        "displayName": "AdditivesRatioActual",
+        "description": "Actual ratios of additive in percentage",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": {
           "@type": "Array",
@@ -200,6 +234,8 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AdditivesRatioTarget",
+        "displayName": "AdditivesRatioTarget",
+        "description": "Target ratios of additives in percentage which are set in AdditiveFraction of AdditiveType",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": {
           "@type": "Array",
@@ -209,72 +245,96 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FilterPressurePrimary",
+        "displayName": "FilterPressurePrimary",
+        "description": "Average material pressure during the last cycle before the filter",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FilterPressureSecondary",
+        "displayName": "FilterPressureSecondary",
+        "description": "Average material pressure during the last cycle after the filter",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MixingPointPressureA",
+        "displayName": "MixingPointPressureA",
+        "description": "Average pressure of component A during the last cycle at the blender",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MixingPointPressureB",
+        "displayName": "MixingPointPressureB",
+        "description": "Average pressure of component B during the last cycle at the blender",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MixingPointPressureBlender",
+        "displayName": "MixingPointPressureBlender",
+        "description": "Average pressure of components A and B during the last cycle at the blender",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MixingRatioActual",
+        "displayName": "MixingRatioActual",
+        "description": "Actual mixing ratio of the components",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MixingRatioTarget",
+        "displayName": "MixingRatioTarget",
+        "description": "Target mixing ratio of the last cycle (includes ratio change when MaterialBalanceSystem is active)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResidualAmountA",
+        "displayName": "ResidualAmountA",
+        "description": "Residual weight amount of component A at the end of the dosing cycle",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResidualAmountB",
+        "displayName": "ResidualAmountB",
+        "description": "Residual weight amount of component B at the end of the dosing cycle",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VolumeA",
+        "displayName": "VolumeA",
+        "description": "Volume of component A that was added to the process in the last cycle",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VolumeAB",
+        "displayName": "VolumeAB",
+        "description": "Volume of components A + B that was added to the process in the last cycle",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VolumeAdditives",
+        "displayName": "VolumeAdditives",
+        "description": "Volumes of the additives that were added to the process in the last cycle",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": {
           "@type": "Array",
@@ -284,12 +344,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VolumeB",
+        "displayName": "VolumeB",
+        "description": "Volume of component B that was added to the process in the last cycle",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VolumeTotal",
+        "displayName": "VolumeTotal",
+        "description": "Volume of all components (A + B + all additives)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       }
@@ -307,6 +371,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:ComponentType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ComponentType",
+    "description": "Information about the mixing components A and B",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1005",
     "commandTopic": "opcua/PlasticsRubber_LDS/ComponentType/{commandName}",
@@ -316,6 +382,8 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_LDS:ComponentType:dataType:ComponentStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "ComponentStatusEnumeration",
+        "description": "Actual status of the component provides a minimal error handling for devices without event support.",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -354,6 +422,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AllowsCycles",
+        "displayName": "AllowsCycles",
+        "description": "Expected number of remaining cycles with the current drum",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double",
         "writable": false
@@ -361,6 +431,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Status",
+        "displayName": "Status",
+        "description": "Actual status of the component provides a minimal error handling for devices without event support.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "dtmi:opcua:PlasticsRubber_LDS:ComponentType:dataType:ComponentStatusEnumeration;1",
         "writable": false
@@ -368,48 +440,64 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualFollowerPlatePressure",
+        "displayName": "ActualFollowerPlatePressure",
+        "description": "Actual material pressure under the follower plate",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualPressure",
+        "displayName": "ActualPressure",
+        "description": "Actual pressure of the component",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DrumCapacity",
+        "displayName": "DrumCapacity",
+        "description": "Maximum capacity of the drum",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RemainingMaterialTime",
+        "displayName": "RemainingMaterialTime",
+        "description": "Time until the material of the component is empty",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResidualAmount",
+        "displayName": "ResidualAmount",
+        "description": "Residual amount of the material",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetFollowerPlatePressure",
+        "displayName": "SetFollowerPlatePressure",
+        "description": "Set value for material pressure under the follower plate",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetValueDensity",
+        "displayName": "SetValueDensity",
+        "description": "Set point material density",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetSetValueDensity",
+        "displayName": "SetSetValueDensity",
+        "description": "This optional method is used to modify SetValueDensity if allowed by the device.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -440,6 +528,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:LDS_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LDS_InterfaceType",
+    "description": "Root ObjectType representing a LSR dosing system with its subcomponents",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1007",
     "commandTopic": "opcua/PlasticsRubber_LDS/LDS_InterfaceType/{commandName}",
@@ -451,6 +541,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceEnabled",
+        "displayName": "DeviceEnabled",
+        "description": "This variable is used to release the drives of the dosing system. If the value is FALSE, the LDS shall not be able to start ist drives.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean",
         "writable": true
@@ -458,6 +550,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DisplayLanguage",
+        "displayName": "DisplayLanguage",
+        "description": "With this Property the client can set the desired language on the user interface at the LDS",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "string",
         "writable": true
@@ -466,6 +560,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Identification",
+        "displayName": "Identification",
+        "description": "Identification of the device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
       },
@@ -473,6 +569,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineConfiguration",
+        "displayName": "MachineConfiguration",
+        "description": "Information about the machine configuration",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
@@ -480,6 +578,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Operation",
+        "displayName": "Operation",
+        "description": "This Object contains components which are necessary to operate the LDS",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:OperationType"
       }
@@ -497,6 +597,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "OperationType",
+    "description": "This ObjectType contains components which are necessary to operate the LDS.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1006",
     "commandTopic": "opcua/PlasticsRubber_LDS/OperationType/{commandName}",
@@ -506,6 +608,7 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:MaterialBalanceSystemTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "MaterialBalanceSystemTypeEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3005",
         "valueSchema": "integer",
         "enumValues": [
@@ -526,6 +629,7 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:PurgeStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "PurgeStatusEnumeration",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3004",
         "valueSchema": "integer",
         "enumValues": [
@@ -554,6 +658,8 @@
       {
         "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:ClassifiedActiveErrorDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "ClassifiedActiveErrorDataType",
+        "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
         "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3003",
         "fields": [
           {
@@ -576,6 +682,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ActivateMaterialBalanceSystem",
+        "displayName": "ActivateMaterialBalanceSystem",
+        "description": "If the value is true, the material balance system is activated",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean",
         "writable": true
@@ -583,6 +691,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceMappingNumber",
+        "displayName": "DeviceMappingNumber",
+        "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "unsignedInteger",
         "writable": true
@@ -590,6 +700,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "HighestActiveAlarmSeverity",
+        "displayName": "HighestActiveAlarmSeverity",
+        "description": "Indication of the severity of the highest active alarm",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "unsignedShort",
         "writable": false
@@ -597,6 +709,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MaterialBalanceSystemType",
+        "displayName": "MaterialBalanceSystemType",
+        "description": "Type of the material balance system",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:MaterialBalanceSystemTypeEnumeration;1",
         "writable": false
@@ -604,6 +718,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PurgeStatus",
+        "displayName": "PurgeStatus",
+        "description": "Actual status of the purge function",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:PurgeStatusEnumeration;1",
         "writable": false
@@ -611,12 +727,16 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActivateRemoteControl",
+        "displayName": "ActivateRemoteControl",
+        "description": "With this variable the client selects the method of remote control",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActiveErrors",
+        "displayName": "ActiveErrors",
+        "description": "List of the active errors of the device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": {
           "@type": "Array",
@@ -626,124 +746,165 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualDeviationMixingRatio",
+        "displayName": "ActualDeviationMixingRatio",
+        "description": "Actual deviation of the mixing ratio (in percent)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualShotWeight",
+        "displayName": "ActualShotWeight",
+        "description": "Specifies the value determined by the feeder as the shot weight",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DeliveryPressureMeasuringPoint",
+        "displayName": "DeliveryPressureMeasuringPoint",
+        "description": "Position of the pressure sensor used for the DeliveryPressure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DeliveryType",
+        "displayName": "DeliveryType",
+        "description": "Indication if the dosing system works with delivery pressure or volumetric flow",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DosingActive",
+        "displayName": "DosingActive",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaxDeviationMixingRatio",
+        "displayName": "MaxDeviationMixingRatio",
+        "description": "Used to limit the maximum deviation in percent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MixingRatioTarget",
+        "displayName": "MixingRatioTarget",
+        "description": "Target of the mixing ratio (includes ratio change when MaterialBalanceSystem is active)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PurgeCyclicActive",
+        "displayName": "PurgeCyclicActive",
+        "description": "Difference between purging (true) and waiting (false)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PurgeCyclicIdleTime",
+        "displayName": "PurgeCyclicIdleTime",
+        "description": "Time until the next purge cycle starts",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PurgeCyclicQuantity",
+        "displayName": "PurgeCyclicQuantity",
+        "description": "Amount of material during a purge ccle as the sum of both components",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PurgeMode",
+        "displayName": "PurgeMode",
+        "description": "Depending on this preselected PurgeMode, various purge function can be activated via the dosing signal of the IMM",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PurgeQuantity",
+        "displayName": "PurgeQuantity",
+        "description": "Amount of material during the active purge mode",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PurgeTimeout",
+        "displayName": "PurgeTimeout",
+        "description": "Maximum time of the active PurgeMode",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RemainingMaterialTime",
+        "displayName": "RemainingMaterialTime",
+        "description": "Remaining time until first material is empty",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RemoteControlActivated",
+        "displayName": "RemoteControlActivated",
+        "description": "With this signal, the LDS signalizes, if it is ready to be controlled via this or a separate interface",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetShotWeight",
+        "displayName": "SetShotWeight",
+        "description": "Reference value determined by the IMM or defined by the user on the IMM side",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SetValueCompositeDensity",
+        "displayName": "SetValueCompositeDensity",
+        "description": "The composite set point of density",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TargetDeviationMixingRatio",
+        "displayName": "TargetDeviationMixingRatio",
+        "description": "This deviation (in percent) is set/used by the material balance system",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "schema": "double"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "IdentifyDevice",
+        "displayName": "IdentifyDevice",
+        "description": "The peripheral device on which this method is called shows itself by e.g. activation of a LED.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetAllErrors",
+        "displayName": "ResetAllErrors",
+        "description": "Method to reset all errors of the device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetErrorById",
+        "displayName": "ResetErrorById",
+        "description": "Method to reset one error of the device",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -763,6 +924,8 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetCycleNumber",
+        "displayName": "SetCycleNumber",
+        "description": "Method to set the cycle number of the LDS to synchronize it with the cycle number of the injection moulding machine",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -782,16 +945,21 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StartDosing",
+        "displayName": "StartDosing",
+        "description": "If RemoteControlActivated = 2, this Method (without arguments) is used to start the dosing",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StopDosing",
+        "displayName": "StopDosing",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Additive_Y",
+        "displayName": "Additive_<Y>",
+        "description": "Information about the additives",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType"
       },
@@ -799,6 +967,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Component_A",
+        "displayName": "Component_A",
+        "description": "Information about component A",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
       },
@@ -806,6 +976,8 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Component_B",
+        "displayName": "Component_B",
+        "description": "Information about component B",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
       },
@@ -813,6 +985,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeliveryFlowrate",
+        "displayName": "DeliveryFlowrate",
+        "description": "Delivery volumetric flow rate",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
       },
@@ -820,6 +994,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "DeliveryPressure",
+        "displayName": "DeliveryPressure",
+        "description": "With this Object the client can set (and monitor) the delivery pressure of the LDS.",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
       }

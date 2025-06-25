@@ -11,6 +11,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:DriveAxisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "DriveAxisType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1000",
     "commandTopic": "opcua/PDRV/DriveAxisType/{commandName}",
@@ -22,6 +23,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ApplicationTag",
+        "displayName": "ApplicationTag",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "string",
         "writable": false
@@ -29,6 +31,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AxisType",
+        "displayName": "AxisType",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "unsignedByte",
         "writable": false
@@ -36,6 +39,7 @@
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetApplicationTag",
+        "displayName": "SetApplicationTag",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
@@ -56,6 +60,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Monitoring",
+        "displayName": "Monitoring",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -63,6 +68,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Lock",
+        "displayName": "Lock",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
@@ -70,6 +76,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PNSignals",
+        "displayName": "PNSignals",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -77,6 +84,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Maintenance",
+        "displayName": "Maintenance",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -84,6 +92,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "LimitSupervision",
+        "displayName": "LimitSupervision",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -91,6 +100,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Logbook",
+        "displayName": "Logbook",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:LogbookType"
       },
@@ -98,6 +108,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CharacteristicsConverter",
+        "displayName": "CharacteristicsConverter",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -105,6 +116,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Safety",
+        "displayName": "Safety",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyType"
       },
@@ -112,6 +124,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CharacteristicsMotorAndControl",
+        "displayName": "CharacteristicsMotorAndControl",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -119,6 +132,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "VelocityProfile",
+        "displayName": "VelocityProfile",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -136,6 +150,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:VelocityDriveAxisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VelocityDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1002",
     "payloadFormat": "Json/ecma/404",
@@ -156,6 +171,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:FrequencyDriveAxisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FrequencyDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1005",
     "payloadFormat": "Json/ecma/404",
@@ -176,6 +192,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:PositioningDriveAxisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PositioningDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1006",
     "payloadFormat": "Json/ecma/404",
@@ -186,6 +203,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "CharacteristicsMechanics",
+        "displayName": "CharacteristicsMechanics",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -193,6 +211,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MotionProgram",
+        "displayName": "MotionProgram",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
@@ -200,6 +219,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Homing",
+        "displayName": "Homing",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -217,6 +237,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:TraversingTaskType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TraversingTaskType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1007",
     "telemetryTopic": "opcua/PDRV/TraversingTaskType/{telemetryName}/{senderId}",
@@ -227,36 +248,42 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TraversingTaskNumber",
+        "displayName": "TraversingTaskNumber",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TargetPosition",
+        "displayName": "TargetPosition",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Velocity",
+        "displayName": "Velocity",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Acceleration",
+        "displayName": "Acceleration",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Deceleration",
+        "displayName": "Deceleration",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PositioningMode",
+        "displayName": "PositioningMode",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "unsignedShort"
       }
@@ -274,6 +301,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:VelocityServoDriveAxisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VelocityServoDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1008",
     "payloadFormat": "Json/ecma/404",
@@ -284,6 +312,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EncoderChannelMotor",
+        "displayName": "EncoderChannelMotor",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
@@ -291,6 +320,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Homing",
+        "displayName": "Homing",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
@@ -298,12 +328,14 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EncoderChannelMechanic",
+        "displayName": "EncoderChannelMechanic",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "EncoderChannelAuxiliary",
+        "displayName": "<EncoderChannelAuxiliary>",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       }
@@ -321,6 +353,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:PositionServoDriveAxisType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PositionServoDriveAxisType",
     "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1009",
     "payloadFormat": "Json/ecma/404",
@@ -330,6 +363,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "EncoderChannelAuxiliary",
+        "displayName": "<EncoderChannelAuxiliary>",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
@@ -337,6 +371,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EncoderChannelMechanic",
+        "displayName": "EncoderChannelMechanic",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
@@ -344,6 +379,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "EncoderChannelMotor",
+        "displayName": "EncoderChannelMotor",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PNENC:EncoderChannelType"
       },
@@ -351,6 +387,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Homing",
+        "displayName": "Homing",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
@@ -368,6 +405,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "DiagnosisAlarmType",
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1012",
     "commandTopic": "opcua/PDRV/DiagnosisAlarmType/{commandName}",
@@ -377,6 +415,8 @@
       {
         "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:LogEntryDataType;1",
         "@type": [ "Object", "Congruence" ],
+        "displayName": "LogEntryDataType",
+        "description": "Identification of fault situation. 0 means current fault situation",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3013",
         "fields": [
           {
@@ -424,6 +464,8 @@
       {
         "@id": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:EventTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
+        "displayName": "EventTypeEnumeration",
+        "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
         "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
         "valueSchema": "integer",
         "enumValues": [
@@ -446,6 +488,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "LogEntry",
+        "displayName": "LogEntry",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "dtmi:opcua:PDRV:DiagnosisAlarmType:dataType:LogEntryDataType;1",
         "writable": false
@@ -464,6 +507,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:AxisSwOvertravelEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AxisSwOvertravelEventType",
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1013",
     "commandTopic": "opcua/PDRV/AxisSwOvertravelEventType/{commandName}",
@@ -475,6 +519,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsUpperSwLimit",
+        "displayName": "IsUpperSwLimit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "boolean",
         "writable": false
@@ -493,6 +538,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:AxisHwOvertravelEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AxisHwOvertravelEventType",
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1014",
     "commandTopic": "opcua/PDRV/AxisHwOvertravelEventType/{commandName}",
@@ -504,6 +550,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsUpperHwLimit",
+        "displayName": "IsUpperHwLimit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "boolean",
         "writable": false
@@ -522,6 +569,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:SafetyType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SafetyType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1015",
     "payloadFormat": "Json/ecma/404",
@@ -532,6 +580,7 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "STO",
+        "displayName": "STO",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
@@ -539,6 +588,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SS1",
+        "displayName": "SS1",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
@@ -546,6 +596,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SS2",
+        "displayName": "SS2",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
@@ -553,6 +604,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SOS",
+        "displayName": "SOS",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
@@ -560,6 +612,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SLS",
+        "displayName": "SLS",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
@@ -567,6 +620,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SDI",
+        "displayName": "SDI",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
@@ -574,6 +628,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SLA",
+        "displayName": "SLA",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       },
@@ -581,6 +636,7 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "SLP",
+        "displayName": "SLP",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "target": "dtmi:opcua:PDRV:SafetyFunctionType"
       }
@@ -598,6 +654,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:TorqueLimitEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "TorqueLimitEventType",
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1016",
     "commandTopic": "opcua/PDRV/TorqueLimitEventType/{commandName}",
@@ -609,6 +666,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "TorqueLimit",
+        "displayName": "TorqueLimit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -627,6 +685,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:MotorCurrentLimitEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "MotorCurrentLimitEventType",
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1017",
     "commandTopic": "opcua/PDRV/MotorCurrentLimitEventType/{commandName}",
@@ -638,6 +697,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MotorCurrentLimitHigh",
+        "displayName": "MotorCurrentLimitHigh",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -656,6 +716,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:SafetyFunctionType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SafetyFunctionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1018",
     "commandTopic": "opcua/PDRV/SafetyFunctionType/{commandName}",
@@ -667,6 +728,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Limit",
+        "displayName": "Limit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -674,12 +736,14 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SelectionState",
+        "displayName": "SelectionState",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActivationState",
+        "displayName": "ActivationState",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "unsignedShort"
       }
@@ -697,6 +761,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:ForceLimitEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "ForceLimitEventType",
     "extends": "dtmi:opcua:PDRV:AxisEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1019",
     "commandTopic": "opcua/PDRV/ForceLimitEventType/{commandName}",
@@ -708,6 +773,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ForceLimit",
+        "displayName": "ForceLimit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -726,6 +792,7 @@
     ],
     "@id": "dtmi:opcua:PDRV:AxisEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "AxisEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PDRV;i=1001",
     "commandTopic": "opcua/PDRV/AxisEventType/{commandName}",
@@ -737,6 +804,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "AxisState",
+        "displayName": "AxisState",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "unsignedShort",
         "writable": false
@@ -744,6 +812,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ControlPriority",
+        "displayName": "ControlPriority",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "unsignedShort",
         "writable": false
@@ -751,6 +820,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "OutputCurrent",
+        "displayName": "OutputCurrent",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -758,6 +828,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Torque",
+        "displayName": "Torque",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -765,6 +836,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Force",
+        "displayName": "Force",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -772,6 +844,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Power",
+        "displayName": "Power",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -779,6 +852,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "MotorTemperature",
+        "displayName": "MotorTemperature",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -786,6 +860,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ConverterTemperature",
+        "displayName": "ConverterTemperature",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -793,6 +868,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceTemperature",
+        "displayName": "DeviceTemperature",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -800,6 +876,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "DcBusVoltage",
+        "displayName": "DcBusVoltage",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -807,6 +884,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "PositionFollowingError",
+        "displayName": "PositionFollowingError",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -814,6 +892,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "VelocityFollowingError",
+        "displayName": "VelocityFollowingError",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false
@@ -821,6 +900,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ControlMode",
+        "displayName": "ControlMode",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "unsignedShort",
         "writable": false
@@ -828,6 +908,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "FeedbackSensor13Temperature",
+        "displayName": "<FeedbackSensor1..3Temperature>",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": {
           "@type": "Map",
@@ -845,6 +926,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeResistorTemperature",
+        "displayName": "BrakeResistorTemperature",
         "namespace": "http://opcfoundation.org/UA/PDRV",
         "schema": "float",
         "writable": false

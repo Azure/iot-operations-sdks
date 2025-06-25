@@ -25,7 +25,18 @@ namespace Yaml2Dtdl
         {
             this.Write("      {\r\n        \"@id\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.enumType.BrowseName)));
-            this.Write("\",\r\n        \"@type\": [ \"Enum\", \"Congruence\" ],\r\n        \"typeRef\": \"");
+            this.Write("\",\r\n        \"@type\": [ \"Enum\", \"Congruence\" ],\r\n");
+ if (this.enumType.DisplayName != null && this.enumType.DisplayName != string.Empty) { 
+            this.Write("        \"displayName\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumType.DisplayName));
+            this.Write("\",\r\n");
+ } 
+ if (this.enumType.Description != null && this.enumType.Description != string.Empty) { 
+            this.Write("        \"description\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumType.Description));
+            this.Write("\",\r\n");
+ } 
+            this.Write("        \"typeRef\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)));
             this.Write("\",\r\n        \"valueSchema\": \"integer\",\r\n        \"enumValues\": [\r\n");
  int ix = 1; foreach (KeyValuePair<string, int> intEnum in this.enumType.Enums) { 

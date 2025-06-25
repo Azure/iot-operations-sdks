@@ -4,8 +4,10 @@ DefinedTypes:
 
   WoT-Con:WoTAssetConnectionManagementType:
   - [ UAObjectType, WoT-Con:1, WoT-Con:WoTAssetConnectionManagementType ]
+  - DisplayName: "WoTAssetConnectionManagementType"
   - Organizes:
     - [ UAObject, WoT-Con:2, WoT-Con:<WoTAssetName> ]
+    - DisplayName: "<WoTAssetName>"
     - HasInterface:
       - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
     - HasTypeDefinition:
@@ -16,8 +18,10 @@ DefinedTypes:
       - [ UAObjectType, WoT-Con:1, WoT-Con:WoTAssetConnectionManagementType ]
   - HasComponent:
     - [ UAMethod, WoT-Con:26, WoT-Con:CreateAsset ]
+    - DisplayName: "CreateAsset"
     - HasProperty:
       - [ UAVariable, WoT-Con:27, WoT-Con:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           AssetName: [ String, 0 ]
       - HasTypeDefinition:
@@ -28,6 +32,7 @@ DefinedTypes:
         - [ UAMethod, WoT-Con:26, WoT-Con:CreateAsset ]
     - HasProperty:
       - [ UAVariable, WoT-Con:28, WoT-Con:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           AssetId: [ NodeId, 0 ]
       - HasTypeDefinition:
@@ -42,8 +47,10 @@ DefinedTypes:
       - [ UAObjectType, WoT-Con:1, WoT-Con:WoTAssetConnectionManagementType ]
   - HasComponent:
     - [ UAMethod, WoT-Con:29, WoT-Con:DeleteAsset ]
+    - DisplayName: "DeleteAsset"
     - HasProperty:
       - [ UAVariable, WoT-Con:30, WoT-Con:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           AssetId: [ NodeId, 0 ]
       - HasTypeDefinition:
@@ -61,10 +68,13 @@ DefinedTypes:
 
   WoT-Con:IWoTAssetType:
   - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
+  - DisplayName: "IWoTAssetType"
   - HasComponent:
     - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
+    - DisplayName: "WoTFile"
     - HasProperty:
       - [ UAVariable, WoT-Con:44, WoT-Con:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -73,6 +83,7 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasProperty:
       - [ UAVariable, WoT-Con:45, WoT-Con:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -81,6 +92,7 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasProperty:
       - [ UAVariable, WoT-Con:46, WoT-Con:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -89,6 +101,7 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasProperty:
       - [ UAVariable, WoT-Con:47, WoT-Con:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -97,8 +110,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:51, WoT-Con:Open ]
+      - DisplayName: "Open"
       - HasProperty:
         - [ UAVariable, WoT-Con:52, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasTypeDefinition:
@@ -109,6 +124,7 @@ DefinedTypes:
           - [ UAMethod, WoT-Con:51, WoT-Con:Open ]
       - HasProperty:
         - [ UAVariable, WoT-Con:53, WoT-Con:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -123,8 +139,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:54, WoT-Con:Close ]
+      - DisplayName: "Close"
       - HasProperty:
         - [ UAVariable, WoT-Con:55, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -139,8 +157,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:56, WoT-Con:Read ]
+      - DisplayName: "Read"
       - HasProperty:
         - [ UAVariable, WoT-Con:57, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -152,6 +172,7 @@ DefinedTypes:
           - [ UAMethod, WoT-Con:56, WoT-Con:Read ]
       - HasProperty:
         - [ UAVariable, WoT-Con:58, WoT-Con:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -166,8 +187,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:59, WoT-Con:Write ]
+      - DisplayName: "Write"
       - HasProperty:
         - [ UAVariable, WoT-Con:60, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -183,8 +206,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:61, WoT-Con:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasProperty:
         - [ UAVariable, WoT-Con:62, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -195,6 +220,7 @@ DefinedTypes:
           - [ UAMethod, WoT-Con:61, WoT-Con:GetPosition ]
       - HasProperty:
         - [ UAVariable, WoT-Con:63, WoT-Con:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasTypeDefinition:
@@ -209,8 +235,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:64, WoT-Con:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasProperty:
         - [ UAVariable, WoT-Con:65, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -226,8 +254,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:106, WoT-Con:CloseAndUpdate ]
+      - DisplayName: "CloseAndUpdate"
       - HasProperty:
         - [ UAVariable, WoT-Con:107, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -251,10 +281,13 @@ DefinedTypes:
 
   WoT-Con:WoTAssetType:
   - [ UAObjectType, WoT-Con:115, WoT-Con:WoTAssetType ]
+  - DisplayName: "WoTAssetType"
   - HasComponent:
     - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
+    - DisplayName: "WoTFile"
     - HasProperty:
       - [ UAVariable, WoT-Con:117, WoT-Con:Size, UInt64, 0, 0 ]
+      - DisplayName: "Size"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -263,6 +296,7 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasProperty:
       - [ UAVariable, WoT-Con:118, WoT-Con:Writable, Boolean, 0, 0 ]
+      - DisplayName: "Writable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -271,6 +305,7 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasProperty:
       - [ UAVariable, WoT-Con:119, WoT-Con:UserWritable, Boolean, 0, 0 ]
+      - DisplayName: "UserWritable"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -279,6 +314,7 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasProperty:
       - [ UAVariable, WoT-Con:120, WoT-Con:OpenCount, UInt16, 0, 0 ]
+      - DisplayName: "OpenCount"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -287,8 +323,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:124, WoT-Con:Open ]
+      - DisplayName: "Open"
       - HasProperty:
         - [ UAVariable, WoT-Con:125, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             Mode: [ Byte, 0 ]
         - HasTypeDefinition:
@@ -299,6 +337,7 @@ DefinedTypes:
           - [ UAMethod, WoT-Con:124, WoT-Con:Open ]
       - HasProperty:
         - [ UAVariable, WoT-Con:126, WoT-Con:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -313,8 +352,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:127, WoT-Con:Close ]
+      - DisplayName: "Close"
       - HasProperty:
         - [ UAVariable, WoT-Con:128, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -329,8 +370,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:129, WoT-Con:Read ]
+      - DisplayName: "Read"
       - HasProperty:
         - [ UAVariable, WoT-Con:130, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Length: [ Int32, 0 ]
@@ -342,6 +385,7 @@ DefinedTypes:
           - [ UAMethod, WoT-Con:129, WoT-Con:Read ]
       - HasProperty:
         - [ UAVariable, WoT-Con:131, WoT-Con:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Data: [ ByteString, 0 ]
         - HasTypeDefinition:
@@ -356,8 +400,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:132, WoT-Con:Write ]
+      - DisplayName: "Write"
       - HasProperty:
         - [ UAVariable, WoT-Con:133, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Data: [ ByteString, 0 ]
@@ -373,8 +419,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:134, WoT-Con:GetPosition ]
+      - DisplayName: "GetPosition"
       - HasProperty:
         - [ UAVariable, WoT-Con:135, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -385,6 +433,7 @@ DefinedTypes:
           - [ UAMethod, WoT-Con:134, WoT-Con:GetPosition ]
       - HasProperty:
         - [ UAVariable, WoT-Con:136, WoT-Con:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             Position: [ UInt64, 0 ]
         - HasTypeDefinition:
@@ -399,8 +448,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:137, WoT-Con:SetPosition ]
+      - DisplayName: "SetPosition"
       - HasProperty:
         - [ UAVariable, WoT-Con:138, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
             Position: [ UInt64, 0 ]
@@ -416,8 +467,10 @@ DefinedTypes:
         - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasComponent:
       - [ UAMethod, WoT-Con:139, WoT-Con:CloseAndUpdate ]
+      - DisplayName: "CloseAndUpdate"
       - HasProperty:
         - [ UAVariable, WoT-Con:140, WoT-Con:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -443,10 +496,13 @@ DefinedTypes:
 
   WoT-Con:WoTAssetFileType:
   - [ UAObjectType, WoT-Con:110, WoT-Con:WoTAssetFileType ]
+  - DisplayName: "WoTAssetFileType"
   - HasComponent:
     - [ UAMethod, WoT-Con:111, WoT-Con:CloseAndUpdate ]
+    - DisplayName: "CloseAndUpdate"
     - HasProperty:
       - [ UAVariable, WoT-Con:112, WoT-Con:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           FileHandle: [ UInt32, 0 ]
       - HasTypeDefinition:

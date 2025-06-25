@@ -11,6 +11,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:IMM_MES_InterfaceType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IMM_MES_InterfaceType",
+    "description": "Root ObjectType representing an injection moulding machine with all its subcomponents for data exchange with an MES",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.IMM2MES;i=1007",
     "payloadFormat": "Json/ecma/404",
@@ -21,6 +23,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "InjectionUnits",
+        "displayName": "InjectionUnits",
+        "description": "Container for the injection units",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitsType"
       },
@@ -28,6 +32,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Jobs",
+        "displayName": "Jobs",
+        "description": "Management of production jobs on the machine and information on their status including process parameters",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType"
       },
@@ -35,6 +41,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineConfiguration",
+        "displayName": "MachineConfiguration",
+        "description": "Current configuration of the machine",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
@@ -42,6 +50,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineInformation",
+        "displayName": "MachineInformation",
+        "description": "General description of the machine",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType"
       },
@@ -49,6 +59,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineMESConfiguration",
+        "displayName": "MachineMESConfiguration",
+        "description": "Current configuration of a machine related to a Manufacturing Execution System (MES)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType"
       },
@@ -56,6 +68,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineMESStatus",
+        "displayName": "MachineMESStatus",
+        "description": "Current status of a machine related to the MES",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESStatusType"
       },
@@ -63,6 +77,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineStatus",
+        "displayName": "MachineStatus",
+        "description": "Information on the current status of the machine",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineStatusType"
       },
@@ -70,6 +86,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Moulds",
+        "displayName": "Moulds",
+        "description": "Container for the moulds",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldsType"
       },
@@ -77,6 +95,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "PowerUnits",
+        "displayName": "PowerUnits",
+        "description": "Container for the power units",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitsType"
       },
@@ -84,6 +104,8 @@
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "ProductionDatasetManagement",
+        "displayName": "ProductionDatasetManagement",
+        "description": "Management of production datasets",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
       }
@@ -101,6 +123,7 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitCycleParametersType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "InjectionUnitCycleParametersType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.IMM2MES;i=1039",
     "commandTopic": "opcua/PlasticsRubber_IMM2MES/InjectionUnitCycleParametersType/{commandName}",
@@ -112,6 +135,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Index",
+        "displayName": "Index",
+        "description": "Index of the injection unit",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "unsignedInteger",
         "writable": false
@@ -119,198 +144,264 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BackPressure",
+        "displayName": "BackPressure",
+        "description": "Back pressure is the melt-pressure against the screw movement during dosage",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CavityPressureMaximum",
+        "displayName": "CavityPressureMaximum",
+        "description": "Maximum pressure during the injection process in the cavity or mould",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CushionStroke",
+        "displayName": "CushionStroke",
+        "description": "Stroke position at cushion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CushionVolume",
+        "displayName": "CushionVolume",
+        "description": "Material volume remained in front of the screw after injection and holding pressure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DecompressionVolumeAfterPlastification",
+        "displayName": "DecompressionVolumeAfterPlastification",
+        "description": "Decompression after plastification is the movement of the screw in the opposite direction to injection",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DecompressionVolumeBeforePlastification",
+        "displayName": "DecompressionVolumeBeforePlastification",
+        "description": "Decompression before plastification is the movement of the screw in the opposite direction to injection",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DosingTime",
+        "displayName": "DosingTime",
+        "description": "Time to melt-up the plastic granulates and feed the melt for the next injection shot to the front of the screw",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FlowIndex",
+        "displayName": "FlowIndex",
+        "description": "Flow index",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HoldHydraulicPressureAverage",
+        "displayName": "HoldHydraulicPressureAverage",
+        "description": "Average holding pressure in the hydraulic cylinder",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HoldHydraulicPressureMaximum",
+        "displayName": "HoldHydraulicPressureMaximum",
+        "description": "Maximum holding pressure in the hydraulic cylinder",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HoldSpecificPressureAverage",
+        "displayName": "HoldSpecificPressureAverage",
+        "description": "Average holding pressure in front of the screw",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HoldSpecificPressureMaximum",
+        "displayName": "HoldSpecificPressureMaximum",
+        "description": "Maximum holding pressure in front of the screw",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HydraulicPressureMaximum",
+        "displayName": "HydraulicPressureMaximum",
+        "description": "Maximum pressure in the hydraulic cylinder",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InjectionSpeedAverage",
+        "displayName": "InjectionSpeedAverage",
+        "description": "Average injection speed (e.g. mm/s)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InjectionSpeedMaximum",
+        "displayName": "InjectionSpeedMaximum",
+        "description": "Maximum injection speed (e.g. mm/s)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InjectionStartPosition",
+        "displayName": "InjectionStartPosition",
+        "description": "Start position of the injection",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InjectionTime",
+        "displayName": "InjectionTime",
+        "description": "Time required to fill the cavity or mould",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationCircumferentialSpeedAverage",
+        "displayName": "PlastificationCircumferentialSpeedAverage",
+        "description": "Average screw circumferential speed for plastification (e.g. mm/s)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationCircumferentialSpeedMaximum",
+        "displayName": "PlastificationCircumferentialSpeedMaximum",
+        "description": "Maximum screw circumferential speed for plastification (e.g. mm/s)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationHydraulicPressureAverage",
+        "displayName": "PlastificationHydraulicPressureAverage",
+        "description": "Average plastification pressure in cylinder",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationHydraulicPressureMaximum",
+        "displayName": "PlastificationHydraulicPressureMaximum",
+        "description": "Maximum plastification pressure in cylinder",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationRotationalSpeedAverage",
+        "displayName": "PlastificationRotationalSpeedAverage",
+        "description": "Average plastification speed of the injection unit (RPM)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationRotationalSpeedMaximum",
+        "displayName": "PlastificationRotationalSpeedMaximum",
+        "description": "Maximum plastification speed of the injection unit (RPM)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationSpecificPressureAverage",
+        "displayName": "PlastificationSpecificPressureAverage",
+        "description": "Average plastification pressure in front of the screw tip",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationSpecificPressureMaximum",
+        "displayName": "PlastificationSpecificPressureMaximum",
+        "description": "Maximum plastification pressure in front of the screw tip",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlastificationVolume",
+        "displayName": "PlastificationVolume",
+        "description": "Volume dosed by the machine for the next injection shot",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SpecificPressureMaximum",
+        "displayName": "SpecificPressureMaximum",
+        "description": "Pressure in front of the screw tip",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TransferCavityPressure",
+        "displayName": "TransferCavityPressure",
+        "description": "Cavity pressure in the mould during switch-over to the holding pressure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TransferHydraulicPressure",
+        "displayName": "TransferHydraulicPressure",
+        "description": "Hydraulic pressure in the cylinder during switch-over to the holding pressure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TransferSpecificPressure",
+        "displayName": "TransferSpecificPressure",
+        "description": "Pressure in front of the screw tip during switch-over to the holding pressure",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TransferStroke",
+        "displayName": "TransferStroke",
+        "description": "Switch-over point to the holding pressure via stroke",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TransferVolume",
+        "displayName": "TransferVolume",
+        "description": "Switch-over point to the holding pressure via volume",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VPChangeOverPosition",
+        "displayName": "VPChangeOverPosition",
+        "description": "Screw position at switching between injection (V) and holding pressure (P)",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       }
@@ -328,6 +419,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "InjectionUnitsType",
+    "description": "Container for objects of InjectionUnitType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.IMM2MES;i=1016",
     "commandTopic": "opcua/PlasticsRubber_IMM2MES/InjectionUnitsType/{commandName}",
@@ -339,6 +432,7 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
+        "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "string",
         "writable": false
@@ -346,6 +440,7 @@
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InjectionUnit_Nr",
+        "displayName": "InjectionUnit_<Nr>",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitType"
       }
@@ -363,6 +458,8 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "InjectionUnitType",
+    "description": "Description and status of an injection unit",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.IMM2MES;i=1028",
     "commandTopic": "opcua/PlasticsRubber_IMM2MES/InjectionUnitType/{commandName}",
@@ -374,6 +471,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "BarrelId",
+        "displayName": "BarrelId",
+        "description": "Id (e.g. serial number) of the barrel",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "string",
         "writable": false
@@ -381,6 +480,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "Index",
+        "displayName": "Index",
+        "description": "Number of the injection unit",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "unsignedInteger",
         "writable": false
@@ -388,6 +489,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "InProduction",
+        "displayName": "InProduction",
+        "description": "information if the injection unit is used in the current running production",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "boolean",
         "writable": false
@@ -395,6 +498,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "IsPresent",
+        "displayName": "IsPresent",
+        "description": "Information if the injection unit is physically installed on the injection machines",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "boolean",
         "writable": false
@@ -402,6 +507,8 @@
       {
         "@type": [ "Property", "Qualified" ],
         "name": "ScrewId",
+        "displayName": "ScrewId",
+        "description": "Id of the screw installed in the injection unit",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "string",
         "writable": false
@@ -409,18 +516,24 @@
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaxScrewStroke",
+        "displayName": "MaxScrewStroke",
+        "description": "maximum stroke of the screw installed in the injection unit",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ScrewDiameter",
+        "displayName": "ScrewDiameter",
+        "description": "diameter of the screw installed in the injection unit",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ScrewVolume",
+        "displayName": "ScrewVolume",
+        "description": "volume of the screw installed in the injection unit",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "schema": "double"
       },
@@ -428,6 +541,8 @@
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
+        "displayName": "TemperatureZones",
+        "description": "container for the barrel temperature zones of the injection unit",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZonesType"
       }

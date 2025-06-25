@@ -85,6 +85,7 @@
 
             using (StreamWriter outputFile = new StreamWriter(coreOutFilePath))
             {
+                outputFile.WriteLine("DataTypes:");
                 RecordDataTypes(coreSpecDoc, outputFile);
                 outputFile.WriteLine();
                 RecordDefinitions(coreSpecDoc, outputFile);
@@ -125,6 +126,7 @@
 
                 using (StreamWriter outputFile = new StreamWriter(outFilePath))
                 {
+                    outputFile.WriteLine("DataTypes:");
                     foreach (ManagedXmlDocument reqSpecDoc in EnumerateRequiredModels(specFile.Value.SpecName, specFiles))
                     {
                         RecordDataTypes(reqSpecDoc, outputFile);
@@ -319,8 +321,6 @@
             Dictionary<string, string> namespaceMap = GetNamespaceMap(specDoc);
             Dictionary<string, string> localAliasToResolvedNodeIdMap = GetLocalAliasToResolvedNodeIdMap(specDoc, namespaceMap);
 
-            outputFile.WriteLine("DataTypes:");
-
             foreach (XmlNode dtNode in specDoc.RootElement.SelectNodes("//opc:UADataType", specDoc.NamespaceManager)!)
             {
                 string rawNodeId = dtNode.Attributes!["NodeId"]!.Value;
@@ -329,10 +329,14 @@
                 string nodeId = TranslateNodeId(rawNodeId, namespaceMap);
                 string browseName = MapBrowseNameViaNodeId(rawBrowseName, rawNodeId, namespaceMap);
 
+                string? displayName = dtNode.SelectSingleNode("descendant::opc:DisplayName", specDoc.NamespaceManager)?.InnerText;
+                string? description = dtNode.SelectSingleNode("descendant::opc:Description", specDoc.NamespaceManager)?.InnerText;
+
                 XmlNode? someFieldNode = dtNode.SelectSingleNode("descendant::opc:Field", specDoc.NamespaceManager);
                 if (someFieldNode?.Attributes!["Value"] != null)
                 {
                     outputFile.WriteLine($"- {dtNode.Name}: [ {nodeId}, {browseName} ]");
+                    RecordDisplayNameAndDescription(outputFile, displayName, description);
                     outputFile.WriteLine($"  Enums:");
 
                     foreach (XmlNode fieldNode in dtNode.SelectNodes("descendant::opc:Field", specDoc.NamespaceManager)!)
@@ -343,6 +347,7 @@
                 else if (someFieldNode?.Attributes!["DataType"] != null)
                 {
                     outputFile.WriteLine($"- {dtNode.Name}: [ {nodeId}, {browseName} ]");
+                    RecordDisplayNameAndDescription(outputFile, displayName, description);
                     outputFile.WriteLine($"  Fields:");
 
                     foreach (XmlNode fieldNode in dtNode.SelectNodes("descendant::opc:Field", specDoc.NamespaceManager)!)
@@ -392,6 +397,9 @@
             string nodeId = TranslateNodeId(rawNodeId, namespaceMap);
             string browseName = MapBrowseNameViaNodeId(rawBrowseName, rawNodeId, namespaceMap);
 
+            string? displayName = xmlNode.SelectSingleNode("descendant::opc:DisplayName", nsmgr)?.InnerText;
+            string? description = xmlNode.SelectSingleNode("descendant::opc:Description", nsmgr)?.InnerText;
+
             string dataTypeStr = string.Empty;
             string valueRankStr = string.Empty;
             string accessLevelStr = string.Empty;
@@ -416,6 +424,8 @@
             {
                 return;
             }
+
+            RecordDisplayNameAndDescription(outputFile, displayName, description, currentIndent, asList: true);
 
             if (xmlNode.SelectSingleNode("descendant::uax:Argument", nsmgr) != null)
             {
@@ -474,6 +484,20 @@
                         }
                     }
                 }
+            }
+        }
+
+        private static void RecordDisplayNameAndDescription(StreamWriter outputFile, string? displayName, string? description, string currentIndent = "", bool asList = false)
+        {
+            string leader = asList ? "- " : "  ";
+
+            if (displayName != null)
+            {
+                outputFile.WriteLine($"{currentIndent}{leader}DisplayName: \"{displayName}\"");
+            }
+            if (description != null)
+            {
+                outputFile.WriteLine($"{currentIndent}{leader}Description: \"{Regex.Replace(description.Replace(Environment.NewLine, " ").Replace("\\", "").Replace('\"', '\'').Trim(), @"\s+", " ")}\"");
             }
         }
     }

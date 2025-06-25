@@ -1,27 +1,37 @@
 DataTypes:
 - UADataType: [ Machinery.Result:3002, Machinery.Result:ResultEvaluationEnum ]
+  DisplayName: "ResultEvaluationEnum"
+  Description: "Indicates whether a result was in tolerance"
   Enums:
     Undefined: 0
     OK: 1
     NotOK: 2
     NotDecidable: 3
 - UADataType: [ Machinery.Result:3005, Machinery.Result:BaseResultTransferOptionsDataType ]
+  DisplayName: "BaseResultTransferOptionsDataType"
+  Description: "Abstract type containing information which file should be provided."
   Fields:
     ResultId: [ TrimmedString, 0 ]
 - UADataType: [ Machinery.Result:3004, Machinery.Result:ResultTransferOptionsDataType ]
   Bases:
   - Machinery.Result:BaseResultTransferOptionsDataType
 - UADataType: [ Machinery.Result:3006, Machinery.Result:ProcessingTimesDataType ]
+  DisplayName: "ProcessingTimesDataType"
+  Description: "Contains measured times that were generated during the execution of a recipe."
   Fields:
     StartTime: [ UtcTime, 0 ]
     EndTime: [ UtcTime, 0 ]
     AcquisitionDuration: [ Duration, 0 ]
     ProcessingDuration: [ Duration, 0 ]
 - UADataType: [ Machinery.Result:3008, Machinery.Result:ResultDataType ]
+  DisplayName: "ResultDataType"
+  Description: "Contains fields that were created during the execution of a recipe."
   Fields:
     ResultMetaData: [ Machinery.Result:ResultMetaDataType, 0 ]
     ResultContent: [ null, 1 ]
 - UADataType: [ Machinery.Result:3007, Machinery.Result:ResultMetaDataType ]
+  DisplayName: "ResultMetaDataType"
+  Description: "Meta data of a result, describing the result."
   Fields:
     ResultId: [ TrimmedString, 0 ]
     HasTransferableDataOnFile: [ Boolean, 0 ]
@@ -48,8 +58,11 @@ DefinedTypes:
 
   Machinery.Result:ResultType:
   - [ UAVariableType, Machinery.Result:2001, Machinery.Result:ResultType, Machinery.Result:ResultDataType, 0, 0 ]
+  - DisplayName: "ResultType"
+  - Description: "Exposes the information of the ResultDataType in individual subvariables."
   - HasComponent:
     - [ UAVariable, Machinery.Result:6011, Machinery.Result:ReducedResultContent ]
+    - DisplayName: "ReducedResultContent"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -58,6 +71,7 @@ DefinedTypes:
       - [ UAVariableType, Machinery.Result:2001, Machinery.Result:ResultType, Machinery.Result:ResultDataType, 0, 0 ]
   - HasStructuredComponent:
     - [ UAVariable, Machinery.Result:6010, Machinery.Result:ResultContent ]
+    - DisplayName: "ResultContent"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -66,12 +80,15 @@ DefinedTypes:
       - [ UAVariableType, Machinery.Result:2001, Machinery.Result:ResultType, Machinery.Result:ResultDataType, 0, 0 ]
   - HasStructuredComponent:
     - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
+    - DisplayName: "ResultMetaData"
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6025, Machinery.Result:CreationTime, UtcTime, 0, 3 ]
+      - DisplayName: "CreationTime"
+      - Description: "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server). It is recommended to always provide the creationTime."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -80,6 +97,7 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6022, Machinery.Result:ExternalConfigurationId, TrimmedString, 0, 3 ]
+      - DisplayName: "ExternalConfigurationId"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -88,6 +106,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6019, Machinery.Result:ExternalRecipeId, TrimmedString, 0, 3 ]
+      - DisplayName: "ExternalRecipeId"
+      - Description: "External ID of the recipe in use which produced the result. The External ID is managed by the environment. This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -96,6 +116,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6031, Machinery.Result:FileFormat, String, 1, 3 ]
+      - DisplayName: "FileFormat"
+      - Description: "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -104,6 +126,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6013, Machinery.Result:HasTransferableDataOnFile, Boolean, 0, 3 ]
+      - DisplayName: "HasTransferableDataOnFile"
+      - Description: "Indicates that additional data for this result can be retrieved by temporary file transfer. If not provided, it is assumed that no file is available."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -112,6 +136,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6023, Machinery.Result:InternalConfigurationId, TrimmedString, 0, 3 ]
+      - DisplayName: "InternalConfigurationId"
+      - Description: "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -120,6 +146,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6020, Machinery.Result:InternalRecipeId, TrimmedString, 0, 3 ]
+      - DisplayName: "InternalRecipeId"
+      - Description: "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -128,6 +156,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6014, Machinery.Result:IsPartial, Boolean, 0, 3 ]
+      - DisplayName: "IsPartial"
+      - Description: "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'. If not provided, it is assumed to be a total result."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -136,6 +166,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6015, Machinery.Result:IsSimulated, Boolean, 0, 3 ]
+      - DisplayName: "IsSimulated"
+      - Description: "Indicates whether the result was created in simulation mode. Simulation mode implies that the result is only generated for testing purposes and not based on real production data. If not provided, it is assumed to not be simulated."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -144,6 +176,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6024, Machinery.Result:JobId, TrimmedString, 0, 3 ]
+      - DisplayName: "JobId"
+      - Description: "Identifies the job which produced the result. This ID is system-wide unique and it is assigned by the system."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -152,6 +186,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6018, Machinery.Result:PartId, TrimmedString, 0, 3 ]
+      - DisplayName: "PartId"
+      - Description: "Identifies the part used to produce the result. Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds. This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -160,6 +196,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6026, Machinery.Result:ProcessingTimes, Machinery.Result:ProcessingTimesDataType, 0, 3 ]
+      - DisplayName: "ProcessingTimes"
+      - Description: "Collection of different processing times that were needed to create the result."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -168,6 +206,7 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6021, Machinery.Result:ProductId, TrimmedString, 0, 3 ]
+      - DisplayName: "ProductId"
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -176,6 +215,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6028, Machinery.Result:ResultEvaluation, Machinery.Result:ResultEvaluationEnum, 0, 3 ]
+      - DisplayName: "ResultEvaluation"
+      - Description: "The ResultEvaluation indicates whether the result was in tolerance."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -184,6 +225,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6030, Machinery.Result:ResultEvaluationCode, Int64, 0, 3 ]
+      - DisplayName: "ResultEvaluationCode"
+      - Description: "Vendor-specific code describing more details on resultEvaluation."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -192,6 +235,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6029, Machinery.Result:ResultEvaluationDetails, LocalizedText, 0, 3 ]
+      - DisplayName: "ResultEvaluationDetails"
+      - Description: "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -200,6 +245,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6012, Machinery.Result:ResultId, TrimmedString, 0, 3 ]
+      - DisplayName: "ResultId"
+      - Description: "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType. If the system does not manage resultIds, it should always be set to “NA”."
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -210,6 +257,8 @@ DefinedTypes:
       - [ UAVariableType, Machinery.Result:2001, Machinery.Result:ResultType, Machinery.Result:ResultDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6016, Machinery.Result:ResultState, Int32, 0, 3 ]
+      - DisplayName: "ResultState"
+      - Description: "ResultState provides information about the current state of the process or measurement creating a result. Applications may use negative values for application-specific states. All other values shall only be used as defined in the following: 0 – Undefined initial value 1 – Completed: Processing was carried out completely 2 – Processing: Processing has not been finished yet 3 – Aborted: Processing was stopped at some point before completion 4 – Failed: Processing failed in some way."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -218,6 +267,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6027, Machinery.Result:ResultUri, UriString, 1, 3 ]
+      - DisplayName: "ResultUri"
+      - Description: "Path to the actual measured result, managed external to the server."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -226,6 +277,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6009, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6017, Machinery.Result:StepId, TrimmedString, 0, 3 ]
+      - DisplayName: "StepId"
+      - Description: "Identifies the step which produced the result. Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds. This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution."
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -237,8 +290,11 @@ DefinedTypes:
 
   Machinery.Result:ResultReadyEventType:
   - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
+  - DisplayName: "ResultReadyEventType"
+  - Description: "Provides information of a complete or partial result."
   - HasComponent:
     - [ UAVariable, Machinery.Result:6032, Machinery.Result:Result, Machinery.Result:ResultDataType, 0, 3 ]
+    - DisplayName: "Result"
     - HasTypeDefinition:
       - [ UAVariableType, Machinery.Result:2001, Machinery.Result:ResultType, Machinery.Result:ResultDataType, 0, 0 ]
     - HasModellingRule:
@@ -247,12 +303,15 @@ DefinedTypes:
       - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
+      - DisplayName: "ResultMetaData"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6056, Machinery.Result:CreationTime, UtcTime, 0, 3 ]
+        - DisplayName: "CreationTime"
+        - Description: "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server). It is recommended to always provide the creationTime."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -261,6 +320,7 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6057, Machinery.Result:ExternalConfigurationId, TrimmedString, 0, 3 ]
+        - DisplayName: "ExternalConfigurationId"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -269,6 +329,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6058, Machinery.Result:ExternalRecipeId, TrimmedString, 0, 3 ]
+        - DisplayName: "ExternalRecipeId"
+        - Description: "External ID of the recipe in use which produced the result. The External ID is managed by the environment. This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -277,6 +339,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6059, Machinery.Result:FileFormat, String, 1, 3 ]
+        - DisplayName: "FileFormat"
+        - Description: "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -285,6 +349,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6060, Machinery.Result:HasTransferableDataOnFile, Boolean, 0, 3 ]
+        - DisplayName: "HasTransferableDataOnFile"
+        - Description: "Indicates that additional data for this result can be retrieved by temporary file transfer. If not provided, it is assumed that no file is available."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -293,6 +359,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6061, Machinery.Result:InternalConfigurationId, TrimmedString, 0, 3 ]
+        - DisplayName: "InternalConfigurationId"
+        - Description: "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -301,6 +369,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6062, Machinery.Result:InternalRecipeId, TrimmedString, 0, 3 ]
+        - DisplayName: "InternalRecipeId"
+        - Description: "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -309,6 +379,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6063, Machinery.Result:IsPartial, Boolean, 0, 3 ]
+        - DisplayName: "IsPartial"
+        - Description: "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'. If not provided, it is assumed to be a total result."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -317,6 +389,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6064, Machinery.Result:IsSimulated, Boolean, 0, 3 ]
+        - DisplayName: "IsSimulated"
+        - Description: "Indicates whether the result was created in simulation mode. Simulation mode implies that the result is only generated for testing purposes and not based on real production data. If not provided, it is assumed to not be simulated."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -325,6 +399,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6065, Machinery.Result:JobId, TrimmedString, 0, 3 ]
+        - DisplayName: "JobId"
+        - Description: "Identifies the job which produced the result. This ID is system-wide unique and it is assigned by the system."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -333,6 +409,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6066, Machinery.Result:PartId, TrimmedString, 0, 3 ]
+        - DisplayName: "PartId"
+        - Description: "Identifies the part used to produce the result. Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds. This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -341,6 +419,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6067, Machinery.Result:ProcessingTimes, Machinery.Result:ProcessingTimesDataType, 0, 3 ]
+        - DisplayName: "ProcessingTimes"
+        - Description: "Collection of different processing times that were needed to create the result."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -349,6 +429,7 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6068, Machinery.Result:ProductId, TrimmedString, 0, 3 ]
+        - DisplayName: "ProductId"
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -357,6 +438,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6069, Machinery.Result:ResultEvaluation, Machinery.Result:ResultEvaluationEnum, 0, 3 ]
+        - DisplayName: "ResultEvaluation"
+        - Description: "The ResultEvaluation indicates whether the result was in tolerance."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -365,6 +448,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6070, Machinery.Result:ResultEvaluationCode, Int64, 0, 3 ]
+        - DisplayName: "ResultEvaluationCode"
+        - Description: "Vendor-specific code describing more details on resultEvaluation."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -373,6 +458,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6071, Machinery.Result:ResultEvaluationDetails, LocalizedText, 0, 3 ]
+        - DisplayName: "ResultEvaluationDetails"
+        - Description: "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -381,6 +468,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6034, Machinery.Result:ResultId, TrimmedString, 0, 3 ]
+        - DisplayName: "ResultId"
+        - Description: "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType. If the system does not manage resultIds, it should always be set to “NA”."
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -391,6 +480,8 @@ DefinedTypes:
         - [ UAVariable, Machinery.Result:6032, Machinery.Result:Result, Machinery.Result:ResultDataType, 0, 3 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6072, Machinery.Result:ResultState, Int32, 0, 3 ]
+        - DisplayName: "ResultState"
+        - Description: "ResultState provides information about the current state of the process or measurement creating a result. Applications may use negative values for application-specific states. All other values shall only be used as defined in the following: 0 – Undefined initial value 1 – Completed: Processing was carried out completely 2 – Processing: Processing has not been finished yet 3 – Aborted: Processing was stopped at some point before completion 4 – Failed: Processing failed in some way."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -399,6 +490,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6073, Machinery.Result:ResultUri, UriString, 1, 3 ]
+        - DisplayName: "ResultUri"
+        - Description: "Path to the actual measured result, managed external to the server."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -407,6 +500,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Result:6033, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6074, Machinery.Result:StepId, TrimmedString, 0, 3 ]
+        - DisplayName: "StepId"
+        - Description: "Identifies the step which produced the result. Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds. This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution."
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -420,20 +515,26 @@ DefinedTypes:
 
   Machinery.Result:ResultManagementType:
   - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
+  - DisplayName: "ResultManagementType"
+  - Description: "Provides mechanism to access results generated by the underlying system."
   - HasProperty:
     - [ UAVariable, Machinery.Result:6037, Machinery.Result:DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - DisplayName: "DefaultInstanceBrowseName"
+    - Description: "The default BrowseName for instances of the type."
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasProperty_reverse:
       - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7008, Machinery.Result:GetLatestResult ]
+    - DisplayName: "GetLatestResult"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6054, Machinery.Result:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Timeout: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -444,6 +545,7 @@ DefinedTypes:
         - [ UAMethod, Machinery.Result:7008, Machinery.Result:GetLatestResult ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6055, Machinery.Result:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           ResultHandle: [ Handle, 0 ]
           Result: [ Machinery.Result:ResultDataType, 0 ]
@@ -456,12 +558,15 @@ DefinedTypes:
         - [ UAMethod, Machinery.Result:7008, Machinery.Result:GetLatestResult ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7005, Machinery.Result:GetResultById ]
+    - DisplayName: "GetResultById"
+    - Description: "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle should be used by the client to indicate to the server that the result data is no longer needed, allowing the server to optimize its resource handling. If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0. If the error is set to a value other than 0, the resultHandle may be set to 0."
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6048, Machinery.Result:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ResultId: [ TrimmedString, 0 ]
           Timeout: [ Int32, 0 ]
@@ -473,6 +578,7 @@ DefinedTypes:
         - [ UAMethod, Machinery.Result:7005, Machinery.Result:GetResultById ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6049, Machinery.Result:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           ResultHandle: [ Handle, 0 ]
           Result: [ Machinery.Result:ResultDataType, 0 ]
@@ -485,12 +591,14 @@ DefinedTypes:
         - [ UAMethod, Machinery.Result:7005, Machinery.Result:GetResultById ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7006, Machinery.Result:GetResultIdListFiltered ]
+    - DisplayName: "GetResultIdListFiltered"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent_reverse:
       - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6050, Machinery.Result:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           Filter: [ ContentFilter, 0 ]
           OrderedBy: [ RelativePath, 1 ]
@@ -504,6 +612,7 @@ DefinedTypes:
         - [ UAMethod, Machinery.Result:7006, Machinery.Result:GetResultIdListFiltered ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6051, Machinery.Result:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           ResultHandle: [ Handle, 0 ]
           ResultIdList: [ TrimmedString, 1 ]
@@ -516,10 +625,12 @@ DefinedTypes:
         - [ UAMethod, Machinery.Result:7006, Machinery.Result:GetResultIdListFiltered ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7007, Machinery.Result:ReleaseResultHandle ]
+    - DisplayName: "ReleaseResultHandle"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6052, Machinery.Result:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           ResultHandle: [ Handle, 0 ]
       - HasTypeDefinition:
@@ -530,6 +641,7 @@ DefinedTypes:
         - [ UAMethod, Machinery.Result:7007, Machinery.Result:ReleaseResultHandle ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6053, Machinery.Result:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           Error: [ Int32, 0 ]
       - HasTypeDefinition:
@@ -544,12 +656,14 @@ DefinedTypes:
     - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
   - HasComponent:
     - [ UAObject, Machinery.Result:5011, Machinery.Result:Results ]
+    - DisplayName: "Results"
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasComponent:
       - [ UAVariable, Machinery.Result:6045, Machinery.Result:<ResultVariable>, Machinery.Result:ResultDataType, 0, 3 ]
+      - DisplayName: "<ResultVariable>"
       - HasTypeDefinition:
         - [ UAVariableType, Machinery.Result:2001, Machinery.Result:ResultType, Machinery.Result:ResultDataType, 0, 0 ]
       - HasModellingRule:
@@ -558,12 +672,15 @@ DefinedTypes:
         - [ UAObject, Machinery.Result:5011, Machinery.Result:Results ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6046, Machinery.Result:ResultMetaData, Machinery.Result:ResultMetaDataType, 0, 0 ]
+        - DisplayName: "ResultMetaData"
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasStructuredComponent:
           - [ UAVariable, Machinery.Result:6047, Machinery.Result:ResultId, TrimmedString, 0, 3 ]
+          - DisplayName: "ResultId"
+          - Description: "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType. If the system does not manage resultIds, it should always be set to “NA”."
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
@@ -576,12 +693,14 @@ DefinedTypes:
       - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
   - HasComponent:
     - [ UAObject, Machinery.Result:5010, Machinery.Result:ResultTransfer ]
+    - DisplayName: "ResultTransfer"
     - HasTypeDefinition:
       - [ UAObjectType, Machinery.Result:1003, Machinery.Result:ResultTransferType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6040, Machinery.Result:ClientProcessingTimeout, Duration, 0, 0 ]
+      - DisplayName: "ClientProcessingTimeout"
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -590,12 +709,14 @@ DefinedTypes:
         - [ UAObject, Machinery.Result:5010, Machinery.Result:ResultTransfer ]
     - HasComponent:
       - [ UAMethod, Machinery.Result:7003, Machinery.Result:CloseAndCommit ]
+      - DisplayName: "CloseAndCommit"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, Machinery.Result:5010, Machinery.Result:ResultTransfer ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6041, Machinery.Result:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             FileHandle: [ UInt32, 0 ]
         - HasTypeDefinition:
@@ -606,6 +727,7 @@ DefinedTypes:
           - [ UAMethod, Machinery.Result:7003, Machinery.Result:CloseAndCommit ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6042, Machinery.Result:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             CompletionStateMachine: [ NodeId, 0 ]
         - HasTypeDefinition:
@@ -616,12 +738,14 @@ DefinedTypes:
           - [ UAMethod, Machinery.Result:7003, Machinery.Result:CloseAndCommit ]
     - HasComponent:
       - [ UAMethod, Machinery.Result:7002, Machinery.Result:GenerateFileForRead ]
+      - DisplayName: "GenerateFileForRead"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, Machinery.Result:5010, Machinery.Result:ResultTransfer ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6038, Machinery.Result:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             GenerateOptions: [ Machinery.Result:BaseResultTransferOptionsDataType, 0 ]
         - HasTypeDefinition:
@@ -632,6 +756,7 @@ DefinedTypes:
           - [ UAMethod, Machinery.Result:7002, Machinery.Result:GenerateFileForRead ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6039, Machinery.Result:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileNodeId: [ NodeId, 0 ]
             FileHandle: [ UInt32, 0 ]
@@ -644,12 +769,14 @@ DefinedTypes:
           - [ UAMethod, Machinery.Result:7002, Machinery.Result:GenerateFileForRead ]
     - HasComponent:
       - [ UAMethod, Machinery.Result:7004, Machinery.Result:GenerateFileForWrite ]
+      - DisplayName: "GenerateFileForWrite"
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasComponent_reverse:
         - [ UAObject, Machinery.Result:5010, Machinery.Result:ResultTransfer ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6043, Machinery.Result:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
         - Arguments:
             GenerateOptions: [ BaseDataType, 0 ]
         - HasTypeDefinition:
@@ -660,6 +787,7 @@ DefinedTypes:
           - [ UAMethod, Machinery.Result:7004, Machinery.Result:GenerateFileForWrite ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6044, Machinery.Result:OutputArguments, Argument, 1, 0 ]
+        - DisplayName: "OutputArguments"
         - Arguments:
             FileNodeId: [ NodeId, 0 ]
             FileHandle: [ UInt32, 0 ]
@@ -676,14 +804,18 @@ DefinedTypes:
 
   Machinery.Result:ResultTransferType:
   - [ UAObjectType, Machinery.Result:1003, Machinery.Result:ResultTransferType ]
+  - DisplayName: "ResultTransferType"
+  - Description: "Transfers result data as a file."
   - HasComponent:
     - [ UAMethod, Machinery.Result:7001, Machinery.Result:GenerateFileForRead ]
+    - DisplayName: "GenerateFileForRead"
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent_reverse:
       - [ UAObjectType, Machinery.Result:1003, Machinery.Result:ResultTransferType ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6035, Machinery.Result:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
       - Arguments:
           GenerateOptions: [ Machinery.Result:BaseResultTransferOptionsDataType, 0 ]
       - HasTypeDefinition:
@@ -694,6 +826,7 @@ DefinedTypes:
         - [ UAMethod, Machinery.Result:7001, Machinery.Result:GenerateFileForRead ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6036, Machinery.Result:OutputArguments, Argument, 1, 0 ]
+      - DisplayName: "OutputArguments"
       - Arguments:
           FileNodeId: [ NodeId, 0 ]
           FileHandle: [ UInt32, 0 ]
