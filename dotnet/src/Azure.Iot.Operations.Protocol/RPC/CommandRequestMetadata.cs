@@ -65,9 +65,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
-        // Deliberately internal because DSS client uses this property to persist k/v pairs, but we don't expect users to want to persist commands in general
-        internal bool PersistCommand { get; set; } 
-
         /// <summary>
         /// Construct CommandRequestMetadata in user code, for passing to a command invocation.
         /// </summary>

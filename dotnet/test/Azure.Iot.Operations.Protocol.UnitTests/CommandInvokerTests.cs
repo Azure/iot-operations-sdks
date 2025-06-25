@@ -485,36 +485,5 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await Assert.ThrowsAsync<OperationCanceledException>(() => invoker.InvokeCommandAsync("someRequest", additionalTopicTokenMap: new Dictionary<string, string> { { "executorId", "someExecutor" } }, cancellationToken: cts.Token));
         }
-
-        [Fact]
-        public async Task InvokeWithPersistence()
-        {
-            MockMqttPubSubClient mock = new("mockClient");
-            InvokerStub stub = new(new ApplicationContext(), mock)
-            {
-                RequestTopicPattern = "command/{executorId}/mockCommand",
-                ResponseTopicPrefix = "not-uns/prefix/{invokerClientId}"
-            };
-
-            stub.TopicTokenMap["invokerClientId"] = "mockClient";
-
-            CommandRequestMetadata metadata = new()
-            {
-                PersistCommand = true
-            };
-
-            var invokeTask = stub.InvokeCommandAsync("req Payload", metadata, additionalTopicTokenMap: new Dictionary<string, string> { { "executorId", "stubServer" } });
-
-            // Wait until the invocation is "sent"
-            CancellationTokenSource cts = new CancellationTokenSource();
-            cts.CancelAfter(TimeSpan.FromSeconds(1));
-            while (mock.MessagesPublished.Count < 1)
-            {
-                await Task.Delay(TimeSpan.FromMilliseconds(10), cts.Token);
-            }
-
-            Assert.Single(mock.MessagesPublished);
-            Assert.True(mock.MessagesPublished.First().AioPersistence);
-        }
     }
 }

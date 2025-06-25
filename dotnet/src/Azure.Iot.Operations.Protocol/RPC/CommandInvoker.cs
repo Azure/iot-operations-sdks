@@ -547,13 +547,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     MessageExpiryInterval = (uint)reifiedCommandTimeout.TotalSeconds,
                 };
 
-                if (metadata != null && metadata.PersistCommand)
-                {
-                    // Only set this value if it is true since sending "aio-persistence":"false"
-                    // is the same as not sending "aio-persistence" user property at all
-                    requestMessage.AioPersistence = true;
-                }
-
                 string? clientId = _mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
                 {

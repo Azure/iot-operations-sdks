@@ -153,7 +153,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
                 .Setup(
                     mock => mock.InvokeAsync(
                         It.Is<byte[]>(array => array != null && Enumerable.SequenceEqual(array, expectedServiceRequestPayload)),
-                        It.Is<CommandRequestMetadata>(metadata => metadata.PersistCommand),
+                        It.Is<CommandRequestMetadata>(metadata => metadata.UserData.ContainsKey("aio-persistence")),
                         It.IsAny<Dictionary<string, string>>(),
                         expectedRequestTimeout,
                         cancellationToken))
@@ -173,7 +173,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             mockStateStoreGeneratedClient.Verify(
                     mock => mock.InvokeAsync(
                         It.Is<byte[]>(array => array != null && Enumerable.SequenceEqual(array, expectedServiceRequestPayload)),
-                        It.Is<CommandRequestMetadata>(metadata => metadata.PersistCommand),
+                        It.Is<CommandRequestMetadata>(metadata => metadata.UserData.ContainsKey("aio-persistence")),
                         null,
                         expectedRequestTimeout,
                         cancellationToken),

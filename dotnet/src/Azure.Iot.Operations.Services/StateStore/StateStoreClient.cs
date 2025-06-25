@@ -185,10 +185,11 @@ namespace Azure.Iot.Operations.Services.StateStore
             byte[] requestPayload = StateStorePayloadParser.BuildSetRequestPayload(key, value, options);
             Trace.TraceInformation($"SET {Encoding.ASCII.GetString(key.Bytes)}");
 
-            CommandRequestMetadata requestMetadata = new CommandRequestMetadata()
+            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            if (options.PersistEntry)
             {
-                PersistCommand = options.PersistEntry
-            };
+                requestMetadata.UserData.TryAdd("aio-persistence", "true");
+            }
 
             if (options.FencingToken != null)
             {
