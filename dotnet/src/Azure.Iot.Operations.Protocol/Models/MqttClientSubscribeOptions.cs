@@ -8,8 +8,6 @@ namespace Azure.Iot.Operations.Protocol.Models
 {
     public class MqttClientSubscribeOptions
     {
-        private const string AioPersistenceFlag = "aio-persistence";
-
         public MqttClientSubscribeOptions()
         {
         }
@@ -51,31 +49,6 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     <remarks>MQTT 5.0.0+ feature.</remarks>
         /// </summary>
         public List<MqttUserProperty>? UserProperties { get; set; }
-
-        /// <summary>
-        /// If set, this subscription will be persisted by the AIO MQTT broker.
-        /// </summary>
-        /// <remarks>
-        /// This feature is only applicable with the AIO MQTT broker.
-        /// </remarks>
-        public bool AioPersistence
-        {
-            get
-            {
-                if (UserProperties != null
-                    && UserProperties.TryGetProperty(AioPersistenceFlag, out string? value))
-                {
-                    return value!.Equals("true", StringComparison.Ordinal);
-                }
-
-                return false;
-            }
-            set
-            {
-                UserProperties ??= new();
-                UserProperties.Add(new(AioPersistenceFlag, value ? "true" : "false"));
-            }
-        }
 
         public void AddUserProperty(string key, string value)
         {
