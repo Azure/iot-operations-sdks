@@ -31,7 +31,7 @@ try
     };
 
     StateStoreSetResponse setResponse =
-        await stateStoreClient.SetAsync(stateStoreKey, stateStoreValue);
+        await stateStoreClient.SetAsync(stateStoreKey, stateStoreValue, setOptions);
 
     if (setResponse.Success)
     {
