@@ -1,0 +1,26 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Device
+metadata:
+  name: rest-factory
+  namespace: azure-iot-operations
+spec:
+  attributes:
+    deviceId: rest-factory
+    deviceType: factory-sensor
+  enabled: true
+  endpoints:
+    inbound:
+      rest-factory-endpoint:
+        address: rest-server-service.azure-iot-operations.svc.cluster.local:8000 # Address of the REST server service
+        additionalConfiguration: |-
+          {
+            "tlsEnabled": false
+          }
+        authentication:
+          # method: Anonymous
+          method: UsernamePassword
+          usernamePasswordCredentials:
+            passwordSecretName: testsecret/passwordKey
+            usernameSecretName: testsecret/usernameKey
+        endpointType: rest
+  version: 1

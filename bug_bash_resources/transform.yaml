@@ -1,0 +1,46 @@
+apiVersion: connectivity.iotoperations.azure.com/v1
+kind: Dataflow
+metadata:
+  name: rust-rest-to-event-hubs
+  namespace: azure-iot-operations
+spec:
+  mode: Enabled
+  operations:
+  - name: null
+    operationType: Source
+    sourceSettings:
+      assetRef: null
+      dataSources:
+      - weather/sensor
+      endpointRef: default
+      schemaRef: null
+      serializationFormat: Json
+  - builtInTransformationSettings:
+      datasets: 
+      - key: weather
+        inputs: []
+        expression: 1 == 1
+      filter: []
+      map:
+      - description: null
+        expression: null
+        inputs:
+        - '*'
+        output: '*'
+        type: PassThrough
+      - inputs:
+        - $context(weather).floorTemperature #  - $1 
+        output: FactoryTemperature
+      - inputs:
+        - $context(weather).floorId #  - $1 
+        output: FactoryFloorNumber
+      schemaRef: null
+      serializationFormat: Json
+    name: null
+    operationType: BuiltInTransformation
+  - destinationSettings:
+      dataDestination: myeh2406422sec
+      endpointRef: dfep2406422
+    name: null
+    operationType: Destination
+  profileRef: null

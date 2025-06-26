@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-server-deployment
+  namespace: azure-iot-operations
+  labels:
+    app: rest-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rest-server
+  template:
+    metadata:
+      labels:
+        app: rest-server
+    spec:
+      containers:
+      - name: rest-server
+        image: olkar240.azurecr.io/rest-server:v4
+        volumeMounts:
+        - name: testsecret-volume
+          mountPath: /var/secrets/testsecret
+          readOnly: true
+      volumes:
+      - name: testsecret-volume
+        secret:
+          secretName: testsecret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-server-service
+  namespace: azure-iot-operations
+  labels:
+    app: rest-server
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app: rest-server

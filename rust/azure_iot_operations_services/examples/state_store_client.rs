@@ -8,19 +8,35 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
-use azure_iot_operations_services::state_store::{self, SetOptions};
+use azure_iot_operations_services::state_store::{self, SetOptions, Response};
 use env_logger::Builder;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a Session and exit handle
-    let connection_settings = MqttConnectionSettingsBuilder::from_environment()?.build()?;
+
+     let client_id = "state_store_test_client";
+ 
+    let port = 1884u16;
+    let host = "127.0.0.1";
+ 
+    let connection_settings = MqttConnectionSettingsBuilder::default();
+    let connection_settings = connection_settings
+        .hostname(host)
+        .tcp_port(port)
+        .client_id(client_id)
+        .use_tls(false)
+        .build()
+        .map_err(|err| format!("Could not build connection settings: {err}"))?;
+
+    // let connection_settings = MqttConnectionSettingsBuilder::from_environment()?.build()?;
+    log::info!("Connection settings: {connection_settings:?}");
     let session_options = SessionOptionsBuilder::default()
         .connection_settings(connection_settings)
         .build()?;
@@ -51,57 +67,74 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 async fn state_store_operations(client: state_store::Client<SessionManagedClient>) {
-    let state_store_key = b"someKey";
-    let state_store_value = b"someValue";
+    let state_store_key = b"factory";
+    // let state_store_value = b"someValue";
     let timeout = Duration::from_secs(10);
 
-    let observe_response = client
-        .observe(state_store_key.to_vec(), Duration::from_secs(10))
-        .await;
-    log::info!("Observe response: {observe_response:?}");
+    // let observe_response = client
+    //     .observe(state_store_key.to_vec(), Duration::from_secs(10))
+    //     .await;
+    // log::info!("Observe response: {observe_response:?}");
 
-    tokio::task::spawn({
-        async move {
-            if let Ok(mut response) = observe_response {
-                while let Some((notification, _)) = response.response.recv_notification().await {
-                    log::info!("Notification: {notification:?}");
-                }
-                log::info!("Notification receiver closed");
+    // tokio::task::spawn({
+    //     async move {
+    //         if let Ok(mut response) = observe_response {
+    //             while let Some((notification, _)) = response.response.recv_notification().await {
+    //                 log::info!("Notification: {notification:?}");
+    //             }
+    //             log::info!("Notification receiver closed");
+    //         }
+    //     }
+    // });
+
+    // match client
+    //     .set(
+    //         state_store_key.to_vec(),
+    //         state_store_value.to_vec(),
+    //         timeout,
+    //         None,
+    //         SetOptions {
+    //             expires: Some(Duration::from_secs(60)),
+    //             ..SetOptions::default()
+    //         },
+    //     )
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Set response: {response:?}"),
+    //     Err(e) => log::error!("Set error: {e:?}"),
+    // }
+
+    // match client.get(state_store_key.to_vec(), timeout).await {
+    //     Ok(response) => log::info!("Get response: {response:?}") {}
+    //     Err(e) => log::error!("Get error: {e:?}"),
+    // }
+
+        
+   match client.get(state_store_key.to_vec(), timeout).await {
+    Ok(response) => {
+        log::info!("Get response: {response:?}");
+        let result_string = match response.response { // or response.data
+            Some(bytes) => {
+                String::from_utf8(bytes)
+                    .unwrap_or_else(|_| "[Invalid UTF-8]".to_string())
             }
-        }
-    });
-
-    match client
-        .set(
-            state_store_key.to_vec(),
-            state_store_value.to_vec(),
-            timeout,
-            None,
-            SetOptions {
-                expires: Some(Duration::from_secs(60)),
-                ..SetOptions::default()
-            },
-        )
-        .await
-    {
-        Ok(response) => log::info!("Set response: {response:?}"),
-        Err(e) => log::error!("Set error: {e:?}"),
+            None => "[Not Found]".to_string(),
+        };
+        
+        log::info!("Converted string: {}", result_string);
     }
+    Err(e) => log::error!("Get error: {e:?}"),
+}
 
-    match client.get(state_store_key.to_vec(), timeout).await {
-        Ok(response) => log::info!("Get response: {response:?}"),
-        Err(e) => log::error!("Get error: {e:?}"),
-    }
+    // match client.unobserve(state_store_key.to_vec(), timeout).await {
+    //     Ok(response) => log::info!("Unobserve response: {response:?}"),
+    //     Err(e) => log::error!("Unobserve error: {e:?}"),
+    // }
 
-    match client.unobserve(state_store_key.to_vec(), timeout).await {
-        Ok(response) => log::info!("Unobserve response: {response:?}"),
-        Err(e) => log::error!("Unobserve error: {e:?}"),
-    }
-
-    match client.del(state_store_key.to_vec(), None, timeout).await {
-        Ok(response) => log::info!("Delete response: {response:?}"),
-        Err(e) => log::error!("Delete error: {e:?}"),
-    }
+    // match client.del(state_store_key.to_vec(), None, timeout).await {
+    //     Ok(response) => log::info!("Delete response: {response:?}"),
+    //     Err(e) => log::error!("Delete error: {e:?}"),
+    // }
 
     match client.shutdown().await {
         Ok(()) => log::info!("State Store client shutdown successfully"),

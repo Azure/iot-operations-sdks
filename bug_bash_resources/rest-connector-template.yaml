@@ -1,0 +1,35 @@
+apiVersion: akri.microsoft.com/v1beta1
+kind: ConnectorTemplate
+metadata:
+  name: rest-connector
+  namespace: azure-iot-operations
+spec:
+  version: "1.0"
+  aioMetadata:
+    aioMaxVersion: "3.0"
+    aioMinVersion: "0.0"
+  diagnostics:
+    logs:
+      level: "info"
+  deviceInboundEndpointTypes:
+  - endpointType: rest
+    version: "0.0.1"
+  runtimeConfiguration:
+    runtimeConfigurationType: managedConfiguration
+    managedConfigurationSettings:
+      managedConfigurationType: imageConfiguration
+      imageConfigurationSettings:
+        registrySettings:
+          registrySettingsType: containerRegistry
+          containerRegistrySettings:
+            registry: "akribuilds.azurecr.io"
+        imageName: "akri-connectors/rest"
+        imagePullPolicy: Always
+        replicas: 1
+        tagDigestSettings:
+          tagDigestType: tag
+          tag: "0.1.3-alpha.4"
+      # trustSettings:
+      #   trustListSecretRef: connector-trust-list
+  mqttConnectionConfiguration:
+    host: "aio-broker:18883"

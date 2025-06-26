@@ -1,0 +1,44 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Asset
+metadata:
+  name: rest-weather-sensor-asset
+  namespace: azure-iot-operations
+spec:
+  # attributes: # This part of the spec is currently broken in the operator. Re-enable later
+  #   assetId: my-rest-thermostat-asset
+  #   assetType: thermostat
+  datasets:
+    - name: weather-sensor-dataset-default
+      dataSource: testsensor/1
+      datasetConfiguration: |-
+        {
+          "samplingIntervalInMilliseconds": 30000
+        }
+      destinations:
+        - configuration:
+            topic: weather/sensor
+          target: Mqtt
+      dataPoints:
+        - dataSource: temperature
+          name: contosoTemperature
+        - dataSource: id
+          name: contosoId
+    - name: weather-sensor-dataset-dss
+      dataSource: testsensor/1
+      datasetConfiguration: |-
+        {
+          "samplingIntervalInMilliseconds": 40000
+        }
+      destinations:
+        - configuration:
+            key: weather
+          target: BrokerStateStore
+      dataPoints:
+        - dataSource: temperature
+          name: floorTemperature
+        - dataSource: id
+          name: floorId
+  deviceRef:
+    deviceName: rest-weather-sensor
+    endpointName: rest-weather-sensor-endpoint
+  version: 1
