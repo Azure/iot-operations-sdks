@@ -179,6 +179,11 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
+        if (applicationMessage.AioPersistence && !applicationMessage.Retain)
+        {
+            throw new InvalidOperationException("Only retained messages can be persisted. Must set the retain flag on this message to persist it.");
+        }
+
         await ValidateMessageSize(applicationMessage);
         return MqttNetConverter.ToGeneric(await UnderlyingMqttClient.PublishAsync(MqttNetConverter.FromGeneric(applicationMessage), cancellationToken));
     }

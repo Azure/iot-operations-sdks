@@ -139,7 +139,15 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     ContentType = serializedPayloadContext.ContentType,
                     MessageExpiryInterval = (uint)verifiedMessageExpiryInterval.TotalSeconds,
                     Payload = serializedPayloadContext.SerializedPayload,
+                    Retain = metadata.Retain,
                 };
+
+                if (metadata != null && metadata.PersistTelemetry)
+                {
+                    // Only set this value if it is true since sending "aio-persistence":"false"
+                    // is the same as not sending "aio-persistence" user property at all
+                    applicationMessage.AioPersistence = true;
+                }
 
                 if (metadata?.CloudEvent is not null)
                 {

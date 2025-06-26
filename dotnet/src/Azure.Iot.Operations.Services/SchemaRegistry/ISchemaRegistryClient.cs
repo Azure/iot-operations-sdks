@@ -16,8 +16,9 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// <param name="version">The version of the schema to fetch. If not specified, defaults to "1.0.0".</param>
     /// <param name="timeout">>An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the operation before completion if needed.</param>
-    /// <returns></returns>
+    /// <returns>Information about the requested schema</returns>
     Task<SchemaInfo?> GetAsync(string schemaId, string version = "1.0.0", TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
+
     /// <summary>
     /// Adds or updates a schema in the schema registry service with the specified content, format, type, and metadata.
     /// </summary>
@@ -29,6 +30,6 @@ public interface ISchemaRegistryClient : IAsyncDisposable
     /// about the schema in key-value format.</param>
     /// <param name="timeout">>An optional timeout for the operation, which specifies the maximum time allowed for the request to complete.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the operation before completion if needed.</param>
-    /// <returns></returns>
+    /// <returns>Information about the created/updated schema</returns>
     Task<SchemaInfo?> PutAsync(string schemaContent, SchemaFormat schemaFormat, SchemaType schemaType = SchemaType.MessageSchema, string version = "1.0.0", Dictionary<string, string> tags = default!, TimeSpan? timeout = default!, CancellationToken cancellationToken = default!);
 }

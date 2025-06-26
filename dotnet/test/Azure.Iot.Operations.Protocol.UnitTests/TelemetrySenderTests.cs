@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Runtime.Serialization;
+using System.Threading;
+using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
-using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.UnitTests.TestSerializers;
-using System.Runtime.Serialization;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests;
 
@@ -97,5 +98,25 @@ public class TelemetrySenderTests
         cts.Cancel();
         string telemetry = "someTelemetry";
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await sender.SendTelemetryAsync(telemetry, cancellationToken: cts.Token));
+    }
+
+    [Fact]
+    public async Task SendTelemetryWithPersistence()
+    {
+        MockMqttPubSubClient mockClient = new();
+        StringTelemetrySender sender = new(new ApplicationContext(), mockClient)
+        {
+            TopicPattern = "someTopicPattern"
+        };
+
+        OutgoingTelemetryMetadata metadata = new()
+        {
+            PersistTelemetry = true
+        };
+
+        await sender.SendTelemetryAsync("some telemetry payload", metadata);
+
+        Assert.Single(mockClient.MessagesPublished);
+        Assert.True(mockClient.MessagesPublished.First().AioPersistence);
     }
 }
