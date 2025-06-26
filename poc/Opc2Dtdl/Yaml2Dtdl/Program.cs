@@ -62,6 +62,7 @@
 
             Resolver resolver = new Resolver(resolverConfig);
             ParsingOptions parsingOptions = new ParsingOptions() { DtmiResolver = resolver.Resolve, AllowUndefinedExtensions = WhenToAllow.Never };
+            parsingOptions.ExtensionLimitContexts.Add(new Dtmi("dtmi:dtdl:limits:aio"));
             parsingOptions.ExtensionLimitContexts.Add(new Dtmi("dtmi:dtdl:limits:onvif"));
             ModelParser modelParser = new ModelParser(parsingOptions);
 

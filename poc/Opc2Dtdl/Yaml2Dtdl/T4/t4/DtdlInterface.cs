@@ -29,7 +29,7 @@ namespace Yaml2Dtdl
             this.Write(@"  {
     ""@context"": [
       ""dtmi:dtdl:context;4#limitless"",
-      ""dtmi:dtdl:limits:onvif;1"",
+      ""dtmi:dtdl:limits:aio;1"",
       ""dtmi:iotoperations:context;4"",
       ""dtmi:dtdl:extension:quantitativeTypes;2"",
       ""dtmi:dtdl:extension:mqtt;3"",
