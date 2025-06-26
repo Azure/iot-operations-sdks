@@ -7,7 +7,7 @@ using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
-    public struct ExtendedResponse<TResp>
+    public class ExtendedResponse<TResp>
         where TResp : class
     {
         // These two user properties are used to communicate application level errors in an RPC response message. Code is mandatory, but data is optional.

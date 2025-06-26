@@ -686,6 +686,25 @@ namespace Azure.Iot.Operations.Protocol.RPC
         }
 
         /// <summary>
+        /// Invoke the specified command.
+        /// </summary>
+        /// <param name="request">The payload of command request.</param>
+        /// <param name="metadata">The metadata of the command request.</param>
+        /// <param name="additionalTopicTokenMap">
+        /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>. If this map
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
+        /// </param>
+        /// <param name="commandTimeout">How long to wait for a command response. Note that each command executor also has a configurable timeout value that may be shorter than this value. <see cref="CommandExecutor{TReq, TResp}.ExecutionTimeout"/></param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The command response including the command response metadata</returns>
+        public IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(TReq request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+        {
+            // user shouldn't have to do the stitching. We do it. Ordering concerns, though?
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
         /// Dispose this object and the underlying mqtt client.
         /// </summary>
         /// <remarks>To avoid disposing the underlying mqtt client, use <see cref="DisposeAsync(bool)"/>.</remarks>
