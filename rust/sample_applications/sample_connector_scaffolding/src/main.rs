@@ -383,16 +383,17 @@ async fn handle_dataset(
         tokio::select! {
             // Monitor for device endpoint readiness changes
             _ = device_endpoint_ready_watcher_rx.changed() => {
-                log::info!("{dataset_log_identifier} Device endpoint ready state changed");
-
                 // Update our local device endpoint readiness state
                 is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
+
+                log::info!("{dataset_log_identifier} Device endpoint ready state changed to {is_device_endpoint_ready}");
             },
             // Monitor for device endpoint readiness changes
             _ = asset_ready_watcher_rx.changed() => {
-                log::info!("{dataset_log_identifier} Asset ready state changed");
                 // Update our local asset readiness state
                 is_asset_ready = *asset_ready_watcher_rx.borrow_and_update();
+
+                log::info!("{dataset_log_identifier} Asset ready state changed to {is_asset_ready}");
             },
             dataset_notification = dataset_client.recv_notification() => {
                 // Match the dataset notification to handle updates, deletions, or invalid updates
