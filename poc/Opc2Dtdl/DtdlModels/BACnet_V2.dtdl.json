@@ -2007,7 +2007,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Backup_Failure_Timeout",
         "displayName": "Backup_Failure_Timeout",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -2023,7 +2023,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Configuration_Files",
         "displayName": "Configuration_Files",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -2034,7 +2034,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Last_Restore_Time",
         "displayName": "Last_Restore_Time",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -2426,7 +2426,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Change_Of_State_Count",
         "displayName": "Change_Of_State_Count",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -2434,7 +2434,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Change_Of_State_Time",
         "displayName": "Change_Of_State_Time",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -2442,7 +2442,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time_Of_State_Count_Reset",
         "displayName": "Time_Of_State_Count_Reset",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -2913,7 +2913,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Last_Restart_Reason",
         "displayName": "Last_Restart_Reason",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -2921,7 +2921,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Restart_Notification_Recipients",
         "displayName": "Restart_Notification_Recipients",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -2932,7 +2932,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time_Of_Device_Restart",
         "displayName": "Time_Of_Device_Restart",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3037,7 +3037,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Elapsed_Active_Time",
         "displayName": "Elapsed_Active_Time",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3045,7 +3045,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time_Of_Active_Time_Reset",
         "displayName": "Time_Of_Active_Time_Reset",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3082,7 +3082,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TimeDelay",
         "displayName": "TimeDelay",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3090,7 +3090,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TimeDelayNormal",
         "displayName": "TimeDelayNormal",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3122,7 +3122,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PreviousCount",
         "displayName": "PreviousCount",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3130,7 +3130,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Threshold",
         "displayName": "Threshold",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3180,7 +3180,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AlarmValues",
         "displayName": "AlarmValues",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3212,7 +3212,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AlarmValues",
         "displayName": "AlarmValues",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3395,7 +3395,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AlarmValues",
         "displayName": "AlarmValues",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3452,7 +3452,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SelectedFlags",
         "displayName": "SelectedFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3502,7 +3502,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Bitmask",
         "displayName": "Bitmask",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -3510,7 +3510,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Increment",
         "displayName": "Increment",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -5127,7 +5127,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "FeedbackValueRef",
         "displayName": "FeedbackValueRef",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -5176,7 +5176,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -5184,7 +5184,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -5192,7 +5192,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitEnable",
         "displayName": "LimitEnable",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -5200,7 +5200,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6817,7 +6817,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6825,7 +6825,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighDiffLimit",
         "displayName": "HighDiffLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6833,7 +6833,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowDiffLimit",
         "displayName": "LowDiffLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6841,7 +6841,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SetpointReference",
         "displayName": "SetpointReference",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6890,7 +6890,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6898,7 +6898,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6906,7 +6906,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitEnable",
         "displayName": "LimitEnable",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6914,7 +6914,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6963,7 +6963,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6971,7 +6971,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6979,7 +6979,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitEnable",
         "displayName": "LimitEnable",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -6987,7 +6987,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -7036,7 +7036,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -7044,7 +7044,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -7052,7 +7052,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitEnable",
         "displayName": "LimitEnable",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -7060,7 +7060,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -7092,7 +7092,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -7100,7 +7100,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9147,7 +9147,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Acked_Transitions",
         "displayName": "Acked_Transitions",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9179,7 +9179,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_Enable",
         "displayName": "Event_Enable",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9209,7 +9209,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_State",
         "displayName": "Event_State",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9217,7 +9217,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_Time_Stamps",
         "displayName": "Event_Time_Stamps",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9228,7 +9228,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notification_Class",
         "displayName": "Notification_Class",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9236,7 +9236,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notify_Type",
         "displayName": "Notify_Type",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9276,7 +9276,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Recorded_Since_Notification",
         "displayName": "Recorded_Since_Notification",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9329,7 +9329,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "FaultValues",
         "displayName": "FaultValues",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9364,7 +9364,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "FaultValues",
         "displayName": "FaultValues",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -9487,7 +9487,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Reliability",
         "displayName": "Reliability",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11437,7 +11437,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Max_Info_Frames",
         "displayName": "Max_Info_Frames",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11445,7 +11445,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Max_Master",
         "displayName": "Max_Master",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11495,7 +11495,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Object_Identifier",
         "displayName": "Object_Identifier",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11567,7 +11567,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11583,7 +11583,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11716,7 +11716,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11727,7 +11727,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11864,7 +11864,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11872,7 +11872,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -11968,7 +11968,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Polarity",
         "displayName": "Polarity",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -12087,7 +12087,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Polarity",
         "displayName": "Polarity",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -12095,7 +12095,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -12106,7 +12106,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -12624,7 +12624,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Date_List",
         "displayName": "Date_List",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15016,7 +15016,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "APDU_Timeout",
         "displayName": "APDU_Timeout",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15024,7 +15024,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Application_Software_Version",
         "displayName": "Application_Software_Version",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15032,7 +15032,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Database_Revision",
         "displayName": "Database_Revision",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15040,7 +15040,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Device_Address_Binding",
         "displayName": "Device_Address_Binding",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15051,7 +15051,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Firmware_Revision",
         "displayName": "Firmware_Revision",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15067,7 +15067,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Max_APDU_Length_Accepted",
         "displayName": "Max_APDU_Length_Accepted",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15083,7 +15083,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Model_Name",
         "displayName": "Model_Name",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15091,7 +15091,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Number_Of_APDU_Retries",
         "displayName": "Number_Of_APDU_Retries",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15099,7 +15099,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Protocol_Object_Types_Supported",
         "displayName": "Protocol_Object_Types_Supported",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15107,7 +15107,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Protocol_Revision",
         "displayName": "Protocol_Revision",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15115,7 +15115,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Protocol_Services_Supported",
         "displayName": "Protocol_Services_Supported",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15123,7 +15123,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Protocol_Version",
         "displayName": "Protocol_Version",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15131,7 +15131,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Segmentation_Supported",
         "displayName": "Segmentation_Supported",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15139,7 +15139,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Serial_Number",
         "displayName": "Serial_Number",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15147,7 +15147,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "System_Status",
         "displayName": "System_Status",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15155,7 +15155,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Vendor_Identifier",
         "displayName": "Vendor_Identifier",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -15163,7 +15163,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Vendor_Name",
         "displayName": "Vendor_Name",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -18722,7 +18722,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_State",
         "displayName": "Event_State",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -18730,7 +18730,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_Type",
         "displayName": "Event_Type",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -18738,7 +18738,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Fault_Type",
         "displayName": "Fault_Type",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -18746,7 +18746,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Object_Property_Reference",
         "displayName": "Object_Property_Reference",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -18754,7 +18754,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -19199,7 +19199,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Buffer_Size",
         "displayName": "Buffer_Size",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -19207,7 +19207,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Enable",
         "displayName": "Enable",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -19215,7 +19215,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Record_Count",
         "displayName": "Record_Count",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -19239,7 +19239,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -19255,7 +19255,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Stop_When_Full",
         "displayName": "Stop_When_Full",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -19263,7 +19263,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Total_Record_Count",
         "displayName": "Total_Record_Count",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -22697,7 +22697,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Align_Interval",
         "displayName": "Align_Interval",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24356,7 +24356,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Action",
         "displayName": "Action",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24364,7 +24364,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Controlled_Variable_Reference",
         "displayName": "Controlled_Variable_Reference",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24380,7 +24380,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Manipulated_Variable_Reference",
         "displayName": "Manipulated_Variable_Reference",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24388,7 +24388,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24404,7 +24404,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Setpoint_Reference",
         "displayName": "Setpoint_Reference",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24412,7 +24412,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24533,7 +24533,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24541,7 +24541,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24682,7 +24682,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24693,7 +24693,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -24972,7 +24972,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Recipient_List",
         "displayName": "Recipient_List",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -25025,7 +25025,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Ack_Required",
         "displayName": "Ack_Required",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -25033,7 +25033,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notification_Class",
         "displayName": "Notification_Class",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -25041,7 +25041,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority",
         "displayName": "Priority",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -27506,7 +27506,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Effective_Period",
         "displayName": "Effective_Period",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -27525,7 +27525,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "List_Of_Object_Property_References",
         "displayName": "List_Of_Object_Property_References",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -27536,7 +27536,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -27544,7 +27544,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority_For_Writing",
         "displayName": "Priority_For_Writing",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -27552,7 +27552,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -29348,7 +29348,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Node_Type",
         "displayName": "Node_Type",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -29367,7 +29367,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Subordinate_List",
         "displayName": "Subordinate_List",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -29843,7 +29843,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Align_Intervals",
         "displayName": "Align_Intervals",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -29851,7 +29851,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Interval_Offset",
         "displayName": "Interval_Offset",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -29859,7 +29859,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time_Synchronization_Interval",
         "displayName": "Time_Synchronization_Interval",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -30058,7 +30058,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notification_Class",
         "displayName": "Notification_Class",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -30066,7 +30066,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notify_Type",
         "displayName": "Notify_Type",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -30074,7 +30074,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "To_State",
         "displayName": "To_State",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -30105,7 +30105,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_Values",
         "displayName": "Event_Values",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31721,7 +31721,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "BufferProperty",
         "displayName": "BufferProperty",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31729,7 +31729,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CurrentNotification",
         "displayName": "CurrentNotification",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31737,7 +31737,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PreviousNotification",
         "displayName": "PreviousNotification",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31793,7 +31793,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReferencedBitString",
         "displayName": "ReferencedBitString",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31804,7 +31804,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31860,7 +31860,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AlarmValue",
         "displayName": "AlarmValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31868,7 +31868,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChangedValue",
         "displayName": "ChangedValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31876,7 +31876,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31932,7 +31932,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValue",
         "displayName": "NewValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -31940,7 +31940,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32562,7 +32562,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewState",
         "displayName": "NewState",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32570,7 +32570,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32644,7 +32644,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValue",
         "displayName": "NewValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32652,7 +32652,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32708,7 +32708,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CommandValue",
         "displayName": "CommandValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32716,7 +32716,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "FeedbackValue",
         "displayName": "FeedbackValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32724,7 +32724,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32780,7 +32780,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32788,7 +32788,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32796,7 +32796,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32804,7 +32804,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32860,7 +32860,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ErrorLimit",
         "displayName": "ErrorLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32868,7 +32868,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReferenceValue",
         "displayName": "ReferenceValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32876,7 +32876,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SetpointValue",
         "displayName": "SetpointValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32884,7 +32884,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32940,7 +32940,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32948,7 +32948,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32956,7 +32956,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -32964,7 +32964,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33020,7 +33020,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33028,7 +33028,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33036,7 +33036,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33044,7 +33044,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33100,7 +33100,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33108,7 +33108,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33116,7 +33116,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33124,7 +33124,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33180,7 +33180,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33188,7 +33188,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33196,7 +33196,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",
@@ -33361,7 +33361,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PropertyValues",
         "displayName": "PropertyValues",
         "namespace": "http://opcfoundation.org/UA/BACnet_V2",

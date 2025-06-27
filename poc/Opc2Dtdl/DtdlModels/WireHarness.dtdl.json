@@ -216,7 +216,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndTime",
         "displayName": "EndTime",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -224,7 +224,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobOrderID",
         "displayName": "JobOrderID",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -232,7 +232,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialDefinitionID",
         "displayName": "MaterialDefinitionID",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -240,7 +240,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductID",
         "displayName": "ProductID",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -248,7 +248,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResultIDs",
         "displayName": "ResultIDs",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -259,7 +259,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Run",
         "displayName": "Run",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -267,7 +267,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StartTime",
         "displayName": "StartTime",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -275,7 +275,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "State",
         "displayName": "State",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -306,7 +306,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndTime",
         "displayName": "EndTime",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -314,7 +314,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "GoodQuantity",
         "displayName": "GoodQuantity",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -322,7 +322,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobOrderID",
         "displayName": "JobOrderID",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -330,7 +330,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProducedQuantity",
         "displayName": "ProducedQuantity",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -338,7 +338,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductIDs",
         "displayName": "ProductIDs",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -349,7 +349,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Run",
         "displayName": "Run",
         "namespace": "http://opcfoundation.org/UA/WireHarness",
@@ -357,7 +357,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StartTime",
         "displayName": "StartTime",
         "namespace": "http://opcfoundation.org/UA/WireHarness",

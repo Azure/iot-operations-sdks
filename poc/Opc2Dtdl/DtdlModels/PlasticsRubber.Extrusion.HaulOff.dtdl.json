@@ -22,7 +22,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClampClosed",
         "displayName": "ClampClosed",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.HaulOff",

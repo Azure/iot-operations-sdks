@@ -352,7 +352,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DateList",
         "displayName": "DateList",
         "description": "Array of elements each defining either a specific date or date pattern, or range of dates",
@@ -973,7 +973,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LocalTime",
         "displayName": "LocalTime",
         "description": "Provides information about the local time of the schedule Object. All scheduled times are UTC time. Clients need to consider this Property to calculate the local time of the schedule. If this Property is changed, it is server-specific whether the times of the schedule are adjusted or not.",
@@ -991,7 +991,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ApplyLastAfterStart",
         "displayName": "ApplyLastAfterStart",
         "description": "The ApplyLastAfterStart Property defines if the last set of actions shall be applied when starting the schedule Object",

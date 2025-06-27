@@ -281,7 +281,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Recommended",
         "displayName": "Recommended",
         "description": "Reflects the value of the property CleaningRequested of the CleaningUnitType",
@@ -314,7 +314,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Requested",
         "displayName": "Requested",
         "description": "Reflects the value of the MaintenanceRequested property of the object from which the event originates at the time the event was sent",
@@ -373,7 +373,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "description": "Reflects the value of the ConnectionOpen property at the time the event is triggered",
@@ -406,7 +406,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Active",
         "displayName": "Active",
         "description": "Reflects the value of the CleaningActive property of the CleaningUnitType at the time the condition was triggered",
@@ -439,7 +439,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Open",
         "displayName": "Open",
         "description": "Reflects the value of the ContainerOpen property of the FilterAidDeviceType at the time the condition was triggered",
@@ -472,7 +472,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Installed",
         "displayName": "Installed",
         "description": "Reflects the value of the DischargeContainerInstalled property of the DischargeSystemType at the time the event was sent",
@@ -531,7 +531,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "description": "Reflects the value of the FilterAidDeviceStatus property at the time the condition was triggered",
@@ -564,7 +564,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SwitchOn",
         "displayName": "SwitchOn",
         "description": "Reflects the value of the MaintenanceRequested property of the object from which the event originates at the time the event was sent",
@@ -597,7 +597,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Open",
         "displayName": "Open",
         "description": "Reflects the value of the WashingAgentDrainOpen property of the WetSeparatorType at the time the event was sent",
@@ -630,7 +630,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Open",
         "displayName": "Open",
         "description": "Reflects the value of the WashingAgentInflowOpen property of the WetSeparatorType at the time the event was sent",
@@ -663,7 +663,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Active",
         "displayName": "Active",
         "description": "Reflects the value of the SupplyActive property of the HighVoltageUnitType at the time the event was triggered",
@@ -705,7 +705,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CleaningActive",
         "displayName": "CleaningActive",
         "description": "Describes that the unit is currently in a cleaning cycle.",
@@ -955,7 +955,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaintenanceSwitchOn",
         "displayName": "MaintenanceSwitchOn",
         "description": "Status of a physical maintenance switch on the discharge system. True when the switch is on.",
@@ -1162,7 +1162,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Malfunction",
         "displayName": "Malfunction",
         "description": "Indicates that the filter aid device is malfunctioning. True in case of error. Malfunctions can be, for example, that there is no more filter aid or that there is a malfunction in the subsystems of the filter aid device.",
@@ -1294,7 +1294,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Malfunction",
         "displayName": "Malfunction",
         "description": "Malfunction describes that the filter system has a collective fault message. True in case of error.",
@@ -1467,7 +1467,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Malfunction",
         "displayName": "Malfunction",
         "description": "One or more subsystems of the filter unit have a malfunction. True in case of error.",

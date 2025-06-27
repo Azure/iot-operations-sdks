@@ -146,7 +146,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type.",
@@ -182,7 +182,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Manufacturer",
         "displayName": "Manufacturer",
         "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
@@ -236,7 +236,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SerialNumber",
         "displayName": "SerialNumber",
         "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
@@ -354,7 +354,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",
@@ -414,7 +414,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",
@@ -464,7 +464,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type.",
@@ -505,7 +505,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",
@@ -719,7 +719,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",

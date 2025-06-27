@@ -73,7 +73,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/PADIM",
@@ -312,7 +312,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SignalTag",
         "displayName": "Tag",
         "namespace": "http://opcfoundation.org/UA/PADIM",

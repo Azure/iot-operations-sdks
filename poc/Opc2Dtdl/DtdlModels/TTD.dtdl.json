@@ -44,7 +44,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndTime",
         "displayName": "EndTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -52,7 +52,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StartTime",
         "displayName": "StartTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -60,7 +60,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TotalInitializingTime",
         "displayName": "TotalInitializingTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -68,7 +68,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TotalInterruptedTime",
         "displayName": "TotalInterruptedTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -76,7 +76,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TotalRunningTime",
         "displayName": "TotalRunningTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -153,7 +153,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastExecutionTime",
         "displayName": "LastExecutionTime",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -264,7 +264,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RecipeIds",
         "displayName": "RecipeIds",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -574,7 +574,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AvailableExchangeableParts",
         "displayName": "AvailableExchangeableParts",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -585,7 +585,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InstalledTesterModules",
         "displayName": "InstalledTesterModules",
         "namespace": "http://opcfoundation.org/UA/TTD",
@@ -596,7 +596,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TestProcedureIds",
         "displayName": "TestProcedureIds",
         "namespace": "http://opcfoundation.org/UA/TTD",

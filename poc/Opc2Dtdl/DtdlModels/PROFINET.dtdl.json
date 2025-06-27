@@ -159,7 +159,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Accumulative",
         "displayName": "Accumulative",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -167,7 +167,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "API",
         "displayName": "API",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -175,7 +175,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChannelErrorType",
         "displayName": "ChannelErrorType",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -183,7 +183,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChannelNumber",
         "displayName": "ChannelNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -191,7 +191,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Direction",
         "displayName": "Direction",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -247,7 +247,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Slot",
         "displayName": "Slot",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -255,7 +255,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Specifier",
         "displayName": "Specifier",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -263,7 +263,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Subslot",
         "displayName": "Subslot",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -271,7 +271,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Type",
         "displayName": "Type",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -279,7 +279,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserStructureIdentifier",
         "displayName": "UserStructureIdentifier",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -358,7 +358,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AssetChange",
         "displayName": "AssetChange",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -366,7 +366,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AssetType",
         "displayName": "AssetType",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -889,7 +889,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceId",
         "displayName": "DeviceId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -905,7 +905,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceRole",
         "displayName": "DeviceRole",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -921,7 +921,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NameOfStation",
         "displayName": "NameOfStation",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -945,7 +945,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VendorId",
         "displayName": "VendorId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -1028,7 +1028,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IdentNumber",
         "displayName": "IdentNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -1036,7 +1036,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Slot",
         "displayName": "Slot",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -1422,7 +1422,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "API",
         "displayName": "API",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -1446,7 +1446,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IdentNumber",
         "displayName": "IdentNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -1454,7 +1454,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Subslot",
         "displayName": "Subslot",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2063,7 +2063,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2087,7 +2087,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Type",
         "displayName": "Type",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2155,7 +2155,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Annotation",
         "displayName": "Annotation",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2163,7 +2163,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceId",
         "displayName": "DeviceId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2171,7 +2171,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceSubId",
         "displayName": "DeviceSubId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2187,7 +2187,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Location",
         "displayName": "Location",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2195,7 +2195,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OrderId",
         "displayName": "OrderId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2203,7 +2203,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Organization",
         "displayName": "Organization",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2211,7 +2211,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SerialNumber",
         "displayName": "SerialNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2227,7 +2227,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TypeIdentification",
         "displayName": "TypeIdentification",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2235,7 +2235,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UniqueIdentifier",
         "displayName": "UniqueIdentifier",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2243,7 +2243,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VendorId",
         "displayName": "VendorId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2420,7 +2420,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HardwareRevision",
         "displayName": "HardwareRevision",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2447,7 +2447,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OrderId",
         "displayName": "OrderId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2455,7 +2455,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProfileId",
         "displayName": "ProfileId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2463,7 +2463,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProfileSpecificType",
         "displayName": "ProfileSpecificType",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2479,7 +2479,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SerialNumber",
         "displayName": "SerialNumber",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2495,7 +2495,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2519,7 +2519,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VendorId",
         "displayName": "VendorId",
         "namespace": "http://opcfoundation.org/UA/PROFINET",
@@ -2527,7 +2527,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Version",
         "displayName": "Version",
         "namespace": "http://opcfoundation.org/UA/PROFINET",

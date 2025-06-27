@@ -89,7 +89,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CurrentLotName",
         "displayName": "CurrentLotName",
         "description": "Name of the current production lot",
@@ -98,7 +98,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobStatus",
         "displayName": "JobStatus",
         "description": "Current status of the job",
@@ -320,7 +320,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HelpText",
         "displayName": "HelpText",
         "description": "Text with additional information for the operator",
@@ -383,7 +383,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Classification",
         "displayName": "Classification",
         "description": "Classification of the message",
@@ -392,7 +392,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the message",
@@ -401,7 +401,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsStandstillMessage",
         "displayName": "IsStandstillMessage",
         "description": "Indication if the message has led to a standstill",
@@ -617,7 +617,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "CurrentLotName",
         "displayName": "CurrentLotName",
         "description": "Name of the current production lot",
@@ -626,7 +626,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "CycleQuality",
         "displayName": "CycleQuality",
         "description": "Quality of the whole cycle",
@@ -635,7 +635,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "CycleTime",
         "displayName": "CycleTime",
         "description": "Cycle time",
@@ -644,7 +644,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "JobBadPartsCounter",
         "displayName": "JobBadPartsCounter",
         "description": "Number of bad parts produced in the current job",
@@ -653,7 +653,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "JobCycleCounter",
         "displayName": "JobCycleCounter",
         "description": "Number of the cycle in the job",
@@ -662,7 +662,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "JobGoodPartsCounter",
         "displayName": "JobGoodPartsCounter",
         "description": "Number of good parts produced in the current job",
@@ -671,7 +671,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "JobName",
         "displayName": "JobName",
         "description": "Name of the job",
@@ -680,7 +680,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "JobPartsCounter",
         "displayName": "JobPartsCounter",
         "description": "Total number of parts produced in the current job",
@@ -689,7 +689,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "JobStatus",
         "displayName": "JobStatus",
         "description": "Current status of the job",
@@ -698,7 +698,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "JobTestSamplesCounter",
         "displayName": "JobTestSamplesCounter",
         "description": "Number of test sample parts produced in the current job",
@@ -812,7 +812,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InputNode",
         "displayName": "InputNode",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -820,7 +820,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Result",
         "displayName": "Result",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -882,7 +882,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventOriginator",
         "displayName": "EventOriginator",
         "description": "Originator of a logbook event",
@@ -967,7 +967,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewMachineMode",
         "displayName": "NewMachineMode",
         "description": "New machine mode",
@@ -976,7 +976,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldMachineMode",
         "displayName": "OldMachineMode",
         "description": "Old machine mode",
@@ -1009,7 +1009,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Classification",
         "displayName": "Classification",
         "description": "Classification of the message",
@@ -1018,7 +1018,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the message",
@@ -1027,7 +1027,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsStandstillMessage",
         "displayName": "IsStandstillMessage",
         "description": "Indication if the message has led to a standstill",
@@ -1060,7 +1060,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValue",
         "displayName": "NewValue",
         "description": "New value of the changed parameter",
@@ -1078,7 +1078,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValue",
         "displayName": "OldValue",
         "description": "Old value of the changed parameter",
@@ -1096,7 +1096,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ParameterId",
         "displayName": "ParameterId",
         "description": "Id of the changed parameter",
@@ -1129,7 +1129,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewProductionDatasetName",
         "displayName": "NewProductionDatasetName",
         "description": "Name of new production dataset",
@@ -1138,7 +1138,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldProductionDatasetName",
         "displayName": "OldProductionDatasetName",
         "description": "Name of old production dataset",
@@ -1171,7 +1171,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValue",
         "displayName": "NewValue",
         "description": "Information if the production dataset is now locked",
@@ -1180,7 +1180,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValue",
         "displayName": "OldValue",
         "description": "Information if the production dataset was locked",
@@ -1247,7 +1247,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewProductionStatus",
         "displayName": "NewProductionStatus",
         "description": "New production status",
@@ -1256,7 +1256,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldProductionStatus",
         "displayName": "OldProductionStatus",
         "description": "Old production status",
@@ -1316,7 +1316,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RemoteUserName",
         "displayName": "RemoteUserName",
         "description": "Name of the remote user (e.g. name of the service employee doing remote service)",
@@ -1325,7 +1325,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserChange",
         "displayName": "UserChange",
         "description": "Information if the user logs in or off",
@@ -1388,7 +1388,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SequenceChange",
         "displayName": "SequenceChange",
         "description": "Classification of production sequence change",
@@ -1421,7 +1421,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StandstillReasonId",
         "displayName": "StandstillReasonId",
         "description": "Id of the standstill reason",
@@ -1454,7 +1454,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Classification",
         "displayName": "Classification",
         "description": "Classification of the message",
@@ -1505,7 +1505,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserChange",
         "displayName": "UserChange",
         "description": "Information if the user logs in or off",
@@ -1537,7 +1537,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -1591,7 +1591,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobName",
         "displayName": "JobName",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -1645,7 +1645,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MouldId",
         "displayName": "MouldId",
         "description": "Id of the mould for which the available production datasets are requested",
@@ -1654,7 +1654,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NameFilter",
         "displayName": "NameFilter",
         "description": "Filtering the list of production datasets by name",
@@ -1709,7 +1709,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the production dataset that should be transferred from the server to the client",
@@ -1718,7 +1718,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Storage",
         "displayName": "Storage",
         "description": "Indication from where the dataset is read",
@@ -1773,7 +1773,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Components",
         "displayName": "Components",
         "description": "Array which indicates which parts of the production dataset shall be activated in the machine control after writing",
@@ -1785,7 +1785,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the production dataset that should be transferred from the client to the server",
@@ -1794,7 +1794,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Storage",
         "displayName": "Storage",
         "description": "Indication where the dataset is written to",
@@ -1948,7 +1948,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -1991,7 +1991,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -2159,7 +2159,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ContinueAtJobEnd",
         "displayName": "ContinueAtJobEnd",
         "description": "Indication if the machine continues the production even if the nominal output has been reached",
@@ -2168,7 +2168,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CustomerName",
         "displayName": "CustomerName",
         "description": "Name of the customer for that the job is produced",
@@ -2177,7 +2177,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobDescription",
         "displayName": "JobDescription",
         "description": "Description of the job",
@@ -2186,7 +2186,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobName",
         "displayName": "JobName",
         "description": "Name of the job",
@@ -2195,7 +2195,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Material",
         "displayName": "Material",
         "description": "Array of material names used for the job",
@@ -2207,7 +2207,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductDescription",
         "displayName": "ProductDescription",
         "description": "Array of descriptions of the products produced by the job",
@@ -2219,7 +2219,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionDatasetDescription",
         "displayName": "ProductionDatasetDescription",
         "description": "Additional description of the production dataset which is needed for the job",
@@ -2228,7 +2228,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionDatasetName",
         "displayName": "ProductionDatasetName",
         "description": "Name of the production dataset which is needed for the job",
@@ -2237,7 +2237,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductName",
         "displayName": "ProductName",
         "description": "Array of product names produced by the job",
@@ -2301,7 +2301,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NominalParts",
         "displayName": "NominalParts",
         "description": "Total number (sum of all cavities) of parts that shall be produced by the job",
@@ -2690,7 +2690,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LocationName",
         "displayName": "LocationName",
         "description": "Description of the location of the machine given by the machine operator or OPC client",
@@ -2711,7 +2711,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TimeZoneOffset",
         "displayName": "TimeZoneOffset",
         "description": "Difference of the local time to Coordinated Universal Time (UTC) given by the machine operator or OPC client",
@@ -2720,7 +2720,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserMachineName",
         "displayName": "UserMachineName",
         "description": "Description of the machine given by the machine operator or OPC client",
@@ -2882,7 +2882,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StandstillReasons",
         "displayName": "StandstillReasons",
         "description": "List of the standstill reasons from which one is selected by the operator in the case of a standstill",
@@ -2894,7 +2894,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StandstillReasonsLockedByMES",
         "displayName": "StandstillReasonsLockedByMES",
         "description": "Indication if the list StandstillReasons has been modified by the MES and may not be changed by the machine",
@@ -2927,7 +2927,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StandstillReasonId",
         "displayName": "StandstillReasonId",
         "description": "Id of the StandstillReason set by the operator after a standstill occurs",
@@ -3058,7 +3058,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Indication if the machine is physically present and connected",
@@ -3067,7 +3067,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MachineMode",
         "displayName": "MachineMode",
         "description": "Current machine mode (as defined by mode selector on the machine)",
@@ -3154,7 +3154,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "description": "Maintenance status of the machine/device/component (represented by the parent element)",
@@ -3217,7 +3217,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DensityUnit",
         "displayName": "DensityUnit",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3225,7 +3225,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3313,7 +3313,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3321,7 +3321,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3359,7 +3359,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3398,7 +3398,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the message",
@@ -3407,7 +3407,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Message",
         "displayName": "Message",
         "description": "Text of the message",
@@ -3416,7 +3416,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Severity",
         "displayName": "Severity",
         "description": "Severity of the message",
@@ -3661,7 +3661,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlMode",
         "displayName": "ControlMode",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3669,7 +3669,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3677,7 +3677,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3741,7 +3741,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the mould",
@@ -3774,7 +3774,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3839,7 +3839,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Description",
         "displayName": "Description",
         "description": "Description of the installed mould",
@@ -3848,7 +3848,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the installed mould",
@@ -3857,7 +3857,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the mould",
@@ -3866,7 +3866,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Indication if the mould is physically present and connected",
@@ -3875,7 +3875,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MouldStatus",
         "displayName": "MouldStatus",
         "description": "Current (physical) status of the mould",
@@ -3917,7 +3917,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -3956,7 +3956,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the PowerUnit",
@@ -3965,7 +3965,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the power unit",
@@ -3974,7 +3974,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Indication if the power unit is physically present and connected",
@@ -3983,7 +3983,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PowerOn",
         "displayName": "PowerOn",
         "description": "Indication if the PowerUnit is switched on",
@@ -4113,7 +4113,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AutomaticRunEnabled",
         "displayName": "AutomaticRunEnabled",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -4129,7 +4129,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionReleasedByMES",
         "displayName": "ProductionReleasedByMES",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -4137,7 +4137,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionStatus",
         "displayName": "ProductionStatus",
         "description": "Production status when the machine is in automatic or semi-automatic mode",
@@ -4738,7 +4738,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Information",
         "displayName": "Information",
         "description": "Set of information on the production dataset",
@@ -4830,7 +4830,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Classification",
         "displayName": "Classification",
         "description": "Classification of the message",
@@ -4839,7 +4839,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the message",
@@ -4848,7 +4848,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Message",
         "displayName": "Message",
         "description": "Text of the message",
@@ -4857,7 +4857,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Severity",
         "displayName": "Severity",
         "description": "Severity of the message",
@@ -4930,7 +4930,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -5018,7 +5018,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the zone",
@@ -5027,7 +5027,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the zone",
@@ -5068,7 +5068,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -5188,7 +5188,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlMode",
         "displayName": "ControlMode",
         "description": "Indication how the temperature is currently controlled",
@@ -5197,7 +5197,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the zone",
@@ -5206,7 +5206,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Indication if the temperature zone is physically present and connected",
@@ -5215,7 +5215,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the zone",
@@ -5305,7 +5305,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Position",
         "displayName": "Position",
         "description": "Location of the temperature zone on a barrel. Counting starts with 1 beginning from the feeding. The highest position is at the nozzle.",
@@ -5448,7 +5448,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControllerName",
         "displayName": "ControllerName",
         "description": "Name of the machine controller",
@@ -5457,7 +5457,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SupportedLogbookEvents",
         "displayName": "SupportedLogbookEvents",
         "description": "Information which LogbookEvents are supported by the machine",
@@ -5493,7 +5493,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
@@ -5541,7 +5541,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the user",
@@ -5550,7 +5550,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "The machine can have instances for the maximum number of users that can be simultaneously logged in. TRUE if the instance of UserType represents a user that is currently logged in.",
@@ -5568,7 +5568,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the user",

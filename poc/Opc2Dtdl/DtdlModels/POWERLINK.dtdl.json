@@ -197,7 +197,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IndexRangeSize",
         "displayName": "IndexRangeSize",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",
@@ -205,7 +205,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IndexRangeStart",
         "displayName": "IndexRangeStart",
         "namespace": "http://opcfoundation.org/UA/POWERLINK",

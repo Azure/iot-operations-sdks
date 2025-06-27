@@ -424,7 +424,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Location",
         "displayName": "Location",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -432,7 +432,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialIdentifier",
         "displayName": "MaterialIdentifier",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -656,7 +656,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CoatingClass",
         "displayName": "CoatingClass",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -672,7 +672,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Orientation",
         "displayName": "Orientation",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -680,7 +680,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SignificantSide",
         "displayName": "SignificantSide",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -688,7 +688,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StructureAlignment",
         "displayName": "StructureAlignment",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -696,7 +696,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StructureClass",
         "displayName": "StructureClass",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -890,7 +890,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SpacerMaterialClass",
         "displayName": "SpacerMaterialClass",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1051,7 +1051,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MachineProcessingCoordinateSystem",
         "displayName": "MachineProcessingCoordinateSystem",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1273,7 +1273,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PlanFileFormat",
         "displayName": "PlanFileFormat",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1334,7 +1334,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1358,7 +1358,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",
@@ -1583,7 +1583,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobListIsRecommendation",
         "displayName": "JobListIsRecommendation",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",

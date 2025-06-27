@@ -1147,7 +1147,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RelatedEndpoint",
         "displayName": "RelatedEndpoint",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -1155,7 +1155,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RemovedEndpoint",
         "displayName": "RemovedEndpoint",
         "namespace": "http://opcfoundation.org/UA/FX.AC",
@@ -1928,7 +1928,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsControlled",
         "displayName": "IsControlled",
         "namespace": "http://opcfoundation.org/UA/FX.AC",

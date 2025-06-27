@@ -22,7 +22,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MouldId",
         "displayName": "MouldId",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Corrugator",

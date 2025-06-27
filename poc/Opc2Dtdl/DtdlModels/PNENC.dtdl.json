@@ -69,7 +69,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DiagnosisType",
         "displayName": "DiagnosisType",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -77,7 +77,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventCode",
         "displayName": "EventCode",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -85,7 +85,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventText",
         "displayName": "EventText",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -93,7 +93,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Reason",
         "displayName": "Reason",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -124,7 +124,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastLatchedPos",
         "displayName": "LastLatchedPos",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -132,7 +132,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LatchActive",
         "displayName": "LatchActive",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -171,7 +171,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastLatchedPos",
         "displayName": "LastLatchedPos",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -179,7 +179,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LatchActive",
         "displayName": "LatchActive",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -281,7 +281,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LogEntry",
         "displayName": "LogEntry",
         "namespace": "http://opcfoundation.org/UA/PNENC",
@@ -1355,7 +1355,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LogbookSize",
         "displayName": "LogbookSize",
         "namespace": "http://opcfoundation.org/UA/PNENC",

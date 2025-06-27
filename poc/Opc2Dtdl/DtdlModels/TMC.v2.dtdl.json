@@ -63,7 +63,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExternalAlarmCondition",
         "displayName": "ExternalAlarmCondition",
         "description": "The condition that causes the alarm.",
@@ -153,7 +153,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier for the carrier that has just entered.",
@@ -186,7 +186,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier for the carrier that is released.",
@@ -431,7 +431,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier for the carrier whose payload is modified",
@@ -440,7 +440,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Sublots",
         "displayName": "Sublots",
         "description": "The sublots after the modification.",
@@ -476,7 +476,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExecuteStateMachineStateNumber",
         "displayName": "ExecuteStateMachineStateNumber",
         "description": "The value of the state number attribute for the ExecuteStateMachine of the object containing the event notifier.",
@@ -485,7 +485,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StateMachineStateNumber",
         "displayName": "StateMachineStateNumber",
         "description": "The value of the state number attribute for the TMCStateMachine of the object containing the event notifier.",
@@ -494,7 +494,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserMachineName",
         "displayName": "UserMachineName",
         "description": "The name of the machine for the user.",
@@ -573,7 +573,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewControlMode",
         "displayName": "NewControlMode",
         "description": "The control mode after the change.",
@@ -582,7 +582,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldControlMode",
         "displayName": "OldControlMode",
         "description": "The control mode prior to the change.",
@@ -820,7 +820,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewMaterialLoadingPoints",
         "displayName": "NewMaterialLoadingPoints",
         "description": "The specification of the material loading points after the change.",
@@ -832,7 +832,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewMaterialOutputPoints",
         "displayName": "NewMaterialOutputPoints",
         "description": "The specification of the material output points after the change.",
@@ -844,7 +844,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewMaterialRejectionPoints",
         "displayName": "NewMaterialRejectionPoints",
         "description": "The specification of the material rejection points after the change.",
@@ -856,7 +856,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewMaterialStorageBuffers",
         "displayName": "NewMaterialStorageBuffers",
         "description": "The specification of the material storage buffers after the change.",
@@ -868,7 +868,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValidSince",
         "displayName": "NewValidSince",
         "description": "When the change to the specifications occurred.",
@@ -877,7 +877,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldMaterialLoadingPoints",
         "displayName": "OldMaterialLoadingPoints",
         "description": "The specification of the material loading points prior to the change.",
@@ -889,7 +889,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldMaterialOutputPoints",
         "displayName": "OldMaterialOutputPoints",
         "description": "The specification of the material output points prior to the change.",
@@ -901,7 +901,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldMaterialRejectionPoints",
         "displayName": "OldMaterialRejectionPoints",
         "description": "The specification of the material rejection points prior to the change.",
@@ -913,7 +913,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldMaterialStorageBuffers",
         "displayName": "OldMaterialStorageBuffers",
         "description": "The specification of the material storage buffers prior to the change.",
@@ -949,7 +949,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PONumber",
         "displayName": "PONumber",
         "description": "The PO number for the production order running in the machine module containing the node that generates the event.",
@@ -958,7 +958,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionStateMachineStateNumber",
         "displayName": "ProductionStateMachineStateNumber",
         "description": "The value of the state number attribute for the ProductionStateMachine of the machine module containing the event notifier.",
@@ -1010,7 +1010,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewDataSetEntries",
         "displayName": "NewDataSetEntries",
         "description": "The list of modified dataset entries.",
@@ -1022,7 +1022,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewDataSetID",
         "displayName": "NewDataSetID",
         "description": "The unique identifier for the dataset after the modification.",
@@ -1031,7 +1031,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldDataSetEntries",
         "displayName": "OldDataSetEntries",
         "description": "The list of dataset entries prior to the change.",
@@ -1043,7 +1043,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldDataSetID",
         "displayName": "OldDataSetID",
         "description": "The unique identifier for the dataset after the modification.",
@@ -1133,7 +1133,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DetectionMode",
         "displayName": "DetectionMode",
         "description": "The detection mode after the change.",
@@ -1199,7 +1199,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Duration",
         "displayName": "Duration",
         "description": "The duration of the downtime in seconds until the machine restarts.",
@@ -1220,7 +1220,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StopReasons",
         "displayName": "StopReasons",
         "description": "The stop reasons reported by the machine during the downtime.",
@@ -1256,7 +1256,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialPointID",
         "displayName": "MaterialPointID",
         "description": "The unique identifier of the material point (loading point, rejection point or output point).",
@@ -1265,7 +1265,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialPointMES_ID",
         "displayName": "MaterialPointMES_ID",
         "description": "The higher-level system unique identifier of the material point (loading point, rejection point or output point).",
@@ -1510,7 +1510,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RejectedSublot",
         "displayName": "RejectedSublot",
         "description": "The sublot of the rejected material.",
@@ -1755,7 +1755,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialSublot",
         "displayName": "MaterialSublot",
         "description": "The material sublot unloaded from the loading point.",
@@ -2316,7 +2316,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialSublot",
         "displayName": "MaterialSublot",
         "description": "The material sublot that is requested to be unloaded.",
@@ -2561,7 +2561,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialSublot",
         "displayName": "MaterialSublot",
         "description": "The material sublot that is presented.",
@@ -2638,7 +2638,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AggregationWindow",
         "displayName": "AggregationWindow",
         "description": "Tthe number of samples over which the aggregates are computed.",
@@ -2647,7 +2647,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastResetTime",
         "displayName": "LastResetTime",
         "description": "The time (in UTC) when ResetAggregates was last successfully executed.",
@@ -2728,7 +2728,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RejectionMode",
         "displayName": "RejectionMode",
         "description": "The rejection mode after the change.",
@@ -2839,7 +2839,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewState",
         "displayName": "NewState",
         "description": "The state after the change.",
@@ -2848,7 +2848,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldState",
         "displayName": "OldState",
         "description": "The state prior to the change.",
@@ -2905,7 +2905,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewRootCauseGroups",
         "displayName": "NewRootCauseGroups",
         "description": "The root cause groups after the change.",
@@ -2917,7 +2917,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldRootCauseGroups",
         "displayName": "OldRootCauseGroups",
         "description": "The root cause groups prior to the change.",
@@ -2967,7 +2967,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewRootCauseMessages",
         "displayName": "NewRootCauseMessages",
         "description": "The list of modified root cause messages.",
@@ -2979,7 +2979,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldRootCauseMessages",
         "displayName": "OldRootCauseMessages",
         "description": "The list of root cause messages prior to the change.",
@@ -3034,7 +3034,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewStopReasonMessages",
         "displayName": "NewStopReasonMessages",
         "description": "The list of modified stop reasons.",
@@ -3046,7 +3046,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldStopReasonMessages",
         "displayName": "OldStopReasonMessages",
         "description": "The list of stop reasons prior to the change.",
@@ -3082,7 +3082,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier of the carrier where the subcarrier is loaded.",
@@ -3091,7 +3091,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SubCarrierID",
         "displayName": "SubCarrierID",
         "description": "The unique identifier for the subcarrier that is loaded on the carrier.",
@@ -3124,7 +3124,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier for the carrier that ended loading.",
@@ -3157,7 +3157,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier for the carrier that staretd loading.",
@@ -3190,7 +3190,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier for the carrier that has been unloaded with the subcarrier.",
@@ -3199,7 +3199,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SubCarrierID",
         "displayName": "SubCarrierID",
         "description": "The unique identifier for the subcarrier that has been unloaded.",
@@ -3232,7 +3232,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier for the carrier that ended unloading.",
@@ -3265,7 +3265,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CarrierID",
         "displayName": "CarrierID",
         "description": "The unique identifier for the carrier that started unloading.",
@@ -3298,7 +3298,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PONumber",
         "displayName": "PONumber",
         "description": "The PO active when the production order state machine performed a transition.",
@@ -3307,7 +3307,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserMachineName",
         "displayName": "UserMachineName",
         "description": "The user name for the machine producing the production order.",
@@ -3594,7 +3594,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "FormFactor",
         "displayName": "FormFactor",
         "description": "The form factor of the carrier e.g., trolley, AGV, core, IBC, etc.",
@@ -3603,7 +3603,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ID",
         "displayName": "ID",
         "description": "The underlying system identification of the carrier.",
@@ -3612,7 +3612,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MES_ID",
         "displayName": "MES_ID",
         "description": "A higher-level system e.g., MES, identification of the carrier.",
@@ -3621,7 +3621,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ParentCarrierID",
         "displayName": "ParentCarrierID",
         "description": "The unique identifier of the carrier that contains the carrier in question.",
@@ -3972,7 +3972,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValidSince",
         "displayName": "ValidSince",
         "description": "The time of the last reset for the aggregates.",
@@ -4125,7 +4125,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValidSince",
         "displayName": "ValidSince",
         "description": "The UTC date and time when the configuration was last changed.",
@@ -4387,7 +4387,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlMode",
         "displayName": "ControlMode",
         "description": "The ControlMode describes the current control mode of the equipment module.",
@@ -4396,7 +4396,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "State",
         "displayName": "State",
         "description": "The State Property describes the status of the state machine controlling the control module. State provides a subset of the information of the state machine, when the latter is implemented.",
@@ -4802,7 +4802,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DetectionMode",
         "displayName": "DetectionMode",
         "description": "When DetectionMode is True, the defect reason is triggered. When DetectionMode is False, the defect reason is not active, i.e. never triggered.",
@@ -4895,7 +4895,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastChangeDate",
         "displayName": "LastChangeDate",
         "description": "The UTC date and time when the configuration was last changed.",
@@ -5157,7 +5157,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlMode",
         "displayName": "ControlMode",
         "description": "The ControlMode describes the current control mode of the equipment module.",
@@ -5166,7 +5166,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "State",
         "displayName": "State",
         "description": "The State Property describes the status of the state machine controlling the equipment module. State provides a subset of the information of the state machine, when the latter is implemented.",
@@ -5557,7 +5557,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastChangeDate",
         "displayName": "LastChangeDate",
         "description": "The Property LastChangeDate is the date and time of the last change applied to the machine module configuration and the effective date of the modification.",
@@ -5566,7 +5566,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LongestMicroStopDuration",
         "displayName": "LongestMicroStopDuration",
         "description": "The Property LongestMicroStopDuration is the maximum duration of a micro-stop in seconds, longer stops are not micro-stops. Operators are not required to enter a root cause for micro-stops.",
@@ -5575,7 +5575,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RootCauseGroupList",
         "displayName": "RootCauseGroupList",
         "description": "The Property RootCauseGroupList is the list of groups that root causes can be grouped in. They are defined by the end user.",
@@ -5587,7 +5587,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RootCauseList",
         "displayName": "RootCauseList",
         "description": "The Property RootCauseList is the complete list of the root causes that the end user has defined to classify and organize the downtime due to the machine module stops. The RootCauseList is user defined.",
@@ -5599,7 +5599,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RootCauseListInputIsMandatory",
         "displayName": "RootCauseListInputIsMandatory",
         "description": "The Property RootCauseListInputIsMandatory is true when the operator is mandatorily required to select the root cause that best describes the current stop situation. For micro- stops such requirement does not apply.",
@@ -5608,7 +5608,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StopReasonList",
         "displayName": "StopReasonList",
         "description": "The Property StopReasonList is a list containing the descriptors for all the possible machine module messages, including alarms and warnings. Messages include their localization. The list is defined, created and maintained by the OEM.",
@@ -5874,7 +5874,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValidUntil",
         "displayName": "ValidUntil",
         "description": "The ValidUntil Propertyontains the date and time the MachineModuleSpecification was last valid.",
@@ -6127,7 +6127,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlMode",
         "displayName": "ControlMode",
         "description": "The ControlMode property describes the current control mode of the machine.",
@@ -6136,7 +6136,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IdleEnergySavingMode",
         "displayName": "IdleEnergySavingMode",
         "description": "The IdleEnergySavingMode Property is set to True when the energy saving mode during the idle phase is set.",
@@ -6145,7 +6145,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "State",
         "displayName": "State",
         "description": "The Property State describes the status of the state machine controlling the machine module. State provides a subset of the information of the state machine, when the latter is implemented.",
@@ -6859,7 +6859,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionOrder",
         "displayName": "ProductionOrder",
         "description": "The production order header in execution at the machine module.",
@@ -6868,7 +6868,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionStatus",
         "displayName": "ProductionStatus",
         "description": "The execution status of the production order.",
@@ -7556,7 +7556,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSet",
         "displayName": "DataSet",
         "description": "DataSet contains all the digital settings (other than the mechanical settings stored in the folder MechanicalAdjustments) required by the machine module.",
@@ -7565,7 +7565,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialList",
         "displayName": "MaterialList",
         "description": "MaterialList contains the list of materials that are going to be used for the production of the current production order.",
@@ -8062,7 +8062,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LocationName",
         "displayName": "LocationName",
         "description": "The Property LocationName of type String contains the location of the machine module within the user production site.",
@@ -8071,7 +8071,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialLoadingPoints",
         "displayName": "MaterialLoadingPoints",
         "description": "The Property MaterialLoadingPoints identifies the loading points of the machine module and their capability in terms of what materials can be loaded at a loading point. The Property MaterialLoadingPoints is defined as a list of objects of type MaterialPointType.",
@@ -8083,7 +8083,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialOutputPoints",
         "displayName": "MaterialOutputPoints",
         "description": "The Property MaterialOutputPoints identifies the output points of the machine module and their capability in terms of what materials can be output The Property MaterialOutputPoints is defined as a list of objects of type MaterialPointType.",
@@ -8095,7 +8095,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialRejectionPoints",
         "displayName": "MaterialRejectionPoints",
         "description": "The Property MaterialRejectionPoints identifies the rejection points of the machine module and their capability in terms of what materials are rejected The Property MaterialRejectionPoints is defined as a list of objects of type MaterialPointType.",
@@ -8107,7 +8107,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialStorageBuffers",
         "displayName": "MaterialStorageBuffers",
         "description": "The Property MaterialStorageBuffers describes the buffers inside the machine module and their current status. The Property MaterialStorageBuffers is a list of objects of type MaterialStorageBufferDataType.",
@@ -8119,7 +8119,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TimeZone",
         "displayName": "TimeZone",
         "description": "The local time zone where the machine operates. It is required to convert UTC times into local time.",
@@ -8128,7 +8128,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TotalRunningHours",
         "displayName": "TotalRunningHours",
         "description": "The Property TotalRunningHours counts the number of hours the machine module has been in operation since the last time its configuration was changed.",
@@ -8137,7 +8137,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserMachineName",
         "displayName": "UserMachineName",
         "description": "The Property UserMachineName of type String contains the name used by the user to identify the machine module. LocationName and UserMachineName uniquely identify the machine module in the user organization.",
@@ -8146,7 +8146,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValidSince",
         "displayName": "ValidSince",
         "description": "The Property ValidSince is the date since the configuration was last modified.",
@@ -8651,7 +8651,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CanReceive",
         "displayName": "CanReceive",
         "description": "When True, material sublots or carriers can be stored in the material location. It is set by the underlying system to make the material location available for receiving.",
@@ -8660,7 +8660,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CanSend",
         "displayName": "CanSend",
         "description": "When True, material sublots or carriers can be removed in the material location. It is set by the underlying system to make the material location available for sending.",
@@ -8669,7 +8669,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ID",
         "displayName": "ID",
         "description": "The unique identifier for the material location.",
@@ -8678,7 +8678,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MES_ID",
         "displayName": "MES_ID",
         "description": "The unique identifier of the material location according to a higher-level system, e.g. MES or ERP.",
@@ -8799,7 +8799,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AggregationWindow",
         "displayName": "AggregationWindow",
         "description": "Tthe number of samples over which the aggregates are computed. When the number of aggregated samples since the last reset exceeds the AggregationWindow, the aggregates are rolled over, i.e. computed over the last AggregationWindow number of samples.",
@@ -8808,7 +8808,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastResetTime",
         "displayName": "LastResetTime",
         "description": "The time (in UTC) when ResetAggregates was last successfully executed.",
@@ -8976,7 +8976,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "OperatorControl",
         "displayName": "OperatorControl",
         "description": "The OperatorControl variable qualifies the source of the ProcessControlItem Value when RemoteControl is False, otherwise OperatorControl is undefined. When OperatorControl is True, the underlying system exposes the information that the ProcessControlItem Value is modified by the operator with respect to the nominal value, e.g. NominalRate, a.k.a. design speed for a speed control loop. When OperatorControl is False, the underlying system exposes the information that the ProcessControlItem Value is not modified by the operator.",
@@ -8985,7 +8985,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "RemoteControl",
         "displayName": "RemoteControl",
         "description": "The RemoteControl variable lets the underlying system expose which system is currently in control of the ProcessControlItem. More specifically, if RemoteControl is True, the underlying system copies the RemoteValue to the ProcesControlItem Value to drive it, i.e. the ProcessControlItem is remotely controlled. If RemoteControl is False, the underlying system is not using RemoteValue to drive the ProcessControlItem, but another value that is exposed as the ProcessControlItem Value, i.e. the ProcessControlItem is locally controlled. A client requests (resp. releases) control of the ProcessControlItem by setting RemoteControl to True (resp. False) preferably by invoking the SetRemoteControl Method. If the client does not support methods, then the client sets RemoteControl to True. The underlying system will reset RemoteControl to False if remote control is not activated.",
@@ -8994,7 +8994,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified", "Historized" ],
+        "@type": [ "Property", "Qualified", "Historized", "Required" ],
         "name": "RemoteControlEnable",
         "displayName": "RemoteControlEnable",
         "description": "The RemoteControlEnable variable exposes when the underlying system is ready to activate the RemoteControl upon a request by a client. When RemoteControlEnable is False, the underlying system is not ready and will not activate a request to remotely control the ProcessControlItem.",
@@ -9111,7 +9111,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DetectionMode",
         "displayName": "DetectionMode",
         "description": "When DetectionMode is True, the sensor function measures the sensor value and the inner defect reasons are enabled, meaning they can be active or not.",
@@ -9935,7 +9935,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionOrderHeader",
         "displayName": "ProductionOrderHeader",
         "description": "The ProductionOrderHeader of the production order in execution. When no production order is in execution, the ProductionOrderNumber in the ProductionOrderHeader is an empty string.",
@@ -10652,7 +10652,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DetectionMode",
         "displayName": "DetectionMode",
         "description": "When DetectionMode is True, the defect detection sensor or system detects defects and the inner sensor functions are enabled, meaning they can be active or not.",
@@ -10831,7 +10831,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Remote",
         "displayName": "Remote",
         "description": "When Remote is True, all methods exposed by the machine module and contained objects are executed and all variables marked as RW can be written to.",
@@ -11347,7 +11347,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AllowMixedLots",
         "displayName": "AllowMixedLots",
         "description": "When AllowMixedLots is False and BatchManaged in the material definition of the ExpectedMaterials is True, then one material lot will be processed i.e. the first material lot received.",
@@ -11356,7 +11356,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExpectedMaterials",
         "displayName": "ExpectedMaterials",
         "description": "The array of sublots of the material that are expected at the machine loading point for the current production.",
@@ -11368,7 +11368,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialIntegrityAgent",
         "displayName": "MaterialIntegrityAgent",
         "description": "MaterialIntegrityAgent defines how material validation is performed.",
@@ -11377,7 +11377,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialPointDefinition",
         "displayName": "MaterialPointDefinition",
         "description": "The Property MaterialPointDefinition contains the identification of the material point and the material that is processed.",
@@ -11386,7 +11386,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MES_ID",
         "displayName": "MES_ID",
         "description": "Unique identifier for the material point in an external system, e.g. MES.",
@@ -11395,7 +11395,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UpstreamHold",
         "displayName": "UpstreamHold",
         "description": "UpstreamHold is true when the loading point cannot receive more product and the upstream machine is required to stop loading, False when the loading point can receive product.",
@@ -11916,7 +11916,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DownstreamHeld",
         "displayName": "DownstreamHeld",
         "description": "When the downstream machine module cannot receive the product flow, the upstream machine is required to hold the transfer of product to the downstream machine module.",
@@ -11925,7 +11925,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialDefinition",
         "displayName": "MaterialDefinition",
         "description": "The Property MaterialPointDefinition contains the identification of the material point and the material that is processed.",
@@ -11934,7 +11934,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialPointDefinition",
         "displayName": "MaterialPointDefinition",
         "description": "The identification of the material output physical location and the material capabilities.",
@@ -11943,7 +11943,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MES_ID",
         "displayName": "MES_ID",
         "description": "Unique identifier for the material point in an external system, e.g. MES.",
@@ -12264,7 +12264,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialDefinition",
         "displayName": "MaterialDefinition",
         "description": "The material definition for the material to be rejected at the rejection trap",
@@ -12273,7 +12273,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialPointDefinition",
         "displayName": "MaterialPointDefinition",
         "description": "The Property MaterialPointDefinition contains the identification of the material point and the material that is processed.",
@@ -12282,7 +12282,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MES_ID",
         "displayName": "MES_ID",
         "description": "Unique identifier for the material point in an external system, e.g. MES.",
@@ -12291,7 +12291,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RejectionMode",
         "displayName": "RejectionMode",
         "description": "When RejectionMode is True, the rejection trap discharges material when triggered, otherwise no material is rejected.",
@@ -12616,7 +12616,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialPointDefinition",
         "displayName": "MaterialPointDefinition",
         "description": "The Property MaterialPointDefinition contains the identification of the material point and the material that is processed or stored in the buffer.",
@@ -12625,7 +12625,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MES_ID",
         "displayName": "MES_ID",
         "description": "Unique identifier for the material point in an external system, e.g. MES.",
@@ -12634,7 +12634,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MixingLogic",
         "displayName": "MixingLogic",
         "description": "MixingLogic identifies if and how materials can be mixed in the MaterialStorageBuffer.",
@@ -12643,7 +12643,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StorageLogic",
         "displayName": "StorageLogic",
         "description": "The logic used at the buffer storage to store and retrieve material.",
@@ -12652,7 +12652,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TotalStorageCapacity",
         "displayName": "TotalStorageCapacity",
         "description": "The total capacity of the material storage buffer.",
@@ -12838,7 +12838,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "WatchdogEnabled",
         "displayName": "WatchdogEnabled",
         "description": "When WatchdogEnable is True, if a ProcessControlLoop component’s RemoteControl is True and the time between two consecutive writes of the RemoteAnalogMeasurement is longer than WatchdogTimeout, then the underlying system will generate an alarm, set RemoteControl to False and take control of the loop. When WatchdogEnable is False, no watchdog alarm is generated.",
@@ -12847,7 +12847,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "WatchdogTimeout",
         "displayName": "WatchdogTimeout",
         "description": "The longest time between two write actions before a watchdog alarm is generated by the underlying system. The value is expressed in milliseconds.",
@@ -13385,7 +13385,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionOrdersRetentionTime",
         "displayName": "ProductionOrdersRetentionTime",
         "description": "The time in hours a ProductionOrderStateMachine is retained in memory after the production order is complete.",
@@ -13887,7 +13887,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PositionX",
         "displayName": "PositionX",
         "description": "PositionX is the relative horizontal position of the top-left corner of the object rendering in the target visualization scope.",
@@ -13896,7 +13896,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PositionY",
         "displayName": "PositionY",
         "description": "PositionX is the relative vertical position of the top-left corner of the object rendering in the target visualization scope.",
@@ -13905,7 +13905,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PositionZ",
         "displayName": "PositionZ",
         "description": "PositionZ is the depth of the object rendering in the target visualization scope.",
@@ -13914,7 +13914,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Resizable",
         "displayName": "Resizable",
         "description": "When Resizable is True, the UI resource Width is rescaled based on the actual display size.",
@@ -13923,7 +13923,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Width",
         "displayName": "Width",
         "description": "Width is the width of the object visualization in the target visualization scope.",

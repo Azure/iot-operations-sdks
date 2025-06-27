@@ -2013,7 +2013,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsHotSwappable",
         "displayName": "IsHotSwappable",
         "description": "True if an accessory can be inserted in the accessory slot while it is powered",
@@ -2022,7 +2022,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsEnabled",
         "displayName": "IsEnabled",
         "description": "True if this accessory slot is capable of accepting an accessory in it",
@@ -2242,7 +2242,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsHotSwappable",
         "displayName": "IsHotSwappable",
         "description": "True if this accessory can be inserted in the accessory slot while it is powered",
@@ -2251,7 +2251,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsReady",
         "displayName": "IsReady",
         "description": "True if this accessory is ready for use",

@@ -210,7 +210,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ErrorCode",
         "displayName": "ErrorCode",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -241,7 +241,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsAutomated",
         "displayName": "IsAutomated",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -272,7 +272,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -311,7 +311,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -436,7 +436,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobIdentifier",
         "displayName": "JobIdentifier",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -444,7 +444,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -489,7 +489,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobIdentifier",
         "displayName": "JobIdentifier",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -497,7 +497,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -755,7 +755,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1514,7 +1514,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1522,7 +1522,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1614,7 +1614,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ContainsMixedParts",
         "displayName": "ContainsMixedParts",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1748,7 +1748,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1802,7 +1802,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1810,7 +1810,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -1997,7 +1997,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PredictedTime",
         "displayName": "PredictedTime",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -2441,7 +2441,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/MachineTool",
@@ -2457,7 +2457,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
         "namespace": "http://opcfoundation.org/UA/DI",

@@ -125,7 +125,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "API",
         "displayName": "API",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -133,7 +133,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChannelErrorType",
         "displayName": "ChannelErrorType",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -149,7 +149,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Direction",
         "displayName": "Direction",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -173,7 +173,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HelpText",
         "displayName": "HelpText",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -205,7 +205,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Slot",
         "displayName": "Slot",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -213,7 +213,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Specifier",
         "displayName": "Specifier",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -221,7 +221,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Subslot",
         "displayName": "Subslot",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -229,7 +229,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserStructureIdentifier",
         "displayName": "UserStructureIdentifier",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -260,7 +260,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "BitLength",
         "displayName": "BitLength",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -268,7 +268,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "BitOffset",
         "displayName": "BitOffset",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -321,7 +321,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "BitOffset",
         "displayName": "BitOffset",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -329,7 +329,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Format",
         "displayName": "Format",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -360,7 +360,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Number",
         "displayName": "Number",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -425,7 +425,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Consistency",
         "displayName": "Consistency",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -532,7 +532,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValueProperty",
         "displayName": "<ValueProperty>",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -566,7 +566,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CommunicationStatus",
         "displayName": "CommunicationStatus",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",
@@ -574,7 +574,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConfigurationStatus",
         "displayName": "ConfigurationStatus",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM",

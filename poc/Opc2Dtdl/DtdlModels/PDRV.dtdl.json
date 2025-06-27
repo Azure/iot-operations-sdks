@@ -29,7 +29,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AxisType",
         "displayName": "AxisType",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -492,7 +492,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LogEntry",
         "displayName": "LogEntry",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -523,7 +523,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsUpperSwLimit",
         "displayName": "IsUpperSwLimit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -554,7 +554,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsUpperHwLimit",
         "displayName": "IsUpperHwLimit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -670,7 +670,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TorqueLimit",
         "displayName": "TorqueLimit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -701,7 +701,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MotorCurrentLimitHigh",
         "displayName": "MotorCurrentLimitHigh",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -777,7 +777,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ForceLimit",
         "displayName": "ForceLimit",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -808,7 +808,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AxisState",
         "displayName": "AxisState",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -816,7 +816,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlPriority",
         "displayName": "ControlPriority",
         "namespace": "http://opcfoundation.org/UA/PDRV",
@@ -912,7 +912,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "FeedbackSensor13Temperature",
         "displayName": "<FeedbackSensor1..3Temperature>",
         "namespace": "http://opcfoundation.org/UA/PDRV",

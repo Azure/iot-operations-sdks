@@ -52,7 +52,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ActivateAdditive",
         "displayName": "ActivateAdditive",
         "description": "Set value to activate the additive",
@@ -70,7 +70,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AdditiveActivated",
         "displayName": "AdditiveActivated",
         "description": "Is true if the additive is activated.",
@@ -88,7 +88,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Informs the client if the additive is physically present.",
@@ -97,7 +97,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "description": "Actual status of the additive provides a minimal error handling for devices without event support.",
@@ -192,7 +192,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CycleNumber",
         "displayName": "CycleNumber",
         "description": "Number of the dosing cycle",
@@ -429,7 +429,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "description": "Actual status of the component provides a minimal error handling for devices without event support.",
@@ -690,7 +690,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceMappingNumber",
         "displayName": "DeviceMappingNumber",
         "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
@@ -699,7 +699,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighestActiveAlarmSeverity",
         "displayName": "HighestActiveAlarmSeverity",
         "description": "Indication of the severity of the highest active alarm",
@@ -708,7 +708,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialBalanceSystemType",
         "displayName": "MaterialBalanceSystemType",
         "description": "Type of the material balance system",

@@ -65,18 +65,20 @@ namespace Yaml2Dtdl
         private bool IsOptional(OpcUaDefinedType definedType) =>
             definedType.Contents.Any(c => c.Relationship == "HasModellingRule" && c.DefinedType.NodeId == TypeConverter.ModelingRuleOptionalNodeId);
 
-        private string GetCotypes(OpcUaDefinedType? definedType)
+        private string GetCotypes(string materialType, OpcUaDefinedType? definedType)
         {
             List<string> cotypes = new ();
 
+            OpcUaDefinedType specificDefinedType = definedType ?? this.definedType;
+
             cotypes.Add("Qualified");
 
-            if (definedType == null && this.isHistorized)
+            if (materialType != "Field" && this.isHistorized)
             {
                 cotypes.Add("Historized");
             }
 
-            if (definedType != null && !IsOptional(definedType))
+            if (materialType != "Telemetry" && !IsOptional(specificDefinedType))
             {
                 cotypes.Add("Required");
             }
@@ -97,13 +99,13 @@ namespace Yaml2Dtdl
                 return false;
             }
 
-            if (!numericTypes.Contains((definedType ?? this.definedType).Datatype!))
+            OpcUaDefinedType specificDefinedType = definedType ?? this.definedType;
+
+            if (!numericTypes.Contains((specificDefinedType).Datatype!))
             {
                 unitInfo = default;
                 return false;
             }
-
-            OpcUaDefinedType specificDefinedType = definedType ?? this.definedType;
 
             OpcUaContent? engUnitContent = specificDefinedType.Contents.FirstOrDefault(c => c.Relationship == "HasProperty" && c.DefinedType.UnitId != null);
             if (engUnitContent?.DefinedType?.UnitId != null && int.TryParse(engUnitContent.DefinedType.UnitId, out int unitId) && unitTypesDict.TryGetValue(unitId, out unitInfo))

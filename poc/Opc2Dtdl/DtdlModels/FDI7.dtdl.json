@@ -176,7 +176,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProtocolIdentifier",
         "displayName": "ProtocolIdentifier",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -208,7 +208,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Address",
         "displayName": "Address",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -256,7 +256,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Address",
         "displayName": "Address",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -299,7 +299,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Address",
         "displayName": "Address",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -331,7 +331,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MAC",
         "displayName": "MAC",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -342,7 +342,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IPv4",
         "displayName": "IPv4",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -353,7 +353,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DNSNAME",
         "displayName": "DNSNAME",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -361,7 +361,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VALID",
         "displayName": "VALID",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -393,7 +393,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DevAddr",
         "displayName": "DevAddr",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -468,7 +468,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DevAddr",
         "displayName": "DevAddr",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -543,7 +543,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DevAddr",
         "displayName": "DevAddr",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -618,7 +618,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IPAddress",
         "displayName": "IPAddress",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -690,7 +690,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Address",
         "displayName": "Address",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -698,7 +698,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProtocolIdentifier",
         "displayName": "ProtocolIdentifier",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -759,7 +759,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ListOfCommunicationProfiles",
         "displayName": "ListOfCommunicationProfiles",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
@@ -974,7 +974,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProtocolIdentifier",
         "displayName": "ProtocolIdentifier",
         "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",

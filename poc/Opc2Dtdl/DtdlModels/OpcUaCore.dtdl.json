@@ -264,7 +264,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServerArray",
         "displayName": "ServerArray",
         "namespace": "http://opcfoundation.org/UA",
@@ -275,7 +275,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NamespaceArray",
         "displayName": "NamespaceArray",
         "namespace": "http://opcfoundation.org/UA",
@@ -294,7 +294,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServiceLevel",
         "displayName": "ServiceLevel",
         "namespace": "http://opcfoundation.org/UA",
@@ -302,7 +302,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Auditing",
         "displayName": "Auditing",
         "namespace": "http://opcfoundation.org/UA",
@@ -611,7 +611,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServerProfileArray",
         "displayName": "ServerProfileArray",
         "namespace": "http://opcfoundation.org/UA",
@@ -622,7 +622,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LocaleIdArray",
         "displayName": "LocaleIdArray",
         "namespace": "http://opcfoundation.org/UA",
@@ -633,7 +633,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MinSupportedSampleRate",
         "displayName": "MinSupportedSampleRate",
         "namespace": "http://opcfoundation.org/UA",
@@ -641,7 +641,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxBrowseContinuationPoints",
         "displayName": "MaxBrowseContinuationPoints",
         "namespace": "http://opcfoundation.org/UA",
@@ -649,7 +649,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxQueryContinuationPoints",
         "displayName": "MaxQueryContinuationPoints",
         "namespace": "http://opcfoundation.org/UA",
@@ -657,7 +657,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxHistoryContinuationPoints",
         "displayName": "MaxHistoryContinuationPoints",
         "namespace": "http://opcfoundation.org/UA",
@@ -665,7 +665,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SoftwareCertificates",
         "displayName": "SoftwareCertificates",
         "namespace": "http://opcfoundation.org/UA",
@@ -1106,7 +1106,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnabledFlag",
         "displayName": "EnabledFlag",
         "namespace": "http://opcfoundation.org/UA",
@@ -2839,7 +2839,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RedundancySupport",
         "displayName": "RedundancySupport",
         "namespace": "http://opcfoundation.org/UA",
@@ -2882,7 +2882,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CurrentServerId",
         "displayName": "CurrentServerId",
         "namespace": "http://opcfoundation.org/UA",
@@ -2914,7 +2914,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServerUriArray",
         "displayName": "ServerUriArray",
         "namespace": "http://opcfoundation.org/UA",
@@ -2986,7 +2986,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServerNetworkGroups",
         "displayName": "ServerNetworkGroups",
         "namespace": "http://opcfoundation.org/UA",
@@ -3046,7 +3046,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Mode",
         "displayName": "Mode",
         "namespace": "http://opcfoundation.org/UA",
@@ -3202,7 +3202,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Size",
         "displayName": "Size",
         "namespace": "http://opcfoundation.org/UA",
@@ -3210,7 +3210,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Writable",
         "displayName": "Writable",
         "namespace": "http://opcfoundation.org/UA",
@@ -3218,7 +3218,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserWritable",
         "displayName": "UserWritable",
         "namespace": "http://opcfoundation.org/UA",
@@ -3226,7 +3226,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OpenCount",
         "displayName": "OpenCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -3631,7 +3631,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NamespaceUri",
         "displayName": "NamespaceUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -3639,7 +3639,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NamespaceVersion",
         "displayName": "NamespaceVersion",
         "namespace": "http://opcfoundation.org/UA",
@@ -3647,7 +3647,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NamespacePublicationDate",
         "displayName": "NamespacePublicationDate",
         "namespace": "http://opcfoundation.org/UA",
@@ -3655,7 +3655,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsNamespaceSubset",
         "displayName": "IsNamespaceSubset",
         "namespace": "http://opcfoundation.org/UA",
@@ -3663,7 +3663,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StaticNodeIdTypes",
         "displayName": "StaticNodeIdTypes",
         "namespace": "http://opcfoundation.org/UA",
@@ -3674,7 +3674,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StaticNumericNodeIdRange",
         "displayName": "StaticNumericNodeIdRange",
         "namespace": "http://opcfoundation.org/UA",
@@ -3685,7 +3685,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StaticStringNodeIdPattern",
         "displayName": "StaticStringNodeIdPattern",
         "namespace": "http://opcfoundation.org/UA",
@@ -3816,7 +3816,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventId",
         "displayName": "EventId",
         "namespace": "http://opcfoundation.org/UA",
@@ -3824,7 +3824,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventType",
         "displayName": "EventType",
         "namespace": "http://opcfoundation.org/UA",
@@ -3832,7 +3832,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SourceNode",
         "displayName": "SourceNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -3840,7 +3840,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SourceName",
         "displayName": "SourceName",
         "namespace": "http://opcfoundation.org/UA",
@@ -3848,7 +3848,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time",
         "displayName": "Time",
         "namespace": "http://opcfoundation.org/UA",
@@ -3856,7 +3856,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReceiveTime",
         "displayName": "ReceiveTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -3872,7 +3872,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Message",
         "displayName": "Message",
         "namespace": "http://opcfoundation.org/UA",
@@ -3880,7 +3880,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Severity",
         "displayName": "Severity",
         "namespace": "http://opcfoundation.org/UA",
@@ -3949,7 +3949,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ActionTimeStamp",
         "displayName": "ActionTimeStamp",
         "namespace": "http://opcfoundation.org/UA",
@@ -3957,7 +3957,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA",
@@ -3965,7 +3965,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServerId",
         "displayName": "ServerId",
         "namespace": "http://opcfoundation.org/UA",
@@ -3973,7 +3973,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientAuditEntryId",
         "displayName": "ClientAuditEntryId",
         "namespace": "http://opcfoundation.org/UA",
@@ -3981,7 +3981,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientUserId",
         "displayName": "ClientUserId",
         "namespace": "http://opcfoundation.org/UA",
@@ -4043,7 +4043,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecureChannelId",
         "displayName": "SecureChannelId",
         "namespace": "http://opcfoundation.org/UA",
@@ -4116,7 +4116,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientCertificate",
         "displayName": "ClientCertificate",
         "namespace": "http://opcfoundation.org/UA",
@@ -4124,7 +4124,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientCertificateThumbprint",
         "displayName": "ClientCertificateThumbprint",
         "namespace": "http://opcfoundation.org/UA",
@@ -4132,7 +4132,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RequestType",
         "displayName": "RequestType",
         "namespace": "http://opcfoundation.org/UA",
@@ -4140,7 +4140,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecurityPolicyUri",
         "displayName": "SecurityPolicyUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -4148,7 +4148,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecurityMode",
         "displayName": "SecurityMode",
         "namespace": "http://opcfoundation.org/UA",
@@ -4156,7 +4156,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RequestedLifetime",
         "displayName": "RequestedLifetime",
         "namespace": "http://opcfoundation.org/UA",
@@ -4195,7 +4195,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SessionId",
         "displayName": "SessionId",
         "namespace": "http://opcfoundation.org/UA",
@@ -4226,7 +4226,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecureChannelId",
         "displayName": "SecureChannelId",
         "namespace": "http://opcfoundation.org/UA",
@@ -4234,7 +4234,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientCertificate",
         "displayName": "ClientCertificate",
         "namespace": "http://opcfoundation.org/UA",
@@ -4242,7 +4242,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientCertificateThumbprint",
         "displayName": "ClientCertificateThumbprint",
         "namespace": "http://opcfoundation.org/UA",
@@ -4250,7 +4250,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RevisedSessionTimeout",
         "displayName": "RevisedSessionTimeout",
         "namespace": "http://opcfoundation.org/UA",
@@ -4281,7 +4281,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndpointUrl",
         "displayName": "EndpointUrl",
         "namespace": "http://opcfoundation.org/UA",
@@ -4343,7 +4343,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientSoftwareCertificates",
         "displayName": "ClientSoftwareCertificates",
         "namespace": "http://opcfoundation.org/UA",
@@ -4354,7 +4354,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserIdentityToken",
         "displayName": "UserIdentityToken",
         "namespace": "http://opcfoundation.org/UA",
@@ -4362,7 +4362,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecureChannelId",
         "displayName": "SecureChannelId",
         "namespace": "http://opcfoundation.org/UA",
@@ -4404,7 +4404,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RequestHandle",
         "displayName": "RequestHandle",
         "namespace": "http://opcfoundation.org/UA",
@@ -4435,7 +4435,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Certificate",
         "displayName": "Certificate",
         "namespace": "http://opcfoundation.org/UA",
@@ -4466,7 +4466,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InvalidHostname",
         "displayName": "InvalidHostname",
         "namespace": "http://opcfoundation.org/UA",
@@ -4474,7 +4474,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InvalidUri",
         "displayName": "InvalidUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -4720,7 +4720,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodesToAdd",
         "displayName": "NodesToAdd",
         "namespace": "http://opcfoundation.org/UA",
@@ -4772,7 +4772,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodesToDelete",
         "displayName": "NodesToDelete",
         "namespace": "http://opcfoundation.org/UA",
@@ -4890,7 +4890,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReferencesToAdd",
         "displayName": "ReferencesToAdd",
         "namespace": "http://opcfoundation.org/UA",
@@ -4957,7 +4957,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReferencesToDelete",
         "displayName": "ReferencesToDelete",
         "namespace": "http://opcfoundation.org/UA",
@@ -5012,7 +5012,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AttributeId",
         "displayName": "AttributeId",
         "namespace": "http://opcfoundation.org/UA",
@@ -5020,7 +5020,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IndexRange",
         "displayName": "IndexRange",
         "namespace": "http://opcfoundation.org/UA",
@@ -5028,7 +5028,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValue",
         "displayName": "OldValue",
         "namespace": "http://opcfoundation.org/UA",
@@ -5036,7 +5036,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValue",
         "displayName": "NewValue",
         "namespace": "http://opcfoundation.org/UA",
@@ -5067,7 +5067,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ParameterDataTypeId",
         "displayName": "ParameterDataTypeId",
         "namespace": "http://opcfoundation.org/UA",
@@ -5098,7 +5098,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MethodId",
         "displayName": "MethodId",
         "namespace": "http://opcfoundation.org/UA",
@@ -5114,7 +5114,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InputArguments",
         "displayName": "InputArguments",
         "namespace": "http://opcfoundation.org/UA",
@@ -5236,7 +5236,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SystemState",
         "displayName": "SystemState",
         "namespace": "http://opcfoundation.org/UA",
@@ -5311,7 +5311,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Changes",
         "displayName": "Changes",
         "namespace": "http://opcfoundation.org/UA",
@@ -5363,7 +5363,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Changes",
         "displayName": "Changes",
         "namespace": "http://opcfoundation.org/UA",
@@ -5418,7 +5418,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Context",
         "displayName": "Context",
         "namespace": "http://opcfoundation.org/UA",
@@ -5426,7 +5426,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Progress",
         "displayName": "Progress",
         "namespace": "http://opcfoundation.org/UA",
@@ -5457,7 +5457,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServerUri",
         "displayName": "ServerUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -5488,7 +5488,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ObjectId",
         "displayName": "ObjectId",
         "namespace": "http://opcfoundation.org/UA",
@@ -5496,7 +5496,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MethodId",
         "displayName": "MethodId",
         "namespace": "http://opcfoundation.org/UA",
@@ -5504,7 +5504,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusCodeId",
         "displayName": "StatusCodeId",
         "namespace": "http://opcfoundation.org/UA",
@@ -5512,7 +5512,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InputArguments",
         "displayName": "InputArguments",
         "namespace": "http://opcfoundation.org/UA",
@@ -5520,7 +5520,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OutputArguments",
         "displayName": "OutputArguments",
         "namespace": "http://opcfoundation.org/UA",
@@ -5651,7 +5651,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StateNumber",
         "displayName": "StateNumber",
         "namespace": "http://opcfoundation.org/UA",
@@ -5703,7 +5703,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TransitionNumber",
         "displayName": "TransitionNumber",
         "namespace": "http://opcfoundation.org/UA",
@@ -5799,7 +5799,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldStateId",
         "displayName": "OldStateId",
         "namespace": "http://opcfoundation.org/UA",
@@ -5807,7 +5807,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewStateId",
         "displayName": "NewStateId",
         "namespace": "http://opcfoundation.org/UA",
@@ -6007,7 +6007,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientProcessingTimeout",
         "displayName": "ClientProcessingTimeout",
         "namespace": "http://opcfoundation.org/UA",
@@ -6507,7 +6507,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identities",
         "displayName": "Identities",
         "namespace": "http://opcfoundation.org/UA",
@@ -6856,7 +6856,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
         "namespace": "http://opcfoundation.org/UA",
@@ -6919,7 +6919,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CommonName",
         "displayName": "CommonName",
         "namespace": "http://opcfoundation.org/UA",
@@ -6950,7 +6950,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Symbol",
         "displayName": "Symbol",
         "namespace": "http://opcfoundation.org/UA",
@@ -6958,7 +6958,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UnitSystem",
         "displayName": "UnitSystem",
         "namespace": "http://opcfoundation.org/UA",
@@ -7019,7 +7019,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConversionLimit",
         "displayName": "ConversionLimit",
         "namespace": "http://opcfoundation.org/UA",
@@ -7241,7 +7241,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Dimension",
         "displayName": "Dimension",
         "namespace": "http://opcfoundation.org/UA",
@@ -7302,7 +7302,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConditionName",
         "displayName": "ConditionName",
         "namespace": "http://opcfoundation.org/UA",
@@ -7310,7 +7310,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "BranchId",
         "displayName": "BranchId",
         "namespace": "http://opcfoundation.org/UA",
@@ -7318,7 +7318,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Retain",
         "displayName": "Retain",
         "namespace": "http://opcfoundation.org/UA",
@@ -7326,7 +7326,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SupportsFilteredRetain",
         "displayName": "SupportsFilteredRetain",
         "namespace": "http://opcfoundation.org/UA",
@@ -7334,7 +7334,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ClientUserId",
         "displayName": "ClientUserId",
         "namespace": "http://opcfoundation.org/UA",
@@ -7475,7 +7475,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Prompt",
         "displayName": "Prompt",
         "namespace": "http://opcfoundation.org/UA",
@@ -7483,7 +7483,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResponseOptionSet",
         "displayName": "ResponseOptionSet",
         "namespace": "http://opcfoundation.org/UA",
@@ -7494,7 +7494,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultResponse",
         "displayName": "DefaultResponse",
         "namespace": "http://opcfoundation.org/UA",
@@ -7502,7 +7502,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OkResponse",
         "displayName": "OkResponse",
         "namespace": "http://opcfoundation.org/UA",
@@ -7510,7 +7510,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CancelResponse",
         "displayName": "CancelResponse",
         "namespace": "http://opcfoundation.org/UA",
@@ -7518,7 +7518,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastResponse",
         "displayName": "LastResponse",
         "namespace": "http://opcfoundation.org/UA",
@@ -7688,7 +7688,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InputNode",
         "displayName": "InputNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -7696,7 +7696,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SuppressedOrShelved",
         "displayName": "SuppressedOrShelved",
         "namespace": "http://opcfoundation.org/UA",
@@ -8041,7 +8041,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UnshelveTime",
         "displayName": "UnshelveTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -8598,7 +8598,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SetpointNode",
         "displayName": "SetpointNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -8668,7 +8668,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SetpointNode",
         "displayName": "SetpointNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -8759,7 +8759,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NormalState",
         "displayName": "NormalState",
         "namespace": "http://opcfoundation.org/UA",
@@ -8874,7 +8874,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExpirationDate",
         "displayName": "ExpirationDate",
         "namespace": "http://opcfoundation.org/UA",
@@ -8890,7 +8890,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateType",
         "displayName": "CertificateType",
         "namespace": "http://opcfoundation.org/UA",
@@ -8898,7 +8898,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Certificate",
         "displayName": "Certificate",
         "namespace": "http://opcfoundation.org/UA",
@@ -8929,7 +8929,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TargetValueNode",
         "displayName": "TargetValueNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -8937,7 +8937,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExpectedTime",
         "displayName": "ExpectedTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -9207,7 +9207,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConditionEventId",
         "displayName": "ConditionEventId",
         "namespace": "http://opcfoundation.org/UA",
@@ -9215,7 +9215,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Comment",
         "displayName": "Comment",
         "namespace": "http://opcfoundation.org/UA",
@@ -9246,7 +9246,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SelectedResponse",
         "displayName": "SelectedResponse",
         "namespace": "http://opcfoundation.org/UA",
@@ -9277,7 +9277,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConditionEventId",
         "displayName": "ConditionEventId",
         "namespace": "http://opcfoundation.org/UA",
@@ -9285,7 +9285,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Comment",
         "displayName": "Comment",
         "namespace": "http://opcfoundation.org/UA",
@@ -9316,7 +9316,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConditionEventId",
         "displayName": "ConditionEventId",
         "namespace": "http://opcfoundation.org/UA",
@@ -9324,7 +9324,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Comment",
         "displayName": "Comment",
         "namespace": "http://opcfoundation.org/UA",
@@ -9736,7 +9736,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Creatable",
         "displayName": "Creatable",
         "namespace": "http://opcfoundation.org/UA",
@@ -9744,7 +9744,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deletable",
         "displayName": "Deletable",
         "namespace": "http://opcfoundation.org/UA",
@@ -9752,7 +9752,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AutoDelete",
         "displayName": "AutoDelete",
         "namespace": "http://opcfoundation.org/UA",
@@ -9760,7 +9760,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RecycleCount",
         "displayName": "RecycleCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -9768,7 +9768,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InstanceCount",
         "displayName": "InstanceCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -9776,7 +9776,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxInstanceCount",
         "displayName": "MaxInstanceCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -9784,7 +9784,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxRecycleCount",
         "displayName": "MaxRecycleCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -10087,7 +10087,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TransitionNumber",
         "displayName": "TransitionNumber",
         "namespace": "http://opcfoundation.org/UA",
@@ -10177,7 +10177,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Stepped",
         "displayName": "Stepped",
         "namespace": "http://opcfoundation.org/UA",
@@ -10696,7 +10696,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HistoricalEventFilter",
         "displayName": "HistoricalEventFilter",
         "namespace": "http://opcfoundation.org/UA",
@@ -10728,7 +10728,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AccessHistoryDataCapability",
         "displayName": "AccessHistoryDataCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10736,7 +10736,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AccessHistoryEventsCapability",
         "displayName": "AccessHistoryEventsCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10744,7 +10744,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxReturnDataValues",
         "displayName": "MaxReturnDataValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -10752,7 +10752,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxReturnEventValues",
         "displayName": "MaxReturnEventValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -10760,7 +10760,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InsertDataCapability",
         "displayName": "InsertDataCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10768,7 +10768,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReplaceDataCapability",
         "displayName": "ReplaceDataCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10776,7 +10776,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UpdateDataCapability",
         "displayName": "UpdateDataCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10784,7 +10784,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeleteRawCapability",
         "displayName": "DeleteRawCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10792,7 +10792,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeleteAtTimeCapability",
         "displayName": "DeleteAtTimeCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10800,7 +10800,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InsertEventCapability",
         "displayName": "InsertEventCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10808,7 +10808,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReplaceEventCapability",
         "displayName": "ReplaceEventCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10816,7 +10816,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UpdateEventCapability",
         "displayName": "UpdateEventCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10824,7 +10824,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeleteEventCapability",
         "displayName": "DeleteEventCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -10832,7 +10832,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InsertAnnotationCapability",
         "displayName": "InsertAnnotationCapability",
         "namespace": "http://opcfoundation.org/UA",
@@ -11075,7 +11075,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UpdatedNode",
         "displayName": "UpdatedNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -11083,7 +11083,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PerformInsertReplace",
         "displayName": "PerformInsertReplace",
         "namespace": "http://opcfoundation.org/UA",
@@ -11091,7 +11091,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Filter",
         "displayName": "Filter",
         "namespace": "http://opcfoundation.org/UA",
@@ -11099,7 +11099,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValues",
         "displayName": "NewValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11110,7 +11110,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValues",
         "displayName": "OldValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11170,7 +11170,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UpdatedNode",
         "displayName": "UpdatedNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -11178,7 +11178,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PerformInsertReplace",
         "displayName": "PerformInsertReplace",
         "namespace": "http://opcfoundation.org/UA",
@@ -11186,7 +11186,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValues",
         "displayName": "NewValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11197,7 +11197,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValues",
         "displayName": "OldValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11280,7 +11280,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PerformInsertReplace",
         "displayName": "PerformInsertReplace",
         "namespace": "http://opcfoundation.org/UA",
@@ -11288,7 +11288,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValues",
         "displayName": "NewValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11299,7 +11299,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValues",
         "displayName": "OldValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11333,7 +11333,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UpdatedNode",
         "displayName": "UpdatedNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -11364,7 +11364,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsDeleteModified",
         "displayName": "IsDeleteModified",
         "namespace": "http://opcfoundation.org/UA",
@@ -11372,7 +11372,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StartTime",
         "displayName": "StartTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -11380,7 +11380,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndTime",
         "displayName": "EndTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -11388,7 +11388,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValues",
         "displayName": "OldValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11422,7 +11422,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReqTimes",
         "displayName": "ReqTimes",
         "namespace": "http://opcfoundation.org/UA",
@@ -11433,7 +11433,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValues",
         "displayName": "OldValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11467,7 +11467,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventIds",
         "displayName": "EventIds",
         "namespace": "http://opcfoundation.org/UA",
@@ -11478,7 +11478,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OldValues",
         "displayName": "OldValues",
         "namespace": "http://opcfoundation.org/UA",
@@ -11530,7 +11530,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UpdatedNode",
         "displayName": "UpdatedNode",
         "namespace": "http://opcfoundation.org/UA",
@@ -11538,7 +11538,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StartTime",
         "displayName": "StartTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -11546,7 +11546,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndTime",
         "displayName": "EndTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -11615,7 +11615,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastUpdateTime",
         "displayName": "LastUpdateTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -11788,7 +11788,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TrustListId",
         "displayName": "TrustListId",
         "namespace": "http://opcfoundation.org/UA",
@@ -11796,7 +11796,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastUpdateTime",
         "displayName": "LastUpdateTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -11804,7 +11804,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UpdateFrequency",
         "displayName": "UpdateFrequency",
         "namespace": "http://opcfoundation.org/UA",
@@ -11835,7 +11835,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateTypes",
         "displayName": "CertificateTypes",
         "namespace": "http://opcfoundation.org/UA",
@@ -12266,7 +12266,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TrustListId",
         "displayName": "TrustListId",
         "namespace": "http://opcfoundation.org/UA",
@@ -12320,7 +12320,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StartTime",
         "displayName": "StartTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -12328,7 +12328,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndTime",
         "displayName": "EndTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -12336,7 +12336,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Result",
         "displayName": "Result",
         "namespace": "http://opcfoundation.org/UA",
@@ -12344,7 +12344,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AffectedTrustLists",
         "displayName": "AffectedTrustLists",
         "namespace": "http://opcfoundation.org/UA",
@@ -12355,7 +12355,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AffectedCertificateGroups",
         "displayName": "AffectedCertificateGroups",
         "namespace": "http://opcfoundation.org/UA",
@@ -12366,7 +12366,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Errors",
         "displayName": "Errors",
         "namespace": "http://opcfoundation.org/UA",
@@ -12483,7 +12483,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServerCapabilities",
         "displayName": "ServerCapabilities",
         "namespace": "http://opcfoundation.org/UA",
@@ -12494,7 +12494,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SupportedPrivateKeyFormats",
         "displayName": "SupportedPrivateKeyFormats",
         "namespace": "http://opcfoundation.org/UA",
@@ -12505,7 +12505,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxTrustListSize",
         "displayName": "MaxTrustListSize",
         "namespace": "http://opcfoundation.org/UA",
@@ -12513,7 +12513,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MulticastDnsEnabled",
         "displayName": "MulticastDnsEnabled",
         "namespace": "http://opcfoundation.org/UA",
@@ -12807,7 +12807,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateGroup",
         "displayName": "CertificateGroup",
         "namespace": "http://opcfoundation.org/UA",
@@ -12815,7 +12815,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateType",
         "displayName": "CertificateType",
         "namespace": "http://opcfoundation.org/UA",
@@ -12928,7 +12928,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResourceUri",
         "displayName": "ResourceUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -12936,7 +12936,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProfileUri",
         "displayName": "ProfileUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -13079,7 +13079,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResourceUri",
         "displayName": "ResourceUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -13181,7 +13181,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServiceUri",
         "displayName": "ServiceUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -13189,7 +13189,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServiceCertificate",
         "displayName": "ServiceCertificate",
         "namespace": "http://opcfoundation.org/UA",
@@ -13197,7 +13197,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IssuerEndpointUrl",
         "displayName": "IssuerEndpointUrl",
         "namespace": "http://opcfoundation.org/UA",
@@ -13228,7 +13228,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TreatUncertainAsBad",
         "displayName": "TreatUncertainAsBad",
         "namespace": "http://opcfoundation.org/UA",
@@ -13236,7 +13236,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PercentDataBad",
         "displayName": "PercentDataBad",
         "namespace": "http://opcfoundation.org/UA",
@@ -13244,7 +13244,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PercentDataGood",
         "displayName": "PercentDataGood",
         "namespace": "http://opcfoundation.org/UA",
@@ -13252,7 +13252,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UseSlopedExtrapolation",
         "displayName": "UseSlopedExtrapolation",
         "namespace": "http://opcfoundation.org/UA",
@@ -13597,7 +13597,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecurityGroupId",
         "displayName": "SecurityGroupId",
         "namespace": "http://opcfoundation.org/UA",
@@ -13605,7 +13605,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "KeyLifetime",
         "displayName": "KeyLifetime",
         "namespace": "http://opcfoundation.org/UA",
@@ -13613,7 +13613,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecurityPolicyUri",
         "displayName": "SecurityPolicyUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -13621,7 +13621,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxFutureKeyCount",
         "displayName": "MaxFutureKeyCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -13629,7 +13629,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxPastKeyCount",
         "displayName": "MaxPastKeyCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -13730,7 +13730,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ApplicationUri",
         "displayName": "ApplicationUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -13738,7 +13738,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndpointUrl",
         "displayName": "EndpointUrl",
         "namespace": "http://opcfoundation.org/UA",
@@ -13746,7 +13746,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecurityPolicyUri",
         "displayName": "SecurityPolicyUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -13754,7 +13754,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserTokenType",
         "displayName": "UserTokenType",
         "namespace": "http://opcfoundation.org/UA",
@@ -13762,7 +13762,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RequestedKeyCount",
         "displayName": "RequestedKeyCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -13770,7 +13770,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RetryInterval",
         "displayName": "RetryInterval",
         "namespace": "http://opcfoundation.org/UA",
@@ -13778,7 +13778,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastPushExecutionTime",
         "displayName": "LastPushExecutionTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -13786,7 +13786,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastPushErrorTime",
         "displayName": "LastPushErrorTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -14826,7 +14826,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SupportedTransportProfiles",
         "displayName": "SupportedTransportProfiles",
         "namespace": "http://opcfoundation.org/UA",
@@ -15475,7 +15475,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConfigurationVersion",
         "displayName": "ConfigurationVersion",
         "namespace": "http://opcfoundation.org/UA",
@@ -15483,7 +15483,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetMetaData",
         "displayName": "DataSetMetaData",
         "namespace": "http://opcfoundation.org/UA",
@@ -15538,7 +15538,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExtensionFieldName",
         "displayName": "<ExtensionFieldName>",
         "namespace": "http://opcfoundation.org/UA",
@@ -15708,7 +15708,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PublishedData",
         "displayName": "PublishedData",
         "namespace": "http://opcfoundation.org/UA",
@@ -16026,7 +16026,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventNotifier",
         "displayName": "EventNotifier",
         "namespace": "http://opcfoundation.org/UA",
@@ -16034,7 +16034,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SelectedFields",
         "displayName": "SelectedFields",
         "namespace": "http://opcfoundation.org/UA",
@@ -16045,7 +16045,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Filter",
         "displayName": "Filter",
         "namespace": "http://opcfoundation.org/UA",
@@ -17470,7 +17470,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PublisherId",
         "displayName": "PublisherId",
         "namespace": "http://opcfoundation.org/UA",
@@ -17478,7 +17478,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConnectionProperties",
         "displayName": "ConnectionProperties",
         "namespace": "http://opcfoundation.org/UA",
@@ -17883,7 +17883,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SecurityMode",
         "displayName": "SecurityMode",
         "namespace": "http://opcfoundation.org/UA",
@@ -17910,7 +17910,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxNetworkMessageSize",
         "displayName": "MaxNetworkMessageSize",
         "namespace": "http://opcfoundation.org/UA",
@@ -17918,7 +17918,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "GroupProperties",
         "displayName": "GroupProperties",
         "namespace": "http://opcfoundation.org/UA",
@@ -18068,7 +18068,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "WriterGroupId",
         "displayName": "WriterGroupId",
         "namespace": "http://opcfoundation.org/UA",
@@ -18076,7 +18076,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PublishingInterval",
         "displayName": "PublishingInterval",
         "namespace": "http://opcfoundation.org/UA",
@@ -18084,7 +18084,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "KeepAliveTime",
         "displayName": "KeepAliveTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -18092,7 +18092,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority",
         "displayName": "Priority",
         "namespace": "http://opcfoundation.org/UA",
@@ -18100,7 +18100,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LocaleIds",
         "displayName": "LocaleIds",
         "namespace": "http://opcfoundation.org/UA",
@@ -18111,7 +18111,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HeaderLayoutUri",
         "displayName": "HeaderLayoutUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -18943,7 +18943,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetWriterId",
         "displayName": "DataSetWriterId",
         "namespace": "http://opcfoundation.org/UA",
@@ -18951,7 +18951,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetFieldContentMask",
         "displayName": "DataSetFieldContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -18967,7 +18967,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetWriterProperties",
         "displayName": "DataSetWriterProperties",
         "namespace": "http://opcfoundation.org/UA",
@@ -19622,7 +19622,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PublisherId",
         "displayName": "PublisherId",
         "namespace": "http://opcfoundation.org/UA",
@@ -19630,7 +19630,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "WriterGroupId",
         "displayName": "WriterGroupId",
         "namespace": "http://opcfoundation.org/UA",
@@ -19638,7 +19638,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetWriterId",
         "displayName": "DataSetWriterId",
         "namespace": "http://opcfoundation.org/UA",
@@ -19646,7 +19646,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetMetaData",
         "displayName": "DataSetMetaData",
         "namespace": "http://opcfoundation.org/UA",
@@ -19654,7 +19654,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetFieldContentMask",
         "displayName": "DataSetFieldContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -19662,7 +19662,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MessageReceiveTimeout",
         "displayName": "MessageReceiveTimeout",
         "namespace": "http://opcfoundation.org/UA",
@@ -19670,7 +19670,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "KeyFrameCount",
         "displayName": "KeyFrameCount",
         "namespace": "http://opcfoundation.org/UA",
@@ -19678,7 +19678,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HeaderLayoutUri",
         "displayName": "HeaderLayoutUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -19713,7 +19713,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetReaderProperties",
         "displayName": "DataSetReaderProperties",
         "namespace": "http://opcfoundation.org/UA",
@@ -20020,7 +20020,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TargetVariables",
         "displayName": "TargetVariables",
         "namespace": "http://opcfoundation.org/UA",
@@ -20632,7 +20632,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetMetaData",
         "displayName": "DataSetMetaData",
         "namespace": "http://opcfoundation.org/UA",
@@ -20640,7 +20640,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsConnected",
         "displayName": "IsConnected",
         "namespace": "http://opcfoundation.org/UA",
@@ -20978,7 +20978,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxPubSubConnections",
         "displayName": "MaxPubSubConnections",
         "namespace": "http://opcfoundation.org/UA",
@@ -20986,7 +20986,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxWriterGroups",
         "displayName": "MaxWriterGroups",
         "namespace": "http://opcfoundation.org/UA",
@@ -20994,7 +20994,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxReaderGroups",
         "displayName": "MaxReaderGroups",
         "namespace": "http://opcfoundation.org/UA",
@@ -21002,7 +21002,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxDataSetWriters",
         "displayName": "MaxDataSetWriters",
         "namespace": "http://opcfoundation.org/UA",
@@ -21010,7 +21010,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxDataSetReaders",
         "displayName": "MaxDataSetReaders",
         "namespace": "http://opcfoundation.org/UA",
@@ -21018,7 +21018,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxFieldsPerDataSet",
         "displayName": "MaxFieldsPerDataSet",
         "namespace": "http://opcfoundation.org/UA",
@@ -21158,7 +21158,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConnectionId",
         "displayName": "ConnectionId",
         "namespace": "http://opcfoundation.org/UA",
@@ -21166,7 +21166,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "GroupId",
         "displayName": "GroupId",
         "namespace": "http://opcfoundation.org/UA",
@@ -21174,7 +21174,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "State",
         "displayName": "State",
         "namespace": "http://opcfoundation.org/UA",
@@ -21205,7 +21205,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Actual",
         "displayName": "Actual",
         "namespace": "http://opcfoundation.org/UA",
@@ -21213,7 +21213,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Maximum",
         "displayName": "Maximum",
         "namespace": "http://opcfoundation.org/UA",
@@ -21244,7 +21244,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Error",
         "displayName": "Error",
         "namespace": "http://opcfoundation.org/UA",
@@ -21350,7 +21350,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "GroupVersion",
         "displayName": "GroupVersion",
         "namespace": "http://opcfoundation.org/UA",
@@ -21358,7 +21358,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetOrdering",
         "displayName": "DataSetOrdering",
         "namespace": "http://opcfoundation.org/UA",
@@ -21366,7 +21366,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NetworkMessageContentMask",
         "displayName": "NetworkMessageContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -21382,7 +21382,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PublishingOffset",
         "displayName": "PublishingOffset",
         "namespace": "http://opcfoundation.org/UA",
@@ -21450,7 +21450,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetMessageContentMask",
         "displayName": "DataSetMessageContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -21458,7 +21458,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConfiguredSize",
         "displayName": "ConfiguredSize",
         "namespace": "http://opcfoundation.org/UA",
@@ -21466,7 +21466,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NetworkMessageNumber",
         "displayName": "NetworkMessageNumber",
         "namespace": "http://opcfoundation.org/UA",
@@ -21474,7 +21474,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetOffset",
         "displayName": "DataSetOffset",
         "namespace": "http://opcfoundation.org/UA",
@@ -21592,7 +21592,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "GroupVersion",
         "displayName": "GroupVersion",
         "namespace": "http://opcfoundation.org/UA",
@@ -21600,7 +21600,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NetworkMessageNumber",
         "displayName": "NetworkMessageNumber",
         "namespace": "http://opcfoundation.org/UA",
@@ -21608,7 +21608,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetOffset",
         "displayName": "DataSetOffset",
         "namespace": "http://opcfoundation.org/UA",
@@ -21616,7 +21616,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetClassId",
         "displayName": "DataSetClassId",
         "namespace": "http://opcfoundation.org/UA",
@@ -21624,7 +21624,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NetworkMessageContentMask",
         "displayName": "NetworkMessageContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -21632,7 +21632,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetMessageContentMask",
         "displayName": "DataSetMessageContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -21640,7 +21640,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PublishingInterval",
         "displayName": "PublishingInterval",
         "namespace": "http://opcfoundation.org/UA",
@@ -21648,7 +21648,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProcessingOffset",
         "displayName": "ProcessingOffset",
         "namespace": "http://opcfoundation.org/UA",
@@ -21656,7 +21656,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReceiveOffset",
         "displayName": "ReceiveOffset",
         "namespace": "http://opcfoundation.org/UA",
@@ -21725,7 +21725,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NetworkMessageContentMask",
         "displayName": "NetworkMessageContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -21814,7 +21814,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetMessageContentMask",
         "displayName": "DataSetMessageContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -21940,7 +21940,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NetworkMessageContentMask",
         "displayName": "NetworkMessageContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -21948,7 +21948,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataSetMessageContentMask",
         "displayName": "DataSetMessageContentMask",
         "namespace": "http://opcfoundation.org/UA",
@@ -22189,7 +22189,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResourceUri",
         "displayName": "ResourceUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -22197,7 +22197,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AuthenticationProfileUri",
         "displayName": "AuthenticationProfileUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -22258,7 +22258,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "QueueName",
         "displayName": "QueueName",
         "namespace": "http://opcfoundation.org/UA",
@@ -22266,7 +22266,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResourceUri",
         "displayName": "ResourceUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -22274,7 +22274,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AuthenticationProfileUri",
         "displayName": "AuthenticationProfileUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -22282,7 +22282,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RequestedDeliveryGuarantee",
         "displayName": "RequestedDeliveryGuarantee",
         "namespace": "http://opcfoundation.org/UA",
@@ -22343,7 +22343,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "QueueName",
         "displayName": "QueueName",
         "namespace": "http://opcfoundation.org/UA",
@@ -22351,7 +22351,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MetaDataQueueName",
         "displayName": "MetaDataQueueName",
         "namespace": "http://opcfoundation.org/UA",
@@ -22359,7 +22359,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResourceUri",
         "displayName": "ResourceUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -22367,7 +22367,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AuthenticationProfileUri",
         "displayName": "AuthenticationProfileUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -22375,7 +22375,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RequestedDeliveryGuarantee",
         "displayName": "RequestedDeliveryGuarantee",
         "namespace": "http://opcfoundation.org/UA",
@@ -22383,7 +22383,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MetaDataUpdateTime",
         "displayName": "MetaDataUpdateTime",
         "namespace": "http://opcfoundation.org/UA",
@@ -22444,7 +22444,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "QueueName",
         "displayName": "QueueName",
         "namespace": "http://opcfoundation.org/UA",
@@ -22452,7 +22452,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResourceUri",
         "displayName": "ResourceUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -22460,7 +22460,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AuthenticationProfileUri",
         "displayName": "AuthenticationProfileUri",
         "namespace": "http://opcfoundation.org/UA",
@@ -22468,7 +22468,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RequestedDeliveryGuarantee",
         "displayName": "RequestedDeliveryGuarantee",
         "namespace": "http://opcfoundation.org/UA",
@@ -22476,7 +22476,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MetaDataQueueName",
         "displayName": "MetaDataQueueName",
         "namespace": "http://opcfoundation.org/UA",
@@ -22797,7 +22797,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Users",
         "displayName": "Users",
         "namespace": "http://opcfoundation.org/UA",
@@ -22808,7 +22808,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PasswordLength",
         "displayName": "PasswordLength",
         "namespace": "http://opcfoundation.org/UA",
@@ -22816,7 +22816,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PasswordOptions",
         "displayName": "PasswordOptions",
         "namespace": "http://opcfoundation.org/UA",
@@ -22985,7 +22985,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Enabled",
         "displayName": "Enabled",
         "namespace": "http://opcfoundation.org/UA",
@@ -23088,7 +23088,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsSingleton",
         "displayName": "IsSingleton",
         "namespace": "http://opcfoundation.org/UA",
@@ -24241,7 +24241,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PriorityMapppingEntries",
         "displayName": "PriorityMapppingEntries",
         "namespace": "http://opcfoundation.org/UA",
@@ -24530,7 +24530,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChassisIdSubtype",
         "displayName": "ChassisIdSubtype",
         "namespace": "http://opcfoundation.org/UA",
@@ -24538,7 +24538,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChassisId",
         "displayName": "ChassisId",
         "namespace": "http://opcfoundation.org/UA",
@@ -24546,7 +24546,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SystemName",
         "displayName": "SystemName",
         "namespace": "http://opcfoundation.org/UA",
@@ -24554,7 +24554,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SystemDescription",
         "displayName": "SystemDescription",
         "namespace": "http://opcfoundation.org/UA",
@@ -24704,7 +24704,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IetfBaseNetworkInterfaceName",
         "displayName": "IetfBaseNetworkInterfaceName",
         "namespace": "http://opcfoundation.org/UA",
@@ -24712,7 +24712,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DestMacAddress",
         "displayName": "DestMacAddress",
         "namespace": "http://opcfoundation.org/UA",
@@ -24723,7 +24723,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PortIdSubtype",
         "displayName": "PortIdSubtype",
         "namespace": "http://opcfoundation.org/UA",
@@ -24731,7 +24731,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PortId",
         "displayName": "PortId",
         "namespace": "http://opcfoundation.org/UA",

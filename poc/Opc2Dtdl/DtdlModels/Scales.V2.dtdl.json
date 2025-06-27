@@ -424,7 +424,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductName",
         "displayName": "ProductName",
         "description": "Defines the name of this product.",
@@ -1373,7 +1373,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VehicleId",
         "displayName": "VehicleId",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
@@ -1477,7 +1477,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TargetValueId",
         "displayName": "TargetValueId",
         "description": "Defines a unique Id of the aggregate that is being activated. A list of all possible TargetValueIds is defined in RecipeScaleDeviceType.",
@@ -1616,7 +1616,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConditionMode",
         "displayName": "ConditionMode",
         "description": "Defines the type of condition operator that is used.",
@@ -1667,7 +1667,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConditionMode",
         "displayName": "ConditionMode",
         "description": "Defines the type of condition operator that is used.",
@@ -1913,7 +1913,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RecipeId",
         "displayName": "RecipeId",
         "description": "RecipeId defines a unique identifier of a recipe.",
@@ -1922,7 +1922,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RecipeName",
         "displayName": "RecipeName",
         "description": "Defines a user-readable name of the recipe.",
@@ -2039,7 +2039,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Weighed",
         "displayName": "Weighed",
         "description": "This flag indicates that the element is considered in the weighed statistic.",
@@ -2189,7 +2189,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "WindowNumberOfValues",
         "displayName": "WindowNumberOfValues",
         "namespace": "http://opcfoundation.org/UA/IA",
@@ -2872,7 +2872,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Discharging",
         "displayName": "Discharging",
         "description": "Indicates that a discharging process is taking place.",
@@ -2881,7 +2881,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Refilling",
         "displayName": "Refilling",
         "namespace": "http://opcfoundation.org/UA/Scales.V2",
@@ -3304,7 +3304,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Limits",
         "displayName": "<Limits>",
         "description": "Defines a placeholder for individual additional limits that may be reached.",
@@ -3323,7 +3323,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitMax",
         "displayName": "LimitMax",
         "description": "The current fill level exceeds the allowed maximum level.",
@@ -3332,7 +3332,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitMin",
         "displayName": "LimitMin",
         "description": "The current fill level falls below the allowed minimum level.",
@@ -3714,7 +3714,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProcessStateMessage",
         "displayName": "ProcessStateMessage",
         "description": "Contains the message of the current overall state of the scale.",

@@ -166,7 +166,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MachineProcessingCoordinateSystem",
         "displayName": "MachineProcessingCoordinateSystem",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
@@ -388,7 +388,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProcessingCategories",
         "displayName": "ProcessingCategories",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",

@@ -22,7 +22,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -30,7 +30,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ParameterIdentifier",
         "displayName": "ParameterIdentifier",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -83,7 +83,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConditionParameterIdentifier",
         "displayName": "ConditionParameterIdentifier",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -157,7 +157,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConsumableIdentifier",
         "displayName": "ConsumableIdentifier",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -492,7 +492,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastModification",
         "displayName": "LastModification",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -500,7 +500,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastUsage",
         "displayName": "LastUsage",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -508,7 +508,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RecipeIdentifier",
         "displayName": "RecipeIdentifier",
         "namespace": "http://opcfoundation.org/UA/LaserSystems",
@@ -569,7 +569,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",

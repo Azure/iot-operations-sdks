@@ -21,7 +21,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ActualOutput",
         "displayName": "ActualOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
@@ -29,7 +29,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CuttingProductId",
         "displayName": "CuttingProductId",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
@@ -37,7 +37,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "TotalOutput",
         "displayName": "TotalOutput",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
@@ -129,7 +129,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",

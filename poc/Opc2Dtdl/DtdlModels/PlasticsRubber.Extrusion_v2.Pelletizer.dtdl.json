@@ -29,7 +29,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
@@ -153,7 +153,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Amount",
         "displayName": "Amount",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
@@ -161,7 +161,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",

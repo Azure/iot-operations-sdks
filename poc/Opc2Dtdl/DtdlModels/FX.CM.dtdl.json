@@ -437,7 +437,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Action",
         "displayName": "Action",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
@@ -445,7 +445,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConnectionConfigurationSetNode",
         "displayName": "ConnectionConfigurationSetNode",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
@@ -453,7 +453,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/FX.CM",
@@ -2065,7 +2065,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RollbackOnError",
         "displayName": "RollbackOnError",
         "namespace": "http://opcfoundation.org/UA/FX.CM",

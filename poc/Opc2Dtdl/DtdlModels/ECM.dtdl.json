@@ -45,7 +45,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumValues",
         "displayName": "EnumValues",
         "namespace": "http://opcfoundation.org/UA/ECM",
@@ -706,7 +706,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "WOLMagicPacket",
         "displayName": "WOLMagicPacket",
         "namespace": "http://opcfoundation.org/UA/ECM",
@@ -799,7 +799,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ApplicationTag",
         "displayName": "ApplicationTag",
         "namespace": "http://opcfoundation.org/UA/ECM",
@@ -1008,7 +1008,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DynamicData",
         "displayName": "DynamicData",
         "namespace": "http://opcfoundation.org/UA/ECM",
@@ -1016,7 +1016,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ID",
         "displayName": "ID",
         "namespace": "http://opcfoundation.org/UA/ECM",

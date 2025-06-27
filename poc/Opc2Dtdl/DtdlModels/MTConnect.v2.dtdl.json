@@ -68,7 +68,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Number",
         "displayName": "Number",
         "description": "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit.",
@@ -146,7 +146,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "XmlId",
         "displayName": "XmlId",
         "description": "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment.",
@@ -241,7 +241,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MTTypeName",
         "displayName": "MTTypeName",
         "description": "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element.",
@@ -268,7 +268,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "XmlId",
         "displayName": "XmlId",
         "description": "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element.",
@@ -342,7 +342,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "FirwareVersion",
         "displayName": "FirwareVersion",
         "description": "An MTConnect Sensor Configuration associated with the Component. See SensorConfigurationType in type-specifications. An element that can contain descriptive content defining the configuration information for sensor.",
@@ -1425,7 +1425,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ActiveState",
         "displayName": "ActiveState",
         "description": "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}.",
@@ -1434,7 +1434,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DataItemId",
         "displayName": "DataItemId",
         "description": "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}.",
@@ -1443,7 +1443,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MTSeverity",
         "displayName": "MTSeverity",
         "description": "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}.",
@@ -1452,7 +1452,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MTSubTypeName",
         "displayName": "MTSubTypeName",
         "description": "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}.",
@@ -1461,7 +1461,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MTTypeName",
         "displayName": "MTTypeName",
         "description": "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}.",
@@ -1566,7 +1566,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Category",
         "displayName": "Category",
         "description": "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment.",
@@ -1584,7 +1584,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MTTypeName",
         "displayName": "MTTypeName",
         "description": "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment.",
@@ -1638,7 +1638,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "XmlId",
         "displayName": "XmlId",
         "description": "The data item mixin will inject the properties and the methods into the related classes. This facility is similar to the Ruby module mixin or the Scala traits. data entity describing a piece of information reported about a piece of equipment.",
@@ -2713,7 +2713,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -2749,7 +2749,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -2785,7 +2785,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -2821,7 +2821,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -2857,7 +2857,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -2893,7 +2893,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -2929,7 +2929,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -2965,7 +2965,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3001,7 +3001,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3037,7 +3037,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3073,7 +3073,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3109,7 +3109,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3145,7 +3145,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3181,7 +3181,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3217,7 +3217,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3253,7 +3253,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3289,7 +3289,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3325,7 +3325,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3361,7 +3361,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3397,7 +3397,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3433,7 +3433,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3469,7 +3469,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3505,7 +3505,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3541,7 +3541,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3577,7 +3577,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3613,7 +3613,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3649,7 +3649,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3685,7 +3685,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3721,7 +3721,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3757,7 +3757,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3793,7 +3793,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3829,7 +3829,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
@@ -3865,7 +3865,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumStrings",
         "displayName": "EnumStrings",
         "namespace": "http://opcfoundation.org/UA/MTConnect.v2",

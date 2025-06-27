@@ -320,7 +320,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "WOLMagicPacket",
         "displayName": "WOLMagicPacket",
         "namespace": "http://opcfoundation.org/UA/PNEM",
@@ -413,7 +413,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PeObjectNumber",
         "displayName": "PeObjectNumber",
         "namespace": "http://opcfoundation.org/UA/PNEM",
@@ -589,7 +589,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DynamicData",
         "displayName": "DynamicData",
         "namespace": "http://opcfoundation.org/UA/PNEM",

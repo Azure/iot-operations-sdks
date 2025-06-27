@@ -174,7 +174,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IpAddress",
         "displayName": "IpAddress",
         "description": "IP address of the MCS.",

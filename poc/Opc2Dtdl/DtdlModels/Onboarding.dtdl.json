@@ -581,7 +581,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductInstanceUri",
         "displayName": "ProductInstanceUri",
         "namespace": "http://opcfoundation.org/UA/Onboarding",
@@ -612,7 +612,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Certificate",
         "displayName": "Certificate",
         "namespace": "http://opcfoundation.org/UA/Onboarding",
@@ -620,7 +620,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Ticket",
         "displayName": "Ticket",
         "namespace": "http://opcfoundation.org/UA/Onboarding",
@@ -628,7 +628,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Composite",
         "displayName": "Composite",
         "namespace": "http://opcfoundation.org/UA/Onboarding",
@@ -659,7 +659,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
         "namespace": "http://opcfoundation.org/UA/Onboarding",

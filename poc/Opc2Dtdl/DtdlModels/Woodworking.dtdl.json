@@ -179,7 +179,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventCategory",
         "displayName": "EventCategory",
         "description": "The EventCategory Variable provides the category of the event.",
@@ -209,7 +209,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MessageId",
         "displayName": "MessageId",
         "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
@@ -227,7 +227,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PathParts",
         "displayName": "PathParts",
         "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName.",
@@ -469,7 +469,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EventCategory",
         "displayName": "EventCategory",
         "description": "The EventCategory Variable provides the category of the event.",
@@ -499,7 +499,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MessageId",
         "displayName": "MessageId",
         "description": "The MessageId Variable is a unique Identifier like a number or name of the message in the cause path (PathParts) determined Module. Example: “A4711” or “1”",
@@ -517,7 +517,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PathParts",
         "displayName": "PathParts",
         "description": "The PathParts Variable is an array of Path information strings based on a server independent hierarchical structure of modules or an application specific expansion of that. It is an additional location information beside the SourceName. Example: “Machine”, “FixedSide”, “Sizing”, “Milling1”",

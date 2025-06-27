@@ -71,7 +71,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1174,7 +1174,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfInputPhases",
         "displayName": "NumberOfInputPhases",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1334,7 +1334,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfOutputPhases",
         "displayName": "NumberOfOutputPhases",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1600,7 +1600,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlVoltageAC50HzRangeRated",
         "displayName": "ControlVoltageAC50HzRangeRated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1608,7 +1608,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNC",
         "displayName": "NumberofAuxiliaryContactsNC",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1616,7 +1616,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNO",
         "displayName": "NumberofAuxiliaryContactsNO",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1624,7 +1624,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofMainContactsNO",
         "displayName": "NumberofMainContactsNO",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1632,7 +1632,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperationalCurrentAC3At400VRated",
         "displayName": "OperationalCurrentAC3At400VRated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1748,7 +1748,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "GroundEarthFaultDetectionSupported",
         "displayName": "GroundEarthFaultDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1756,7 +1756,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JamDetectionSupported",
         "displayName": "JamDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1764,7 +1764,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNC",
         "displayName": "NumberofAuxiliaryContactsNC",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1772,7 +1772,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverloadCurrentSettingRange",
         "displayName": "OverloadCurrentSettingRange",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1780,7 +1780,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PhaseLossSensitiveSupported",
         "displayName": "PhaseLossSensitiveSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1788,7 +1788,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StallDetectionSuported",
         "displayName": "StallDetectionSuported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -1796,7 +1796,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VoltageRated",
         "displayName": "VoltageRated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2547,7 +2547,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlVoltageAC50HzRangeRated",
         "displayName": "ControlVoltageAC50HzRangeRated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2555,7 +2555,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CosPhiVariationDetectionSupported",
         "displayName": "CosPhiVariationDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2563,7 +2563,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CurrentImbalanceDetectionSupported",
         "displayName": "CurrentImbalanceDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2571,7 +2571,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "GroundEarthFaultDetectionSupported",
         "displayName": "GroundEarthFaultDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2579,7 +2579,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HMIPortSupported",
         "displayName": "HMIPortSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2587,7 +2587,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JamDetectionSupported",
         "displayName": "JamDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2595,7 +2595,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LoadSheddingSupported",
         "displayName": "LoadSheddingSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2603,7 +2603,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfAnalogInputs",
         "displayName": "NumberOfAnalogInputs",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2611,7 +2611,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfDigitalInputs",
         "displayName": "NumberOfDigitalInputs",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2619,7 +2619,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfDigitalOutputs",
         "displayName": "NumberOfDigitalOutputs",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2627,7 +2627,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfPtcThermistorInputs",
         "displayName": "NumberOfPtcThermistorInputs",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2635,7 +2635,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverloadCurrentSettingRange",
         "displayName": "OverloadCurrentSettingRange",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2643,7 +2643,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverUnderCurrentDetectionSupported",
         "displayName": "OverUnderCurrentDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2651,7 +2651,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverUnderVoltageDetectionSupported",
         "displayName": "OverUnderVoltageDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2659,7 +2659,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PhaseLossSensitiveSupported",
         "displayName": "PhaseLossSensitiveSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2667,7 +2667,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PhaseReversalDetectionSupported",
         "displayName": "PhaseReversalDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2675,7 +2675,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StallDetectionSuported",
         "displayName": "StallDetectionSuported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2683,7 +2683,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UnderPowerDetectionSupported",
         "displayName": "UnderPowerDetectionSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2691,7 +2691,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VoltageMonitoringSupported",
         "displayName": "VoltageMonitoringSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2963,7 +2963,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlVoltageAC50HzRangeRated",
         "displayName": "ControlVoltageAC50HzRangeRated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2971,7 +2971,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNC",
         "displayName": "NumberofAuxiliaryContactsNC",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2979,7 +2979,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNO",
         "displayName": "NumberofAuxiliaryContactsNO",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2987,7 +2987,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofMainContactsNO",
         "displayName": "NumberofMainContactsNO",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -2995,7 +2995,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperationalCurrentAC3At400VRated",
         "displayName": "OperationalCurrentAC3At400VRated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -3003,7 +3003,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverloadCurrentSettingRange",
         "displayName": "OverloadCurrentSettingRange",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -3241,7 +3241,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IntegratedByPassSupported",
         "displayName": "IntegratedByPassSupported",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -3249,7 +3249,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MotorOverloadProtectionIntegrated",
         "displayName": "MotorOverloadProtectionIntegrated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -3257,7 +3257,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperationalCurrent40CRated",
         "displayName": "OperationalCurrent40CRated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -3265,7 +3265,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperationalVoltageRangeRated",
         "displayName": "OperationalVoltageRangeRated",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -3548,7 +3548,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/Powertrain",
@@ -3622,7 +3622,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Manufacturer",
         "displayName": "Manufacturer",
         "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
@@ -3699,7 +3699,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SerialNumber",
         "displayName": "SerialNumber",
         "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",

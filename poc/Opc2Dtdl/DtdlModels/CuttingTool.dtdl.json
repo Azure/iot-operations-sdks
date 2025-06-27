@@ -45,7 +45,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "FileFormat",
         "displayName": "FileFormat",
         "namespace": "http://opcfoundation.org/UA/CuttingTool",

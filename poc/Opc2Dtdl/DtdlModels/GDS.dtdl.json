@@ -947,7 +947,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateGroup",
         "displayName": "CertificateGroup",
         "namespace": "http://opcfoundation.org/UA/GDS",
@@ -955,7 +955,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateType",
         "displayName": "CertificateType",
         "namespace": "http://opcfoundation.org/UA/GDS",
@@ -986,7 +986,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateGroup",
         "displayName": "CertificateGroup",
         "namespace": "http://opcfoundation.org/UA/GDS",
@@ -994,7 +994,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateType",
         "displayName": "CertificateType",
         "namespace": "http://opcfoundation.org/UA/GDS",
@@ -1054,7 +1054,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResourceUri",
         "displayName": "ResourceUri",
         "namespace": "http://opcfoundation.org/UA/GDS",
@@ -1062,7 +1062,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProfileUris",
         "displayName": "ProfileUris",
         "namespace": "http://opcfoundation.org/UA/GDS",
@@ -1398,7 +1398,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServiceUri",
         "displayName": "ServiceUri",
         "namespace": "http://opcfoundation.org/UA/GDS",
@@ -1406,7 +1406,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServiceCertificate",
         "displayName": "ServiceCertificate",
         "namespace": "http://opcfoundation.org/UA/GDS",

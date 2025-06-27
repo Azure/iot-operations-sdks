@@ -173,7 +173,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
@@ -181,7 +181,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
@@ -226,7 +226,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",

@@ -35,7 +35,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobId",
         "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -185,7 +185,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "BlockReaction",
         "displayName": "BlockReaction",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -289,7 +289,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StopReaction",
         "displayName": "StopReaction",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -383,7 +383,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Steps",
         "displayName": "Steps",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -428,7 +428,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobId",
         "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -480,7 +480,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Step",
         "displayName": "Step",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -525,7 +525,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobId",
         "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -617,7 +617,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InternalId",
         "displayName": "InternalId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -804,7 +804,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CreationTime",
         "displayName": "CreationTime",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -828,7 +828,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InternalConfigurationId",
         "displayName": "InternalConfigurationId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -836,7 +836,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InternalRecipeId",
         "displayName": "InternalRecipeId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -844,7 +844,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPartial",
         "displayName": "IsPartial",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -860,7 +860,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobId",
         "displayName": "JobId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -908,7 +908,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResultId",
         "displayName": "ResultId",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -916,7 +916,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResultState",
         "displayName": "ResultState",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -1274,7 +1274,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VisionSafetyInformation",
         "displayName": "VisionSafetyInformation",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -1282,7 +1282,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "VisionSafetyTriggered",
         "displayName": "VisionSafetyTriggered",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -2832,7 +2832,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "InternalId",
         "displayName": "InternalId",
         "description": "System-wide unique ID for identifying a recipe. This ID is assigned by the vision system.",
@@ -2841,7 +2841,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPrepared",
         "displayName": "IsPrepared",
         "namespace": "http://opcfoundation.org/UA/MachineVision",
@@ -2849,7 +2849,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LastModified",
         "displayName": "LastModified",
         "description": "The time when this recipe was last modified.",

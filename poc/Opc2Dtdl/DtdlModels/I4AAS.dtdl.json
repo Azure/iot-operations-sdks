@@ -151,7 +151,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AssetKind",
         "displayName": "AssetKind",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -385,7 +385,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -409,7 +409,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PreferredName",
         "displayName": "PreferredName",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -550,7 +550,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -558,7 +558,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IdType",
         "displayName": "IdType",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -662,7 +662,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Type",
         "displayName": "Type",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -678,7 +678,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValueType",
         "displayName": "ValueType",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -881,7 +881,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Keys",
         "displayName": "Keys",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -940,7 +940,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Category",
         "displayName": "Category",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -948,7 +948,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ModelingKind",
         "displayName": "ModelingKind",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1064,7 +1064,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EntityType",
         "displayName": "EntityType",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1133,7 +1133,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MimeType",
         "displayName": "MimeType",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1141,7 +1141,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Value",
         "displayName": "Value",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1334,7 +1334,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValueType",
         "displayName": "ValueType",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1463,7 +1463,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValueType",
         "displayName": "ValueType",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1670,7 +1670,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ModelingKind",
         "displayName": "ModelingKind",
         "namespace": "http://opcfoundation.org/UA/I4AAS",
@@ -1723,7 +1723,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Category",
         "displayName": "Category",
         "namespace": "http://opcfoundation.org/UA/I4AAS",

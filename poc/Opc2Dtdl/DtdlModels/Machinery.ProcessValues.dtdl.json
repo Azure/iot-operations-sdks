@@ -22,7 +22,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ZeroPointAdjustmentResult",
         "displayName": "ZeroPointAdjustmentResult",
         "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",

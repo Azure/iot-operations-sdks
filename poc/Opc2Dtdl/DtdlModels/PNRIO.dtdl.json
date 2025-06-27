@@ -117,7 +117,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Reason",
         "displayName": "Reason",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -125,7 +125,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RioChannelNumber",
         "displayName": "RioChannelNumber",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -133,7 +133,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -260,7 +260,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Reason",
         "displayName": "Reason",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -268,7 +268,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RioChannelNumber",
         "displayName": "RioChannelNumber",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -276,7 +276,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -307,7 +307,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Offset",
         "displayName": "Offset",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -392,7 +392,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Length",
         "displayName": "Length",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -400,7 +400,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProviderStatus",
         "displayName": "ProviderStatus",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -759,7 +759,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfChannels",
         "displayName": "NumberOfChannels",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -1136,7 +1136,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ApplicationTag",
         "displayName": "ApplicationTag",
         "namespace": "http://opcfoundation.org/UA/PNRIO",
@@ -1152,7 +1152,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RioChannelNumber",
         "displayName": "RioChannelNumber",
         "namespace": "http://opcfoundation.org/UA/PNRIO",

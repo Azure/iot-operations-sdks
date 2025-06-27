@@ -62,7 +62,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -70,7 +70,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LineId",
         "displayName": "LineId",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -78,7 +78,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -197,7 +197,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -251,7 +251,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -289,7 +289,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -297,7 +297,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RollId1",
         "displayName": "RollId1",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -305,7 +305,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RollId2",
         "displayName": "RollId2",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -426,7 +426,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -464,7 +464,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -509,7 +509,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
@@ -547,7 +547,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",

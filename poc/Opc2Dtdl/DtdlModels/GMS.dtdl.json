@@ -21,7 +21,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ErrorCode",
         "displayName": "ErrorCode",
         "namespace": "http://opcfoundation.org/UA/GMS",
@@ -422,7 +422,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "CharacteristicIdentifier",
         "displayName": "CharacteristicIdentifier",
         "namespace": "http://opcfoundation.org/UA/GMS",
@@ -438,7 +438,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/GMS",
@@ -897,7 +897,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Calibrated",
         "displayName": "Calibrated",
         "namespace": "http://opcfoundation.org/UA/GMS",
@@ -932,7 +932,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DateOfCalibration",
         "displayName": "DateOfCalibration",
         "namespace": "http://opcfoundation.org/UA/GMS",
@@ -993,7 +993,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsIntegrated",
         "displayName": "IsIntegrated",
         "namespace": "http://opcfoundation.org/UA/GMS",
@@ -1001,7 +1001,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfAxes",
         "displayName": "NumberOfAxes",
         "namespace": "http://opcfoundation.org/UA/GMS",
@@ -1033,7 +1033,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsAvailable",
         "displayName": "IsAvailable",
         "namespace": "http://opcfoundation.org/UA/GMS",
@@ -1065,7 +1065,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsAvailable",
         "displayName": "IsAvailable",
         "namespace": "http://opcfoundation.org/UA/GMS",

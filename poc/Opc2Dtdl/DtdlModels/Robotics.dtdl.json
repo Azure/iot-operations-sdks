@@ -111,7 +111,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MotionDeviceCategory",
         "displayName": "MotionDeviceCategory",
         "description": "The variable MotionDeviceCategory provides the kind of motion device defined by MotionDeviceCategoryEnumeration based on ISO 8373.",
@@ -211,7 +211,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MotionProfile",
         "displayName": "MotionProfile",
         "description": "The kind of axis motion as defined with the AxisMotionProfileEnumeration.",
@@ -437,7 +437,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "description": "The Name of the EmergencyStopFunctionType provides a manufacturer-specific emergency stop function identifier within the safety system.",
@@ -479,7 +479,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "description": "The Name of the ProtectiveStopFunctionType provides a manufacturer-specific protective stop function identifier within the safety system.",
@@ -849,7 +849,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Level",
         "displayName": "Level",
         "description": "The weight of the load mounted on one mounting point.",

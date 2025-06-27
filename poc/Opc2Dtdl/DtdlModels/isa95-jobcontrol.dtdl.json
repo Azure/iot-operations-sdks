@@ -514,7 +514,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobOrder",
         "displayName": "JobOrder",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
@@ -522,7 +522,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobResponse",
         "displayName": "JobResponse",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
@@ -530,7 +530,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobState",
         "displayName": "JobState",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
@@ -2041,7 +2041,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxDownloadableJobOrders",
         "displayName": "MaxDownloadableJobOrders",
         "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",

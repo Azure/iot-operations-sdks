@@ -23,7 +23,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
         "description": "Enumerate the acoustic signals. Instances of StackElementAcousticType index into this number using the OperationMode Property.",
@@ -458,7 +458,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SignalOn",
         "displayName": "SignalOn",
         "description": "Indicates if the colour is switched on.",
@@ -541,7 +541,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "StacklightMode",
         "displayName": "StacklightMode",
         "description": "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used.",
@@ -672,7 +672,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
         "description": "Enumerate the stacklight elements counting upwards beginning from the base of the stacklight.",

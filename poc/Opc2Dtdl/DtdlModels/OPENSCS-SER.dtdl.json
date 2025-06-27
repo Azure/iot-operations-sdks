@@ -166,7 +166,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxAggregationEvents",
         "displayName": "MaxAggregationEvents",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -527,7 +527,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxEPCISaggregationEvents",
         "displayName": "MaxEPCISaggregationEvents",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -535,7 +535,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxEPCISObjectEventSIDs",
         "displayName": "MaxEPCISObjectEventSIDs",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -543,7 +543,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxEvents",
         "displayName": "MaxEvents",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1225,7 +1225,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxSNPushable",
         "displayName": "MaxSNPushable",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1233,7 +1233,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxSNRequestable",
         "displayName": "MaxSNRequestable",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1241,7 +1241,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxSNReturnable",
         "displayName": "MaxSNReturnable",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1249,7 +1249,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "PoolSelectionCriteria",
         "displayName": "PoolSelectionCriteria",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1260,7 +1260,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SNFormat",
         "displayName": "SNFormat",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1787,7 +1787,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AllowedCharacterSet",
         "displayName": "AllowedCharacterSet",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1811,7 +1811,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SIDClassID",
         "displayName": "SIDClassID",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1819,7 +1819,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SIDClassOwner",
         "displayName": "SIDClassOwner",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
@@ -1838,7 +1838,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SyntaxSpecification",
         "displayName": "SyntaxSpecification",
         "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",

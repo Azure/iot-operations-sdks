@@ -21,7 +21,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",
@@ -59,7 +59,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calender",

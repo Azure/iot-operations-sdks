@@ -39,7 +39,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "BatchId",
         "displayName": "BatchId",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -55,7 +55,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OrderId",
         "displayName": "OrderId",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -63,7 +63,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SystemTime",
         "displayName": "SystemTime",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -95,7 +95,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HistoryDuration",
         "displayName": "HistoryDuration",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -103,7 +103,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SamplingInterval",
         "displayName": "SamplingInterval",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3292,7 +3292,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3491,7 +3491,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3499,7 +3499,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithAutomaticCleaning",
         "displayName": "IsWithAutomaticCleaning",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3507,7 +3507,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithExternalCoreTempSensor",
         "displayName": "IsWithExternalCoreTempSensor",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3515,7 +3515,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithInternalCoreTempSensor",
         "displayName": "IsWithInternalCoreTempSensor",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3523,7 +3523,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithSousvideTempSensor",
         "displayName": "IsWithSousvideTempSensor",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3584,7 +3584,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3592,7 +3592,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithAgitator",
         "displayName": "IsWithAgitator",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3600,7 +3600,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithCooling",
         "displayName": "IsWithCooling",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3661,7 +3661,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3669,7 +3669,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithPanDetection",
         "displayName": "IsWithPanDetection",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3677,7 +3677,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfPhases",
         "displayName": "NumberOfPhases",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3775,7 +3775,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3783,7 +3783,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithLift",
         "displayName": "IsWithLift",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3843,7 +3843,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3903,7 +3903,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -3911,7 +3911,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithPressure",
         "displayName": "IsWithPressure",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -4032,7 +4032,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -4121,7 +4121,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -4129,7 +4129,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsWithLift",
         "displayName": "IsWithLift",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -4190,7 +4190,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnergySource",
         "displayName": "EnergySource",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",

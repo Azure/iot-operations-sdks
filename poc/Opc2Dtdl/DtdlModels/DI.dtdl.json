@@ -1347,7 +1347,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1355,7 +1355,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Locked",
         "displayName": "Locked",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1363,7 +1363,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LockingClient",
         "displayName": "LockingClient",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1371,7 +1371,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LockingUser",
         "displayName": "LockingUser",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1379,7 +1379,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RemainingLockTime",
         "displayName": "RemainingLockTime",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -1505,7 +1505,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -2006,7 +2006,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Manufacturer",
         "displayName": "Manufacturer",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -2014,7 +2014,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ManufacturerUri",
         "displayName": "ManufacturerUri",
         "namespace": "http://opcfoundation.org/UA/DI",
@@ -2022,7 +2022,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
         "namespace": "http://opcfoundation.org/UA/DI",

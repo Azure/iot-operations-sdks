@@ -658,7 +658,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "UnitSupportedModes",
         "displayName": "UnitSupportedModes",
         "namespace": "http://opcfoundation.org/UA/PackML",

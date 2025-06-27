@@ -29,7 +29,7 @@ namespace Yaml2Dtdl
             this.Write("      {\r\n        \"@type\": [ \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.classType));
             this.Write("\", ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(null)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(this.classType, null)));
             this.Write(" ],\r\n        \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
             this.Write("\",\r\n");
@@ -59,7 +59,7 @@ namespace Yaml2Dtdl
  } else { 
             this.Write("        \"schema\": {\r\n          \"@type\": [ \"Object\", \"Detail\" ],\r\n          \"field" +
                     "s\": [\r\n            {\r\n              \"@type\": [ \"Field\", \"Subject\", ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(this.definedType)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes("Field", this.definedType)));
             this.Write(" ],\r\n              \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
             this.Write("\",\r\n");
@@ -86,7 +86,7 @@ namespace Yaml2Dtdl
             this.Write("\r\n            },\r\n");
  int ix = 1; foreach (OpcUaDefinedType subVar in this.SubVars) { 
             this.Write("            {\r\n              \"@type\": [ \"Field\", ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes(subVar)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.GetCotypes("Field", subVar)));
             this.Write(" ],\r\n              \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(subVar.BrowseName)))));
             this.Write("\",\r\n");

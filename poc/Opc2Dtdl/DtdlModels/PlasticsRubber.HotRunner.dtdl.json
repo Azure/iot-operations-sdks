@@ -81,7 +81,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ActualType",
         "displayName": "ActualType",
         "description": "Actual value for the controller type used by the zone",
@@ -90,7 +90,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ActualValueActive",
         "displayName": "ActualValueActive",
         "description": "Indicates the current status of the controller",
@@ -126,7 +126,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SetValueActive",
         "displayName": "SetValueActive",
         "description": "A control zone is switched on and off with this parameter.",
@@ -574,7 +574,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceMappingNumber",
         "displayName": "DeviceMappingNumber",
         "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
@@ -583,7 +583,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnablePower",
         "displayName": "EnablePower",
         "description": "Global power control switch for all zone controllers",
@@ -592,7 +592,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighestActiveAlarmSeverity",
         "displayName": "HighestActiveAlarmSeverity",
         "description": "Indication of the severity of the highest active alarm",
@@ -601,7 +601,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SessionNameForReactionOnDisconnect",
         "displayName": "SessionNameForReactionOnDisconnect",
         "description": "Contains the sessionName of the connection with the client relevant for ReactionOnDisconnect",
@@ -725,7 +725,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ErrorDetected",
         "displayName": "ErrorDetected",
         "description": "Result of the TemperatureRiseMonitoring",
@@ -734,7 +734,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SetValueActive",
         "displayName": "SetValueActive",
         "description": "On / Off for the TemperatureRiseMonitoring",
@@ -784,7 +784,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
@@ -824,7 +824,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighestActiveAlarmSeverity",
         "displayName": "HighestActiveAlarmSeverity",
         "description": "Indicates the severity of the highest active alarm related to the current zone",

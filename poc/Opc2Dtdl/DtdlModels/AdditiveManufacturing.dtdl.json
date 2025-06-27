@@ -124,7 +124,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
@@ -201,7 +201,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AMTechnologyIdentifier",
         "displayName": "AMTechnologyIdentifier",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
@@ -297,7 +297,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Category",
         "displayName": "Category",
         "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",

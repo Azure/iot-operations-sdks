@@ -22,7 +22,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceName",
         "displayName": "DeviceName",
         "description": "Name of the device of the diagnostic data.",
@@ -135,7 +135,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AccessResult",
         "displayName": "AccessResult",
         "description": "Result values of the access.",
@@ -233,7 +233,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Presence",
         "displayName": "Presence",
         "description": "Current presence of AutoID Identifier.",
@@ -470,7 +470,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceName",
         "displayName": "DeviceName",
         "namespace": "http://opcfoundation.org/UA/AutoID",
@@ -478,7 +478,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "ScanResult",
         "displayName": "ScanResult",
         "namespace": "http://opcfoundation.org/UA/AutoID",
@@ -998,7 +998,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "AutoIdModelVersion",
         "displayName": "AutoIdModelVersion",
         "namespace": "http://opcfoundation.org/UA/AutoID",
@@ -1024,7 +1024,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceName",
         "displayName": "DeviceName",
         "description": "Default could be also host name, IP address or MAC. This should be a field that can be configured for a device.",
@@ -2097,7 +2097,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "GeographicalUnit",
         "displayName": "GeographicalUnit",
         "namespace": "http://opcfoundation.org/UA/AutoID",
@@ -2105,7 +2105,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "LengthUnit",
         "displayName": "LengthUnit",
         "namespace": "http://opcfoundation.org/UA/AutoID",
@@ -2113,7 +2113,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "RotationalUnit",
         "displayName": "RotationalUnit",
         "namespace": "http://opcfoundation.org/UA/AutoID",
@@ -2121,7 +2121,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "SpeedUnit",
         "displayName": "SpeedUnit",
         "namespace": "http://opcfoundation.org/UA/AutoID",

@@ -22,7 +22,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceMappingNumber",
         "displayName": "DeviceMappingNumber",
         "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
@@ -285,7 +285,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
@@ -457,7 +457,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "Used",
         "displayName": "Used",
         "description": "Return whether an external temperature sensor is used for control",
@@ -776,7 +776,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceMappingNumber",
         "displayName": "DeviceMappingNumber",
         "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
@@ -785,7 +785,7 @@
         "writable": true
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighestActiveAlarmSeverity",
         "displayName": "HighestActiveAlarmSeverity",
         "description": "Indication of the severity of the highest active alarm (0 = no active alarm – 1000 = possible error)",
@@ -794,7 +794,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified" ],
+        "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperatingMode",
         "displayName": "OperatingMode",
         "description": "Actual operating mode of the TCD",
