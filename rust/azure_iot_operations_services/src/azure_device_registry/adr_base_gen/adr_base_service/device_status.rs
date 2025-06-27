@@ -15,7 +15,7 @@ use super::device_status_endpoint_schema::DeviceStatusEndpointSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceStatus {
-    /// The 'config' Field.
+    /// The configuration status of the device.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub config: Option<ConfigStatus>,

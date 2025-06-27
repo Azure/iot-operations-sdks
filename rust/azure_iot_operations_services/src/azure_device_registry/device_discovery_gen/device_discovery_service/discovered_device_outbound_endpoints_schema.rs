@@ -14,7 +14,7 @@ use super::device_outbound_endpoint::DeviceOutboundEndpoint;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDeviceOutboundEndpointsSchema {
-    /// The 'assigned' Field.
+    /// Endpoints the device can connect to.
     #[builder(default)]
     pub assigned: HashMap<String, DeviceOutboundEndpoint>,
 }

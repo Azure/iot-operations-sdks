@@ -16,7 +16,7 @@ use super::config_status::ConfigStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetStatus {
-    /// Defines the asset status config properties.
+    /// The configuration status of the asset.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub config: Option<ConfigStatus>,
