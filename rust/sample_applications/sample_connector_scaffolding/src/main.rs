@@ -59,7 +59,7 @@ const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Def
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize the logger
-    // IMPLEMENT: Use a more sophisticated logger configuration in production
+    // TODO: Use a more sophisticated logger configuration in production
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::Debug)
         .format_timestamp(None)
@@ -341,7 +341,6 @@ async fn asset_handler(
 /// * `dataset_client` - The dataset client.
 /// * `asset_ready_watcher_rx` - A watcher for the asset readiness state.
 /// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
-#[allow(unused_assignments)] // IMPLEMENT: Remove once variables are being used
 async fn handle_dataset(
     dataset_log_identifier: String,
     mut dataset_client: DatasetClient,
@@ -351,7 +350,7 @@ async fn handle_dataset(
     let mut is_asset_ready = *asset_ready_watcher_rx.borrow_and_update();
     let mut is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
     // This boolean tracks if the dataset is ready to be sampled.
-    let mut is_dataset_ready = false;
+    let mut is_dataset_ready;
     // This boolean tracks if the status for the dataset has been reported.
     let mut is_dataset_reported = false;
 
