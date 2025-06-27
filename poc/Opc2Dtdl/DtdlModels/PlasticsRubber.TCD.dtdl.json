@@ -72,15 +72,16 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "ActualPumpSpeedRPM",
         "displayName": "ActualPumpSpeedRPM",
         "description": "Actual speed of the pump in revolutions per minute",
         "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "unit": "reciprocalMinute",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Throttle" ],
         "name": "ActualRegulationRatio",
         "displayName": "ActualRegulationRatio",
         "description": "Actual Regulation Ratio (heating = positive value, cooling = negative value)",

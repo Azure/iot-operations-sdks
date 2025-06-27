@@ -371,7 +371,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "FeedbackVariable",
         "displayName": "FeedbackVariable",
         "description": "Variable quantity, which represents the controlled variable and is returned to the comparing element",
@@ -396,7 +396,7 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "ReferenceVariable",
         "displayName": "ReferenceVariable",
         "description": "Input variable to a comparing element in a controlling system, which sets the desired value of the controlled variable and is deducted from the command variable",
@@ -777,7 +777,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "Availability",
         "displayName": "Availability",
         "description": "Probability that a machine will, when used under specified conditions, operate satisfactorily and effectively",
@@ -786,7 +786,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "Durability",
         "displayName": "Durability",
         "description": "Actual reliability of an item considering operating modes, operating conditions and possible preventive maintenance actions carried out",
@@ -795,7 +795,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "ExpectedReliability",
         "displayName": "ExpectedReliability",
         "description": "Reliability of an item determined by design and manufacture under expected conditions of operation and maintenance",
@@ -804,7 +804,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "InstantaneousAvailability",
         "displayName": "InstantaneousAvailability",
         "description": "Probability that an item is in a state to perform as required at a given instant, under given conditions, assuming that the necessary external resources are provided",
@@ -813,7 +813,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "IntrinsicMaintainability",
         "displayName": "IntrinsicMaintainability",
         "description": "Maintainability of an item determined by the design under expected conditions of maintenance and logistic support",
@@ -822,7 +822,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "IntrinsicReliability",
         "displayName": "IntrinsicReliability",
         "description": "Reliability of an item determined by design and manufacture under expected conditions of operation assuming that no preventive maintenance task is carried out, excepting routine maintenance",
@@ -831,7 +831,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "Maintainability",
         "displayName": "Maintainability",
         "description": "Ability of a machine or part of a system to be retained in, or restored to, a state in which it can perform the required function(s)",
@@ -840,7 +840,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "OperationalReliability",
         "displayName": "OperationalReliability",
         "description": "Actual reliability of an item considering operating modes, operating conditions and possible preventive maintenance actions carried out",
@@ -849,7 +849,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "ProductionBasedAvailability",
         "displayName": "ProductionBasedAvailability",
         "description": "Ratio of actual production to required production, or any other reference level, over a specified period of time",
@@ -858,7 +858,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "Reliability",
         "displayName": "Reliability",
         "description": "Probability that a machine will perform its required functions without failure for a specified time period when used under specified conditions",
@@ -867,7 +867,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "TimeBasedAvailability",
         "displayName": "TimeBasedAvailability",
         "description": "During a given period of time, percentage of the time during which an item was able to perform when required",
@@ -1889,12 +1889,12 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "CriticalSpeed",
         "displayName": "CriticalSpeed",
         "description": "Speed of rotation at which the frequency of vibration (or its multiples) corresponds to the rotor resonant (lateral or torsional)",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -1940,12 +1940,12 @@
         "schema": "dtmi:opcua:Pumps:DesignType:dataType:DeclarationOfConformityOptionSet;1"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "DryCriticalSpeed",
         "displayName": "DryCriticalSpeed",
         "description": "Rotor resonant frequency calculated assuming that the rotor is supported only at its bearings and that the bearings are of infinite stiffness",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -2011,12 +2011,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "MaximumAllowableContinuousSpeed",
         "displayName": "MaximumAllowableContinuousSpeed",
         "description": "Highest rotational speed for continuous operation recommended by the manufacturer",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -2029,7 +2029,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "MaximumAllowableRelativeHumidity",
         "displayName": "MaximumAllowableRelativeHumidity",
         "description": "Highest allowable relative humidity for which the equipment (or any part to which the term refers) is suitable",
@@ -2047,11 +2047,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "GasLeakageRate" ],
         "name": "MaximumAllowableThroughput",
         "displayName": "MaximumAllowableThroughput",
         "description": "Maximum pV flow the pump can withstand without damage",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "pascalCubicMetrePerSecond",
         "schema": "double"
       },
       {
@@ -2118,12 +2119,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "MinimumAllowableContinuousSpeed",
         "displayName": "MinimumAllowableContinuousSpeed",
         "description": "Lowest speed for continuous operation recommended by the manufacturer",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -2136,7 +2137,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "MinimumAllowableRelativeHumidity",
         "displayName": "MinimumAllowableRelativeHumidity",
         "description": "Lowest allowable relative humidity for which the equipment (or any part to which the term refers) is suitable",
@@ -2360,12 +2361,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "SpecificSpeed",
         "displayName": "SpecificSpeed",
         "description": "Speed that characterizes a pump in terms of its speed, flow rate per impeller eye, i.e. total flow for single-flow impeller, half flow for double-flow impeller, at the best efficiency point and head per stage at maximum impeller diameter",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -2387,12 +2388,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "Suction_SpecificSpeed",
         "displayName": "Suction_SpecificSpeed",
         "description": "Speed that characterizes a pump's cavitation performance in terms of its speed, optimum rate of flow per impeller eye at best efficiency point and NPSH3 at best efficiency point for the first stage at maximum impeller diameter",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -2405,12 +2406,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "TripSpeed",
         "displayName": "TripSpeed",
         "description": "Speed at which the independent emergency overspeed devices operate to shut down a prime mover",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -2458,12 +2459,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "WetCriticalSpeed",
         "displayName": "WetCriticalSpeed",
         "description": "Rotor resonant frequency calculated considering the additional support and damping produced by the action of the pumped fluid within rotor",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -2974,7 +2975,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "MotorEfficiency",
         "displayName": "MotorEfficiency",
         "description": "Proportion of the motor power input P_mot delivered as pump power input P_mot, u.",
@@ -3010,7 +3011,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "PowerFactor",
         "displayName": "PowerFactor",
         "description": "Ratio of the amount of active power to apparent power.",
@@ -3036,12 +3037,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "RatedSpeed",
         "displayName": "RatedSpeed",
         "description": "Speed corresponding to the rated data of the motor used.",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -3139,7 +3140,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "MotorEfficiency",
         "displayName": "MotorEfficiency",
         "description": "Determined proportion of the motor power input P_mot delivered as pump power input P_mot, u",
@@ -3301,7 +3302,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "FailureRate",
         "displayName": "FailureRate",
         "description": "Number of failures within a population divided by the number of life units used by that population",
@@ -3491,11 +3492,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "DynamicViscosity" ],
         "name": "DynamicViscosity",
         "displayName": "DynamicViscosity",
         "description": "Ratio of the shear stress to the shear velocity acting in a liquid subjected to a plane shear motion",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "pascalSecond",
         "schema": "double"
       },
       {
@@ -3526,7 +3528,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "HydraulicEfficiency",
         "displayName": "HydraulicEfficiency",
         "description": "Proportion of pump available power input, Pa, which is delivered as pump power output, Pu, after satisfying the losses resulting from friction due to the relative motion of internal surfaces and internal leakage",
@@ -3544,11 +3546,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "KinematicViscosity" ],
         "name": "KinematicViscosity",
         "displayName": "KinematicViscosity",
         "description": "Ratio of the dynamic viscosity to the density of the pumped liquid",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "squareMetrePerSecond",
         "schema": "double"
       },
       {
@@ -3570,7 +3573,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "MechanicalEfficiency",
         "displayName": "MechanicalEfficiency",
         "description": "Proportion of the pump power input, P, available after satisfying the mechanical power losses, PJ,ab, at given operating conditions",
@@ -3606,7 +3609,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "OverallEfficiency",
         "displayName": "OverallEfficiency",
         "description": "Proportion of the driver power input, Pmot, delivered as pump power output, Pu",
@@ -3615,7 +3618,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "PumpBestEfficiency",
         "displayName": "PumpBestEfficiency",
         "description": "Greatest value of pump efficiency obtained at given operating conditions",
@@ -3624,7 +3627,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "PumpEfficiency",
         "displayName": "PumpEfficiency",
         "description": "Proportion of the pump power input, P, delivered as pump power output, Pu, at given operating conditions",
@@ -3696,12 +3699,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "RatedSpeed",
         "displayName": "RatedSpeed",
         "description": "Number of revolutions of the pump in a given time required to meet the rated conditions",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -3759,7 +3762,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "VolumetricEfficiency",
         "displayName": "VolumetricEfficiency",
         "description": "Ratio of the actual delivered volume at maximum pressure to the geometric displacement volume",
@@ -4080,7 +4083,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "AmbientHumidity",
         "displayName": "AmbientHumidity",
         "description": "Measured ambient humidity",
@@ -4169,11 +4172,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "GasLeakageRate" ],
         "name": "DynamicViscosity",
         "displayName": "DynamicViscosity",
         "description": "Measured kinematic viscosity of the fluid",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "pascalCubicMetrePerSecond",
         "schema": "double"
       },
       {
@@ -4204,7 +4208,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "HydraulicEfficiency",
         "displayName": "HydraulicEfficiency",
         "description": "Determined proportion of pump available power input, Pa, which is delivered as pump power output, Pu, after satisfying the losses resulting from friction due to the relative motion of internal surfaces and internal leakage",
@@ -4231,11 +4235,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "KinematicViscosity" ],
         "name": "KinematicViscosity",
         "displayName": "KinematicViscosity",
         "description": "Measured dynamic viscosity of the fluid",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "squareMetrePerSecond",
         "schema": "double"
       },
       {
@@ -4293,7 +4298,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "MechanicalEfficiency",
         "displayName": "MechanicalEfficiency",
         "description": "Determined proportion of the pump power input, P, available after satisfying the mechanical power losses, PJ, ab, at given operating conditions",
@@ -4337,7 +4342,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "OverallEfficiency",
         "displayName": "OverallEfficiency",
         "description": "Determined proportion of the driver power input, Pmot, delivered as pump power output, Pu",
@@ -4364,7 +4369,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "PumpEfficiency",
         "displayName": "PumpEfficiency",
         "description": "Determined proportion of the pump power input, P, delivered as pump power output, Pu, at given operating conditions",
@@ -4373,7 +4378,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "PumpHumidity",
         "displayName": "PumpHumidity",
         "description": "Measured humidity inside the pump",
@@ -4481,20 +4486,21 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
         "name": "Speed",
         "displayName": "Speed",
         "description": "Measured number of rotations or movements made by the shaft, coupling or impeller in a given time",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "GasLeakageRate" ],
         "name": "Throughput",
         "displayName": "Throughput",
         "description": "Measured throughput of the vacuum pump",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "pascalCubicMetrePerSecond",
         "schema": "double"
       },
       {
@@ -4516,7 +4522,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Efficiency" ],
         "name": "VolumetricEfficiency",
         "displayName": "VolumetricEfficiency",
         "description": "Determined ratio of the actual delivered volume at maximum pressure to the geometric displacement volume",
@@ -7071,7 +7077,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "MaximumRelativeHumidity",
         "displayName": "MaximumRelativeHumidity",
         "description": "Highest relative humidity that can be expected under normal circumstances.",
@@ -7143,7 +7149,7 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "MinimumRelativeHumidity",
         "displayName": "MinimumRelativeHumidity",
         "description": "Lowest relative humidity to be expected under normal circumstances.",
@@ -7257,11 +7263,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "GasLeakageRate" ],
         "name": "Throughput",
         "displayName": "Throughput",
         "description": "Amount of fluid flowing through a duct",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "pascalCubicMetrePerSecond",
         "schema": "double"
       },
       {
@@ -7462,27 +7469,30 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "Velocity" ],
         "name": "OverallVibrationVelocity0_P",
         "displayName": "OverallVibrationVelocity0_P",
         "description": "Maximum oscillation amplitude, expressed as velocity. The oscillation range is the difference between the minimum and maximum value within the time range under consideration.",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "millimetrePerSecond",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "Velocity" ],
         "name": "OverallVibrationVelocityP_P",
         "displayName": "OverallVibrationVelocityP_P",
         "description": "Oscillation range, expressed as velocity. The oscillation range is the difference between the minimum and maximum value within the time range under consideration.",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "millimetrePerSecond",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "Velocity" ],
         "name": "OverallVibrationVelocityRMS",
         "displayName": "OverallVibrationVelocityRMS",
         "description": "Root mean square of the oscillation displacement expressed as velocity",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "millimetrePerSecond",
         "schema": "double"
       },
       {
@@ -7512,12 +7522,12 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized", "Frequency" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "ReciprocalTime" ],
         "name": "SpeedOfRotation",
         "displayName": "SpeedOfRotation",
         "description": "Number of revolutions per time.",
         "namespace": "http://opcfoundation.org/UA/Pumps",
-        "unit": "hertz",
+        "unit": "reciprocalSecond",
         "schema": "double"
       },
       {
@@ -7547,19 +7557,21 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "Velocity" ],
         "name": "VibrationAmplitudeAtTheBladePassFrequency",
         "displayName": "VibrationAmplitudeAtTheBladePassFrequency",
         "description": "Performance indicator of vibration calculated from the oscillation amplitude at the rotation frequency of the shaft multiplied with the number of blades mounted at the shaft, expressed as velocity.",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "millimetrePerSecond",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "Velocity" ],
         "name": "VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X",
         "displayName": "VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X",
         "description": "Oscillation amplitude at the double rotation frequency of the object under consideration, expressed as velocity.",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "millimetrePerSecond",
         "schema": "double"
       },
       {
@@ -7580,19 +7592,21 @@
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "Velocity" ],
         "name": "VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx",
         "displayName": "VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx",
         "description": "Performance indicator of vibration calculated from the oscillation amplitude at the harmonics of the rotation frequency of the object under consideration, expressed as velocity.",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "millimetrePerSecond",
         "schema": "double"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Historized" ],
+        "@type": [ "Telemetry", "Qualified", "Historized", "Velocity" ],
         "name": "VibrationAmplitudeAtTheRotationFrequency1X",
         "displayName": "VibrationAmplitudeAtTheRotationFrequency1X",
         "description": "Oscillation amplitude at the rotation frequency of the object under consideration, expressed as velocity.",
         "namespace": "http://opcfoundation.org/UA/Pumps",
+        "unit": "millimetrePerSecond",
         "schema": "double"
       },
       {

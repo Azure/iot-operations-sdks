@@ -421,7 +421,7 @@
           "@type": [ "Object", "Detail" ],
           "fields": [
             {
-              "@type": [ "Field", "Subject", "Qualified", "Required", "Concentration" ],
+              "@type": [ "Field", "Subject", "Qualified", "Required", "RelativeMeasure" ],
               "name": "ControlSignal",
               "displayName": "Readback",
               "namespace": "http://opcfoundation.org/UA/PADIM",
@@ -443,7 +443,7 @@
               "schema": "unsignedInteger"
             },
             {
-              "@type": [ "Field", "Qualified", "Required", "Concentration" ],
+              "@type": [ "Field", "Qualified", "Required", "RelativeMeasure" ],
               "name": "Setpoint",
               "displayName": "Setpoint",
               "namespace": "http://opcfoundation.org/UA/PADIM",
@@ -949,10 +949,11 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "ReciprocalLength" ],
         "name": "ConductivityCellConstant",
         "displayName": "Cell constant",
         "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "reciprocalCentimetre",
         "schema": "float"
       }
     ]
@@ -994,10 +995,11 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified" ],
+        "@type": [ "Telemetry", "Qualified", "Current" ],
         "name": "AmperometricSensorZeroPoint",
         "displayName": "Amperometric sensing element zero point",
         "namespace": "http://opcfoundation.org/UA/PADIM",
+        "unit": "picoampere",
         "schema": "float"
       },
       {
@@ -1234,7 +1236,7 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "ChopperFrequencyDeviation",
         "displayName": "Chopper frequency (deviation)",
         "namespace": "http://opcfoundation.org/UA/PADIM",
@@ -1289,7 +1291,7 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "ChopperFrequencyDeviation",
         "displayName": "Chopper frequency (deviation)",
         "namespace": "http://opcfoundation.org/UA/PADIM",
@@ -1313,7 +1315,7 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "RelativeReagentLevel",
         "displayName": "Reagent level",
         "namespace": "http://opcfoundation.org/UA/PADIM",

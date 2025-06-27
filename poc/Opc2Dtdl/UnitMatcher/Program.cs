@@ -46,7 +46,6 @@
         public string? Id { get; set; }
 
         [JsonPropertyName("@type")]
-
         public string? Type { get; set; }
 
         public string? ValueSchema { get; set; }
@@ -71,7 +70,7 @@
 
     internal class Program
     {
-        private const string dtdlUnitsFileName = "DTDL.FeatureExtension.quantitativeTypes.v2.Elements.json";
+        private const string dtdlUnitsFileName = "DTDL.FeatureExtension.quantitativeTypes.v3.Elements.json";
         private const string uaUnitsRelPath = "Schema/UNECE_to_OPCUA.csv";
 
         private static Dictionary<string, int> decimalPrefixes = new ();
@@ -86,9 +85,10 @@
             .Replace(" (US)", "")
             .Replace(" (UK)", "")
             .Replace(" (statute mile)", "")
+            .Replace(" (avoirdupois)", "")
             .Replace("[unit of angle]", "of arc")
-            .Replace("reciprocal second", "hertz")
-            .Replace("revolutions", "revolution"));
+            .Replace("revolutions", "revolution")
+            .Replace("kilogram metre per second squared", "newton"));
 
         private static string RegularizeDtdlUnitDispName(string s) => Decamel(MapPrefixes(s)
             .Replace("inches", "inch")
@@ -195,7 +195,7 @@
 
                 foreach ((UneceUnit, DtdlUnit, double, double) match in matches)
                 {
-                    outputFile.WriteLine($"{match.Item1.UnitId},{UnitTypeToSemanticType(match.Item2.Type)},{match.Item2.Name}");
+                    outputFile.WriteLine($"{match.Item1.UnitId},{DtdlUnitToSemanticType(match.Item2)},{match.Item2.Name}");
                 }
             }
 
@@ -242,13 +242,14 @@
             return decimalPrefixes;
         }
 
-        private static string UnitTypeToSemanticType(string unitType)
+        private static string DtdlUnitToSemanticType(DtdlUnit dtdlUnit)
         {
-            return unitType switch
+            return dtdlUnit.Type switch
             {
-                "Unitless" => "Concentration",
+                "Unitless" when dtdlUnit.Name.StartsWith("partsPer") => "Concentration",
+                "Unitless" => "RelativeMeasure",
                 "TimeUnit" => "TimeSpan",
-                _ => unitType.Substring(0, unitType.Length - "Unit".Length)
+                _ => dtdlUnit.Type.Substring(0, dtdlUnit.Type.Length - "Unit".Length)
             };
         }
 
@@ -278,6 +279,8 @@
                 string u when u.Contains("gray") => 5,
                 string u when u.Contains("gram") => 6,
                 string u when u.Contains("foot") => 7,
+                string u when u.Contains("stokes") => 8,
+                string u when u.Contains("stone") => 9,
                 _ => 0,
             };
         }

@@ -348,7 +348,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "Concentration" ],
+            "@type": [ "MapValue", "RelativeMeasure" ],
             "name": "ActualFanSpeed_NoSchema",
             "unit": "percent",
             "schema": "integer"
@@ -367,7 +367,7 @@
             "schema": "string"
           },
           "mapValue": {
-            "@type": [ "MapValue", "Concentration" ],
+            "@type": [ "MapValue", "RelativeHumidity" ],
             "name": "ActualHumidity_NoSchema",
             "unit": "percent",
             "schema": "float"
@@ -454,7 +454,7 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "SetFanSpeed",
         "displayName": "SetFanSpeed",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -462,7 +462,7 @@
         "schema": "integer"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "SetHumidity",
         "displayName": "SetHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -675,7 +675,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "Scale" ],
         "name": "BeverageSize",
         "displayName": "BeverageSize",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -894,7 +894,7 @@
         }
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "ActualHumidity",
         "displayName": "ActualHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -983,7 +983,7 @@
         "schema": "float"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeHumidity" ],
         "name": "SetHumidity",
         "displayName": "SetHumidity",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -1302,7 +1302,7 @@
         "schema": "integer"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "SetPowerValue",
         "displayName": "SetPowerValue",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -2495,7 +2495,7 @@
         "schema": "integer"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "FanSpeed",
         "displayName": "FanSpeed",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
@@ -2510,7 +2510,7 @@
         "schema": "boolean"
       },
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "MicrowaveEnergy",
         "displayName": "MicrowaveEnergy",
         "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",

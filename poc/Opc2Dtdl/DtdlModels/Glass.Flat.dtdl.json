@@ -534,7 +534,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Telemetry", "Qualified", "Concentration" ],
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
         "name": "GasFilling",
         "displayName": "GasFilling",
         "namespace": "http://opcfoundation.org/UA/Glass.Flat",

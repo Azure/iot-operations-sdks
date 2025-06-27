@@ -103,10 +103,28 @@ namespace Yaml2Dtdl
                 return false;
             }
 
-            OpcUaContent? engUnitContent = (definedType ?? this.definedType).Contents.FirstOrDefault(c => c.Relationship == "HasProperty" && c.DefinedType.UnitId != null);
-            if (engUnitContent?.DefinedType?.UnitId != null && int.TryParse(engUnitContent.DefinedType.UnitId, out int unitId))
+            OpcUaDefinedType specificDefinedType = definedType ?? this.definedType;
+
+            OpcUaContent? engUnitContent = specificDefinedType.Contents.FirstOrDefault(c => c.Relationship == "HasProperty" && c.DefinedType.UnitId != null);
+            if (engUnitContent?.DefinedType?.UnitId != null && int.TryParse(engUnitContent.DefinedType.UnitId, out int unitId) && unitTypesDict.TryGetValue(unitId, out unitInfo))
             {
-                return unitTypesDict.TryGetValue(unitId, out unitInfo);
+                if (unitInfo.Item1 == "RelativeMeasure")
+                {
+                    unitInfo.Item1 = specificDefinedType.BrowseName switch
+                    {
+                        string n when n.Contains("Humidity") => "RelativeHumidity",
+                        string n when n.Contains("Density") => "RelativeDensity",
+                        string n when n.Contains("Size") => "Scale",
+                        string n when n.Contains("Mixing") => "Concentration",
+                        string n when n.Contains("Content") => "Concentration",
+                        string n when n.Contains("Regulation") => "Throttle",
+                        string n when n.Contains("Efficiency") => "Efficiency",
+                        string n when n.Contains("PowerFactor") => "Efficiency",
+                        _ => "RelativeMeasure",
+                    };
+                }
+
+                return true;
             }
             else
             {
