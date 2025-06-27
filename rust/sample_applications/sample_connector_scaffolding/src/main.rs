@@ -36,7 +36,7 @@
 use std::time::Duration;
 
 use azure_iot_operations_connector::{
-    AdrConfigError, Data,
+    Data,
     base_connector::{
         BaseConnector,
         managed_azure_device_registry::{
@@ -49,10 +49,7 @@ use azure_iot_operations_connector::{
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder, common::hybrid_logical_clock::HybridLogicalClock,
 };
-use tokio::{
-    select,
-    sync::{mpsc, watch},
-};
+use tokio::sync::watch;
 use tokio_util::sync::CancellationToken;
 
 const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Default sampling interval in milliseconds
@@ -99,7 +96,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Run the session and the base connector concurrently
     let r = tokio::join!(
         async move {
-            select! {
+            tokio::select! {
                 biased;
                 () = cancellation_token_child.cancelled() => {
                     log::info!("Connector is no longer available, ending device endpoint receiver");
@@ -143,8 +140,6 @@ async fn receive_device_endpoints(
         };
         log::info!("{device_endpoint_log_identifier} Device endpoint created");
 
-        // TODO: Reject endpoint types that are not this connector's type.
-
         let cancellation_token_child = cancellation_token.child_token();
 
         tokio::task::spawn(async move {
@@ -169,7 +164,7 @@ async fn receive_device_endpoints(
 /// create asset handlers.
 ///
 /// # Arguments
-///  * `device_endpoint_log_identifier` - A string identifier for the device endpoint, used for logging.
+/// * `device_endpoint_log_identifier` - A string identifier for the device endpoint, used for logging.
 /// * `device_endpoint_client` - The device endpoint client.
 /// * `cancellation_token` - A cancellation token which triggers when the connector is cancelled.
 async fn device_handler(
@@ -177,129 +172,122 @@ async fn device_handler(
     mut device_endpoint_client: DeviceEndpointClient,
     cancellation_token: CancellationToken,
 ) {
-    // These channels are used to report the status of the device endpoint. When there is an update
-    // to the device endpoint, we will drop these channels and create new ones. This will prevent
-    // the device endpoint handler from receiving stale updates.
-    let (mut device_endpoint_status_reporter_tx, mut device_endpoint_status_reporter_rx) =
-        mpsc::unbounded_channel::<Result<(), AdrConfigError>>();
-    // This watcher is used to notify the dataset handler of the current status reporter so that it can
-    // report the status of the device endpoint.
-    let (device_endpoint_status_reporter_watcher_tx, device_endpoint_status_reporter_watcher_rx) =
-        watch::channel(device_endpoint_status_reporter_tx.clone());
-    let mut device_endpoint_status_reported = false;
+    // This watcher is used to notify the dataset handler whether the device endpoint is healthy and sampling should happen
+    let device_endpoint_ready_watcher_tx = watch::Sender::new(false);
 
+    // TODO: Reject endpoint types that are not this connector's type.
+
+    // TODO: Validate the device endpoint specification and report any errors if there are any.
+
+    // Here is one thing that should be validated for most connectors, although it won't be a config error if it's not enabled
+    if device_endpoint_client
+        .specification()
+        .enabled
+        .is_some_and(|enabled| !enabled)
+    {
+        log::warn!(
+            "{device_endpoint_log_identifier} Device endpoint is disabled, waiting for update"
+        );
+        // Notify any lower components that the device endpoint is not in a ready state
+        device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
+    }
+    // only perform connection if the device endpoint is enabled and validated
+    else {
+        // TODO: Connection logic may be handled at this level if this Connector Application maintains a persistent connection to the device endpoint.
+        // If knowledge of a successful connection can't be determined at this level, communication will need to be added from the location of
+        // the connection logic to this level to report the device and endpoint statuses.
+
+        // Notify any lower components that the device endpoint is in a ready state
+        device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
+        // if there was an error, notify any lower components that the device endpoint is not in a ready state while we wait for an update
+        // device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
+    }
+
+    // if the connection is successful or the device wasn't enabled and there weren't configuration errors, report the device and endpoint statuses.
+    // Modify this to report any errors if there are any
+    match device_endpoint_client.report_status(Ok(()), Ok(())).await {
+        Ok(()) => {
+            log::debug!("{device_endpoint_log_identifier} Endpoint status reported as OK");
+        }
+        Err(e) => {
+            log::error!("{device_endpoint_log_identifier} Failed to report endpoint status: {e}");
+        }
+    }
+
+    // Listen for DeviceEndpointClient updates/deletion and new AssetClients
     loop {
-        select! {
-            biased;
-            // This must be the first select branch because we want to prioritize reporting
-            Some(status_report) = device_endpoint_status_reporter_rx.recv(), if !device_endpoint_status_reported => {
-                match status_report {
-                    Ok(()) => {
-                        log::info!(
-                            "{device_endpoint_log_identifier} Reporting endpoint and device status as OK"
-                        );
-                        // TODO: Reporting Ok here for both device and endpoint status may not be the desired behavior.
-                        match device_endpoint_client.report_status(Ok(()), Ok(())).await {
-                            Ok(()) => {
-                                log::debug!(
-                                    "{device_endpoint_log_identifier} Endpoint status reported as OK"
-                                );
-                            }
-                            Err(e) => {
-                                log::error!(
-                                    "{device_endpoint_log_identifier} Failed to report endpoint status: {e}"
-                                );
-                            }
-                        }
-                    }
-                    Err(adr_config_error) => {
-                        log::error!(
-                            "{device_endpoint_log_identifier} Reporting endpoint status error, awaiting device endpoint update: {:?}", &adr_config_error.message
-                        );
+        match device_endpoint_client.recv_notification().await {
+            ClientNotification::Updated => {
+                log::info!(
+                    "{device_endpoint_log_identifier} Device endpoint update notification received"
+                );
 
-                        // The next time we obtain a report, it will be the next version so our current
-                        // senders and receivers need to be invalidated and updated.
-                        (
-                            #[allow(unused_assignments)]
-                            device_endpoint_status_reporter_tx,
-                            device_endpoint_status_reporter_rx,
-                        ) = mpsc::unbounded_channel();
-                        // Report the current version of the device endpoint
-                        match device_endpoint_client
-                            .report_endpoint_status(Err(adr_config_error))
-                            .await
-                        {
-                            Ok(()) => {
-                                log::info!(
-                                    "{device_endpoint_log_identifier} Endpoint status reported as error"
-                                );
-                            }
-                            Err(e) => {
-                                log::error!(
-                                    "{device_endpoint_log_identifier} Failed to report endpoint status: {e}"
-                                );
-                            }
-                        }
-                    }
-                }
-                // Since the status is now reported, we will not run through this branch again until we need to report
-                device_endpoint_status_reported = true;
-            }
-            notification = device_endpoint_client.recv_notification() => match notification {
-                ClientNotification::Updated => {
-                    log::info!("{device_endpoint_log_identifier} Device endpoint update notification received");
-                    // The current version of the device endpoint has been updated, we need to invalidate the current
-                    // senders and receivers and update the watcher
-                    (
-                        device_endpoint_status_reporter_tx,
-                        device_endpoint_status_reporter_rx,
-                    ) = mpsc::unbounded_channel();
-                    device_endpoint_status_reported = false; // Reset the status reported flag
+                // TODO: Add custom device endpoint update logic here (all items at the beginning of `device_handler` would apply here as well)
 
-                    // TODO: Add custom device endpoint update logic here
-
-                    // Indicates a device endpoint update
-                    let _ = device_endpoint_status_reporter_watcher_tx
-                        .send(device_endpoint_status_reporter_tx.clone());
-                }
-                ClientNotification::Created(asset_client) => {
-                    let asset_log_identifier = {
-                        let asset_ref = asset_client.asset_ref();
-                        format!(
-                            "{device_endpoint_log_identifier}[A: {}]",
-                            asset_ref.name
-                        )
-                    };
-                    log::info!("{asset_log_identifier} Asset created");
-
-                    let cancellation_token_child = cancellation_token.child_token();
-                    let device_endpoint_status_reporter_watcher_rx_clone =
-                        device_endpoint_status_reporter_watcher_rx.clone();
-
-                    // Handle asset creation
-                    tokio::task::spawn(async move {
-                        tokio::select! {
-                            biased;
-                            () = cancellation_token_child.cancelled() => {
-                                log::info!("{asset_log_identifier} Connector is no longer available, ending asset handler");
-                            },
-                            () = asset_handler(
-                                    asset_log_identifier.clone(),
-                                    asset_client,
-                                    device_endpoint_status_reporter_watcher_rx_clone,
-                                    cancellation_token_child.clone(),
-                            ) => {
-                                // Logs handled in the asset_handler function
-                            }
-                        }
-                    });
-                }
-                ClientNotification::Deleted => {
-                    log::info!(
-                        "{device_endpoint_log_identifier} Device endpoint deleted notification received, ending device handler"
+                // Here is one thing that should be validated for most connectors, although it won't be a config error if it's not enabled
+                if device_endpoint_client
+                    .specification()
+                    .enabled
+                    .is_some_and(|enabled| !enabled)
+                {
+                    log::warn!(
+                        "{device_endpoint_log_identifier} Device endpoint is disabled, waiting for update"
                     );
-                    break;
+                    // Notify any lower components that the device endpoint is not in a ready state
+                    device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
+                } else {
+                    // Notify any lower components that the device endpoint is in a ready state (this notification will only be sent if that wasn't already true)
+                    device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
                 }
+
+                // For this example, we will assume that the device endpoint specification is OK. Modify this to report any errors
+                match device_endpoint_client.report_status(Ok(()), Ok(())).await {
+                    Ok(()) => {
+                        log::debug!(
+                            "{device_endpoint_log_identifier} Endpoint status reported as OK"
+                        );
+                    }
+                    Err(e) => {
+                        log::error!(
+                            "{device_endpoint_log_identifier} Failed to report endpoint status: {e}"
+                        );
+                    }
+                }
+            }
+            ClientNotification::Created(asset_client) => {
+                let asset_log_identifier = {
+                    let asset_ref = asset_client.asset_ref();
+                    format!("{device_endpoint_log_identifier}[A: {}]", asset_ref.name)
+                };
+                log::info!("{asset_log_identifier} Asset created");
+
+                let cancellation_token_child = cancellation_token.child_token();
+
+                // Handle asset creation
+                let device_endpoint_ready_watcher_rx = device_endpoint_ready_watcher_tx.subscribe();
+                tokio::task::spawn(async move {
+                    tokio::select! {
+                        biased;
+                        () = cancellation_token_child.cancelled() => {
+                            log::info!("{asset_log_identifier} Connector is no longer available, ending asset handler");
+                        },
+                        () = asset_handler(
+                                asset_log_identifier.clone(),
+                                asset_client,
+                                device_endpoint_ready_watcher_rx,
+                                cancellation_token_child.clone(),
+                        ) => {
+                            // Logs handled in the asset_handler function
+                        }
+                    }
+                });
+            }
+            ClientNotification::Deleted => {
+                log::info!(
+                    "{device_endpoint_log_identifier} Device endpoint deleted notification received, ending device handler"
+                );
+                // The device endpoint ready state does not need to be updated here because all lower components will also get deleted
+                break;
             }
         }
     }
@@ -310,120 +298,92 @@ async fn device_handler(
 /// # Arguments
 /// * `asset_log_identifier` - A string identifier for the asset, used for logging.
 /// * `asset_client` - The asset client.
-/// * `device_endpoint_status_reporter_watcher_rx` - A watcher for the device endpoint status reporter sender.
+/// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
 /// * `cancellation_token` - A cancellation token which triggers when the connector is cancelled or the device endpoint is deleted.
 async fn asset_handler(
     asset_log_identifier: String,
     mut asset_client: AssetClient,
-    device_endpoint_status_reporter_watcher_rx: watch::Receiver<
-        mpsc::UnboundedSender<Result<(), AdrConfigError>>,
-    >,
+    device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
     cancellation_token: CancellationToken,
 ) {
-    // These channels are used to report the status of the asset. When there is an update
-    // to the asset, we will drop these channels and create new ones. This will prevent
-    // the asset handler from receiving stale updates.
-    let (mut asset_status_reporter_tx, mut asset_status_reporter_rx) =
-        mpsc::unbounded_channel::<Result<(), AdrConfigError>>();
-    // This watcher is used to notify the dataset handler of the current status reporter so that it can
-    // report the status of the asset.
-    let (asset_status_reporter_watcher_tx, asset_status_reporter_watcher_rx) =
-        watch::channel(asset_status_reporter_tx.clone());
-    let mut asset_status_reported = false;
+    // This watcher is used to notify the dataset handler whether the asset is healthy and sampling should happen
+    let asset_ready_watcher_tx = watch::Sender::new(false);
+    // TODO: add any Asset validation here and report errors or Ok status
+    // If the asset specification has a default_dataset_configuration, then the asset status
+    // may not be able to be reported until the dataset level can validate this field.
+
+    // For this example, we will assume that the asset specification is OK. Modify this to report any errors
+    match asset_client.report_status(Ok(())).await {
+        Ok(()) => {
+            log::debug!("{asset_log_identifier} Asset status reported as OK");
+        }
+        Err(e) => {
+            log::error!("{asset_log_identifier} Failed to report asset status: {e}");
+        }
+    }
+    // Notify any datasets that the asset is in a ready state
+    asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
+    // if there was an error, notify any lower components that the asset is not in a ready state while we wait for an update
+    // asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
+
+    // receive asset updates and dataset creation notifications
     loop {
-        select! {
-            biased;
-            // This must be the first select branch because we want to prioritize reporting
-            Some(status_report) = asset_status_reporter_rx.recv(), if !asset_status_reported => {
-                match status_report {
+        match asset_client.recv_notification().await {
+            ClientNotification::Updated => {
+                log::info!("{asset_log_identifier} Asset update notification received");
+
+                // TODO: Add custom asset update/validation logic here
+
+                // For this example, we will assume that the asset specification is OK. Modify this to report any errors
+                match asset_client.report_status(Ok(())).await {
                     Ok(()) => {
-                        log::info!("{asset_log_identifier} Reporting asset status as OK");
-                        match asset_client.report_status(Ok(())).await {
-                            Ok(()) => {
-                                log::debug!("{asset_log_identifier} Asset status reported as OK");
-                            }
-                            Err(e) => {
-                                log::error!("{asset_log_identifier} Failed to report asset status: {e}");
-                            }
-                        }
+                        log::debug!("{asset_log_identifier} Asset status reported as OK");
                     }
-                    Err(adr_config_error) => {
-                        log::error!("{asset_log_identifier} Reporting asset status error, awaiting asset update: {:?}", &adr_config_error.message);
-                        // The next time we obtain a report, it will be the next version so our
-                        // current senders and receivers need to be invalidated.
-                        // We don't use or send the asset_status_reporter_tx here, but we need to create it to prevent datasets from sending stale updates.
-                        (
-                            #[allow(unused_assignments)]
-                            asset_status_reporter_tx,
-                            asset_status_reporter_rx
-                        ) =
-                            mpsc::unbounded_channel::<Result<(), AdrConfigError>>();
-                        // Report the current version of the asset
-                        match asset_client.report_status(Err(adr_config_error)).await {
-                            Ok(()) => {
-                                log::info!("{asset_log_identifier} Asset status reported as error");
-                            }
-                            Err(e) => {
-                                log::error!("{asset_log_identifier} Failed to report asset status: {e}");
-                            }
-                        }
+                    Err(e) => {
+                        log::error!("{asset_log_identifier} Failed to report asset status: {e}");
                     }
                 }
-                // Since the status is now reported, we will not run through this branch again
-                asset_status_reported = true;
+                // Notify any datasets that the asset is in a ready state (this notification will only be sent if that wasn't already true)
+                asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
+                // if there was an error, notify any lower components that the asset is not in a ready state while we wait for another update
+                // asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
             }
-            notification = asset_client.recv_notification() => match notification {
-                ClientNotification::Updated => {
-                    log::info!("{asset_log_identifier} Asset update notification received");
+            ClientNotification::Created(dataset_client) => {
+                let dataset_log_identifier = {
+                    let dataset_ref = dataset_client.dataset_ref();
+                    format!("{asset_log_identifier}[DS: {}]", dataset_ref.dataset_name)
+                };
+                log::info!("{dataset_log_identifier} Dataset created");
 
-                    // TODO: Add custom asset update logic here
+                let cancellation_token_child = cancellation_token.child_token();
 
-                    // The current version of the asset has been updated, we need to invalidate the
-                    // current senders and receivers and update the watcher.
-                    (asset_status_reporter_tx, asset_status_reporter_rx) = mpsc::unbounded_channel();
-                    asset_status_reported = false;
-                    // Indicates an asset update
-                    let _ = asset_status_reporter_watcher_tx.send(asset_status_reporter_tx.clone());
-                }
-                ClientNotification::Created(dataset_client) => {
-                    let dataset_log_identifier = {
-                        let dataset_ref = dataset_client.dataset_ref();
-                        format!(
-                            "{asset_log_identifier}[DS: {}]",
-                            dataset_ref.dataset_name
-                        )
-                    };
-                    log::info!("{dataset_log_identifier} Dataset created");
-
-                    let cancellation_token_child = cancellation_token.child_token();
-                    let device_endpoint_status_watcher_rx_clone =
-                        device_endpoint_status_reporter_watcher_rx.clone();
-                    let asset_status_watcher_rx_clone = asset_status_reporter_watcher_rx.clone();
-
-                    // Handle the new dataset
-                    tokio::task::spawn(async move {
-                        tokio::select! {
-                            biased;
-                            () = cancellation_token_child.cancelled() => {
-                                log::info!("{dataset_log_identifier} Connector is no longer available, ending dataset handler");
-                            },
-                            () = handle_dataset(
-                                    dataset_log_identifier.clone(),
-                                    dataset_client,
-                                    device_endpoint_status_watcher_rx_clone,
-                                    asset_status_watcher_rx_clone,
-                                ) => {
-                                // Logs handled in the handle_dataset function
-                            }
+                // Handle the new dataset
+                let asset_ready_watcher_rx = asset_ready_watcher_tx.subscribe();
+                let device_endpoint_ready_watcher_rx_clone =
+                    device_endpoint_ready_watcher_rx.clone();
+                tokio::task::spawn(async move {
+                    tokio::select! {
+                        biased;
+                        () = cancellation_token_child.cancelled() => {
+                            log::info!("{dataset_log_identifier} Connector is no longer available, ending dataset handler");
+                        },
+                        () = handle_dataset(
+                                dataset_log_identifier.clone(),
+                                dataset_client,
+                                asset_ready_watcher_rx,
+                                device_endpoint_ready_watcher_rx_clone
+                            ) => {
+                            // Logs handled in the handle_dataset function
                         }
-                    });
-                }
-                ClientNotification::Deleted => {
-                    log::info!(
-                        "{asset_log_identifier} Asset deleted notification received, ending asset handler"
-                    );
-                    break;
-                }
+                    }
+                });
+            }
+            ClientNotification::Deleted => {
+                log::info!(
+                    "{asset_log_identifier} Asset deleted notification received, ending asset handler"
+                );
+                // The asset ready state does not need to be updated here because all datasets will also get deleted
+                break;
             }
         }
     }
@@ -434,152 +394,61 @@ async fn asset_handler(
 /// # Arguments
 /// * `dataset_log_identifier` - A string identifier for the dataset, used for logging.
 /// * `dataset_client` - The dataset client.
-/// * `device_endpoint_status_reporter_watcher_rx` - A watcher for the device endpoint status reporter sender.
-/// * `asset_status_reporter_watcher_rx` - A watcher for the asset status reporter sender.
+/// * `asset_ready_watcher_rx` - A watcher for the asset readiness state.
+/// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
 #[allow(unused_assignments)] // TODO: Remove once variables are being used
-#[allow(clippy::never_loop)] // TODO: Remove once loop is being used
 async fn handle_dataset(
     dataset_log_identifier: String,
     mut dataset_client: DatasetClient,
-    mut device_endpoint_status_reporter_watcher_rx: watch::Receiver<
-        mpsc::UnboundedSender<Result<(), AdrConfigError>>,
-    >,
-    mut asset_status_reporter_watcher_rx: watch::Receiver<
-        mpsc::UnboundedSender<Result<(), AdrConfigError>>,
-    >,
+    mut asset_ready_watcher_rx: watch::Receiver<bool>,
+    mut device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
 ) {
-    // This boolean tracks if the endpoint is ready to be sampled.
-    let mut is_device_endpoint_ready = true;
-
-    // Extract the status reporter from the device endpoint watcher
-    let mut device_endpoint_status_reporter_tx = device_endpoint_status_reporter_watcher_rx
-        .borrow_and_update()
-        .clone();
-    // Extract a copy of the dataset client
-    #[allow(clippy::never_loop)]
-    let mut _local_device_endpoint_specification = loop {
-        let local_device_endpoint_specification = dataset_client.device_specification();
-
-        // TODO: Verify the device endpoint specification is OK
-
-        // For this example, we will assume that the device endpoint specification is OK, see below for how to handle a bad update.
-        break local_device_endpoint_specification;
-
-        // // If the device specification is not OK await for a new one
-        // let _ = device_endpoint_status_reporter_watcher_rx.changed().await;
-        // // Update the status reporter for the new device endpoint specification
-        // device_endpoint_status_reporter_tx = device_endpoint_status_reporter_watcher_rx
-        //     .borrow_and_update()
-        //     .clone();
-    };
-
-    // Extract the asset status reporter from the asset watcher
-    let mut _asset_status_reporter_tx =
-        asset_status_reporter_watcher_rx.borrow_and_update().clone();
-
-    #[allow(clippy::never_loop)]
-    let mut _local_asset_specification = loop {
-        let local_asset_specification = dataset_client.asset_specification();
-
-        // TODO: Verify the asset specification is OK
-
-        // For this example, we will assume that the asset specification is OK, see below for how to handle a bad update.
-        break local_asset_specification;
-
-        // // If the asset specification is not OK await for a new one
-        // let _ = asset_status_reporter_watcher_rx.changed().await;
-        // // Update the status reporter for the new asset specification
-        // asset_status_reporter_tx = asset_status_reporter_watcher_rx.borrow_and_update().clone();
-    };
-
-    // This boolean tracks if the dataset and asset are ready to be sampled.
-    let mut is_dataset_asset_ready = true;
+    let mut is_asset_ready = *asset_ready_watcher_rx.borrow_and_update();
+    let mut is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
+    // This boolean tracks if the dataset is ready to be sampled.
+    let mut is_dataset_ready = false;
     // This boolean tracks if the status for the dataset has been reported.
     let mut is_dataset_reported = false;
+
     // Extract the dataset definition from the dataset client
-    #[allow(clippy::never_loop)]
-    let mut _local_dataset_definition = loop {
-        let local_dataset_definition = dataset_client.dataset_definition().clone();
+    let mut _local_dataset_definition = dataset_client.dataset_definition().clone();
+    // TODO: Verify the dataset definition is OK
 
-        // TODO: Verify the dataset definition is OK
-
-        // For this example, we will assume that the dataset definition is OK, see below for how to handle a bad update.
-        break local_dataset_definition;
-
-        // // If the dataset definition is not OK await for a new one
-        // match dataset_client.recv_notification().await {
-        //     DatasetNotification::Updated => {
-        //         log::info!("{dataset_log_identifier} Dataset definition updated");
-        //     }
-        //     DatasetNotification::Deleted => {
-        //         log::info!("{dataset_log_identifier} Dataset deleted, ending dataset handler");
-        //         return;
-        //     }
-        //     DatasetNotification::UpdatedInvalid => {
-        //         log::info!("{dataset_log_identifier} Dataset definition invalid, waiting for a valid update");
-        //         loop {
-        //             // Wait for a valid update
-        //             match dataset_client.recv_notification().await {
-        //                 DatasetNotification::Updated => {
-        //                     log::info!("{dataset_log_identifier} Dataset definition updated");
-        //                     break;
-        //                 }
-        //                 DatasetNotification::Deleted => {
-        //                     log::info!("{dataset_log_identifier} Dataset deleted, ending dataset handler");
-        //                     return;
-        //                 }
-        //                 DatasetNotification::UpdatedInvalid => {
-        //                     log::info!("{dataset_log_identifier} Dataset definition invalid, waiting for a valid update");
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-    };
+    // For this example, we will assume that the dataset definition is OK, see below for how to handle a bad definition.
+    is_dataset_ready = true;
+    // // If the dataset definition is not OK, report it and await for a new one
+    // match dataset_client.report_status(Err(e)).await {
+    //     Ok(()) => {
+    //         log::info!("{dataset_log_identifier} Dataset status reported as error");
+    //     }
+    //     Err(e) => {
+    //         log::error!("{dataset_log_identifier} Failed to report dataset status: {e}");
+    //     }
+    // }
+    // is_dataset_ready = false;
 
     // This variable keeps track of the latest reported schema.
     let mut current_schema = None;
 
+    // NOTE: This could be read from the dataset_configuration instead if it's desired to be configurable
     let mut timer = tokio::time::interval(DEFAULT_SAMPLING_INTERVAL);
 
     // If the timer misses a tick, the next one will be immediate and the following one will be one sampling interval (in time) after that.
     timer.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
     loop {
-        select! {
-            // Monitor for device endpoint updates
-            _ = device_endpoint_status_reporter_watcher_rx.changed() => {
-                log::info!("{dataset_log_identifier} Device endpoint update notification received");
-                let new_device_endpoint_status_reporter_tx =
-                    device_endpoint_status_reporter_watcher_rx.borrow_and_update();
+        tokio::select! {
+            // Monitor for device endpoint readiness changes
+            _ = device_endpoint_ready_watcher_rx.changed() => {
+                log::info!("{dataset_log_identifier} Device endpoint ready state changed");
 
-                // TODO: Verify the device endpoint specification is OK and optionally send a report if needed
-
-                // If any issues, set the corresponding boolean to false
-                is_device_endpoint_ready = true;
-
-                // Update the local device endpoint specification
-                _local_device_endpoint_specification = dataset_client.device_specification();
-
-                // Update the status reporter for the updated device endpoint
-                device_endpoint_status_reporter_tx =
-                    new_device_endpoint_status_reporter_tx.clone();
+                // Update our local device endpoint readiness state
+                is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
             },
-            // Monitor for asset updates
-            _ = asset_status_reporter_watcher_rx.changed() => {
-                log::info!("{dataset_log_identifier} Asset update notification received");
-                let new_asset_status_reporter_tx =
-                    asset_status_reporter_watcher_rx.borrow_and_update();
-
-                // TODO: Verify the asset specification is OK and optionally send a report if needed
-
-                // If any issues, set the corresponding boolean to false
-                is_dataset_asset_ready = true;
-
-                // Update the local asset specification
-                _local_asset_specification = dataset_client.asset_specification();
-
-                // Update the status reporter for the updated asset
-                _asset_status_reporter_tx = new_asset_status_reporter_tx.clone();
+            // Monitor for device endpoint readiness changes
+            _ = asset_ready_watcher_rx.changed() => {
+                log::info!("{dataset_log_identifier} Asset ready state changed");
+                // Update our local asset readiness state
+                is_asset_ready = *asset_ready_watcher_rx.borrow_and_update();
             },
             dataset_notification = dataset_client.recv_notification() => {
                 // Match the dataset notification to handle updates, deletions, or invalid updates
@@ -589,7 +458,7 @@ async fn handle_dataset(
 
                         // TODO: Verify the dataset specification is OK and optionally send a report if needed
                         // If the dataset specification is not OK, we will set the boolean to false
-                        is_dataset_asset_ready = true;
+                        is_dataset_ready = true;
 
                         // Update the local dataset definition
                         _local_dataset_definition = dataset_client.dataset_definition().clone();
@@ -605,21 +474,19 @@ async fn handle_dataset(
                     DatasetNotification::UpdatedInvalid => {
                         // The dataset update is invalid, we need to wait for a valid update
                         log::info!("{dataset_log_identifier} Dataset invalid update notification received, waiting for a valid update");
-                        is_dataset_asset_ready = false;
+                        is_dataset_ready = false;
                         // Continue to wait for a valid update
                     },
                 }
             },
-            _ = timer.tick(), if is_dataset_asset_ready && is_device_endpoint_ready => {
+            _ = timer.tick(), if is_dataset_ready && is_asset_ready && is_device_endpoint_ready => {
                 log::debug!("{dataset_log_identifier} Sampling!");
 
                 // TODO: This should be replaced with the actual sampling logic.
                 let bytes = mock_sample();
 
-                // TODO: If there are any errors while sampling those should be returned and statuses reported to appropriate channels (e.g., device endpoint, asset, dataset).
-
-                // Report Ok for the device endpoint status reporter if the sampling was successful (will differ depending on the sampling logic)
-                let _ = device_endpoint_status_reporter_tx.send(Ok(()));
+                // TODO: If there are any configuration related errors while sampling those should be
+                // reported to ADR on the appropriate level (e.g., device endpoint, asset, dataset).
 
                 // Create a data structure with the sampled data
                 let data = Data {
@@ -629,20 +496,13 @@ async fn handle_dataset(
                     timestamp: Some(HybridLogicalClock::new()),
                 };
 
-                // Transform the data and infer the message schema using the derived_json module. This works for JSON data only.
+                // Infer the message schema using the derived_json module. This works for JSON data only.
                 let Ok(message_schema) = derived_json::create_schema(&data) else {
-                    log::error!("{dataset_log_identifier} Failed to transform data");
+                    log::error!("{dataset_log_identifier} Failed to create message schema");
 
-                    // Report a status error of the dataset.
-                    match dataset_client.report_status(Err(AdrConfigError {
-                        message: Some("Failed to transform data".to_string()),
-                        ..Default::default()
-                    })).await {
-                        Ok(()) => log::debug!("{dataset_log_identifier} Dataset status reported as error"),
-                        Err(e) => log::error!("{dataset_log_identifier} Failed to report dataset status: {e}"),
-                    }
-                    // If we fail to report the message schema, we will not be able to forward it
-                    is_dataset_asset_ready = false;
+                    // If we fail to create the message schema, we will not be able to report it or forward data
+                    // NOTE: Failing to create the message schema could be due to malformed data, so waiting for
+                    // a dataset definition update on this failure is not desirable.
                     continue;
                 };
 
@@ -677,7 +537,7 @@ async fn handle_dataset(
                     }
                 }
 
-                // Forward the data to the dataset client
+                // Forward the data using the dataset client
                 log::info!("{dataset_log_identifier} Forwarding data");
 
                 // TODO: This should handle errors forwarding the data.
@@ -695,4 +555,18 @@ fn mock_sample() -> Vec<u8> {
         "humidity": 45.0,
     }))
     .unwrap()
+}
+
+/// Helper function to create a closure that sends an update if the desired state is different from the current state.
+fn send_if_modified_fn(desired_state: bool) -> impl FnOnce(&mut bool) -> bool {
+    move |curr| {
+        // if the desired state is the same as the current state, don't send an update
+        if *curr == desired_state {
+            false
+        } else {
+            // otherwise, update the current state to the desired state and return true to indicate that an update should be sent
+            *curr = desired_state;
+            true
+        }
+    }
 }
