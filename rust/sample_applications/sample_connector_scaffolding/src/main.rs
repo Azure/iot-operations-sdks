@@ -50,7 +50,6 @@ use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder, common::hybrid_logical_clock::HybridLogicalClock,
 };
 use tokio::sync::watch;
-use tokio_util::sync::CancellationToken;
 
 const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Default sampling interval in milliseconds
 
@@ -86,45 +85,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let device_endpoint_client_creation_observation =
         base_connector.create_device_endpoint_client_create_observation();
 
-    // Create a cancellation token for the connector
-    let cancellation_token = CancellationToken::new();
-    let cancellation_token_child = cancellation_token.child_token();
-
-    // When the task ends the cancellation token will be cancelled
-    let _cancellation_token_drop_guard = cancellation_token.drop_guard();
-
-    // Run the session and the base connector concurrently
-    let r = tokio::join!(
-        async move {
-            tokio::select! {
-                biased;
-                () = cancellation_token_child.cancelled() => {
-                    log::info!("Connector is no longer available, ending device endpoint receiver");
-                },
-                () = receive_device_endpoints(device_endpoint_client_creation_observation, cancellation_token_child.clone()) => {
-                    // Logs handled in the receive_device_endpoints function
+    // Run the session and the base connector concurrently, ending the application if either end (both should run forever unless there are fatal errors)
+    tokio::select! {
+        () = receive_device_endpoints(device_endpoint_client_creation_observation) => {
+            log::warn!("Connector Application tasks ended");
+            Ok(())
+        },
+        res = base_connector.run() => {
+            match res {
+                Ok(()) => {
+                    log::info!("Base connector run completed successfully");
+                    Ok(())
+                }
+                Err(e) => {
+                    log::error!("Base connector run failed: {e}");
+                    Err(Box::new(e))?
                 }
             }
-        },
-        base_connector.run()
-    );
-    // TODO: A retry mechanism should be implemented here.
-    r.1?;
-    Ok(())
+        }
+    }
 }
 
 /// Receives a device endpoint and creates a device handler for it.
 ///
 /// # Arguments
 /// * `device_endpoint_client_creation_observation` - The device endpoint client creation observation.
-/// * `cancellation_token` - A cancellation token which triggers when the connector is cancelled.
 async fn receive_device_endpoints(
     mut device_endpoint_client_creation_observation: DeviceEndpointClientCreationObservation,
-    cancellation_token: CancellationToken,
 ) {
-    // This cancellation token is used to cancel the task when the connector is cancelled.
-    let _cancellation_token_drop_guard = cancellation_token.clone().drop_guard();
-
     loop {
         let device_endpoint_client = device_endpoint_client_creation_observation
             .recv_notification()
@@ -140,23 +128,10 @@ async fn receive_device_endpoints(
         };
         log::info!("{device_endpoint_log_identifier} Device endpoint created");
 
-        let cancellation_token_child = cancellation_token.child_token();
-
-        tokio::task::spawn(async move {
-            tokio::select! {
-                biased;
-                () = cancellation_token_child.cancelled() => {
-                    log::info!("{device_endpoint_log_identifier} Connector is no longer available, ending device handler");
-                },
-                () = device_handler(
-                        device_endpoint_log_identifier.clone(),
-                        device_endpoint_client,
-                        cancellation_token_child.clone()
-                    ) => {
-                    // Logs handled in the device_handler function
-                }
-            }
-        });
+        tokio::task::spawn(device_handler(
+            device_endpoint_log_identifier,
+            device_endpoint_client,
+        ));
     }
 }
 
@@ -166,11 +141,9 @@ async fn receive_device_endpoints(
 /// # Arguments
 /// * `device_endpoint_log_identifier` - A string identifier for the device endpoint, used for logging.
 /// * `device_endpoint_client` - The device endpoint client.
-/// * `cancellation_token` - A cancellation token which triggers when the connector is cancelled.
 async fn device_handler(
     device_endpoint_log_identifier: String,
     mut device_endpoint_client: DeviceEndpointClient,
-    cancellation_token: CancellationToken,
 ) {
     // This watcher is used to notify the dataset handler whether the device endpoint is healthy and sampling should happen
     let device_endpoint_ready_watcher_tx = watch::Sender::new(false);
@@ -261,26 +234,12 @@ async fn device_handler(
                 };
                 log::info!("{asset_log_identifier} Asset created");
 
-                let cancellation_token_child = cancellation_token.child_token();
-
                 // Handle asset creation
-                let device_endpoint_ready_watcher_rx = device_endpoint_ready_watcher_tx.subscribe();
-                tokio::task::spawn(async move {
-                    tokio::select! {
-                        biased;
-                        () = cancellation_token_child.cancelled() => {
-                            log::info!("{asset_log_identifier} Connector is no longer available, ending asset handler");
-                        },
-                        () = asset_handler(
-                                asset_log_identifier.clone(),
-                                asset_client,
-                                device_endpoint_ready_watcher_rx,
-                                cancellation_token_child.clone(),
-                        ) => {
-                            // Logs handled in the asset_handler function
-                        }
-                    }
-                });
+                tokio::task::spawn(asset_handler(
+                    asset_log_identifier,
+                    asset_client,
+                    device_endpoint_ready_watcher_tx.subscribe(),
+                ));
             }
             ClientNotification::Deleted => {
                 log::info!(
@@ -299,12 +258,10 @@ async fn device_handler(
 /// * `asset_log_identifier` - A string identifier for the asset, used for logging.
 /// * `asset_client` - The asset client.
 /// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
-/// * `cancellation_token` - A cancellation token which triggers when the connector is cancelled or the device endpoint is deleted.
 async fn asset_handler(
     asset_log_identifier: String,
     mut asset_client: AssetClient,
     device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
-    cancellation_token: CancellationToken,
 ) {
     // This watcher is used to notify the dataset handler whether the asset is healthy and sampling should happen
     let asset_ready_watcher_tx = watch::Sender::new(false);
@@ -355,28 +312,13 @@ async fn asset_handler(
                 };
                 log::info!("{dataset_log_identifier} Dataset created");
 
-                let cancellation_token_child = cancellation_token.child_token();
-
                 // Handle the new dataset
-                let asset_ready_watcher_rx = asset_ready_watcher_tx.subscribe();
-                let device_endpoint_ready_watcher_rx_clone =
-                    device_endpoint_ready_watcher_rx.clone();
-                tokio::task::spawn(async move {
-                    tokio::select! {
-                        biased;
-                        () = cancellation_token_child.cancelled() => {
-                            log::info!("{dataset_log_identifier} Connector is no longer available, ending dataset handler");
-                        },
-                        () = handle_dataset(
-                                dataset_log_identifier.clone(),
-                                dataset_client,
-                                asset_ready_watcher_rx,
-                                device_endpoint_ready_watcher_rx_clone
-                            ) => {
-                            // Logs handled in the handle_dataset function
-                        }
-                    }
-                });
+                tokio::task::spawn(handle_dataset(
+                    dataset_log_identifier,
+                    dataset_client,
+                    asset_ready_watcher_tx.subscribe(),
+                    device_endpoint_ready_watcher_rx.clone(),
+                ));
             }
             ClientNotification::Deleted => {
                 log::info!(
