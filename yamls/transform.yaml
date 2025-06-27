@@ -17,7 +17,7 @@ spec:
       serializationFormat: Json
   - builtInTransformationSettings:
       datasets: 
-      - key: weather
+      - key: factory # key IMP
         inputs: []
         expression: 1 == 1
       filter: []
@@ -39,8 +39,8 @@ spec:
     name: null
     operationType: BuiltInTransformation
   - destinationSettings:
-      dataDestination: myeh2406422sec
-      endpointRef: dfep2406422
+      dataDestination: myeh2406422sec #Kafka topic
+      endpointRef: dfep2406422 # DP Endpoint from DOE
     name: null
     operationType: Destination
-  profileRef: null
+  profileRef: default

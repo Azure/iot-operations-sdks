@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: rest-server
-        image: olkar240.azurecr.io/rest-server:v4
+        image: olkar240.azurecr.io/rest-server:latest
         volumeMounts:
         - name: testsecret-volume
           mountPath: /var/secrets/testsecret
