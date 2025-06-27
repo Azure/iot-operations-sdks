@@ -7,6 +7,9 @@
 //! It demonstrates how to structure device, asset, and dataset handlers, focusing on the lifecycle of creation,
 //! updating, deletion and status reporting. The sample logic assumes periodic sampling of an endpoint at a fixed interval.
 //!
+//! See `IMPLEMENT` comments in the code for areas that need to be implemented or customized.
+//! See 'NOTE' comments for areas that may need to be considered.
+//!
 //! ## Major Components and Flow
 //!
 //! ### Device Handler
@@ -56,7 +59,7 @@ const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Def
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize the logger
-    // TODO: Use a more sophisticated logger configuration in production
+    // IMPLEMENT: Use a more sophisticated logger configuration in production
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::Debug)
         .format_timestamp(None)
@@ -78,7 +81,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create the Base Connector to handle device endpoints, assets, and datasets creation, update and deletion notifications plus status reporting.
     let base_connector = BaseConnector::new(application_context);
 
-    // Get the connector artifacts from the base connector, TODO: Use them as needed
+    // Get the connector artifacts from the base connector, IMPLEMENT: Use them as needed
     let _connector_artifacts = base_connector.connector_artifacts();
 
     // Create a device endpoint client creation observation
@@ -148,9 +151,9 @@ async fn device_handler(
     // This watcher is used to notify the dataset handler whether the device endpoint is healthy and sampling should happen
     let device_endpoint_ready_watcher_tx = watch::Sender::new(false);
 
-    // TODO: Reject endpoint types that are not this connector's type.
+    // IMPLEMENT: Reject endpoint types that are not this connector's type.
 
-    // TODO: Validate the device endpoint specification and report any errors if there are any.
+    // IMPLEMENT: Validate the device endpoint specification and report any errors if there are any.
 
     // Here is one thing that should be validated for most connectors, although it won't be a config error if it's not enabled
     if device_endpoint_client
@@ -164,19 +167,19 @@ async fn device_handler(
         // Notify any lower components that the device endpoint is not in a ready state
         device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
     }
-    // only perform connection if the device endpoint is enabled and validated
+    // Only perform connection if the device endpoint is enabled and validated
     else {
-        // TODO: Connection logic may be handled at this level if this Connector Application maintains a persistent connection to the device endpoint.
+        // IMPLEMENT: Connection logic may be handled at this level if this Connector Application maintains a persistent connection to the device endpoint.
         // If knowledge of a successful connection can't be determined at this level, communication will need to be added from the location of
         // the connection logic to this level to report the device and endpoint statuses.
 
         // Notify any lower components that the device endpoint is in a ready state
         device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
-        // if there was an error, notify any lower components that the device endpoint is not in a ready state while we wait for an update
+        // If there was an error, notify any lower components that the device endpoint is not in a ready state while we wait for an update
         // device_endpoint_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
     }
 
-    // if the connection is successful or the device wasn't enabled and there weren't configuration errors, report the device and endpoint statuses.
+    // If the connection is successful or the device wasn't enabled and there weren't configuration errors, report the device and endpoint statuses.
     // Modify this to report any errors if there are any
     match device_endpoint_client.report_status(Ok(()), Ok(())).await {
         Ok(()) => {
@@ -195,7 +198,7 @@ async fn device_handler(
                     "{device_endpoint_log_identifier} Device endpoint update notification received"
                 );
 
-                // TODO: Add custom device endpoint update logic here (all items at the beginning of `device_handler` would apply here as well)
+                // IMPLEMENT: Add custom device endpoint update logic here (all items at the beginning of `device_handler` would apply here as well)
 
                 // Here is one thing that should be validated for most connectors, although it won't be a config error if it's not enabled
                 if device_endpoint_client
@@ -265,7 +268,7 @@ async fn asset_handler(
 ) {
     // This watcher is used to notify the dataset handler whether the asset is healthy and sampling should happen
     let asset_ready_watcher_tx = watch::Sender::new(false);
-    // TODO: add any Asset validation here and report errors or Ok status
+    // IMPLEMENT: add any Asset validation here and report errors or Ok status
     // If the asset specification has a default_dataset_configuration, then the asset status
     // may not be able to be reported until the dataset level can validate this field.
 
@@ -280,16 +283,16 @@ async fn asset_handler(
     }
     // Notify any datasets that the asset is in a ready state
     asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
-    // if there was an error, notify any lower components that the asset is not in a ready state while we wait for an update
+    // If there was an error, notify any lower components that the asset is not in a ready state while we wait for an update
     // asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
 
-    // receive asset updates and dataset creation notifications
+    // Receive asset updates and dataset creation notifications
     loop {
         match asset_client.recv_notification().await {
             ClientNotification::Updated => {
                 log::info!("{asset_log_identifier} Asset update notification received");
 
-                // TODO: Add custom asset update/validation logic here
+                // IMPLEMENT: Add custom asset update/validation logic here
 
                 // For this example, we will assume that the asset specification is OK. Modify this to report any errors
                 match asset_client.report_status(Ok(())).await {
@@ -302,7 +305,7 @@ async fn asset_handler(
                 }
                 // Notify any datasets that the asset is in a ready state (this notification will only be sent if that wasn't already true)
                 asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(true));
-                // if there was an error, notify any lower components that the asset is not in a ready state while we wait for another update
+                // If there was an error, notify any lower components that the asset is not in a ready state while we wait for another update
                 // asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
             }
             ClientNotification::Created(dataset_client) => {
@@ -338,7 +341,7 @@ async fn asset_handler(
 /// * `dataset_client` - The dataset client.
 /// * `asset_ready_watcher_rx` - A watcher for the asset readiness state.
 /// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
-#[allow(unused_assignments)] // TODO: Remove once variables are being used
+#[allow(unused_assignments)] // IMPLEMENT: Remove once variables are being used
 async fn handle_dataset(
     dataset_log_identifier: String,
     mut dataset_client: DatasetClient,
@@ -354,7 +357,7 @@ async fn handle_dataset(
 
     // Extract the dataset definition from the dataset client
     let mut _local_dataset_definition = dataset_client.dataset_definition().clone();
-    // TODO: Verify the dataset definition is OK
+    // IMPLEMENT: Verify the dataset definition is OK
 
     // For this example, we will assume that the dataset definition is OK, see below for how to handle a bad definition.
     is_dataset_ready = true;
@@ -398,7 +401,7 @@ async fn handle_dataset(
                     DatasetNotification::Updated => {
                         log::info!("{dataset_log_identifier} Dataset update notification received");
 
-                        // TODO: Verify the dataset specification is OK and optionally send a report if needed
+                        // IMPLEMENT: Verify the dataset specification is OK and send an error report if needed
                         // If the dataset specification is not OK, we will set the boolean to false
                         is_dataset_ready = true;
 
@@ -424,10 +427,10 @@ async fn handle_dataset(
             _ = timer.tick(), if is_dataset_ready && is_asset_ready && is_device_endpoint_ready => {
                 log::debug!("{dataset_log_identifier} Sampling!");
 
-                // TODO: This should be replaced with the actual sampling logic.
+                // IMPLEMENT: This should be replaced with the actual sampling logic.
                 let bytes = mock_sample();
 
-                // TODO: If there are any configuration related errors while sampling those should be
+                // IMPLEMENT: If there are any configuration related errors while sampling those should be
                 // reported to ADR on the appropriate level (e.g., device endpoint, asset, dataset).
 
                 // Create a data structure with the sampled data
@@ -482,7 +485,7 @@ async fn handle_dataset(
                 // Forward the data using the dataset client
                 log::info!("{dataset_log_identifier} Forwarding data");
 
-                // TODO: This should handle errors forwarding the data.
+                // IMPLEMENT: This should handle errors forwarding the data.
                 let _ = dataset_client.forward_data(data).await;
             }
         }
@@ -502,11 +505,11 @@ fn mock_sample() -> Vec<u8> {
 /// Helper function to create a closure that sends an update if the desired state is different from the current state.
 fn send_if_modified_fn(desired_state: bool) -> impl FnOnce(&mut bool) -> bool {
     move |curr| {
-        // if the desired state is the same as the current state, don't send an update
+        // If the desired state is the same as the current state, don't send an update
         if *curr == desired_state {
             false
         } else {
-            // otherwise, update the current state to the desired state and return true to indicate that an update should be sent
+            // Otherwise, update the current state to the desired state and return true to indicate that an update should be sent
             *curr = desired_state;
             true
         }
