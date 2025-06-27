@@ -4,13 +4,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:IMM_MES_InterfaceType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
     "displayName": "IMM_MES_InterfaceType",
     "description": "Root ObjectType representing an injection moulding machine with all its subcomponents for data exchange with an MES",
@@ -117,10 +117,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitCycleParametersType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -413,10 +413,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitsType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -452,10 +452,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],

@@ -4,10 +4,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -92,10 +92,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISAggregateObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -219,10 +219,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISChokeObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -505,10 +505,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -867,10 +867,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -897,10 +897,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1000,10 +1000,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISDigitalOutObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1043,10 +1043,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1073,10 +1073,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1176,10 +1176,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISDiscreteOutObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1219,10 +1219,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISElectricChokeObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1368,10 +1368,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISInstrumentObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1459,10 +1459,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1570,10 +1570,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISInstrumentOutObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1613,10 +1613,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISMotorObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1761,10 +1761,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISValveObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -1989,10 +1989,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISCounterObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -2040,13 +2040,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISInformationObjectType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/MDIS",
     "displayName": "MDISInformationObjectType",
     "description": "The definition of a MDIS standard Information object",
@@ -2110,10 +2110,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:MDIS:MDISTimeSyncObjectType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],

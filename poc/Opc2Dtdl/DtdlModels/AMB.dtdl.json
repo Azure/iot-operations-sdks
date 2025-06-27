@@ -4,10 +4,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:CalibrationDueConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -26,10 +26,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:ExternalCheckConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -48,10 +48,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:FlashUpdateInProgressConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -70,10 +70,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:ImprovementConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -92,10 +92,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:InspectionConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -114,10 +114,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:RepairConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -136,10 +136,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:ServicingConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -158,10 +158,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:BadConfigurationConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -180,10 +180,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:ConnectionFailureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -202,10 +202,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:FlashUpdateFailedConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -224,10 +224,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:OutOfResourcesConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -246,10 +246,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:OutOfMemoryConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -268,10 +268,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:OverTemperatureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -290,10 +290,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:SelfTestFailureConditionClassType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -312,10 +312,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:IMaintenanceEventType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -460,10 +460,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:IRootCauseIndicationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -515,13 +515,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:DocumentationLinksType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/AMB",
     "displayName": "DocumentationLinksType",
     "description": "AddIn to link documentation provided by the manufacturer and / or end-user.",
@@ -637,10 +637,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:AMB:MaintenanceEventStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],

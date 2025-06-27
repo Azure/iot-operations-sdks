@@ -4,13 +4,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:AssetVerificationType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "AssetVerificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -245,13 +245,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "AutomationComponentConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -386,10 +386,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
@@ -467,10 +467,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetProcessingFailedEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
@@ -488,10 +488,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetProcessingStartedEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
@@ -509,10 +509,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetProcessingSucceededEventType;1",
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
@@ -530,13 +530,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:IConnectionManagerType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "IConnectionManagerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
@@ -560,10 +560,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:CommunicationFlowConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -581,13 +581,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "PubSubCommunicationFlowConfigurationType",
     "extends": "dtmi:opcua:FX_CM:CommunicationFlowConfigurationType;1",
@@ -727,10 +727,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -748,13 +748,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "PubSubCommunicationModelConfigurationType",
     "extends": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType;1",
@@ -1716,13 +1716,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionConfigurationSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -2168,13 +2168,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -2214,10 +2214,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -2410,10 +2410,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -2611,13 +2611,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionManagerType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionManagerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -2812,10 +2812,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -2919,10 +2919,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionManagerCapabilitiesType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -2940,10 +2940,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetStateMachineType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -3017,10 +3017,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:FX_CM:SubscriberConfigurationType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],

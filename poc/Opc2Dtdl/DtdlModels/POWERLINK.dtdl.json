@@ -4,10 +4,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkProtocolType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -25,10 +25,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkConnectionPointType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -94,10 +94,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkCnConnectionPointType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -122,10 +122,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkMnConnectionPointType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],
@@ -143,13 +143,13 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkDeviceType;1",
-    "@type": [ "Interface", "Article", "Mqtt", "Congruence" ],
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
     "ontology": "http://opcfoundation.org/UA/POWERLINK",
     "displayName": "PowerlinkDeviceType",
     "description": "example for a DeviceType that only implements POWERLINK Managing Node (MN) and/or POWERLINK Controlled Node (CN) interfaces",
@@ -180,10 +180,10 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "dtmi:opcua:POWERLINK:PowerlinkDeviceProfileType;1",
     "@type": [ "Interface", "Mqtt", "Congruence" ],

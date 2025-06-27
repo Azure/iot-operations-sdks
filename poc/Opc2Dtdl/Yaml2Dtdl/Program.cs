@@ -224,9 +224,9 @@
                     {
                         string modelId = TypeConverter.GetModelId(definedType.Value);
                         bool isEvent = DoesAncestorHaveType(TypeConverter.GetModelId(definedType.Value), "dtmi:opcua:OpcUaCore:BaseEventType", objectTypeIdSupers);
-                        bool isArticle = !typeDefinitions.Contains(definedType.Key) && definedType.Value.Datatype != "Abstract" && !isEvent;
+                        bool isComposite = !typeDefinitions.Contains(definedType.Key) && definedType.Value.Datatype != "Abstract" && !isEvent;
                         bool appendComma = ix < opcUaDigest.DefinedTypes.Count;
-                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, isArticle, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, cotypeRuleEngine, appendComma);
+                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, isComposite, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, cotypeRuleEngine, appendComma);
                         string jsonText = dtdlInterface.TransformText();
 
                         outputFile.Write(jsonText);

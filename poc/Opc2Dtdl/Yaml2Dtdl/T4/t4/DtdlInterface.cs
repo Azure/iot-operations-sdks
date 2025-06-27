@@ -31,18 +31,18 @@ namespace Yaml2Dtdl
       ""dtmi:dtdl:context;4#limitless"",
       ""dtmi:dtdl:limits:aio;1"",
       ""dtmi:iotoperations:context;4"",
-      ""dtmi:dtdl:extension:quantitativeTypes;2"",
+      ""dtmi:dtdl:extension:quantitativeTypes;3"",
       ""dtmi:dtdl:extension:mqtt;3"",
       ""dtmi:dtdl:extension:historization;2"",
-      ""dtmi:dtdl:extension:requirement;1""
+      ""dtmi:dtdl:extension:requirement;2""
     ],
     ""@id"": """);
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
             this.Write(";1\",\r\n    \"@type\": [ \"Interface\"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.isArticle ? ", \"Article\"" : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.isComposite ? ", \"Composite\"" : ""));
             this.Write(this.ToStringHelper.ToStringWithCulture(this.isEvent ? ", \"Event\"" : ""));
             this.Write(", \"Mqtt\", \"Congruence\" ],\r\n");
- if (this.isArticle) { 
+ if (this.isComposite) { 
             this.Write("    \"ontology\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(this.definedType))));
             this.Write("\",\r\n");

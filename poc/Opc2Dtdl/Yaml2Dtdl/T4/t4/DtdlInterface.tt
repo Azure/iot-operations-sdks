@@ -8,14 +8,14 @@
       "dtmi:dtdl:context;4#limitless",
       "dtmi:dtdl:limits:aio;1",
       "dtmi:iotoperations:context;4",
-      "dtmi:dtdl:extension:quantitativeTypes;2",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
       "dtmi:dtdl:extension:mqtt;3",
       "dtmi:dtdl:extension:historization;2",
-      "dtmi:dtdl:extension:requirement;1"
+      "dtmi:dtdl:extension:requirement;2"
     ],
     "@id": "<#=this.modelId#>;1",
-    "@type": [ "Interface"<#=this.isArticle ? ", \"Article\"" : ""#><#=this.isEvent ? ", \"Event\"" : ""#>, "Mqtt", "Congruence" ],
-<# if (this.isArticle) { #>
+    "@type": [ "Interface"<#=this.isComposite ? ", \"Composite\"" : ""#><#=this.isEvent ? ", \"Event\"" : ""#>, "Mqtt", "Congruence" ],
+<# if (this.isComposite) { #>
     "ontology": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(this.definedType))#>",
 <# } #>
 <# if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { #>

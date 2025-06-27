@@ -7,7 +7,7 @@ namespace Yaml2Dtdl
     public partial class DtdlInterface
     {
         private string modelId;
-        private bool isArticle;
+        private bool isComposite;
         private bool isEvent;
         private string topicBase;
         private OpcUaDefinedType definedType;
@@ -21,10 +21,10 @@ namespace Yaml2Dtdl
         private int contentCount;
         private bool appendComma;
 
-        public DtdlInterface(string modelId, bool isArticle, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, CotypeRuleEngine cotypeRuleEngine, bool appendComma)
+        public DtdlInterface(string modelId, bool isComposite, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, CotypeRuleEngine cotypeRuleEngine, bool appendComma)
         {
             this.modelId = modelId;
-            this.isArticle = isArticle;
+            this.isComposite = isComposite;
             this.isEvent = isEvent;
             this.topicBase = modelId.Substring("dtmi:".Length).Replace(':', '/');
             this.definedType = definedType;
