@@ -110,20 +110,58 @@ namespace Yaml2Dtdl
             OpcUaContent? engUnitContent = specificDefinedType.Contents.FirstOrDefault(c => c.Relationship == "HasProperty" && c.DefinedType.UnitId != null);
             if (engUnitContent?.DefinedType?.UnitId != null && int.TryParse(engUnitContent.DefinedType.UnitId, out int unitId) && unitTypesDict.TryGetValue(unitId, out unitInfo))
             {
-                if (unitInfo.Item1 == "RelativeMeasure")
+                switch (unitInfo.Item1)
                 {
-                    unitInfo.Item1 = specificDefinedType.BrowseName switch
-                    {
-                        string n when n.Contains("Humidity") => "RelativeHumidity",
-                        string n when n.Contains("Density") => "RelativeDensity",
-                        string n when n.Contains("Size") => "Scale",
-                        string n when n.Contains("Mixing") => "Concentration",
-                        string n when n.Contains("Content") => "Concentration",
-                        string n when n.Contains("Regulation") => "Throttle",
-                        string n when n.Contains("Efficiency") => "Efficiency",
-                        string n when n.Contains("PowerFactor") => "Efficiency",
-                        _ => "RelativeMeasure",
-                    };
+                    case "RelativeMeasure":
+                        unitInfo.Item1 = specificDefinedType.BrowseName switch
+                        {
+                            string n when n.Contains("Humidity") => "RelativeHumidity",
+                            string n when n.Contains("Density") => "RelativeDensity",
+                            string n when n.Contains("Size") => "Scale",
+                            string n when n.Contains("Mixing") => "Concentration",
+                            string n when n.Contains("Content") => "Concentration",
+                            string n when n.Contains("Regulation") => "Throttle",
+                            string n when n.Contains("Efficiency") => "Efficiency",
+                            string n when n.Contains("PowerFactor") => "Efficiency",
+                            _ => "RelativeMeasure",
+                        };
+                        break;
+                    case "Angle":
+                        unitInfo.Item1 = specificDefinedType.BrowseName switch
+                        {
+                            string n when n.Contains("Latitude") => "Latitude",
+                            string n when n.Contains("Longitude") => "Longitude",
+                            _ => "Angle",
+                        };
+                        break;
+                    case "Density":
+                        unitInfo.Item1 = specificDefinedType.BrowseName switch
+                        {
+                            string n when n.Contains("Humidity") => "Humidity",
+                            _ => "Density",
+                        };
+                        break;
+                    case "Force":
+                        unitInfo.Item1 = specificDefinedType.BrowseName switch
+                        {
+                            string n when n.Contains("Thrust") => "Thrust",
+                            _ => "Force",
+                        };
+                        break;
+                    case "Length":
+                        unitInfo.Item1 = specificDefinedType.BrowseName switch
+                        {
+                            string n when n.Contains("Distance") => "Distance",
+                            _ => "Length",
+                        };
+                        break;
+                    case "Power":
+                        unitInfo.Item1 = specificDefinedType.BrowseName switch
+                        {
+                            string n when n.Contains("Luminosity") => "Luminosity",
+                            _ => "Power",
+                        };
+                        break;
                 }
 
                 return true;
