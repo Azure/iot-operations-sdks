@@ -17,12 +17,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
     internal class BlockingConcurrentQueue<T> : IDisposable
     {
         private readonly ConcurrentQueue<T> _queue;
-        private readonly ManualResetEventSlim _gate;
+        private readonly SemaphoreSlim _gate;
 
         public BlockingConcurrentQueue()
         {
             _queue = new ConcurrentQueue<T>();
-            _gate = new ManualResetEventSlim(false);
+            _gate = new(0, 1);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public void Enqueue(T item)
         {
             _queue.Enqueue(item);
-            _gate.Set();
+            _gate.Release();
         }
 
         /// <summary>
@@ -51,15 +51,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The first element in the queue.</returns>
-        public Task<T> DequeueAsync(CancellationToken cancellationToken = default)
+        public async Task<T> DequeueAsync(CancellationToken cancellationToken = default)
         {
             while (true)
             {
                 if (_queue.IsEmpty)
                 {
-                    _gate.Reset();
-                    _gate.Wait(cancellationToken);
-                    cancellationToken.ThrowIfCancellationRequested();
+                    await _gate.WaitAsync(cancellationToken);
                     continue;
                 }
                 else
@@ -71,8 +69,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                     else
                     {
-                        _gate.Reset();
-                        _gate.Wait(cancellationToken);
+                        await _gate.WaitAsync(cancellationToken);
                         cancellationToken.ThrowIfCancellationRequested();
                         continue;
                     }
@@ -89,7 +86,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public void Signal()
         {
-            _gate.Set();
+            _gate.Release();
         }
 
         public void Dispose()

@@ -506,7 +506,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // "do while" since every command should have at least one intended response, but streaming commands may have more
                 do
                 {
-                    extendedResponse = await WallClock.WaitAsync(responsePromise.Responses.TryDequeue(out MqttApplicationMessage? responseMessage), reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
+                    MqttApplicationMessage mqttMessage = await WallClock.WaitAsync<MqttApplicationMessage>(responsePromise.Responses.Dequeue(cancellationToken), reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
                     yield return extendedResponse;
                 } while (extendedResponse.StreamingResponseId != null && !extendedResponse.IsLastResponse);
 
