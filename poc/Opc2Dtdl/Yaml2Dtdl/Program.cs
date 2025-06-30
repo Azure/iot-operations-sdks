@@ -257,7 +257,7 @@
 
                         outputFile.Write(jsonText);
 
-                        specInfo.AddComponent(modelId, definedType.Value.DisplayName, TypeConverter.GetTypeRefFromNodeId(definedType.Value.NodeId), isComposite, isEvent);
+                        specInfo.AddComponent($"{modelId};1", definedType.Value.DisplayName, TypeConverter.GetTypeRefFromNodeId(definedType.Value.NodeId), isComposite, isEvent);
 
                         ix++;
                     }
