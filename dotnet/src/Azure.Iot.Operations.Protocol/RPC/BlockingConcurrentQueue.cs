@@ -5,6 +5,7 @@ using Azure.Iot.Operations.Protocol;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -50,7 +51,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The first element in the queue.</returns>
-        public T Dequeue(CancellationToken cancellationToken = default)
+        public Task<T> DequeueAsync(CancellationToken cancellationToken = default)
         {
             while (true)
             {
