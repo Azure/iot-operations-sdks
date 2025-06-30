@@ -10,5 +10,8 @@ namespace Azure.Iot.Operations.Protocol.RPC
     public class StreamingExtendedResponse<TResp> : ExtendedResponse<TResp>
         where TResp : class
     {
+        public string? StreamingResponseId { get; set; }
+
+        public bool IsLastResponse { get; set; }
     }
 }
