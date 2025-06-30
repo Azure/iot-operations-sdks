@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using DTDLParser;
     using OpcUaDigest;
+    using SpecMapper;
     using YamlDotNet.Serialization;
 
     internal class Program
@@ -46,7 +47,7 @@
         {
             if (args.Length < 5)
             {
-                Console.WriteLine("usage: Yaml2Dtdl <SOURCE_ROOT> <DEST_ROOT> <UNIT_TYPES> <COTYPE_RULES> <RESOLVER> [ <MAX_ERRORS> ]");
+                Console.WriteLine("usage: Yaml2Dtdl <SOURCE_ROOT> <DEST_ROOT> <UNIT_TYPES> <COTYPE_RULES> <RESOLVER> [ <INDEX> [ <MAX_ERRORS> ] ]");
                 return;
             }
 
@@ -56,7 +57,8 @@
             cotypeRulesFile = args[3];
             resolverConfig = args[4];
 
-            int maxErrors = args.Length > 5 ? int.Parse(args[5]) : defaultMaxErrors;
+            string? indexFilePath = args.Length > 5 ? args[5] : null;
+            int maxErrors = args.Length > 6 ? int.Parse(args[6]) : defaultMaxErrors;
 
             Dictionary<int, (string, string)> unitTypesDict = File.ReadAllLines(unitTypesFile).Select(l => l.Split(',')).ToDictionary(v => int.Parse(v[0]), v => (v[1], v[2]));
 
@@ -89,12 +91,14 @@
 
             CotypeRuleEngine cotypeRuleEngine = new CotypeRuleEngine(objectTypeIdSupers, cotypeRulesFile);
 
+            List<SpecInfo> specInfos = new ();
+
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
                 string yamlFileName = Path.GetFileName(yamlFilePath);
                 string specName = yamlFileName.Substring(0, yamlFileName.Length - sourceFileSuffix.Length);
 
-                ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeIdSupers, typeDefinitions, cotypeRuleEngine);
+                ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeIdSupers, typeDefinitions, cotypeRuleEngine, specInfos);
             }
 
             Console.WriteLine();
@@ -103,6 +107,26 @@
             if (maxErrors == 0)
             {
                 return;
+            }
+
+            if (indexFilePath != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Writing model index to file {indexFilePath}");
+
+                using (StreamWriter indexFile = new StreamWriter(indexFilePath))
+                {
+                    indexFile.WriteLine("[");
+
+                    int ix = 1;
+                    foreach (SpecInfo specInfo in specInfos)
+                    {
+                        specInfo.WriteToStream(indexFile, addComma: ix < specInfos.Count);
+                        ix++;
+                    }
+
+                    indexFile.WriteLine("]");
+                }
             }
 
             Console.WriteLine();
@@ -203,7 +227,7 @@
             return false;
         }
 
-        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeIdSupers, HashSet<string> typeDefinitions, CotypeRuleEngine cotypeRuleEngine)
+        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeIdSupers, HashSet<string> typeDefinitions, CotypeRuleEngine cotypeRuleEngine, List<SpecInfo> specInfos)
         {
             Console.WriteLine($"Processing file {yamlFilePath}");
 
@@ -214,6 +238,8 @@
             {
                 string outFilePath = Path.Combine(destRoot, $"{specName}{destFileSuffix}");
                 Console.WriteLine($"  Writing file {outFilePath}");
+
+                SpecInfo specInfo = new SpecInfo(Path.GetFileName(outFilePath), SpecMapper.GetUriFromSpecName(specName));
 
                 using (StreamWriter outputFile = new StreamWriter(outFilePath))
                 {
@@ -231,11 +257,15 @@
 
                         outputFile.Write(jsonText);
 
+                        specInfo.AddComponent(modelId, definedType.Value.DisplayName, TypeConverter.GetTypeRefFromNodeId(definedType.Value.NodeId), isComposite, isEvent);
+
                         ix++;
                     }
 
                     outputFile.WriteLine("]");
                 }
+
+                specInfos.Add(specInfo);
             }
         }
 

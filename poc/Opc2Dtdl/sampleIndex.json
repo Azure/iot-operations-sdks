@@ -1,0 +1,17 @@
+[
+  {
+    "file": "Robotics.dtdl.json",
+    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "events": [
+    ],
+    "composites": [
+      {
+        "modelId": "dtmi:opcua:Robotics:MotionDeviceSystemType;1",
+        "displayName": "MotionDeviceSystemType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1002"
+      }
+    ],
+    "otherTypes": [
+    ]
+  }
+]
