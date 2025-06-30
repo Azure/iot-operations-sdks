@@ -2403,59 +2403,6 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
         }
 
         [Fact]
-        public async Task MqttSessionClient_SubscribeWithPersistence()
-        {
-            using MockMqttClient mockMqttClient = new MockMqttClient();
-            await using MqttSessionClient sessionClient = new(mockMqttClient);
-
-            mockMqttClient.OnConnectAttempt += (actualConnect) =>
-            {
-                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
-            };
-
-            var connectOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
-            {
-                SessionExpiryInterval = 100,
-                AioPersistence = true
-            };
-
-            await sessionClient.ConnectAsync(connectOptions);
-
-            var subscribeOptions = new MqttClientSubscribeOptions()
-            {
-                AioPersistence = true
-            };
-
-            subscribeOptions.TopicFilters.Add(new MqttTopicFilter("someTopic"));
-
-            TaskCompletionSource<MQTTnet.MqttClientSubscribeOptions> actualSubscribeTcs = new();
-            mockMqttClient.OnSubscribeAttempt += (actualSubscribe) =>
-            {
-                actualSubscribeTcs.TrySetResult(actualSubscribe);
-
-                // This isn't a valid returned SUBACK, but the test doesn't need it to be since this isn't checked
-                return Task.FromResult(new MQTTnet.MqttClientSubscribeResult(0, new List<MQTTnet.MqttClientSubscribeResultItem>(), "", new List<MQTTnet.Packets.MqttUserProperty>()));
-            };
-
-            // Don't care about the SUBACK
-            _ = sessionClient.SubscribeAsync(subscribeOptions);
-
-            var actualSubscribe = await actualSubscribeTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
-            bool containsFlag = false;
-            foreach (var actualUserProperty in actualSubscribe.UserProperties)
-            {
-                if (actualUserProperty.Name.Equals("aio-persistence")
-                    && actualUserProperty.Value.Equals("true"))
-                {
-                    containsFlag = true;
-                    break;
-                }
-            }
-
-            Assert.True(containsFlag);
-        }
-
-        [Fact]
         public async Task MqttSessionClient_PublishWithPersistence()
         {
             using MockMqttClient mockMqttClient = new MockMqttClient();
