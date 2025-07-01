@@ -20,39 +20,99 @@ namespace Azure.Iot.Operations.Protocol.Connection
         private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
         private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
 
+        /// <summary>
+        /// The fully qualified domain name of the MQTT broker.
+        /// </summary>
         public string HostName { get; set; }
 
+        /// <summary>
+        /// The TCP port to use when connecting to the MQTT broker.
+        /// </summary>
         public int TcpPort { get; set; } = DefaultTcpPort;
 
+        /// <summary>
+        /// Enable TLS negotiation (disabling not recommended for production).
+        /// </summary>
         public bool UseTls { get; set; } = DefaultUseTls;
 
+        /// <summary>
+        /// Path to a PEM file to validate server identity.
+        /// </summary>
         public string? CaFile { get; set; }
+
+        /// <summary>
+        /// If true, the client will connect to the MQTT broker without attempting to resume an MQTT session. If false, the client
+        /// will try to resume an MQTT session if one is present.
+        /// </summary>
         public bool CleanStart { get; set; } = DefaultCleanStart;
 
+        /// <summary>
+        /// The MQTT connection-level keep alive period.
+        /// </summary>
+        /// <remarks>
+        /// Higher values cause less network traffic, but lower values lead to faster responses to connection loss.
+        /// </remarks>
         public TimeSpan KeepAlive { get; set; } = s_defaultKeepAlive;
 
+        /// <summary>
+        /// The MQTT client Id that this client will use when connecting.
+        /// </summary>
         public string ClientId { get; set; }
 
+        /// <summary>
+        /// The session expiry period that this client's connections will use.
+        /// </summary>
+        /// <remarks>
+        /// Longer periods allow for the client to reconnect and re-establish the MQTT session after longer delays.
+        /// </remarks>
         public TimeSpan SessionExpiry { get; set; } = s_defaultSessionExpiry;
 
+        /// <summary>
+        /// The MQTT connection username to include in the CONNECT packet.
+        /// </summary>
         public string? Username { get; set; }
 
+        /// <summary>
+        /// The path to the file that contains the MQTT connection password to include in the CONNECT packet.
+        /// </summary>
         public string? PasswordFile { get; set; }
 
+        /// <summary>
+        /// Path to a PEM file to establish X509 client authentication
+        /// </summary>
         public string? CertFile { get; set; }
 
+        /// <summary>
+        /// Path to a KEY file to establish X509 client authentication
+        /// </summary>
         public string? KeyFile { get; set; }
 
+        /// <summary>
+        /// The file containing the password for accessing <see cref="KeyFile"/>.
+        /// </summary>
         public string? KeyPasswordFile { get; set; }
 
+        /// <summary>
+        /// The client certificate for X509 authentication.
+        /// </summary>
         public X509Certificate2? ClientCertificate { get; set; }
 
+        /// <summary>
+        /// The certificate authority to trust.
+        /// </summary>
+        /// <remarks>
+        /// If provided, this field supercedes any value provided in <see cref="CaFile"/>.
+        /// </remarks>
         public X509Certificate2Collection? TrustChain { get; set; }
 
-        public string? ModelId { get; set; }
-
+        /// <summary>
+        /// The file that contains the shared access token used for authentication. Only applicable for applications deployed in kubernetes pods.
+        /// </summary>
         public string? SatAuthFile { get; set; }
 
+        /// <summary>
+        /// The upper bound of concurrent in-flight QoS 1 or QoS 2 messages that the broker will be allowed to send to this client.
+        /// </summary>
         public ushort? ReceiveMaximum { get; set; }
 
         public MqttConnectionSettings(string hostname, string clientId)
@@ -71,7 +131,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 KeyPasswordFile = GetStringValue(connectionSettings, nameof(KeyPasswordFile));
                 Username = GetStringValue(connectionSettings, nameof(Username));
                 PasswordFile = GetStringValue(connectionSettings, nameof(PasswordFile));
-                ModelId = GetStringValue(connectionSettings, nameof(ModelId));
                 KeepAlive = GetTimeSpanValue(connectionSettings, nameof(KeepAlive), s_defaultKeepAlive);
                 CleanStart = GetBooleanValue(connectionSettings, nameof(CleanStart), DefaultCleanStart);
                 SessionExpiry = GetTimeSpanValue(connectionSettings, nameof(SessionExpiry), s_defaultSessionExpiry);
@@ -307,7 +366,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
             StringBuilder result = new();
             AppendIfNotNullOrEmpty(result, nameof(HostName), HostName);
             AppendIfNotNullOrEmpty(result, nameof(ClientId), ClientId);
-            AppendIfNotNullOrEmpty(result, nameof(ModelId), ModelId);
             AppendIfNotNullOrEmpty(result, nameof(Username), Username);
             AppendIfNotNullOrEmpty(result, nameof(PasswordFile), PasswordFile);
             AppendIfNotNullOrEmpty(result, nameof(CertFile), CertFile);
