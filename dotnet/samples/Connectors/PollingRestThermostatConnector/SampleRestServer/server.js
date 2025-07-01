@@ -32,7 +32,7 @@ function getRandomTemperature(min, max) {
     return (Math.random() * (max - min) + min).toFixed(2);
 }
 
-let desiredTemperature = getRandomTemperature(68, 77); // Approx 20-25°C in Fahrenheit
+let desiredTemperature = getRandomTemperature(68, 77); // Approx 20-25ï¿½C in Fahrenheit
 let currentTemperature = getRandomTemperature(68, 77);
 let thermostatPower = "on";
 
@@ -76,6 +76,32 @@ app.post("/api/thermostat/power", express.json(), (req, res) => {
     } else {
         res.status(400).json({ message: "Power state must be 'on' or 'off'" });
     }
+});
+
+app.get("/api/factory/location", (req, res) => {
+    const floorNumber = getRandomFloor();
+    const factoryId = getRandomFactoryId();
+
+    res.json({
+        floorNumber: floorNumber,
+        factoryId: factoryId,
+        timestamp: new Date().toISOString()
+    });
+});
+
+app.get("/api/sensor/env", (req, res) => {
+    const temperature = parseFloat(getRandomTemperature(68, 77));
+    const humidity = parseFloat(getRandomHumidity(30, 70));
+
+    res.json({
+        temperature: temperature,
+        humidity: humidity,
+
+        unit: {
+            temperature: "Fahrenheit",
+            humidity: "Percentage"
+        }
+    });
 });
 
 app.listen(port, () => {

@@ -1,0 +1,21 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Asset
+metadata:
+  name: rest-sensor-asset
+  namespace: azure-iot-operations
+spec:
+  datasets:
+    - name: sensor-dataset
+      dataSource: api/sensor/env
+      datasetConfiguration: |-
+        {
+          "samplingIntervalInMilliseconds": 15000
+        }
+      destinations:
+        - configuration:
+            topic: weather/sensor
+          target: Mqtt
+  deviceRef:
+    deviceName: rest-sensor
+    endpointName: rest-sensor-endpoint
+  version: 1
