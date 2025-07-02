@@ -462,7 +462,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset? asset, string assetName)
+        private Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset? asset, string assetName)
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
 
@@ -470,7 +470,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 // Should never happen
                 _logger.LogError("Received notification that asset was created, but no asset was provided");
-                return;
+                return Task.CompletedTask;
             }
 
             if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
@@ -478,7 +478,9 @@ namespace Azure.Iot.Operations.Connector
                 deviceContext.Assets.TryAdd(assetName, asset);
             }
 
-            Device? device = _devices[compoundDeviceName].Device;
+            return Task.CompletedTask;
+
+            /*Device? device = _devices[compoundDeviceName].Device; // throwing?
 
             if (device == null)
             {
@@ -574,6 +576,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                 });
             }
+            */
         }
 
         private void AssetUnavailable(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)
