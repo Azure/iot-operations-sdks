@@ -62,7 +62,7 @@ jobs:
     
     - name: Deploy Polling Rest Connector
       run: |
-        cd rust/azure_iot_operations_connector/rest_connector_resources
+        cd rust/azure_iot_operations_connector/examples/rest_connector_resources
         ./deploy-connector-and-device.sh
   
     - name: Run Checks
