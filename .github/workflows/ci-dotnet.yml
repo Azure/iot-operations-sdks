@@ -253,7 +253,7 @@ jobs:
         for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
           echo "Logs for pod: $pod"
           kubectl describe pod $pod
-          kubectl logs $pod
+          kubectl logs $pod  --previous
           echo "-----------------------------------"
         done
 
