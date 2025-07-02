@@ -252,8 +252,10 @@ jobs:
         kubectl get pods
         for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
           echo "Logs for pod: $pod"
-          kubectl describe pod $pod
-          kubectl logs $pod  --previous
+          if [[ $pods == *"rest-ctemplate-"* ]]; then
+            kubectl describe pod $pod
+            kubectl logs $pod  --previous
+          fi
           echo "-----------------------------------"
         done
 
