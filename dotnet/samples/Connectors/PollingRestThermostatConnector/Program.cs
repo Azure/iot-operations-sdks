@@ -6,17 +6,29 @@ using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Protocol;
 using RestThermostatConnector;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
+while (true)
+{
+    try
     {
-        services.AddSingleton<ApplicationContext>();
-        services.AddSingleton(MqttSessionClientProvider.Factory);
-        services.AddSingleton(RestThermostatDatasetSamplerProvider.Factory);
-        services.AddSingleton(NoMessageSchemaProvider.Factory);
-        services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
-        services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
-        services.AddHostedService<PollingTelemetryConnectorWorker>();
-    })
-    .Build();
+        IHost host = Host.CreateDefaultBuilder(args)
+            .ConfigureServices(services =>
+            {
+                services.AddSingleton<ApplicationContext>();
+                services.AddSingleton(MqttSessionClientProvider.Factory);
+                services.AddSingleton(RestThermostatDatasetSamplerProvider.Factory);
+                services.AddSingleton(NoMessageSchemaProvider.Factory);
+                services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
+                services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
+                services.AddHostedService<PollingTelemetryConnectorWorker>();
+            })
+            .Build();
 
-host.Run();
+        host.Run();
+
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
+
+}
