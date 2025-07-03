@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use azure_iot_operations_connector::filemount::connector_artifacts::{
+use azure_iot_operations_connector::deployment_artifacts::connector::{
     ConnectorArtifacts, Protocol, TlsMode,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
@@ -33,6 +33,10 @@ fn local_connector_artifacts_tls() {
     let trust_bundle_mount_path = get_broker_trust_bundle_mount_path();
     temp_env::with_vars(
         [
+            (
+                "AZURE_EXTENSION_RESOURCEID",
+                Some("/subscriptions/extension/resource/id"),
+            ),
             ("CONNECTOR_ID", Some("connector_id")),
             ("CONNECTOR_NAMESPACE", Some("connector_namespace")),
             (
@@ -48,6 +52,10 @@ fn local_connector_artifacts_tls() {
             let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
             // -- Validate the ConnectorArtifacts --
             // NOTE: This value was set directly above in the environment variables
+            assert_eq!(
+                artifacts.azure_extension_resource_id,
+                "/subscriptions/extension/resource/id"
+            );
             assert_eq!(artifacts.connector_id, "connector_id");
             assert_eq!(artifacts.connector_namespace, "connector_namespace");
             // NOTE: These values are paths specified in the environment variable
@@ -105,6 +113,10 @@ fn local_connector_artifacts_no_tls() {
     let cc_mount_path = get_connector_config_mount_path("connector-config-no-auth-no-tls");
     temp_env::with_vars(
         [
+            (
+                "AZURE_EXTENSION_RESOURCEID",
+                Some("/subscriptions/extension/resource/id"),
+            ),
             ("CONNECTOR_ID", Some("connector_id")),
             ("CONNECTOR_NAMESPACE", Some("connector_namespace")),
             (
@@ -117,6 +129,10 @@ fn local_connector_artifacts_no_tls() {
             let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
             // -- Validate the ConnectorArtifacts --
             // NOTE: This value was set directly above in the environment variables
+            assert_eq!(
+                artifacts.azure_extension_resource_id,
+                "/subscriptions/extension/resource/id"
+            );
             assert_eq!(artifacts.connector_id, "connector_id");
             assert_eq!(artifacts.connector_namespace, "connector_namespace");
             // NOTE: These values are paths specified in the environment variable

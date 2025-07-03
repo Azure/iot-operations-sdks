@@ -14,39 +14,39 @@ use super::discovered_device_endpoints::DiscoveredDeviceEndpoints;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDevice {
-    /// The 'attributes' Field.
+    /// A set of key-value pairs that contain custom attributes set by the customer.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub attributes: Option<HashMap<String, String>>,
 
-    /// The 'endpoints' Field.
+    /// Connection endpoint URL a device can use to connect to a service.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub endpoints: Option<DiscoveredDeviceEndpoints>,
 
-    /// The 'externalDeviceId' Field.
+    /// The unique identifier of the device.
     #[serde(rename = "externalDeviceId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub external_device_id: Option<String>,
 
-    /// The 'manufacturer' Field.
+    /// Device manufacturer.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub manufacturer: Option<String>,
 
-    /// The 'model' Field.
+    /// Device model.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub model: Option<String>,
 
-    /// The 'operatingSystem' Field.
+    /// Device operating system name.
     #[serde(rename = "operatingSystem")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub operating_system: Option<String>,
 
-    /// The 'operatingSystemVersion' Field.
+    /// Device operating system version.
     #[serde(rename = "operatingSystemVersion")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

@@ -14,13 +14,13 @@ use super::akri_service_error::AkriServiceError;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct SetNotificationPreferenceForDeviceUpdatesResponseSchema {
-    /// The 'responsePayload' Field.
+    /// The response payload indicating that the operation was successful.
     #[serde(rename = "responsePayload")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub response_payload: Option<String>,
 
-    /// The 'setNotificationPreferenceForDeviceUpdatesError' Field.
+    /// Error details, if setting the notification preference for device updates failed.
     #[serde(rename = "setNotificationPreferenceForDeviceUpdatesError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

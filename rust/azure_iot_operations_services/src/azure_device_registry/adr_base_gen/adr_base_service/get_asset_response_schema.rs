@@ -15,12 +15,12 @@ use super::asset::Asset;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetAssetResponseSchema {
-    /// The 'asset' Field.
+    /// The asset resource
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub asset: Option<Asset>,
 
-    /// The 'getAssetError' Field.
+    /// Error details, if the asset could not be retrieved.
     #[serde(rename = "getAssetError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

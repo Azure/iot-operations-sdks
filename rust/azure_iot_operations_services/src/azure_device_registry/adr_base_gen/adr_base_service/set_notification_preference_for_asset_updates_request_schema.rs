@@ -14,11 +14,11 @@ use super::notification_preference::NotificationPreference;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct SetNotificationPreferenceForAssetUpdatesRequestSchema {
-    /// The 'assetName' Field.
+    /// The name of the asset to set the notification preference for.
     #[serde(rename = "assetName")]
     pub asset_name: String,
 
-    /// The 'notificationPreference' Field.
+    /// The notification preference to set for the asset updates.
     #[serde(rename = "notificationPreference")]
     pub notification_preference: NotificationPreference,
 }

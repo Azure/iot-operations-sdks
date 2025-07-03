@@ -14,11 +14,11 @@ use super::discovered_device::DiscoveredDevice;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredDeviceRequestSchema {
-    /// The 'discoveredDevice' Field.
+    /// The discovered device resource to create or update. Fields omitted in the request will be removed. The specified inbound endpoint will be added or updated in the inbound endpoints map.
     #[serde(rename = "discoveredDevice")]
     pub discovered_device: DiscoveredDevice,
 
-    /// The 'discoveredDeviceName' Field.
+    /// The name of the discovered device to create or update. This field is used to perform deduplication of discovered devices.
     #[serde(rename = "discoveredDeviceName")]
     pub discovered_device_name: String,
 }

@@ -14,11 +14,11 @@ use super::asset_status::AssetStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateAssetStatusRequestSchema {
-    /// The 'assetName' Field.
+    /// The name of the asset to update the status for.
     #[serde(rename = "assetName")]
     pub asset_name: String,
 
-    /// The 'assetStatus' Field.
+    /// The asset status to update. Fields omitted in the request will be removed.
     #[serde(rename = "assetStatus")]
     pub asset_status: AssetStatus,
 }

@@ -15,12 +15,12 @@ use super::device::Device;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetDeviceResponseSchema {
-    /// The 'device' Field.
+    /// The device resource, containing the specific inbound endpoint details as specified by the request.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub device: Option<Device>,
 
-    /// The 'getDeviceError' Field.
+    /// Error details, if the device could not be retrieved.
     #[serde(rename = "getDeviceError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

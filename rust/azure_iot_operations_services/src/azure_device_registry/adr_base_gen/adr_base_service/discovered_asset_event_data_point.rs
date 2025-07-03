@@ -13,23 +13,23 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredAssetEventDataPoint {
-    /// The 'dataPointConfiguration' Field.
+    /// Stringified JSON that contains connector-specific configuration for the data point.
     #[serde(rename = "dataPointConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_point_configuration: Option<String>,
 
-    /// The 'dataSource' Field.
+    /// The address of the source of the data in the discovered asset (e.g. URL) so that a client can access the data source on the asset.
     #[serde(rename = "dataSource")]
     pub data_source: String,
 
-    /// The 'lastUpdatedOn' Field.
+    /// UTC timestamp indicating when the data point was added or modified.
     #[serde(rename = "lastUpdatedOn")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub last_updated_on: Option<DateTime<Utc>>,
 
-    /// The 'name' Field.
+    /// The name of the data point.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub name: Option<String>,

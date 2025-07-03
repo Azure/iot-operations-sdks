@@ -16,8 +16,8 @@
 
 use std::{collections::HashMap, time::Duration};
 
-use azure_iot_operations_connector::filemount::{
-    azure_device_registry::DeviceEndpointCreateObservation, connector_artifacts::ConnectorArtifacts,
+use azure_iot_operations_connector::deployment_artifacts::{
+    azure_device_registry::DeviceEndpointCreateObservation, connector::ConnectorArtifacts,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;

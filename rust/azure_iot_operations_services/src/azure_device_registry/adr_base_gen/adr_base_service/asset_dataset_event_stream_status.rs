@@ -15,7 +15,7 @@ use super::message_schema_reference::MessageSchemaReference;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetDatasetEventStreamStatus {
-    /// The configuration error
+    /// The last error that occurred while processing the dataset/event/stream.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub error: Option<ConfigError>,
@@ -26,6 +26,6 @@ pub struct AssetDatasetEventStreamStatus {
     #[builder(default = "None")]
     pub message_schema_reference: Option<MessageSchemaReference>,
 
-    /// The 'name' Field.
+    /// The name of the dataset/event/stream. Must be unique within the status.datasets[i]/events[i]/streams[i] array. This name is used to correlate between the spec and status dataset/event/stream information.
     pub name: String,
 }

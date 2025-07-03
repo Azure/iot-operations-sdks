@@ -15,12 +15,12 @@ use super::discovered_device_outbound_endpoints_schema::DiscoveredDeviceOutbound
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDeviceEndpoints {
-    /// The 'inbound' Field.
+    /// Set of endpoints to connect to the device.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub inbound: Option<HashMap<String, DiscoveredDeviceInboundEndpointSchema>>,
 
-    /// The 'outbound' Field.
+    /// Property bag contains the device's outbound endpoints
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub outbound: Option<DiscoveredDeviceOutboundEndpointsSchema>,
