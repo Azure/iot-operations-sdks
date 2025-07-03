@@ -94,9 +94,9 @@ func main() {
 	counterError, ok := err.(*countercollection.CounterError)
 	if ok && counterError.Condition != nil {
 		switch *counterError.Condition {
-		case countercollection.CounterNotFound:
+		case countercollection.ConditionSchemaCounterNotFound:
 			fmt.Printf("Counter '%s' was not found\n", counterName)
-		case countercollection.CounterOverflow:
+		case countercollection.ConditionSchemaCounterOverflow:
 			fmt.Printf("Counter '%s' has overflowed\n", counterName)
 		}
 	}

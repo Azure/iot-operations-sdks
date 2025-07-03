@@ -215,7 +215,12 @@
                 string? description = dtObject.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value;
                 bool isResult = IsSchemaResult(dtObject, mqttVersion);
 
-                List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices = dtObject.Fields.Select(f => (f.Name, f.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{f.Name}' Field.", f.Schema, IsRequired(f), GetFieldIndex(f, mqttVersion))).ToList();
+                if (isResult && !dtObject.Fields.Any(f => IsFieldErrorResult(f, mqttVersion)))
+                {
+                    continue;
+                }
+
+                List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices = dtObject.Fields.Where(f => !IsFieldErrorCode(f, mqttVersion) && !IsFieldErrorInfo(f, mqttVersion)).Select(f => (f.Name, f.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{f.Name}' Field.", f.Schema, IsRequired(f), GetFieldIndex(f, mqttVersion))).ToList();
                 nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
                 int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
                 nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
@@ -300,11 +305,39 @@
             return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
         }
 
-        private (CodeName?, bool) GetErrorMessageSchema(DTObjectInfo dtObject, int mqttVersion)
+        private (CodeName?, bool, CodeName?, CodeName?, CodeName?, CodeName?) GetErrorMessageSchema(DTObjectInfo dtObject, int mqttVersion)
         {
+            CodeName? messageFieldName = null;
+            bool messageIsNullable = false;
+            CodeName? errorCodeName = null;
+            CodeName? errorCodeSchema = null;
+            CodeName? errorInfoName = null;
+            CodeName? errorInfoSchema = null;
+
             Dtmi errorMessageAdjunctTypeId = new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorMessageAdjunctTypeFormat, mqttVersion));
             DTFieldInfo? messageField = dtObject.Fields.FirstOrDefault(f => f.SupplementalTypes.Contains(errorMessageAdjunctTypeId));
-            return messageField != null ? (new CodeName(messageField.Id), !IsRequired(messageField)) : (null, false);
+            if (messageField != null)
+            {
+                messageFieldName = new CodeName(messageField.Id);
+                messageIsNullable = !IsRequired(messageField);
+            }
+
+            DTFieldInfo? errorCodeField = dtObject.Fields.FirstOrDefault(f => IsFieldErrorCode(f, mqttVersion));
+            DTFieldInfo? errorInfoField = dtObject.Fields.FirstOrDefault(f => IsFieldErrorInfo(f, mqttVersion));
+
+            if (errorCodeField != null)
+            {
+                errorCodeName = new CodeName(errorCodeField.Name);
+                errorCodeSchema = new CodeName(errorCodeField.Schema.Id);
+            }
+
+            if (errorInfoField != null)
+            {
+                errorInfoName = new CodeName(errorInfoField.Name);
+                errorInfoSchema = new CodeName(errorInfoField.Schema.Id);
+            }
+
+            return (messageFieldName, messageIsNullable, errorCodeName, errorCodeSchema, errorInfoName, errorInfoSchema);
         }
 
         private ITypeName GetTelemSchema(DTTelemetryInfo dtTelem)
@@ -334,27 +367,52 @@
             CodeName? normalResultSchema = null;
             CodeName? errorResultName = null;
             CodeName? errorResultSchema = null;
+            CodeName? errorCodeName = null;
+            CodeName? errorCodeSchema = null;
+            Dictionary<string, string> errorCodeEnumeration = new ();
+            CodeName? errorInfoName = null;
+            CodeName? errorInfoSchema = null;
 
             if (IsSchemaResult(dtCommand.Response?.Schema, mqttVersion))
             {
                 DTFieldInfo? normalField = ((DTObjectInfo)dtCommand.Response!.Schema).Fields.FirstOrDefault(f => IsFieldNormalResult(f, mqttVersion));
                 DTFieldInfo? errorField = ((DTObjectInfo)dtCommand.Response!.Schema).Fields.FirstOrDefault(f => IsFieldErrorResult(f, mqttVersion));
 
+                DTObjectInfo? errorObject = errorField != null ? (DTObjectInfo)errorField.Schema : (DTObjectInfo)dtCommand.Response!.Schema;
+
+                DTFieldInfo? errorCodeField = errorObject.Fields.FirstOrDefault(f => IsFieldErrorCode(f, mqttVersion));
+                DTFieldInfo? errorInfoField = errorObject.Fields.FirstOrDefault(f => IsFieldErrorInfo(f, mqttVersion));
+
                 if (normalField == null)
                 {
                     throw new Exception($"Object co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.ResultAdjunctTypeFormat)} requires a Field co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.NormalResultAdjunctTypeFormat)}");
                 }
 
-                if (errorField == null)
+                if (errorField != null)
                 {
-                    throw new Exception($"Object co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.ResultAdjunctTypeFormat)} requires a Field co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.ErrorResultAdjunctTypeFormat)}");
+                    responseSchema = new CodeName(dtCommand.Response.Schema.Id);
+                    normalResultName = new CodeName(normalField.Name);
+                    normalResultSchema = SchemaNames.GetCmdRespSchema(dtCommand.Name);
+                    errorResultName = new CodeName(errorField.Name);
+                    errorResultSchema = new CodeName(errorField.Schema.Id);
+                }
+                else
+                {
+                    responseSchema = GetResponseSchema(dtCommand, mqttVersion);
                 }
 
-                responseSchema = new CodeName(dtCommand.Response.Schema.Id);
-                normalResultName = new CodeName(normalField.Name);
-                normalResultSchema = SchemaNames.GetCmdRespSchema(dtCommand.Name);
-                errorResultName = new CodeName(errorField.Name);
-                errorResultSchema = new CodeName(errorField.Schema.Id);
+                if (errorCodeField != null)
+                {
+                    errorCodeName = new CodeName(errorCodeField.Name);
+                    errorCodeSchema = new CodeName(errorCodeField.Schema.Id);
+                    errorCodeEnumeration = ((DTEnumInfo)errorCodeField.Schema).EnumValues.ToDictionary(v => v.Name, v => v.EnumValue.ToString()!);
+                }
+
+                if (errorInfoField != null)
+                {
+                    errorInfoName = new CodeName(errorInfoField.Name);
+                    errorInfoSchema = new CodeName(errorInfoField.Schema.Id);
+                }
             }
             else
             {
@@ -369,6 +427,11 @@
                 normalResultSchema,
                 errorResultName,
                 errorResultSchema,
+                errorCodeName,
+                errorCodeSchema,
+                errorCodeEnumeration,
+                errorInfoName,
+                errorInfoSchema,
                 dtCommand.Request?.Nullable ?? false,
                 dtCommand.Response?.Nullable ?? false,
                 IsCommandIdempotent(dtCommand, mqttVersion),
@@ -427,6 +490,16 @@
         private static bool IsFieldErrorResult(DTFieldInfo dtField, int mqttVersion)
         {
             return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorResultAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private static bool IsFieldErrorCode(DTFieldInfo dtField, int mqttVersion)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorCodeAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private static bool IsFieldErrorInfo(DTFieldInfo dtField, int mqttVersion)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorInfoAdjunctTypeFormat, mqttVersion)));
         }
 
         private static string? GetTtl(DTCommandInfo dtCommand, int mqttVersion)

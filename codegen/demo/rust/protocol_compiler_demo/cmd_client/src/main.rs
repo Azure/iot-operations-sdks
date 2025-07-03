@@ -102,23 +102,11 @@ async fn send_increment_command(
     let response = increment_invoker.invoke(increment_request).await;
 
     match response {
-        Ok(Ok(response)) => {
+        Ok(response) => {
             println!(
                 "New value = {}",
                 response.payload.counter_value
             );
-        }
-        Ok(Err(counter_error)) => {
-            println!("Request failed with error: '{}'", counter_error);
-            match counter_error.condition {
-                Some(ConditionSchema::CounterNotFound) => {
-                    println!("Counter '{counter_name}' was not found");
-                },
-                Some(ConditionSchema::CounterOverflow) => {
-                    println!("Counter '{counter_name}' has overflowed");
-                },
-                None => {},
-            };
         }
         Err(err) => {
             println!("Protocol error = {err:?}");

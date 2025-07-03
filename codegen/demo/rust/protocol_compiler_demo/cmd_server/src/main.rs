@@ -94,12 +94,8 @@ async fn increment_execute_loop(client: SessionManagedClient) {
                         .unwrap()
                 } else {
                     response_builder
-                        .error(CounterError {
-                            condition: Some(ConditionSchema::CounterOverflow),
-                            explanation: Some(format!(
-                                "Rust counter '{}' has saturated; no further increment is possible",
-                                &request.payload.counter_name
-                            )),
+                        .payload(IncrementResponsePayload {
+                            counter_value: 0,
                         })
                         .unwrap()
                         .build()
@@ -108,12 +104,8 @@ async fn increment_execute_loop(client: SessionManagedClient) {
             }
             None => {
                 response_builder
-                    .error(CounterError {
-                        condition: Some(ConditionSchema::CounterNotFound),
-                        explanation: Some(format!(
-                            "Rust counter '{}' not found in counter collection",
-                            &request.payload.counter_name
-                        )),
+                    .payload(IncrementResponsePayload {
+                        counter_value: 0,
                     })
                     .unwrap()
                     .build()

@@ -53,6 +53,20 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
         public static string? ErrorResultNamespace { get; } = AnnexFileProperties.ErrorResultNamespace;
 
+        public static string? ErrorCodeName { get; } = AnnexFileProperties.ErrorCodeName;
+
+        public static string? ErrorCodeSchema { get; } = AnnexFileProperties.ErrorCodeSchema;
+
+        public static string? ErrorCodeNamespace { get; } = AnnexFileProperties.ErrorCodeNamespace;
+
+        public static string? ErrorCodeEnumeration { get; } = AnnexFileProperties.ErrorCodeEnumeration;
+
+        public static string? ErrorInfoName { get; } = AnnexFileProperties.ErrorInfoName;
+
+        public static string? ErrorInfoSchema { get; } = AnnexFileProperties.ErrorInfoSchema;
+
+        public static string? ErrorInfoNamespace { get; } = AnnexFileProperties.ErrorInfoNamespace;
+
         public static string? RequestIsNullable { get; } = AnnexFileProperties.RequestIsNullable;
 
         public static string? ResponseIsNullable { get; } = AnnexFileProperties.ResponseIsNullable;

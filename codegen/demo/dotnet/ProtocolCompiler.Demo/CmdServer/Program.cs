@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Mqtt.Session;
@@ -36,43 +37,40 @@ namespace Server
 
         public override Task<ExtendedResponse<IncrementResponsePayload>> IncrementAsync(IncrementRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
         {
+            ExtendedResponse<IncrementResponsePayload> extendedResponse;
+
             if (!counterValues.TryGetValue(request.CounterName, out int currentValue))
             {
-                throw new CounterErrorException(new CounterError
-                {
-                    Condition = ConditionSchema.CounterNotFound,
-                    Explanation = $"Dotnet counter '{request.CounterName}' not found in counter collection",
-                });
+                extendedResponse = ExtendedResponse<IncrementResponsePayload>.CreateFromResponse(new IncrementResponsePayload { CounterValue = 0 })
+                    .WithApplicationError(ErrorCondition.CounterNotFound, new CounterList() { CounterNames = counterValues.Keys.ToList() });
+
+                return Task.FromResult(extendedResponse);
             }
 
             if (currentValue == int.MaxValue)
             {
-                throw new CounterErrorException(new CounterError
-                {
-                    Condition = ConditionSchema.CounterOverflow,
-                    Explanation = $"Dotnet counter '{request.CounterName}' has saturated; no further increment is possible",
-                });
+                extendedResponse = ExtendedResponse<IncrementResponsePayload>.CreateFromResponse(new IncrementResponsePayload { CounterValue = int.MaxValue })
+                    .WithApplicationError(ErrorCondition.CounterOverflow);
+
+                return Task.FromResult(extendedResponse);
             }
 
             int newValue = currentValue + 1;
             counterValues[request.CounterName] = newValue;
 
-            return Task.FromResult(ExtendedResponse<IncrementResponsePayload>.CreateFromResponse(new IncrementResponsePayload { CounterValue = newValue }));
+            extendedResponse = ExtendedResponse<IncrementResponsePayload>.CreateFromResponse(new IncrementResponsePayload { CounterValue = newValue });
+            return Task.FromResult(extendedResponse);
         }
 
         public override Task<ExtendedResponse<GetLocationResponsePayload>> GetLocationAsync(GetLocationRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
         {
-            if (!counterValues.TryGetValue(request.CounterName, out int currentValue))
+            if (!counterValues.ContainsKey(request.CounterName))
             {
-                throw new CounterErrorException(new CounterError
-                {
-                    Condition = ConditionSchema.CounterNotFound,
-                    Explanation = $"Dotnet counter '{request.CounterName}' not found in counter collection",
-                });
+                throw new CounterErrorException(new CounterError { Explanation = $"Dotnet counter '{request.CounterName}' not found in counter collection" })
+                    .WithApplicationError(ErrorCondition.CounterNotFound, new CounterList { CounterNames = counterValues.Keys.ToList() });
             }
 
-            CounterLocation? counterLocation = null;
-            counterLocations.TryGetValue(request.CounterName, out counterLocation);
+            counterLocations.TryGetValue(request.CounterName, out CounterLocation? counterLocation);
 
             return Task.FromResult(ExtendedResponse<GetLocationResponsePayload>.CreateFromResponse(new GetLocationResponsePayload { CounterLocation = counterLocation } ));
         }

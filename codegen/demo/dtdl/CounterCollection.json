@@ -1,7 +1,7 @@
 ﻿{
   "@context": [
     "dtmi:dtdl:context;4",
-    "dtmi:dtdl:extension:mqtt;3",
+    "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:codegen:communicationTest:counterCollection;1",
@@ -30,9 +30,14 @@
               "schema": "integer"
             },
             {
-              "@type": [ "Field", "ErrorResult" ],
-              "name": "incrementError",
-              "schema": "dtmi:com:example:CounterCollection:sharedSchemas:CounterError;1"
+              "@type": [ "Field", "ErrorCode" ],
+              "name": "errorCondition",
+              "schema": "dtmi:com:example:CounterCollection:sharedSchemas:ErrorCondition;1"
+            },
+            {
+              "@type": [ "Field", "ErrorInfo" ],
+              "name": "extantCounters",
+              "schema": "dtmi:com:example:CounterCollection:sharedSchemas:CounterList;1"
             }
           ]
         }
@@ -47,7 +52,6 @@
       },
       "response": {
         "name": "location",
-        "description": "does this get used??",
         "schema": {
           "@type": [ "Object", "Result" ],
           "fields": [
@@ -86,6 +90,34 @@
       ]
     },
     {
+      "@id": "dtmi:com:example:CounterCollection:sharedSchemas:ErrorCondition;1",
+      "@type": "Enum",
+      "valueSchema": "string",
+      "enumValues": [
+        {
+          "name": "counterNotFound",
+          "enumValue": "NotFound"
+        },
+        {
+          "name": "counterOverflow",
+          "enumValue": "Overflow"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:example:CounterCollection:sharedSchemas:CounterList;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "counterNames",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
       "@id": "dtmi:com:example:CounterCollection:sharedSchemas:CounterError;1",
       "@type": [ "Object", "Error" ],
       "description": "The requested counter operation could not be completed.",
@@ -96,21 +128,14 @@
           "schema": "string"
         },
         {
+          "@type": [ "Field", "ErrorCode" ],
           "name": "condition",
-          "schema": {
-            "@type": "Enum",
-            "valueSchema": "integer",
-            "enumValues": [
-              {
-                "name": "counterNotFound",
-                "enumValue": 1
-              },
-              {
-                "name": "counterOverflow",
-                "enumValue": 2
-              }
-            ]
-          }
+          "schema": "dtmi:com:example:CounterCollection:sharedSchemas:ErrorCondition;1"
+        },
+        {
+          "@type": [ "Field", "ErrorInfo" ],
+          "name": "availableCounters",
+          "schema": "dtmi:com:example:CounterCollection:sharedSchemas:CounterList;1"
         }
       ]
     }

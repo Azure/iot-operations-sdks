@@ -179,7 +179,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 }
                 catch (<#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> intEx)
                 {
-                    return ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>.CreateFromResponse(new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#> = intEx.<#=cmdEnvoyInfo.ErrorResultSchema.GetFieldName(TargetLanguage.CSharp)#> });
+                    ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>> extendedResponse = ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>.CreateFromResponse(new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#> = intEx.<#=cmdEnvoyInfo.ErrorResultSchema.GetFieldName(TargetLanguage.CSharp)#> });
+<# if (cmdEnvoyInfo.ErrorCodeName != null) { #>
+
+                    if (intEx.TryGetApplicationError(out <#=cmdEnvoyInfo.ErrorCodeSchema.GetTypeName(TargetLanguage.CSharp)#>? <#=cmdEnvoyInfo.ErrorCodeName.GetVariableName(TargetLanguage.CSharp)#>, out <#=this.GetInfoSchema(cmdEnvoyInfo.ErrorInfoSchema)#>? <#=this.GetInfoName(cmdEnvoyInfo.ErrorInfoName)#>))
+                    {
+                        extendedResponse = extendedResponse.WithApplicationError((<#=cmdEnvoyInfo.ErrorCodeSchema.GetTypeName(TargetLanguage.CSharp)#>)<#=cmdEnvoyInfo.ErrorCodeName.GetVariableName(TargetLanguage.CSharp)#>, <#=this.GetInfoName(cmdEnvoyInfo.ErrorInfoName)#>);
+                    }
+
+<# } #>
+                    return extendedResponse;
                 }
 <# } else { #>
                 <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
@@ -357,9 +366,19 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             private async Task<ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#>>> <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "int")#>(<#=this.SchemaType(cmdEnvoyInfo.RequestSchema)#> request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>> extended = await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+
                 if (extended.Response.<#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#> != null)
                 {
-                    throw new <#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#>(extended.Response.<#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#>);
+                    <#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> <#=cmdEnvoyInfo.ErrorResultSchema.GetVariableName(TargetLanguage.CSharp, "exception")#> = new <#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#>(extended.Response.<#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#>);
+<# if (cmdEnvoyInfo.ErrorCodeName != null) { #>
+
+                    if (extended.TryGetApplicationError(out <#=cmdEnvoyInfo.ErrorCodeSchema.GetTypeName(TargetLanguage.CSharp)#>? <#=cmdEnvoyInfo.ErrorCodeName.GetVariableName(TargetLanguage.CSharp)#>, out <#=this.GetInfoSchema(cmdEnvoyInfo.ErrorInfoSchema)#>? <#=this.GetInfoName(cmdEnvoyInfo.ErrorInfoName)#>))
+                    {
+                        <#=cmdEnvoyInfo.ErrorResultSchema.GetVariableName(TargetLanguage.CSharp, "exception")#> = <#=cmdEnvoyInfo.ErrorResultSchema.GetVariableName(TargetLanguage.CSharp, "exception")#>.WithApplicationError((<#=cmdEnvoyInfo.ErrorCodeSchema.GetTypeName(TargetLanguage.CSharp)#>)<#=cmdEnvoyInfo.ErrorCodeName.GetVariableName(TargetLanguage.CSharp)#>, <#=this.GetInfoName(cmdEnvoyInfo.ErrorInfoName)#>);
+                    }
+
+<# } #>
+                    throw <#=cmdEnvoyInfo.ErrorResultSchema.GetVariableName(TargetLanguage.CSharp, "exception")#>;
                 }
 <# if (!cmdEnvoyInfo.ResponseNullable) { #>
                 else if (extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> == null)
@@ -437,4 +456,8 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
     private bool IsLast(TelemetryEnvoyInfo telemEnvoyInfo) => telemEnvoyInfo.Name.AsGiven == this.telemEnvoyInfos.Last().Name.AsGiven;
 
     private string TelemMethodName(TelemetryEnvoyInfo telemEnvoyInfo, string prefix, string suffix = null) => (telemEnvoyInfo.Schema is RawTypeName ? telemEnvoyInfo.Name : new CodeName()).GetMethodName(TargetLanguage.CSharp, "telemetry", suffix, prefix: prefix);
+
+    private string GetInfoName(CodeName infoName) => infoName?.GetVariableName(TargetLanguage.CSharp) ?? "errorPayload";
+
+    private string GetInfoSchema(CodeName infoSchema) => infoSchema?.GetTypeName(TargetLanguage.CSharp) ?? "string";
 #>
