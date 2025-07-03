@@ -61,10 +61,9 @@ jobs:
       run: kubectl apply -f ../eng/test/test-adr-resources
     
     - name: Deploy Polling Rest Connector
-      run: |
-        cd rust/azure_iot_operations_connector/examples/rest_connector_resources
-        ./deploy-connector-and-device.sh
-  
+      working-directory: rust/azure_iot_operations_connector/examples/rest_connector_resources
+      run: ./deploy-connector-and-device.sh
+
     - name: Run Checks
       run: |
         set -e
