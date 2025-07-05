@@ -1054,5 +1054,138 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await worker.StopAsync(CancellationToken.None);
             worker.Dispose();
         }
+
+        [Fact]
+        public async Task UnrelatedAssetDoesNotCrashConnector()
+        {
+            MockMqttClient mockMqttClient = new MockMqttClient();
+            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
+            Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
+            _ = worker.StartAsync(CancellationToken.None);
+
+            string deviceName = Guid.NewGuid().ToString();
+            string inboundEndpointName = Guid.NewGuid().ToString();
+            string assetName = Guid.NewGuid().ToString();
+            string datasetName = Guid.NewGuid().ToString();
+
+            string expectedMqttTopic = "some/asset/telemetry/topic";
+            var unexpectedAsset = new Asset()
+            {
+                DeviceRef = new()
+                {
+                    DeviceName = Guid.NewGuid().ToString(),
+                    EndpointName = Guid.NewGuid().ToString(),
+                },
+                Datasets = new()
+                    {
+                        {
+                            new AssetDataset()
+                            {
+                                Name = datasetName,
+                                DataPoints = new()
+                                {
+                                    new AssetDatasetDataPointSchemaElement()
+                                    {
+                                        Name = "someDataPointName",
+                                        DataSource = "someDataPointDataSource"
+                                    }
+                                },
+                                Destinations = new()
+                                {
+                                    new DatasetDestination()
+                                    {
+                                        Target = DatasetTarget.Mqtt,
+                                        Configuration = new()
+                                        {
+                                            Topic = expectedMqttTopic,
+                                            Qos = QoS.Qos1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            };
+
+            // Simulate an asset being added, but the asset belongs to a device that does not exist
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Created, unexpectedAsset));
+
+            var device = new Device()
+            {
+                Endpoints = new()
+                {
+                    Inbound = new()
+                        {
+                            {
+                                inboundEndpointName,
+                                new()
+                                {
+                                    Address = "someEndpointAddress",
+                                }
+                            }
+                        }
+                }
+            };
+
+            mockAdrClientWrapper.SimulateDeviceChanged(new(deviceName, inboundEndpointName, ChangeType.Created, device));
+
+            var asset = new Asset()
+            {
+                DeviceRef = new()
+                {
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
+                    {
+                        {
+                            new AssetDataset()
+                            {
+                                Name = datasetName,
+                                DataPoints = new()
+                                {
+                                    new AssetDatasetDataPointSchemaElement()
+                                    {
+                                        Name = "someDataPointName",
+                                        DataSource = "someDataPointDataSource"
+                                    }
+                                },
+                                Destinations = new()
+                                {
+                                    new DatasetDestination()
+                                    {
+                                        Target = DatasetTarget.Mqtt,
+                                        Configuration = new()
+                                        {
+                                            Topic = expectedMqttTopic,
+                                            Qos = QoS.Qos1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            };
+
+            TaskCompletionSource assetTelemetryForwardedToBrokerTcs = new();
+            mockMqttClient.OnPublishAttempt += (msg) =>
+            {
+                if (string.Equals(msg.Topic, expectedMqttTopic))
+                {
+                    assetTelemetryForwardedToBrokerTcs.TrySetResult();
+                }
+                return Task.FromResult(new MqttClientPublishResult(0, MqttClientPublishReasonCode.Success, "", new List<MqttUserProperty>()));
+            };
+
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Created, asset));
+
+            await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
+
+            await worker.StopAsync(CancellationToken.None);
+            worker.Dispose();
+        }
     }
 }

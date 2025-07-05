@@ -17,14 +17,15 @@ namespace Azure.Iot.Operations.Connector
 
         public string InboundEndpointName { get; set; }
 
-        public Device? Device { get; set; }
+        public Device Device { get; set; }
 
         public ConcurrentDictionary<string, Asset> Assets { get; set; } = new();
 
-        public DeviceContext(string deviceName, string inboundEndpointName)
+        public DeviceContext(string deviceName, string inboundEndpointName, Device device)
         {
             DeviceName = deviceName;
             InboundEndpointName = inboundEndpointName;
+            Device = device;
         }
     }
 }

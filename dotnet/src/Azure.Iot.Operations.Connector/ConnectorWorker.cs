@@ -441,10 +441,7 @@ namespace Azure.Iot.Operations.Connector
             }
             else
             {
-                _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName)
-                {
-                    Device = args.Device
-                };
+                _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName, args.Device);
                 _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
             }
         }
@@ -473,12 +470,15 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
+            if (!_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
             {
-                deviceContext.Assets.TryAdd(assetName, asset);
+                _logger.LogWarning("Received notification of asset with name {} becoming available on device {} with inbound endpoint name {}, but that device and/or inbound endpoint are not available. Ignoring this unexpected asset", assetName, deviceName, inboundEndpointName);
+                return;
             }
 
-            Device? device = _devices[compoundDeviceName].Device;
+            deviceContext.Assets.TryAdd(assetName, asset);
+
+            Device? device = deviceContext.Device;
 
             if (device == null)
             {
