@@ -8,6 +8,7 @@ using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using SchemaInfo = SchemaRegistry.Schema;
 using SchemaFormat = SchemaRegistry.Format;
 using SchemaType = SchemaRegistry.SchemaType;
+using Azure.Iot.Operations.Protocol.RPC;
 
 public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPubSubClient pubSubClient) : ISchemaRegistryClient
 {
@@ -15,6 +16,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
     private readonly SchemaRegistryClientStub _clientStub = new(applicationContext, pubSubClient);
     private bool _disposed;
 
+    /// <inheritdoc/>
     public async Task<SchemaInfo?> GetAsync(
         string schemaId,
         string version = "1",
@@ -50,6 +52,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         }
     }
 
+    /// <inheritdoc/>
     public async Task<SchemaInfo?> PutAsync(
         string schemaContent,
         SchemaFormat schemaFormat,
@@ -61,21 +64,21 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
     {
         try
         { 
-        cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
+            cancellationToken.ThrowIfCancellationRequested();
+            ObjectDisposedException.ThrowIf(_disposed, this);
 
-        return (await _clientStub.PutAsync(
-            new PutRequestPayload()
-            {
-                PutSchemaRequest = new()
+            return (await _clientStub.PutAsync(
+                new PutRequestPayload()
                 {
-                    Format = schemaFormat,
-                    SchemaContent = schemaContent,
-                    Version = version,
-                    Tags = tags,
-                    SchemaType = schemaType
-                }
-            }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+                    PutSchemaRequest = new()
+                    {
+                        Format = schemaFormat,
+                        SchemaContent = schemaContent,
+                        Version = version,
+                        Tags = tags,
+                        SchemaType = schemaType
+                    }
+                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
         }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {
