@@ -44,7 +44,8 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             };
 
             IEnumerable<DTFieldInfo> errorFields = dtInterface.Commands
-                .Where(c => c.Value.Response?.Schema != null && c.Value.Response.Schema.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ResultAdjunctTypeFormat, mqttVersion))))
+                .Where(c => c.Value.Response?.Schema != null && c.Value.Response.Schema.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ResultAdjunctTypeFormat, mqttVersion))) &&
+                    ((DTObjectInfo)c.Value.Response.Schema).Fields.Any(f => f.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorResultAdjunctTypeFormat, mqttVersion)))))
                 .Select(c => ((DTObjectInfo)c.Value.Response.Schema).Fields.First(f => f.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorResultAdjunctTypeFormat, mqttVersion)))));
 
             this.errorSchemas = new Dictionary<string, DTSchemaInfo>();

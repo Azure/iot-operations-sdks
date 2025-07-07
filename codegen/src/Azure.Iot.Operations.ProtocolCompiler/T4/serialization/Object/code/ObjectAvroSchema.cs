@@ -12,8 +12,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly int indent;
         private readonly CodeName? sharedPrefix;
         private readonly HashSet<Dtmi> definedIds;
+        private readonly int mqttVersion;
 
-        public ObjectAvroSchema(CodeName schema, CodeName? sharedNamespace, List<(string, DTSchemaInfo, bool)> nameSchemaRequireds, int indent, CodeName? sharedPrefix, HashSet<Dtmi> definedIds)
+        public ObjectAvroSchema(CodeName schema, CodeName? sharedNamespace, List<(string, DTSchemaInfo, bool)> nameSchemaRequireds, int indent, CodeName? sharedPrefix, HashSet<Dtmi> definedIds, int mqttVersion)
         {
             this.schema = schema;
             this.sharedNamespace = sharedNamespace;
@@ -21,6 +22,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.indent = indent;
             this.sharedPrefix = sharedPrefix;
             this.definedIds = definedIds;
+            this.mqttVersion = mqttVersion;
         }
 
         public string FileName { get => string.Empty; }

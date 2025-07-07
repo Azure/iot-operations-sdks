@@ -11,8 +11,9 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
         private readonly CodeName? sharedPrefix;
         private readonly HashSet<Dtmi> definedIds;
+        private readonly int mqttVersion;
 
-        public ResultAvroSchema(string projectName, CodeName genNamespace, ITypeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix)
+        public ResultAvroSchema(string projectName, CodeName genNamespace, ITypeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix, int mqttVersion)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -20,6 +21,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
             this.sharedPrefix = sharedPrefix;
             this.definedIds = new HashSet<Dtmi>();
+            this.mqttVersion = mqttVersion;
         }
 
         public string FileName { get => $"{this.schema.GetFileName(TargetLanguage.Independent)}.avsc"; }

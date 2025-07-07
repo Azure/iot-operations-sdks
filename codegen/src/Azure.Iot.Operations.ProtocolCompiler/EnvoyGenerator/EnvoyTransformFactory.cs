@@ -228,6 +228,14 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             CodeName? errorResultName = cmdElt.TryGetProperty(AnnexFileProperties.ErrorResultName, out JsonElement errorNameElt) ? new(errorNameElt.GetString()!) : null;
             CodeName? errorResultSchema = cmdElt.TryGetProperty(AnnexFileProperties.ErrorResultSchema, out JsonElement errorSchemaElt) ? new(errorSchemaElt.GetString()!) : null;
             CodeName? errorResultNamespace = cmdElt.TryGetProperty(AnnexFileProperties.ErrorResultNamespace, out JsonElement errorNamespaceElt) ? new(errorNamespaceElt.GetString()!) : null;
+            CodeName? errorCodeName = cmdElt.TryGetProperty(AnnexFileProperties.ErrorCodeName, out JsonElement codeNameElt) ? new(codeNameElt.GetString()!) : null;
+            CodeName? errorCodeSchema = cmdElt.TryGetProperty(AnnexFileProperties.ErrorCodeSchema, out JsonElement codeSchemaElt) ? new(codeSchemaElt.GetString()!) : null;
+            CodeName? errorCodeNamespace = cmdElt.TryGetProperty(AnnexFileProperties.ErrorCodeNamespace, out JsonElement codeNamespaceElt) ? new(codeNamespaceElt.GetString()!) : null;
+            CodeName? errorInfoName = cmdElt.TryGetProperty(AnnexFileProperties.ErrorInfoName, out JsonElement infoNameElt) ? new(infoNameElt.GetString()!) : null;
+            CodeName? errorInfoSchema = cmdElt.TryGetProperty(AnnexFileProperties.ErrorInfoSchema, out JsonElement infoSchemaElt) ? new(infoSchemaElt.GetString()!) : null;
+            CodeName? errorInfoNamespace = cmdElt.TryGetProperty(AnnexFileProperties.ErrorInfoNamespace, out JsonElement infoNamespaceElt) ? new(infoNamespaceElt.GetString()!) : null;
+            Dictionary<CodeName, string> errorCodeEnumeration = cmdElt.TryGetProperty(AnnexFileProperties.ErrorCodeEnumeration, out JsonElement codeEnumElt) ? codeEnumElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => p.Value.GetString()!) : new Dictionary<CodeName, string>();
+
             bool isRequestNullable = cmdElt.TryGetProperty(AnnexFileProperties.RequestIsNullable, out JsonElement reqNullableElt) ? reqNullableElt.GetBoolean() : false;
             bool isResponseNullable = cmdElt.TryGetProperty(AnnexFileProperties.ResponseIsNullable, out JsonElement respNullableElt) ? respNullableElt.GetBoolean() : false;
 
@@ -245,6 +253,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     if (generateServer)
                     {
                         yield return new DotNetCommandExecutor(commandName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, reqSchemaType, respSchemaType, reqSchemaNamespace, respSchemaNamespace, isIdempotent, cacheability);
+                    }
+
+                    if (respSchemaType != null && errorCodeName != null && errorCodeSchema != null)
+                    {
+                        yield return new DotNetResponseExtension(projectName, genNamespace, respSchemaType, respSchemaNamespace, errorCodeName, errorCodeSchema, errorCodeNamespace, errorInfoName, errorInfoSchema, errorInfoNamespace, errorCodeEnumeration, generateClient, generateServer);
                     }
 
                     if (genFormat == PayloadFormat.Avro)
@@ -340,13 +353,17 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     throw GetLanguageNotRecognizedException(language);
             }
 
-            cmdEnvoyInfos.Add(new CommandEnvoyInfo(commandName, reqSchemaType, respSchemaType, normalResultName, normalResultSchema, errorResultName, errorResultSchema, isRequestNullable, isResponseNullable));
+            cmdEnvoyInfos.Add(new CommandEnvoyInfo(commandName, reqSchemaType, respSchemaType, normalResultName, normalResultSchema, errorResultName, errorResultSchema, errorCodeName, errorCodeSchema, errorInfoName, errorInfoSchema, isRequestNullable, isResponseNullable));
         }
 
         private static IEnumerable<ITemplateTransform> GetErrorTransforms(string language, string projectName, CodeName genNamespace, JsonElement errElt)
         {
             CodeName schemaName = new CodeName(errElt.GetProperty(AnnexFileProperties.ErrorSchema).GetString()!);
             CodeName schemaNamespace = errElt.TryGetProperty(AnnexFileProperties.ErrorNamespace, out JsonElement namespaceElt) ? new CodeName(namespaceElt.GetString()!) : genNamespace;
+            CodeName? errorCodeName = errElt.TryGetProperty(AnnexFileProperties.ErrorCodeName, out JsonElement codeNameElt) ? new(codeNameElt.GetString()!) : null;
+            CodeName? errorCodeSchema = errElt.TryGetProperty(AnnexFileProperties.ErrorCodeSchema, out JsonElement codeSchemaElt) ? new(codeSchemaElt.GetString()!) : null;
+            CodeName? errorInfoName = errElt.TryGetProperty(AnnexFileProperties.ErrorInfoName, out JsonElement infoNameElt) ? new(infoNameElt.GetString()!) : null;
+            CodeName? errorInfoSchema = errElt.TryGetProperty(AnnexFileProperties.ErrorInfoSchema, out JsonElement infoSchemaElt) ? new(infoSchemaElt.GetString()!) : null;
             string description = errElt.TryGetProperty(AnnexFileProperties.ErrorDescription, out JsonElement descriptionElt) ? descriptionElt.GetString() ?? schemaName.AsGiven : schemaName.AsGiven;
             CodeName? messageField = errElt.TryGetProperty(AnnexFileProperties.ErrorMessageField, out JsonElement msgFieldElt) ? new CodeName(msgFieldElt.GetString()!) : null;
             bool isNullable = errElt.TryGetProperty(AnnexFileProperties.ErrorMessageIsNullable, out JsonElement nullableElt) ? nullableElt.GetBoolean() : false;
@@ -354,7 +371,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetError(projectName, schemaName, schemaNamespace, description, messageField, isNullable);
+                    yield return new DotNetError(projectName, schemaName, schemaNamespace, errorCodeName, errorCodeSchema, errorInfoName, errorInfoSchema, description, messageField, isNullable);
                     break;
                 case "go":
                     yield return new GoError(schemaName, schemaNamespace, description, messageField, isNullable);
