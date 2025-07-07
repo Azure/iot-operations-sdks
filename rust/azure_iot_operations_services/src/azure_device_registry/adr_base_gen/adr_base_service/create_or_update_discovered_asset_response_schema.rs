@@ -15,13 +15,13 @@ use super::discovered_asset_response_schema::DiscoveredAssetResponseSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredAssetResponseSchema {
-    /// The 'createOrUpdateDiscoveredAssetError' Field.
+    /// Error details, if the discovered asset creation or update failed.
     #[serde(rename = "createOrUpdateDiscoveredAssetError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub create_or_update_discovered_asset_error: Option<AkriServiceError>,
 
-    /// The 'discoveredAssetResponse' Field.
+    /// The discovered asset response.
     #[serde(rename = "discoveredAssetResponse")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

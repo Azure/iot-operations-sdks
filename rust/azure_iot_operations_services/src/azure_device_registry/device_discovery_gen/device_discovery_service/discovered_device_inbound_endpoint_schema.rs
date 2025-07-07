@@ -13,32 +13,32 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDeviceInboundEndpointSchema {
-    /// The 'additionalConfiguration' Field.
+    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).
     #[serde(rename = "additionalConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub additional_configuration: Option<String>,
 
-    /// The 'address' Field.
+    /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
     pub address: String,
 
-    /// The 'endpointType' Field.
+    /// Type of connection endpoint.
     #[serde(rename = "endpointType")]
     pub endpoint_type: String,
 
-    /// The 'lastUpdatedOn' Field.
+    /// The timestamp (in UTC) when the endpoint was discovered.
     #[serde(rename = "lastUpdatedOn")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub last_updated_on: Option<DateTime<Utc>>,
 
-    /// The 'supportedAuthenticationMethods' Field.
+    /// List of supported authentication methods supported by device for Inbound connections.
     #[serde(rename = "supportedAuthenticationMethods")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub supported_authentication_methods: Option<Vec<String>>,
 
-    /// The 'version' Field.
+    /// Version associated with the device endpoint.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub version: Option<String>,

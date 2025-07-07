@@ -15,39 +15,39 @@ use super::discovered_asset_dataset_data_point::DiscoveredAssetDatasetDataPoint;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredAssetDataset {
-    /// The 'dataPoints' Field.
+    /// Array of data points that are part of the dataset. Each data point can have per-data-point configuration.
     #[serde(rename = "dataPoints")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_points: Option<Vec<DiscoveredAssetDatasetDataPoint>>,
 
-    /// The 'datasetConfiguration' Field.
+    /// Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset.
     #[serde(rename = "datasetConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub dataset_configuration: Option<String>,
 
-    /// The 'dataSource' Field.
+    /// Name of the data source within a dataset.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_source: Option<String>,
 
-    /// The 'destinations' Field.
+    /// Destinations for a dataset.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub destinations: Option<Vec<DatasetDestination>>,
 
-    /// The 'lastUpdatedOn' Field.
+    /// Timestamp (in UTC) indicating when the dataset was added or modified.
     #[serde(rename = "lastUpdatedOn")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub last_updated_on: Option<DateTime<Utc>>,
 
-    /// The 'name' Field.
+    /// Name of the dataset.
     pub name: String,
 
-    /// The 'typeRef' Field.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
