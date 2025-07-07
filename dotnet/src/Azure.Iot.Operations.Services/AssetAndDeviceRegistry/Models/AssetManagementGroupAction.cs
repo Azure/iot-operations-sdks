@@ -4,7 +4,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public class AssetManagementGroupAction
 {
-    public JsonDocument? ActionConfiguration { get; set; } = default;
+    public string? ActionConfiguration { get; set; } = default;
 
     public AssetManagementGroupActionType ActionType { get; set; } = default!;
 

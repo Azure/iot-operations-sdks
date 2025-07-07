@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetEvent
 {
-    public JsonDocument? EventConfiguration { get; set; }
+    public string? EventConfiguration { get; set; }
 
     public required string EventNotifier { get; set; }
 

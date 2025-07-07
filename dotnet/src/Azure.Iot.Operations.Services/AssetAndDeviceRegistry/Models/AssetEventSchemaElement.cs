@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("eventConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public JsonDocument? EventConfiguration { get; set; } = default;
+        public string? EventConfiguration { get; set; } = default;
 
         /// <summary>
         /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
