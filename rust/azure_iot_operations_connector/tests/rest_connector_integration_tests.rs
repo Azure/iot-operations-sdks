@@ -61,7 +61,12 @@ async fn test_connector_simple_recv() {
         async move {
             let mut receiver = client.create_filtered_pub_receiver(topic).unwrap();
             // Subscribe
-            client.subscribe(topic, QoS::AtLeastOnce).await.unwrap().await.unwrap();
+            client
+                .subscribe(topic, QoS::AtLeastOnce)
+                .await
+                .unwrap()
+                .await
+                .unwrap();
             let publish = receiver.recv().await.unwrap();
             log::warn!(
                 "The published payload is: {}",
