@@ -1,15 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -506,7 +502,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // "do while" since every command should have at least one intended response, but streaming commands may have more
                 do
                 {
-                    MqttApplicationMessage mqttMessage = await WallClock.WaitAsync<MqttApplicationMessage>(responsePromise.Responses.Dequeue(cancellationToken), reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
+                    MqttApplicationMessage mqttMessage = await WallClock.WaitAsync<MqttApplicationMessage>(responsePromise.Responses.DequeueAsync(cancellationToken), reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
+
+                    //TODO mqtt message to command response
+
                     yield return extendedResponse;
                 } while (extendedResponse.StreamingResponseId != null && !extendedResponse.IsLastResponse);
 
@@ -555,18 +554,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
-
-            lock (_requestIdMapLock)
-            {
-                foreach (KeyValuePair<string, ResponsePromise> responsePromise in _requestIdMap)
-                {
-                    if (responsePromise.Value != null && responsePromise.Value.CompletionSource != null)
-                    {
-                        SetCanceledSafe(responsePromise.Value.CompletionSource);
-                    }
-                }
-                _requestIdMap.Clear();
-            }
 
             try
             {
