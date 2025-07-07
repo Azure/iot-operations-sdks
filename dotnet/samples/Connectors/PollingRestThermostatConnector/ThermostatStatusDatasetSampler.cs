@@ -16,6 +16,11 @@ namespace RestThermostatConnector
         private readonly string _assetName;
         private readonly EndpointCredentials? _credentials;
 
+        private readonly static JsonSerializerOptions _jsonSerializerOptions = new()
+        {
+            AllowTrailingCommas = true,
+        };
+
         public ThermostatStatusDatasetSampler(HttpClient httpClient, string assetName, EndpointCredentials? credentials)
         {
             _httpClient = httpClient;
@@ -66,8 +71,8 @@ namespace RestThermostatConnector
 
                 ThermostatStatus thermostatStatus = new()
                 {
-                    CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await currentTemperatureHttpResponse.Content.ReadAsStreamAsync())!).CurrentTemperature,
-                    DesiredTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await desiredTemperatureHttpResponse.Content.ReadAsStreamAsync())!).DesiredTemperature
+                    CurrentTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await currentTemperatureHttpResponse.Content.ReadAsStreamAsync(), _jsonSerializerOptions)!).CurrentTemperature,
+                    DesiredTemperature = (JsonSerializer.Deserialize<ThermostatStatus>(await desiredTemperatureHttpResponse.Content.ReadAsStreamAsync(), _jsonSerializerOptions)!).DesiredTemperature
                 };
 
                 // The HTTP response payload matches the expected message schema, so return it as-is

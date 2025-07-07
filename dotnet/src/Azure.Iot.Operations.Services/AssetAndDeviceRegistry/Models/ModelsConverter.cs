@@ -10,12 +10,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 internal static class ModelsConverter
 {
-
-    private static JsonDocumentOptions _jsonDocumentOptions = new()
-    {
-        AllowTrailingCommas = true,
-    };
-
     internal static CreateOrUpdateDiscoveredAssetResponsePayload ToModel(this AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload source)
     {
         return new()
