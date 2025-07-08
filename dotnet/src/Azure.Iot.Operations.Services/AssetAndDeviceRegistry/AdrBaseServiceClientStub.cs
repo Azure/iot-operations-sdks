@@ -32,6 +32,7 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
 
         if (OnReceiveAssetUpdateEventTelemetry != null)
         {
+            Console.WriteLine("RECEIVED NOTIFICATION FROM AKRI SERVICE for asset with name: " + telemetry.AssetUpdateEvent.AssetName);
             await OnReceiveAssetUpdateEventTelemetry.Invoke(assetName, asset);
         }
     }
