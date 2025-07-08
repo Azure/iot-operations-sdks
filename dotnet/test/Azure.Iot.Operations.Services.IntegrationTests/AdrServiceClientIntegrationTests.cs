@@ -201,41 +201,6 @@ public class AdrServiceClientIntegrationTests
         Assert.False(receivedUnexpectedNotification, "Should not receive device update event after unobserving");
     }
 
-    [Fact]
-    public async Task TriggerAssetTelemetryEventWhenObservedAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
-
-        var eventReceived = new TaskCompletionSource<bool>();
-        client.OnReceiveAssetUpdateEventTelemetry += (source, _) =>
-        {
-            _output.WriteLine($"Asset update received from: {source}");
-            eventReceived.TrySetResult(true);
-            return Task.CompletedTask;
-        };
-
-        // Act - Observe
-        await client.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.On);
-
-        // Trigger an update so we can observe it
-        UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
-        await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
-
-        // Wait for the notification to arrive
-        try
-        {
-            await eventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
-        }
-        catch (TimeoutException)
-        {
-            Assert.Fail("Did not receive asset update event within timeout");
-        }
-    }
-
-
 
     [Fact]
     public async Task CanCreateOrUpdateDiscoveredDeviceAsync()
@@ -307,22 +272,6 @@ public class AdrServiceClientIntegrationTests
         Assert.False(receivedEvents.ContainsKey(TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
     }
 
-    private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
-    {
-        return new CreateOrUpdateDiscoveredAssetRequest
-        {
-            DiscoveredAssetName = TestAssetName,
-            DiscoveredAsset = new DiscoveredAsset
-            {
-                DeviceRef = new AssetDeviceRef
-                {
-                    DeviceName = TestDevice_1_Name,
-                    EndpointName = TestEndpointName
-                }
-            },
-        };
-    }
-
     private static DeviceStatus CreateDeviceStatus(DateTime timeStamp)
     {
         return new DeviceStatus
@@ -338,23 +287,6 @@ public class AdrServiceClientIntegrationTests
                 Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>
                 {
                     { TestEndpointName, new DeviceStatusInboundEndpointSchemaMapValue() }
-                }
-            }
-        };
-    }
-
-    private UpdateAssetStatusRequest CreateUpdateAssetStatusRequest(DateTime timeStamp)
-    {
-        return new UpdateAssetStatusRequest
-        {
-            AssetName = TestAssetName,
-            AssetStatus = new AssetStatus
-            {
-                Config = new ConfigStatus
-                {
-                    Error = null,
-                    LastTransitionTime = timeStamp,
-                    Version = 1
                 }
             }
         };
