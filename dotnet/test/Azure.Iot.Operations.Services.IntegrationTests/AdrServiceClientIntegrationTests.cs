@@ -218,11 +218,11 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Act - Observe
-        //await client.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.On);
+        await client.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.On);
 
         // Trigger an update so we can observe it
-        UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
-        await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
+        //UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
+        //await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Wait for the notification to arrive
         /*try
