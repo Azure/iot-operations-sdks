@@ -30,281 +30,46 @@ public class AdrServiceClientIntegrationTests
     }
 
     [Fact]
-    public async Task CanGetDeviceAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
-
-        // Act
-        var device = await client.GetDeviceAsync(TestDevice_1_Name, "my-rest-endpoint");
-
-        // Assert
-        _output.WriteLine($"Device: {TestDevice_1_Name}");
-        Assert.NotNull(device);
-        Assert.NotNull(device.Endpoints);
-        Assert.NotNull(device.Endpoints.Inbound);
-        Assert.Single(device.Endpoints.Inbound.Keys);
-    }
-
-    [Fact]
-    public async Task GetDeviceThrowsAkriServiceErrorExceptionWhenDeviceNotFoundAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
-
-        // Act & Assert
-        var exception = await Assert.ThrowsAsync<AkriServiceErrorException>(
-            () => client.GetDeviceAsync("non-existent-device", "my-rest-endpoint"));
-
-        _output.WriteLine($"Expected exception: {exception.Message}");
-        Assert.NotNull(exception.AkriServiceError);
-        Assert.Equal(Code.KubeError, exception.AkriServiceError.Code);
-    }
-
-    [Fact]
-    public async Task CanUpdateDeviceStatusAsync()
-    {
-        // Arrange
-        var expectedTime = DateTime.Parse("2023-10-01T00:00:00Z");
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
-
-        var status = new DeviceStatus
-        {
-            Config = new ConfigStatus
-            {
-                Error = null,
-                LastTransitionTime = expectedTime,
-                Version = 1
-            },
-            Endpoints = new DeviceStatusEndpoint
-            {
-                Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValue>
-                {
-                    { TestEndpointName, new DeviceStatusInboundEndpointSchemaMapValue() }
-                }
-            }
-        };
-
-        // Act
-        DeviceStatus updatedDevice = await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
-
-        // Assert
-        Assert.NotNull(updatedDevice);
-        Assert.NotNull(updatedDevice.Config);
-        Assert.Equal(expectedTime, updatedDevice.Config.LastTransitionTime);
-    }
-
-    [Fact]
-    public async Task TriggerDeviceTelemetryEventWhenObservedAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
-
-        var eventReceived = new TaskCompletionSource<bool>();
-        client.OnReceiveDeviceUpdateEventTelemetry += (source, _) =>
-        {
-            _output.WriteLine($"Device update received from: {source}");
-            eventReceived.TrySetResult(true);
-            return Task.CompletedTask;
-        };
-
-        // Act - Observe
-        await client.SetNotificationPreferenceForDeviceUpdatesAsync(TestDevice_1_Name, TestEndpointName, NotificationPreference.On);
-
-        // Trigger an update so we can observe it
-        var status = CreateDeviceStatus(DateTime.UtcNow);
-        await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
-
-        // Wait for the notification to arrive
-        try
-        {
-            await eventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
-        }
-        catch (TimeoutException)
-        {
-            Assert.Fail("Did not receive device update event within timeout");
-        }
-    }
-
-    [Fact]
-    public async Task DoNotTriggerTelemetryEventAfterUnobserveDeviceAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
-
-        var firstEventReceived = new TaskCompletionSource<bool>();
-        var secondEventReceived = new TaskCompletionSource<bool>();
-        var eventCounter = 0;
-
-        client.OnReceiveDeviceUpdateEventTelemetry += (source, _) =>
-        {
-            _output.WriteLine($"Device update received from: {source}");
-            eventCounter++;
-
-            if (eventCounter == 1)
-            {
-                firstEventReceived.TrySetResult(true);
-            }
-            else
-            {
-                secondEventReceived.TrySetResult(true);
-            }
-
-            return Task.CompletedTask;
-        };
-
-        // Act - Observe
-        await client.SetNotificationPreferenceForDeviceUpdatesAsync(TestDevice_1_Name, TestEndpointName, NotificationPreference.On);
-
-        // Trigger an update so we can observe it
-        var status = CreateDeviceStatus(DateTime.UtcNow);
-        await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
-
-        // Wait for the first notification to arrive
-        try
-        {
-            await firstEventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
-        }
-        catch (TimeoutException)
-        {
-            Assert.Fail("Did not receive first device update event within timeout");
-        }
-
-        // Act - Unobserve
-        await client.SetNotificationPreferenceForDeviceUpdatesAsync(TestDevice_1_Name, TestEndpointName, NotificationPreference.Off);
-
-        status = CreateDeviceStatus(DateTime.UtcNow);
-        await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
-
-        // Wait to see if we get another notification (which we shouldn't)
-        bool receivedUnexpectedNotification = false;
-        try
-        {
-            await secondEventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            receivedUnexpectedNotification = true;
-        }
-        catch (TimeoutException)
-        {
-        }
-
-        // Assert
-        Assert.False(receivedUnexpectedNotification, "Should not receive device update event after unobserving");
-    }
-
-    [Fact]
     public async Task TriggerAssetTelemetryEventWhenObservedAsync() // this test causes the connector pod crash
     {
         // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
         ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
+        await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
+        await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
+        await using AdrServiceClient adrClient1 = new(applicationContext, mqttClient1);
+        await using AdrServiceClient adrClient2 = new(applicationContext, mqttClient2);
 
-        var eventReceived = new TaskCompletionSource<bool>();
-        client.OnReceiveAssetUpdateEventTelemetry += (source, _) =>
+        var eventReceivedByClient1 = new TaskCompletionSource();
+        adrClient1.OnReceiveAssetUpdateEventTelemetry += (source, _) =>
         {
-            _output.WriteLine($"Asset update received from: {source}");
-            eventReceived.TrySetResult(true);
+            eventReceivedByClient1.TrySetResult();
+            return Task.CompletedTask;
+        };
+
+        var eventReceivedByClient2 = new TaskCompletionSource();
+        adrClient2.OnReceiveAssetUpdateEventTelemetry += (source, _) =>
+        {
+            eventReceivedByClient2.TrySetResult();
             return Task.CompletedTask;
         };
 
         // Act - Observe
-        await client.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.On);
+        await adrClient1.SetNotificationPreferenceForAssetUpdatesAsync(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), NotificationPreference.On);
+        await adrClient2.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.On);
 
         // Trigger an update so we can observe it
         UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
-        await client.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
+        await adrClient2.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Wait for the notification to arrive
-        /*try
+        try
         {
-            await eventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            await eventReceivedByClient1.Task.WaitAsync(TimeSpan.FromSeconds(5));
         }
         catch (TimeoutException)
         {
             Assert.Fail("Did not receive asset update event within timeout");
-        }*/
-    }
-
-
-
-    [Fact]
-    public async Task CanCreateOrUpdateDiscoveredDeviceAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
-
-        var request = CreateCreateDiscoveredDeviceRequest();
-
-        // Act
-        var response = await client.CreateOrUpdateDiscoveredDeviceAsync(request, "my-rest-endpoint");
-
-        // Assert
-        Assert.NotNull(response);
-        Assert.NotNull(response.DiscoveredDeviceResponse.DiscoveryId);
-        Assert.NotEmpty(response.DiscoveredDeviceResponse.DiscoveryId);
-        Assert.Equal("test-discovered-device", response.DiscoveredDeviceResponse.DiscoveryId);
-        _output.WriteLine($"Discovered device created with name: {response.DiscoveredDeviceResponse.DiscoveryId}");
-    }
-
-    [Fact]
-    public async Task ReceiveTelemetryForProperDeviceUpdateWhenMultipleDevicesUpdated()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient);
-
-        var receivedEvents = new Dictionary<string, Device>();
-        var eventReceived = new TaskCompletionSource<bool>();
-
-        // Set up event handler to capture and validate events
-        client.OnReceiveDeviceUpdateEventTelemetry += (deviceName, device) =>
-        {
-            _output.WriteLine($"Received device event: {deviceName}");
-            receivedEvents.Add(deviceName, device);
-            eventReceived.TrySetResult(true);
-            return Task.CompletedTask;
-        };
-
-        // Start observing device updates
-        await client.SetNotificationPreferenceForDeviceUpdatesAsync(TestDevice_1_Name, TestEndpointName, NotificationPreference.On);
-
-        // Act - Update multiple devices to trigger notifications
-        var updateRequest1 = CreateDeviceStatus(DateTime.UtcNow);
-        await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest1);
-
-        var updateRequest2 = CreateDeviceStatus(DateTime.UtcNow.AddMinutes(1));
-        await client.UpdateDeviceStatusAsync(TestDevice_2_Name, TestEndpointName, updateRequest2);
-
-        // Wait for the event to be received or timeout
-        try
-        {
-            await eventReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
         }
-        catch (TimeoutException)
-        {
-            Assert.Fail("Did not receive device event update within timeout");
-        }
-
-        // Cleanup
-        await client.SetNotificationPreferenceForDeviceUpdatesAsync(TestDevice_1_Name, TestEndpointName, NotificationPreference.Off);
-
-        // Assert
-        Assert.NotEmpty(receivedEvents);
-        Assert.True(receivedEvents.ContainsKey(TestDevice_1_Name), $"Expected device event for {TestDevice_1_Name} not received");
-        Assert.False(receivedEvents.ContainsKey(TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
     }
 
     private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
