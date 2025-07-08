@@ -927,6 +927,7 @@ where
         &self,
         mut request: Request<TReq>,
     ) -> Result<Response<TResp>, AIOProtocolError> {
+        // cancellation token to clean up spawned tasks if the invoke times out
         let cancellation_token = CancellationToken::new();
         let _drop_guard = cancellation_token.clone().drop_guard();
         // Validate parameters. Custom user data, timeout, and payload serialization have already been validated in RequestBuilder
