@@ -1,17 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Connection;
-using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
-using Azure.Iot.Operations.Protocol.UnitTests;
-using Azure.Iot.Operations.Protocol.Retry;
-using Azure.Iot.Operations.Protocol.Events;
-using MQTTnet.Exceptions;
-using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Mqtt.Session;
+using System.Security.Cryptography.X509Certificates;
 using Azure.Iot.Operations.Mqtt;
+using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Mqtt.Session.Exceptions;
+using Azure.Iot.Operations.Protocol.Connection;
+using Azure.Iot.Operations.Protocol.Events;
+using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Retry;
+using Azure.Iot.Operations.Protocol.UnitTests;
+using MQTTnet.Exceptions;
 
 namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 {
@@ -2364,6 +2364,93 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             };
 
             await Assert.ThrowsAsync<ArgumentException>(async () => await sessionClient.DisconnectAsync(invalidOptions));
+        }
+
+        [Fact]
+        public async Task MqttSessionClient_ConnectWithPersistence()
+        {
+            using MockMqttClient mockMqttClient = new MockMqttClient();
+            await using MqttSessionClient sessionClient = new(mockMqttClient);
+
+            var options = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
+            {
+                SessionExpiryInterval = 100,
+                AioPersistence = true
+            };
+
+            TaskCompletionSource<MQTTnet.MqttClientOptions> actualConnectTcs = new();
+            mockMqttClient.OnConnectAttempt += (actualConnect) =>
+            {
+                actualConnectTcs.TrySetResult(actualConnect);
+                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+            };
+
+            await sessionClient.ConnectAsync(options);
+
+            var actualConnect = await actualConnectTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
+            bool containsFlag = false;
+            foreach (var actualUserProperty in actualConnect.UserProperties)
+            {
+                if (actualUserProperty.Name.Equals("aio-persistence")
+                    && actualUserProperty.Value.Equals("true"))
+                {
+                    containsFlag = true;
+                    break;
+                }
+            }
+
+            Assert.True(containsFlag);
+        }
+
+        [Fact]
+        public async Task MqttSessionClient_PublishWithPersistence()
+        {
+            using MockMqttClient mockMqttClient = new MockMqttClient();
+            await using MqttSessionClient sessionClient = new(mockMqttClient);
+
+            mockMqttClient.OnConnectAttempt += (actualConnect) =>
+            {
+                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+            };
+
+            var connectOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
+            {
+                SessionExpiryInterval = 100,
+            };
+
+            await sessionClient.ConnectAsync(connectOptions);
+
+            TaskCompletionSource<MQTTnet.MqttApplicationMessage> actualPublishTcs = new();
+            mockMqttClient.OnPublishAttempt += (actualPublish) =>
+            {
+                actualPublishTcs.TrySetResult(actualPublish);
+
+                // This isn't a valid returned SUBACK, but the test doesn't need it to be since this isn't checked
+                return Task.FromResult(new MQTTnet.MqttClientPublishResult(0, MQTTnet.MqttClientPublishReasonCode.Success, "", new List<MQTTnet.Packets.MqttUserProperty>()));
+            };
+
+            MqttApplicationMessage publish = new("someTopic")
+            {
+                AioPersistence = true,
+                Retain = true,
+            };
+
+            // Don't care about the PUBACK
+            _ = sessionClient.PublishAsync(publish);
+
+            var actualPublish = await actualPublishTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
+            bool containsFlag = false;
+            foreach (var actualUserProperty in actualPublish.UserProperties)
+            {
+                if (actualUserProperty.Name.Equals("aio-persistence")
+                    && actualUserProperty.Value.Equals("true"))
+                {
+                    containsFlag = true;
+                    break;
+                }
+            }
+
+            Assert.True(containsFlag);
         }
 
         private class TestCertificateProvider : IMqttClientCertificatesProvider
