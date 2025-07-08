@@ -12,7 +12,7 @@ use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use counters::common_types::options::CommandExecutorOptionsBuilder;
 use counters::counter_collection::service::{
-    ConditionSchema, CounterError, CounterLocation,
+    ErrorCondition, CounterError, CounterList, CounterLocation,
     GetLocationCommandExecutor, GetLocationResponseBuilder, GetLocationResponsePayload,
     IncrementCommandExecutor, IncrementResponseBuilder, IncrementResponsePayload,
 };
@@ -93,9 +93,15 @@ async fn increment_execute_loop(client: SessionManagedClient) {
                         .build()
                         .unwrap()
                 } else {
+                    let mut custom_user_data = Vec::new();
+                    IncrementCommandExecutor::<SessionManagedClient>::application_error_headers(
+                        &mut custom_user_data,
+                        ErrorCondition::CounterOverflow,
+                        CounterList { counter_names: None }).expect("error creating application error headers");
                     response_builder
+                        .custom_user_data(custom_user_data)
                         .payload(IncrementResponsePayload {
-                            counter_value: 0,
+                            counter_value: i32::MAX,
                         })
                         .unwrap()
                         .build()
@@ -103,7 +109,15 @@ async fn increment_execute_loop(client: SessionManagedClient) {
                 }
             }
             None => {
+                let mut custom_user_data = Vec::new();
+                IncrementCommandExecutor::<SessionManagedClient>::application_error_headers(
+                    &mut custom_user_data,
+                    ErrorCondition::CounterNotFound,
+                    CounterList {
+                        counter_names: Some(counter_values.keys().cloned().collect()),
+                    }).expect("error creating application error headers");
                 response_builder
+                    .custom_user_data(custom_user_data)
                     .payload(IncrementResponsePayload {
                         counter_value: 0,
                     })
@@ -144,9 +158,16 @@ async fn get_location_execute_loop(client: SessionManagedClient) {
                     .unwrap()
             }
             None => {
+                let mut custom_user_data = Vec::new();
+                GetLocationCommandExecutor::<SessionManagedClient>::application_error_headers(
+                    &mut custom_user_data,
+                    ErrorCondition::CounterNotFound,
+                    CounterList {
+                        counter_names: Some(counter_locations.keys().cloned().collect()),
+                    }).expect("error creating application error headers");
                 response_builder
+                    .custom_user_data(custom_user_data)
                     .error(CounterError {
-                        condition: Some(ConditionSchema::CounterNotFound),
                         explanation: Some(format!(
                             "Rust counter '{}' not found in counter collection",
                             &request.payload.counter_name

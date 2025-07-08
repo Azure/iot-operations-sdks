@@ -56,6 +56,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 }
             }
 
+            bool needJsonSerialization = false;
             if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.CommandList, out JsonElement cmdsElt) && cmdsElt.GetArrayLength() > 0)
             {
                 if (commandTopic == null)
@@ -65,6 +66,11 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
                 foreach (JsonElement cmdEl in cmdsElt.EnumerateArray())
                 {
+                    if (cmdEl.TryGetProperty(AnnexFileProperties.ErrorInfoSchema, out _))
+                    {
+                        needJsonSerialization = true;
+                    }
+
                     foreach (ITemplateTransform templateTransform in GetCommandTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, commandTopic, cmdEl, cmdEnvoyInfos, normalizedVersionSuffix, workingPath, generateClient, generateServer, useSharedSubscription: cmdServiceGroupId != null))
                     {
                         yield return templateTransform;
@@ -76,7 +82,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             {
                 foreach (JsonElement errEl in errsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTranform in GetErrorTransforms(language, projectName, genNamespace, errEl))
+                    foreach (ITemplateTransform templateTranform in GetErrorTransforms(language, projectName, genNamespace, genFormat, workingPath, errEl))
                     {
                         yield return templateTranform;
                     }
@@ -93,7 +99,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                 yield return templateTransform;
             }
 
-            foreach (ITemplateTransform templateTransform in GetProjectTransforms(language, projectName, genNamespace, genFormat, sdkPath, sharedPrefix, generateProject))
+            foreach (ITemplateTransform templateTransform in GetProjectTransforms(language, projectName, genNamespace, genFormat, sdkPath, sharedPrefix, generateProject, needJsonSerialization))
             {
                 yield return templateTransform;
             }
@@ -314,11 +320,19 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     if (generateClient)
                     {
                         yield return new RustCommandInvoker(commandName, genNamespace, serializerEmptyType, reqSchemaType, respSchemaType, reqSchemaNamespace, respSchemaNamespace, normalResultName, normalResultSchema, normalResultNamespace, errorResultName, errorResultSchema, errorResultNamespace, isResponseNullable, doesCommandTargetExecutor);
+                        if (errorCodeName != null && errorCodeSchema != null)
+                        {
+                            yield return new RustCommandInvokerHeaders(commandName, genNamespace, errorCodeName, errorCodeSchema, errorInfoName, errorInfoSchema, errorCodeEnumeration);
+                        }
                     }
 
                     if (generateServer)
                     {
                         yield return new RustCommandExecutor(commandName, genNamespace, serializerEmptyType, reqSchemaType, respSchemaType, reqSchemaNamespace, respSchemaNamespace, normalResultName, normalResultSchema, normalResultNamespace, errorResultName, errorResultSchema, errorResultNamespace, isResponseNullable, isIdempotent, cacheability, useSharedSubscription);
+                        if (errorCodeName != null && errorCodeSchema != null)
+                        {
+                            yield return new RustCommandExecutorHeaders(commandName, genNamespace, errorCodeName, errorCodeSchema, errorInfoName, errorInfoSchema, errorCodeEnumeration);
+                        }
                     }
 
                     if (reqSchemaType is CodeName rustReqSchema)
@@ -356,7 +370,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             cmdEnvoyInfos.Add(new CommandEnvoyInfo(commandName, reqSchemaType, respSchemaType, normalResultName, normalResultSchema, errorResultName, errorResultSchema, errorCodeName, errorCodeSchema, errorInfoName, errorInfoSchema, isRequestNullable, isResponseNullable));
         }
 
-        private static IEnumerable<ITemplateTransform> GetErrorTransforms(string language, string projectName, CodeName genNamespace, JsonElement errElt)
+        private static IEnumerable<ITemplateTransform> GetErrorTransforms(string language, string projectName, CodeName genNamespace, string genFormat, string? workingPath, JsonElement errElt)
         {
             CodeName schemaName = new CodeName(errElt.GetProperty(AnnexFileProperties.ErrorSchema).GetString()!);
             CodeName schemaNamespace = errElt.TryGetProperty(AnnexFileProperties.ErrorNamespace, out JsonElement namespaceElt) ? new CodeName(namespaceElt.GetString()!) : genNamespace;
@@ -382,6 +396,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     break;
                 case "rust":
                     yield return new RustError(schemaName, schemaNamespace, description, messageField, isNullable);
+                    yield return new RustSerialization(schemaNamespace, genFormat, schemaName, workingPath);
                     break;
                 case "c":
                     break;
@@ -426,7 +441,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, CodeName genNamespace, string genFormat, string? sdkPath, CodeName? sharedPrefix, bool generateProject)
+        private static IEnumerable<ITemplateTransform> GetProjectTransforms(string language, string projectName, CodeName genNamespace, string genFormat, string? sdkPath, CodeName? sharedPrefix, bool generateProject, bool needJsonSerialization)
         {
             switch (language)
             {
@@ -444,7 +459,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                     break;
                 case "rust":
                     yield return new RustLib(genNamespace, sharedPrefix, generateProject);
-                    yield return new RustCargoToml(projectName, genFormat, sdkPath, generateProject);
+                    yield return new RustCargoToml(projectName, genFormat, sdkPath, generateProject, needJsonSerialization);
                     break;
                 case "c":
                     break;
