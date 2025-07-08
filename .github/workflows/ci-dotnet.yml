@@ -73,6 +73,23 @@ jobs:
     - name: Build SDK (Release)
       run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
 
+    - name: Install .NET connector templates
+      run: |
+        dotnet new install dotnet/templates/EventDrivenTelemetryConnector
+        dotnet new install dotnet/templates/PollingTelemetryConnector
+ 
+    - name: Build Faultable MQTT Broker
+      run: dotnet build eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj
+   
+    - name: Setup Faultable MQTT Broker
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
+
+    - name: Build SchemaRegistry Host
+      run: dotnet build eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj
+ 
+    - name: Setup SchemaRegistry Host
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
+
     - name: Create ADR resources
       run: kubectl apply -f eng/test/test-adr-resources
       
@@ -129,6 +146,97 @@ jobs:
 
     - name: Test SDK (TLS + SAT)
       run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false;ClientId=TestClient" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
+
+    - name: Test SDK (TLS + x509)
+      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTests.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
+
+    - name: Azure.Iot.Operations.Mqtt.UnitTests Package Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Mqtt.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Mqtt.IntegrationTests Package Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Mqtt.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Protocol.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+        
+    - name: Azure.Iot.Operations.Protocol.IntegrationTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Protocol.MetlTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Protocol.MetlTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Services.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Services.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Services.IntegrationTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Services.IntegrationTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+
+    - name: Azure.Iot.Operations.Connector.UnitTests Code Coverage
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      if: always()
+      with:
+        filename: ./**/Azure.Iot.Operations.Connector.UnitTests/TestResults/*/coverage.cobertura.xml
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
 
     - uses: dorny/test-reporter@v1
       id: test-reporter
