@@ -1,4 +1,4 @@
-﻿# ADR 20: Large Message Chunking in MQTT Protocol
+﻿# ADR 23: Large Message Chunking in MQTT Protocol
 
 ## Status
 
