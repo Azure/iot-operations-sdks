@@ -10,7 +10,7 @@ public class AssetManagementGroup
 
     public string? DefaultTopic { get; set; } = default;
 
-    public JsonDocument? ManagementGroupConfiguration { get; set; } = default;
+    public string? ManagementGroupConfiguration { get; set; } = default;
 
     public string Name { get; set; } = default!;
 
