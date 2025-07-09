@@ -42,7 +42,7 @@ public class AdrServiceClient : IAdrServiceClient
     /// will be used if none is provided. <see cref="NoRetryPolicy"/> can be provided if no retry is desired.</param>
     public AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IRetryPolicy? retryPolicy = null)
     {
-        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(10, TimeSpan.FromSeconds(60));
+        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(10, TimeSpan.FromSeconds(5));
         _applicationContext = applicationContext;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
