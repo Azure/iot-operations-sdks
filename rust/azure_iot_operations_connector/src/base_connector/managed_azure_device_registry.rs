@@ -789,6 +789,7 @@ impl AssetClient {
     /// If the status or specification mutexes have been poisoned, which should not be possible
     pub async fn recv_notification(&mut self) -> ClientNotification<DatasetClient> {
         // release any pending dataset create/update notifications
+        log::debug!("[VAL] releasing dataset notifications");
         self.release_dataset_notifications_tx.send_modify(|()| ());
         tokio::select! {
             biased;
@@ -890,6 +891,7 @@ impl AssetClient {
                                         self.asset_ref
                                     );
                                 });
+                            log::debug!("[VAL] sent dataset update in channel");
                         }
                     }
                     // it needs to be created
@@ -1489,10 +1491,12 @@ impl DatasetClient {
         else {
             return DatasetNotification::Deleted;
         };
+        log::debug!("[VAL] received dataset update");
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         if watch_receiver.changed().await.ok().is_none() {
             return DatasetNotification::Deleted;
         }
+        log::debug!("[VAL] dataset update released");
         // create new forwarder, in case destination has changed
         self.forwarder = match destination_endpoint::Forwarder::new_dataset_forwarder(
             &updated_dataset.destinations,
