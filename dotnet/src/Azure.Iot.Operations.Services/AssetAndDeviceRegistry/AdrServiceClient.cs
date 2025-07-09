@@ -406,4 +406,26 @@ public class AdrServiceClient : IAdrServiceClient
         add => _adrBaseServiceClient.OnReceiveAssetUpdateEventTelemetry += value;
         remove => _adrBaseServiceClient.OnReceiveAssetUpdateEventTelemetry -= value;
     }
+
+    public async Task<TResult> RunWithRetryAsync<TResult>(Func<Task<TResult>> taskFunc, CancellationToken cancellationToken)
+    {
+        uint currentRetryCount = 0;
+        Exception? lastThrownException = null;
+        TimeSpan retryDelay = TimeSpan.FromSeconds(0);
+        do
+        {
+            await Task.Delay(retryDelay, cancellationToken);
+
+            try
+            {
+                return await taskFunc.Invoke();
+            }
+            catch (Exception e)
+            {
+                lastThrownException = e;
+            }
+        } while (_retryPolicy.ShouldRetry(++currentRetryCount, lastThrownException, out retryDelay));
+
+        throw new RetryExpiredException("Retry expired while attempting the operation. Last known exception is the inner exception.", lastThrownException);
+    }
 }
