@@ -11,7 +11,7 @@ public class AssetStream
 
     public string Name { get; set; } = default!;
 
-    public JsonDocument? StreamConfiguration { get; set; } = default;
+    public string? StreamConfiguration { get; set; } = default;
 
     public string? TypeRef { get; set; } = default;
 }

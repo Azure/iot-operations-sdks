@@ -177,9 +177,9 @@ namespace Azure.Iot.Operations.Connector
             return _client.DisposeAsync();
         }
 
-        private Task DeviceUpdateReceived(string deviceName, Device device)
+        private Task DeviceUpdateReceived(string deviceName, string inboundEndpointName, Device device)
         {
-            DeviceChanged?.Invoke(this, new(deviceName, "todo", ChangeType.Updated, device));
+            DeviceChanged?.Invoke(this, new(deviceName, inboundEndpointName, ChangeType.Updated, device));
             return Task.CompletedTask;
         }
 

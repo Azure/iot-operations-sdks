@@ -109,9 +109,9 @@ public class AdrServiceClientIntegrationTests
         await using AdrServiceClient client = new(applicationContext, mqttClient);
 
         var eventReceived = new TaskCompletionSource<bool>();
-        client.OnReceiveDeviceUpdateEventTelemetry += (source, _) =>
+        client.OnReceiveDeviceUpdateEventTelemetry += (deviceName, inboundEndpointName, _) =>
         {
-            _output.WriteLine($"Device update received from: {source}");
+            _output.WriteLine($"Device update received from: {deviceName}_{inboundEndpointName}");
             eventReceived.TrySetResult(true);
             return Task.CompletedTask;
         };
@@ -146,9 +146,9 @@ public class AdrServiceClientIntegrationTests
         var secondEventReceived = new TaskCompletionSource<bool>();
         var eventCounter = 0;
 
-        client.OnReceiveDeviceUpdateEventTelemetry += (source, _) =>
+        client.OnReceiveDeviceUpdateEventTelemetry += (deviceName, inboundEndpointName, _) =>
         {
-            _output.WriteLine($"Device update received from: {source}");
+            _output.WriteLine($"Device update received from: {deviceName}_{inboundEndpointName}");
             eventCounter++;
 
             if (eventCounter == 1)
@@ -394,9 +394,9 @@ public class AdrServiceClientIntegrationTests
         var eventReceived = new TaskCompletionSource<bool>();
 
         // Set up event handler to capture and validate events
-        client.OnReceiveDeviceUpdateEventTelemetry += (deviceName, device) =>
+        client.OnReceiveDeviceUpdateEventTelemetry += (deviceName, inboundEndpointName, device) =>
         {
-            _output.WriteLine($"Received device event: {deviceName}");
+            _output.WriteLine($"Received device event: {deviceName}_{inboundEndpointName}");
             receivedEvents.Add(deviceName, device);
             eventReceived.TrySetResult(true);
             return Task.CompletedTask;

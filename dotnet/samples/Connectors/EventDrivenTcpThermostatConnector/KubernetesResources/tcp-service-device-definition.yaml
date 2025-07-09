@@ -10,7 +10,7 @@ spec:
   enabled: true
   endpoints:
     inbound:
-      my-tcp-endpoint:
+      my_tcp_endpoint:
         additionalConfiguration: '{}'
         address: tcp-service.azure-iot-operations.svc.cluster.local:80
         endpointType: tcp-thermostat

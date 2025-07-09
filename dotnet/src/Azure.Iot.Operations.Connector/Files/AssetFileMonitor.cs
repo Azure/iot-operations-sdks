@@ -156,18 +156,17 @@ namespace Azure.Iot.Operations.Connector.Files
                 _deviceDirectoryMonitor = _filesMonitorFactory.Create();
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
-                    if (args.FileName.Contains("_") && args.FileName.Split("_").Length == 2)
+                    if (args.FileName.Contains("_"))
                     {
-                        string deviceName = args.FileName.Split("_")[0];
-                        string inboundEndpointName = args.FileName.Split("_")[1];
+                        splitCompositeName(Path.GetFileName(args.FileName), out string foundDeviceName, out string foundInboundEndpointName);
 
                         if (args.ChangeType == WatcherChangeTypes.Created)
                         {
-                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
+                            DeviceFileChanged?.Invoke(this, new(foundDeviceName, foundInboundEndpointName, FileChangeType.Created));
                         }
                         else if (args.ChangeType == WatcherChangeTypes.Deleted)
                         {
-                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Deleted));
+                            DeviceFileChanged?.Invoke(this, new(foundDeviceName, foundInboundEndpointName, FileChangeType.Deleted));
                         }
                     }
                 };
@@ -175,12 +174,14 @@ namespace Azure.Iot.Operations.Connector.Files
                 _deviceDirectoryMonitor.Start(_adrResourcesNameMountPath, null);
 
                 // Treat any devices created before this call as newly created
-                IEnumerable<string>? currentDeviceNames = GetCompositeDeviceNames();
-                if (currentDeviceNames != null)
+                IEnumerable<string>? currentCompositeDeviceNames = GetCompositeDeviceNames();
+                if (currentCompositeDeviceNames != null)
                 {
-                    foreach (string deviceName in currentDeviceNames)
+                    foreach (string compositeDeviceName in currentCompositeDeviceNames)
                     {
-                        DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], FileChangeType.Created));
+                        splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
+
+                        DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
                     }
                 }
             }
@@ -219,12 +220,12 @@ namespace Azure.Iot.Operations.Connector.Files
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_") && fileName.Split("_").Length == 2)
+                    if (fileName.Contains("_"))
                     {
-                        string[] fileNameParts = Path.GetFileName(fileNameWithPath).Split('_');
-                        if (fileNameParts[0].Equals(deviceName))
+                        splitCompositeName(Path.GetFileName(fileNameWithPath), out string foundDeviceName, out string foundInboundEndpointName);
+                        if (foundDeviceName.Equals(deviceName))
                         {
-                            inboundEndpointNames.Add(fileNameParts[1]);
+                            inboundEndpointNames.Add(foundInboundEndpointName);
                         }
                     }
                 }
@@ -244,9 +245,10 @@ namespace Azure.Iot.Operations.Connector.Files
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_") && fileName.Split("_").Length == 2)
+                    if (fileName.Contains("_"))
                     {
-                        deviceNames.Add(fileName.Split('_')[0]);
+                        splitCompositeName(Path.GetFileName(fileNameWithPath), out string foundDeviceName, out string foundInboundEndpointName);
+                        deviceNames.Add(foundDeviceName);
                     }
                 }
             }
@@ -264,7 +266,7 @@ namespace Azure.Iot.Operations.Connector.Files
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_") && fileName.Split("_").Length == 2)
+                    if (fileName.Contains("_"))
                     {
                         compositeDeviceNames.Add(fileName);
                     }
@@ -343,6 +345,22 @@ namespace Azure.Iot.Operations.Connector.Files
             }
 
             return FileUtilities.ReadFileWithRetry(path);
+        }
+
+        // composite name follows the shape "<deviceName>_<inboundEndpointName>" where device name cannot have an underscore, but inboundEndpointName
+        // may contain 0 to many underscores.
+        private void splitCompositeName(string compositeName, out string deviceName, out string inboundEndpointName)
+        {
+            int indexOfFirstUnderscore = compositeName.IndexOf('_');
+            if (indexOfFirstUnderscore == -1)
+            {
+                deviceName = compositeName;
+                inboundEndpointName = "";
+                return;
+            }
+
+            deviceName = compositeName.Substring(0, indexOfFirstUnderscore);
+            inboundEndpointName = compositeName.Substring(indexOfFirstUnderscore + 1);
         }
     }
 }

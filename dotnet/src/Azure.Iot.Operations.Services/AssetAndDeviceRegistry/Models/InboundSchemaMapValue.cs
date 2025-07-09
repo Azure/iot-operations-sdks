@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("additionalConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public JsonDocument? AdditionalConfiguration { get; set; } = default;
+        public string? AdditionalConfiguration { get; set; } = default;
 
         /// <summary>
         /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
