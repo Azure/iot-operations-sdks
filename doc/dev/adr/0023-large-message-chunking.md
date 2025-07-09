@@ -75,7 +75,7 @@ Chunking will use SHA-256 for checksum calculation.
 
 ### Compatibility
 
-- Non-chunking-aware clients will receive individual chunks as separate messages. Chunks reassembly could be implemented on the application side, given chunking implementation is known.
+- Non-chunking-aware clients will receive individual chunks as separate messages. Chunks reassembly could be implemented on the application side, given described above chunking implementation is known to the application author.
 
 ## Appendix
 
