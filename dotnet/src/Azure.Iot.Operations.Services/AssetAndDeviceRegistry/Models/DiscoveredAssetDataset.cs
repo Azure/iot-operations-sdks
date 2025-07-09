@@ -9,7 +9,7 @@ public record DiscoveredAssetDataset
 {
     public List<DiscoveredAssetDatasetDataPoint>? DataPoints { get; set; }
 
-    public JsonDocument? DataSetConfiguration { get; set; }
+    public string? DataSetConfiguration { get; set; }
 
     public string? DataSource { get; set; }
 

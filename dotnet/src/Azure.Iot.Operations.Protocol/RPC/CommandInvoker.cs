@@ -562,9 +562,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
                 requestMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+                await using var hlcClone = new HybridLogicalClock(_applicationContext.ApplicationHlc);
                 if (metadata != null)
                 {
-                    metadata.Timestamp = new HybridLogicalClock(_applicationContext.ApplicationHlc);
+                    metadata.Timestamp = hlcClone;
                 }
                 SerializedPayloadContext payloadContext = _serializer.ToBytes(request);
                 if (!payloadContext.SerializedPayload.IsEmpty)

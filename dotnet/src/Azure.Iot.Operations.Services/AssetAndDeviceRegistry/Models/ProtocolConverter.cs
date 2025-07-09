@@ -71,12 +71,12 @@ internal static class ProtocolConverter
             AssetTypeRefs = source.AssetTypeRefs,
             Attributes = source.Attributes,
             Datasets = source.Datasets?.Select(x => x.ToProtocol()).ToList(),
-            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration?.RootElement.ToString(),
+            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration,
             DefaultDatasetsDestinations = source.DefaultDatasetsDestinations?.Select(x => x.ToProtocol()).ToList(),
-            DefaultEventsConfiguration = source.DefaultEventsConfiguration?.RootElement.ToString(),
+            DefaultEventsConfiguration = source.DefaultEventsConfiguration,
             DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToProtocol()).ToList(),
-            DefaultManagementGroupsConfiguration = source.DefaultManagementGroupsConfiguration?.RootElement.ToString(),
-            DefaultStreamsConfiguration = source.DefaultStreamsConfiguration?.RootElement.ToString(),
+            DefaultManagementGroupsConfiguration = source.DefaultManagementGroupsConfiguration,
+            DefaultStreamsConfiguration = source.DefaultStreamsConfiguration,
             DefaultStreamsDestinations = source.DefaultStreamsDestinations?.Select(x => x.ToProtocol()).ToList(),
             DeviceRef = source.DeviceRef.ToProtocol(),
             DocumentationUri = source.DocumentationUri,
@@ -99,7 +99,7 @@ internal static class ProtocolConverter
         {
             DataPoints = source.DataPoints?.Select(x => x.ToProtocol()).ToList(),
             Destinations = source.Destinations?.Select(x => x.ToProtocol()).ToList(),
-            EventConfiguration = source.EventConfiguration?.RootElement.ToString(),
+            EventConfiguration = source.EventConfiguration,
             EventNotifier = source.EventNotifier,
             LastUpdatedOn = source.LastUpdatedOn,
             Name = source.Name,
@@ -111,7 +111,7 @@ internal static class ProtocolConverter
     {
         return new AdrBaseService.DiscoveredAssetEventDataPoint
         {
-            DataPointConfiguration = source.DataPointConfiguration?.RootElement.ToString(),
+            DataPointConfiguration = source.DataPointConfiguration,
             DataSource = source.DataSource,
             LastUpdatedOn = source.LastUpdatedOn,
             Name = source.Name,
@@ -122,7 +122,7 @@ internal static class ProtocolConverter
         return new AdrBaseService.DiscoveredAssetDataset
         {
             Name = source.Name,
-            DatasetConfiguration = source.DataSetConfiguration?.RootElement.ToString(),
+            DatasetConfiguration = source.DataSetConfiguration,
             LastUpdatedOn = source.LastUpdatedOn,
             Destinations = source.Destinations?.Select(x => x.ToProtocol()).ToList(),
             DataPoints = source.DataPoints?.Select(x => x.ToProtocol()).ToList(),
@@ -136,7 +136,7 @@ internal static class ProtocolConverter
         return new AdrBaseService.DiscoveredAssetDatasetDataPoint
         {
             Name = source.Name,
-            DataPointConfiguration = source.DataPointConfiguration?.RootElement.ToString(),
+            DataPointConfiguration = source.DataPointConfiguration,
             LastUpdatedOn = source.LastUpdatedOn,
             TypeRef = source.TypeRef,
             DataSource = source.DataSource
@@ -151,7 +151,7 @@ internal static class ProtocolConverter
             LastUpdatedOn = source.LastUpdatedOn,
             Name = source.Name,
             TypeRef = source.TypeRef,
-            StreamConfiguration = source.StreamConfiguration?.RootElement.ToString(),
+            StreamConfiguration = source.StreamConfiguration,
         };
     }
 
@@ -163,7 +163,7 @@ internal static class ProtocolConverter
         DefaultTimeOutInSeconds = source.DefaultTimeOutInSeconds,
         DefaultTopic = source.DefaultTopic,
         LastUpdatedOn = source.LastUpdatedOn,
-        ManagementGroupConfiguration = source.ManagementGroupConfiguration?.RootElement.ToString(),
+        ManagementGroupConfiguration = source.ManagementGroupConfiguration,
         Name = source.Name,
         TypeRef = source.TypeRef,
 

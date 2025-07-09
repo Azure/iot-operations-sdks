@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record InboundEndpointSchemaMapValue
 {
-    public JsonDocument? AdditionalConfiguration { get; set; }
+    public string? AdditionalConfiguration { get; set; }
 
     public string Address { get; set; } = default!;
 

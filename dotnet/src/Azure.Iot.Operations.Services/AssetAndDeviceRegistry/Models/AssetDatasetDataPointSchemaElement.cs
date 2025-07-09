@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record AssetDatasetDataPointSchemaElement
 {
-    public JsonDocument? DataPointConfiguration { get; set; }
+    public string? DataPointConfiguration { get; set; }
 
     public string? DataSource { get; set; }
 
