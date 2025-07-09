@@ -61,7 +61,7 @@ public class AdrServiceClientIntegrationTests
         UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
         await adrClient2.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
-        // client 1, which hadn't subscribed to the updated asset, receives the asset update event anyways.
+        // Client 1, which hadn't subscribed to the updated asset, receives the asset update event anyways.
         try
         {
             await eventReceivedByClient1.Task.WaitAsync(TimeSpan.FromSeconds(5));

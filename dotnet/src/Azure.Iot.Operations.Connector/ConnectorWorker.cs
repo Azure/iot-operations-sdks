@@ -465,6 +465,8 @@ namespace Azure.Iot.Operations.Connector
 
         private async Task AssetAvailableAsync(string deviceName, string inboundEndpointName, Asset? asset, string assetName)
         {
+            // device name: test-thermostat
+            // endpoint name: my-rest-endpoint
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
 
             if (asset == null)
@@ -480,6 +482,7 @@ namespace Azure.Iot.Operations.Connector
             }
 
             _logger.LogInformation("!!!!!!devices count: {}", _devices.Count);
+            //test-thermostat_my-rest-endpoint
             Device? device = _devices[compoundDeviceName].Device; // throwing?
 
             if (device == null)
