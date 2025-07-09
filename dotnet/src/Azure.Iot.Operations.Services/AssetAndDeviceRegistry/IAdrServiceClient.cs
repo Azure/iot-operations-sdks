@@ -163,7 +163,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// Event triggered when a device update telemetry event is received.
     /// NOTE: This event starts triggering after the call to <see cref="SetNotificationPreferenceForDeviceUpdatesAsync(string, string, NotificationPreference, TimeSpan?, CancellationToken)"/>.
     /// </summary>
-    event Func<string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
+    event Func<string, string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
 
     /// <summary>
     /// Event triggered when an asset update telemetry event is received.
