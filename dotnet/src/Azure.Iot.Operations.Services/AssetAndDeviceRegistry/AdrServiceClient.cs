@@ -391,7 +391,7 @@ public class AdrServiceClient : IAdrServiceClient
     }
 
     /// <inheritdoc />
-    public event Func<string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry
+    public event Func<string, string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry
     {
         add => _adrBaseServiceClient.OnReceiveDeviceUpdateEventTelemetry += value;
         remove => _adrBaseServiceClient.OnReceiveDeviceUpdateEventTelemetry -= value;
