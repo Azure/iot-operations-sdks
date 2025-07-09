@@ -35,23 +35,21 @@
     "maxVersion": "2.0.0"
   },
   "connectorConfigurationSchema": {
-    "schema": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "$id": "https://contoso.com/connectorConfig.schema.json",
-      "title": "Connector Configuration Schema",
-      "description": "The JSON schema for the connector additional configuration field",
-      "type": "object",
-      "properties": {
-        "SomeConnectorConfiguration": {
-          "description": "Some configurable value that is relevant to the connector as a whole",
-          "type": "integer"
-        },
-        "SomeOtherConnectorConfiguration": {
-          "properties": {
-            "SomeEndpointConfiguration": {
-              "description": "Some other configurable value that is relevant to the connector as a whole",
-              "type": "integer"
-            }
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://contoso.com/connectorConfig.schema.json",
+    "title": "Connector Configuration Schema",
+    "description": "The JSON schema for the connector additional configuration field",
+    "type": "object",
+    "properties": {
+      "SomeConnectorConfiguration": {
+        "description": "Some configurable value that is relevant to the connector as a whole",
+        "type": "integer"
+      },
+      "SomeOtherConnectorConfiguration": {
+        "properties": {
+          "SomeEndpointConfiguration": {
+            "description": "Some other configurable value that is relevant to the connector as a whole",
+            "type": "integer"
           }
         }
       }
@@ -59,112 +57,98 @@
   },
   "inboundEndpoints": [
     {
-      "endpointType": "Microsoft.Http:v1",
+      "endpointType": "Microsoft.Http",
       "version": "2.0",
       "asset": {
         "configurationSchemas": {
           "datasetConfigurationSchema": {
-            "schema": {
-              "$schema": "http://json-schema.org/draft-07/schema#",
-              "$id": "https://contoso.com/datasetConfig.schema.json",
-              "title": "Dataset Config Schema",
-              "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
-              "type": "object",
-              "properties": {
-                "SamplingInterval": {
-                  "description": "How frequently to sample each dataset by default (in milliseconds)",
-                  "type": "integer"
-                }
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/datasetConfig.schema.json",
+            "title": "Dataset Config Schema",
+            "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SamplingInterval": {
+                "description": "How frequently to sample each dataset by default (in milliseconds)",
+                "type": "integer"
               }
             }
           },
           "datasetDataPointConfigurationSchema": {
-            "schema": {
-              "$schema": "http://json-schema.org/draft-07/schema#",
-              "$id": "https://contoso.com/dataPointConfig.schema.json",
-              "title": "Datapoint Config Schema",
-              "description": "The JSON schema for both the default datapoint configuration field and all individual datapoint-specific configuration fields",
-              "type": "object",
-              "properties": {
-                "SamplingInterval": {
-                  "description": "How frequently to sample each datapoint by default (in milliseconds)",
-                  "type": "integer"
-                }
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/dataPointConfig.schema.json",
+            "title": "Datapoint Config Schema",
+            "description": "The JSON schema for both the default datapoint configuration field and all individual datapoint-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SamplingInterval": {
+                "description": "How frequently to sample each datapoint by default (in milliseconds)",
+                "type": "integer"
               }
             }
           },
           "eventConfigurationSchema": {
-            "schema": {
-              "$schema": "http://json-schema.org/draft-07/schema#",
-              "$id": "https://contoso.com/eventConfig.schema.json",
-              "title": "Event Config Schema",
-              "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
-              "type": "object",
-              "properties": {
-                "SomeEventsProperty": {
-                  "description": "Some configuration that is relevant to events",
-                  "type": "integer"
-                }
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/eventConfig.schema.json",
+            "title": "Event Config Schema",
+            "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SomeEventsProperty": {
+                "description": "Some configuration that is relevant to events",
+                "type": "integer"
               }
             }
           },
           "eventDataPointConfigurationSchema": {
-            "schema": {
-              "$schema": "http://json-schema.org/draft-07/schema#",
-              "$id": "https://contoso.com/eventConfig.schema.json",
-              "title": "Event Datapoint Config Schema",
-              "description": "The JSON schema for both the default event datapoint configuration field and all event-specific datapoint configuration fields",
-              "type": "object",
-              "properties": {
-                "SomeEventsProperty": {
-                  "description": "Some configuration that is relevant to events",
-                  "type": "integer"
-                }
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/eventConfig.schema.json",
+            "title": "Event Datapoint Config Schema",
+            "description": "The JSON schema for both the default event datapoint configuration field and all event-specific datapoint configuration fields",
+            "type": "object",
+            "properties": {
+              "SomeEventsProperty": {
+                "description": "Some configuration that is relevant to events",
+                "type": "integer"
               }
             }
           },
           "streamConfigurationSchema": {
-            "schema": {
-              "$schema": "http://json-schema.org/draft-07/schema#",
-              "$id": "https://contoso.com/streamConfig.schema.json",
-              "title": "Event Config Schema",
-              "description": "The JSON schema for both the default stream configuration field and all stream-specific configuration fields",
-              "type": "object",
-              "properties": {
-                "SomeStreamProperty": {
-                  "description": "Some configuration that is relevant to streams",
-                  "type": "integer"
-                }
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/streamConfig.schema.json",
+            "title": "Event Config Schema",
+            "description": "The JSON schema for both the default stream configuration field and all stream-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SomeStreamProperty": {
+                "description": "Some configuration that is relevant to streams",
+                "type": "integer"
               }
             }
           },
           "managementGroupConfigurationSchema": {
-            "schema": {
-              "$schema": "http://json-schema.org/draft-07/schema#",
-              "$id": "https://contoso.com/managementGroupConfig.schema.json",
-              "title": "Management Group Config Schema",
-              "description": "The JSON schema for both the default management group configuration field and all management group-specific configuration fields",
-              "type": "object",
-              "properties": {
-                "SomeStreamProperty": {
-                  "description": "Some configuration that is relevant to streams",
-                  "type": "integer"
-                }
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/managementGroupConfig.schema.json",
+            "title": "Management Group Config Schema",
+            "description": "The JSON schema for both the default management group configuration field and all management group-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SomeStreamProperty": {
+                "description": "Some configuration that is relevant to streams",
+                "type": "integer"
               }
             }
           },
           "processControlConfigurationSchema": {
-            "schema": {
-              "$schema": "http://json-schema.org/draft-07/schema#",
-              "$id": "https://contoso.com/processControlConfig.schema.json",
-              "title": "Process control Config Schema",
-              "description": "The JSON schema for both the default process control configuration field and all process control-specific configuration fields",
-              "type": "object",
-              "properties": {
-                "SomeProcessControlProperty": {
-                  "description": "Some configuration that is relevant to process control",
-                  "type": "integer"
-                }
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/processControlConfig.schema.json",
+            "title": "Process control Config Schema",
+            "description": "The JSON schema for both the default process control configuration field and all process control-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SomeProcessControlProperty": {
+                "description": "Some configuration that is relevant to process control",
+                "type": "integer"
               }
             }
           }

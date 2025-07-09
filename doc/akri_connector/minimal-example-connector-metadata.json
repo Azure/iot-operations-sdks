@@ -11,19 +11,17 @@
   "supportedArchitectures": ["linux/amd64"],
   "inboundEndpoints": [
     {
-      "endpointType": "Microsoft.Http:v1",
+      "endpointType": "Microsoft.Http",
       "version": "2.0",
       "configSchemas": {
         "datasetConfigSchema": {
-          "schema": {
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "title": "Dataset Config Schema",
-            "type": "object",
-            "properties": {
-              "SamplingInterval": {
-                "description": "How frequently to sample each dataset by default (in milliseconds)",
-                "type": "integer"
-              }
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "title": "Dataset Config Schema",
+          "type": "object",
+          "properties": {
+            "SamplingInterval": {
+              "description": "How frequently to sample each dataset by default (in milliseconds)",
+              "type": "integer"
             }
           }
         }
