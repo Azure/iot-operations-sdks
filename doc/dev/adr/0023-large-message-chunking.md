@@ -24,14 +24,13 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
 **Chunk size calculation:**
 
 - Maximum chunk size will be derived from the MQTT CONNECT packet's Maximum Packet Size.
-- A static overhead value will be subtracted from the Maximum Packet Size to account for MQTT packet headers, topic name, user properties, and other metadata.
-- The overhead size will be configurable, large enough to simplify calculations while ensuring we stay under the broker's limit.
+- Message overhead (MQTT packet headers, topic name, user properties, and other metadata) value will be subtracted from the Maximum Packet Size.
 
 **Chunk Timeout Mechanism**
 
 > [MQTT-3.3.2-6] | The PUBLISH packet sent to a Client by the Server MUST contain a Message Expiry Interval set to the received value minus the time that the message has been waiting in the Server.
 
-The receiving client uses the Message Expiry Interval from the first chunk as the timeout period for collecting all remaining chunks of the message. Chunking mechanism is relaying on the Protocol level requirement of having Message Expiry Interval to be set for every message to avoid "forever message" edge case (see below).
+The receiving client uses the Message Expiry Interval from the first chunk as the timeout period for collecting all remaining chunks of the message. Chunking mechanism is relaying on the existing Protocol level requirement of having Message Expiry Interval to be set for every message to avoid "forever message" edge case (see below).
 
 Edge case:
 - Since the Message Expiry Interval is specified in seconds, chunked messages may behave differently than single messages when the expiry interval is very short (e.g., 1 second remaining). For a single large message, the QoS flow would complete even if the expiry interval expires during transmission. However, with chunking, if the remaining expiry interval is too short to receive all chunks, the message reassembly will fail due to timeout.
@@ -45,7 +44,7 @@ Chunking will use SHA-256 for checksum calculation.
 
 - Sending Process:
   - When a payload exceeds the maximum packet size, the message is split into fixed-size chunks (with potentially smaller last chunk)
-  - Each chunk is sent as a separate MQTT message with the same topic but with chunk metadata.
+  - Each chunk is sent as a separate MQTT message with the same topic and with chunk metadata added.
   - Effort should be made to minimize user properties copied over to every chunk: first chunk will have full set of original user properties and the rest only those that are necessary to reassemble original message (ex.: ```$partition``` property to support shared subscriptions).
   - QoS settings are maintained across all chunks.
 - Receiving Process:
@@ -59,7 +58,6 @@ Chunking will use SHA-256 for checksum calculation.
 
 **Configuration settings:**
 - Enable/Disable
-- Overhead size
 
 ### Implementation Considerations
 
@@ -69,7 +67,6 @@ Chunking will use SHA-256 for checksum calculation.
 - **Performance Optimization:**
   - Concurrent chunk transmission
   - Efficient memory usage during reassembly
-  - Maximum reassembly buffer size limits (configurable)
 
 ### Benefits
 
@@ -90,9 +87,8 @@ sequenceDiagram
     participant Broker as MQTT Broker
     participant Receiver as Receiving Client
 
-    Note over Sender: Large message (>max size)
+    Note over Sender: Large message (>max size).<br>Calculate chunk size.
     Sender->>Sender: Split into chunks
-    Note right of Sender: Calculate chunk size:<br/>MaxPacketSize - Overhead
 
     loop For each chunk
         Sender->>Broker: MQTT PUBLISH with __chunk metadata
@@ -105,20 +101,19 @@ sequenceDiagram
 
     alt Success Path
         Note over Receiver: All chunks received
-        Receiver->>Receiver: Verify checksum
-        Note right of Receiver: SHA-256 or<br/>custom algorithm
         Receiver->>Receiver: Reassemble message
+        Receiver->>Receiver: Verify checksum
+        Note right of Receiver: SHA-256
         Note over Receiver: Process complete message
     else Failure: Timeout
         Note over Receiver: Message Expiry Interval exceeded
-        Receiver->>Receiver: Timeout occurred
         Receiver->>Receiver: Cleanup buffers
         Note over Receiver: Notify application:<br/>ChunkTimeoutError
     else Failure: Checksum Mismatch
         Note over Receiver: All chunks received
-        Receiver->>Receiver: Calculate checksum
+        Receiver->>Receiver: Reassemble message
+        Receiver->>Receiver: Verify checksum
         Note over Receiver: Checksum verification failed
-        Receiver->>Receiver: Discard reassembled message
         Receiver->>Receiver: Cleanup buffers
         Note over Receiver: Notify application:<br/>ChecksumMismatchError
     end
