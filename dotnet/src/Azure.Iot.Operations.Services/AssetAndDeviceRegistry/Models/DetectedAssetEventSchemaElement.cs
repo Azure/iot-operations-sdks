@@ -11,7 +11,7 @@ public record DetectedAssetEventSchemaElement
 
     public List<EventStreamDestination>? Destinations { get; set; }
 
-    public JsonDocument? EventConfiguration { get; set; }
+    public string? EventConfiguration { get; set; }
 
     public required string EventNotifier { get; set; }
 
