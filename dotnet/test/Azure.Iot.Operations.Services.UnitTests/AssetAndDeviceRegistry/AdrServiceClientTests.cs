@@ -29,7 +29,7 @@ public class AdrServiceClientTests
         await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
             await client.GetDeviceAsync("TestDevice_1_Name", "TestEndpointName"));
         await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            await client.SetNotificationPreferenceForDeviceUpdatesAsync("TestDevice_1_Name", "TestEndpointName", NotificationPreference.On));
+            await client.SetNotificationPreferenceForDeviceUpdatesAsync("TestDevice_1_Name", "TestEndpointName", Services.AssetAndDeviceRegistry.Models.NotificationPreference.On));
     }
 
     [Fact]
@@ -44,11 +44,11 @@ public class AdrServiceClientTests
         CancellationTokenSource cts = new CancellationTokenSource();
         cts.Cancel();
 
-        // Assert - Methods should throw OperationCanceledException
-        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+        // Assert - Methods should throw TaskCanceledException
+        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             await client.GetDeviceAsync("TestDevice_1_Name", "TestEndpointName", cancellationToken: cts.Token));
-        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await client.SetNotificationPreferenceForDeviceUpdatesAsync("TestDevice_1_Name", "TestEndpointName", NotificationPreference.On, cancellationToken: cts.Token));
+        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await client.SetNotificationPreferenceForDeviceUpdatesAsync("TestDevice_1_Name", "TestEndpointName", Services.AssetAndDeviceRegistry.Models.NotificationPreference.On, cancellationToken: cts.Token));
     }
 
     [Fact]
@@ -57,8 +57,8 @@ public class AdrServiceClientTests
         // Arrange
         ApplicationContext applicationContext = new();
         string connectorClientId = Guid.NewGuid().ToString();
-        Mock<DeviceDiscoveryServiceClientStub> mockDeviceDiscoveryService = new Mock<DeviceDiscoveryServiceClientStub>();
-        Mock<AdrBaseServiceClientStub> mockBaseServiceClient = new Mock<AdrBaseServiceClientStub>();
+        Mock<IDeviceDiscoveryServiceClientStub> mockDeviceDiscoveryService = new Mock<IDeviceDiscoveryServiceClientStub>();
+        Mock<IAdrBaseServiceClientStub> mockBaseServiceClient = new Mock<IAdrBaseServiceClientStub>();
 
         await using AdrServiceClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
 
@@ -70,9 +70,9 @@ public class AdrServiceClientTests
                 It.IsAny<Dictionary<string, string>>(),
                 It.IsAny<TimeSpan>(),
                 It.IsAny<CancellationToken>()))
-            .Callback(() =>
+            .Returns(() =>
             {
-                if (attemptCount == 0)
+                if (attemptCount++ == 0)
                 {
                     throw new Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException(
                         new Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceError()
@@ -83,9 +83,7 @@ public class AdrServiceClientTests
                         });
                 }
 
-                attemptCount++;
-
-                new RpcCallAsync<Services.AssetAndDeviceRegistry.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>();
+                return new RpcCallAsync<Services.AssetAndDeviceRegistry.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>(Task.FromResult(new ExtendedResponse<Services.AssetAndDeviceRegistry.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>() { Response = new() { DiscoveredAssetResponse = new() {DiscoveryId = "discoveryId", Version = 123 } } }), new Guid());
             });
 
         await client.CreateOrUpdateDiscoveredAssetAsync(

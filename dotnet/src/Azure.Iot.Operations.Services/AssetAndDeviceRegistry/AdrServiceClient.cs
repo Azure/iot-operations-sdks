@@ -25,8 +25,8 @@ public class AdrServiceClient : IAdrServiceClient
     private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(10);
     private readonly string _connectorClientId;
     private readonly ApplicationContext _applicationContext;
-    private readonly AdrBaseServiceClientStub _adrBaseServiceClient;
-    private readonly DeviceDiscoveryServiceClientStub _deviceDiscoveryServiceClient;
+    private readonly IAdrBaseServiceClientStub _adrBaseServiceClient;
+    private readonly IDeviceDiscoveryServiceClientStub _deviceDiscoveryServiceClient;
     private readonly ConcurrentDictionary<string, byte> _observedAssets = new();
     private readonly ConcurrentDictionary<string, byte> _observedEndpoints = new();
     private bool _disposed;
@@ -34,16 +34,16 @@ public class AdrServiceClient : IAdrServiceClient
 
     public AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IRetryPolicy? retryPolicy = null)
     {
-        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(uint.MaxValue, TimeSpan.FromSeconds(60));
+        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(20, TimeSpan.FromSeconds(60));
         _applicationContext = applicationContext;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
-        _adrBaseServiceClient = new(_applicationContext, mqttClient);
-        _deviceDiscoveryServiceClient = new(_applicationContext, mqttClient);
+        _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient);
+        _deviceDiscoveryServiceClient = new DeviceDiscoveryServiceClientStub(_applicationContext, mqttClient);
     }
 
     // For unit test purposes only
-    internal AdrServiceClient(ApplicationContext applicationContext, string connectorClientId, AdrBaseServiceClientStub baseServiceClient, DeviceDiscoveryServiceClientStub deviceDiscoveryServiceClientStub, IRetryPolicy? retryPolicy = null)
+    internal AdrServiceClient(ApplicationContext applicationContext, string connectorClientId, IAdrBaseServiceClientStub baseServiceClient, IDeviceDiscoveryServiceClientStub deviceDiscoveryServiceClientStub, IRetryPolicy? retryPolicy = null)
     {
         _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(uint.MaxValue, TimeSpan.FromSeconds(60));
         _applicationContext = applicationContext;
@@ -462,7 +462,7 @@ public class AdrServiceClient : IAdrServiceClient
             {
                 return await taskFunc.Invoke();
             }
-            catch (Exception e) when (e is not OperationCanceledException) // Operation canceled exception should end retry logic immediately
+            catch (Exception e) when (e is not OperationCanceledException && e is not ObjectDisposedException) // Operation canceled exception should end retry logic immediately
             {
                 lastThrownException = e;
             }

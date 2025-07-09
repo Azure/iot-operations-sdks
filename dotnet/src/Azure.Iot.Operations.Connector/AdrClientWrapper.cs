@@ -57,8 +57,7 @@ namespace Azure.Iot.Operations.Connector
 
             foreach (string compositeDeviceName in _observedDevices.Keys)
             {
-                string deviceName = compositeDeviceName.Split('_')[0];
-                string inboundEndpointName = compositeDeviceName.Split('_')[1];
+                splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
                 await _client.SetNotificationPreferenceForDeviceUpdatesAsync(deviceName, inboundEndpointName, NotificationPreference.Off, null, cancellationToken);
             }
 
@@ -98,8 +97,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 foreach (string observedAssetName in _observedAssets[compositeDeviceName])
                 {
-                    string deviceName = compositeDeviceName.Split('_')[0];
-                    string inboundEndpointName = compositeDeviceName.Split('_')[1];
+                    splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
                     await _client.SetNotificationPreferenceForAssetUpdatesAsync(deviceName, inboundEndpointName, observedAssetName, NotificationPreference.Off, null, cancellationToken);
                 }
             }
@@ -108,8 +106,7 @@ namespace Azure.Iot.Operations.Connector
 
             foreach (string compositeDeviceName in _observedDevices.Keys)
             {
-                string deviceName = compositeDeviceName.Split('_')[0];
-                string inboundEndpointName = compositeDeviceName.Split('_')[1];
+                splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
                 await _client.SetNotificationPreferenceForDeviceUpdatesAsync(deviceName, inboundEndpointName, NotificationPreference.Off, null, cancellationToken);
             }
 
@@ -180,11 +177,9 @@ namespace Azure.Iot.Operations.Connector
             return _client.DisposeAsync();
         }
 
-        private Task DeviceUpdateReceived(string compositeDeviceName, Device device)
+        private Task DeviceUpdateReceived(string deviceName, Device device)
         {
-            string deviceName = compositeDeviceName.Split('_')[0];
-            string inboundEndpointName = compositeDeviceName.Split('_')[1];
-            DeviceChanged?.Invoke(this, new(deviceName, inboundEndpointName, ChangeType.Updated, device));
+            DeviceChanged?.Invoke(this, new(deviceName, "todo", ChangeType.Updated, device));
             return Task.CompletedTask;
         }
 
@@ -239,13 +234,28 @@ namespace Azure.Iot.Operations.Connector
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {
                     _observedDevices.TryAdd(e.DeviceName, _dummyByte);
-                    // todo add retry. User can provide adr service client, so create wrapper with retry?
                     var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
                     DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
                 }
 
                 //TODO what if response is negative?
             }
+        }
+
+        // composite name follows the shape "<deviceName>_<inboundEndpointName>" where device name cannot have an underscore, but inboundEndpointName
+        // may contain 0 to many underscores.
+        private void splitCompositeName(string compositeName, out string deviceName, out string inboundEndpointName)
+        {
+            int indexOfFirstUnderscore = compositeName.IndexOf('_');
+            if (indexOfFirstUnderscore == -1)
+            {
+                deviceName = compositeName;
+                inboundEndpointName = "";
+                return;
+            }
+
+            deviceName = compositeName.Substring(0, indexOfFirstUnderscore);
+            inboundEndpointName = compositeName.Substring(indexOfFirstUnderscore + 1);
         }
     }
 }
