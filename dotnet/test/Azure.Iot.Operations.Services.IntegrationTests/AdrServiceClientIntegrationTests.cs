@@ -32,7 +32,7 @@ public class AdrServiceClientIntegrationTests
     [Fact]
     public async Task TriggerAssetTelemetryEventWhenObservedAsync() // this test causes the connector pod crash
     {
-        // Arrange
+        // Create 2 ADR clients, each with different MQTT connections + client Ids
         ApplicationContext applicationContext = new();
         await using MqttSessionClient mqttClient1 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
         await using MqttSessionClient mqttClient2 = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
@@ -53,15 +53,15 @@ public class AdrServiceClientIntegrationTests
             return Task.CompletedTask;
         };
 
-        // Act - Observe
+        // Client 1 observes a random asset, unrelated to the one that will change. Client 2 observes the asset that will change
         await adrClient1.SetNotificationPreferenceForAssetUpdatesAsync(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), NotificationPreference.On);
         await adrClient2.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.On);
 
-        // Trigger an update so we can observe it
+        // Update the asset
         UpdateAssetStatusRequest updateRequest = CreateUpdateAssetStatusRequest(DateTime.Now);
         await adrClient2.UpdateAssetStatusAsync(TestDevice_1_Name, TestEndpointName, updateRequest);
 
-        // Wait for the notification to arrive
+        // client 1, which hadn't subscribed to the updated asset, receives the asset update event anyways.
         try
         {
             await eventReceivedByClient1.Task.WaitAsync(TimeSpan.FromSeconds(5));
