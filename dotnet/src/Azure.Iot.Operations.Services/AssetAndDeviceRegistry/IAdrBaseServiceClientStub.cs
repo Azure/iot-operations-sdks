@@ -8,6 +8,7 @@ using static Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 {
+    // An interface for the code gen'd AdrBaseServiceClientStub so that we can mock it in our unit tests
     internal interface IAdrBaseServiceClientStub : IAsyncDisposable
     {
         event Func<string, string, Models.Device, Task>? OnReceiveDeviceUpdateEventTelemetry;

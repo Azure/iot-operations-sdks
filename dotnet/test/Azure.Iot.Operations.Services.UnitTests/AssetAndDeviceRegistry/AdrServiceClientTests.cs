@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Retry;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
@@ -62,6 +63,7 @@ public class AdrServiceClientTests
 
         await using AdrServiceClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
 
+        // Setup the underlying mock client to throw on the first attempt, but return successfully on the second attempt
         int attemptCount = 0;
         mockBaseServiceClient.Setup(mock =>
             mock.CreateOrUpdateDiscoveredAssetAsync(
@@ -86,6 +88,8 @@ public class AdrServiceClientTests
                 return new RpcCallAsync<Services.AssetAndDeviceRegistry.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>(Task.FromResult(new ExtendedResponse<Services.AssetAndDeviceRegistry.AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload>() { Response = new() { DiscoveredAssetResponse = new() {DiscoveryId = "discoveryId", Version = 123 } } }), new Guid());
             });
 
+        // This method should not throw even though the underlying client will throw on the first attempt
+        // since retry will catch it.
         await client.CreateOrUpdateDiscoveredAssetAsync(
             "someDeviceName",
             "someInboundEndpointName",
@@ -103,4 +107,55 @@ public class AdrServiceClientTests
             });
     }
 
+    [Fact]
+    public async Task AdrServiceClientRetryCanExpire()
+    {
+        // Arrange
+        ApplicationContext applicationContext = new();
+        string connectorClientId = Guid.NewGuid().ToString();
+        Mock<IDeviceDiscoveryServiceClientStub> mockDeviceDiscoveryService = new Mock<IDeviceDiscoveryServiceClientStub>();
+        Mock<IAdrBaseServiceClientStub> mockBaseServiceClient = new Mock<IAdrBaseServiceClientStub>();
+
+        await using AdrServiceClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
+
+        // Setup the underlying mock client to always throw
+        mockBaseServiceClient.Setup(mock =>
+            mock.CreateOrUpdateDiscoveredAssetAsync(
+                It.IsAny<CreateOrUpdateDiscoveredAssetRequestPayload>(),
+                It.IsAny<CommandRequestMetadata>(),
+                It.IsAny<Dictionary<string, string>>(),
+                It.IsAny<TimeSpan>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(() =>
+            {
+                throw new Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException(
+                    new Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceError()
+                    {
+                        Code = CodeSchema.BadRequest,
+                        Message = "mock error",
+                        Timestamp = new DateTime()
+                    });
+            });
+
+        // This method should not throw even though the underlying client will throw on the first attempt
+        // since retry will catch it.
+        await Assert.ThrowsAsync<RetryExpiredException>(async () =>
+        {
+            await client.CreateOrUpdateDiscoveredAssetAsync(
+            "someDeviceName",
+            "someInboundEndpointName",
+            new CreateOrUpdateDiscoveredAssetRequest()
+            {
+                DiscoveredAsset = new()
+                {
+                    DeviceRef = new()
+                    {
+                        DeviceName = "someDeviceName",
+                        EndpointName = "someInboundEndpointName"
+                    },
+                },
+                DiscoveredAssetName = "someDiscoveredAssetName"
+            });
+        });
+    }
 }

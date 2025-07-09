@@ -32,9 +32,17 @@ public class AdrServiceClient : IAdrServiceClient
     private bool _disposed;
     private readonly IRetryPolicy _retryPolicy;
 
+    /// <summary>
+    /// Construct an ADR service client.
+    /// </summary>
+    /// <param name="applicationContext">The shared context for this application.</param>
+    /// <param name="mqttClient">The MQTT client to communicate with the ADR service with.</param>
+    /// <param name="retryPolicy">
+    /// The retry policy to apply to all operations. By default, <see cref="ExponentialBackoffRetryPolicy"/>
+    /// will be used if none is provided. <see cref="NoRetryPolicy"/> can be provided if no retry is desired.</param>
     public AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IRetryPolicy? retryPolicy = null)
     {
-        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(20, TimeSpan.FromSeconds(60));
+        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(10, TimeSpan.FromSeconds(60));
         _applicationContext = applicationContext;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
@@ -45,7 +53,7 @@ public class AdrServiceClient : IAdrServiceClient
     // For unit test purposes only
     internal AdrServiceClient(ApplicationContext applicationContext, string connectorClientId, IAdrBaseServiceClientStub baseServiceClient, IDeviceDiscoveryServiceClientStub deviceDiscoveryServiceClientStub, IRetryPolicy? retryPolicy = null)
     {
-        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(uint.MaxValue, TimeSpan.FromSeconds(60));
+        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(3, TimeSpan.FromMilliseconds(5));
         _applicationContext = applicationContext;
         _connectorClientId = connectorClientId;
         _adrBaseServiceClient = baseServiceClient;

@@ -7,6 +7,7 @@ using static Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscover
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 {
+    // An interface for the code gen'd DeviceDiscoveryServiceClientStub so that we can mock it in our unit tests
     internal interface IDeviceDiscoveryServiceClientStub : IAsyncDisposable
     {
         CreateOrUpdateDiscoveredDeviceCommandInvoker CreateOrUpdateDiscoveredDeviceCommandInvoker { get; }
