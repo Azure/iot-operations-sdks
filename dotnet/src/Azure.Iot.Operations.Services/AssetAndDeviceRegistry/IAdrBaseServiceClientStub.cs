@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 {
     internal interface IAdrBaseServiceClientStub : IAsyncDisposable
     {
-        event Func<string, Models.Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
+        event Func<string, string, Models.Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
         event Func<string, Models.Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
 
         GetDeviceCommandInvoker GetDeviceCommandInvoker { get; }
