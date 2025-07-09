@@ -3,6 +3,7 @@
 
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Retry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using AkriServiceErrorException = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException;
@@ -30,9 +31,11 @@ public class AdrServiceClient : IAdrServiceClient
     private readonly ConcurrentDictionary<string, byte> _observedAssets = new();
     private readonly ConcurrentDictionary<string, byte> _observedEndpoints = new();
     private bool _disposed;
+    private IRetryPolicy _retryPolicy;
 
-    public AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+    public AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, IRetryPolicy? retryPolicy = null)
     {
+        _retryPolicy = retryPolicy ?? new ExponentialBackoffRetryPolicy(uint.MaxValue, TimeSpan.FromSeconds(60));
         _applicationContext = applicationContext;
         _mqttClient = mqttClient;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");

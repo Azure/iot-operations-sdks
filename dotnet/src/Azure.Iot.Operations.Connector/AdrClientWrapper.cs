@@ -239,6 +239,7 @@ namespace Azure.Iot.Operations.Connector
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {
                     _observedDevices.TryAdd(e.DeviceName, _dummyByte);
+                    // todo add retry. User can provide adr service client, so create wrapper with retry?
                     var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
                     DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
                 }
