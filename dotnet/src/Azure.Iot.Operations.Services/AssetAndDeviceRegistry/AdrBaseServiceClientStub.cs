@@ -10,10 +10,10 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
 internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
-    : AdrBaseService.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap)
+    : AdrBaseService.AdrBaseService.Client(applicationContext, mqttClient, topicTokenMap), IAdrBaseServiceClientStub
 {
-    internal event Func<string, string, Models.Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
-    internal event Func<string, Models.Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
+    public event Func<string, string, Models.Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
+    public event Func<string, Models.Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
 
     private const string deviceNameTopicToken = "ex:deviceName";
     private const string inboundEndpointNameTopicToken = "ex:inboundEndpointName";
