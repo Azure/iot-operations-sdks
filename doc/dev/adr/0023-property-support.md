@@ -146,19 +146,19 @@ public class PropertyUnwatchResponder<TBool> : CommandExecutor<TBool, Result<TBo
 public class PropertyNotifier<TProp> : TelemetrySender<TProp>;
 ```
 
-The *write* action is perfomed by issuing a 'write' Command request.
+The *write* action is performed by issuing a 'write' Command request.
 The payload is an instance of `TProp`, whose optional fields contain values for any Properties that are to be written.
 In non-error conditions, the response payload is an instance of `TBool`, which has a value of `true` for each field whose Property was updated.
 
-The *read* action is perfomed by issuing a 'read' Command request.
+The *read* action is performed by issuing a 'read' Command request.
 The `TBool` payload has a value of `true` for each field whose Property is to be read.
 The non-error `TProp` response payload contains values in fields for any Properties that are read.
 
-The *watch* action is perfomed by issuing a 'watch' Command request.
+The *watch* action is performed by issuing a 'watch' Command request.
 The `TBool` payload has a value of `true` for each field whose Property is to be added to the notify list.
 The non-error `TBool` response payload conveys the updated notify list; each field has a value of `true` if its corresponding Property was added to the list by this action or if it was already in the notify list.
 
-The *unwatch* action is perfomed by issuing an 'unwatch' Command request.
+The *unwatch* action is performed by issuing an 'unwatch' Command request.
 The `TBool` payload has a value of `true` for each field whose Property is to be removed from the notify list.
 The non-error `TBool` response payload conveys the updated notify list; each field has a value of `true` if the corresponding Property was previously in the notify list and was not removed by this action.
 
