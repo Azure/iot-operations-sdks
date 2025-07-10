@@ -37,7 +37,7 @@ There are five specific actions that are relevant to Properties:
   * The Consumer receives the response from the Maintainer.
   * Note: A request to write a read-only Property does not trigger an error condition; instead, the response merely indicates that the read-only Property was not updated.
 * Action *read*:
-  * The Consumer sends a `read` request to the Maintainer, specifying which Properties it wsihes to read.
+  * The Consumer sends a `read` request to the Maintainer, specifying which Properties it wishes to read.
   * The Maintainer attempts to read values for the designated Properties and responds with a collation of Property values; if an error condition occurs, the Maintainer instead responds with an error indication.
   * The Consumer receives the response from the Maintainer.
 * Action *watch*:
