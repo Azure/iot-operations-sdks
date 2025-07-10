@@ -181,7 +181,7 @@ The sets of tokens differ between RPC and Telemetry, and the following set of to
 
 | Topic token | Description | Required |
 | --- | --- | --- |
-| `{modelId}` | The identifier of the the service model, which is the full DTMI of the Interface, might include the version | optional |
+| `{modelId}` | The identifier of the service model, which is the full DTMI of the Interface, might include the version | optional |
 | `{maintainerId}` | Identifier of the maintainer, by default the MQTT client ID | optional |
 | `{sourceId}` | Identifier of the source of the request or notification, by default the MQTT client ID | optional |
 | `{action}` | One of "read", "write", "watch", "unwatch", or "notify" | optional |
