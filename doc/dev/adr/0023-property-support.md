@@ -176,7 +176,7 @@ As part of the present change, an additional property will be added:
 | `propertyTopic` | optional | *string* | slash-separated sequence of character-restricted labels and/or brace-enclosed tokens | MQTT topic pattern on which a request or notification is published. |
 
 The DTDL Mqtt extension places no restrictions &mdash; other than basic syntactical constraints &mdash; on the set of tokens used in MQTT topic patterns.
-Topic tokens recognized by the ProtocolComplier are defined in the [topic-structure](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md) document.
+Topic tokens recognized by the ProtocolCompiler are defined in the [topic-structure](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md) document.
 The sets of tokens differ between RPC and Telemetry, and the following set of tokens is hereby defined for Property:
 
 | Topic token | Description | Required |
