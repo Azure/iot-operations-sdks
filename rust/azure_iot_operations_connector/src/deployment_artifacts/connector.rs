@@ -86,11 +86,6 @@ pub struct ConnectorArtifacts {
     pub http_log_endpoint: Option<String>,
     /// OTEL http/https trace endpoint.
     pub http_trace_endpoint: Option<String>,
-
-    /// OTEL 3P metric endpoint.
-    pub metric_endpoint_3p: Option<String>,
-    /// OTEL 3P metric export interval.
-    pub metric_export_interval_3p: Option<u32>,
 }
 
 impl ConnectorArtifacts {
@@ -184,16 +179,6 @@ impl ConnectorArtifacts {
         let http_log_endpoint = string_from_environment("OTLP_HTTP_LOG_ENDPOINT")?;
         let http_trace_endpoint = string_from_environment("OTLP_HTTP_TRACE_ENDPOINT")?;
 
-        let metric_endpoint_3p = string_from_environment("OTLP_METRIC_ENDPOINT_3P")?;
-        let metric_export_interval_3p = string_from_environment("OTLP_METRIC_EXPORT_INTERVAL_3P")?
-            .map(|s| s.parse::<u32>())
-            .transpose()
-            .map_err(|_| {
-                DeploymentArtifactErrorRepr::EnvVarValueMalformed(
-                    "OTLP_METRIC_EXPORT_INTERVAL_3P".to_string(),
-                )
-            })?;
-
         Ok(ConnectorArtifacts {
             azure_extension_resource_id,
             connector_id,
@@ -213,8 +198,6 @@ impl ConnectorArtifacts {
             http_metric_endpoint,
             http_log_endpoint,
             http_trace_endpoint,
-            metric_endpoint_3p,
-            metric_export_interval_3p,
         })
     }
 
@@ -606,8 +589,6 @@ mod tests {
     const HTTP_METRIC_ENDPOINT: &str = "https://metric.endpoint";
     const HTTP_LOG_ENDPOINT: &str = "https://log.endpoint";
     const HTTP_TRACE_ENDPOINT: &str = "https://trace.endpoint";
-    const METRIC_ENDPOINT_3P: &str = "https://3p.metric.endpoint";
-    const METRIC_EXPORT_INTERVAL_3P: u32 = 30;
 
     const MQTT_CONNECTION_CONFIGURATION_JSON: &str = r#"
     {
@@ -675,8 +656,6 @@ mod tests {
                 ("OTLP_HTTP_METRIC_ENDPOINT", None),
                 ("OTLP_HTTP_LOG_ENDPOINT", None),
                 ("OTLP_HTTP_TRACE_ENDPOINT", None),
-                ("OTLP_METRIC_ENDPOINT_3P", None),
-                ("OTLP_METRIC_EXPORT_INTERVAL_3P", None),
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
@@ -725,8 +704,6 @@ mod tests {
                 assert!(artifacts.http_metric_endpoint.is_none());
                 assert!(artifacts.http_log_endpoint.is_none());
                 assert!(artifacts.http_trace_endpoint.is_none());
-                assert!(artifacts.metric_endpoint_3p.is_none());
-                assert!(artifacts.metric_export_interval_3p.is_none());
             },
         );
     }
@@ -819,11 +796,6 @@ mod tests {
                 ("OTLP_HTTP_METRIC_ENDPOINT", Some(HTTP_METRIC_ENDPOINT)),
                 ("OTLP_HTTP_LOG_ENDPOINT", Some(HTTP_LOG_ENDPOINT)),
                 ("OTLP_HTTP_TRACE_ENDPOINT", Some(HTTP_TRACE_ENDPOINT)),
-                ("OTLP_METRIC_ENDPOINT_3P", Some(METRIC_ENDPOINT_3P)),
-                (
-                    "OTLP_METRIC_EXPORT_INTERVAL_3P",
-                    Some(&format!("{METRIC_EXPORT_INTERVAL_3P}")),
-                ),
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
@@ -915,14 +887,6 @@ mod tests {
                     artifacts.http_trace_endpoint,
                     Some(HTTP_TRACE_ENDPOINT.to_string())
                 );
-                assert_eq!(
-                    artifacts.metric_endpoint_3p,
-                    Some(METRIC_ENDPOINT_3P.to_string())
-                );
-                assert_eq!(
-                    artifacts.metric_export_interval_3p,
-                    Some(METRIC_EXPORT_INTERVAL_3P)
-                );
             },
         );
     }
@@ -952,34 +916,6 @@ mod tests {
                 ),
                 // NOTE: This will override one of the above
                 (missing_env_var, None),
-            ],
-            || {
-                assert!(ConnectorArtifacts::new_from_deployment().is_err());
-            },
-        );
-    }
-
-    #[test_case("OTLP_METRIC_EXPORT_INTERVAL_3P", "not_a_number")]
-    fn malformed_env_var(env_var: &str, malformed_value: &str) {
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
-            MQTT_CONNECTION_CONFIGURATION_JSON,
-        );
-
-        temp_env::with_vars(
-            [
-                (
-                    "AZURE_EXTENSION_RESOURCEID",
-                    Some(AZURE_EXTENSION_RESOURCE_ID),
-                ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
-                (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
-                    Some(connector_configuration_mount.path().to_str().unwrap()),
-                ),
-                (env_var, Some(malformed_value)),
             ],
             || {
                 assert!(ConnectorArtifacts::new_from_deployment().is_err());
@@ -1162,8 +1098,6 @@ mod tests {
             http_metric_endpoint: None,
             http_log_endpoint: None,
             http_trace_endpoint: None,
-            metric_endpoint_3p: None,
-            metric_export_interval_3p: None,
         };
 
         // Convert to MQTT ConnectionSettings
@@ -1228,8 +1162,6 @@ mod tests {
             http_metric_endpoint: None,
             http_log_endpoint: None,
             http_trace_endpoint: None,
-            metric_endpoint_3p: None,
-            metric_export_interval_3p: None,
         };
 
         // Convert to MQTT ConnectionSettings
@@ -1304,8 +1236,6 @@ mod tests {
             http_metric_endpoint: None,
             http_log_endpoint: None,
             http_trace_endpoint: None,
-            metric_endpoint_3p: None,
-            metric_export_interval_3p: None,
         };
 
         // Convert to MQTT ConnectionSettings
@@ -1355,8 +1285,6 @@ mod tests {
             http_metric_endpoint: None,
             http_log_endpoint: None,
             http_trace_endpoint: None,
-            metric_endpoint_3p: None,
-            metric_export_interval_3p: None,
         };
 
         // Convert to MQTT ConnectionSettings
