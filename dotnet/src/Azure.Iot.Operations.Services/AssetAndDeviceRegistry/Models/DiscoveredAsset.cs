@@ -16,17 +16,17 @@ public record DiscoveredAsset
 
     public List<DiscoveredAssetDataset>? Datasets { get; set; }
 
-    public JsonDocument? DefaultDatasetsConfiguration { get; set; }
+    public string? DefaultDatasetsConfiguration { get; set; }
 
     public List<DatasetDestination>? DefaultDatasetsDestinations { get; set; }
 
-    public JsonDocument? DefaultEventsConfiguration { get; set; }
+    public string? DefaultEventsConfiguration { get; set; }
 
     public List<EventStreamDestination>? DefaultEventsDestinations { get; set; }
 
-    public JsonDocument? DefaultManagementGroupsConfiguration { get; set; }
+    public string? DefaultManagementGroupsConfiguration { get; set; }
 
-    public JsonDocument? DefaultStreamsConfiguration { get; set; }
+    public string? DefaultStreamsConfiguration { get; set; }
 
     public List<EventStreamDestination>? DefaultStreamsDestinations { get; set; }
 
@@ -62,7 +62,7 @@ public class DiscoveredAssetStream
 
     public string Name { get; set; } = default!;
 
-    public JsonDocument? StreamConfiguration { get; set; } = default;
+    public string? StreamConfiguration { get; set; } = default;
 
     public string? TypeRef { get; set; } = default;
 }
@@ -77,7 +77,7 @@ public class DiscoveredAssetManagementGroup
 
     public DateTime? LastUpdatedOn { get; set; } = default;
 
-    public JsonDocument? ManagementGroupConfiguration { get; set; } = default;
+    public string? ManagementGroupConfiguration { get; set; } = default;
 
     public string Name { get; set; } = default!;
 
