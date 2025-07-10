@@ -791,8 +791,14 @@ impl AssetClient {
     ) -> Result<(), azure_device_registry::Error> {
         let mut status_write_guard = self.status.write().await;
         let version = self.specification.read().unwrap().version;
-        // TODO: remove this fn call and just have the functionality here
-        let new_status = Self::internal_asset_status(&status_write_guard, status, version);
+        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
+        let mut new_status = Self::current_status_to_modify(&status_write_guard, version);
+        // no matter whether we kept other fields or not, we will always fully replace the config status
+        new_status.config = Some(azure_device_registry::ConfigStatus {
+            version,
+            error: status.err(),
+            last_transition_time: Some(chrono::Utc::now()),
+        });
 
         log::debug!("Reporting asset status from app for {:?}", self.asset_ref);
         // send status update to the service
@@ -1051,25 +1057,6 @@ impl AssetClient {
             // config not reported, assume anything reported so far is for this version
             current_status.clone()
         }
-    }
-
-    /// Internal helper function to create an updated [`adr_models::AssetStatus`] from the current status,
-    /// the new Result and the version that the status is for
-    fn internal_asset_status(
-        current_status: &adr_models::AssetStatus,
-        new_status_result: Result<(), AdrConfigError>,
-        version: Option<u64>,
-    ) -> adr_models::AssetStatus {
-        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
-        let mut new_status = Self::current_status_to_modify(current_status, version);
-
-        // no matter whether we kept other fields or not, we will always fully replace the config status
-        new_status.config = Some(azure_device_registry::ConfigStatus {
-            version,
-            error: new_status_result.err(),
-            last_transition_time: Some(chrono::Utc::now()),
-        });
-        new_status
     }
 
     pub(crate) async fn internal_report_status(
