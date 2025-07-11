@@ -831,7 +831,8 @@ impl AssetClient {
         // lock the status write guard so that no other threads can modify the status while we update it
         let mut status_write_guard = self.status.write().await;
         // if there are any config errors when parsing the asset, collect them all so we can report them at once
-        let mut new_status: adr_models::AssetStatus = Self::current_status_to_modify(&status_write_guard, updated_asset.version);
+        let mut new_status: adr_models::AssetStatus =
+            Self::current_status_to_modify(&status_write_guard, updated_asset.version);
         let mut status_updated = false;
 
         // update datasets
@@ -929,27 +930,37 @@ impl AssetClient {
                         // insert the dataset client into the hashmap so we can handle updates
                         self.dataset_hashmap.insert(
                             received_dataset_definition.name.clone(),
-                            (received_dataset_definition.clone(), dataset_update_watcher_tx),
+                            (
+                                received_dataset_definition.clone(),
+                                dataset_update_watcher_tx,
+                            ),
                         );
 
                         // error is not possible since the receiving side of the channel is owned by the AssetClient
                         let _ = self.dataset_creation_tx.send(new_dataset_client);
-                    },
+                    }
                     Err(e) => {
                         // Add the error to the status to be reported to ADR, and then continue to process
                         // other datasets even if one isn't valid. Don't give this one to
                         // the application since we can't forward data on it. If there's an update to the
                         // definition, they'll get the create notification for it at that point if it's valid
-                        DatasetClient::update_dataset_status(&mut new_status, &received_dataset_definition.name, Err(e));
+                        DatasetClient::update_dataset_status(
+                            &mut new_status,
+                            &received_dataset_definition.name,
+                            Err(e),
+                        );
                         status_updated = true;
-                    },
+                    }
                 };
             }
         }
 
         // if there were any config errors, report them to the ADR service together
         if status_updated {
-            log::debug!("Reporting error asset status on recv_notification for {:?}", self.asset_ref);
+            log::debug!(
+                "Reporting error asset status on recv_notification for {:?}",
+                self.asset_ref
+            );
             if let Err(e) = Self::internal_report_status(
                 new_status,
                 &self.connector_context,
@@ -957,8 +968,12 @@ impl AssetClient {
                 &mut status_write_guard,
                 "AssetClient::recv_notification",
             )
-            .await {
-                log::error!("Failed to report error Asset status for updated Asset {:?}: {e}", self.asset_ref);
+            .await
+            {
+                log::error!(
+                    "Failed to report error Asset status for updated Asset {:?}: {e}",
+                    self.asset_ref
+                );
             }
         }
 
