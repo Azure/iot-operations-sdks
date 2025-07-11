@@ -660,7 +660,6 @@ impl AssetClient {
         let status = Arc::new(RwLock::new(asset_status));
         let dataset_definitions = asset.datasets.clone();
         let (asset_update_watcher_tx, mut asset_update_watcher_rx) = watch::channel(asset.clone());
-        asset_update_watcher_rx.mark_unchanged(); // Make sure that we don't process the initial asset as a new update
         let specification = AssetSpecification::from(asset);
         let specification_version = specification.version;
         let (dataset_creation_tx, dataset_creation_rx) = mpsc::unbounded_channel();
@@ -836,7 +835,7 @@ impl AssetClient {
         // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
         for received_dataset_definition in &updated_asset.datasets {
             // it already exists
-            if let Some((dataset_definition, dataset_update_tx)) = self
+            if let Some((dataset_definition, dataset_update_watcher_tx)) = self
                 .dataset_hashmap
                 .get_mut(&received_dataset_definition.name)
             {
@@ -848,7 +847,7 @@ impl AssetClient {
                     // we need to make sure we have the updated definition for comparing next time
                     *dataset_definition = received_dataset_definition.clone();
                     // send update to the dataset
-                    let _ = dataset_update_tx
+                    let _ = dataset_update_watcher_tx
                         .send((
                             received_dataset_definition.clone(),
                             default_dataset_destinations.clone(),
@@ -920,13 +919,15 @@ impl AssetClient {
             () = self.asset_deletion_token.cancelled() => {
                 log::debug!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
                 // unobserve as cleanup
-                let connector_context_clone = self.connector_context.clone();
-                let asset_ref_clone = self.asset_ref.clone();
                 // Spawn a new task to prevent a possible cancellation and ensure the deleted
                 // notification reaches the application.
                 tokio::task::spawn(
-                    async move {
-                        Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                    {
+                        let connector_context_clone = self.connector_context.clone();
+                        let asset_ref_clone = self.asset_ref.clone();
+                        async move {
+                            Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                        }
                     }
                 );
                 ClientNotification::Deleted
@@ -943,13 +944,15 @@ impl AssetClient {
                     self.handle_update(updated_asset).await
                 } else {
                     // unobserve as cleanup
-                    let connector_context_clone = self.connector_context.clone();
-                    let asset_ref_clone = self.asset_ref.clone();
                     // Spawn a new task to prevent a possible cancellation and ensure the deleted
                     // notification reaches the application.
                     tokio::task::spawn(
-                        async move {
-                            Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                        {
+                            let connector_context_clone = self.connector_context.clone();
+                            let asset_ref_clone = self.asset_ref.clone();
+                            async move {
+                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                            }
                         }
                     );
                     // Asset update has been fully processed, mark as seen.
@@ -969,13 +972,15 @@ impl AssetClient {
             create_notification = self.dataset_creation_rx.recv() => {
                 let Some(dataset_client) = create_notification else {
                     // unobserve as cleanup
-                    let connector_context_clone = self.connector_context.clone();
-                    let asset_ref_clone = self.asset_ref.clone();
                     // Spawn a new task to prevent a possible cancellation and ensure the deleted
                     // notification reaches the application.
                     tokio::task::spawn(
-                        async move {
-                            Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                        {
+                            let connector_context_clone = self.connector_context.clone();
+                            let asset_ref_clone = self.asset_ref.clone();
+                            async move {
+                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                            }
                         }
                     );
                     return ClientNotification::Deleted;
@@ -1112,7 +1117,6 @@ impl AssetClient {
             default_dataset_destinations.to_vec(),
             self.release_dataset_notifications_tx.subscribe(),
         ));
-        dataset_update_watcher_rx.mark_unchanged();
 
         let new_dataset_client = DatasetClient::new(
             dataset_definition.clone(),
