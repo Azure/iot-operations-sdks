@@ -135,13 +135,13 @@ public class PropertyListener<TProp> : TelemetryReceiver<TProp>;
 The service-side `PropertyMaintainer` is implemented as follows:
 
 ```csharp
-public class PropertyWriteResponder<TProp, TBool> : CommandExecutor<TProp, Result<TBool, TErr>>;
+public class PropertyWriteResponder<TProp, TBool, TErr> : CommandExecutor<TProp, Result<TBool, TErr>>;
 
-public class PropertyReadResponder<TProp, TBool> : CommandExecutor<TBool, Result<TProp, TErr>>;
+public class PropertyReadResponder<TProp, TBool, TErr> : CommandExecutor<TBool, Result<TProp, TErr>>;
 
-public class PropertyWatchResponder<TBool> : CommandExecutor<TBool, Result<TBool, TErr>>;
+public class PropertyWatchResponder<TBool, TErr> : CommandExecutor<TBool, Result<TBool, TErr>>;
 
-public class PropertyUnwatchResponder<TBool> : CommandExecutor<TBool, Result<TBool, TErr>>;
+public class PropertyUnwatchResponder<TBool, TErr> : CommandExecutor<TBool, Result<TBool, TErr>>;
 
 public class PropertyNotifier<TProp> : TelemetrySender<TProp>;
 ```
