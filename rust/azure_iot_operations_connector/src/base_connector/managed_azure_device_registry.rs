@@ -883,7 +883,7 @@ impl AssetClient {
             watch::Sender<DatasetUpdateNotification>,
             DatasetUpdateNotification,
         )> = Vec::new();
-        let mut new_datasets: Vec<DatasetClient> = Vec::new();
+        let mut new_dataset_clients: Vec<DatasetClient> = Vec::new();
 
         // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
         for received_dataset_definition in &updated_asset.datasets {
@@ -940,7 +940,7 @@ impl AssetClient {
                         );
 
                         // save new dataset client to be sent on self.dataset_creation_tx after the task can't get cancelled
-                        new_datasets.push(new_dataset_client);
+                        new_dataset_clients.push(new_dataset_client);
                     }
                     Err(e) => {
                         // Add the error to the status to be reported to ADR, and then continue to process
@@ -999,7 +999,7 @@ impl AssetClient {
                 );
             });
         }
-        for new_dataset_client in new_datasets {
+        for new_dataset_client in new_dataset_clients {
             // error is not possible since the receiving side of the channel is owned by the AssetClient
             let _ = self.dataset_creation_tx.send(new_dataset_client);
         }
