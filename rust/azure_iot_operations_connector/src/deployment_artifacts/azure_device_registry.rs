@@ -437,12 +437,10 @@ impl TryFrom<String> for DeviceEndpointRef {
 
         // TODO: Add a warning in case the format is not as expected
         match value.split_once('_') {
-            Some((device_name, inbound_endpoint_name)) => {
-                Ok(Self {
-                    device_name: device_name.to_string(),
-                    inbound_endpoint_name: inbound_endpoint_name.to_string(),
-                })
-            }
+            Some((device_name, inbound_endpoint_name)) => Ok(Self {
+                device_name: device_name.to_string(),
+                inbound_endpoint_name: inbound_endpoint_name.to_string(),
+            }),
             None => Err(Error(ErrorKind::ParseError(
                 "Failed to parse DeviceEndpointRef from string".to_string(),
             ))),
