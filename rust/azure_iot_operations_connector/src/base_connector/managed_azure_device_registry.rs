@@ -125,17 +125,16 @@ impl DeviceEndpointClientCreationObservation {
                     // unobserve as cleanup
                     // Spawn a new task to prevent a possible cancellation and ensure the deleted
                     // notification reaches the application.
-                    tokio::task::spawn(
-                        {
-                            let connector_context_clone = self.connector_context.clone();
-                            async move {
-                                DeviceEndpointClient::unobserve_device(
-                                    &connector_context_clone,
-                                    &device_endpoint_ref)
-                                .await;
-                            }
+                    tokio::task::spawn({
+                        let connector_context_clone = self.connector_context.clone();
+                        async move {
+                            DeviceEndpointClient::unobserve_device(
+                                &connector_context_clone,
+                                &device_endpoint_ref,
+                            )
+                            .await;
                         }
-                    );
+                    });
                     continue;
                 }
             };
@@ -197,17 +196,16 @@ impl DeviceEndpointClientCreationObservation {
                     // unobserve as cleanup
                     // Spawn a new task to prevent a possible cancellation and ensure the deleted
                     // notification reaches the application.
-                    tokio::task::spawn(
-                        {
-                            let connector_context_clone = self.connector_context.clone();
-                            async move {
-                                DeviceEndpointClient::unobserve_device(
-                                    &connector_context_clone,
-                                    &device_endpoint_ref)
-                                .await;
-                            }
+                    tokio::task::spawn({
+                        let connector_context_clone = self.connector_context.clone();
+                        async move {
+                            DeviceEndpointClient::unobserve_device(
+                                &connector_context_clone,
+                                &device_endpoint_ref,
+                            )
+                            .await;
                         }
-                    );
+                    });
                     continue;
                 }
             };
