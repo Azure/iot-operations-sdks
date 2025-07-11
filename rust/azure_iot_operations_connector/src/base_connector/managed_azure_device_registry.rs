@@ -835,10 +835,12 @@ impl AssetClient {
             Self::current_status_to_modify(&status_write_guard, updated_asset.version);
         let mut status_updated = false;
 
+        // make changes to a copy of the dataset_hashmap so that this function is cancel safe
+        let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
         // update datasets
         // remove the datasets that are no longer present in the new asset definition.
         // This triggers deletion notification since this drops the update sender.
-        self.dataset_hashmap.retain(|dataset_name, _| {
+        temp_dataset_hashmap.retain(|dataset_name, _| {
             updated_asset
                 .datasets
                 .iter()
@@ -876,12 +878,18 @@ impl AssetClient {
                 }
             };
 
+        // track all datasets to update and save notifications for once the task can't be cancelled
+        let mut dataset_updates: Vec<(
+            watch::Sender<DatasetUpdateNotification>,
+            DatasetUpdateNotification,
+        )> = Vec::new();
+        let mut new_datasets: Vec<DatasetClient> = Vec::new();
+
         // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
         for received_dataset_definition in &updated_asset.datasets {
             // it already exists
-            if let Some((dataset_definition, dataset_update_tx)) = self
-                .dataset_hashmap
-                .get_mut(&received_dataset_definition.name)
+            if let Some((dataset_definition, dataset_update_tx)) =
+                temp_dataset_hashmap.get_mut(&received_dataset_definition.name)
             {
                 // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
                 // otherwise, only send an update if the dataset definition has changed
@@ -890,20 +898,15 @@ impl AssetClient {
                 {
                     // we need to make sure we have the updated definition for comparing next time
                     *dataset_definition = received_dataset_definition.clone();
-                    // send update to the dataset
-                    let _ = dataset_update_tx
-                        .send((
+                    // save update to send to the dataset after the task can't get cancelled
+                    dataset_updates.push((
+                        dataset_update_tx.clone(),
+                        (
                             received_dataset_definition.clone(),
                             default_dataset_destinations.clone(),
                             self.release_dataset_notifications_tx.subscribe(),
-                        )).inspect_err(|tokio::sync::watch::error::SendError((e_dataset_definition, _,_))| {
-                            // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
-                            log::warn!(
-                                "Update received for dataset {} on asset {:?}, but DatasetClient has been dropped",
-                                e_dataset_definition.name,
-                                self.asset_ref
-                            );
-                        });
+                        ),
+                    ));
                 } else {
                     // TODO: copy over the existing dataset status for a new status report? (other bug)
                 }
@@ -928,7 +931,7 @@ impl AssetClient {
                 ) {
                     Ok(new_dataset_client) => {
                         // insert the dataset client into the hashmap so we can handle updates
-                        self.dataset_hashmap.insert(
+                        temp_dataset_hashmap.insert(
                             received_dataset_definition.name.clone(),
                             (
                                 received_dataset_definition.clone(),
@@ -936,8 +939,8 @@ impl AssetClient {
                             ),
                         );
 
-                        // error is not possible since the receiving side of the channel is owned by the AssetClient
-                        let _ = self.dataset_creation_tx.send(new_dataset_client);
+                        // save new dataset client to be sent on self.dataset_creation_tx after the task can't get cancelled
+                        new_datasets.push(new_dataset_client);
                     }
                     Err(e) => {
                         // Add the error to the status to be reported to ADR, and then continue to process
@@ -981,6 +984,26 @@ impl AssetClient {
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
         *unlocked_specification = AssetSpecification::from(updated_asset);
 
+        // update dataset_hashmap now that this task can't be cancelled
+        self.dataset_hashmap = temp_dataset_hashmap;
+
+        // send all notifications associated with this asset update
+        for (dataset_update_tx, dataset_update_notification) in dataset_updates {
+            // send update to the dataset
+            let _ = dataset_update_tx.send(dataset_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_dataset_definition, _,_))| {
+                // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
+                log::warn!(
+                    "Update received for dataset {} on asset {:?}, but DatasetClient has been dropped",
+                    e_dataset_definition.name,
+                    self.asset_ref
+                );
+            });
+        }
+        for new_dataset_client in new_datasets {
+            // error is not possible since the receiving side of the channel is owned by the AssetClient
+            let _ = self.dataset_creation_tx.send(new_dataset_client);
+        }
+
         // Asset update has been fully processed, mark as seen.
         self.asset_update_watcher_rx.mark_unchanged();
         ClientNotification::Updated
@@ -1003,6 +1026,11 @@ impl AssetClient {
     /// are linked to this asset. To ensure the asset update is received before dataset notifications,
     /// dataset notifications won't be released until this function is polled again after receiving an
     /// update.
+    ///
+    /// # Cancel safety
+    /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
+    /// completes first, then it is guaranteed that no asset notifications will be lost, and the asset will not
+    /// be updated without a notification being returned.
     ///
     /// # Panics
     /// If the specification mutex has been poisoned, which should not be possible
@@ -1521,6 +1549,11 @@ impl DatasetClient {
     ///
     /// Returns [`DatasetNotification::Deleted`] if the Dataset has been deleted. The [`DatasetClient`]
     /// should not be used after this point, and no more notifications will be received.
+    ///
+    /// # Cancel safety
+    /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
+    /// completes first, then it is guaranteed that no dataset notifications will be lost, and the dataset will not
+    /// be updated without a notification being returned.
     pub async fn recv_notification(&mut self) -> DatasetNotification {
         if self.dataset_update_watcher_rx.changed().await.is_err() {
             return DatasetNotification::Deleted;
