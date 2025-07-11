@@ -1320,25 +1320,51 @@ impl DatasetClient {
         &self,
         status: Result<(), AdrConfigError>,
     ) -> Result<(), azure_device_registry::Error> {
+        log::debug!("Reporting dataset {:?} status from app", self.dataset_ref);
+        Self::internal_report_status(
+            &self.asset_status,
+            &self.asset_specification,
+            status,
+            &self.dataset_ref,
+            &self.connector_context,
+            &self.asset_ref,
+            "DatasetClient::report_status",
+        )
+        .await
+    }
+
+    async fn internal_report_status(
+        asset_status_mutex: &Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+        asset_specification: &Arc<std::sync::RwLock<AssetSpecification>>,
+        desired_dataset_status: Result<(), AdrConfigError>,
+        dataset_ref: &DatasetRef,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error> {
         // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
-        let mut status_write_guard = self.asset_status.write().await;
+        let mut status_write_guard = asset_status_mutex.write().await;
         let mut new_status = AssetClient::current_status_to_modify(
             &status_write_guard,
-            self.asset_specification.read().unwrap().version,
+            asset_specification.read().unwrap().version,
         );
 
         // if dataset is already in the current status, then update the existing dataset with the new error
         // Otherwise if the dataset isn't present, or no datasets have been reported yet, then add it with the new error
-        Self::update_dataset_status(&mut new_status, &self.dataset_ref.dataset_name, status);
+        Self::update_dataset_status(
+            &mut new_status,
+            &dataset_ref.dataset_name,
+            desired_dataset_status,
+        );
 
         // send status update to the service
-        log::debug!("reporting dataset {:?} status from app", self.dataset_ref);
+
         AssetClient::internal_report_status(
             new_status,
-            &self.connector_context,
-            &self.asset_ref,
+            connector_context,
+            asset_ref,
             &mut status_write_guard,
-            "DatasetClient::report_status",
+            log_identifier,
         )
         .await
     }
@@ -1522,12 +1548,35 @@ impl DatasetClient {
                     self.dataset_ref
                 );
 
-                if let Err(e) = self.report_status(Err(e)).await {
-                    log::error!(
-                        "Failed to report status for updated dataset {:?}: {e}",
-                        self.dataset_ref
-                    );
-                }
+                tokio::task::spawn({
+                    let asset_status_mutex_clone = self.asset_status.clone();
+                    let asset_specification_mutex_clone = self.asset_specification.clone();
+                    let dataset_ref_clone = self.dataset_ref.clone();
+                    let connector_context = self.connector_context.clone();
+                    let asset_ref = self.asset_ref.clone();
+                    async move {
+                        log::debug!(
+                            "Reporting dataset {:?} status from recv_notification",
+                            dataset_ref_clone
+                        );
+                        if let Err(e) = Self::internal_report_status(
+                            &asset_status_mutex_clone,
+                            &asset_specification_mutex_clone,
+                            Err(e),
+                            &dataset_ref_clone,
+                            &connector_context,
+                            &asset_ref,
+                            "DatasetClient::recv_notification",
+                        )
+                        .await
+                        {
+                            log::error!(
+                                "Failed to report status for updated dataset {:?}: {e}",
+                                dataset_ref_clone
+                            );
+                        }
+                    }
+                });
                 // notify the application to not use this dataset until a new update is received
                 self.dataset_definition = updated_dataset;
                 return DatasetNotification::UpdatedInvalid;
