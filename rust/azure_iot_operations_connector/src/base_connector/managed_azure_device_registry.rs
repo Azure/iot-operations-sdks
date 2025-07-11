@@ -884,6 +884,8 @@ impl AssetClient {
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
         *unlocked_specification = AssetSpecification::from(updated_asset);
 
+        // Asset update has been fully processed, mark as seen.
+        self.asset_update_watcher_rx.mark_unchanged();
         ClientNotification::Updated
     }
 
@@ -947,6 +949,8 @@ impl AssetClient {
                             Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
                         }
                     );
+                    // Asset update has been fully processed, mark as seen.
+                    self.asset_update_watcher_rx.mark_unchanged();
                     ClientNotification::Deleted
                 }
             },
