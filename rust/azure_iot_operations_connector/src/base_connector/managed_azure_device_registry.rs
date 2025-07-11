@@ -8,7 +8,7 @@ use std::{collections::HashMap, path::PathBuf, sync::Arc};
 use azure_iot_operations_services::{
     azure_device_registry::{
         self,
-        models::{self as adr_models, Asset, Device},
+        models::{self as adr_models, Asset},
     },
     schema_registry,
 };
@@ -399,7 +399,7 @@ impl DeviceEndpointClient {
                     let Some((updated_device, _)) = update else {
                         // if the update notification is None, then the device endpoint has been deleted
                         // unobserve as cleanup
-                        // Spawn a new task to prevent a possible cancellation and ensure the deleted 
+                        // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
                         tokio::task::spawn(
                             {
@@ -429,7 +429,7 @@ impl DeviceEndpointClient {
                         // if the create notification is None, then the device endpoint has been deleted
                         log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
                         // unobserve as cleanup
-                        // Spawn a new task to prevent a possible cancellation and ensure the deleted 
+                        // Spawn a new task to prevent a possible cancellation and ensure the deleted
                         // notification reaches the application.
                         tokio::task::spawn(
                             {
