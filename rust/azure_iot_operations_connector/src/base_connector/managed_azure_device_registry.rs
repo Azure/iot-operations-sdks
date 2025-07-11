@@ -19,6 +19,7 @@ use azure_iot_operations_services::{
 use chrono::{DateTime, Utc};
 use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
+use tokio::sync::watch;
 use tokio_retry2::{Retry, RetryError};
 use tokio_util::sync::CancellationToken;
 
@@ -619,9 +620,9 @@ pub struct AssetClient {
     asset_update_observation: azure_device_registry::AssetUpdateObservation,
     /// Internal watcher receiver that holds a snapshot of the latest update and whether it has
     /// been fully processed or not
-    asset_update_watcher_rx: tokio::sync::watch::Receiver<Asset>,
+    asset_update_watcher_rx: watch::Receiver<Asset>,
     /// Internal watcher sender that sends the latest update
-    asset_update_watcher_tx: tokio::sync::watch::Sender<Asset>,
+    asset_update_watcher_tx: watch::Sender<Asset>,
     /// Internal sender for when new datasets are created
     #[getter(skip)]
     dataset_creation_tx: UnboundedSender<DatasetClient>,
@@ -630,14 +631,14 @@ pub struct AssetClient {
     dataset_creation_rx: UnboundedReceiver<DatasetClient>,
     /// Internal watch sender for releasing dataset create/update notifications
     #[getter(skip)]
-    release_dataset_notifications_tx: tokio::sync::watch::Sender<()>,
+    release_dataset_notifications_tx: watch::Sender<()>,
     /// hashmap of current dataset names to their current definition and a sender to send dataset updates
     #[getter(skip)]
     dataset_hashmap: HashMap<
         String,
         (
             adr_models::Dataset,
-            tokio::sync::watch::Sender<DatasetUpdateNotification>,
+            watch::Sender<DatasetUpdateNotification>,
         ),
     >,
     #[getter(skip)]
@@ -658,7 +659,7 @@ impl AssetClient {
     ) -> Self {
         let status = Arc::new(RwLock::new(asset_status));
         let dataset_definitions = asset.datasets.clone();
-        let (asset_update_watcher_tx, mut asset_update_watcher_rx) = tokio::sync::watch::channel(asset.clone());
+        let (asset_update_watcher_tx, mut asset_update_watcher_rx) = watch::channel(asset.clone());
         asset_update_watcher_rx.mark_unchanged(); // Make sure that we don't process the initial asset as a new update
         let specification = AssetSpecification::from(asset);
         let specification_version = specification.version;
@@ -711,7 +712,7 @@ impl AssetClient {
             dataset_creation_rx,
             dataset_hashmap: HashMap::new(),
             connector_context,
-            release_dataset_notifications_tx: tokio::sync::watch::Sender::new(()),
+            release_dataset_notifications_tx: watch::Sender::new(()),
             asset_deletion_token,
         };
 
@@ -817,7 +818,8 @@ impl AssetClient {
                         &self.status,
                         "AssetClient::recv_notification default_dataset_destination",
                     )
-                    .await {
+                    .await
+                    {
                         log::error!(
                             "Failed to report default dataset destination error Asset status for updated asset {:?}: {e}",
                             self.asset_ref
@@ -851,7 +853,7 @@ impl AssetClient {
                             received_dataset_definition.clone(),
                             default_dataset_destinations.clone(),
                             self.release_dataset_notifications_tx.subscribe(),
-                        )).inspect_err(|tokio::sync::watch::error::SendError((e_dataset_definition, _,_))| {
+                        )).inspect_err(|watch::error::SendError((e_dataset_definition, _,_))| {
                             // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
                             log::warn!(
                                 "Update received for dataset {} on asset {:?}, but DatasetClient has been dropped",
@@ -878,7 +880,8 @@ impl AssetClient {
             dataset_config_errors,
             updated_asset.version,
             "AssetClient::recv_notification dataset_destination",
-        ).await;
+        )
+        .await;
 
         // update specification
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
@@ -919,7 +922,7 @@ impl AssetClient {
                 // unobserve as cleanup
                 let connector_context_clone = self.connector_context.clone();
                 let asset_ref_clone = self.asset_ref.clone();
-                // Spawn a new task to prevent a possible cancellation and ensure the deleted 
+                // Spawn a new task to prevent a possible cancellation and ensure the deleted
                 // notification reaches the application.
                 tokio::task::spawn(
                     async move {
@@ -960,7 +963,7 @@ impl AssetClient {
                 // this branch again
                 self.asset_update_watcher_rx.mark_changed();
                 let updated_asset = self.asset_update_watcher_rx.borrow().clone();
-                
+
                 self.handle_update(updated_asset).await
             }
             create_notification = self.dataset_creation_rx.recv() => {
@@ -968,7 +971,7 @@ impl AssetClient {
                     // unobserve as cleanup
                     let connector_context_clone = self.connector_context.clone();
                     let asset_ref_clone = self.asset_ref.clone();
-                    // Spawn a new task to prevent a possible cancellation and ensure the deleted 
+                    // Spawn a new task to prevent a possible cancellation and ensure the deleted
                     // notification reaches the application.
                     tokio::task::spawn(
                         async move {
@@ -1104,7 +1107,7 @@ impl AssetClient {
         dataset_definition: adr_models::Dataset,
         default_dataset_destinations: &[Arc<destination_endpoint::Destination>],
     ) -> Result<(), adr_models::DatasetEventStreamStatus> {
-        let (dataset_update_watcher_tx, mut dataset_update_watcher_rx) = tokio::sync::watch::channel((
+        let (dataset_update_watcher_tx, mut dataset_update_watcher_rx) = watch::channel((
             dataset_definition.clone(),
             default_dataset_destinations.to_vec(),
             self.release_dataset_notifications_tx.subscribe(),
@@ -1253,7 +1256,7 @@ pub enum MessageSchemaError {
 type DatasetUpdateNotification = (
     adr_models::Dataset,                         // new Dataset definition
     Vec<Arc<destination_endpoint::Destination>>, // new default dataset destinations
-    tokio::sync::watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
+    watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
 );
 
 /// Notifications that can be received for a Dataset
@@ -1302,14 +1305,14 @@ pub struct DatasetClient {
     /// Internal watcher receiver that holds a snapshot of the latest update and whether it has been
     /// fully processed or not.
     #[getter(skip)]
-    dataset_update_watcher_rx: tokio::sync::watch::Receiver<DatasetUpdateNotification>,
+    dataset_update_watcher_rx: watch::Receiver<DatasetUpdateNotification>,
 }
 
 impl DatasetClient {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         dataset_definition: adr_models::Dataset,
-        dataset_update_watcher_rx: tokio::sync::watch::Receiver<DatasetUpdateNotification>,
+        dataset_update_watcher_rx: watch::Receiver<DatasetUpdateNotification>,
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<adr_models::AssetStatus>>,
@@ -1549,7 +1552,8 @@ impl DatasetClient {
         }
         // In case this function gets cancelled the next time it is called we will process the update again.
         self.dataset_update_watcher_rx.mark_changed();
-        let (updated_dataset, default_destinations, mut watch_receiver) = self.dataset_update_watcher_rx.borrow().clone();
+        let (updated_dataset, default_destinations, mut watch_receiver) =
+            self.dataset_update_watcher_rx.borrow().clone();
 
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         if watch_receiver.changed().await.ok().is_none() {
