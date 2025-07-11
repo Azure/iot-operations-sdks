@@ -863,6 +863,7 @@ impl AssetClient {
                 // update datasets
                 // remove the datasets that are no longer present in the new asset definition.
                 // This triggers deletion notification since this drops the update sender.
+                // take clone of dataset_hashmap
                 self.dataset_hashmap.retain(|dataset_name, _| {
                     updated_asset
                         .datasets
@@ -904,6 +905,7 @@ impl AssetClient {
                 // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
                 for received_dataset_definition in &updated_asset.datasets {
                     // it already exists
+                    // same clone of dataset_hashmap
                     if let Some((dataset_definition, dataset_update_tx)) = self
                         .dataset_hashmap
                         .get_mut(&received_dataset_definition.name)
@@ -916,11 +918,12 @@ impl AssetClient {
                             // we need to make sure we have the updated definition for comparing next time
                             *dataset_definition = received_dataset_definition.clone();
                             // send update to the dataset
+                            // have to hold these notifications?
                             let _ = dataset_update_tx
                                 .send((
                                     received_dataset_definition.clone(),
                                     default_dataset_destinations.clone(),
-                                    self.release_dataset_notifications_tx.subscribe(),
+                                    self.release_dataset_notifications_tx.subscribe(), // might need fresh subscription here
                                 )).inspect_err(|tokio::sync::mpsc::error::SendError((e_dataset_definition, _,_))| {
                                     // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
                                     log::warn!(
@@ -949,12 +952,14 @@ impl AssetClient {
                         ) {
                             Ok(new_dataset_client) => {
                                 // insert the dataset client into the hashmap so we can handle updates
+                                // same clone here
                                 self.dataset_hashmap.insert(
                                     received_dataset_definition.name.clone(),
                                     (received_dataset_definition.clone(), dataset_update_tx),
                                 );
 
                                 // error is not possible since the receiving side of the channel is owned by the AssetClient
+                                // somehow save this notification?
                                 let _ = self.dataset_creation_tx.send(new_dataset_client);
                             },
                             Err(e) => {
@@ -983,6 +988,7 @@ impl AssetClient {
                         log::error!("Failed to report error Asset status for updated Asset {:?}: {e}", self.asset_ref);
                     }
                 }
+                // then here, set dataset_hashmap to our modified clone and then send notifications?
 
                 // update specification
                 let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
