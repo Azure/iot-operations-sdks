@@ -123,8 +123,8 @@ impl DeviceEndpointClientCreationObservation {
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                     );
                     // unobserve as cleanup
-                    // Spawn a new task to prevent a possible cancellation and ensure the deleted
-                    // notification reaches the application.
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens
                     tokio::task::spawn({
                         let connector_context_clone = self.connector_context.clone();
                         async move {
@@ -160,8 +160,8 @@ impl DeviceEndpointClientCreationObservation {
                 Err(e) => {
                     log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device Status after retries: {e}");
                     // unobserve as cleanup
-                    // Spawn a new task to prevent a possible cancellation and ensure the deleted
-                    // notification reaches the application.
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens
                     tokio::task::spawn(
                         {
                             let connector_context_clone = self.connector_context.clone();
@@ -194,8 +194,8 @@ impl DeviceEndpointClientCreationObservation {
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
                     );
                     // unobserve as cleanup
-                    // Spawn a new task to prevent a possible cancellation and ensure the deleted
-                    // notification reaches the application.
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens.
                     tokio::task::spawn({
                         let connector_context_clone = self.connector_context.clone();
                         async move {
