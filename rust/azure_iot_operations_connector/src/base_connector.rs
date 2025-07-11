@@ -39,7 +39,7 @@ pub(crate) struct ConnectorContext {
 impl std::fmt::Debug for ConnectorContext {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ConnectorContext")
-            .field("connector_artifacts", &self.connector_artifacts)
+            //.field("connector_artifacts", &self.connector_artifacts)
             .field("debounce_duration", &self.debounce_duration)
             .field("default_timeout", &self.default_timeout)
             .finish()
@@ -58,66 +58,58 @@ impl BaseConnector {
     /// with exponential backoff. This allows for new configuration to be deployed to fix any
     /// errors without needing to restart the connector.
     #[must_use]
-    pub fn new(application_context: ApplicationContext) -> Self {
+    pub fn new(
+        connector_artifacts: ConnectorArtifacts,
+        application_context: ApplicationContext,
+    ) -> Self {
         // if any of these operations fail, wait and try again in case connector configuration has changed
-        let (
-            connector_artifacts,
-            azure_device_registry_client,
-            schema_registry_client,
-            state_store_client,
-            session,
-        ) = operation_with_retries::<(_, _, _, _, _), String>(|| {
-            // Get Connector Artifacts
-            let connector_artifacts =
-                ConnectorArtifacts::new_from_deployment().map_err(|e| e.to_string())?;
-
-            // Create Session
-            let mqtt_connection_settings = connector_artifacts
-                .clone()
-                .to_mqtt_connection_settings("0")
-                .map_err(|e| e.to_string())?;
-            let session_options = SessionOptionsBuilder::default()
-                .connection_settings(mqtt_connection_settings.clone())
-                // TODO: reconnect policy
-                // TODO: outgoing_max
-                .build()
-                .map_err(|e| e.to_string())?;
-            let session = Session::new(session_options).map_err(|e| e.to_string())?;
-
-            // Create clients
-            // Create Azure Device Registry Client
-            let azure_device_registry_client = azure_device_registry::Client::new(
-                application_context.clone(),
-                session.create_managed_client(),
-                azure_device_registry::ClientOptions::default(),
-            )
-            .map_err(|e| e.to_string())?;
-
-            // Create Schema Registry Client
-            let schema_registry_client = schema_registry::Client::new(
-                application_context.clone(),
-                &session.create_managed_client(),
-            );
-
-            // Create State Store Client
-            let state_store_client = state_store::Client::new(
-                application_context.clone(),
-                session.create_managed_client(),
-                session.create_connection_monitor(),
-                state_store::ClientOptionsBuilder::default()
+        let (azure_device_registry_client, schema_registry_client, state_store_client, session) =
+            operation_with_retries::<(_, _, _, _), String>(|| {
+                // Create Session
+                let mqtt_connection_settings = connector_artifacts
+                    .to_mqtt_connection_settings("0")
+                    .map_err(|e| e.to_string())?;
+                let session_options = SessionOptionsBuilder::default()
+                    .connection_settings(mqtt_connection_settings.clone())
+                    // TODO: reconnect policy
+                    // TODO: outgoing_max
                     .build()
-                    .map_err(|e| e.to_string())?,
-            )
-            .map_err(|e| e.to_string())?;
+                    .map_err(|e| e.to_string())?;
+                let session = Session::new(session_options).map_err(|e| e.to_string())?;
 
-            Ok((
-                connector_artifacts,
-                azure_device_registry_client,
-                schema_registry_client,
-                state_store_client,
-                session,
-            ))
-        });
+                // Create clients
+                // Create Azure Device Registry Client
+                let azure_device_registry_client = azure_device_registry::Client::new(
+                    application_context.clone(),
+                    session.create_managed_client(),
+                    azure_device_registry::ClientOptions::default(),
+                )
+                .map_err(|e| e.to_string())?;
+
+                // Create Schema Registry Client
+                let schema_registry_client = schema_registry::Client::new(
+                    application_context.clone(),
+                    &session.create_managed_client(),
+                );
+
+                // Create State Store Client
+                let state_store_client = state_store::Client::new(
+                    application_context.clone(),
+                    session.create_managed_client(),
+                    session.create_connection_monitor(),
+                    state_store::ClientOptionsBuilder::default()
+                        .build()
+                        .map_err(|e| e.to_string())?,
+                )
+                .map_err(|e| e.to_string())?;
+
+                Ok((
+                    azure_device_registry_client,
+                    schema_registry_client,
+                    state_store_client,
+                    session,
+                ))
+            });
         Self {
             connector_context: Arc::new(ConnectorContext {
                 // TODO: validate these timeouts here once they come from somewhere
@@ -155,11 +147,6 @@ impl BaseConnector {
     /// Creates a handle to use the [`BaseConnector`]'s Azure Device Registry client for discovery operations.
     pub fn discovery_client(&self) -> adr_discovery::Client {
         adr_discovery::Client::new(self.connector_context.clone())
-    }
-
-    /// Returns a copy of the connector artifacts
-    pub fn connector_artifacts(&self) -> ConnectorArtifacts {
-        self.connector_context.connector_artifacts.clone()
     }
 }
 
