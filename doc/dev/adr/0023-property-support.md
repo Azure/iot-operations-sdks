@@ -75,21 +75,21 @@ These illustrations use C#, but analogous types can be defined in all supported 
 Class `AggregateProp` is a concrete type for `TProp`:
 
 ```csharp
-    public partial class AggregateProp
-    {
-        public int? Foo { get; set; } = default;
-        public string? Bar { get; set; } = default;
-    }
+public partial class AggregateProp
+{
+    public int? Foo { get; set; } = default;
+    public string? Bar { get; set; } = default;
+}
 ```
 
 Class `ControlProp` is a concrete type for `TBool` that aligns with `AggregateProp`:
 
 ```csharp
-    public partial class ControlProp
-    {
-        public bool Foo { get; set; } = default;
-        public bool Bar { get; set; } = default;
-    }
+public partial class ControlProp
+{
+    public bool Foo { get; set; } = default;
+    public bool Bar { get; set; } = default;
+}
 ```
 
 There are no restrictions on `TErr`, so any concrete type can serve as an example:
@@ -193,78 +193,78 @@ An example Property topic pattern is illustrated in the sample model below.
 The following DTDL model defines three Properties, which correspond to the example types [defined above](#property-envoy).
 
 ```json
-  {
-    "@context": [ "dtmi:dtdl:context;4", "dtmi:dtdl:extension:mqtt;4" ],
-    "@id": "dtmi:propertySketch:PropertySketch;1",
-    "@type": [ "Interface", "Mqtt" ],
-    "payloadFormat": "Json/ecma/404",
-    "propertyTopic": "sample/{modelId}/{sourceId}/property/{action}",
-    "contents": [
-      {
-        "@type": "Property",
-        "name": "Foo",
-        "schema": "integer"
-      },
-      {
-        "@type": "Property",
-        "name": "Bar",
-        "schema": "string"
-      },
-      {
-        "@type": "Property",
-        "name": "PropError",
-        "schema": {
-          "@type": [ "Object", "Error" ],
-          "description": "The requested operation could not be completed.",
-          "fields": [
-            {
-              "@type": [ "Field", "ErrorMessage" ],
-              "name": "explanation",
-              "schema": "string"
-            },
-            {
-              "name": "condition",
-              "schema": {
-                "@type": "Enum",
-                "valueSchema": "integer",
-                "enumValues": [
-                  {
-                    "name": "persistentFailure",
-                    "enumValue": 1
-                  },
-                  {
-                    "name": "temporaryFailure",
-                    "enumValue": 2
-                  }
-                ]
-              }
+{
+  "@context": [ "dtmi:dtdl:context;4", "dtmi:dtdl:extension:mqtt;4" ],
+  "@id": "dtmi:propertySketch:PropertySketch;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "propertyTopic": "sample/{modelId}/{sourceId}/property/{action}",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Foo",
+      "schema": "integer"
+    },
+    {
+      "@type": "Property",
+      "name": "Bar",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "PropError",
+      "schema": {
+        "@type": [ "Object", "Error" ],
+        "description": "The requested operation could not be completed.",
+        "fields": [
+          {
+            "@type": [ "Field", "ErrorMessage" ],
+            "name": "explanation",
+            "schema": "string"
+          },
+          {
+            "name": "condition",
+            "schema": {
+              "@type": "Enum",
+              "valueSchema": "integer",
+              "enumValues": [
+                {
+                  "name": "persistentFailure",
+                  "enumValue": 1
+                },
+                {
+                  "name": "temporaryFailure",
+                  "enumValue": 2
+                }
+              ]
             }
-          ]
-        }
+          }
+        ]
       }
-    ]
-  }
+    }
+  ]
+}
 ```
 
 Recall that the `AggregateProp` class has fields for Foo and Bar.
 The ProtocolCompiler will generate an analogous class from the two Properties named "Foo" and "Bar" in the above model:
 
 ```csharp
-    public partial class AggregateProp
-    {
-        public int? Foo { get; set; } = default;
-        public string? Bar { get; set; } = default;
-    }
+public partial class AggregateProp
+{
+    public int? Foo { get; set; } = default;
+    public string? Bar { get; set; } = default;
+}
 ```
 
 The ProtocolCompiler will also generate a class analogous to `ControlProp`:
 
 ```csharp
-    public partial class ControlProp
-    {
-        public bool Foo { get; set; } = default;
-        public bool Bar { get; set; } = default;
-    }
+public partial class ControlProp
+{
+    public bool Foo { get; set; } = default;
+    public bool Bar { get; set; } = default;
+}
 ```
 
 The model Property named "PropError" is not represented in either of the above two classes.
