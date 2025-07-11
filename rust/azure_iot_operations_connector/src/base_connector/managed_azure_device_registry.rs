@@ -1104,17 +1104,16 @@ impl AssetClient {
         dataset_definition: adr_models::Dataset,
         default_dataset_destinations: &[Arc<destination_endpoint::Destination>],
     ) -> Result<(), adr_models::DatasetEventStreamStatus> {
-        let (dataset_update_tx, mut dataset_update_rx) = tokio::sync::watch::channel((
+        let (dataset_update_watcher_tx, mut dataset_update_watcher_rx) = tokio::sync::watch::channel((
             dataset_definition.clone(),
             default_dataset_destinations.to_vec(),
             self.release_dataset_notifications_tx.subscribe(),
         ));
-        dataset_update_rx.mark_unchanged(); // ASK: Is this necessary?
-        // let (dataset_update_tx, dataset_update_rx) = mpsc::unbounded_channel();
+        dataset_update_watcher_rx.mark_unchanged();
 
         let new_dataset_client = DatasetClient::new(
             dataset_definition.clone(),
-            dataset_update_rx,
+            dataset_update_watcher_rx,
             default_dataset_destinations,
             self.asset_ref.clone(),
             self.status.clone(),
@@ -1156,7 +1155,7 @@ impl AssetClient {
         // insert the dataset client into the hashmap so we can handle updates
         self.dataset_hashmap.insert(
             dataset_definition.name.clone(),
-            (dataset_definition, dataset_update_tx),
+            (dataset_definition, dataset_update_watcher_tx),
         );
 
         // error is not possible since the receiving side of the channel is owned by the AssetClient
@@ -1300,18 +1299,17 @@ pub struct DatasetClient {
     /// Asset reference for internal use
     #[getter(skip)]
     asset_ref: AssetRef,
-    /// Internal channel for receiving notifications about dataset updates.
+    /// Internal watcher receiver that holds a snapshot of the latest update and whether it has been
+    /// fully processed or not.
     #[getter(skip)]
-    dataset_update_rx: tokio::sync::watch::Receiver<DatasetUpdateNotification>,
-    // dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
+    dataset_update_watcher_rx: tokio::sync::watch::Receiver<DatasetUpdateNotification>,
 }
 
 impl DatasetClient {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         dataset_definition: adr_models::Dataset,
-        dataset_update_rx: tokio::sync::watch::Receiver<DatasetUpdateNotification>,
-        // dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
+        dataset_update_watcher_rx: tokio::sync::watch::Receiver<DatasetUpdateNotification>,
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<adr_models::AssetStatus>>,
@@ -1341,7 +1339,7 @@ impl DatasetClient {
             device_specification,
             device_status,
             forwarder,
-            dataset_update_rx,
+            dataset_update_watcher_rx,
             connector_context,
         })
     }
@@ -1546,18 +1544,13 @@ impl DatasetClient {
     /// notifications. This can occur if the Dataset has been deleted or the
     /// [`AssetClient`] that this [`DatasetClient`] is related to has been dropped.
     pub async fn recv_notification(&mut self) -> DatasetNotification {
-        if self.dataset_update_rx.changed().await.is_err() {
+        if self.dataset_update_watcher_rx.changed().await.is_err() {
             return DatasetNotification::Deleted;
         }
         // In case this function gets cancelled the next time it is called we will process the update again.
-        self.dataset_update_rx.mark_changed();
-        let (updated_dataset, default_destinations, mut watch_receiver) = self.dataset_update_rx.borrow().clone();
+        self.dataset_update_watcher_rx.mark_changed();
+        let (updated_dataset, default_destinations, mut watch_receiver) = self.dataset_update_watcher_rx.borrow().clone();
 
-        // let Some((updated_dataset, default_destinations, mut watch_receiver)) =
-        //     self.dataset_update_rx.recv().await // FIN: Change to watcher here
-        // else {
-        //     return DatasetNotification::Deleted;
-        // };
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         if watch_receiver.changed().await.ok().is_none() {
             return DatasetNotification::Deleted;
@@ -1576,7 +1569,6 @@ impl DatasetClient {
                     self.dataset_ref
                 );
 
-                // TODO: Move this into a task
                 if let Err(e) = self.report_status(Err(e)).await {
                     log::error!(
                         "Failed to report status for updated dataset {:?}: {e}",
@@ -1590,7 +1582,7 @@ impl DatasetClient {
         };
         self.dataset_definition = updated_dataset;
         // Once the dataset definition has been updated we can mark the value in the watcher as seen
-        self.dataset_update_rx.mark_unchanged(); // ASK: I feel like we talked about this before but if we get an update to the dataset before this won't we mark it as not seen?
+        self.dataset_update_watcher_rx.mark_unchanged();
         DatasetNotification::Updated
     }
 
