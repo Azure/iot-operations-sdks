@@ -433,6 +433,7 @@ impl TryFrom<String> for DeviceEndpointRef {
     fn try_from(value: String) -> Result<Self, Self::Error> {
         // The below assumes the format is always {device_name}_{inbound_endpoint_name} with no additional
         // `_` in the device name. The inbound endpoint name may have additional `_`.
+        // Kubernetes does not allow `_` in the device name so this should be safe.
 
         // TODO: Add a warning in case the format is not as expected
         match value.split_once('_') {
