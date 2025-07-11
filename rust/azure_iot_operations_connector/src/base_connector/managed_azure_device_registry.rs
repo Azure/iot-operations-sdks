@@ -668,106 +668,107 @@ impl AssetClient {
             asset_deletion_token,
         };
 
-        // lock the status write guard so that no other threads can modify the status while we update it
-        // (not possible in new, but allows use of Self:: helper fns)
-        let mut status_write_guard = asset_client.status.write().await;
-        // if there are any config errors when parsing the asset, collect them all so we can report them at once
-        let mut new_status: adr_models::AssetStatus =
-            Self::current_status_to_modify(&status_write_guard, specification_version);
-        let mut status_updated = false;
+        {
+            // lock the status write guard so that no other threads can modify the status while we update it
+            // (not possible in new, but allows use of Self:: helper fns)
+            let mut status_write_guard = asset_client.status.write().await;
+            // if there are any config errors when parsing the asset, collect them all so we can report them at once
+            let mut new_status: adr_models::AssetStatus =
+                Self::current_status_to_modify(&status_write_guard, specification_version);
+            let mut status_updated = false;
 
-        // Create the default dataset destinations from the asset definition
-        let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
-            match destination_endpoint::Destination::new_dataset_destinations(
-                &asset_client
-                    .specification
-                    .read()
-                    .unwrap()
-                    .default_datasets_destinations,
-                &asset_client.asset_ref.inbound_endpoint_name,
-                &asset_client.connector_context,
-            ) {
-                Ok(res) => res.into_iter().map(Arc::new).collect(),
-                Err(e) => {
-                    log::error!(
-                        "Invalid default dataset destination for Asset {:?}: {e:?}",
-                        asset_client.asset_ref
-                    );
-                    // Add this to the status to be reported to ADR
-                    new_status.config = Some(azure_device_registry::ConfigStatus {
-                        version: specification_version,
-                        error: Some(e),
-                        last_transition_time: Some(chrono::Utc::now()),
-                    });
-                    status_updated = true;
-                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
-                    vec![]
-                }
-            };
+            // Create the default dataset destinations from the asset definition
+            let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
+                match destination_endpoint::Destination::new_dataset_destinations(
+                    &asset_client
+                        .specification
+                        .read()
+                        .unwrap()
+                        .default_datasets_destinations,
+                    &asset_client.asset_ref.inbound_endpoint_name,
+                    &asset_client.connector_context,
+                ) {
+                    Ok(res) => res.into_iter().map(Arc::new).collect(),
+                    Err(e) => {
+                        log::error!(
+                            "Invalid default dataset destination for Asset {:?}: {e:?}",
+                            asset_client.asset_ref
+                        );
+                        // Add this to the status to be reported to ADR
+                        new_status.config = Some(azure_device_registry::ConfigStatus {
+                            version: specification_version,
+                            error: Some(e),
+                            last_transition_time: Some(chrono::Utc::now()),
+                        });
+                        status_updated = true;
+                        // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
+                        vec![]
+                    }
+                };
 
-        // create the DatasetClients for each dataset in the definition, add them
-        // to our tracking for handling updates, and send the create notification
-        // to the dataset creation observation
-        for dataset_definition in dataset_definitions {
-            let (dataset_update_tx, dataset_update_rx) = mpsc::unbounded_channel();
-            match DatasetClient::new(
-                dataset_definition.clone(),
-                dataset_update_rx,
-                &default_dataset_destinations,
-                asset_client.asset_ref.clone(),
-                asset_client.status.clone(),
-                asset_client.specification.clone(),
-                asset_client.device_specification.clone(),
-                asset_client.device_status.clone(),
-                asset_client.connector_context.clone(),
-            ) {
-                Ok(new_dataset_client) => {
-                    // insert the dataset client into the hashmap so we can handle updates
-                    asset_client.dataset_hashmap.insert(
-                        dataset_definition.name.clone(),
-                        (dataset_definition, dataset_update_tx),
-                    );
+            // create the DatasetClients for each dataset in the definition, add them
+            // to our tracking for handling updates, and send the create notification
+            // to the dataset creation observation
+            for dataset_definition in dataset_definitions {
+                let (dataset_update_tx, dataset_update_rx) = mpsc::unbounded_channel();
+                match DatasetClient::new(
+                    dataset_definition.clone(),
+                    dataset_update_rx,
+                    &default_dataset_destinations,
+                    asset_client.asset_ref.clone(),
+                    asset_client.status.clone(),
+                    asset_client.specification.clone(),
+                    asset_client.device_specification.clone(),
+                    asset_client.device_status.clone(),
+                    asset_client.connector_context.clone(),
+                ) {
+                    Ok(new_dataset_client) => {
+                        // insert the dataset client into the hashmap so we can handle updates
+                        asset_client.dataset_hashmap.insert(
+                            dataset_definition.name.clone(),
+                            (dataset_definition, dataset_update_tx),
+                        );
 
-                    // error is not possible since the receiving side of the channel is owned by the AssetClient
-                    let _ = asset_client.dataset_creation_tx.send(new_dataset_client);
-                }
-                Err(e) => {
-                    // Add the error to the status to be reported to ADR, and then continue to process
-                    // other datasets even if one isn't valid. Don't give this one to
-                    // the application since we can't forward data on it. If there's an update to the
-                    // definition, they'll get the create notification for it at that point if it's valid
-                    DatasetClient::update_dataset_status(
-                        &mut new_status,
-                        &dataset_definition.name,
-                        Err(e),
-                    );
-                    status_updated = true;
-                }
-            };
-        }
+                        // error is not possible since the receiving side of the channel is owned by the AssetClient
+                        let _ = asset_client.dataset_creation_tx.send(new_dataset_client);
+                    }
+                    Err(e) => {
+                        // Add the error to the status to be reported to ADR, and then continue to process
+                        // other datasets even if one isn't valid. Don't give this one to
+                        // the application since we can't forward data on it. If there's an update to the
+                        // definition, they'll get the create notification for it at that point if it's valid
+                        DatasetClient::update_dataset_status(
+                            &mut new_status,
+                            &dataset_definition.name,
+                            Err(e),
+                        );
+                        status_updated = true;
+                    }
+                };
+            }
 
-        // if there were any config errors, report them to the ADR service together
-        if status_updated {
-            log::debug!(
-                "Reporting error asset status on new for {:?}",
-                asset_client.asset_ref
-            );
-            if let Err(e) = Self::internal_report_status(
-                new_status,
-                &asset_client.connector_context,
-                &asset_client.asset_ref,
-                &mut status_write_guard,
-                "AssetClient::new",
-            )
-            .await
-            {
-                log::error!(
-                    "Failed to report error Asset status for new Asset {:?}: {e}",
+            // if there were any config errors, report them to the ADR service together
+            if status_updated {
+                log::debug!(
+                    "Reporting error asset status on new for {:?}",
                     asset_client.asset_ref
                 );
+                if let Err(e) = Self::internal_report_status(
+                    new_status,
+                    &asset_client.connector_context,
+                    &asset_client.asset_ref,
+                    &mut status_write_guard,
+                    "AssetClient::new",
+                )
+                .await
+                {
+                    log::error!(
+                        "Failed to report error Asset status for new Asset {:?}: {e}",
+                        asset_client.asset_ref
+                    );
+                }
             }
         }
-        drop(status_write_guard);
 
         asset_client
     }
