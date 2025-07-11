@@ -1589,8 +1589,7 @@ impl DatasetClient {
                     let asset_ref = self.asset_ref.clone();
                     async move {
                         log::debug!(
-                            "Reporting dataset {:?} status from recv_notification",
-                            dataset_ref_clone
+                            "Reporting dataset {dataset_ref_clone:?} status from recv_notification"
                         );
                         if let Err(e) = Self::internal_report_status(
                             &asset_status_mutex_clone,
@@ -1604,8 +1603,7 @@ impl DatasetClient {
                         .await
                         {
                             log::error!(
-                                "Failed to report status for updated dataset {:?}: {e}",
-                                dataset_ref_clone
+                                "Failed to report status for updated dataset {dataset_ref_clone:?}: {e}"
                             );
                         }
                     }
