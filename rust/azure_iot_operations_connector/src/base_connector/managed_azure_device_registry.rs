@@ -123,11 +123,18 @@ impl DeviceEndpointClientCreationObservation {
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                     );
                     // unobserve as cleanup
-                    DeviceEndpointClient::unobserve_device(
-                        &self.connector_context,
-                        &device_endpoint_ref,
-                    )
-                    .await;
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens
+                    tokio::task::spawn({
+                        let connector_context_clone = self.connector_context.clone();
+                        async move {
+                            DeviceEndpointClient::unobserve_device(
+                                &connector_context_clone,
+                                &device_endpoint_ref,
+                            )
+                            .await;
+                        }
+                    });
                     continue;
                 }
             };
@@ -153,7 +160,19 @@ impl DeviceEndpointClientCreationObservation {
                 Err(e) => {
                     log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device Status after retries: {e}");
                     // unobserve as cleanup
-                    DeviceEndpointClient::unobserve_device(&self.connector_context, &device_endpoint_ref).await;
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens
+                    tokio::task::spawn(
+                        {
+                            let connector_context_clone = self.connector_context.clone();
+                            async move {
+                                DeviceEndpointClient::unobserve_device(
+                                    &connector_context_clone,
+                                    &device_endpoint_ref)
+                                .await;
+                            }
+                        }
+                    );
                     continue;
                 }
             };
@@ -175,11 +194,18 @@ impl DeviceEndpointClientCreationObservation {
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
                     );
                     // unobserve as cleanup
-                    DeviceEndpointClient::unobserve_device(
-                        &self.connector_context,
-                        &device_endpoint_ref,
-                    )
-                    .await;
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens.
+                    tokio::task::spawn({
+                        let connector_context_clone = self.connector_context.clone();
+                        async move {
+                            DeviceEndpointClient::unobserve_device(
+                                &connector_context_clone,
+                                &device_endpoint_ref,
+                            )
+                            .await;
+                        }
+                    });
                     continue;
                 }
             };
@@ -399,7 +425,17 @@ impl DeviceEndpointClient {
                     let Some((updated_device, _)) = update else {
                         // if the update notification is None, then the device endpoint has been deleted
                         // unobserve as cleanup
-                        Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
+                        // Spawn a new task to prevent a possible cancellation and ensure the deleted
+                        // notification reaches the application.
+                        tokio::task::spawn(
+                            {
+                                let connector_context_clone = self.connector_context.clone();
+                                let device_endpoint_ref_clone = self.device_endpoint_ref.clone();
+                                async move {
+                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone).await;
+                                }
+                            }
+                        );
                         return ClientNotification::Deleted;
                     };
                     // update self with updated specification
@@ -419,7 +455,17 @@ impl DeviceEndpointClient {
                         // if the create notification is None, then the device endpoint has been deleted
                         log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
                         // unobserve as cleanup
-                        Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
+                        // Spawn a new task to prevent a possible cancellation and ensure the deleted
+                        // notification reaches the application.
+                        tokio::task::spawn(
+                            {
+                                let connector_context_clone = self.connector_context.clone();
+                                let device_endpoint_ref_clone = self.device_endpoint_ref.clone();
+                                async move {
+                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone).await;
+                                }
+                            }
+                        );
                         return ClientNotification::Deleted;
                     };
                     // Get asset update observation as well
@@ -497,7 +543,16 @@ impl DeviceEndpointClient {
                                 Err(e) => {
                                     log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset status after retries: {e}");
                                     // unobserve as cleanup
-                                    AssetClient::unobserve_asset(&self.connector_context, &asset_ref).await;
+                                    // Spawn a new task to prevent a possible cancellation and ensure
+                                    // the unobserve happens.
+                                    tokio::task::spawn(
+                                        {
+                                            let connector_context_clone = self.connector_context.clone();
+                                            async move {
+                                                AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
+                                            }
+                                        }
+                                    );
                                     continue;
                                 },
                             }
@@ -505,7 +560,16 @@ impl DeviceEndpointClient {
                         Err(e) => {
                             log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}");
                             // unobserve as cleanup
-                            AssetClient::unobserve_asset(&self.connector_context, &asset_ref).await;
+                            // Spawn a new task to prevent a possible cancellation and ensure the
+                            // unobserve happens.
+                            tokio::task::spawn(
+                                {
+                                    let connector_context_clone = self.connector_context.clone();
+                                    async move {
+                                        AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
+                                    }
+                                }
+                            );
                             continue;
                         }
                     };
@@ -835,10 +899,12 @@ impl AssetClient {
             Self::current_status_to_modify(&status_write_guard, updated_asset.version);
         let mut status_updated = false;
 
+        // make changes to a copy of the dataset_hashmap so that this function is cancel safe
+        let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
         // update datasets
         // remove the datasets that are no longer present in the new asset definition.
         // This triggers deletion notification since this drops the update sender.
-        self.dataset_hashmap.retain(|dataset_name, _| {
+        temp_dataset_hashmap.retain(|dataset_name, _| {
             updated_asset
                 .datasets
                 .iter()
@@ -876,12 +942,18 @@ impl AssetClient {
                 }
             };
 
+        // track all datasets to update and save notifications for once the task can't be cancelled
+        let mut dataset_updates: Vec<(
+            watch::Sender<DatasetUpdateNotification>,
+            DatasetUpdateNotification,
+        )> = Vec::new();
+        let mut new_dataset_clients: Vec<DatasetClient> = Vec::new();
+
         // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
         for received_dataset_definition in &updated_asset.datasets {
             // it already exists
-            if let Some((dataset_definition, dataset_update_tx)) = self
-                .dataset_hashmap
-                .get_mut(&received_dataset_definition.name)
+            if let Some((dataset_definition, dataset_update_tx)) =
+                temp_dataset_hashmap.get_mut(&received_dataset_definition.name)
             {
                 // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
                 // otherwise, only send an update if the dataset definition has changed
@@ -890,20 +962,15 @@ impl AssetClient {
                 {
                     // we need to make sure we have the updated definition for comparing next time
                     *dataset_definition = received_dataset_definition.clone();
-                    // send update to the dataset
-                    let _ = dataset_update_tx
-                        .send((
+                    // save update to send to the dataset after the task can't get cancelled
+                    dataset_updates.push((
+                        dataset_update_tx.clone(),
+                        (
                             received_dataset_definition.clone(),
                             default_dataset_destinations.clone(),
                             self.release_dataset_notifications_tx.subscribe(),
-                        )).inspect_err(|tokio::sync::watch::error::SendError((e_dataset_definition, _,_))| {
-                            // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
-                            log::warn!(
-                                "Update received for dataset {} on asset {:?}, but DatasetClient has been dropped",
-                                e_dataset_definition.name,
-                                self.asset_ref
-                            );
-                        });
+                        ),
+                    ));
                 } else {
                     // TODO: copy over the existing dataset status for a new status report? (other bug)
                 }
@@ -928,7 +995,7 @@ impl AssetClient {
                 ) {
                     Ok(new_dataset_client) => {
                         // insert the dataset client into the hashmap so we can handle updates
-                        self.dataset_hashmap.insert(
+                        temp_dataset_hashmap.insert(
                             received_dataset_definition.name.clone(),
                             (
                                 received_dataset_definition.clone(),
@@ -936,8 +1003,8 @@ impl AssetClient {
                             ),
                         );
 
-                        // error is not possible since the receiving side of the channel is owned by the AssetClient
-                        let _ = self.dataset_creation_tx.send(new_dataset_client);
+                        // save new dataset client to be sent on self.dataset_creation_tx after the task can't get cancelled
+                        new_dataset_clients.push(new_dataset_client);
                     }
                     Err(e) => {
                         // Add the error to the status to be reported to ADR, and then continue to process
@@ -981,6 +1048,26 @@ impl AssetClient {
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
         *unlocked_specification = AssetSpecification::from(updated_asset);
 
+        // update dataset_hashmap now that this task can't be cancelled
+        self.dataset_hashmap = temp_dataset_hashmap;
+
+        // send all notifications associated with this asset update
+        for (dataset_update_tx, dataset_update_notification) in dataset_updates {
+            // send update to the dataset
+            let _ = dataset_update_tx.send(dataset_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_dataset_definition, _,_))| {
+                // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
+                log::warn!(
+                    "Update received for dataset {} on asset {:?}, but DatasetClient has been dropped",
+                    e_dataset_definition.name,
+                    self.asset_ref
+                );
+            });
+        }
+        for new_dataset_client in new_dataset_clients {
+            // error is not possible since the receiving side of the channel is owned by the AssetClient
+            let _ = self.dataset_creation_tx.send(new_dataset_client);
+        }
+
         // Asset update has been fully processed, mark as seen.
         self.asset_update_watcher_rx.mark_unchanged();
         ClientNotification::Updated
@@ -1003,6 +1090,11 @@ impl AssetClient {
     /// are linked to this asset. To ensure the asset update is received before dataset notifications,
     /// dataset notifications won't be released until this function is polled again after receiving an
     /// update.
+    ///
+    /// # Cancel safety
+    /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
+    /// completes first, then it is guaranteed that no asset notifications will be lost, and the asset will not
+    /// be updated without a notification being returned.
     ///
     /// # Panics
     /// If the specification mutex has been poisoned, which should not be possible
@@ -1320,25 +1412,51 @@ impl DatasetClient {
         &self,
         status: Result<(), AdrConfigError>,
     ) -> Result<(), azure_device_registry::Error> {
+        log::debug!("Reporting dataset {:?} status from app", self.dataset_ref);
+        Self::internal_report_status(
+            &self.asset_status,
+            &self.asset_specification,
+            status,
+            &self.dataset_ref,
+            &self.connector_context,
+            &self.asset_ref,
+            "DatasetClient::report_status",
+        )
+        .await
+    }
+
+    async fn internal_report_status(
+        asset_status_mutex: &Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+        asset_specification: &Arc<std::sync::RwLock<AssetSpecification>>,
+        desired_dataset_status: Result<(), AdrConfigError>,
+        dataset_ref: &DatasetRef,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error> {
         // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
-        let mut status_write_guard = self.asset_status.write().await;
+        let mut status_write_guard = asset_status_mutex.write().await;
         let mut new_status = AssetClient::current_status_to_modify(
             &status_write_guard,
-            self.asset_specification.read().unwrap().version,
+            asset_specification.read().unwrap().version,
         );
 
         // if dataset is already in the current status, then update the existing dataset with the new error
         // Otherwise if the dataset isn't present, or no datasets have been reported yet, then add it with the new error
-        Self::update_dataset_status(&mut new_status, &self.dataset_ref.dataset_name, status);
+        Self::update_dataset_status(
+            &mut new_status,
+            &dataset_ref.dataset_name,
+            desired_dataset_status,
+        );
 
         // send status update to the service
-        log::debug!("reporting dataset {:?} status from app", self.dataset_ref);
+
         AssetClient::internal_report_status(
             new_status,
-            &self.connector_context,
-            &self.asset_ref,
+            connector_context,
+            asset_ref,
             &mut status_write_guard,
-            "DatasetClient::report_status",
+            log_identifier,
         )
         .await
     }
@@ -1495,6 +1613,11 @@ impl DatasetClient {
     ///
     /// Returns [`DatasetNotification::Deleted`] if the Dataset has been deleted. The [`DatasetClient`]
     /// should not be used after this point, and no more notifications will be received.
+    ///
+    /// # Cancel safety
+    /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
+    /// completes first, then it is guaranteed that no dataset notifications will be lost, and the dataset will not
+    /// be updated without a notification being returned.
     pub async fn recv_notification(&mut self) -> DatasetNotification {
         if self.dataset_update_watcher_rx.changed().await.is_err() {
             return DatasetNotification::Deleted;
@@ -1522,12 +1645,33 @@ impl DatasetClient {
                     self.dataset_ref
                 );
 
-                if let Err(e) = self.report_status(Err(e)).await {
-                    log::error!(
-                        "Failed to report status for updated dataset {:?}: {e}",
-                        self.dataset_ref
-                    );
-                }
+                tokio::task::spawn({
+                    let asset_status_mutex_clone = self.asset_status.clone();
+                    let asset_specification_mutex_clone = self.asset_specification.clone();
+                    let dataset_ref_clone = self.dataset_ref.clone();
+                    let connector_context = self.connector_context.clone();
+                    let asset_ref = self.asset_ref.clone();
+                    async move {
+                        log::debug!(
+                            "Reporting dataset {dataset_ref_clone:?} status from recv_notification"
+                        );
+                        if let Err(e) = Self::internal_report_status(
+                            &asset_status_mutex_clone,
+                            &asset_specification_mutex_clone,
+                            Err(e),
+                            &dataset_ref_clone,
+                            &connector_context,
+                            &asset_ref,
+                            "DatasetClient::recv_notification",
+                        )
+                        .await
+                        {
+                            log::error!(
+                                "Failed to report status for updated dataset {dataset_ref_clone:?}: {e}"
+                            );
+                        }
+                    }
+                });
                 // notify the application to not use this dataset until a new update is received
                 self.dataset_definition = updated_dataset;
                 return DatasetNotification::UpdatedInvalid;
