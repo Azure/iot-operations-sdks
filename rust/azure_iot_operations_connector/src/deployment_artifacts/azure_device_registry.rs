@@ -432,25 +432,15 @@ impl TryFrom<String> for DeviceEndpointRef {
 
     fn try_from(value: String) -> Result<Self, Self::Error> {
         // The below assumes the format is always {device_name}_{inbound_endpoint_name} with no additional
-        // `_` in the names.
-        // Kubernetes does not allow `_` in the names so this should be safe.
+        // `_` in the device name. The inbound endpoint name may have additional `_`.
+        // Kubernetes does not allow `_` in the device name so this should be safe.
 
         // TODO: Add a warning in case the format is not as expected
         match value.split_once('_') {
-            Some((device_name, inbound_endpoint_name)) => {
-                if inbound_endpoint_name.contains('_') {
-                    log::warn!(
-                        "DeviceEndpointRef contains an underscore in the endpoint name: {value}"
-                    );
-                    return Err(Error(ErrorKind::ParseError(
-                        "DeviceEndpointRef contains an underscore in the endpoint name".to_string(),
-                    )));
-                }
-                Ok(Self {
-                    device_name: device_name.to_string(),
-                    inbound_endpoint_name: inbound_endpoint_name.to_string(),
-                })
-            }
+            Some((device_name, inbound_endpoint_name)) => Ok(Self {
+                device_name: device_name.to_string(),
+                inbound_endpoint_name: inbound_endpoint_name.to_string(),
+            }),
             None => Err(Error(ErrorKind::ParseError(
                 "Failed to parse DeviceEndpointRef from string".to_string(),
             ))),
