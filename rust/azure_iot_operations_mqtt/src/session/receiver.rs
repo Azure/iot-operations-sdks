@@ -1134,7 +1134,7 @@ mod tests {
         ); // Type 4
 
         // Register a new filter again
-        let topic_filter8 = topic_filter7; // Type 4
+        let topic_filter8 = topic_filter7.clone(); // Type 4
         let filter_rx8 = manager
             .lock()
             .unwrap()
