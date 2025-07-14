@@ -14,7 +14,7 @@ use super::asset_update_event_schema::AssetUpdateEventSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetUpdateEventTelemetry {
-    /// The 'assetUpdateEvent' Telemetry.
+    /// Telemetry event emitted when an asset is updated.
     #[serde(rename = "assetUpdateEvent")]
     pub asset_update_event: AssetUpdateEventSchema,
 }

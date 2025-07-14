@@ -1,13 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "aioConnectorMetadataSchemaVersion": "1.0-preview",
+  "aioConnectorMetadataSchemaVersion": "2.0-preview",
   "properties": {
     "aioConnectorMetadataSchemaVersion": {
       "type": "string",
       "description": "The version of AIO connector metadata schema that this connector metadata file adheres to.",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
-      "default": "1.0-preview"
+      "default": "2.0-preview"
     },
     "name": {
       "type": "string",
@@ -235,7 +235,7 @@
                 "eventConfigurationSchema": {
                   "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "eventDataPointConfigSchema": {
+                "eventDataPointConfigurationSchema": {
                   "$ref": "http://json-schema.org/draft-07/schema#"
                 },
                 "streamConfigurationSchema": {

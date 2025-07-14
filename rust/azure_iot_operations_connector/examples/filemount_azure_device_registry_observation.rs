@@ -13,7 +13,7 @@
 
 use std::{fs, io::Write, path::PathBuf, time::Duration};
 
-use azure_iot_operations_connector::filemount::azure_device_registry::{
+use azure_iot_operations_connector::deployment_artifacts::azure_device_registry::{
     AssetRef, DeviceEndpointCreateObservation, DeviceEndpointRef, get_mount_path,
 };
 use env_logger::Builder;

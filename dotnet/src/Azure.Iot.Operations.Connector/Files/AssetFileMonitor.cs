@@ -1,13 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Connector.Assets.FileMonitor;
+using Azure.Iot.Operations.Connector.Files.FilesMonitor;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Text;
 
-namespace Azure.Iot.Operations.Connector.Assets
+namespace Azure.Iot.Operations.Connector.Files
 {
     /// <summary>
     /// This class allows for getting and monitor changes to assets and devices.
@@ -15,7 +14,7 @@ namespace Azure.Iot.Operations.Connector.Assets
     /// <remarks>
     /// This class is only applicable for connector applications that have been deployed by the Akri operator.
     /// </remarks>
-    internal class AssetFileMonitor : IAssetFileMonitor
+    public class AssetFileMonitor : IAssetFileMonitor
     {
         // Environment variables set by operator when connector is deployed
         internal const string AdrResourcesNameMountPathEnvVar = "ADR_RESOURCES_NAME_MOUNT_PATH";
@@ -30,18 +29,29 @@ namespace Azure.Iot.Operations.Connector.Assets
         private readonly ConcurrentDictionary<string, List<string>> _lastKnownAssetNames = new();
 
         // Key is <deviceName>_<inboundEndpointName>, value is the file watcher for the asset
-        private readonly ConcurrentDictionary<string, FilesMonitor> _assetFileMonitors = new();
+        private readonly ConcurrentDictionary<string, IFilesMonitor> _assetFileMonitors = new();
 
-        private FilesMonitor? _deviceDirectoryMonitor;
+        private IFilesMonitor? _deviceDirectoryMonitor;
+
+        private readonly IFilesMonitorFactory _filesMonitorFactory;
 
         /// </inheritdoc>
-        public event EventHandler<AssetChangedEventArgs>? AssetFileChanged;
+        public event EventHandler<AssetFileChangedEventArgs>? AssetFileChanged;
 
         /// </inheritdoc>
-        public event EventHandler<DeviceChangedEventArgs>? DeviceFileChanged;
+        public event EventHandler<DeviceFileChangedEventArgs>? DeviceFileChanged;
 
-        public AssetFileMonitor()
+        /// <summary>
+        /// Instantiate this class with the provided style of file monitor.
+        /// </summary>
+        /// <param name="filesMonitorFactory">
+        /// The factory to provide all file monitors used to watch for device and/or asset changes. If not provided, an
+        /// instance of <see cref="FsnotifyFilesMonitorFactory"/> will be used. For operating systems where .NET's
+        /// <see cref="FileSystemWatcher"/> isn't sufficient, users can opt to poll for file changes instead using <see cref="PollingFilesMonitorFactory"/>.
+        /// </param>
+        public AssetFileMonitor(IFilesMonitorFactory? filesMonitorFactory = null)
         {
+            _filesMonitorFactory = filesMonitorFactory ?? new FsnotifyFilesMonitorFactory();
             _adrResourcesNameMountPath = Environment.GetEnvironmentVariable(AdrResourcesNameMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {AdrResourcesNameMountPathEnvVar} environment variable");
             _deviceEndpointTlsTrustBundleCertMountPath = Environment.GetEnvironmentVariable(DeviceEndpointTlsTrustBundleCertMountPathEnvVar);
             _deviceEndpointCredentialsMountPath = Environment.GetEnvironmentVariable(DeviceEndpointCredentialsMountPathEnvVar);
@@ -51,7 +61,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         public void ObserveAssets(string deviceName, string inboundEndpointName)
         {
             string assetFileName = $"{deviceName}_{inboundEndpointName}";
-            FilesMonitor assetMonitor = new(_adrResourcesNameMountPath, assetFileName);
+            IFilesMonitor assetMonitor = _filesMonitorFactory.Create();
             if (_assetFileMonitors.TryAdd(assetFileName, assetMonitor))
             {
                 assetMonitor.OnFileChanged += (sender, args) =>
@@ -93,7 +103,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                             }
 
                             _lastKnownAssetNames[assetFileName].Add(addedAssetName);
-                            AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName, AssetFileMonitorChangeType.Created));
+                            AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, addedAssetName, FileChangeType.Created));
                         }
 
                         foreach (string removedAssetName in removedAssetNames)
@@ -101,13 +111,13 @@ namespace Azure.Iot.Operations.Connector.Assets
                             if (_lastKnownAssetNames.ContainsKey(assetFileName))
                             {
                                 _lastKnownAssetNames[assetFileName].Remove(removedAssetName);
-                                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName, AssetFileMonitorChangeType.Deleted));
+                                AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, removedAssetName, FileChangeType.Deleted));
                             }
                         }
                     }
                 };
 
-                assetMonitor.Start();
+                assetMonitor.Start(_adrResourcesNameMountPath, assetFileName);
 
                 // Treate any assets that already exist as though they were just created
                 IEnumerable<string>? currentAssetNames = GetAssetNames(deviceName, inboundEndpointName);
@@ -122,7 +132,7 @@ namespace Azure.Iot.Operations.Connector.Assets
 
                         _lastKnownAssetNames[assetFileName].Add(currentAssetName);
 
-                        AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, AssetFileMonitorChangeType.Created));
+                        AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, currentAssetName, FileChangeType.Created));
                     }
                 }
             }
@@ -132,7 +142,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         public void UnobserveAssets(string deviceName, string inboundEndpointName)
         {
             string assetFileName = $"{deviceName}_{inboundEndpointName}";
-            if (_assetFileMonitors.TryRemove(assetFileName, out FilesMonitor? assetMonitor))
+            if (_assetFileMonitors.TryRemove(assetFileName, out IFilesMonitor? assetMonitor))
             {
                 assetMonitor.Stop();
             }
@@ -143,34 +153,35 @@ namespace Azure.Iot.Operations.Connector.Assets
         {
             if (_deviceDirectoryMonitor == null)
             {
-                _deviceDirectoryMonitor = new(_adrResourcesNameMountPath, null);
+                _deviceDirectoryMonitor = _filesMonitorFactory.Create();
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
-                    if (args.FileName.Contains("_") && args.FileName.Split("_").Length == 2)
+                    if (args.FileName.Contains("_"))
                     {
-                        string deviceName = args.FileName.Split("_")[0];
-                        string inboundEndpointName = args.FileName.Split("_")[1];
+                        splitCompositeName(Path.GetFileName(args.FileName), out string foundDeviceName, out string foundInboundEndpointName);
 
                         if (args.ChangeType == WatcherChangeTypes.Created)
                         {
-                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Created));
+                            DeviceFileChanged?.Invoke(this, new(foundDeviceName, foundInboundEndpointName, FileChangeType.Created));
                         }
                         else if (args.ChangeType == WatcherChangeTypes.Deleted)
                         {
-                            DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, AssetFileMonitorChangeType.Deleted));
+                            DeviceFileChanged?.Invoke(this, new(foundDeviceName, foundInboundEndpointName, FileChangeType.Deleted));
                         }
                     }
                 };
 
-                _deviceDirectoryMonitor.Start();
+                _deviceDirectoryMonitor.Start(_adrResourcesNameMountPath, null);
 
                 // Treat any devices created before this call as newly created
-                IEnumerable<string>? currentDeviceNames = GetCompositeDeviceNames();
-                if (currentDeviceNames != null)
+                IEnumerable<string>? currentCompositeDeviceNames = GetCompositeDeviceNames();
+                if (currentCompositeDeviceNames != null)
                 {
-                    foreach (string deviceName in currentDeviceNames)
+                    foreach (string compositeDeviceName in currentCompositeDeviceNames)
                     {
-                        DeviceFileChanged?.Invoke(this, new(deviceName.Split('_')[0], deviceName.Split('_')[1], AssetFileMonitorChangeType.Created));
+                        splitCompositeName(compositeDeviceName, out string deviceName, out string inboundEndpointName);
+
+                        DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
                     }
                 }
             }
@@ -209,12 +220,12 @@ namespace Azure.Iot.Operations.Connector.Assets
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_") && fileName.Split("_").Length == 2)
+                    if (fileName.Contains("_"))
                     {
-                        string[] fileNameParts = Path.GetFileName(fileNameWithPath).Split('_');
-                        if (fileNameParts[0].Equals(deviceName))
+                        splitCompositeName(Path.GetFileName(fileNameWithPath), out string foundDeviceName, out string foundInboundEndpointName);
+                        if (foundDeviceName.Equals(deviceName))
                         {
-                            inboundEndpointNames.Add(fileNameParts[1]);
+                            inboundEndpointNames.Add(foundInboundEndpointName);
                         }
                     }
                 }
@@ -234,9 +245,10 @@ namespace Azure.Iot.Operations.Connector.Assets
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_") && fileName.Split("_").Length == 2)
+                    if (fileName.Contains("_"))
                     {
-                        deviceNames.Add(fileName.Split('_')[0]);
+                        splitCompositeName(Path.GetFileName(fileNameWithPath), out string foundDeviceName, out string foundInboundEndpointName);
+                        deviceNames.Add(foundDeviceName);
                     }
                 }
             }
@@ -254,7 +266,7 @@ namespace Azure.Iot.Operations.Connector.Assets
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_") && fileName.Split("_").Length == 2)
+                    if (fileName.Contains("_"))
                     {
                         compositeDeviceNames.Add(fileName);
                     }
@@ -265,7 +277,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         }
 
         /// <inheritdoc/>
-        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(string deviceName, string inboundEndpointName, InboundEndpointSchemaMapValue inboundEndpoint)
         {
             EndpointCredentials deviceCredentials = new();
 
@@ -289,8 +301,13 @@ namespace Azure.Iot.Operations.Connector.Assets
                 deviceCredentials.ClientCertificate = _deviceEndpointCredentialsMountPath != null ? GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointCredentialsMountPath, inboundEndpoint.Authentication.X509Credentials.CertificateSecretName)) : null;
             }
 
-            //TODO CA certificate retrieval has not been set in stone yet
-
+            string compositeName = deviceName + "_" + inboundEndpointName;
+            if (_deviceEndpointTlsTrustBundleCertMountPath != null
+                && File.Exists(Path.Combine(_deviceEndpointTlsTrustBundleCertMountPath, compositeName)))
+            {
+                deviceCredentials.CaCertificate = GetMountedConfigurationValueAsString(Path.Combine(_deviceEndpointTlsTrustBundleCertMountPath, compositeName));
+            }
+            
             return deviceCredentials;
         }
 
@@ -328,6 +345,22 @@ namespace Azure.Iot.Operations.Connector.Assets
             }
 
             return FileUtilities.ReadFileWithRetry(path);
+        }
+
+        // composite name follows the shape "<deviceName>_<inboundEndpointName>" where device name cannot have an underscore, but inboundEndpointName
+        // may contain 0 to many underscores.
+        private void splitCompositeName(string compositeName, out string deviceName, out string inboundEndpointName)
+        {
+            int indexOfFirstUnderscore = compositeName.IndexOf('_');
+            if (indexOfFirstUnderscore == -1)
+            {
+                deviceName = compositeName;
+                inboundEndpointName = "";
+                return;
+            }
+
+            deviceName = compositeName.Substring(0, indexOfFirstUnderscore);
+            inboundEndpointName = compositeName.Substring(indexOfFirstUnderscore + 1);
         }
     }
 }

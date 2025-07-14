@@ -49,19 +49,19 @@ pub struct Device {
 #[derive(Debug, Clone)]
 /// Represents a discovered device in the Azure Device Registry service.
 pub struct DiscoveredDevice {
-    /// The 'attributes' Field.
+    /// A set of key-value pairs that contain custom attributes set by the customer.
     pub attributes: HashMap<String, String>, // if empty hashmap, we can represent as None on generated model
-    /// The 'endpoints' Field.
+    /// Connection endpoint URL a device can use to connect to a service.
     pub endpoints: Option<DiscoveredDeviceEndpoints>,
-    /// The 'externalDeviceId' Field.
+    /// The unique identifier of the device.
     pub external_device_id: Option<String>,
-    /// The 'manufacturer' Field.
+    /// Device manufacturer.
     pub manufacturer: Option<String>,
-    /// The 'model' Field.
+    /// Device model.
     pub model: Option<String>,
-    /// The 'operatingSystem' Field.
+    /// Device operating system name.
     pub operating_system: Option<String>,
-    /// The 'operatingSystemVersion' Field.
+    /// Device operating system version.
     pub operating_system_version: Option<String>,
 }
 
@@ -77,9 +77,9 @@ pub struct DeviceEndpoints {
 /// Represents the endpoints of a discovered device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct DiscoveredDeviceEndpoints {
-    /// The 'inbound' Field.
+    /// Set of endpoints to connect to the device.
     pub inbound: HashMap<String, DiscoveredInboundEndpoint>, // if empty, we can represent as None on generated model.
-    /// The 'outbound' Field.
+    /// Property bag contains the device's outbound endpoints
     pub outbound: Option<DiscoveredOutboundEndpoints>,
 }
 
@@ -95,7 +95,7 @@ pub struct OutboundEndpoints {
 /// Represents the outbound endpoints of a discovered device in the Azure Device Registry service.
 #[derive(Debug, Clone, Default)]
 pub struct DiscoveredOutboundEndpoints {
-    /// The 'assigned' Field.
+    ///  Endpoints the device can connect to.
     pub assigned: HashMap<String, OutboundEndpoint>,
 }
 
@@ -128,17 +128,17 @@ pub struct InboundEndpoint {
 /// Represents an inbound endpoint of a discovered device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct DiscoveredInboundEndpoint {
-    /// The 'additionalConfiguration' Field.
+    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).
     pub additional_configuration: Option<String>,
-    /// The 'address' Field.
+    /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
     pub address: String,
-    /// The 'endpointType' Field.
+    /// Type of connection endpoint.
     pub endpoint_type: String,
-    /// The 'lastUpdatedOn' Field.
+    /// The timestamp (in UTC) when the endpoint was discovered.
     pub last_updated_on: Option<DateTime<Utc>>,
-    /// The 'supportedAuthenticationMethods' Field.
+    /// List of supported authentication methods supported by device for Inbound connections.
     pub supported_authentication_methods: Vec<String>,
-    /// The 'version' Field.
+    /// Version associated with the device endpoint.
     pub version: Option<String>,
 }
 
@@ -344,7 +344,7 @@ impl From<base_client_gen::AuthenticationSchema> for Authentication {
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the observed status of a Device in the ADR Service.
 pub struct DeviceStatus {
-    ///  Defines the status config properties.
+    ///  The configuration status of the device.
     pub config: Option<ConfigStatus>,
     /// Defines the device status for inbound/outbound endpoints.
     pub endpoints: HashMap<String, Option<ConfigError>>,

@@ -3,20 +3,17 @@
 
 //! Types for extracting Connector configurations from an Akri deployment
 
-use std::env::{self, VarError};
+use std::env::VarError;
 use std::ffi::OsString;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
+use azure_iot_operations_mqtt as aio_mqtt;
 use serde::Deserialize;
 use serde_json;
 use thiserror::Error;
-
-use azure_iot_operations_mqtt as aio_mqtt;
-
-// TODO: Integrate ADR into this implementation
 
 /// Indicates an error occurred while parsing the artifacts in an Akri deployment
 #[derive(Error, Debug)]
@@ -46,9 +43,13 @@ enum DeploymentArtifactErrorRepr {
     JsonParseError(#[from] serde_json::Error),
 }
 
+// TODO: Integrate ADR into this implementation
+
 #[derive(Clone, Debug, PartialEq)]
 /// Values extracted from the artifacts in an Akri deployment.
 pub struct ConnectorArtifacts {
+    /// The Azure extension resource ID
+    pub azure_extension_resource_id: String,
     /// The connector ID
     pub connector_id: String,
     /// The connector namespace
@@ -67,6 +68,24 @@ pub struct ConnectorArtifacts {
     pub device_endpoint_trust_bundle_mount: Option<PathBuf>,
     /// Path to directory containing credentials for device inbound endpoints
     pub device_endpoint_credentials_mount: Option<PathBuf>,
+
+    // TODO: The following are stopgap variables - these will change in the future
+    /// OTEL grpc/grpcs metric endpoint.
+    pub grpc_metric_endpoint: Option<String>,
+    /// OTEL grpc/grpcs log endpoint.
+    pub grpc_log_endpoint: Option<String>,
+    /// OTEL grpc/grpcs trace endpoint.
+    pub grpc_trace_endpoint: Option<String>,
+    /// Path to the directory containing trust bundle for 1P grpc metric collector.
+    pub grpc_metric_collector_1p_ca_mount: Option<PathBuf>,
+    /// Path to the directory containing trust bundle for 1P grpc log collector.
+    pub grpc_log_collector_1p_ca_mount: Option<PathBuf>,
+    /// OTEL http/https metric endpoint.
+    pub http_metric_endpoint: Option<String>,
+    /// OTEL http/https log endpoint.
+    pub http_log_endpoint: Option<String>,
+    /// OTEL http/https trace endpoint.
+    pub http_trace_endpoint: Option<String>,
 }
 
 impl ConnectorArtifacts {
@@ -77,6 +96,11 @@ impl ConnectorArtifacts {
     /// - Returns a `DeploymentArtifactError` if there is an error with one of the artifacts in the
     ///   Akri deployment.
     pub fn new_from_deployment() -> Result<Self, DeploymentArtifactError> {
+        // Azure Extension Resource ID
+        let azure_extension_resource_id = string_from_environment("AZURE_EXTENSION_RESOURCEID")?
+            .ok_or(DeploymentArtifactErrorRepr::EnvVarMissing(
+                "AZURE_EXTENSION_RESOURCEID".to_string(),
+            ))?;
         // Connector ID
         let connector_id = string_from_environment("CONNECTOR_ID")?.ok_or(
             DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_ID".to_string()),
@@ -136,7 +160,27 @@ impl ConnectorArtifacts {
         // TODO: Validate that mutually required fields are present/absent in tandem.
         // Wait for spec updates to finalize logic.
 
+        // Stopgap variables beyond this point
+
+        let grpc_metric_endpoint = string_from_environment("OTLP_GRPC_METRIC_ENDPOINT")?;
+        let grpc_log_endpoint = string_from_environment("OTLP_GRPC_LOG_ENDPOINT")?;
+        let grpc_trace_endpoint = string_from_environment("OTLP_GRPC_TRACE_ENDPOINT")?;
+
+        let grpc_metric_collector_1p_ca_mount =
+            string_from_environment("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH")?
+                .map(valid_mount_pathbuf_from)
+                .transpose()?;
+        let grpc_log_collector_1p_ca_mount =
+            string_from_environment("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH")?
+                .map(valid_mount_pathbuf_from)
+                .transpose()?;
+
+        let http_metric_endpoint = string_from_environment("OTLP_HTTP_METRIC_ENDPOINT")?;
+        let http_log_endpoint = string_from_environment("OTLP_HTTP_LOG_ENDPOINT")?;
+        let http_trace_endpoint = string_from_environment("OTLP_HTTP_TRACE_ENDPOINT")?;
+
         Ok(ConnectorArtifacts {
+            azure_extension_resource_id,
             connector_id,
             connector_namespace,
             connector_configuration,
@@ -146,6 +190,14 @@ impl ConnectorArtifacts {
             broker_sat_mount,
             device_endpoint_trust_bundle_mount,
             device_endpoint_credentials_mount,
+            grpc_metric_endpoint,
+            grpc_log_endpoint,
+            grpc_trace_endpoint,
+            grpc_metric_collector_1p_ca_mount,
+            grpc_log_collector_1p_ca_mount,
+            http_metric_endpoint,
+            http_log_endpoint,
+            http_trace_endpoint,
         })
     }
 
@@ -426,29 +478,13 @@ pub struct Diagnostics {
 /// Logging information
 #[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct Logs {
-    /// Level to log at
-    pub level: LogLevel,
-}
-
-/// Represents the logging level
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-#[serde(rename_all = "lowercase")]
-pub enum LogLevel {
-    /// Info logging
-    Info,
-    /// Debug logging
-    Debug,
-    /// Warn logging
-    Warn,
-    /// Error logging
-    Error,
-    /// Trace logging
-    Trace,
+    /// The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'.
+    pub level: String,
 }
 
 /// Helper function to get an environment variable as a string.
 fn string_from_environment(key: &str) -> Result<Option<String>, DeploymentArtifactErrorRepr> {
-    match env::var(key) {
+    match std::env::var(key) {
         Ok(value) => Ok(Some(value)),
         Err(VarError::NotPresent) => Ok(None),
         Err(VarError::NotUnicode(_)) => Err(DeploymentArtifactErrorRepr::EnvVarValueMalformed(
@@ -480,7 +516,7 @@ mod tests {
     }
 
     impl TempMount {
-        fn new(dir_name: &str) -> Self {
+        pub fn new(dir_name: &str) -> Self {
             let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
             Self { dir }
             // TODO: Add symlink simulation. Currently this doesn't work, because
@@ -492,17 +528,17 @@ mod tests {
             //ret
         }
 
-        fn add_file(&self, file_name: &str, contents: &str) {
+        pub fn add_file(&self, file_name: &str, contents: &str) {
             let file_path = self.dir.path().join(file_name);
             std::fs::write(file_path, contents).unwrap();
         }
 
-        fn remove_file(&self, file_name: &str) {
+        pub fn remove_file(&self, file_name: &str) {
             let file_path = self.dir.path().join(file_name);
             std::fs::remove_file(file_path).unwrap();
         }
 
-        fn path(&self) -> &Path {
+        pub fn path(&self) -> &Path {
             self.dir.path()
         }
     }
@@ -514,18 +550,18 @@ mod tests {
     }
 
     impl TempPersistentVolumeManager {
-        fn new() -> Self {
+        pub fn new() -> Self {
             Self {
                 volumes: Vec::new(),
             }
         }
 
-        fn add_mount(&mut self, mount_name: &str) {
+        pub fn add_mount(&mut self, mount_name: &str) {
             let mount = TempMount::new(mount_name);
             self.volumes.push(mount);
         }
 
-        fn index_file_contents(&self) -> String {
+        pub fn index_file_contents(&self) -> String {
             let mut contents = String::new();
             for mount in &self.volumes {
                 contents.push_str(&format!("{}\n", mount.path().to_str().unwrap()));
@@ -533,7 +569,7 @@ mod tests {
             contents
         }
 
-        fn volume_path_bufs(&self) -> Vec<PathBuf> {
+        pub fn volume_path_bufs(&self) -> Vec<PathBuf> {
             self.volumes
                 .iter()
                 .map(|m| m.path().to_path_buf())
@@ -541,9 +577,18 @@ mod tests {
         }
     }
 
+    // Environment variable constants
+    const AZURE_EXTENSION_RESOURCE_ID: &str = "/subscriptions/extension/resource/id";
     const CONNECTOR_ID: &str = "connector_id";
-
     const CONNECTOR_NAMESPACE: &str = "connector_namespace";
+
+    // Stopgap env var constants
+    const GRPC_METRIC_ENDPOINT: &str = "grpcs://metric.endpoint";
+    const GRPC_LOG_ENDPOINT: &str = "grpcs://log.endpoint";
+    const GRPC_TRACE_ENDPOINT: &str = "grpcs://trace.endpoint";
+    const HTTP_METRIC_ENDPOINT: &str = "https://metric.endpoint";
+    const HTTP_LOG_ENDPOINT: &str = "https://log.endpoint";
+    const HTTP_TRACE_ENDPOINT: &str = "https://trace.endpoint";
 
     const MQTT_CONNECTION_CONFIGURATION_JSON: &str = r#"
     {
@@ -586,6 +631,10 @@ mod tests {
 
         temp_env::with_vars(
             [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
                 ("CONNECTOR_ID", Some(CONNECTOR_ID)),
                 ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
@@ -598,10 +647,23 @@ mod tests {
                 ("BROKER_SAT_MOUNT_PATH", None),
                 ("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH", None),
                 ("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH", None),
+                // Stopgap variables beyond this point
+                ("OTLP_GRPC_METRIC_ENDPOINT", None),
+                ("OTLP_GRPC_LOG_ENDPOINT", None),
+                ("OTLP_GRPC_TRACE_ENDPOINT", None),
+                ("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH", None),
+                ("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH", None),
+                ("OTLP_HTTP_METRIC_ENDPOINT", None),
+                ("OTLP_HTTP_LOG_ENDPOINT", None),
+                ("OTLP_HTTP_TRACE_ENDPOINT", None),
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
                 // -- Validate the values directly in the artifacts --
+                assert_eq!(
+                    artifacts.azure_extension_resource_id,
+                    AZURE_EXTENSION_RESOURCE_ID
+                );
                 assert_eq!(artifacts.connector_id, CONNECTOR_ID);
                 assert_eq!(artifacts.connector_namespace, CONNECTOR_NAMESPACE);
                 assert!(artifacts.connector_secrets_metadata_mount.is_none());
@@ -632,6 +694,16 @@ mod tests {
                         .additional_configuration
                         .is_none()
                 );
+
+                // -- Validate the stopgap variables in the ConnectorArtifacts --
+                assert!(artifacts.grpc_metric_endpoint.is_none());
+                assert!(artifacts.grpc_log_endpoint.is_none());
+                assert!(artifacts.grpc_trace_endpoint.is_none());
+                assert!(artifacts.grpc_metric_collector_1p_ca_mount.is_none());
+                assert!(artifacts.grpc_log_collector_1p_ca_mount.is_none());
+                assert!(artifacts.http_metric_endpoint.is_none());
+                assert!(artifacts.http_log_endpoint.is_none());
+                assert!(artifacts.http_trace_endpoint.is_none());
             },
         );
     }
@@ -669,8 +741,16 @@ mod tests {
             TempMount::new("device_endpoint_tls_trust_bundle_ca_cert");
         let device_endpoint_credentials_mount = TempMount::new("device_endpoint_credentials");
 
+        // NOTE: there do not need to be files in these stopgap mounts... I think
+        let grpc_metric_collector_1p_ca_mount = TempMount::new("1p_metrics_ca");
+        let grpc_log_collector_1p_ca_mount = TempMount::new("1p_logs_ca");
+
         temp_env::with_vars(
             [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
                 ("CONNECTOR_ID", Some(CONNECTOR_ID)),
                 ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
@@ -701,10 +781,29 @@ mod tests {
                     "DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH",
                     Some(device_endpoint_credentials_mount.path().to_str().unwrap()),
                 ),
+                // Stopgap values beyond this point
+                ("OTLP_GRPC_METRIC_ENDPOINT", Some(GRPC_METRIC_ENDPOINT)),
+                ("OTLP_GRPC_LOG_ENDPOINT", Some(GRPC_LOG_ENDPOINT)),
+                ("OTLP_GRPC_TRACE_ENDPOINT", Some(GRPC_TRACE_ENDPOINT)),
+                (
+                    "FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH",
+                    Some(grpc_metric_collector_1p_ca_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH",
+                    Some(grpc_log_collector_1p_ca_mount.path().to_str().unwrap()),
+                ),
+                ("OTLP_HTTP_METRIC_ENDPOINT", Some(HTTP_METRIC_ENDPOINT)),
+                ("OTLP_HTTP_LOG_ENDPOINT", Some(HTTP_LOG_ENDPOINT)),
+                ("OTLP_HTTP_TRACE_ENDPOINT", Some(HTTP_TRACE_ENDPOINT)),
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
                 // -- Validate the values directly in the artifacts --
+                assert_eq!(
+                    artifacts.azure_extension_resource_id,
+                    AZURE_EXTENSION_RESOURCE_ID
+                );
                 assert_eq!(artifacts.connector_id, CONNECTOR_ID);
                 assert_eq!(artifacts.connector_namespace, CONNECTOR_NAMESPACE);
                 assert_eq!(
@@ -754,10 +853,45 @@ mod tests {
                     artifacts.connector_configuration.additional_configuration,
                     Some(ADDITIONAL_CONNECTOR_CONFIGURATION_JSON.to_string())
                 );
+
+                // -- Validate the stopgap variables in the ConnectorArtifacts --
+                assert_eq!(
+                    artifacts.grpc_metric_endpoint,
+                    Some(GRPC_METRIC_ENDPOINT.to_string())
+                );
+                assert_eq!(
+                    artifacts.grpc_log_endpoint,
+                    Some(GRPC_LOG_ENDPOINT.to_string())
+                );
+                assert_eq!(
+                    artifacts.grpc_trace_endpoint,
+                    Some(GRPC_TRACE_ENDPOINT.to_string())
+                );
+                assert_eq!(
+                    artifacts.grpc_metric_collector_1p_ca_mount.unwrap(),
+                    grpc_metric_collector_1p_ca_mount.path()
+                );
+                assert_eq!(
+                    artifacts.grpc_log_collector_1p_ca_mount.unwrap(),
+                    grpc_log_collector_1p_ca_mount.path()
+                );
+                assert_eq!(
+                    artifacts.http_metric_endpoint,
+                    Some(HTTP_METRIC_ENDPOINT.to_string())
+                );
+                assert_eq!(
+                    artifacts.http_log_endpoint,
+                    Some(HTTP_LOG_ENDPOINT.to_string())
+                );
+                assert_eq!(
+                    artifacts.http_trace_endpoint,
+                    Some(HTTP_TRACE_ENDPOINT.to_string())
+                );
             },
         );
     }
 
+    #[test_case("AZURE_EXTENSION_RESOURCEID")]
     #[test_case("CONNECTOR_ID")]
     #[test_case("CONNECTOR_NAMESPACE")]
     #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
@@ -770,6 +904,10 @@ mod tests {
 
         temp_env::with_vars(
             [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
                 ("CONNECTOR_ID", Some(CONNECTOR_ID)),
                 ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
@@ -792,6 +930,8 @@ mod tests {
     #[test_case("BROKER_SAT_MOUNT_PATH")]
     #[test_case("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH")]
     #[test_case("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH")]
+    #[test_case("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH")]
+    #[test_case("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH")]
     fn nonexistent_mount_path(invalid_mount_env_var: &str) {
         let invalid_mount = PathBuf::from("nonexistent/mount/path");
         assert!(!invalid_mount.exists());
@@ -804,6 +944,10 @@ mod tests {
 
         temp_env::with_vars(
             [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
                 ("CONNECTOR_ID", Some(CONNECTOR_ID)),
                 ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
@@ -832,6 +976,10 @@ mod tests {
 
         temp_env::with_vars(
             [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
                 ("CONNECTOR_ID", Some(CONNECTOR_ID)),
                 ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
@@ -863,6 +1011,10 @@ mod tests {
 
         temp_env::with_vars(
             [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
                 ("CONNECTOR_ID", Some(CONNECTOR_ID)),
                 ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
@@ -893,6 +1045,10 @@ mod tests {
 
         temp_env::with_vars(
             [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
                 ("CONNECTOR_ID", Some(CONNECTOR_ID)),
                 ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
                 (
@@ -909,8 +1065,9 @@ mod tests {
     #[test]
     fn convert_to_mqtt_connection_settings_minimum() {
         let connector_artifacts = ConnectorArtifacts {
+            azure_extension_resource_id: AZURE_EXTENSION_RESOURCE_ID.to_string(),
             connector_id: "connector_id".to_string(),
-            connector_namespace: "connector_namespace".to_string(),
+            connector_namespace: CONNECTOR_NAMESPACE.to_string(),
             connector_configuration: ConnectorConfiguration {
                 mqtt_connection_configuration: MqttConnectionConfiguration {
                     host: "someHostName:1234".to_string(),
@@ -932,6 +1089,15 @@ mod tests {
             broker_sat_mount: None,
             device_endpoint_trust_bundle_mount: None,
             device_endpoint_credentials_mount: None,
+            // stopgaps
+            grpc_metric_endpoint: None,
+            grpc_log_endpoint: None,
+            grpc_trace_endpoint: None,
+            grpc_metric_collector_1p_ca_mount: None,
+            grpc_log_collector_1p_ca_mount: None,
+            http_metric_endpoint: None,
+            http_log_endpoint: None,
+            http_trace_endpoint: None,
         };
 
         // Convert to MQTT ConnectionSettings
@@ -963,8 +1129,9 @@ mod tests {
         broker_trust_bundle_mount.add_file("ca.txt", "");
 
         let connector_artifacts = ConnectorArtifacts {
+            azure_extension_resource_id: AZURE_EXTENSION_RESOURCE_ID.to_string(),
             connector_id: "connector_id".to_string(),
-            connector_namespace: "connector_namespace".to_string(),
+            connector_namespace: CONNECTOR_NAMESPACE.to_string(),
             connector_configuration: ConnectorConfiguration {
                 mqtt_connection_configuration: MqttConnectionConfiguration {
                     host: "someHostName:1234".to_string(),
@@ -986,6 +1153,15 @@ mod tests {
             broker_sat_mount: Some(broker_sat_file_mount.path().to_path_buf()),
             device_endpoint_trust_bundle_mount: None,
             device_endpoint_credentials_mount: None,
+            // stopgaps
+            grpc_metric_endpoint: None,
+            grpc_log_endpoint: None,
+            grpc_trace_endpoint: None,
+            grpc_metric_collector_1p_ca_mount: None,
+            grpc_log_collector_1p_ca_mount: None,
+            http_metric_endpoint: None,
+            http_log_endpoint: None,
+            http_trace_endpoint: None,
         };
 
         // Convert to MQTT ConnectionSettings
@@ -1027,8 +1203,9 @@ mod tests {
     #[test_case("not_a_host"; "No port in host")]
     fn convert_to_mqtt_connection_settings_malformed_host(host: &str) {
         let connector_artifacts = ConnectorArtifacts {
+            azure_extension_resource_id: AZURE_EXTENSION_RESOURCE_ID.to_string(),
             connector_id: "connector_id".to_string(),
-            connector_namespace: "connector_namespace".to_string(),
+            connector_namespace: CONNECTOR_NAMESPACE.to_string(),
             connector_configuration: ConnectorConfiguration {
                 mqtt_connection_configuration: MqttConnectionConfiguration {
                     host: host.to_string(),
@@ -1050,6 +1227,15 @@ mod tests {
             broker_sat_mount: None,
             device_endpoint_trust_bundle_mount: None,
             device_endpoint_credentials_mount: None,
+            // stopgaps
+            grpc_metric_endpoint: None,
+            grpc_log_endpoint: None,
+            grpc_trace_endpoint: None,
+            grpc_metric_collector_1p_ca_mount: None,
+            grpc_log_collector_1p_ca_mount: None,
+            http_metric_endpoint: None,
+            http_log_endpoint: None,
+            http_trace_endpoint: None,
         };
 
         // Convert to MQTT ConnectionSettings
@@ -1066,8 +1252,9 @@ mod tests {
         let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
 
         let connector_artifacts = ConnectorArtifacts {
+            azure_extension_resource_id: AZURE_EXTENSION_RESOURCE_ID.to_string(),
             connector_id: "connector_id".to_string(),
-            connector_namespace: "connector_namespace".to_string(),
+            connector_namespace: CONNECTOR_NAMESPACE.to_string(),
             connector_configuration: ConnectorConfiguration {
                 mqtt_connection_configuration: MqttConnectionConfiguration {
                     host: "someHostName:1234".to_string(),
@@ -1089,6 +1276,15 @@ mod tests {
             broker_sat_mount: None,
             device_endpoint_trust_bundle_mount: None,
             device_endpoint_credentials_mount: None,
+            // stopgaps
+            grpc_metric_endpoint: None,
+            grpc_log_endpoint: None,
+            grpc_trace_endpoint: None,
+            grpc_metric_collector_1p_ca_mount: None,
+            grpc_log_collector_1p_ca_mount: None,
+            http_metric_endpoint: None,
+            http_log_endpoint: None,
+            http_trace_endpoint: None,
         };
 
         // Convert to MQTT ConnectionSettings

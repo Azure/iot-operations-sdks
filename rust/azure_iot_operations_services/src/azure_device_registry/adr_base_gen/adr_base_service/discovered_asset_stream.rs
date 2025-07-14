@@ -14,27 +14,27 @@ use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredAssetStream {
-    /// The 'destinations' Field.
+    /// Destinations for a stream.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub destinations: Option<Vec<EventStreamDestination>>,
 
-    /// The 'lastUpdatedOn' Field.
+    /// Timestamp (in UTC) indicating when the stream was added or modified.
     #[serde(rename = "lastUpdatedOn")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub last_updated_on: Option<DateTime<Utc>>,
 
-    /// The 'name' Field.
+    /// Name of the stream definition.
     pub name: String,
 
-    /// The 'streamConfiguration' Field.
+    /// Stringified JSON that contains connector-specific configuration that describes configuration for the specific stream.
     #[serde(rename = "streamConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub stream_configuration: Option<String>,
 
-    /// The 'typeRef' Field.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

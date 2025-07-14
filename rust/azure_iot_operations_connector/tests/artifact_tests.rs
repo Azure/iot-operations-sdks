@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use azure_iot_operations_connector::filemount::connector_artifacts::{
-    ConnectorArtifacts, LogLevel, Protocol, TlsMode,
+use azure_iot_operations_connector::deployment_artifacts::connector::{
+    ConnectorArtifacts, Protocol, TlsMode,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use std::path::PathBuf;
@@ -33,6 +33,10 @@ fn local_connector_artifacts_tls() {
     let trust_bundle_mount_path = get_broker_trust_bundle_mount_path();
     temp_env::with_vars(
         [
+            (
+                "AZURE_EXTENSION_RESOURCEID",
+                Some("/subscriptions/extension/resource/id"),
+            ),
             ("CONNECTOR_ID", Some("connector_id")),
             ("CONNECTOR_NAMESPACE", Some("connector_namespace")),
             (
@@ -48,6 +52,10 @@ fn local_connector_artifacts_tls() {
             let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
             // -- Validate the ConnectorArtifacts --
             // NOTE: This value was set directly above in the environment variables
+            assert_eq!(
+                artifacts.azure_extension_resource_id,
+                "/subscriptions/extension/resource/id"
+            );
             assert_eq!(artifacts.connector_id, "connector_id");
             assert_eq!(artifacts.connector_namespace, "connector_namespace");
             // NOTE: These values are paths specified in the environment variable
@@ -69,7 +77,7 @@ fn local_connector_artifacts_tls() {
             // NOTE: These values come from the DIAGNOSTICS file
             assert!(cc.diagnostics.is_some());
             let diagnostics = cc.diagnostics.as_ref().unwrap();
-            assert!(matches!(diagnostics.logs.level, LogLevel::Trace));
+            assert_eq!(diagnostics.logs.level, "trace".to_string());
 
             // --- Convert the ConnectorConfiguration to MqttConnectionSettings ---
             let conversion_result = artifacts.to_mqtt_connection_settings("-id_suffix");
@@ -91,7 +99,7 @@ fn local_connector_artifacts_tls() {
 
             // --- Create a Session from the MqttConnectionSettings ---
             let session_options = SessionOptionsBuilder::default()
-                .connection_settings(mcs.clone())
+                .connection_settings(mcs)
                 .build()
                 .unwrap();
             assert!(Session::new(session_options).is_ok());
@@ -105,6 +113,10 @@ fn local_connector_artifacts_no_tls() {
     let cc_mount_path = get_connector_config_mount_path("connector-config-no-auth-no-tls");
     temp_env::with_vars(
         [
+            (
+                "AZURE_EXTENSION_RESOURCEID",
+                Some("/subscriptions/extension/resource/id"),
+            ),
             ("CONNECTOR_ID", Some("connector_id")),
             ("CONNECTOR_NAMESPACE", Some("connector_namespace")),
             (
@@ -117,6 +129,10 @@ fn local_connector_artifacts_no_tls() {
             let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
             // -- Validate the ConnectorArtifacts --
             // NOTE: This value was set directly above in the environment variables
+            assert_eq!(
+                artifacts.azure_extension_resource_id,
+                "/subscriptions/extension/resource/id"
+            );
             assert_eq!(artifacts.connector_id, "connector_id");
             assert_eq!(artifacts.connector_namespace, "connector_namespace");
             // NOTE: These values are paths specified in the environment variable
@@ -135,7 +151,7 @@ fn local_connector_artifacts_no_tls() {
             // NOTE: These values come from the DIAGNOSTICS file
             assert!(cc.diagnostics.is_some());
             let diagnostics = cc.diagnostics.as_ref().unwrap();
-            assert!(matches!(diagnostics.logs.level, LogLevel::Trace));
+            assert_eq!(diagnostics.logs.level, "trace".to_string());
 
             // --- Convert the ConnectorConfiguration to MqttConnectionSettings ---
             let conversion_result = artifacts.to_mqtt_connection_settings("-id_suffix");
@@ -152,7 +168,7 @@ fn local_connector_artifacts_no_tls() {
 
             // --- Create a Session from the MqttConnectionSettings ---
             let session_options = SessionOptionsBuilder::default()
-                .connection_settings(mcs.clone())
+                .connection_settings(mcs)
                 .build()
                 .unwrap();
             assert!(Session::new(session_options).is_ok());

@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Text;
 using System.Data.SqlClient;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Connector.Assets;
+using Azure.Iot.Operations.Connector.Files;
 
 namespace SqlQualityAnalyzerConnectorApp
 {

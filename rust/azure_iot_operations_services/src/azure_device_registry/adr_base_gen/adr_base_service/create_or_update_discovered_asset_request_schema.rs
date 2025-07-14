@@ -14,11 +14,11 @@ use super::discovered_asset::DiscoveredAsset;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredAssetRequestSchema {
-    /// The 'discoveredAsset' Field.
+    /// The discovered asset resource to create or update. Fields omitted in the request will be removed.
     #[serde(rename = "discoveredAsset")]
     pub discovered_asset: DiscoveredAsset,
 
-    /// The 'discoveredAssetName' Field.
+    /// The name of the discovered asset to create or update. This field is used to perform deduplication of discovered assets.
     #[serde(rename = "discoveredAssetName")]
     pub discovered_asset_name: String,
 }

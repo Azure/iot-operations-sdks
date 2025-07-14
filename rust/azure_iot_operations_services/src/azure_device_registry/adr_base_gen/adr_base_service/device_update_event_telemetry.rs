@@ -14,7 +14,7 @@ use super::device_update_event_schema::DeviceUpdateEventSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceUpdateEventTelemetry {
-    /// The 'deviceUpdateEvent' Telemetry.
+    /// Telemetry event emitted when a device is updated, containing the relevant inbound endpoint details as specified in the topic.
     #[serde(rename = "deviceUpdateEvent")]
     pub device_update_event: DeviceUpdateEventSchema,
 }
