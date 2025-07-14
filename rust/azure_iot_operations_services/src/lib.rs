@@ -31,4 +31,4 @@ pub mod schema_registry;
 #[cfg(feature = "state_store")]
 pub mod state_store;
 
-mod common;
+pub mod common;
