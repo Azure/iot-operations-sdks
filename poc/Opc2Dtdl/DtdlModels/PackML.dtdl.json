@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PackMLAdminObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=5",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=5",
     "telemetryTopic": "opcua/PackML/PackMLAdminObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -22,7 +22,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLDescriptorDataType",
         "description": "A unique number assigned to the parameter",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=16",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -51,7 +51,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLCountDataType",
         "description": "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=14",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -227,7 +227,7 @@
     "ontology": "http://opcfoundation.org/UA/PackML",
     "displayName": "PackMLBaseObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=6",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=6",
     "commandTopic": "opcua/PackML/PackMLBaseObjectType/{commandName}",
     "telemetryTopic": "opcua/PackML/PackMLBaseObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -237,7 +237,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLRemoteInterfaceDataType",
         "description": "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=19",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=19",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -269,7 +269,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLDescriptorDataType",
         "description": "A unique number assigned to the parameter",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=16",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -298,7 +298,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLProductDataType",
         "description": "A unique number assigned to the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=18",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=18",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -328,7 +328,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLIngredientsDataType",
         "description": "A unique number assigned to the ingredient.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=17",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=17",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -537,7 +537,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PackMLStatusObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=4",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=4",
     "commandTopic": "opcua/PackML/PackMLStatusObjectType/{commandName}",
     "telemetryTopic": "opcua/PackML/PackMLStatusObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -547,7 +547,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLDescriptorDataType",
         "description": "A unique number assigned to the parameter",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=16",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -576,7 +576,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLProductDataType",
         "description": "A unique number assigned to the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=18",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=18",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -606,7 +606,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLIngredientsDataType",
         "description": "A unique number assigned to the ingredient.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=17",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=17",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -628,7 +628,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLRemoteInterfaceDataType",
         "description": "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=19",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=19",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -781,7 +781,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PackMLBaseStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=3",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=3",
     "commandTopic": "opcua/PackML/PackMLBaseStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -871,7 +871,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PackMLExecuteStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=1",
     "commandTopic": "opcua/PackML/PackMLExecuteStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -880,7 +880,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PackMLDescriptorDataType",
         "description": "A unique number assigned to the parameter",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=16",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1241,7 +1241,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PackMLMachineStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=2",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=2",
     "commandTopic": "opcua/PackML/PackMLMachineStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ISA95JobOrderStatusEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1006",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobOrderStatusEventType/{commandName}",
     "telemetryTopic": "opcua/isa95_jobcontrol/ISA95JobOrderStatusEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95JobOrderDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -108,7 +108,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95JobResponseDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -190,7 +190,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95StateDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -214,7 +214,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95WorkMasterDataType",
         "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -241,7 +241,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95ParameterDataType",
         "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -281,7 +281,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PersonnelDataType",
         "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -326,7 +326,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PropertyDataType",
         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -366,7 +366,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95EquipmentDataType",
         "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -411,7 +411,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PhysicalAssetDataType",
         "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -456,7 +456,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95MaterialDataType",
         "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -557,7 +557,7 @@
     "displayName": "ISA95JobResponseProviderObjectType",
     "description": "The OPENSCSJobResponseProviderObjectType contains a method to receive unsolicited job response requests.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1003",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobResponseProviderObjectType/{commandName}",
     "telemetryTopic": "opcua/isa95_jobcontrol/ISA95JobResponseProviderObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -567,7 +567,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95JobResponseDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -649,7 +649,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95StateDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -673,7 +673,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95ParameterDataType",
         "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -713,7 +713,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PersonnelDataType",
         "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -758,7 +758,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PropertyDataType",
         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -798,7 +798,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95EquipmentDataType",
         "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -843,7 +843,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PhysicalAssetDataType",
         "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -888,7 +888,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95MaterialDataType",
         "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1057,7 +1057,7 @@
     "displayName": "ISA95JobResponseReceiverObjectType",
     "description": "A Job Response Receiver receives unsolicited Job Responses, usually as the result of completion of a job, or at intermediate points within the job.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1004",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobResponseReceiverObjectType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1066,7 +1066,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95JobResponseDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1148,7 +1148,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95StateDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1172,7 +1172,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95ParameterDataType",
         "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1212,7 +1212,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PersonnelDataType",
         "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1257,7 +1257,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PropertyDataType",
         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1297,7 +1297,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95EquipmentDataType",
         "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1342,7 +1342,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PhysicalAssetDataType",
         "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1387,7 +1387,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95MaterialDataType",
         "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1494,7 +1494,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ISA95EndedStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1542,7 +1542,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ISA95InterruptedStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1600,7 +1600,7 @@
     "displayName": "ISA95JobOrderReceiverObjectType",
     "description": "The OPENSCSJobOrderReciverObjectType contains a method to receive job order commands and optional definitions of allowable job order information",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1002",
     "commandTopic": "opcua/isa95_jobcontrol/ISA95JobOrderReceiverObjectType/{commandName}",
     "telemetryTopic": "opcua/isa95_jobcontrol/ISA95JobOrderReceiverObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1610,7 +1610,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95JobOrderAndStateDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1632,7 +1632,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95WorkMasterDataType",
         "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1659,7 +1659,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95ParameterDataType",
         "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1699,7 +1699,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95JobOrderDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1784,7 +1784,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PersonnelDataType",
         "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1829,7 +1829,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95EquipmentDataType",
         "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1874,7 +1874,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PropertyDataType",
         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1914,7 +1914,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95StateDataType",
         "description": "Defines the information needed to schedule and execute a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1938,7 +1938,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PhysicalAssetDataType",
         "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1983,7 +1983,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95MaterialDataType",
         "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2775,7 +2775,7 @@
     "ontology": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
     "displayName": "ISA95JobOrderReceiverSubStatesType",
     "extends": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2832,7 +2832,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ISA95PrepareStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1001",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

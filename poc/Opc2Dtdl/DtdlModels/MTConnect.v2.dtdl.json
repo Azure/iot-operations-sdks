@@ -15,7 +15,7 @@
     "displayName": "MTChannelType",
     "description": "A Channel of a sensor. See ChannelType in type specifications. channel represents each sensing element connected to a sensor unit.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2059",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2059",
     "commandTopic": "opcua/MTConnect_v2/MTChannelType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -93,7 +93,7 @@
     "displayName": "MTComponentType",
     "description": "The base gls{MTComponent} Type from which all MTConnect Components are derived. The component types will be created once for all gls{MTComponent} glspl{Object} of that type based on the gls{QName} of the MTConnect XML element. The Component Objects will be created and inserted into the mtmodel{Components} folder with a gls{BrowseName} of the Component gls{QName} and the mtmodel{name} element if specified surrounded by square brackets, texttt{[]}. For example if the MTConnect Element is: xml{<Linear name='X'>...</...>} The OPC UA Object with gls{BrowseName} xml{Linear[X]} will be created with the uamodel{HasTypeDefinition} referencing the mtmodel{Linear} OPC UA gls{Type}. The meta data for the component and its relationships are static. The dynamic data will be represented using the cite{UAPart8}. An abstract XML element. Replaced in the XML document by types of component elements representing physical parts and logical functions of a piece of equipment.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2021",
     "commandTopic": "opcua/MTConnect_v2/MTComponentType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -190,7 +190,7 @@
     "displayName": "MTDeviceType",
     "description": "See DeviceType.tex. The primary container element for each piece of equipment. device is organized within the devices container.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2015",
     "commandTopic": "opcua/MTConnect_v2/MTDeviceType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -233,7 +233,7 @@
     "displayName": "MTCompositionType",
     "description": "The mtmodel{MTCompositionType} represents all composition entities. The specification of how to form the gls{BrowseName} is specified in Section~ref{sec:browse-name-rules}. The data items are added to the relationship where the gls{MTDataItem} to gls{Composition} relationship is represented by the gls{BrowseName} Composition property of the data item. The data items are added to the gls{Composition} by their glspl{BrowseName}. An XML element used to describe the lowest level structural building blocks contained within a component element.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2067",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2067",
     "commandTopic": "opcua/MTConnect_v2/MTCompositionType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTCompositionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -293,7 +293,7 @@
     "displayName": "MTConfigurationType",
     "description": "The abstract mtuatype{MTConfigurationType} currently has only one sub-type, mtuatype{MTSensorConfigurationType}. In the future, the configurations will also contain component and device configuration information as sub-types. An XML element that contains technical information about a piece of equipment describing its physical layout or functional characteristics.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2044",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2044",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -316,7 +316,7 @@
     "displayName": "MTSensorConfigurationType",
     "description": "An MTConnect Sensor Configuration associated with the Component. See SensorConfigurationType in type-specifications. An element that can contain descriptive content defining the configuration information for sensor.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConfigurationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2046",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2046",
     "commandTopic": "opcua/MTConnect_v2/MTSensorConfigurationType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTSensorConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -376,7 +376,7 @@
     "displayName": "MTDescriptionType",
     "description": "An MTConnect Component Description. See the DescriptionType in the type-specifications. An XML element that can contain any descriptive content.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2053",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2053",
     "commandTopic": "opcua/MTConnect_v2/MTDescriptionType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTDescriptionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -437,7 +437,7 @@
     "displayName": "ActuatorType",
     "description": "the information for an apparatus for moving or controlling a mechanism or system Redefined as a piece of equipment with the ability to be represented as a lower level component of a parent component element or as a composition element. See actuator type",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2074",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2074",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -460,7 +460,7 @@
     "displayName": "AuxiliariesType",
     "description": "p {padding:0px; margin:0px;} &#160; An XML container used to organize information for lower level elements representing functional sub-systems that provide supplementary or extended capabilities for a piece of equipment, but they are not required for the basic operation of the equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2076",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2076",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -483,7 +483,7 @@
     "displayName": "BarFeederType",
     "description": "a unit involved in delivering bar stock to a piece of equipment. barfeeder is an XML container that represents the information for a unit involved in delivering bar stock to a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2082",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2082",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -506,7 +506,7 @@
     "displayName": "EnvironmentalType",
     "description": "the information for a unit or function involved in monitoring, managing, or conditioning the environment around or within a piece of equipment. environmental is an XML container that represents the information for a unit or function involved in monitoring, managing, or conditioning the environment around or within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2102",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2102",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -529,7 +529,7 @@
     "displayName": "LoaderType",
     "description": "the information for a unit comprised of all the parts involved in moving and distributing materials, parts, tooling, and other items to or from a piece of equipment loader is an XML container that represents the information for a unit comprised of all the parts involved in moving and distributing materials, parts, tooling, and other items to or from a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2112",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2112",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -552,7 +552,7 @@
     "displayName": "SensorType",
     "description": "the information for a piece of equipment that responds to a physical stimulus and transmits a resulting impulse or value from a sensing unit The sensor unit is modeled as a lower level component called sensor.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2134",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2134",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -575,7 +575,7 @@
     "displayName": "ToolingDeliveryType",
     "description": "a unit involved in managing, positioning, storing, and delivering tooling within a piece of equipment. toolingdelivery is an XML container that represents the information for a unit involved in managing, positioning, storing, and delivering tooling within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2140",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2140",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -598,7 +598,7 @@
     "displayName": "WasteDisposalType",
     "description": "the information for a unit comprised of all the parts involved in removing manufacturing byproducts from a piece of equipment wastedisposal is an XML container that represents the information for a unit comprised of all the parts involved in removing manufacturing byproducts from a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AuxiliariesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2142",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2142",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -621,7 +621,7 @@
     "displayName": "AxesType",
     "description": "Organizes parts of the device that perform linear or rotational motion An XML container used to organize the structural element of a piece of equipment that perform linear or rotational motion.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2078",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2078",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -644,7 +644,7 @@
     "displayName": "LinearType",
     "description": "the movement of a physical piece of equipment, or a portion of the equipment, in a straight line. A linear axis represents the movement of a physical piece of equipment, or a portion of the equipment, in a straight line.",
     "extends": "dtmi:opcua:MTConnect_v2:AxesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2110",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2110",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -667,7 +667,7 @@
     "displayName": "RotaryType",
     "description": "rotary movement of a physical piece of equipment or a portion of the equipment. A rotary axis represents any non-linear or rotary movement of a physical piece of equipment or a portion of the equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:AxesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2132",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2132",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -690,7 +690,7 @@
     "displayName": "ChuckType",
     "description": "provides the information about a mechanism that holds a part or stock material in place Chuck is an XML container that provides the information about a mechanism that holds a part or stock material in place.",
     "extends": "dtmi:opcua:MTConnect_v2:RotaryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2086",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2086",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -713,7 +713,7 @@
     "displayName": "ControllerType",
     "description": "intelligent or computational function within a piece of equipment An XML container used to organize information about an intelligent or computational function within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2088",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2088",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -736,7 +736,7 @@
     "displayName": "PathType",
     "description": "information for an independent operation or function within a mtuatype{ControllerType} path is an XML container that represents the information for an independent operation or function within a controller.",
     "extends": "dtmi:opcua:MTConnect_v2:ControllerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2120",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2120",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -759,7 +759,7 @@
     "displayName": "DoorType",
     "description": "the information for a mechanical mechanism or closure that can cover, for example, a physical access portal into a piece of equipment door component is an XML container that represents the information for a mechanical mechanism or closure that can cover.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2096",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2096",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -782,7 +782,7 @@
     "displayName": "InterfacesType",
     "description": "An XML container that organizes information used to coordinate actions and activities between pieces of equipment that communicate information between each other.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2108",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2108",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -805,7 +805,7 @@
     "displayName": "BarFeederInterfaceType",
     "description": "information used to coordinate the operations between a Bar Feeder and another piece of equipment barfeederinterface provides the set of information used to coordinate the operations between a Bar Feeder and another piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2080",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2080",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -828,7 +828,7 @@
     "displayName": "ChuckInterfaceType",
     "description": "information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a chuck chuckinterface provides the set of information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a chuck.",
     "extends": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2084",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2084",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -851,7 +851,7 @@
     "displayName": "DoorInterfaceType",
     "description": "information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a door doorinterface provides the set of information used to coordinate the operations between two pieces of equipment, one of which controls the operation of a door.",
     "extends": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2094",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2094",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -874,7 +874,7 @@
     "displayName": "MaterialHandlerInterfaceType",
     "description": "set of information used to coordinate the operations between a piece of equipment and another associated piece of equipment used to automatically handle various types of materials or services associated with the original piece of equipment materialhandlerinterface provides the set of information used to coordinate the operations between a piece of equipment and another associated piece of equipment used to automatically handle various types of materials or services associated with the original piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:InterfacesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2116",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2116",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -897,7 +897,7 @@
     "displayName": "ResourcesType",
     "description": "An XML container used to organize information for lower level elements representing types of items, materials, and personnel that support the operation of a piece of equipment or work to be performed at a location. resources also represents materials or other items consumed or transformed by a piece of equipment for production of parts or other types of goods.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2130",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2130",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -920,7 +920,7 @@
     "displayName": "MaterialsType",
     "description": "information about materials or other items consumed or used by the piece of equipment for production of parts, materials, or other types of goods materials is an XML container that provides information about materials or other items consumed or used by the piece of equipment for production of parts, materials, or other types of goods.",
     "extends": "dtmi:opcua:MTConnect_v2:ResourcesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2118",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2118",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -943,7 +943,7 @@
     "displayName": "StockType",
     "description": "the information for the material that is used in a manufacturing process and to which work is applied in a machine or piece of equipment to produce parts. stock is an XML container that represents the information for the material that is used in a manufacturing process and to which work is applied in a machine or piece of equipment to produce parts.",
     "extends": "dtmi:opcua:MTConnect_v2:MaterialsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2136",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2136",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -966,7 +966,7 @@
     "displayName": "PersonnelType",
     "description": "personnel is an XML container that provides information about an individual or individuals who either control, support, or otherwise interface with a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:ResourcesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2122",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2122",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -989,7 +989,7 @@
     "displayName": "SystemsType",
     "description": "major sub-systems that are permanently integrated into a piece of equipment An XML container used to organize information for lower level elements representing the major sub-systems that are permanently integrated into a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2138",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2138",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1012,7 +1012,7 @@
     "displayName": "CoolantType",
     "description": "a system comprised of all the parts involved in distribution and management of fluids that remove heat from a piece of equipment. coolant is an XML container that represents the information for a system comprised of all the parts involved in distribution and management of fluids that remove heat from a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2090",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2090",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1035,7 +1035,7 @@
     "displayName": "DielectricType",
     "description": "a system that manages a chemical mixture used in a manufacturing process being performed at that piece of equipment. dielectric is an XML container that represents the information for a system that manages a chemical mixture used in a manufacturing process being performed at that piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2092",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2092",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1058,7 +1058,7 @@
     "displayName": "ElectricType",
     "description": "represents the information for the main power supply for device piece of equipment and the distribution of that power throughout the equipment. electric is an XML container that represents the information for the main power supply for device piece of equipment and the distribution of that power throughout the equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2098",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2098",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1081,7 +1081,7 @@
     "displayName": "EnclosureType",
     "description": "a structure used to contain or isolate a piece of equipment or area. enclosure is an XML container that represents the information for a structure used to contain or isolate a piece of equipment or area.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2100",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2100",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1104,7 +1104,7 @@
     "displayName": "FeederType",
     "description": "the information for a system that manages the delivery of materials within a piece of equipment. feeder is an XML container that represents the information for a system that manages the delivery of materials within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2104",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2104",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1127,7 +1127,7 @@
     "displayName": "HydraulicType",
     "description": "system comprised of all the parts involved in moving and distributing pressurized liquid throughout the piece of equipment. hydraulic is an XML container that represents the information for a system comprised of all the parts involved in moving and distributing pressurized liquid throughout the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2106",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2106",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1150,7 +1150,7 @@
     "displayName": "LubricationType",
     "description": "a system comprised of all the parts involved in distribution and management of fluids used to lubricate portions of the piece of equipment. lubrication is an XML container that represents the information for a system comprised of all the parts involved in distribution and management of fluids used to lubricate portions of the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2114",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2114",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1173,7 +1173,7 @@
     "displayName": "PneumaticType",
     "description": "a system comprised of all the parts involved in moving and distributing pressurized gas throughout the piece of equipment. pneumatic is an XML container that represents the information for a system comprised of all the parts involved in moving and distributing pressurized gas throughout the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2124",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2124",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1196,7 +1196,7 @@
     "displayName": "ProcessPowerType",
     "description": "the information for a power source associated with a piece of equipment that supplies energy to the manufacturing process separate from the Electric system processpower is an XML container that represents the information for a power source associated with a piece of equipment that supplies energy to the manufacturing process separate from the electric system.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2126",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2126",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1219,7 +1219,7 @@
     "displayName": "ProtectiveType",
     "description": "the information for those functions that detect or prevent harm or damage to equipment or personnel. Protective is an XML container that represents the information for those functions that detect or prevent harm or damage to equipment or personnel.",
     "extends": "dtmi:opcua:MTConnect_v2:SystemsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2128",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2128",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1241,7 +1241,7 @@
     "displayName": "MTConditionClassType",
     "description": "The abstract type for all data items types that are specifically for mtmodel{CONDITION} gls{category}. An XML element which provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of condition category in the mtconnectdevices document.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2629",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2629",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1263,7 +1263,7 @@
     "displayName": "MTConstraintType",
     "description": "The MTConnect constraints. The Values or the Minimum, Maximum, and Nominal values should be provided. Multiple Values can be provided as an array as a set of allowable values for this gls{MTDataItem}. A constraint is used by a software application to evaluate the validity of the reported data.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2647",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2647",
     "commandTopic": "opcua/MTConnect_v2/MTConstraintType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTConstraintType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1326,7 +1326,7 @@
     "displayName": "MTEventClassType",
     "description": "The base type class for all data items with a gls{category} of mtmodel{EVENT}. An XML element which provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of event category in the mtconnectdevices document.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2631",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2631",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1347,7 +1347,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "MTMessageEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2656",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2656",
     "commandTopic": "opcua/MTConnect_v2/MTMessageEventType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTMessageEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1379,7 +1379,7 @@
     "displayName": "MTConditionEventType",
     "description": "The condition type is derived from the UA uamodel{ContitionType}. When the mtmodel{Warning} or mtmodel{Fault} state occurs, an mtuatype{MTConditionEventType} uamodel{Event} is created with the mtmodel{ActiveState} set to uamodel{True} and uamodel{Retain} set to uamodel{True}. The severity is used to represent the MTConnect condition states of Warning and Fault with the values of 500 and 1000 respectively. A new uamodel{NodeId} will be created for every unique instance of the MTConnect mtmodel{Condition} reported. When the mtmodel{Condition} goes back to Normal, the mtmodel{ActiveState} is set to uamodel{False} and uamodel{Retain} is also set to uamodel{False} with the uamodel{NodeId} of the associated mtmodel{Condition}. If multiple MTConnect mtmodel{Condition}s have been cleared at the same time, all currently active mtuatype{MTConditionEventType} uamodel{Event}s will need to deactivated. The mtuatype{MTConditionEventType} must set the uamodel{BaseEvent} uamodel{SourceNode} to the related mtuatype{MTConditionType} that represents the meta-data for this Condition. The mtuatype{MTConditionEventType} will never be instantiated in the uaterm{AddressSpace} as an uamodel{Object}.",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=4326",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=4326",
     "commandTopic": "opcua/MTConnect_v2/MTConditionEventType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTConditionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1388,7 +1388,7 @@
         "@id": "dtmi:opcua:MTConnect_v2:MTConditionEventType:dataType:MTSeverityDataType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MTSeverityDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2669",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2669",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1409,7 +1409,7 @@
         "@id": "dtmi:opcua:MTConnect_v2:MTConditionEventType:dataType:QualifierDataType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "QualifierDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2668",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2668",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1514,7 +1514,7 @@
     "displayName": "MTConditionType",
     "description": "An mtmodel{MTConditionType} instance will be created for event MTConnect gls{MTDataItem} with a gls{category} of mtmodel{CONDITION}. The gls{BrowseName} of the condition uses the same naming convention as the MTConnect gls{MTDataItem} types with gls{MTCondition} appended as a suffix. For example the condition with gls{type} of mtmodel{TEMPERATURE} will have the browse name of mtmodel{TemperatureCondition} as opposed to the mtuatype{MTSampleType} of mtmodel{Temperature}. An XML element which provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of condition category in the mtconnectdevices document.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2660",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2660",
     "commandTopic": "opcua/MTConnect_v2/MTConditionType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MTConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1524,7 +1524,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MTCategoryType",
         "description": "Represents the gls{category} attribute of the MTConnect gls{MTDataItem}.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2634",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2634",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1546,7 +1546,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MTRepresentationType",
         "description": "Represents the mtmodel{representation} attribute of the MTConnect gls{MTDataItem}.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2633",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2633",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1672,7 +1672,7 @@
     "displayName": "MTDataItemClassType",
     "description": "Abstract base class for all the data item class types. The names are created by pascal typing the names and then generating appending mtmodel{Type}. data entity describing a piece of information reported about a piece of equipment.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2425",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2425",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1695,7 +1695,7 @@
     "displayName": "MTMessageClassType",
     "description": "Any text string of information to be transferred from a piece of equipment to a client software application.",
     "extends": "dtmi:opcua:MTConnect_v2:MTEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2427",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2427",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1717,7 +1717,7 @@
     "displayName": "MTSampleClassType",
     "description": "The base type class for all data items with a gls{category} of mtmodel{SAMPLE}. An XML element that provides the information and data reported from a piece of equipment for those dataitem elements defined with a category attribute of sample category in the mtconnectdevices document.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2345",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2345",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1740,7 +1740,7 @@
     "displayName": "AccelerationClassType",
     "description": "Rate of change of velocity. $frac{MILLIMETER}{SECOND^{2}}$ The measurement of the rate of change of velocity.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2265",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2265",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1763,7 +1763,7 @@
     "displayName": "AccumulatedTimeClassType",
     "description": "The measurement of accumulated time for an activity or event. $SECOND$ The measurement of accumulated time for an activity or event.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2267",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2267",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1786,7 +1786,7 @@
     "displayName": "AmperageClassType",
     "description": "The measurement of electrical current. $AMPERE$ DEPRECATED in Version 1.6. Replaced by amperageac sample and amperagedc sample.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2273",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2273",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1809,7 +1809,7 @@
     "displayName": "AngleClassType",
     "description": "The measurement of angular position. $DEGREE$ The measurement of angular position.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2275",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2275",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1832,7 +1832,7 @@
     "displayName": "AngularAccelerationClassType",
     "description": "Rate of change of angular velocity. $frac{DEGREE}{SECOND^{2}}$ The measurement rate of change of angular velocity.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2269",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2269",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1855,7 +1855,7 @@
     "displayName": "AngularVelocityClassType",
     "description": "Rate of change of angular position. $frac{DEGREE}{SECOND}$ The measurement of the rate of change of angular position.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2271",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2271",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1878,7 +1878,7 @@
     "displayName": "AxisFeedrateClassType",
     "description": "The feedrate of a linear axis. $frac{MILLIMETER}{SECOND}$ The measurement of the feedrate of a linear axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2277",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2277",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1901,7 +1901,7 @@
     "displayName": "ClockTimeClassType",
     "description": "The value provided by a timing device at a specific point in time. $TIMESTAMP$ The value provided by a timing device at a specific point in time.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2279",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2279",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1924,7 +1924,7 @@
     "displayName": "ConcentrationClassType",
     "description": "Percentage of one component within a mixture of components. $PERCENT$ The measurement of the percentage of one component within a mixture of components",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2281",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2281",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1947,7 +1947,7 @@
     "displayName": "ConductivityClassType",
     "description": "The ability of a material to conduct electricity. $frac{SIEMENS}{METER}$ The measurement of the ability of a material to conduct electricity.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2283",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2283",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1970,7 +1970,7 @@
     "displayName": "DisplacementClassType",
     "description": "The change in position of an object. $MILLIMETER$ The measurement of the change in position of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2285",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2285",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1993,7 +1993,7 @@
     "displayName": "ElectricalEnergyClassType",
     "description": "The measurement of electrical energy consumption by a component. $WATT times SECOND$ The measurement of electrical energy consumption by a component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2287",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2287",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2016,7 +2016,7 @@
     "displayName": "EquipmentTimerClassType",
     "description": "The measurement of the amount of time a mtmodel{SECOND} piece of equipment or a sub-part of a piece of equipment has performed specific activities. Often used to determine when maintenance may be required for the equipment. Multiple subTypes of mtmodel{EQUIPMENT_TIMER} MAY be defined. A subType MUST always be specified. $SECOND$ The measurement of the amount of time a piece of equipment or a sub-part of a piece of equipment has performed specific activities.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2289",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2289",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2039,7 +2039,7 @@
     "displayName": "FillLevelClassType",
     "description": "The measurement of the amount of a substance remaining compared to the planned maximum amount of that substance. $PERCENT$ The measurement of the amount of a substance remaining compared to the planned maximum amount of that substance.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2291",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2291",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2062,7 +2062,7 @@
     "displayName": "FlowClassType",
     "description": "The rate of flow of a fluid. $frac{LITER}{SECOND}$ The measurement of the rate of flow of a fluid.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2293",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2293",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2085,7 +2085,7 @@
     "displayName": "FrequencyClassType",
     "description": "The measurement of the number of occurrences of a repeating event per unit time. $HERTZ$ The measurement of the number of occurrences of a repeating event per unit time.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2295",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2295",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2108,7 +2108,7 @@
     "displayName": "LengthClassType",
     "description": "The length of an object. $MILLIMETER$ The measurement of the length of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2297",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2297",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2131,7 +2131,7 @@
     "displayName": "LinearForceClassType",
     "description": "The measure of the push or pull introduced by an actuator or exerted on an object. $NEWTON$ The measurement of the push or pull introduced by an actuator or exerted on an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2299",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2299",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2154,7 +2154,7 @@
     "displayName": "LoadClassType",
     "description": "The measurement of the actual versus the standard rating of a piece of equipment. $PERCENT$ The measurement of the actual versus the standard rating of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2263",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2263",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2177,7 +2177,7 @@
     "displayName": "MassClassType",
     "description": "The measurement of the mass of an object(s) or an amount of material. $KILOGRAM$ The measurement of the mass of an object(s) or an amount of material.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2301",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2301",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2200,7 +2200,7 @@
     "displayName": "PathFeedrateClassType",
     "description": "The feedrate for the axes, or a single axis, associated with a mtmodel{Path} component a vector. $frac{MILLIMETER}{SECOND}$ The measurement of the feedrate for the axes, or a single axis, associated with a path component-a vector.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2303",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2303",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2223,7 +2223,7 @@
     "displayName": "PathPositionClassType",
     "description": "A measured or calculated position of a control point associated with a mtmodel{Controller} element, or PATH element if provided, of a piece of equipment. The control point MUST be reported as a set of space-delimited floating-point numbers representing a point in 3-D space. The position of the control point MUST be reported in units of mtmodel{MILLIMETER} and listed in order of X, Y, and Z referenced to the coordinate system of the piece of equipment. $MILLIMETER (mathbb{R}^{3})$ A measured or calculated position of a control point associated with a controller element, or path element if provided, of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2305",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2305",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2246,7 +2246,7 @@
     "displayName": "PHClassType",
     "description": "The measure of the acidity or alkalinity. $PH$ A measure of the acidity or alkalinity of a solution.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2307",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2307",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2269,7 +2269,7 @@
     "displayName": "PositionClassType",
     "description": "A calculated or measured position related to a Component element. mtmodel{POSITION} SHOULD be further defined withacoordinateSytemattribute. If a coordinateSystem attribute is not specified, the position of the control point MUST be reported in mtmodel{MACHINE} coordinates. $MILLIMETER$ A measured or calculated position of a component element as reported by a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2309",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2309",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2292,7 +2292,7 @@
     "displayName": "PowerFactorClassType",
     "description": "The measurement of the ratio of real power flowing to a load to the apparent power in that AC circuit. $PERCENT$ The measurement of the ratio of real power flowing to a load to the apparent power in that AC circuit.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2311",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2311",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2315,7 +2315,7 @@
     "displayName": "PressureClassType",
     "description": "The force per unit area exerted by a gas or liquid. $PASCAL$ The measurement of force per unit area exerted by a gas or liquid.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2313",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2313",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2338,7 +2338,7 @@
     "displayName": "ProcessTimerClassType",
     "description": "The measurement of the amount of time a piece of equipment has performed different types of activities associated with the process being performed at that piece of equipment. Multiple subtypes of mtmodel{PROCESS_TIMER} may be defined. Typically, mtmodel{PROCESS_TIMER} SHOULD be modeled as a data item for the Device element, but MAY be modeled for either a Controller or Path Structural Element in the XML document. A gls{subType} MUST always be specified. $SECOND$ The measurement of the amount of time a piece of equipment has performed different types of activities associated with the process being performed at that piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2315",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2315",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2361,7 +2361,7 @@
     "displayName": "ResistenceClassType",
     "description": "The degree to which a substance opposes the passage of an electric current. $OHM$",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2317",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2317",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2384,7 +2384,7 @@
     "displayName": "RotaryVelocityClassType",
     "description": "The rotational speed of a rotary axis. $frac{REVOLUTION}{MINUTE}$ The measurement of the rotational speed of a rotary axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2319",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2319",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2407,7 +2407,7 @@
     "displayName": "SoundLevelClassType",
     "description": "Measurement of a sound level or sound pressure level relative to atmospheric pressure. $DECIBEL$ The measurement of a sound level or sound pressure level relative to atmospheric pressure.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2321",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2321",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2430,7 +2430,7 @@
     "displayName": "StrainClassType",
     "description": "The amount of deformation per unit length of an object when a load is applied. $PERCENT$ The measurement of the amount of deformation per unit length of an object when a load is applied.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2323",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2323",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2453,7 +2453,7 @@
     "displayName": "TemperatureClassType",
     "description": "The measurement of temperature. $CELSIUS$ The measurement of temperature.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2325",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2325",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2476,7 +2476,7 @@
     "displayName": "TensionClassType",
     "description": "A measurement of a force that stretches or elongates an object. $NEWTON$ The measurement of a force that stretches or elongates an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2327",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2327",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2499,7 +2499,7 @@
     "displayName": "TiltClassType",
     "description": "A measurement of angular displacement. $MICRO cdot RADIAN$ The measurement of angular displacement.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2329",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2329",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2522,7 +2522,7 @@
     "displayName": "TorqueClassType",
     "description": "The turning force exerted on an object or by an object. $NEWTON times METER$ The measurement of the turning force exerted on an object or by an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2331",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2331",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2545,7 +2545,7 @@
     "displayName": "VelocityClassType",
     "description": "The rate of change of position. $frac{MILLIMETER}{SECOND}$ The measurement of the rate of change of position of a component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2335",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2335",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2568,7 +2568,7 @@
     "displayName": "ViscosityClassType",
     "description": "A measurement of a fluid’s resistance to flow. $PASCAL times SECOND$. The measurement of a fluids resistance to flow.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2339",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2339",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2591,7 +2591,7 @@
     "displayName": "VoltageClassType",
     "description": "The measurement of electrical potential between two points. $VOLT$ DEPRECATED in Version 1.6. Replaced by voltageac sample and voltagedc sample.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2341",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2341",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2614,7 +2614,7 @@
     "displayName": "VoltAmpereClassType",
     "description": "The measure of the apparent power in an electrical circuit, equal to the product of root-mean-square (RMS) voltage and RMS current (commonly referred to as VA). $VOLT times AMPERE$ The measurement of the apparent power in an electrical circuit, equal to the product of root-mean-square (RMS) voltage and RMS current (commonly referred to as VA).",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2333",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2333",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2637,7 +2637,7 @@
     "displayName": "VoltAmpereReactiveClassType",
     "description": "The measurement of reactive power in an AC electrical circuit (commonly referred to as VAR). $VOLT times AMPERE (Reactive)$ The measurement of reactive power in an AC electrical circuit (commonly referred to as VAR).",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2337",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2337",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2660,7 +2660,7 @@
     "displayName": "WattageClassType",
     "description": "The measurement of power flowing through or dissipated by an electrical circuit or piece of equipment. $WATT$ The measurement of power flowing through or dissipated by an electrical circuit or piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTSampleClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2343",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2343",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2682,7 +2682,7 @@
     "displayName": "MTControlledVocabEventClassType",
     "description": "The abstract base type for controlled events that represent states that are provided in related enumerations. These data items will be represented in an object of type mtuatype{MTControlledVocabEventType} derived from the OPC UA type uamodel{MultiStateValueDiscreteType}",
     "extends": "dtmi:opcua:MTConnect_v2:MTEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2144",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2144",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2705,7 +2705,7 @@
     "displayName": "ActuatorStateClassType",
     "description": "Represents the operational state of an apparatus for moving or controlling. Represents the operational state of an apparatus for moving or controlling a mechanism or system.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2146",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2146",
     "commandTopic": "opcua/MTConnect_v2/ActuatorStateClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/ActuatorStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2741,7 +2741,7 @@
     "displayName": "AvailabilityClassType",
     "description": "Represents the Agent's ability to communicate with the data source. This MUST be provided for a Device Element and MAY be provided for any other Structural Element. Represents the agent's ability to communicate with the data source.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2149",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2149",
     "commandTopic": "opcua/MTConnect_v2/AvailabilityClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/AvailabilityClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2777,7 +2777,7 @@
     "displayName": "AxisCouplingClassType",
     "description": "Describes the way the axes will be associated to each other. This is used in conjunction with mtmodel{COUPLED_AXES} to indicate the way they are interacting. The coupling MUST be viewed from the perspective of a specific axis. Therefore, a mtmodel{MASTER} coupling indicates that this axis is the master for the mtmodel{COUPLED_AXES}. Describes the way the axes will be associated to each other. This is used in conjunction with coupledaxes event to indicate the way they are interacting.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2152",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2152",
     "commandTopic": "opcua/MTConnect_v2/AxisCouplingClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/AxisCouplingClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2813,7 +2813,7 @@
     "displayName": "AxisInterlockClassType",
     "description": "An indicator of the state of the axis lockout function when power has been removed and the axis is allowed to move freely. An indicator of the state of the axis lockout function when power has been removed and the axis is allowed to move freely.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2155",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2155",
     "commandTopic": "opcua/MTConnect_v2/AxisInterlockClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/AxisInterlockClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2849,7 +2849,7 @@
     "displayName": "AxisStateClassType",
     "description": "An indicator of the controlled state of a mtmodel{LINEAR} or mtmodel{ROTARY} component representing an axis. An indicator of the controlled state of a linear or rotary component representing an axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2158",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2158",
     "commandTopic": "opcua/MTConnect_v2/AxisStateClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/AxisStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2885,7 +2885,7 @@
     "displayName": "ChuckInterlockClassType",
     "description": "An indication of the state of an interlock function or control logic state intended to prevent the associated mtmodel{Chuck} composition or function from being operated. An indication of the state of an interlock function or control logic state intended to prevent the associated chuck component from being operated.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2161",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2161",
     "commandTopic": "opcua/MTConnect_v2/ChuckInterlockClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/ChuckInterlockClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2921,7 +2921,7 @@
     "displayName": "ChuckStateClassType",
     "description": "An indication of the operating state of a mechanism that holds a part or stock material during a manufacturing process. It may also represent a mechanism that holds any other mechanism in place within a piece of equipment. An indication of the operating state of a mechanism that holds a part or stock material during a manufacturing process. It may also represent a mechanism that holds any other mechanism in place within a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2164",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2164",
     "commandTopic": "opcua/MTConnect_v2/ChuckStateClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/ChuckStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2957,7 +2957,7 @@
     "displayName": "CloseChuckClassType",
     "description": "Service to close a chuck. Service to close a chuck.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2256",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2256",
     "commandTopic": "opcua/MTConnect_v2/CloseChuckClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/CloseChuckClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2993,7 +2993,7 @@
     "displayName": "CloseDoorClassType",
     "description": "Service to close a door. Service to close a door.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2250",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2250",
     "commandTopic": "opcua/MTConnect_v2/CloseDoorClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/CloseDoorClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3029,7 +3029,7 @@
     "displayName": "CompositionStateClassType",
     "description": "An indication of the operating condition of a mechanism represented by a mtmodel{Composition} type element. A gls{subType} MUST always be specified. A mtmodel{compositionId} MUST always be specified. An indication of the operating condition of a mechanism represented by a composition type element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2173",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2173",
     "commandTopic": "opcua/MTConnect_v2/CompositionStateClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/CompositionStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3065,7 +3065,7 @@
     "displayName": "ControllerModeClassType",
     "description": "The current mode of the mtmodel{Controller} component. The current operating mode of the controller component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2167",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2167",
     "commandTopic": "opcua/MTConnect_v2/ControllerModeClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/ControllerModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3101,7 +3101,7 @@
     "displayName": "ControllerModeOverrideClassType",
     "description": "A setting or operator selection that changes the behavior of a piece of equipment. A setting or operator selection that changes the behavior of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2176",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2176",
     "commandTopic": "opcua/MTConnect_v2/ControllerModeOverrideClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/ControllerModeOverrideClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3137,7 +3137,7 @@
     "displayName": "DirectionClassType",
     "description": "The direction of motion. A gls{subType} MUST always be specified. The direction of motion.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2179",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2179",
     "commandTopic": "opcua/MTConnect_v2/DirectionClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/DirectionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3173,7 +3173,7 @@
     "displayName": "DoorStateClassType",
     "description": "The opened or closed state of the door. The operational state of a door type component or composition element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2182",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2182",
     "commandTopic": "opcua/MTConnect_v2/DoorStateClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/DoorStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3209,7 +3209,7 @@
     "displayName": "EmergencyStopClassType",
     "description": "The current state of the emergency stop signal. The current state of the emergency stop signal for a piece of equipment, controller path, or any other component or subsystem of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2185",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2185",
     "commandTopic": "opcua/MTConnect_v2/EmergencyStopClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/EmergencyStopClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3245,7 +3245,7 @@
     "displayName": "EndOfBarClassType",
     "description": "An indication of whether the end of a piece of bar stock being feed by a bar feeder has been reached. An indication of whether the end of a piece of bar stock being feed by a bar feeder has been reached.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2188",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2188",
     "commandTopic": "opcua/MTConnect_v2/EndOfBarClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/EndOfBarClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3281,7 +3281,7 @@
     "displayName": "EquipmentModeClassType",
     "description": "An indication that a piece of equipment, or a sub-part of a piece of equipment, is performing specific types of activities. A gls{subType} MUST always be specified. An indication that a piece of equipment, or a sub-part of a piece of equipment, is performing specific types of activities.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2191",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2191",
     "commandTopic": "opcua/MTConnect_v2/EquipmentModeClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/EquipmentModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3317,7 +3317,7 @@
     "displayName": "ExecutionClassType",
     "description": "The execution status of the mtmodel{Controller} or mtmodel{Path}. The execution status of the controller.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2170",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2170",
     "commandTopic": "opcua/MTConnect_v2/ExecutionClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/ExecutionClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3353,7 +3353,7 @@
     "displayName": "FunctionalModeClassType",
     "description": "The current intended production status of the device or component. Typically, the texttt{FUNCTIONAL_MODE} SHOULD be modeled as a data item for the Device element, but MAY be modeled for any Structural Element in the XML document. The current intended production status of the device or component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2194",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2194",
     "commandTopic": "opcua/MTConnect_v2/FunctionalModeClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/FunctionalModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3389,7 +3389,7 @@
     "displayName": "InterfaceStateClassType",
     "description": "The current functional or operational state of an Interface type element indicating whether the Interface is active or not currently functioning. An indication of the operational state of an interface component component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2227",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2227",
     "commandTopic": "opcua/MTConnect_v2/InterfaceStateClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/InterfaceStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3425,7 +3425,7 @@
     "displayName": "MaterialChangeClassType",
     "description": "Service to change the type of material or product being loaded or fed to a piece of equipment. Service to change the type of material or product being loaded or fed to a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2235",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2235",
     "commandTopic": "opcua/MTConnect_v2/MaterialChangeClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MaterialChangeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3461,7 +3461,7 @@
     "displayName": "MaterialFeedClassType",
     "description": "Service to advance material or feed product to a piece of equipment from a continuous or bulk source. Service to advance material or feed product to a piece of equipment from a continuous or bulk source.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2231",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2231",
     "commandTopic": "opcua/MTConnect_v2/MaterialFeedClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MaterialFeedClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3497,7 +3497,7 @@
     "displayName": "MaterialLoadClassType",
     "description": "Service to load a piece of material or product. Service to load a piece of material or product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2241",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2241",
     "commandTopic": "opcua/MTConnect_v2/MaterialLoadClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MaterialLoadClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3533,7 +3533,7 @@
     "displayName": "MaterialRetractClassType",
     "description": "Service to remove or retract material or product. Service to remove or retract material or product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2238",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2238",
     "commandTopic": "opcua/MTConnect_v2/MaterialRetractClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MaterialRetractClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3569,7 +3569,7 @@
     "displayName": "MaterialUnloadClassType",
     "description": "Service to unload a piece of material or product. Service to unload a piece of material or product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2244",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2244",
     "commandTopic": "opcua/MTConnect_v2/MaterialUnloadClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/MaterialUnloadClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3605,7 +3605,7 @@
     "displayName": "OpenChuckClassType",
     "description": "Service to open a chuck. Service to open a chuck.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2253",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2253",
     "commandTopic": "opcua/MTConnect_v2/OpenChuckClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/OpenChuckClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3641,7 +3641,7 @@
     "displayName": "OpenDoorClassType",
     "description": "Service to open a door. Service to open a door.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2247",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2247",
     "commandTopic": "opcua/MTConnect_v2/OpenDoorClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/OpenDoorClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3677,7 +3677,7 @@
     "displayName": "PartChangeClassType",
     "description": "Service to change the part or product associated with a piece of equipment to a different part or product. Service to change the part or product associated with a piece of equipment to a different part or product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2259",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2259",
     "commandTopic": "opcua/MTConnect_v2/PartChangeClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/PartChangeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3713,7 +3713,7 @@
     "displayName": "PathModeClassType",
     "description": "Describes the operational relationship between a mtmodel{PATH} textit{Structural Element} and another mtmodel{PATH} textit{Structural Element} for pieces of equipment comprised of multiple logical groupings of controlled axes or other logical operations. Describes the operational relationship between a path structural element and another path structural element for pieces of equipment comprised of multiple logical groupings of controlled axes or other logical operations.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2215",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2215",
     "commandTopic": "opcua/MTConnect_v2/PathModeClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/PathModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3749,7 +3749,7 @@
     "displayName": "PowerStateClassType",
     "description": "The indication of the status of the source of energy for a textit{Structural Element} to allow it to perform its intended function or the state of an enabling signal providing permission for the textit{Structural Element} to perform its functions. DEPRECATION WARNING: texttt{PowerState} may be deprecated in the future. The indication of the status of the source of energy for a structural element to allow it to perform its intended function or the state of an enabling signal providing permission for the structural element to perform its functions.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2218",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2218",
     "commandTopic": "opcua/MTConnect_v2/PowerStateClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/PowerStateClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3785,7 +3785,7 @@
     "displayName": "ProgramEditClassType",
     "description": "An indication of the status of the mtmodel{Controller} component’s program editing mode. On many controls, a program can be edited while another program is currently being executed. An indication of the status of the controller components program editing mode. On many controls, a program can be edited while another program is currently being executed.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2221",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2221",
     "commandTopic": "opcua/MTConnect_v2/ProgramEditClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/ProgramEditClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3821,7 +3821,7 @@
     "displayName": "RotaryModeClassType",
     "description": "The current operating mode for a mtmodel{Rotary} type axis. The current operating mode for a rotary type axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2224",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2224",
     "commandTopic": "opcua/MTConnect_v2/RotaryModeClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/RotaryModeClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3857,7 +3857,7 @@
     "displayName": "SpindleInterlockClassType",
     "description": "An indication of the status of the spindle for a piece of equipment when power has been removed and it is free to rotate. An indication of the status of the spindle for a piece of equipment when power has been removed and it is free to rotate.",
     "extends": "dtmi:opcua:MTConnect_v2:MTControlledVocabEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2212",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2212",
     "commandTopic": "opcua/MTConnect_v2/SpindleInterlockClassType/{commandName}",
     "telemetryTopic": "opcua/MTConnect_v2/SpindleInterlockClassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3892,7 +3892,7 @@
     "displayName": "MTNumericEventClassType",
     "description": "The root type for all of the event types that have numeric gls{CDATA}.",
     "extends": "dtmi:opcua:MTConnect_v2:MTEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2359",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2359",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3915,7 +3915,7 @@
     "displayName": "AxisFeedrateOverrideClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate of an individual linear type axis. The value provided for mtmodel{AXIS_FEEDRATE_OVERRIDE} is expressed as a percentage of the designated feedrate for the axis. When mtmodel{AXIS_FEEDRATE_OVERRIDE} is applied, the resulting commanded feedrate for the axis is limited to the value of the original feedrate multiplied by the value of the mtmodel{AXIS_FEEDRATE_OVERRIDE}. There MAY be different subtypes of mtmodel{AXIS_FEEDRATE_OVERRIDE}; each representing an override value for a designated subtype of feedrate depending on the state of operation of the axis. The subtypes of operation of an axis are currently defined as mtmodel{PROGRAMMED}, mtmodel{JOG}, and mtmodel{RAPID}. The value of a signal or calculation issued to adjust the feedrate of an individual linear type axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2347",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2347",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3938,7 +3938,7 @@
     "displayName": "BlockCountClassType",
     "description": "The total count of the number of blocks of program code that have been executed since execution started. mtmodel{BLOCK_COUNT} counts blocks of program code executed regardless of program structure (e.g., looping or branching within the program). The starting value for mtmodel{BLOCK_COUNT} MAY be established by an initial value provided in the Constraint element defined for the data item. The total count of the number of blocks of program code that have been executed since execution started.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2349",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2349",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3961,7 +3961,7 @@
     "displayName": "HardnessClassType",
     "description": "The measurement of the hardness of a material. The measurement does not provide a unit. A gls{subType} MUST always be specified to designate the hardness scale associated with the measurement. The measurement of the hardness of a material.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2351",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2351",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3984,7 +3984,7 @@
     "displayName": "LineNumberClassType",
     "description": "A reference to the position of a block of program code within a control program. The line number MAY represent either an absolute position starting with the first line of the program or an incremental position relative to the occurrence of the last mtmodel{LINE_LABEL}. mtmodel{LINE_NUMBER} does not change subject to any looping or branching in a control program. A gls{subType} MUST be defined. A reference to the position of a block of program code within a control program.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2353",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2353",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4007,7 +4007,7 @@
     "displayName": "PartCountClassType",
     "description": "The current count of parts produced as represented by the Controller. The valid data value MUST be an integer value. The count of parts produced.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2355",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2355",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4030,7 +4030,7 @@
     "displayName": "PathFeedrateOverrideClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate for the axes associated with a path component that may represent a single axis or the coordinated movement of multiple axes.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=3628",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=3628",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4053,7 +4053,7 @@
     "displayName": "RotaryVelocityOverrideClassType",
     "description": "A command issued to adjust the programmed velocity for a Rotary type axis. This command represents a percentage change to the velocity calculated by a logic or motion program or set by a switch for a Rotary type axis. mtmodel{ROTARY_VELOCITY_OVERRIDE} is expressed as a percentage of the programmed mtmodel{ROTARY_VELOCITY}. The value of a command issued to adjust the programmed velocity for a rotary type axis. This command represents a percentage change to the velocity calculated by a logic or motion program or set by a switch for a rotary type axis.",
     "extends": "dtmi:opcua:MTConnect_v2:MTNumericEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2357",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2357",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4075,7 +4075,7 @@
     "displayName": "MTStringEventClassType",
     "description": "The base UA gls{Type} for all glspl{MTDataItem} that have a non-specific text representation.",
     "extends": "dtmi:opcua:MTConnect_v2:MTEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2361",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2361",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4098,7 +4098,7 @@
     "displayName": "AssetChangedClassType",
     "description": "The value of the cdata for the event MUST be the assetid of the asset that has been added or changed. There will not be a separate message for new assets.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2405",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2405",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4121,7 +4121,7 @@
     "displayName": "AssetRemovedClassType",
     "description": "The value of the cdata for the event MUST be the assetid of the asset that has been removed. The asset will still be visible if requested with the includeremoved parameter as described in the protocol section. When assets are removed they are not moved to the beginning of the most recently modified list.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2407",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2407",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4144,7 +4144,7 @@
     "displayName": "BlockClassType",
     "description": "The line of code or command being executed by a mtmodel{Controller} mtterm{Structural Element}. The value reported for mtmodel{Block} MUST include the entire expression for a line of program code, including all parameters. The line of code or command being executed by a controller structural element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2363",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2363",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4167,7 +4167,7 @@
     "displayName": "CoupledAxesClassType",
     "description": "Refers to the set of associated axes. The valid data value for mtmodel{COUPLED_AXES} SHOULD be a space-delimited set of axes reported as the value of the name attribute for each axis. If name is not available, the piece of equipment MUST report the value of the nativeName attribute for each axis. Refers to the set of associated axes.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2365",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2365",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4190,7 +4190,7 @@
     "displayName": "LineClassType",
     "description": "DEPRECATED in Version 1.4.0.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2409",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2409",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4213,7 +4213,7 @@
     "displayName": "LineLabelClassType",
     "description": "An optional identifier for a mtmodel{BLOCK} of code in a mtmodel{PROGRAM}. An optional identifier for a block event of code in a program event.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2367",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2367",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4236,7 +4236,7 @@
     "displayName": "MaterialClassType",
     "description": "The identifier of a material used or consumed in the manufacturing process. The identifier of a material used or consumed in the manufacturing process.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2369",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2369",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4259,7 +4259,7 @@
     "displayName": "MessageClassType",
     "description": "Any text string of information to be transferred from a piece of equipment to a client software application.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2403",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2403",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4282,7 +4282,7 @@
     "displayName": "OperatorIdClassType",
     "description": "The identifier of the person currently responsible for operating the piece of equipment. DEPRECATION WARNING: May be deprecated in the future. See mtmodel{USER} below. The identifier of the person currently responsible for operating the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2371",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2371",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4305,7 +4305,7 @@
     "displayName": "PalletIdClassType",
     "description": "The identifier for a pallet. The identifier for a pallet.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2373",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2373",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4328,7 +4328,7 @@
     "displayName": "PartIdClassType",
     "description": "An identifier of a part in a manufacturing operation. An identifier of a part in a manufacturing operation.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2375",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2375",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4351,7 +4351,7 @@
     "displayName": "PartNumberClassType",
     "description": "An identifier of a part or product moving through the manufacturing process. An identifier of a part or product moving through the manufacturing process. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2377",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2377",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4374,7 +4374,7 @@
     "displayName": "ProgramClassType",
     "description": "The name of the logic or motion program being executed by the mtmodel{Controller} or mtmodel{Path} component. The name of the logic or motion program being executed by the controller component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2379",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2379",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4397,7 +4397,7 @@
     "displayName": "ProgramCommentClassType",
     "description": "A comment or non-executable statement in the control program. A comment or non-executable statement in the control program. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2385",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2385",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4420,7 +4420,7 @@
     "displayName": "ProgramEditNameClassType",
     "description": "The name of the program being edited. This is used in conjunction with mtmodel{PROGRAM_EDIT} when in mtmodel{ACTIVE} state. The name of the program being edited. This is used in conjunction with programedit event when in active value state. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2381",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2381",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4443,7 +4443,7 @@
     "displayName": "ProgramHeaderClassType",
     "description": "The non-executable header section of the control program. The non-executable header section of the control program.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2383",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2383",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4466,7 +4466,7 @@
     "displayName": "SerialNumberClassType",
     "description": "The serial number associated with a mtmodel{Component}, mtmodel{Asset}, or mtmodel{Device}. The serial number associated with a component, asset mtconnectassets, or device. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2387",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2387",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4489,7 +4489,7 @@
     "displayName": "ToolAssetIdClassType",
     "description": "The identifier of an individual tool asset The identifier of an individual tool asset.The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2389",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2389",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4512,7 +4512,7 @@
     "displayName": "ToolNumberClassType",
     "description": "The identifier of a tool provided by the piece of equipment controller. The identifier assigned by the controller component to a cutting tool when in use by a piece of equipment. The valid data value must be a text string.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2391",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2391",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4535,7 +4535,7 @@
     "displayName": "ToolOffsetClassType",
     "description": "A reference to the tool offset variables applied to the active cutting tool associated with a Path in a Controller type component. The valid data value MUST be a text string. The reported value returned for mtmodel{TOOL_OFFSET} identifies the location in a table or list where the actual tool offset values are stored. A gls{subType} MUST always be specified. A reference to the tool offset variables applied to the active cutting tool associated with a path in a controller type component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2393",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2393",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4558,7 +4558,7 @@
     "displayName": "UserClassType",
     "description": "The identifier of the person currently responsible for operating the piece of equipment. A gls{subType} MUST always be specified. The identifier of the person currently responsible for operating the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2395",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2395",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4581,7 +4581,7 @@
     "displayName": "WireClassType",
     "description": "The identifier for the type of wire used as the cutting mechanism in Electrical Discharge Machining or similar processes. A string like piece or filament of relatively rigid or flexible material provided in a variety of diameters.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2397",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2397",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4604,7 +4604,7 @@
     "displayName": "WorkholdingClassType",
     "description": "The identifier for the workholding currently in use.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2399",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2399",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4627,7 +4627,7 @@
     "displayName": "WorkOffsetClassType",
     "description": "A reference to the offset variables for a work piece or part associated with a Path in a Controller type component. The valid data value MUST be a text string. The reported value returned for mtmodel{WORK_OFFSET} identifies the location in a table or list where the actual tool offset values are stored. A reference to the offset variables for a work piece or part associated with a path in a controller type component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTStringEventClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2401",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2401",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4650,7 +4650,7 @@
     "displayName": "ActuatorClassType",
     "description": "Redefined as a piece of equipment with the ability to be represented as a lower level component of a parent component element or as a composition element. See actuator type",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2411",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2411",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4673,7 +4673,7 @@
     "displayName": "CommunicationsClassType",
     "description": "An indication that the piece of equipment has experienced a communications failure.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2413",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2413",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4696,7 +4696,7 @@
     "displayName": "DataRangeClassType",
     "description": "An indication that the value of the data associated with a measured value or a calculation is outside of an expected range.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2415",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2415",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4719,7 +4719,7 @@
     "displayName": "HardwareClassType",
     "description": "An indication of a fault associated with the hardware subsystem of the structural element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2419",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2419",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4742,7 +4742,7 @@
     "displayName": "LogicProgramClassType",
     "description": "An indication that an error occurred in the logic program or programmable logic controller (PLC) associated with a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2417",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2417",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4765,7 +4765,7 @@
     "displayName": "MotionProgramClassType",
     "description": "An indication that an error occurred in the motion program associated with a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2421",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2421",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4788,7 +4788,7 @@
     "displayName": "SystemClassType",
     "description": "A general purpose indication associated with an electronic component of a piece of equipment or a controller that represents a fault that is not associated with the operator, program, or hardware.",
     "extends": "dtmi:opcua:MTConnect_v2:MTConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2423",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2423",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4810,7 +4810,7 @@
     "displayName": "MTDataItemSubClassType",
     "description": "data entity describing a piece of information reported about a piece of equipment.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2476",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2476",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4833,7 +4833,7 @@
     "displayName": "AbsoluteSubClassType",
     "description": "The magnitude or measurement of a type irrespective of its relation to other values. The position of a block of program code relative to the beginning of the control program.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2478",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2478",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4856,7 +4856,7 @@
     "displayName": "ActionSubClassType",
     "description": "An indication of the operating state or value of a type. An indication of the operating state of a mechanism represented by a composition type component. The operating state indicates whether the composition element is activated or disabled. The valid data value must be active value or inactive value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2482",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2482",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4879,7 +4879,7 @@
     "displayName": "ActualSubClassType",
     "description": "The measured value of the a type. The measured value of the data item type given by a sensor or encoder.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2480",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2480",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4902,7 +4902,7 @@
     "displayName": "AllSubClassType",
     "description": "The count of all the parts produced. If the subtype is not given, this is the default.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2484",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2484",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4925,7 +4925,7 @@
     "displayName": "AlternatingSubClassType",
     "description": "The measurement of a type occurring in turn repeatedly. The measurement of alternating voltage or current. If not specified further in statistic, defaults to RMS voltage.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2486",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2486",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4948,7 +4948,7 @@
     "displayName": "AScaleSubClassType",
     "description": "A Scale weighting factor for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2488",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2488",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4971,7 +4971,7 @@
     "displayName": "AuxiliarySubClassType",
     "description": "Example: When multiple locations on a piece of bar stock are referenced as the indication for the mtmodel{END_OF_BAR}, the additional location(s) MUST be designated as mtmodel{AUXILIARY} indication(s) for the mtmodel{END_OF_BAR}. When multiple locations on a piece of bar stock are referenced as the indication for the endofbar event, the additional location(s) must be designated as auxiliary subtype indication(s) for the endofbar event.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2490",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2490",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4994,7 +4994,7 @@
     "displayName": "BadSubClassType",
     "description": "Indicates the count of incorrect parts produced. Indicates the count of incorrect parts produced.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2492",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2492",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5017,7 +5017,7 @@
     "displayName": "BrinellSubClassType",
     "description": "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2494",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2494",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5040,7 +5040,7 @@
     "displayName": "BScaleSubClassType",
     "description": "B Scale weighting factor for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2496",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2496",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5063,7 +5063,7 @@
     "displayName": "CommandedSubClassType",
     "description": "The value as specified by the Controller type component. A value specified by the controller type component.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2498",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2498",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5086,7 +5086,7 @@
     "displayName": "ControlSubClassType",
     "description": "The state of the enabling signal or control logic that enables or disables the function or operation of the textit{Structural Element}. The state of the enabling signal or control logic that enables or disables the function or operation of the structural element.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2502",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2502",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5109,7 +5109,7 @@
     "displayName": "CScaleSubClassType",
     "description": "C Scale weighting factor for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2504",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2504",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5132,7 +5132,7 @@
     "displayName": "DelaySubClassType",
     "description": "Measurement of the time that a piece of equipment is waiting for an event or an action to occur. A piece of equipment waiting for an event or an action to occur.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2506",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2506",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5155,7 +5155,7 @@
     "displayName": "DirectSubClassType",
     "description": "Measurement of DC current or voltage. The measurement of DC current or voltage.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2508",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2508",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5178,7 +5178,7 @@
     "displayName": "DryRunSubClassType",
     "description": "A setting or operator selection used to execute a test mode to confirm the execution of machine functions.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2510",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2510",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5201,7 +5201,7 @@
     "displayName": "DScaleSubClassType",
     "description": "D Scale weighting factor for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2512",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2512",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5224,7 +5224,7 @@
     "displayName": "FixtureSubClassType",
     "description": "Fixture denotes a specifc type of a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2514",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2514",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5247,7 +5247,7 @@
     "displayName": "GoodSubClassType",
     "description": "Indicates the count of correct parts made. Indicates the count of correct parts made.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2500",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2500",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5270,7 +5270,7 @@
     "displayName": "IncrementalSubClassType",
     "description": "A small change which could be either positive or negative in a Type's value or function. Example: The position of a block of program code relative to the occurrence of the last mtmodel{LINE_LABEL} encountered in the control program. The position of a block of program code relative to the occurrence of the last linelabel event encountered in the control program.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2516",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2516",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5293,7 +5293,7 @@
     "displayName": "JobSubClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a Path component when the axes, or a single axis, are being operated in a manual mode or method (jogging).",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2518",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2518",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5315,7 +5315,7 @@
     "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "KineticSubClassType",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2520",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2520",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5338,7 +5338,7 @@
     "displayName": "LateralSubClassType",
     "description": "An indication of the position of a mechanism that may move in a lateral direction. The mechanism is represented by a mtmodel{Composition} type component. An indication of the position of a mechanism that may move in a lateral direction. The mechanism is represented by a composition type component. The position information indicates whether the composition element is positioned to the right, to the left, or is in transition. The valid data value must be right value, left value, or transitioning value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2522",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2522",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5361,7 +5361,7 @@
     "displayName": "LeebSubClassType",
     "description": "A scale to measure the elasticity of a surface. A scale to measure the elasticity of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2524",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2524",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5384,7 +5384,7 @@
     "displayName": "LengthSubClassType",
     "description": "The measurement or extent of something from end to end. The measurement of the length of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2526",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2526",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5407,7 +5407,7 @@
     "displayName": "LinearSubClassType",
     "description": "The direction of motion. A linear axis represents the movement of a physical piece of equipment, or a portion of the equipment, in a straight line.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2528",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2528",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5430,7 +5430,7 @@
     "displayName": "LineSubClassType",
     "description": "The state of the power source for the textit{Structural Element}. DEPRECATED in Version 1.4.0.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2530",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2530",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5453,7 +5453,7 @@
     "displayName": "LoadedSubClassType",
     "description": "An indication that the sub-parts of a piece of equipment are under load. Subparts of a piece of equipment are under load.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2532",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2532",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5476,7 +5476,7 @@
     "displayName": "MachineAxisLockSubClassType",
     "description": "A setting or operator selection that changes the behavior of the controller on a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2534",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2534",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5499,7 +5499,7 @@
     "displayName": "MaintenanceSubClassType",
     "description": "The identifier of the person currently responsible for performing maintenance on the piece of equipment. Action related to maintenance on the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2536",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2536",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5522,7 +5522,7 @@
     "displayName": "ManualUnclampSubClassType",
     "description": "An indication of the state of an operator controlled interlock that can inhibit the ability to initiate an unclamp action of an electronically controlled chuck.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2538",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2538",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5545,7 +5545,7 @@
     "displayName": "MaximumSubClassType",
     "description": "Maximum or peak value recorded for the data item during the calculation period. The upper limit of data reported for a data item.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2540",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2540",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5568,7 +5568,7 @@
     "displayName": "MinimumSubClassType",
     "description": "Minimum value recorded for the data item during the calculation period. The lower limit of data reported for a data item.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2542",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2542",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5591,7 +5591,7 @@
     "displayName": "MohsSubClassType",
     "description": "A scale to measure the resistance to scratching of a surface. A scale to measure the resistance to scratching of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2544",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2544",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5613,7 +5613,7 @@
     "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "MoleSubClassType",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2546",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2546",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5636,7 +5636,7 @@
     "displayName": "MotionSubClassType",
     "description": "An indication of the open or closed state of a mechanism. The mechanism is represented by a mtmodel{Composition} type component. An indication of the open or closed state of a mechanism. The mechanism is represented by a composition type component. The operating state indicates whether the state of the composition element is open, closed, or unlatched. The valid data value must be open value, unlatched value, or closed value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2548",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2548",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5659,7 +5659,7 @@
     "displayName": "NoScaleSubClassType",
     "description": "No weighting factor on the frequency scale for the measurement of sound level.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2550",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2550",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5682,7 +5682,7 @@
     "displayName": "OperatingSubClassType",
     "description": "An indication that the major sub-parts of a piece of equipment are powered or performing any activity whether producing a part or product or not. Example: For traditional machine tools, this includes when the piece of equipment is mtmodel{WORKING} or it is idle. A piece of equipment are powered or performing any activity.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2552",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2552",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5705,7 +5705,7 @@
     "displayName": "OperatorSubClassType",
     "description": "The identifier of the person currently responsible for operating the piece of equipment. The identifier of the person currently responsible for operating the piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2554",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2554",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5728,7 +5728,7 @@
     "displayName": "OptionalStopSubClassType",
     "description": "A setting or operator selection that changes the behavior of the controller on a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2556",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2556",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5751,7 +5751,7 @@
     "displayName": "OverrideSubClassType",
     "description": "The operator's overridden value. DEPRECATED: The operators overridden value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2558",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2558",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5774,7 +5774,7 @@
     "displayName": "PoweredSubClassType",
     "description": "An indication that primary power is applied to the piece of equipment and, as a minimum, the controller or logic portion of the piece of equipment is powered and functioning or components that are required to remain on are powered. Primary power is applied to the piece of equipment and, as a minimum, the controller or logic portion of the piece of equipment is powered and functioning or components that are required to remain on are powered.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2562",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2562",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5797,7 +5797,7 @@
     "displayName": "PrimarySubClassType",
     "description": "Specific applications MAY reference one or more locations on a piece of bar stock as the indication for the mtmodel{END_OF_BAR}. The main or most important location MUST be designated as the mtmodel{PRIMARY} indication for the mtmodel{END_OF_BAR}. Specific applications MAY reference one or more locations on a piece of bar stock as the indication for the endofbar event. The main or most important location must be designated as the primary subtype indication for the endofbar event. If no subtype is specified, primary subtype must be the default endofbar event indication.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2560",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2560",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5820,7 +5820,7 @@
     "displayName": "ProbeSubClassType",
     "description": "The position provided by a measurement probe. The position provided by a measurement probe.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2564",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2564",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5843,7 +5843,7 @@
     "displayName": "ProcessSubClassType",
     "description": "The measurement of the time from the beginning of production of a part or product on a piece of equipment until the time that production is complete for that part or product on that piece of equipment. This includes the time that the piece of equipment is running, producing parts or products, or in the process of producing parts. The measurement of the time from the beginning of production of a part or product on a piece of equipment until the time that production is complete for that part or product on that piece of equipment. This includes the time that the piece of equipment is running, producing parts or products, or in the process of producing parts.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2566",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2566",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5866,7 +5866,7 @@
     "displayName": "ProgrammedSubClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a mtmodel{Path} component when the axes, or a single axis, are operating as specified by a logic or motion program or set by a switch. The value of a signal or calculation specified by a logic or motion program or set by a switch.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2568",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2568",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5889,7 +5889,7 @@
     "displayName": "RadialSubClassType",
     "description": "A reference to a radial type tool offset variable. A reference to a radial type tool offset variable.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2570",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2570",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5912,7 +5912,7 @@
     "displayName": "RapidSubClassType",
     "description": "The value of a signal or calculation issued to adjust the feedrate of the axes associated with a mtmodel{Path} component when the axes, or a single axis, are being operated in a rapid positioning mode or method (rapid). The value of a signal or calculation issued to adjust the feedrate of a component or composition that is operating in a rapid positioning mode.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2572",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2572",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5934,7 +5934,7 @@
     "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "RelativeSubClassType",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2574",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2574",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5957,7 +5957,7 @@
     "displayName": "RemainingSubClassType",
     "description": "The remaining amount of the type specified. Remaining measure of an object or an action.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2576",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2576",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5980,7 +5980,7 @@
     "displayName": "RequestSubClassType",
     "description": "mtmodel{Request} subtype identifies if the data item defined for MTConnect Interaction Model cite{MTCPart5} represents a request. A subtype of an interface dataitem type to communicate a request.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2578",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2578",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6003,7 +6003,7 @@
     "displayName": "ResponseSubClassType",
     "description": "mtmodel{Response} subtype identifies if the data item defined for MTConnect Interaction Model cite{MTCPart5} represents a response. A subtype of an interface dataitem type to communicate a response.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2580",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2580",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6026,7 +6026,7 @@
     "displayName": "RockwellSubClassType",
     "description": "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2582",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2582",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6049,7 +6049,7 @@
     "displayName": "RotarySubClassType",
     "description": "The rotational direction of a rotary motion using the right hand rule convention. A rotary axis represents any non-linear or rotary movement of a physical piece of equipment or a portion of the equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2584",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2584",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6072,7 +6072,7 @@
     "displayName": "SetUpSubClassType",
     "description": "The identifier of the person currently responsible for operating the piece of equipment. A structural element is being prepared or modified to begin production of product.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2586",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2586",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6095,7 +6095,7 @@
     "displayName": "ShoreSubClassType",
     "description": "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2588",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2588",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6118,7 +6118,7 @@
     "displayName": "StandardSubClassType",
     "description": "The standard or original value of an object. The standard or original length of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2590",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2590",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6141,7 +6141,7 @@
     "displayName": "SwitchedSubClassType",
     "description": "An indication of the activation state of a mechanism represented by a mtmodel{Composition} type component. The activation state indicates whether the mtmodel{Composition} element is activated or not. An indication of the activation state of a mechanism represented by a composition type component. The activation state indicates whether the composition element is activated or not. The valid data value must be on value or off value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2592",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2592",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6164,7 +6164,7 @@
     "displayName": "TargetSubClassType",
     "description": "Indicates the number of parts that are projected or planned to be produced. The desired measure or count for a data item value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2594",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2594",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6187,7 +6187,7 @@
     "displayName": "ToolChangeStopSubClassType",
     "description": "A setting or operator selection that changes the behavior of the controller on a piece of equipment.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2596",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2596",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6209,7 +6209,7 @@
     "ontology": "http://opcfoundation.org/UA/MTConnect.v2",
     "displayName": "ToolEdgeSubClassType",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2598",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2598",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6232,7 +6232,7 @@
     "displayName": "ToolGroupSubClassType",
     "description": "The tool group a specific tool is assigned to in the part program. An identifier for the tool group associated with a specific tool. Commonly used to designate spare tools.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2600",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2600",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6255,7 +6255,7 @@
     "displayName": "ToolSubClassType",
     "description": "coordinate system referenced to the tool or to the end effector attached to the mechanical interface. Ref:ISO 9787:2013",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2602",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2602",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6278,7 +6278,7 @@
     "displayName": "UasbleSubClassType",
     "description": "The remaining useable value of an object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2604",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2604",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6301,7 +6301,7 @@
     "displayName": "VerticalSubClassType",
     "description": "An indication of the position of a mechanism that may move in a vertical direction. An indication of the position of a mechanism that may move in a vertical direction. The mechanism is represented by a composition type component. The position information indicates whether the composition element is positioned to the top, to the bottom, or is in transition. The valid data value must be up value, down value, or transitioning value.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2606",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2606",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6324,7 +6324,7 @@
     "displayName": "VickersSubClassType",
     "description": "A scale to measure the resistance to deformation of a surface. A scale to measure the resistance to deformation of a surface.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2610",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2610",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6347,7 +6347,7 @@
     "displayName": "VolumeSubClassType",
     "description": "A measurement of space accupied by a physical object.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2608",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2608",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6370,7 +6370,7 @@
     "displayName": "WeightSubClassType",
     "description": "A physical object's relative mass. The total weight of the Cutting Tool in grams. The force exerted by the mass of the Cutting Tool.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2612",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2612",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6393,7 +6393,7 @@
     "displayName": "WorkingSubClassType",
     "description": "An indication that a piece of equipment is performing any activity. A piece of equipment performing any activity, the equipment is active and performing a function under load or not.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2614",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2614",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6416,7 +6416,7 @@
     "displayName": "WorkpieceSubClassType",
     "description": "A physical object being or to be worked on with a tool or machine. An object or material on which a form of work is performed.",
     "extends": "dtmi:opcua:MTConnect_v2:MTDataItemSubClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2;i=2616",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MTConnect.v2/;i=2616",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

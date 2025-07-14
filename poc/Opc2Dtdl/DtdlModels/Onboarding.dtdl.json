@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DeviceRegistrarAdminType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1175",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1175",
     "commandTopic": "opcua/Onboarding/DeviceRegistrarAdminType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -132,7 +132,7 @@
     "ontology": "http://opcfoundation.org/UA/Onboarding",
     "displayName": "DeviceRegistrarType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1259",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1259",
     "commandTopic": "opcua/Onboarding/DeviceRegistrarType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -140,7 +140,7 @@
         "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:BaseTicketType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "BaseTicketType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1165",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1165",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -191,7 +191,7 @@
         "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:CertificateAuthorityType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "CertificateAuthorityType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1164",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1164",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -212,7 +212,7 @@
         "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ManagerDescription;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ManagerDescription",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1495",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -248,7 +248,7 @@
         "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationDescription;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ApplicationDescription",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=308",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -294,7 +294,7 @@
         "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ApplicationType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=307",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -319,7 +319,7 @@
         "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationRecordDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ApplicationRecordDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=1",
+        "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -573,7 +573,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "DeviceRegistrationAuditEventType",
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1517",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1517",
     "commandTopic": "opcua/Onboarding/DeviceRegistrationAuditEventType/{commandName}",
     "telemetryTopic": "opcua/Onboarding/DeviceRegistrationAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -604,7 +604,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "DeviceIdentityAcceptedAuditEventType",
     "extends": "dtmi:opcua:Onboarding:DeviceRegistrationAuditEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1533",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1533",
     "commandTopic": "opcua/Onboarding/DeviceIdentityAcceptedAuditEventType/{commandName}",
     "telemetryTopic": "opcua/Onboarding/DeviceIdentityAcceptedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -651,7 +651,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "DeviceSoftwareUpdatedAuditEventType",
     "extends": "dtmi:opcua:Onboarding:DeviceRegistrationAuditEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding;i=1552",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1552",
     "commandTopic": "opcua/Onboarding/DeviceSoftwareUpdatedAuditEventType/{commandName}",
     "telemetryTopic": "opcua/Onboarding/DeviceSoftwareUpdatedAuditEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

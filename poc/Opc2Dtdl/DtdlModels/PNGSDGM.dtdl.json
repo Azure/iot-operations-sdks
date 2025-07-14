@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "GsdGenAlarmEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1002",
     "commandTopic": "opcua/PNGSDGM/GsdGenAlarmEventType/{commandName}",
     "telemetryTopic": "opcua/PNGSDGM/GsdGenAlarmEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GsdGenChannelAccumulativeEnumeration",
         "description": "Single channel. Diagnosis only for the reported channel",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -41,7 +41,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GsdGenChannelDirectionEnumeration",
         "description": "Manufacturer specific",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3007",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -67,7 +67,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GsdGenChannelMaintenanceEnumeration",
         "description": "Fault",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -93,7 +93,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GsdGenChannelSpecifierEnumeration",
         "description": "The Diagnosis ASE contains no longer any entries (of any severity) for this channel",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -252,7 +252,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "GsdGenIoChannelDataType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1004",
     "commandTopic": "opcua/PNGSDGM/GsdGenIoChannelDataType/{commandName}",
     "telemetryTopic": "opcua/PNGSDGM/GsdGenIoChannelDataType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -291,7 +291,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "GsdGenIoChannelQualityType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1003",
     "commandTopic": "opcua/PNGSDGM/GsdGenIoChannelQualityType/{commandName}",
     "telemetryTopic": "opcua/PNGSDGM/GsdGenIoChannelQualityType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -301,7 +301,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GsdGenIoQualityFormatEnumeration",
         "description": "Bit length is 1.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -352,7 +352,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "GsdGenIoChannelType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1005",
     "commandTopic": "opcua/PNGSDGM/GsdGenIoChannelType/{commandName}",
     "telemetryTopic": "opcua/PNGSDGM/GsdGenIoChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -399,7 +399,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "GsdGenIoDataType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1006",
     "commandTopic": "opcua/PNGSDGM/GsdGenIoDataType/{commandName}",
     "telemetryTopic": "opcua/PNGSDGM/GsdGenIoDataType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -409,7 +409,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GsdGenIoConsistencyEnumeration",
         "description": "Each data type is handled consistently.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -480,7 +480,7 @@
     "ontology": "http://opcfoundation.org/UA/PNGSDGM",
     "displayName": "GsdGenSubmoduleApplicationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1007",
     "commandTopic": "opcua/PNGSDGM/GsdGenSubmoduleApplicationType/{commandName}",
     "telemetryTopic": "opcua/PNGSDGM/GsdGenSubmoduleApplicationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -490,7 +490,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GsdGenIoCommunicationStatusEnumeration",
         "description": "The Submodule is part of an active AR and exchanging IO Data with a Controller",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3012",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -508,7 +508,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GsdGenIoConfigurationStatusEnumeration",
         "description": "Proper Submodule which works as configured",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=3015",
         "valueSchema": "integer",
         "enumValues": [
           {

@@ -15,7 +15,7 @@
     "displayName": "OPENSCSAggregationManagerObjectType",
     "description": "The aggregation manager receives unsolicited events through the aggregation methods. The aggregation methods have the same method signature.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15094",
+    "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15094",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSAggregationManagerObjectType/{commandName}",
     "telemetryTopic": "opcua/OPENSCS_SER/OPENSCSAggregationManagerObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -25,7 +25,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSAggregationDataType",
         "description": "Iidentifies a parent element and a collection of packed elements. This is used in the aggregation packing and unpacking methods.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -44,7 +44,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSKeyValueDataType",
         "description": "A string defining the key for the pair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -63,7 +63,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OPENSCSReturnEnum",
         "description": "Undefined value, should never be seen.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -121,7 +121,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSLabelDataType",
         "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -143,7 +143,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSLabelCollectionDataType",
         "description": "The collections of labels with serial numbers.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -300,7 +300,7 @@
     "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
     "displayName": "OPENSCSEventManagerObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15062",
+    "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15062",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSEventManagerObjectType/{commandName}",
     "telemetryTopic": "opcua/OPENSCS_SER/OPENSCSEventManagerObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -310,7 +310,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSLabelCollectionDataType",
         "description": "The collections of labels with serial numbers.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -335,7 +335,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSKeyValueDataType",
         "description": "A string defining the key for the pair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -354,7 +354,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OPENSCSReturnEnum",
         "description": "Undefined value, should never be seen.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -412,7 +412,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSCollectionDataType",
         "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -449,7 +449,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OPENSCSSerialNumberStateEnum",
         "description": "The Serial Number has not been assigned to production or a packaging run.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15143",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -507,7 +507,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSLabelDataType",
         "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1045,7 +1045,7 @@
     "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
     "displayName": "OPENSCSPoolManagerObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15032",
+    "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15032",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSPoolManagerObjectType/{commandName}",
     "telemetryTopic": "opcua/OPENSCS_SER/OPENSCSPoolManagerObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1055,7 +1055,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSKeyValueDataType",
         "description": "A string defining the key for the pair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1074,7 +1074,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OPENSCSReturnEnum",
         "description": "Undefined value, should never be seen.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1132,7 +1132,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSCollectionDataType",
         "description": "An identification of the Collection. It usually refers to a specific packaging level of a specific product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1169,7 +1169,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OPENSCSSerialNumberStateEnum",
         "description": "The Serial Number has not been assigned to production or a packaging run.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15143",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1723,7 +1723,7 @@
     "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
     "displayName": "OPENSCSSIDClassObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15102",
+    "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15102",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSSIDClassObjectType/{commandName}",
     "telemetryTopic": "opcua/OPENSCS_SER/OPENSCSSIDClassObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1733,7 +1733,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSSIDClassPropertyDataType",
         "description": "An identification of the SID Class Property.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15009",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15009",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1765,7 +1765,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OPENSCSLabelPropertyDataType",
         "description": "The identification of a property associated with a label.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15007",
         "fields": [
           {
             "@type": [ "Field", "Required" ],

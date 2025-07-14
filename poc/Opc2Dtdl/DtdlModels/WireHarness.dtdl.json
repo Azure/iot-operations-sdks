@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ArticleSpecManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1007",
     "commandTopic": "opcua/WireHarness/ArticleSpecManagementType/{commandName}",
     "telemetryTopic": "opcua/WireHarness/ArticleSpecManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95MaterialDataType",
         "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -83,7 +83,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PropertyDataType",
         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -186,7 +186,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ProductFinishedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1005",
     "commandTopic": "opcua/WireHarness/ProductFinishedEventType/{commandName}",
     "telemetryTopic": "opcua/WireHarness/ProductFinishedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -196,7 +196,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JobResult",
         "description": "Unknown state. Used when result is not known, e.g. because job order is still running.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Jobs;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Jobs/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -298,7 +298,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "RunCompleteEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1008",
     "commandTopic": "opcua/WireHarness/RunCompleteEventType/{commandName}",
     "telemetryTopic": "opcua/WireHarness/RunCompleteEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -381,7 +381,7 @@
     "ontology": "http://opcfoundation.org/UA/WireHarness",
     "displayName": "WireHarnessMachineIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -402,7 +402,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PartManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1004",
     "commandTopic": "opcua/WireHarness/PartManagementType/{commandName}",
     "telemetryTopic": "opcua/WireHarness/PartManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -412,7 +412,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95MaterialDataType",
         "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -472,7 +472,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ISA95PropertyDataType",
         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -643,7 +643,7 @@
     "ontology": "http://opcfoundation.org/UA/WireHarness",
     "displayName": "WireHarnessJobOrderReceiverSubStatesType",
     "extends": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverSubStatesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -665,7 +665,7 @@
     "ontology": "http://opcfoundation.org/UA/WireHarness",
     "displayName": "WireHarnessMachineType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness;i=1000",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1000",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

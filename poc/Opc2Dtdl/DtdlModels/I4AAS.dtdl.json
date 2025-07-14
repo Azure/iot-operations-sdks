@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASAdministrativeInformationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1030",
     "commandTopic": "opcua/I4AAS/AASAdministrativeInformationType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASAdministrativeInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -53,7 +53,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASAssetAdministrationShellType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -125,7 +125,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1005",
     "commandTopic": "opcua/I4AAS/AASAssetType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -135,7 +135,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASAssetKindDataType",
         "description": "hardware or software element which specifies the common attributes shared by all instances of the type [SOURCE: IEC TR 62390:2005-01, 3.1.25]",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -197,7 +197,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASConceptDictionaryType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -218,7 +218,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASDataSpecificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1027",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -240,7 +240,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASDataSpecificationIEC61360Type",
     "extends": "dtmi:opcua:I4AAS:AASDataSpecificationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1028",
     "commandTopic": "opcua/I4AAS/AASDataSpecificationIEC61360Type/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASDataSpecificationIEC61360Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -250,7 +250,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASCategoryDataType",
         "description": "Constant",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3007",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -275,7 +275,7 @@
         "@id": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASDataTypeIEC61360DataType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASDataTypeIEC61360DataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -345,7 +345,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASLevelTypeDataType",
         "description": "“Minimum”",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3009",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3009",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -520,7 +520,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASIdentifierType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1029",
     "commandTopic": "opcua/I4AAS/AASIdentifierType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASIdentifierType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -530,7 +530,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASIdentifierTypeDataType",
         "description": "IRDI according to ISO29002-5 as an Identifier scheme for properties and classifications",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -581,7 +581,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASQualifierType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1032",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1032",
     "commandTopic": "opcua/I4AAS/AASQualifierType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASQualifierType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -590,7 +590,7 @@
         "@id": "dtmi:opcua:I4AAS:AASQualifierType:dataType:AASValueTypeDataType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASValueTypeDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -709,7 +709,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASReferenceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1004",
     "commandTopic": "opcua/I4AAS/AASReferenceType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASReferenceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -718,7 +718,7 @@
         "@id": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "AASKeyDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3011",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -747,7 +747,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASKeyElementsDataType",
         "description": "'AccessPermissionRule'",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3012",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -853,7 +853,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASKeyTypeDataType",
         "description": "...",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -914,7 +914,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASSubmodelElementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1009",
     "commandTopic": "opcua/I4AAS/AASSubmodelElementType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASSubmodelElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -924,7 +924,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASModelingKindDataType",
         "description": "Hardware or software element which specifies the common attributes shared by all instances of the type [SOURCE: IEC TR 62390:2005-01, 3.1.25]",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -986,7 +986,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASBlobType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1016",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1016,7 +1016,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASCapabilityType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1038,7 +1038,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASEntityType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1022",
     "commandTopic": "opcua/I4AAS/AASEntityType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASEntityType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1048,7 +1048,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASEntityTypeDataType",
         "description": "Self-Managed Entities have their own AAS. This is why a reference to this asset is specified as well (Entity/asset). Additionally, further property statements (compare to [15]) can be added to the asset that are not specified in the AAS of the asset itself because they are specified in relation to the complex I4.0 Component only.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1103,7 +1103,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASEventType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1021",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1125,7 +1125,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASFileType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1017",
     "commandTopic": "opcua/I4AAS/AASFileType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASFileType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1173,7 +1173,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASMultiLanguagePropertyType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1012",
     "commandTopic": "opcua/I4AAS/AASMultiLanguagePropertyType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASMultiLanguagePropertyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1216,7 +1216,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASOperationType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1015",
     "commandTopic": "opcua/I4AAS/AASOperationType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1245,7 +1245,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASPropertyType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1013",
     "commandTopic": "opcua/I4AAS/AASPropertyType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASPropertyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1254,7 +1254,7 @@
         "@id": "dtmi:opcua:I4AAS:AASPropertyType:dataType:AASValueTypeDataType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASValueTypeDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1366,7 +1366,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASRangeType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1023",
     "commandTopic": "opcua/I4AAS/AASRangeType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASRangeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1375,7 +1375,7 @@
         "@id": "dtmi:opcua:I4AAS:AASRangeType:dataType:AASValueTypeDataType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASValueTypeDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1487,7 +1487,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASReferenceElementType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1020",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1517,7 +1517,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASRelationshipElementType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1555,7 +1555,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASAnnotatedRelationshipElementType",
     "extends": "dtmi:opcua:I4AAS:AASRelationshipElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1584,7 +1584,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASSubmodelElementCollectionType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1010",
     "commandTopic": "opcua/I4AAS/AASSubmodelElementCollectionType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASSubmodelElementCollectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1623,7 +1623,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASOrderedSubmodelElementCollectionType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementCollectionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1011",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1644,7 +1644,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASSubmodelType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1006",
     "commandTopic": "opcua/I4AAS/AASSubmodelType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/AASSubmodelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1654,7 +1654,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AASModelingKindDataType",
         "description": "Hardware or software element which specifies the common attributes shared by all instances of the type [SOURCE: IEC TR 62390:2005-01, 3.1.25]",
-        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1715,7 +1715,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "IAASReferableType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1033",
     "commandTopic": "opcua/I4AAS/IAASReferableType/{commandName}",
     "telemetryTopic": "opcua/I4AAS/IAASReferableType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1747,7 +1747,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "IAASIdentifiableType",
     "extends": "dtmi:opcua:I4AAS:IAASReferableType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1785,7 +1785,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASCustomConceptDescriptionType",
     "extends": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1026",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1821,7 +1821,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASIrdiConceptDescriptionType",
     "extends": "dtmi:opcua:OpcUaCore:IrdiDictionaryEntryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1024",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1857,7 +1857,7 @@
     "ontology": "http://opcfoundation.org/UA/I4AAS",
     "displayName": "AASIriConceptDescriptionType",
     "extends": "dtmi:opcua:OpcUaCore:UriDictionaryEntryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1025",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1892,7 +1892,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AASViewType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1927,7 +1927,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ValueListType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1031",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "AcquisitionDoneEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1025",
     "commandTopic": "opcua/MachineVision/AcquisitionDoneEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/AcquisitionDoneEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -58,7 +58,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "VisionConditionType",
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1033",
     "commandTopic": "opcua/MachineVision/VisionConditionType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/VisionConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -68,7 +68,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -82,7 +82,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "MeasIdDataType",
         "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -101,7 +101,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PartIdDataType",
         "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3004",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -120,7 +120,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -139,7 +139,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ResultIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3021",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -153,7 +153,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -312,7 +312,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "VisionErrorConditionType",
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1035",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -333,7 +333,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "VisionPersistentErrorConditionType",
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1036",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -354,7 +354,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "VisionWarningConditionType",
     "extends": "dtmi:opcua:MachineVision:VisionConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -375,7 +375,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "EnterStepSequenceEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1027",
     "commandTopic": "opcua/MachineVision/EnterStepSequenceEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/EnterStepSequenceEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -406,7 +406,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "JobStartedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1013",
     "commandTopic": "opcua/MachineVision/JobStartedEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/JobStartedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -416,7 +416,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -451,7 +451,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "LeaveStepSequenceEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1029",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -472,7 +472,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "NextStepEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1028",
     "commandTopic": "opcua/MachineVision/NextStepEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/NextStepEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -503,7 +503,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ReadyEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1023",
     "commandTopic": "opcua/MachineVision/ReadyEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/ReadyEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -513,7 +513,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -548,7 +548,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "RecipePreparedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1022",
     "commandTopic": "opcua/MachineVision/RecipePreparedEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/RecipePreparedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -558,7 +558,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -577,7 +577,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -648,7 +648,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ResultReadyEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1024",
     "commandTopic": "opcua/MachineVision/ResultReadyEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/ResultReadyEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -658,7 +658,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -672,7 +672,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "MeasIdDataType",
         "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -691,7 +691,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PartIdDataType",
         "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3004",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -710,7 +710,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProcessingTimesDataType",
         "description": "Contains the time when the vision system started execution of the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -739,7 +739,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -758,7 +758,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ResultIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3021",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -772,7 +772,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -939,7 +939,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ErrorEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -960,7 +960,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ErrorResolvedEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1020",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -981,7 +981,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "StateChangedEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1002,7 +1002,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "VisionEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1015",
     "commandTopic": "opcua/MachineVision/VisionEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/VisionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1012,7 +1012,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1026,7 +1026,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "MeasIdDataType",
         "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1045,7 +1045,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PartIdDataType",
         "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3004",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1064,7 +1064,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1083,7 +1083,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ResultIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3021",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1097,7 +1097,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1224,7 +1224,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "VisionDiagnosticInfoEventType",
     "extends": "dtmi:opcua:MachineVision:VisionEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1037",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1037",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1245,7 +1245,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "VisionInformationEventType",
     "extends": "dtmi:opcua:MachineVision:VisionEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1038",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1038",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1266,7 +1266,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "VisionSafetyEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1030",
     "commandTopic": "opcua/MachineVision/VisionSafetyEventType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/VisionSafetyEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1305,7 +1305,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConfigurationManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1006",
     "commandTopic": "opcua/MachineVision/ConfigurationManagementType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/ConfigurationManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1315,7 +1315,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConfigurationDataType",
         "description": "Indicates that actual content of the configuration may be transferred through temporary file transfer method.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3007",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1344,7 +1344,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1681,7 +1681,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConfigurationFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1011",
     "telemetryTopic": "opcua/MachineVision/ConfigurationFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1690,7 +1690,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConfigurationDataType",
         "description": "Indicates that actual content of the configuration may be transferred through temporary file transfer method.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3007",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1719,7 +1719,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1783,7 +1783,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1010",
     "telemetryTopic": "opcua/MachineVision/ProductFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1792,7 +1792,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductDataType",
         "description": "Identification of the product used by the environment. This argument must not be empty.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3020",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1806,7 +1806,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1855,7 +1855,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "RecipeFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1883,7 +1883,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ResultFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1016",
     "telemetryTopic": "opcua/MachineVision/ResultFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1892,7 +1892,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ResultDataType",
         "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the pertinent result management methods and it is identical to the ResultId of the ResultReadyEventType.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1984,7 +1984,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2018,7 +2018,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2032,7 +2032,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ResultIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3021",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2046,7 +2046,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "MeasIdDataType",
         "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2065,7 +2065,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PartIdDataType",
         "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3004",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2084,7 +2084,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2103,7 +2103,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProcessingTimesDataType",
         "description": "Contains the time when the vision system started execution of the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2222,7 +2222,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "RecipeManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1004",
     "commandTopic": "opcua/MachineVision/RecipeManagementType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2231,7 +2231,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2250,7 +2250,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "TriStateBooleanDataType",
         "description": "The filtering function shall look for entities where the filtered value is FALSE.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3014",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3014",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2272,7 +2272,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2762,7 +2762,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "RecipeType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1002",
     "commandTopic": "opcua/MachineVision/RecipeType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/RecipeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2772,7 +2772,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2791,7 +2791,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3006,7 +3006,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ResultManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1007",
     "commandTopic": "opcua/MachineVision/ResultManagementType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3015,7 +3015,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ResultIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the generated result.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3021",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3029,7 +3029,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ResultDataType",
         "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the pertinent result management methods and it is identical to the ResultId of the ResultReadyEventType.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3121,7 +3121,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "MeasIdDataType",
         "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3140,7 +3140,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PartIdDataType",
         "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3004",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3159,7 +3159,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3193,7 +3193,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3212,7 +3212,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3226,7 +3226,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProcessingTimesDataType",
         "description": "Contains the time when the vision system started execution of the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3601,7 +3601,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SafetyStateManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1009",
     "commandTopic": "opcua/MachineVision/SafetyStateManagementType/{commandName}",
     "telemetryTopic": "opcua/MachineVision/SafetyStateManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3677,7 +3677,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "VisionAutomaticModeStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1021",
     "commandTopic": "opcua/MachineVision/VisionAutomaticModeStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3686,7 +3686,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "MeasIdDataType",
         "description": "Id is an identifier/name for identifying the measurement operation. This identifier is passed by the client to the vision system so no assumptions can be made about its uniqueness or other properties.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3705,7 +3705,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PartIdDataType",
         "description": "Describes the connection between a unit under test and a result, which was created during the processing of a recipe applied on this unit under test. Usually passed by the client with a Start method call and not changed by the server.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3004",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3724,7 +3724,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BinaryIdBaseDataType",
         "description": "Id is a system-wide unique name for identifying the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3758,7 +3758,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the product.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3777,7 +3777,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobIdDataType",
         "description": "Id is a system-wide unique identifier/name for identifying the job carried out.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -4242,7 +4242,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "VisionStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1017",
     "commandTopic": "opcua/MachineVision/VisionStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4598,7 +4598,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "VisionStepModelStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1026",
     "commandTopic": "opcua/MachineVision/VisionStepModelStateMachineType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4739,7 +4739,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConfigurationTransferType",
     "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4760,7 +4760,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "RecipeTransferType",
     "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4781,7 +4781,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ResultTransferType",
     "extends": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1039",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1039",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4803,7 +4803,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineVision",
     "displayName": "VisionSystemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=1003",
     "telemetryTopic": "opcua/MachineVision/VisionSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4812,7 +4812,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "SystemStateDescriptionDataType",
         "description": "Denotes one of the basic SEMI E10 states",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3024",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3024",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -4831,7 +4831,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SystemStateDataType",
         "description": "Production: The vision system is currently working on a job.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3023",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/;i=3023",
         "valueSchema": "integer",
         "enumValues": [
           {

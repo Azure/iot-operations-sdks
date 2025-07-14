@@ -14,7 +14,7 @@
     "displayName": "AdditiveType",
     "description": "Information about used additives",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=1004",
     "commandTopic": "opcua/PlasticsRubber_LDS/AdditiveType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_LDS/AdditiveType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -24,7 +24,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AdditiveStatusEnumeration",
         "description": "Actual status of the additive provides a minimal error handling for devices without event support.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -140,7 +140,7 @@
     "displayName": "AdditiveAlarmType",
     "description": "Represent additive-related text messages",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -162,7 +162,7 @@
     "displayName": "ComponentAlarmType",
     "description": "Represent component-related text messages",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -184,7 +184,7 @@
     "displayName": "LDSCycleParametersEventType",
     "description": "Information on a dosing cycle",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=1008",
     "commandTopic": "opcua/PlasticsRubber_LDS/LDSCycleParametersEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_LDS/LDSCycleParametersEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -374,7 +374,7 @@
     "displayName": "ComponentType",
     "description": "Information about the mixing components A and B",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=1005",
     "commandTopic": "opcua/PlasticsRubber_LDS/ComponentType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_LDS/ComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -384,7 +384,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ComponentStatusEnumeration",
         "description": "Actual status of the component provides a minimal error handling for devices without event support.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -532,7 +532,7 @@
     "displayName": "LDS_InterfaceType",
     "description": "Root ObjectType representing a LSR dosing system with its subcomponents",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=1007",
     "commandTopic": "opcua/PlasticsRubber_LDS/LDS_InterfaceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_LDS/LDS_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -601,7 +601,7 @@
     "displayName": "OperationType",
     "description": "This ObjectType contains components which are necessary to operate the LDS.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=1006",
     "commandTopic": "opcua/PlasticsRubber_LDS/OperationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_LDS/OperationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -610,7 +610,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:MaterialBalanceSystemTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MaterialBalanceSystemTypeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -631,7 +631,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:PurgeStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PurgeStatusEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.LDS/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -661,7 +661,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ClassifiedActiveErrorDataType",
         "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],

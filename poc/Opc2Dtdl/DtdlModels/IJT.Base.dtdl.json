@@ -15,7 +15,7 @@
     "displayName": "AcceptedEntityConditionClassType",
     "description": "Indicates that an entity is accepted.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1090",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1090",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -38,7 +38,7 @@
     "displayName": "AddedEntityConditionClassType",
     "description": "Indicates that an entity is added.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1096",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1096",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -61,7 +61,7 @@
     "displayName": "AssetConnectedConditionClassType",
     "description": "Indicates that the asset is connected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -84,7 +84,7 @@
     "displayName": "AssetDisabledConditionClassType",
     "description": "Indicates that the asset is disabled.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1027",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -107,7 +107,7 @@
     "displayName": "AssetDisconnectedConditionClassType",
     "description": "Indicates that the asset is disconnected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1021",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -130,7 +130,7 @@
     "displayName": "AssetEnabledConditionClassType",
     "description": "Indicates that the asset is enabled.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1024",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -153,7 +153,7 @@
     "displayName": "AssetLocationConditionClassType",
     "description": "Indicates a change in the asset location.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1048",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1048",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -176,7 +176,7 @@
     "displayName": "CertificateConditionClassType",
     "description": "Indicates a change in the certificate.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1072",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1072",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -199,7 +199,7 @@
     "displayName": "ConfigurationChangeConditionClassType",
     "description": "Indicates a change in the configuration.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1030",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -222,7 +222,7 @@
     "displayName": "DataValidationFailureConditionClassType",
     "description": "Indicates a failure in the data validation.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1057",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1057",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -245,7 +245,7 @@
     "displayName": "ErrorConditionClassType",
     "description": "Indicates an error in the system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1063",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1063",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -268,7 +268,7 @@
     "displayName": "ExpiredEntityConditionClassType",
     "description": "Indicates that an entity is expired.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1081",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1081",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -291,7 +291,7 @@
     "displayName": "HardwareConditionClassType",
     "description": "Indicates a change in the hardware entity.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1069",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1069",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -314,7 +314,7 @@
     "displayName": "IncompatibleEntityConditionClassType",
     "description": "Indicates that an entity is incompatible.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1087",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1087",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -337,7 +337,7 @@
     "displayName": "InputValidationFailureConditionClassType",
     "description": "Indicates a failure in the input validation.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1060",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1060",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -360,7 +360,7 @@
     "displayName": "InvalidEntityConditionClassType",
     "description": "Indicates that an entity is invalid.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1084",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1084",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -383,7 +383,7 @@
     "displayName": "JoiningSystemUserLoggedInConditionClassType",
     "description": "Indicates that a joining system user has logged-in.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1039",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1039",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -406,7 +406,7 @@
     "displayName": "JoiningSystemUserLoggedOutConditionClassType",
     "description": "Indicates that a joining system user logged-out.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1042",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1042",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -429,7 +429,7 @@
     "displayName": "LicenseConditionClassType",
     "description": "Indicates a change in the license.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1075",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1075",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -452,7 +452,7 @@
     "displayName": "LocationInZoneConditionClassType",
     "description": "Indicates the change of the entity location from out-of-zone to in-zone.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1051",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1051",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -475,7 +475,7 @@
     "displayName": "LocationOutOfZoneConditionClassType",
     "description": "Indicates the change in the entity location from in-zone to out-of-zone.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1054",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1054",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -498,7 +498,7 @@
     "displayName": "MissingEntityConditionClassType",
     "description": "Indicates that an entity is missing.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1078",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1078",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -521,7 +521,7 @@
     "displayName": "ReceivedEntityConditionClassType",
     "description": "Indicates that an entity is received.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1105",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1105",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -544,7 +544,7 @@
     "displayName": "RejectedEntityConditionClassType",
     "description": "Indicates that an entity is rejected.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1093",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1093",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -567,7 +567,7 @@
     "displayName": "RemovedEntityConditionClassType",
     "description": "Indicates that an entity is removed.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1102",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1102",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -590,7 +590,7 @@
     "displayName": "SoftwareConditionClassType",
     "description": "Indicates a change in the software entity.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1066",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1066",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -613,7 +613,7 @@
     "displayName": "ThresholdViolationConditionClassType",
     "description": "Indicates that a threshold is violated.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1033",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -636,7 +636,7 @@
     "displayName": "ThresholdViolationResolvedConditionClassType",
     "description": "Indicates that a violated threshold is resolved.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1036",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -659,7 +659,7 @@
     "displayName": "UpdatedEntityConditionClassType",
     "description": "Indicates that an entity is updated.",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1099",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1099",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -681,7 +681,7 @@
     "displayName": "JoiningSystemConditionType",
     "description": "The JoiningSystemConditionType is used to send any type of events with acknowledgement mechanism from a joining system. Note: The type of event is determined by the usage of respective Condition Class(es) and Condition SubClass(es) properties defined in 0:ConditionType.",
     "extends": "dtmi:opcua:OpcUaCore:AcknowledgeableConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1020",
     "telemetryTopic": "opcua/IJT_Base/JoiningSystemConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -690,7 +690,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "EntityDataType",
         "description": "This structure provides the identification data for a given entity in the system.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -729,7 +729,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ReportedValueDataType",
         "description": "This structure provides the given value and corresponding limits for a given physical quantity (if applicable).",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3022",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3022",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -853,7 +853,7 @@
     "displayName": "JoiningSystemEventType",
     "description": "The JoiningSystemEventType is used to send any type of events from a joining system. Note: The type of event is determined by the usage of respective Condition Class(es) and Condition SubClass(es) properties defined in 0:BaseEventType.",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1006",
     "telemetryTopic": "opcua/IJT_Base/JoiningSystemEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -862,7 +862,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "EntityDataType",
         "description": "This structure provides the identification data for a given entity in the system.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -901,7 +901,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ReportedValueDataType",
         "description": "This structure provides the given value and corresponding limits for a given physical quantity (if applicable).",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3022",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3022",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1025,7 +1025,7 @@
     "displayName": "JoiningSystemResultReadyEventType",
     "description": "This EventType provides information of a complete or partial result from a joining system.",
     "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1047,7 +1047,7 @@
     "displayName": "IJoiningAdditionalInformationType",
     "description": "The IJoiningAdditionalInformationType provides additional parameters for Identification of a given asset.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1017",
     "commandTopic": "opcua/IJT_Base/IJoiningAdditionalInformationType/{commandName}",
     "telemetryTopic": "opcua/IJT_Base/IJoiningAdditionalInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1098,7 +1098,7 @@
     "displayName": "IJoiningSystemAssetType",
     "description": "This is a generic interface common for all assets in a given Joining System. The purpose of this interface is to provide a standard way of identification and common information for all the assets. This interface has a standard MachineryItemIdentificationType add-in which can be assigned with MachineIdentificationType or MachineryComponentIdentificationType for a given asset based on the requirement of the system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1154,7 +1154,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IAccessoryType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1015",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1175,7 +1175,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IBatteryType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1010",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1196,7 +1196,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ICableType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1217,7 +1217,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IControllerType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1238,7 +1238,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IFeederType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1259,7 +1259,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IMemoryDeviceType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1013",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1280,7 +1280,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IPowerSupplyType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1009",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1301,7 +1301,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ISensorType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1011",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1322,7 +1322,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IServoType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1343,7 +1343,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ISoftwareType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1364,7 +1364,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ISubComponentType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1016",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1385,7 +1385,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IToolType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1406,7 +1406,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IVirtualStationType",
     "extends": "dtmi:opcua:IJT_Base:IJoiningSystemAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1031",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1429,7 +1429,7 @@
     "displayName": "JoiningSystemIdentificationType",
     "description": "It provides identification parameters of the joining system.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1029",
     "commandTopic": "opcua/IJT_Base/JoiningSystemIdentificationType/{commandName}",
     "telemetryTopic": "opcua/IJT_Base/JoiningSystemIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1553,7 +1553,7 @@
     "displayName": "JoiningProcessManagementType",
     "description": "The JoiningProcessManagementType provides access to various joining processes in a joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1025",
     "commandTopic": "opcua/IJT_Base/JoiningProcessManagementType/{commandName}",
     "telemetryTopic": "opcua/IJT_Base/JoiningProcessManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1563,7 +1563,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JoiningProcessIdentificationDataType",
         "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3029",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3029",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1587,7 +1587,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JoiningProcessDataType",
         "description": "This structure provides the base container for any joining process in a joining system. Note: This specification defines the meta data of a JoiningProcess, and the actual content of the Joining Process is application specific.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3016",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1609,7 +1609,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JoiningProcessMetaDataType",
         "description": "This structure provides the meta data which describes the joining process.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3024",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3024",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1666,7 +1666,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "EntityDataType",
         "description": "This structure provides the identification data for a given entity in the system.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2503,7 +2503,7 @@
     "displayName": "JoiningSystemAssetMethodSetType",
     "description": "The JoiningSystemAssetMethodSetType provides a set of methods for various assets in a joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1026",
     "commandTopic": "opcua/IJT_Base/JoiningSystemAssetMethodSetType/{commandName}",
     "telemetryTopic": "opcua/IJT_Base/JoiningSystemAssetMethodSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2513,7 +2513,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "EntityDataType",
         "description": "This structure provides the identification data for a given entity in the system.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2552,7 +2552,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "SignalDataType",
         "description": "This structure contains the signal information which is used in SetIOSignals and GetIOSignals methods.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3019",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2581,7 +2581,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "CalibrationDataType",
         "description": "This structure contains the Calibration information. It is used as an input argument in SetCalibration method. Note: The input data sent in SetCalibration shall be updated in the respective parameters of the asset under Maintenance/Calibration.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3444,7 +3444,7 @@
     "displayName": "JoiningSystemType",
     "description": "The JoiningSystemType provides the overview of the information exposed from a given joining system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3484,7 +3484,7 @@
     "displayName": "JointManagementType",
     "description": "The JointManagementType provides access to the Joint and associated information.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1023",
     "commandTopic": "opcua/IJT_Base/JointManagementType/{commandName}",
     "telemetryTopic": "opcua/IJT_Base/JointManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3494,7 +3494,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JointDataType",
         "description": "This structure provides the joint information. Joint is the physical outcome of the joining operation which determines the properties of the point where multiple parts are assembled.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3028",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3028",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3566,7 +3566,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "EntityDataType",
         "description": "This structure provides the identification data for a given entity in the system.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3010",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3605,7 +3605,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JointComponentDataType",
         "description": "This structure is the base container for any joint component such as Bolt, Rivet, Gasket, Glue string, etc. Note: The concrete definition of joint component is not defined in this version of the specification.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3021",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3644,7 +3644,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JointDesignDataType",
         "description": "This structure provides the design information of a given joint.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3025",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3025",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3684,7 +3684,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "DesignValueDataType",
         "description": "This structure provides the design value for a given physical quantity. It is used in JointDesignDataType.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -4409,7 +4409,7 @@
     "displayName": "JoiningSystemResultManagementType",
     "description": "The JoiningSystemResultManagementType is a subtype of ResultManagementType and provides mechanism to access results generated by the underlying joining system.",
     "extends": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base/;i=1022",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

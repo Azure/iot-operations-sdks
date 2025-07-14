@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ScaleAlarmType",
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=21",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=21",
     "commandTopic": "opcua/Scales_V2/ScaleAlarmType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ScaleAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -76,7 +76,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ScaleEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=13",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=13",
     "commandTopic": "opcua/Scales_V2/ScaleEventType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ScaleEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -140,7 +140,7 @@
     "displayName": "MaterialType",
     "description": "Represents a material.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=35",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=35",
     "telemetryTopic": "opcua/Scales_V2/MaterialType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -180,7 +180,7 @@
     "displayName": "MaterialAutomaticType",
     "description": "Represents a material in a recipe that will be filled automatically.",
     "extends": "dtmi:opcua:Scales_V2:MaterialType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=41",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=41",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -211,7 +211,7 @@
     "displayName": "ProductionPresetType",
     "description": "Provides methods to manage the Production preset.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=14",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=14",
     "commandTopic": "opcua/Scales_V2/ProductionPresetType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ProductionPresetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -380,7 +380,7 @@
     "displayName": "ProductType",
     "description": "Represents a product related to the scale.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=11",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=11",
     "commandTopic": "opcua/Scales_V2/ProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -488,7 +488,7 @@
     "displayName": "AutomaticFillingProductType",
     "description": "Represents a product of an automatic filling scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=16",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=16",
     "commandTopic": "opcua/Scales_V2/AutomaticFillingProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/AutomaticFillingProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -586,7 +586,7 @@
     "displayName": "CatchweigherProductType",
     "description": "Represents a product of a Catchweigher.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=17",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=17",
     "commandTopic": "opcua/Scales_V2/CatchweigherProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/CatchweigherProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -728,7 +728,7 @@
     "displayName": "AutomaticWeightPriceLabelerProductType",
     "description": "Represents a product of a automatic weight-price-labeler.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=47",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=47",
     "telemetryTopic": "opcua/Scales_V2/AutomaticWeightPriceLabelerProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -760,7 +760,7 @@
     "displayName": "CheckweigherProductType",
     "description": "Represents a product of a Checkweigher.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=46",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=46",
     "telemetryTopic": "opcua/Scales_V2/CheckweigherProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -806,7 +806,7 @@
     "displayName": "ContinuousProductType",
     "description": "Represents a product of a continuous scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=18",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=18",
     "telemetryTopic": "opcua/Scales_V2/ContinuousProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -854,7 +854,7 @@
     "displayName": "PieceCountingProductType",
     "description": "Represents a product of a piece counting scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=12",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=12",
     "commandTopic": "opcua/Scales_V2/PieceCountingProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/PieceCountingProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -863,7 +863,7 @@
         "@id": "dtmi:opcua:Scales_V2:PieceCountingProductType:dataType:WeightType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "WeightType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=55",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=55",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1081,7 +1081,7 @@
     "displayName": "RecipeProductType",
     "description": "Represents a product of a recipe scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=19",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=19",
     "telemetryTopic": "opcua/Scales_V2/RecipeProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1089,7 +1089,7 @@
         "@id": "dtmi:opcua:Scales_V2:RecipeProductType:dataType:RecipeReportElementType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RecipeReportElementType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=59",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=59",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1151,7 +1151,7 @@
     "displayName": "SimpleProductType",
     "description": "Represents a product of a simple scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=20",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=20",
     "commandTopic": "opcua/Scales_V2/SimpleProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/SimpleProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1191,7 +1191,7 @@
     "displayName": "TotalizingHopperProductType",
     "description": "Represents a product of a totalizing hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=22",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=22",
     "telemetryTopic": "opcua/Scales_V2/TotalizingHopperProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1230,7 +1230,7 @@
     "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "VehicleProductType",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=832",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=832",
     "commandTopic": "opcua/Scales_V2/VehicleProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/VehicleProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1239,7 +1239,7 @@
         "@id": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "WeightType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=55",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=55",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1446,7 +1446,7 @@
     "displayName": "RecipeElementType",
     "description": "Represents a step, process or action in a recipe.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=32",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=32",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1469,7 +1469,7 @@
     "displayName": "ActivationType",
     "description": "Represents an activation step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=40",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=40",
     "commandTopic": "opcua/Scales_V2/ActivationType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ActivationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1518,7 +1518,7 @@
     "displayName": "ConditionSleepType",
     "description": "Represents a condition sleep step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=37",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=37",
     "telemetryTopic": "opcua/Scales_V2/ConditionSleepType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1574,7 +1574,7 @@
     "displayName": "AnalogConditionSleepType",
     "description": "Represents a condition sleep step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:ConditionSleepType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=38",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=38",
     "commandTopic": "opcua/Scales_V2/AnalogConditionSleepType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/AnalogConditionSleepType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1584,7 +1584,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EqualityAndRelationalOperator",
         "description": "This enumeration describes the different condition modes for an analog condition.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=61",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=61",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1642,7 +1642,7 @@
     "displayName": "EdgeTriggeredSleepType",
     "description": "Represents a condition sleep step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:ConditionSleepType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=39",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=39",
     "commandTopic": "opcua/Scales_V2/EdgeTriggeredSleepType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/EdgeTriggeredSleepType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1651,7 +1651,7 @@
         "@id": "dtmi:opcua:Scales_V2:EdgeTriggeredSleepType:dataType:EdgeOperator;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EdgeOperator",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=62",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=62",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1693,7 +1693,7 @@
     "displayName": "TimerType",
     "description": "TimerType represents a timer step in a recipe. The recipe waits until at least Duration has passed from now.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=36",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=36",
     "telemetryTopic": "opcua/Scales_V2/TimerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1725,7 +1725,7 @@
     "displayName": "UserInstructionType",
     "description": "UserInstructionType represents a recipe step that requires user interaction. The recipe scale display instruction (a text and/or some application- specific symbols) on an HMI and waits until the user acknowledged the instruction.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=33",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=33",
     "telemetryTopic": "opcua/Scales_V2/UserInstructionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1765,7 +1765,7 @@
     "displayName": "WeighingType",
     "description": "Represents a weighing process in a recipe. The process can be an automatic or manual filling process.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=34",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=34",
     "telemetryTopic": "opcua/Scales_V2/WeighingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1813,7 +1813,7 @@
     "displayName": "RecipeManagementType",
     "description": "Contains methods and properties required for managing recipes.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=30",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=30",
     "commandTopic": "opcua/Scales_V2/RecipeManagementType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1905,7 +1905,7 @@
     "displayName": "RecipeType",
     "description": "Represents a recipe. It defines additional methods and properties required for managing a recipe.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=31",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=31",
     "commandTopic": "opcua/Scales_V2/RecipeType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/RecipeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2031,7 +2031,7 @@
     "displayName": "StatisticCounterType",
     "description": "Container for the different statisticvalues needed in a Checkweigher.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=43",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=43",
     "commandTopic": "opcua/Scales_V2/StatisticCounterType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/StatisticCounterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2064,7 +2064,7 @@
     "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "AcceptedStatisticCounterType",
     "extends": "dtmi:opcua:Scales_V2:StatisticCounterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=1027",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2086,7 +2086,7 @@
     "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "RejectedStatisticCounterType",
     "extends": "dtmi:opcua:Scales_V2:StatisticCounterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=1028",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2108,7 +2108,7 @@
     "displayName": "StatisticType",
     "description": "Container for the different statisticvalues. All variables are optional, so that the statistics can be instantiated application-specific.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=25",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=25",
     "commandTopic": "opcua/Scales_V2/StatisticType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/StatisticType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2158,7 +2158,7 @@
     "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "CheckweigherStatisticType",
     "extends": "dtmi:opcua:Scales_V2:StatisticType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=48",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=48",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2181,7 +2181,7 @@
     "displayName": "FloatingStatisticType",
     "description": "Container for the different statisticvalues. All variables are optional, so that the statistics can be instantiated application-specific. Should be used for application-specific statistics.",
     "extends": "dtmi:opcua:Scales_V2:StatisticType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=26",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=26",
     "commandTopic": "opcua/Scales_V2/FloatingStatisticType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/FloatingStatisticType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2214,7 +2214,7 @@
     "displayName": "FeederModuleType",
     "description": "Represents a feeder system. A feeder system is a subdevice of an automatic scale for conveying the product to or from the WeighingBridge.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=28",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=28",
     "commandTopic": "opcua/Scales_V2/FeederModuleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/FeederModuleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2314,7 +2314,7 @@
     "displayName": "PrinterModuleType",
     "description": "Represents a printing device. A printing device is a subdevice of a scale, that prints labels or other documents releated to the scale or the measurement results.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=29",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=29",
     "telemetryTopic": "opcua/Scales_V2/PrinterModuleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2385,7 +2385,7 @@
     "displayName": "ScaleDeviceType",
     "description": "Represents a scale.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=2",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=2",
     "commandTopic": "opcua/Scales_V2/ScaleDeviceType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ScaleDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2394,7 +2394,7 @@
         "@id": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "WeightType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=55",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=55",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2602,7 +2602,7 @@
     "displayName": "AutomaticFillingScaleType",
     "description": "Represents an automatic filling scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=5",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=5",
     "commandTopic": "opcua/Scales_V2/AutomaticFillingScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/AutomaticFillingScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2611,7 +2611,7 @@
         "@id": "dtmi:opcua:Scales_V2:AutomaticFillingScaleType:dataType:ToleranceState;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ToleranceState",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=60",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=60",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2669,7 +2669,7 @@
     "displayName": "CatchweigherType",
     "description": "Represents a Catchweigher. It has no method or properties defined.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=4",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=4",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2692,7 +2692,7 @@
     "displayName": "AutomaticWeightPriceLabelerType",
     "description": "Represents an automatic weight-price-labeler.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=49",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=49",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2715,7 +2715,7 @@
     "displayName": "CheckweigherType",
     "description": "Represents a Checkweigher.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=45",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=45",
     "telemetryTopic": "opcua/Scales_V2/CheckweigherType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2747,7 +2747,7 @@
     "displayName": "ContinuousScaleType",
     "description": "Represents a continuous scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=10",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=10",
     "telemetryTopic": "opcua/Scales_V2/ContinuousScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2755,7 +2755,7 @@
         "@id": "dtmi:opcua:Scales_V2:ContinuousScaleType:dataType:RateControlMode;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "RateControlMode",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=30003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=30003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2864,7 +2864,7 @@
     "displayName": "LossInWeightScaleType",
     "description": "Represents a loss in weight scale.",
     "extends": "dtmi:opcua:Scales_V2:ContinuousScaleType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=50",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=50",
     "commandTopic": "opcua/Scales_V2/LossInWeightScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/LossInWeightScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2955,7 +2955,7 @@
     "displayName": "PieceCountingScaleType",
     "description": "Represents a piece counting scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=6",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=6",
     "commandTopic": "opcua/Scales_V2/PieceCountingScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/PieceCountingScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3063,7 +3063,7 @@
     "displayName": "RecipeScaleType",
     "description": "RecipeScaleType represents a recipe scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=7",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=7",
     "commandTopic": "opcua/Scales_V2/RecipeScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/RecipeScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3072,7 +3072,7 @@
         "@id": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeTargetValueType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RecipeTargetValueType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=58",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=58",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3095,7 +3095,7 @@
         "@id": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeThresholdType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RecipeThresholdType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=57",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=57",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3273,7 +3273,7 @@
     "displayName": "SimpleScaleType",
     "description": "Represents a simple scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=3",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=3",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3296,7 +3296,7 @@
     "displayName": "HopperScaleType",
     "description": "Represents a hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=9",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=9",
     "commandTopic": "opcua/Scales_V2/HopperScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/HopperScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3374,7 +3374,7 @@
     "displayName": "LaboratoryScaleType",
     "description": "Represents a laboratory scale.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=15",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=15",
     "commandTopic": "opcua/Scales_V2/LaboratoryScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/LaboratoryScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3383,7 +3383,7 @@
         "@id": "dtmi:opcua:Scales_V2:LaboratoryScaleType:dataType:DraftShieldType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DraftShieldType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=65",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=65",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3556,7 +3556,7 @@
     "displayName": "WeighingModuleType",
     "description": "Represents a weighing bridge.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=1",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3579,7 +3579,7 @@
     "displayName": "TotalizingHopperScaleType",
     "description": "Represents a totalizing hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=8",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=8",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3601,7 +3601,7 @@
     "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "VehicleScaleType",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=834",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=834",
     "commandTopic": "opcua/Scales_V2/VehicleScaleType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3685,7 +3685,7 @@
     "displayName": "ScaleSystemType",
     "description": "Represents a scale system and contains one or more scales.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=44",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=44",
     "commandTopic": "opcua/Scales_V2/ScaleSystemType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ScaleSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3787,7 +3787,7 @@
     "displayName": "TotalizerType",
     "description": "Contains the sum over the last measurement results.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=27",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=27",
     "commandTopic": "opcua/Scales_V2/TotalizerType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/TotalizerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3825,7 +3825,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "WeighingItemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=24",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=24",
     "commandTopic": "opcua/Scales_V2/WeighingItemType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/WeighingItemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3834,7 +3834,7 @@
         "@id": "dtmi:opcua:Scales_V2:WeighingItemType:dataType:WeightType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "WeightType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=55",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=55",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3929,7 +3929,7 @@
     "ontology": "http://opcfoundation.org/UA/Scales.V2",
     "displayName": "PriceItemType",
     "extends": "dtmi:opcua:Scales_V2:WeighingItemType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=833",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=833",
     "telemetryTopic": "opcua/Scales_V2/PriceItemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3960,7 +3960,7 @@
     "displayName": "WeighingRangeElementType",
     "description": "For each weighing range a scale supports the OPC UA server provides an object of WeighingRangeElementType that contains the propertys of the weighing range like the ScaleDivision.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=23",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=23",
     "telemetryTopic": "opcua/Scales_V2/WeighingRangeElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3968,7 +3968,7 @@
         "@id": "dtmi:opcua:Scales_V2:WeighingRangeElementType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -4025,7 +4025,7 @@
     "displayName": "ZoneType",
     "description": "Container for the weighing zones in a Checkweigher.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=42",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=42",
     "telemetryTopic": "opcua/Scales_V2/ZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

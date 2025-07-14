@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FunctionalGroupType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://sercos.org/UA;i=6012",
+    "typeRef": "nsu=http://sercos.org/UA/;i=6012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -34,7 +34,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SercosProfileType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
-    "typeRef": "nsu=http://sercos.org/UA;i=1002",
+    "typeRef": "nsu=http://sercos.org/UA/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -55,7 +55,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SercosClassType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
-    "typeRef": "nsu=http://sercos.org/UA;i=1003",
+    "typeRef": "nsu=http://sercos.org/UA/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -76,7 +76,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SercosFunctionGroupType",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
-    "typeRef": "nsu=http://sercos.org/UA;i=1004",
+    "typeRef": "nsu=http://sercos.org/UA/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -98,7 +98,7 @@
     "ontology": "http://sercos.org/UA",
     "displayName": "SercosDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
-    "typeRef": "nsu=http://sercos.org/UA;i=1001",
+    "typeRef": "nsu=http://sercos.org/UA/;i=1001",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -144,7 +144,7 @@
     "ontology": "http://sercos.org/UA",
     "displayName": "ProfileSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
-    "typeRef": "nsu=http://sercos.org/UA;i=6075",
+    "typeRef": "nsu=http://sercos.org/UA/;i=6075",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -173,7 +173,7 @@
     "ontology": "http://sercos.org/UA",
     "displayName": "ClassSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
-    "typeRef": "nsu=http://sercos.org/UA;i=6077",
+    "typeRef": "nsu=http://sercos.org/UA/;i=6077",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -202,7 +202,7 @@
     "ontology": "http://sercos.org/UA",
     "displayName": "FunctionGroupSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
-    "typeRef": "nsu=http://sercos.org/UA;i=6079",
+    "typeRef": "nsu=http://sercos.org/UA/;i=6079",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -155,7 +155,7 @@ namespace Yaml2Dtdl
             string? specName = sepIx < 0 ? null : nodeId.Substring(0, sepIx);
             string idNum = nodeId.Substring(sepIx + 1);
             string uri = SpecMapper.GetUriFromSpecName(specName);
-            return $"nsu={uri};i={idNum}";
+            return $"nsu={uri}/;i={idNum}";
         }
 
         public static HashSet<string> BuiltInTypes { get => builtInTypeMap.Keys.ToHashSet(); }

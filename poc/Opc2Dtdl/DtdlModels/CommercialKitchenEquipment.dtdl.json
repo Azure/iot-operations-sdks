@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "BatchInformationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1002",
     "commandTopic": "opcua/CommercialKitchenEquipment/BatchInformationType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/BatchInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22,7 +22,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:BatchInformationType:dataType:TimeZoneDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "TimeZoneDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=8912",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -87,7 +87,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "KitchenDeviceHAConfigType",
     "extends": "dtmi:opcua:OpcUaCore:HistoricalDataConfigurationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1003",
     "commandTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceHAConfigType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceHAConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -126,7 +126,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "KitchenDeviceParameterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1004",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/KitchenDeviceParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -169,7 +169,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ChamberType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1012",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/ChamberType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -177,7 +177,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:ChamberType:dataType:ChamberModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ChamberModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -509,7 +509,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CoffeeMachineParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1022",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -517,7 +517,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType:dataType:CoffeeMachineModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CoffeeMachineModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3015",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -643,7 +643,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CoffeeMachineRecipeParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1023",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CoffeeMachineRecipeParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -651,7 +651,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType:dataType:BeverageSMLEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "BeverageSMLEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3014",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3014",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -766,7 +766,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CombiSteamerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1010",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CombiSteamerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -774,7 +774,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:CombiSteamerModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CombiSteamerModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -827,7 +827,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:SpecialCookingModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SpecialCookingModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3007",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1061,7 +1061,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CookingKettleParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1016",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingKettleParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1069,7 +1069,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:CookingKettleModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CookingKettleModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1114,7 +1114,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1218,7 +1218,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CookingZoneParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1029",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingZoneParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1226,7 +1226,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneParameterType:dataType:CurrentStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CurrentStateEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3021",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1333,7 +1333,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DishWashingMachineProgramParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1025",
     "commandTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineProgramParameterType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/DishWashingMachineProgramParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1342,7 +1342,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:HygieneModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HygieneModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3017",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1375,7 +1375,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:OperationModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperationModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3018",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3018",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1448,7 +1448,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:ProgramModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ProgramModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3016",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1770,7 +1770,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FryerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1006",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1778,7 +1778,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:FryerModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FryerModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1815,7 +1815,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1903,7 +1903,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FryingAndGrillingParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1031",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1911,7 +1911,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:GrillingZoneStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GrillingZoneStateEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3025",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3025",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1936,7 +1936,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:PlatenPositionStateEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PlatenPositionStateEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3022",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3022",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2095,7 +2095,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FryingPanParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1008",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingPanParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2103,7 +2103,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanParameterType:dataType:FryingPanModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FryingPanModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2152,7 +2152,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2271,7 +2271,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IceMachineParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1035",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/IceMachineParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2279,7 +2279,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:IceMachineParameterType:dataType:StatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "StatusEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3024",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3024",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2428,7 +2428,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MicrowaveCombiOvenParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1033",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/MicrowaveCombiOvenParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2436,7 +2436,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType:dataType:OperatingModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperatingModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3023",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3023",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2572,7 +2572,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MultiFunctionPanParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1018",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2580,7 +2580,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:MultiFunctionPanModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MultiFunctionPanModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3011",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2653,7 +2653,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:SpecialFunctionModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SpecialFunctionModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3012",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2871,7 +2871,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PastaCookerParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1020",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PastaCookerParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2879,7 +2879,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerParameterType:dataType:PastaCookerModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PastaCookerModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3013",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2920,7 +2920,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3008,7 +3008,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PressureCookingKettleParameterType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1014",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3016,7 +3016,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType:dataType:PressureCookingKettleModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PressureCookingKettleModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3009",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3009",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3061,7 +3061,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType:dataType:SignalModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3202,7 +3202,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "TrayType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1027",
     "commandTopic": "opcua/CommercialKitchenEquipment/TrayType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/TrayType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3211,7 +3211,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "TrayModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3019",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3244,7 +3244,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayTypeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "TrayTypeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3020",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3361,7 +3361,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CommercialKitchenDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1005",
     "commandTopic": "opcua/CommercialKitchenEquipment/CommercialKitchenDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CommercialKitchenDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3425,7 +3425,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "CoffeeMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1024",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3462,7 +3462,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "CombiSteamerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1011",
     "commandTopic": "opcua/CommercialKitchenEquipment/CombiSteamerDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CombiSteamerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3471,7 +3471,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3555,7 +3555,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "CookingKettleDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1017",
     "commandTopic": "opcua/CommercialKitchenEquipment/CookingKettleDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingKettleDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3564,7 +3564,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingKettleDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3632,7 +3632,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "CookingZoneDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1030",
     "commandTopic": "opcua/CommercialKitchenEquipment/CookingZoneDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/CookingZoneDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3641,7 +3641,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3716,7 +3716,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "DishWashingMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1026",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3746,7 +3746,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "FryerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1007",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryerDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3755,7 +3755,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3814,7 +3814,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "FryingAndGrillingDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1032",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1032",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingAndGrillingDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3823,7 +3823,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3874,7 +3874,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "FryingPanDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1009",
     "commandTopic": "opcua/CommercialKitchenEquipment/FryingPanDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/FryingPanDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3883,7 +3883,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingPanDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3943,7 +3943,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "IceMachineDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1036",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3973,7 +3973,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "MicrowaveCombiOvenDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4003,7 +4003,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "MultiFunctionPanDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1019",
     "commandTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/MultiFunctionPanDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4012,7 +4012,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4063,7 +4063,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "OvenDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1013",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4092,7 +4092,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "PastaCookerDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1021",
     "commandTopic": "opcua/CommercialKitchenEquipment/PastaCookerDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PastaCookerDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4101,7 +4101,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PastaCookerDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4161,7 +4161,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "PressureCookingKettleDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1015",
     "commandTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleDeviceType/{commandName}",
     "telemetryTopic": "opcua/CommercialKitchenEquipment/PressureCookingKettleDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4170,7 +4170,7 @@
         "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleDeviceType:dataType:EnergySourceEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EnergySourceEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4222,7 +4222,7 @@
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
     "displayName": "ServeryCounterDeviceType",
     "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1028",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

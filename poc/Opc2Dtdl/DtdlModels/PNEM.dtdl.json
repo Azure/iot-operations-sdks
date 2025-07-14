@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IEnergyProfileD0Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1011",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileD0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -43,7 +43,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IEnergyProfileE0Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1007",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileE0Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -51,7 +51,7 @@
         "@id": "dtmi:opcua:PNEM:IEnergyProfileE0Type:dataType:AcPeDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "AcPeDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -95,7 +95,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IEnergyProfileE1Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1008",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileE1Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -125,7 +125,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IEnergyProfileE2Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1009",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileE2Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -171,7 +171,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IEnergyProfileE3Type",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1010",
     "telemetryTopic": "opcua/PNEM/IEnergyProfileE3Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -179,7 +179,7 @@
         "@id": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "AcPeDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -202,7 +202,7 @@
         "@id": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPpDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "AcPpDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -312,7 +312,7 @@
     "ontology": "http://opcfoundation.org/UA/PNEM",
     "displayName": "EnergyDevicePowerOffType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1012",
     "commandTopic": "opcua/PNEM/EnergyDevicePowerOffType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergyDevicePowerOffType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -405,7 +405,7 @@
     "ontology": "http://opcfoundation.org/UA/PNEM",
     "displayName": "EnergyMeasurementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1006",
     "commandTopic": "opcua/PNEM/EnergyMeasurementType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergyMeasurementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -459,7 +459,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EnergySavingModesContainerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -487,7 +487,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EnergySavingModeStatusType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1002",
     "telemetryTopic": "opcua/PNEM/EnergySavingModeStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -496,7 +496,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "StandbyModeTransitionDataType",
         "description": "Identification of destination energy saving mode.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -525,7 +525,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "EnergyStateInformationDataType",
         "description": "PROFIenergy mode ID of current energy saving mode. Servers not implementing PROFIenergy shall always set this field to 0.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -581,7 +581,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EnergySavingModeType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1003",
     "commandTopic": "opcua/PNEM/EnergySavingModeType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergySavingModeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -677,7 +677,7 @@
     "ontology": "http://opcfoundation.org/UA/PNEM",
     "displayName": "EnergyStandbyManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1005",
     "commandTopic": "opcua/PNEM/EnergyStandbyManagementType/{commandName}",
     "telemetryTopic": "opcua/PNEM/EnergyStandbyManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -872,7 +872,7 @@
     "ontology": "http://opcfoundation.org/UA/PNEM",
     "displayName": "PeServiceAccessPointType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1013",
     "commandTopic": "opcua/PNEM/PeServiceAccessPointType/{commandName}",
     "telemetryTopic": "opcua/PNEM/PeServiceAccessPointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -882,7 +882,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PeClassEnumeration",
         "description": "The PE Entity supports energy management functionality.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3007",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -904,7 +904,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PeSubclassEnumeration",
         "description": "The PE Entity does not support energy management disabled.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -921,7 +921,7 @@
         "@id": "dtmi:opcua:PNEM:PeServiceAccessPointType:dataType:PeVersionDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PeVersionDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3004",
         "fields": [
           {
             "@type": [ "Field", "Required" ],

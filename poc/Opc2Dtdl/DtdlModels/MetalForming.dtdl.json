@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FormingProcessConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1023",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -34,7 +34,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AllowableTiltingExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1011",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -55,7 +55,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "BreakthroughTonnageExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -76,7 +76,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CorrectionValueOutOfRangeConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1020",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -97,7 +97,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EccentricLoadExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -118,7 +118,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OverloadTriggeredConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -139,7 +139,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PositionOutOfRangeConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1017",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -160,7 +160,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProcessForceExceededConditionClassType",
     "extends": "dtmi:opcua:MetalForming:FormingProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1009",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -181,7 +181,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "CyclicEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1016",
     "telemetryTopic": "opcua/MetalForming/CyclicEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -225,7 +225,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FormingToolType",
     "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1010",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -247,7 +247,7 @@
     "ontology": "http://opcfoundation.org/UA/MetalForming",
     "displayName": "FormingMultiToolType",
     "extends": "dtmi:opcua:MachineTool:MultiToolType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -276,7 +276,7 @@
     "ontology": "http://opcfoundation.org/UA/MetalForming",
     "displayName": "ProcessWorkingUnitType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -320,7 +320,7 @@
     "ontology": "http://opcfoundation.org/UA/MetalForming",
     "displayName": "FormingProcessWorkingUnitType",
     "extends": "dtmi:opcua:MetalForming:ProcessWorkingUnitType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -349,7 +349,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FormingPositionsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -410,7 +410,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CyclicProcessValueType",
     "extends": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1007",
     "telemetryTopic": "opcua/MetalForming/CyclicProcessValueType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -418,7 +418,7 @@
         "@id": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "CyclicProcessValueDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],

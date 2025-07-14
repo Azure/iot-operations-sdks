@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/AdditiveManufacturing",
     "displayName": "EquipmentAMType",
     "extends": "dtmi:opcua:MachineTool:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -44,7 +44,7 @@
     "displayName": "FeedstockListType",
     "description": "The MaterialListType represents a list of materials",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1001",
     "commandTopic": "opcua/AdditiveManufacturing/FeedstockListType/{commandName}",
     "telemetryTopic": "opcua/AdditiveManufacturing/FeedstockListType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -82,7 +82,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FeedstockType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1000",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1000",
     "commandTopic": "opcua/AdditiveManufacturing/FeedstockType/{commandName}",
     "telemetryTopic": "opcua/AdditiveManufacturing/FeedstockType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -92,7 +92,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FeedstockFunction",
         "description": "This enumeration indicates the function of a specific feedstock.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=3000",
+        "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -193,7 +193,7 @@
     "displayName": "MachineIdentificationAMType",
     "description": "The MachineIdentificationAMType of the Additive Manufacturing information model holds static data which shall uniquely identify an AM machine among a pool of the AM machine operating entity.",
     "extends": "dtmi:opcua:MachineTool:MachineToolIdentificationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1004",
     "commandTopic": "opcua/AdditiveManufacturing/MachineIdentificationAMType/{commandName}",
     "telemetryTopic": "opcua/AdditiveManufacturing/MachineIdentificationAMType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -226,7 +226,7 @@
     "displayName": "AdditiveManufacturingType",
     "description": "The AdditiveManufacturingType represents the entire additive manufacturing interface of this information model. It is the entry point to the OPC UA interface of an AM machine and provides a basic structure. An instance of this type aggregates all information related to one AM machine.",
     "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -249,7 +249,7 @@
     "displayName": "ProcessValueAMType",
     "description": "The ProcessValueAMType provides sensor monitoring information of an AM machine.",
     "extends": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1002",
     "commandTopic": "opcua/AdditiveManufacturing/ProcessValueAMType/{commandName}",
     "telemetryTopic": "opcua/AdditiveManufacturing/ProcessValueAMType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -259,7 +259,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SensorCategory",
         "description": "This enumeration indicates the severity of a specific sensor.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -281,7 +281,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SensorSeverity",
         "description": "This enumeration indicates the severity of a specific sensor.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {

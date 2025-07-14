@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "AutomationMLBaseInterface",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=22",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=22",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -36,7 +36,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Order",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=25",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=25",
     "telemetryTopic": "opcua/AMLLibs/Order/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -66,7 +66,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PortConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=28",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=28",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -88,7 +88,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "InterlockingConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=31",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=31",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -110,7 +110,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PPRConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=34",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=34",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -132,7 +132,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ExternalDataConnector",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=37",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=37",
     "telemetryTopic": "opcua/AMLLibs/ExternalDataConnector/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -162,7 +162,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Communication",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=179",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=179",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -184,7 +184,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "AttachmentInterface",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=43",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=43",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -206,7 +206,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "COLLADAInterface",
     "extends": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=52",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=52",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -228,7 +228,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PLCopenXMLInterface",
     "extends": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=55",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=55",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -250,7 +250,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "LogicInterface",
     "extends": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=58",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=58",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -272,7 +272,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "VariableInterface",
     "extends": "dtmi:opcua:AMLLibs:PLCopenXMLInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=61",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=61",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -294,7 +294,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "InterlockingVariableInterface",
     "extends": "dtmi:opcua:AMLLibs:VariableInterface;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=64",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=64",
     "telemetryTopic": "opcua/AMLLibs/InterlockingVariableInterface/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -324,7 +324,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "SignalInterface",
     "extends": "dtmi:opcua:AMLLibs:Communication;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=71",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=71",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -346,7 +346,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "AutomationMLBaseRole",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=74",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=74",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -368,7 +368,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Group",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=77",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=77",
     "telemetryTopic": "opcua/AMLLibs/Group/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -398,7 +398,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Facet",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=80",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=80",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -420,7 +420,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Port",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=83",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=83",
     "telemetryTopic": "opcua/AMLLibs/Port/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -497,7 +497,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Resource",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=86",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=86",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -519,7 +519,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Product",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=89",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=89",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -541,7 +541,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Process",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=92",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=92",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -563,7 +563,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Structure",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=95",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=95",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -585,7 +585,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PropertySet",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=98",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=98",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -607,7 +607,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Frame",
     "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseRole;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=101",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=101",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -629,7 +629,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "SignalGroup",
     "extends": "dtmi:opcua:AMLLibs:Group;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=107",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=107",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -651,7 +651,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ComponentGroup",
     "extends": "dtmi:opcua:AMLLibs:Group;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=110",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=110",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -673,7 +673,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProductStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=131",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=131",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -695,7 +695,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProcessStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=134",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=134",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -717,7 +717,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ResourceStructure",
     "extends": "dtmi:opcua:AMLLibs:Structure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=137",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=137",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -739,7 +739,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "BatchManufacturingEquipment",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=140",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=140",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -761,7 +761,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ContManufacturingEquipment",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=143",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=143",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -783,7 +783,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "DiscManufacturingEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=146",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=146",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -805,7 +805,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Transport",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=149",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=149",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -827,7 +827,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Storage",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=152",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=152",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -849,7 +849,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Fixture",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=155",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=155",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -871,7 +871,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Gate",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=158",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=158",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -893,7 +893,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Robot",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=161",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=161",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -915,7 +915,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Tool",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=164",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=164",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -937,7 +937,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Carrier",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=167",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=167",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -959,7 +959,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Machine",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=170",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=170",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -981,7 +981,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "StaticObject",
     "extends": "dtmi:opcua:AMLLibs:DiscManufacturingEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=173",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=173",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1003,7 +1003,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ControlEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=176",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=176",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1025,7 +1025,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ControlHardware",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=182",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=182",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1047,7 +1047,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Sensor",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=185",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=185",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1069,7 +1069,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Actuator",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=188",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=188",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1091,7 +1091,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Controller",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=191",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=191",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1113,7 +1113,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PC",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=194",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=194",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1135,7 +1135,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "IPC",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=197",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=197",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1157,7 +1157,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "EmbeddedDevice",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=200",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=200",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1179,7 +1179,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Handheld",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=203",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=203",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1201,7 +1201,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PLC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=206",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=206",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1223,7 +1223,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "NC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=209",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=209",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1245,7 +1245,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "RC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=212",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=212",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1267,7 +1267,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PAC",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=215",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=215",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1289,7 +1289,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PLCFacet",
     "extends": "dtmi:opcua:AMLLibs:Facet;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=218",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=218",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1311,7 +1311,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "HMIFacet",
     "extends": "dtmi:opcua:AMLLibs:Facet;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=221",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=221",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1333,7 +1333,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Enterprise",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=224",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=224",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1355,7 +1355,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Site",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=227",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=227",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1377,7 +1377,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Area",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=230",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=230",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1399,7 +1399,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProductionLine",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=233",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=233",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1421,7 +1421,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "WorkCell",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=236",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=236",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1443,7 +1443,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProcessCell",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=239",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=239",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1465,7 +1465,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Unit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=242",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=242",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1487,7 +1487,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProductionUnit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=245",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=245",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1509,7 +1509,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "StorageZone",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=248",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=248",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1531,7 +1531,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "StorageUnit",
     "extends": "dtmi:opcua:AMLLibs:ResourceStructure;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=251",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=251",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1553,7 +1553,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Turntable",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=254",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=254",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1575,7 +1575,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Conveyor",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=257",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=257",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1597,7 +1597,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "LiftingTable",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=260",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=260",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1619,7 +1619,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "AGV",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=263",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=263",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1641,7 +1641,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Transposer",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=266",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=266",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1663,7 +1663,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "CarrierHandlingSystem",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=269",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=269",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1685,7 +1685,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "BodyStore",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=272",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=272",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1707,7 +1707,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Lift",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=275",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=275",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1729,7 +1729,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Rollerbed",
     "extends": "dtmi:opcua:AMLLibs:Transport;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=278",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=278",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1751,7 +1751,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "StationaryTool",
     "extends": "dtmi:opcua:AMLLibs:Tool;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=281",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=281",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1773,7 +1773,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "MovableTool",
     "extends": "dtmi:opcua:AMLLibs:Tool;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=284",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=284",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1795,7 +1795,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ControlCabinet",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=287",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=287",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1817,7 +1817,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "IODevice",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=290",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=290",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1839,7 +1839,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "HMI",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=293",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=293",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1861,7 +1861,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ActuatingDrive",
     "extends": "dtmi:opcua:AMLLibs:Actuator;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=296",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=296",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1883,7 +1883,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "MotionController",
     "extends": "dtmi:opcua:AMLLibs:ControlEquipment;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=299",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=299",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1905,7 +1905,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Panel",
     "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=302",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=302",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1927,7 +1927,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "MeasuringEquipment",
     "extends": "dtmi:opcua:AMLLibs:Resource;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=305",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=305",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1949,7 +1949,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Clamp",
     "extends": "dtmi:opcua:AMLLibs:Fixture;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=308",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=308",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1971,7 +1971,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ProcessController",
     "extends": "dtmi:opcua:AMLLibs:Controller;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=311",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=311",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1993,7 +1993,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Loader",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=314",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=314",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2015,7 +2015,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "Unloader",
     "extends": "dtmi:opcua:AMLLibs:Storage;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=317",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=317",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2037,7 +2037,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "BeltConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=320",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=320",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2059,7 +2059,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "RollConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=323",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=323",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2081,7 +2081,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "ChainConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=326",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=326",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2103,7 +2103,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "PalletConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=329",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=329",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2125,7 +2125,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "OverheadConveyor",
     "extends": "dtmi:opcua:AMLLibs:Conveyor;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=332",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=332",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2147,7 +2147,7 @@
     "ontology": "http://opcfoundation.org/UA/AMLLibs",
     "displayName": "WarningEquipment",
     "extends": "dtmi:opcua:AMLLibs:HMI;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs;i=335",
+    "typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=335",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

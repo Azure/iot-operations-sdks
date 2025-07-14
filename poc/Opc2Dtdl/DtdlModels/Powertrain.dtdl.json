@@ -15,7 +15,7 @@
     "displayName": "IPtTagNameplateType",
     "description": "Is a subtype of IMachineTagNameplateType defined in OPC 40001-1",
     "extends": "dtmi:opcua:Machinery:IMachineTagNameplateType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15898",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15898",
     "commandTopic": "opcua/Powertrain/IPtTagNameplateType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/IPtTagNameplateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -63,7 +63,7 @@
     "displayName": "PtAssetAttributesType",
     "description": "Provides attributes to the respective asset in a modular manner",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16337",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16337",
     "commandTopic": "opcua/Powertrain/PtAssetAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtAssetAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -95,7 +95,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtBleedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1008",
     "telemetryTopic": "opcua/Powertrain/PtBleedAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -143,7 +143,7 @@
     "displayName": "PtBrakeAttributesType",
     "description": "Provides attributes of a brake",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16609",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16609",
     "commandTopic": "opcua/Powertrain/PtBrakeAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtBrakeAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -381,7 +381,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtCapacitanceAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1004",
     "telemetryTopic": "opcua/Powertrain/PtCapacitanceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -411,7 +411,7 @@
     "displayName": "PtCommonAssetAttributesType",
     "description": "Provides attributes which apply to any or many of powertrain assets",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16873",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16873",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -433,7 +433,7 @@
     "displayName": "PtAmbientAttributesType",
     "description": "Provides ambient conditions in which the equipment is guaranteed to function",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16875",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16875",
     "telemetryTopic": "opcua/Powertrain/PtAmbientAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -505,7 +505,7 @@
     "displayName": "PtAnalogInputElectricalAttributesType",
     "description": "Provides analog input properties",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16907",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16907",
     "commandTopic": "opcua/Powertrain/PtAnalogInputElectricalAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtAnalogInputElectricalAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -514,7 +514,7 @@
         "@id": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -599,7 +599,7 @@
     "displayName": "PtAnalogOutputElectricalAttributesType",
     "description": "Provides analog output properties",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16913",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16913",
     "commandTopic": "opcua/Powertrain/PtAnalogOutputElectricalAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtAnalogOutputElectricalAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -608,7 +608,7 @@
         "@id": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -670,7 +670,7 @@
     "displayName": "PtAuxiliarySupplyAttributesType",
     "description": "Provides attributes of the auxiliary supply of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16928",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16928",
     "telemetryTopic": "opcua/Powertrain/PtAuxiliarySupplyAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -728,7 +728,7 @@
     "displayName": "PtCertificateAttributesType",
     "description": "Provides attributes of all supported certificates",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16960",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16960",
     "commandTopic": "opcua/Powertrain/PtCertificateAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtCertificateAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -764,7 +764,7 @@
     "displayName": "PtCommunicationInterfaceAttributesType",
     "description": "Provides information about the communication attributes",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16963",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16963",
     "commandTopic": "opcua/Powertrain/PtCommunicationInterfaceAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtCommunicationInterfaceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -835,7 +835,7 @@
     "displayName": "PtCoolingAttributesType",
     "description": "Provides information about the cooling type",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16970",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16970",
     "telemetryTopic": "opcua/Powertrain/PtCoolingAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -865,7 +865,7 @@
     "displayName": "PtDigitalInputElectricalAttributesType",
     "description": "Attributes describing the type of digital inputs",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17000",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17000",
     "commandTopic": "opcua/Powertrain/PtDigitalInputElectricalAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtDigitalInputElectricalAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -912,7 +912,7 @@
     "displayName": "PtDigitalOutputElectricalAttributesType",
     "description": "Attributes describing the type of digital outputs",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17009",
     "commandTopic": "opcua/Powertrain/PtDigitalOutputElectricalAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtDigitalOutputElectricalAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -967,7 +967,7 @@
     "displayName": "PtFunctionalSafetyAttributesType",
     "description": "Provides the attributes describing various safety functions, certifications and safety transport protocols.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17144",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17144",
     "commandTopic": "opcua/Powertrain/PtFunctionalSafetyAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtFunctionalSafetyAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1011,7 +1011,7 @@
     "displayName": "PtFuseAttributesType",
     "description": "Provides the attributes describing a fuse",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17024",
     "commandTopic": "opcua/Powertrain/PtFuseAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtFuseAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1071,7 +1071,7 @@
     "displayName": "PtHardwareAttributesType",
     "description": "Attributes describing the physical values and dimensions",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16973",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16973",
     "commandTopic": "opcua/Powertrain/PtHardwareAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtHardwareAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1148,7 +1148,7 @@
     "displayName": "PtInputInterfaceAttributesType",
     "description": "Provides attributes describing the interface to the mains line",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17046",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17046",
     "commandTopic": "opcua/Powertrain/PtInputInterfaceAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtInputInterfaceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1157,7 +1157,7 @@
         "@id": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1261,7 +1261,7 @@
     "displayName": "PtMechanicalStrengthAttributesType",
     "description": "Provides the attributes describing the mechanical strength.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17136",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17136",
     "commandTopic": "opcua/Powertrain/PtMechanicalStrengthAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtMechanicalStrengthAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1308,7 +1308,7 @@
     "displayName": "PtOutputInterfaceAttributesType",
     "description": "Provides ....",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17085",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17085",
     "commandTopic": "opcua/Powertrain/PtOutputInterfaceAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtOutputInterfaceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1317,7 +1317,7 @@
         "@id": "dtmi:opcua:Powertrain:PtOutputInterfaceAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1435,7 +1435,7 @@
     "displayName": "PtProtectionClassAttributesType",
     "description": "Provides the attributes describing the protection class.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17140",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17140",
     "commandTopic": "opcua/Powertrain/PtProtectionClassAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtProtectionClassAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1475,7 +1475,7 @@
     "displayName": "PtSafetyFunctionsAttributesType",
     "description": "Provides the attributes describing the safety functions, standards, safety integrity level (SIL), safety perofmrance level and safety category.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17149",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17149",
     "commandTopic": "opcua/Powertrain/PtSafetyFunctionsAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtSafetyFunctionsAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1538,7 +1538,7 @@
     "displayName": "PtStandardAttributesType",
     "description": "Standards provides all supported standards of an powertrain asset.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17156",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17156",
     "commandTopic": "opcua/Powertrain/PtStandardAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtStandardAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1574,7 +1574,7 @@
     "displayName": "PtContactorAttributesType",
     "description": "power train contactor type",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16847",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16847",
     "commandTopic": "opcua/Powertrain/PtContactorAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtContactorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1583,7 +1583,7 @@
         "@id": "dtmi:opcua:Powertrain:PtContactorAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1657,7 +1657,7 @@
     "displayName": "PtDcBusAttributesType",
     "description": "Provides attributes for the DCBus",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16798",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16798",
     "telemetryTopic": "opcua/Powertrain/PtDcBusAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1665,7 +1665,7 @@
         "@id": "dtmi:opcua:Powertrain:PtDcBusAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1722,7 +1722,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtElectronicOverloadRelayAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1014",
     "commandTopic": "opcua/Powertrain/PtElectronicOverloadRelayAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtElectronicOverloadRelayAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1731,7 +1731,7 @@
         "@id": "dtmi:opcua:Powertrain:PtElectronicOverloadRelayAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1828,7 +1828,7 @@
     "displayName": "PtEncoderAttributesType",
     "description": "Provides attributes for the encoder",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16553",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16553",
     "telemetryTopic": "opcua/Powertrain/PtEncoderAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1865,7 +1865,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtEncoderLinearAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1024",
     "commandTopic": "opcua/Powertrain/PtEncoderLinearAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtEncoderLinearAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1933,7 +1933,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtEncoderRotaryAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1021",
     "commandTopic": "opcua/Powertrain/PtEncoderRotaryAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtEncoderRotaryAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2044,7 +2044,7 @@
     "displayName": "PtEncoderInterfaceAttributesType",
     "description": "The PtEncoderInterfaceAttributesType provides the most common attributes of the encoder interface",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1003",
     "telemetryTopic": "opcua/Powertrain/PtEncoderInterfaceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2075,7 +2075,7 @@
     "displayName": "PtEncoderInterfaceProtocolAttributesType",
     "description": "Provides attributes for the encoder interface protocol",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16605",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16605",
     "telemetryTopic": "opcua/Powertrain/PtEncoderInterfaceProtocolAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2106,7 +2106,7 @@
     "displayName": "PtGearAttributesType",
     "description": "power train gear type",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16503",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16503",
     "commandTopic": "opcua/Powertrain/PtGearAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtGearAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2229,7 +2229,7 @@
     "displayName": "PtInputConverterAttributesType",
     "description": "Provides attributes for the input converter of a drive",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16806",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16806",
     "commandTopic": "opcua/Powertrain/PtInputConverterAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtInputConverterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2307,7 +2307,7 @@
     "displayName": "PtInputFilterAttributesType",
     "description": "Provides attributes for line filter functionality",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16827",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16827",
     "telemetryTopic": "opcua/Powertrain/PtInputFilterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2359,7 +2359,7 @@
     "displayName": "PtMotorAttributesType",
     "description": "Provides operation mode rated attributes of a amotor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16383",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16383",
     "telemetryTopic": "opcua/Powertrain/PtMotorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2389,7 +2389,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorLinearAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1012",
     "telemetryTopic": "opcua/Powertrain/PtMotorLinearAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2433,7 +2433,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorRotaryAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1009",
     "commandTopic": "opcua/Powertrain/PtMotorRotaryAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtMotorRotaryAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2479,7 +2479,7 @@
     "displayName": "PtMotorDutyAttributesType",
     "description": "Provides attributes for the encoder interface protocol",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16499",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16499",
     "commandTopic": "opcua/Powertrain/PtMotorDutyAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtMotorDutyAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2521,7 +2521,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorManagementDeviceAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1023",
     "commandTopic": "opcua/Powertrain/PtMotorManagementDeviceAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtMotorManagementDeviceAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2530,7 +2530,7 @@
         "@id": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2723,7 +2723,7 @@
     "displayName": "PtMotorRatedAttributesType",
     "description": "Provides operation mode rated attributes of a amotor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16399",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16399",
     "commandTopic": "opcua/Powertrain/PtMotorRatedAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtMotorRatedAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2806,7 +2806,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorLinearRatedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1018",
     "telemetryTopic": "opcua/Powertrain/PtMotorLinearRatedAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2871,7 +2871,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtMotorRotaryRatedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1015",
     "telemetryTopic": "opcua/Powertrain/PtMotorRotaryRatedAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2937,7 +2937,7 @@
     "displayName": "PtMotorStarterAttributesType",
     "description": "Provides attributes of a motor starter",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16854",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16854",
     "commandTopic": "opcua/Powertrain/PtMotorStarterAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtMotorStarterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2946,7 +2946,7 @@
         "@id": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3035,7 +3035,7 @@
     "displayName": "PtOutputConverterAttributesType",
     "description": "Provides attributes for the output converter of a drive",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16818",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16818",
     "telemetryTopic": "opcua/Powertrain/PtOutputConverterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3083,7 +3083,7 @@
     "displayName": "PtOutputFilterAttributesType",
     "description": "Provides attributes for load-side filter functionality",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16838",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16838",
     "telemetryTopic": "opcua/Powertrain/PtOutputFilterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3120,7 +3120,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtPrechargeAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1010",
     "telemetryTopic": "opcua/Powertrain/PtPrechargeAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3185,7 +3185,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtReactorAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1006",
     "telemetryTopic": "opcua/Powertrain/PtReactorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3215,7 +3215,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtSoftStarterAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1019",
     "commandTopic": "opcua/Powertrain/PtSoftStarterAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtSoftStarterAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3224,7 +3224,7 @@
         "@id": "dtmi:opcua:Powertrain:PtSoftStarterAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3290,7 +3290,7 @@
     "displayName": "PtTemperatureSensorAttributesType",
     "description": "Provides attributes for a temperature sensor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16708",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16708",
     "commandTopic": "opcua/Powertrain/PtTemperatureSensorAttributesType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtTemperatureSensorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3351,7 +3351,7 @@
     "displayName": "PtVibrationSensorAttributesType",
     "description": "Provides attributes for a vibration sensor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=16747",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16747",
     "telemetryTopic": "opcua/Powertrain/PtVibrationSensorAttributesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3359,7 +3359,7 @@
         "@id": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "Range",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3470,7 +3470,7 @@
     "displayName": "PtAssetType",
     "description": "Provides properties required for identifying assets of a powertrain",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15912",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15912",
     "commandTopic": "opcua/Powertrain/PtAssetType/{commandName}",
     "telemetryTopic": "opcua/Powertrain/PtAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3480,7 +3480,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DeviceHealthEnumeration",
         "description": "This device functions normally.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3901,7 +3901,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetBleedType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1013",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3924,7 +3924,7 @@
     "displayName": "PtAssetBrakeType",
     "description": "Describes a brake used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15116",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15116",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3947,7 +3947,7 @@
     "displayName": "PtAssetCommunicationModuleType",
     "description": "Describes a communication module of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15430",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15430",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3970,7 +3970,7 @@
     "displayName": "PtAssetContactorType",
     "description": "powertrain asset contactor type",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15549",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15549",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3993,7 +3993,7 @@
     "displayName": "PtAssetControlModuleType",
     "description": "Describes the control part of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15447",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15447",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4016,7 +4016,7 @@
     "displayName": "PtAssetCoolingType",
     "description": "Describes the colling part of an inveter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15541",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15541",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4038,7 +4038,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDcBusModuleType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4060,7 +4060,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1035",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4082,7 +4082,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetFrequencyConverterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1016",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4104,7 +4104,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetServoDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1020",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4126,7 +4126,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetVariableSpeedDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1028",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4149,7 +4149,7 @@
     "displayName": "PtAssetElectricalBrakingModuleType",
     "description": "Brakeing module including brake resistor of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15148",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15148",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4171,7 +4171,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetElectricOverloadRelayType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1026",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4193,7 +4193,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetEncoderInterfaceModuleType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1045",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1045",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4216,7 +4216,7 @@
     "displayName": "PtAssetEncoderType",
     "description": "Describes an encoder used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15108",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15108",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4238,7 +4238,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetEncoderLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1042",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1042",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4260,7 +4260,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetEncoderRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1039",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1039",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4283,7 +4283,7 @@
     "displayName": "PtAssetGearType",
     "description": "Describes a gear in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15122",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15122",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4306,7 +4306,7 @@
     "displayName": "PtAssetInputConverterType",
     "description": "Describes an input converter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15168",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15168",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4329,7 +4329,7 @@
     "displayName": "PtAssetInputFilterType",
     "description": "Describes an input filter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15196",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15196",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4351,7 +4351,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetInputOutputConverterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1022",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4374,7 +4374,7 @@
     "displayName": "PtAssetInputReactorType",
     "description": "Describes an input filter realized by an input reactor",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15241",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15241",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4397,7 +4397,7 @@
     "displayName": "PtAssetIoModuleType",
     "description": "Describes the IO-Module part of an inveter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15468",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15468",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4419,7 +4419,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetMotorManagementDeviceType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1040",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1040",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4442,7 +4442,7 @@
     "displayName": "PtAssetMotorStarterType",
     "description": "powertrain asset motor startet type",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15561",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15561",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4465,7 +4465,7 @@
     "displayName": "PtAssetMotorType",
     "description": "Describes a motor in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15083",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15083",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4487,7 +4487,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1030",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4509,7 +4509,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveIntegratedMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1017",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4531,7 +4531,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveIntegratedGearMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorLinearType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1036",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4553,7 +4553,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetGearMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1029",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4575,7 +4575,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1027",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4597,7 +4597,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveIntegratedMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1011",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4619,7 +4619,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetDriveIntegratedGearMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorRotaryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1033",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4641,7 +4641,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetGearMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1025",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4664,7 +4664,7 @@
     "displayName": "PtAssetOutputConverterType",
     "description": "Describes an output converter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15182",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15182",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4687,7 +4687,7 @@
     "displayName": "PtAssetOutputFilterType",
     "description": "Describes an output filter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15303",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15303",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4710,7 +4710,7 @@
     "displayName": "PtAssetOutputReactorType",
     "description": "Describes an output reactor in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15368",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15368",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4732,7 +4732,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetPrechargeType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1031",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4754,7 +4754,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetReactorFilterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4777,7 +4777,7 @@
     "displayName": "PtAssetSafetyModuleType",
     "description": "Describes the functional safety part of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15527",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15527",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4799,7 +4799,7 @@
     "ontology": "http://opcfoundation.org/UA/Powertrain",
     "displayName": "PtAssetSoftStarterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4822,7 +4822,7 @@
     "displayName": "PtAssetTemperatureSensorType",
     "description": "Describes a temperature sensor used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15130",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15130",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4845,7 +4845,7 @@
     "displayName": "PtAssetVibrationSensorType",
     "description": "Vibration sensor used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=15136",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15136",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

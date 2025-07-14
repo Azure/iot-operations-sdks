@@ -15,7 +15,7 @@
     "displayName": "RoofSupportSystemType",
     "description": "The RoofSupportSystemType ObjectType describes a Roof Support System for longwall mining operations",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.DevelopmentSupport.RoofSupportSystem;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.DevelopmentSupport.RoofSupportSystem/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

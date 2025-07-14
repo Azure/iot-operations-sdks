@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "PADIMType",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1009",
     "commandTopic": "opcua/PADIM/PADIMType/{commandName}",
     "telemetryTopic": "opcua/PADIM/PADIMType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -24,7 +24,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DeviceHealthEnumeration",
         "description": "This device functions normally.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -53,7 +53,7 @@
         "@id": "dtmi:opcua:PADIM:PADIMType:dataType:ResetModeEnum;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ResetModeEnum",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1156",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1156",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -169,7 +169,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SignalSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1021",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -197,7 +197,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IAdministrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1050",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1050",
     "commandTopic": "opcua/PADIM/IAdministrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IAdministrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -206,7 +206,7 @@
         "@id": "dtmi:opcua:PADIM:IAdministrationType:dataType:ResetModeEnum;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ResetModeEnum",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1156",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1156",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -275,7 +275,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ISignalSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1052",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1052",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -304,7 +304,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SignalType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1008",
     "commandTopic": "opcua/PADIM/SignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/SignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -336,7 +336,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "AnalogSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1022",
     "commandTopic": "opcua/PADIM/AnalogSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/AnalogSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -388,7 +388,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1023",
     "commandTopic": "opcua/PADIM/ControlSignalType/{commandName}",
     "telemetryTopic": "opcua/PADIM/ControlSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -397,7 +397,7 @@
         "@id": "dtmi:opcua:PADIM:ControlSignalType:dataType:ExecutionModeEnum;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ExecutionModeEnum",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1158",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1158",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -490,7 +490,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "DiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1036",
     "telemetryTopic": "opcua/PADIM/DiscreteSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -520,7 +520,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TwoStateDiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1037",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1037",
     "telemetryTopic": "opcua/PADIM/TwoStateDiscreteSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -550,7 +550,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "MultiStateDiscreteSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1038",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1038",
     "telemetryTopic": "opcua/PADIM/MultiStateDiscreteSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -580,7 +580,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TwoStateDiscreteControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1223",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1223",
     "telemetryTopic": "opcua/PADIM/TwoStateDiscreteControlSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -635,7 +635,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "MultiStateDiscreteControlSignalType",
     "extends": "dtmi:opcua:PADIM:SignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1239",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1239",
     "telemetryTopic": "opcua/PADIM/MultiStateDiscreteControlSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -682,7 +682,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CalibrationPointType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1042",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1042",
     "telemetryTopic": "opcua/PADIM/CalibrationPointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -718,7 +718,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CalibrationPointSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1043",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1043",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -746,7 +746,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "GeneralDeviceConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1051",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1051",
     "commandTopic": "opcua/PADIM/GeneralDeviceConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/GeneralDeviceConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -812,7 +812,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IGeneralDeviceConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1044",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1044",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -849,7 +849,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ICalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1045",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1045",
     "commandTopic": "opcua/PADIM/ICalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/ICalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -895,7 +895,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IPhCalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1046",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1046",
     "commandTopic": "opcua/PADIM/IPhCalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IPhCalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -942,7 +942,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IConductivityCalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1047",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1047",
     "telemetryTopic": "opcua/PADIM/IConductivityCalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -972,7 +972,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IAmperometricCalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1048",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1048",
     "commandTopic": "opcua/PADIM/IAmperometricCalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IAmperometricCalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1026,7 +1026,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IOpticalFluorescenseQuenchingCalibrationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1049",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1049",
     "commandTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingCalibrationType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingCalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1080,7 +1080,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ITocDeviceConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1053",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1053",
     "telemetryTopic": "opcua/PADIM/ITocDeviceConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1158,7 +1158,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IFlameIonisationDeviceConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1054",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1054",
     "telemetryTopic": "opcua/PADIM/IFlameIonisationDeviceConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1212,7 +1212,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "INonDispersiveInfraredSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1055",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1055",
     "commandTopic": "opcua/PADIM/INonDispersiveInfraredSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/INonDispersiveInfraredSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1267,7 +1267,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ITocSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1056",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1056",
     "commandTopic": "opcua/PADIM/ITocSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/ITocSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1346,7 +1346,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IParamagneticSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1057",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1057",
     "telemetryTopic": "opcua/PADIM/IParamagneticSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1384,7 +1384,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IThermalConductivitySignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1058",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1058",
     "telemetryTopic": "opcua/PADIM/IThermalConductivitySignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1414,7 +1414,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ITunableDiodeLaserSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1059",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1059",
     "telemetryTopic": "opcua/PADIM/ITunableDiodeLaserSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1481,7 +1481,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IZirconiumDioxideSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1060",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1060",
     "telemetryTopic": "opcua/PADIM/IZirconiumDioxideSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1526,7 +1526,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IPhSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1061",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1061",
     "commandTopic": "opcua/PADIM/IPhSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IPhSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1604,7 +1604,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IConductivitySignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1062",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1062",
     "commandTopic": "opcua/PADIM/IConductivitySignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IConductivitySignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1665,7 +1665,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IOpticalFluorescenseQuenchingSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1063",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1063",
     "commandTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IOpticalFluorescenseQuenchingSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1720,7 +1720,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IAmperometricSignalConditionSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1064",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1064",
     "commandTopic": "opcua/PADIM/IAmperometricSignalConditionSetType/{commandName}",
     "telemetryTopic": "opcua/PADIM/IAmperometricSignalConditionSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1776,7 +1776,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "AnalyticalSignalType",
     "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1065",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1065",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1798,7 +1798,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "AmperometricSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1066",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1066",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1820,7 +1820,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ConductivitySignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1067",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1067",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1842,7 +1842,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "FlameIonisationSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1069",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1069",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1864,7 +1864,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "NonDispersiveInfraredSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1071",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1071",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1886,7 +1886,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "OpticalFluorescenseQuenchingSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1073",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1073",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1908,7 +1908,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ParamagneticSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1075",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1075",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1930,7 +1930,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "PhSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1076",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1076",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1952,7 +1952,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ThermalConductivitySignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1077",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1077",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1974,7 +1974,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TocSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1078",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1078",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1996,7 +1996,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TunableDiodeLaserSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1079",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1079",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2018,7 +2018,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "ZirconiumDioxideSignalType",
     "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1081",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1081",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2040,7 +2040,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Process analyser",
     "extends": "dtmi:opcua:PADIM:PADIMType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1082",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1082",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2062,7 +2062,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Amperometric analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1083",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1083",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2084,7 +2084,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Conductivity meter",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1084",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1084",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2106,7 +2106,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Flame ionisation detector",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1085",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1085",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2128,7 +2128,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Non-dispersive infrared gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1086",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1086",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2150,7 +2150,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Optical fluorescence quenching sensor",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1087",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1087",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2172,7 +2172,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Paramagnetic gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1088",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1088",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2194,7 +2194,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "pH meter",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1089",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1089",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2216,7 +2216,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Thermal conductivity gas analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1090",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1090",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2238,7 +2238,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "TOC analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1091",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1091",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2260,7 +2260,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Tunable diode laser spectrometer",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1092",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1092",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2282,7 +2282,7 @@
     "ontology": "http://opcfoundation.org/UA/PADIM",
     "displayName": "Zirconium dioxide analyser",
     "extends": "dtmi:opcua:PADIM:ProcessAnalyserType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM;i=1093",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1093",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

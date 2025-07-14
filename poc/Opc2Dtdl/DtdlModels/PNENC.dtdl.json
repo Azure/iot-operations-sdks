@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "EncoderDiagnosisEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1006",
     "commandTopic": "opcua/PNENC/EncoderDiagnosisEventType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderDiagnosisEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EventTypeEnumeration",
         "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -45,7 +45,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EncoderDiagnosisReasonEnumeration",
         "description": "No diagnosis condition of any severity is persisting",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3012",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -116,7 +116,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "EncoderProbeLatchEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1005",
     "commandTopic": "opcua/PNENC/EncoderProbeLatchEventType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderProbeLatchEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -163,7 +163,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "EncoderRefLatchEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1004",
     "commandTopic": "opcua/PNENC/EncoderRefLatchEventType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderRefLatchEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -202,7 +202,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "LogbookEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1003",
     "commandTopic": "opcua/PNENC/LogbookEventType/{commandName}",
     "telemetryTopic": "opcua/PNENC/LogbookEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -212,7 +212,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "LogEntryDataType",
         "description": "Identification of fault situation. 0 means current fault situation",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -261,7 +261,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EventTypeEnumeration",
         "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -304,7 +304,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EncoderAxisConfigType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1009",
     "commandTopic": "opcua/PNENC/EncoderAxisConfigType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderAxisConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -314,7 +314,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EncoderAxisTypeEnumeration",
         "description": "Rotating Axis",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -332,7 +332,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EncoderCodeSequenceEnumeration",
         "description": "Increasing position values with clockwise rotation (viewed from shaft side)",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -349,7 +349,7 @@
         "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:KeyValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "KeyValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -474,7 +474,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EncoderChannelType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1002",
     "commandTopic": "opcua/PNENC/EncoderChannelType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -484,7 +484,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EncoderChannelStateEnumeration",
         "description": "The position feedback interface operates normally",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -805,7 +805,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EncoderControlConfigType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1008",
     "commandTopic": "opcua/PNENC/EncoderControlConfigType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderControlConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -815,7 +815,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EncoderAlarmChannelControlEnumeration",
         "description": "No Profile specific diagnosis (default)",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -833,7 +833,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EncoderPresetControlEnumeration",
         "description": "G1_XIST1 is affected by a Set-/Shift home position function command",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3007",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -850,7 +850,7 @@
         "@id": "dtmi:opcua:PNENC:EncoderControlConfigType:dataType:KeyValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "KeyValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -946,7 +946,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EncoderProbesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -974,7 +974,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EncoderProbeType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1011",
     "commandTopic": "opcua/PNENC/EncoderProbeType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderProbeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1025,7 +1025,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EncoderSensorConfigType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1007",
     "commandTopic": "opcua/PNENC/EncoderSensorConfigType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderSensorConfigType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1035,7 +1035,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EncoderConfigTypeEnumeration",
         "description": "Static configuration type",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3011",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1053,7 +1053,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EncoderSensorAbsoluteTypeEnumeration",
         "description": "Singleturn sensor absolute type",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1070,7 +1070,7 @@
         "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:KeyValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "KeyValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1206,7 +1206,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EncoderSensorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1013",
     "commandTopic": "opcua/PNENC/EncoderSensorType/{commandName}",
     "telemetryTopic": "opcua/PNENC/EncoderSensorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1276,7 +1276,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "LogbookType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1010",
     "commandTopic": "opcua/PNENC/LogbookType/{commandName}",
     "telemetryTopic": "opcua/PNENC/LogbookType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1286,7 +1286,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "LogEntryDataType",
         "description": "Identification of fault situation. 0 means current fault situation",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1335,7 +1335,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EventTypeEnumeration",
         "description": "The log entry indicates a malfunction of the encoder, e.g. position fault",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {

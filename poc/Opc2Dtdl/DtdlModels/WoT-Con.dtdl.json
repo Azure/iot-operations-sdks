@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/WoT-Con",
     "displayName": "WoTAssetConnectionManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con;i=1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=1",
     "commandTopic": "opcua/WoT_Con/WoTAssetConnectionManagementType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -90,7 +90,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IWoTAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con;i=42",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=42",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -120,7 +120,7 @@
     "ontology": "http://opcfoundation.org/UA/WoT-Con",
     "displayName": "WoTAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con;i=115",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=115",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -149,7 +149,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "WoTAssetFileType",
     "extends": "dtmi:opcua:OpcUaCore:FileType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con;i=110",
+    "typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=110",
     "commandTopic": "opcua/WoT_Con/WoTAssetFileType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

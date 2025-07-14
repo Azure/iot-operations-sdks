@@ -14,7 +14,7 @@
     "displayName": "ZeroPointAdjustmentEventType",
     "description": "Provides information, that a zero-point adjustment took place",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues/;i=1002",
     "commandTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{commandName}",
     "telemetryTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -46,7 +46,7 @@
     "displayName": "ProcessValueType",
     "description": "Represents a process value",
     "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues/;i=1003",
     "telemetryTopic": "opcua/Machinery_ProcessValues/ProcessValueType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

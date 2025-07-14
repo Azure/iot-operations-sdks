@@ -14,7 +14,7 @@
     "displayName": "WwBaseEventType",
     "description": "The WwBaseEventType represents a message event from a module",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=13",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=13",
     "commandTopic": "opcua/Woodworking/WwBaseEventType/{commandName}",
     "telemetryTopic": "opcua/Woodworking/WwBaseEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -24,7 +24,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "WwMessageArgumentDataType",
         "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -38,7 +38,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "WwEventCategoryEnumeration",
         "description": "No other event category applies or it is unknown.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -72,7 +72,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "WwMessageArgumentValueDataType",
         "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -255,7 +255,7 @@
     "displayName": "IWwBaseStateType",
     "description": "The IWwBaseStateType represents the state of an unit. An unit can be a machine of part of a machine.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=6",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=6",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -304,7 +304,7 @@
     "displayName": "IWwEventMessageType",
     "description": "The interface definition IWwEventMessageType describes the common extensions for all events and conditions. Each instance definition that includes this interface with a HasInterface reference defines the predefined extensions",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1002",
     "commandTopic": "opcua/Woodworking/IWwEventMessageType/{commandName}",
     "telemetryTopic": "opcua/Woodworking/IWwEventMessageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -314,7 +314,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "WwMessageArgumentDataType",
         "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -328,7 +328,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "WwEventCategoryEnumeration",
         "description": "No other event category applies or it is unknown.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -362,7 +362,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "WwMessageArgumentValueDataType",
         "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -545,7 +545,7 @@
     "displayName": "IWwStateType",
     "description": "The IWwStateType provides a list of machine states.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=8",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=8",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -585,7 +585,7 @@
     "displayName": "IWwSubUnitsType",
     "description": "The IWwSubUnitsType provides a list of subUnits.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=7",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=7",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -615,7 +615,7 @@
     "displayName": "IWwUnitFlagsType",
     "description": "The IWwUnitFlagsType represents the flags of a unit",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=4",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=4",
     "telemetryTopic": "opcua/Woodworking/IWwUnitFlagsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -845,7 +845,7 @@
     "displayName": "IWwUnitOverviewType",
     "description": "The IWwUnitOverviewType represents the generalized state of a unit.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=5",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=5",
     "telemetryTopic": "opcua/Woodworking/IWwUnitOverviewType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -854,7 +854,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "WwUnitModeEnumeration",
         "description": "This enumeration represents the generalized mode of a unit.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=20",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=20",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -888,7 +888,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "WwUnitStateEnumeration",
         "description": "This enumeration represents the generalized state of a unit.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=21",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=21",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -948,7 +948,7 @@
     "displayName": "IWwUnitValuesType",
     "description": "The IWwUnitValuesType represents the values of a unit",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1006",
     "telemetryTopic": "opcua/Woodworking/IWwUnitValuesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1251,7 +1251,7 @@
     "displayName": "WwEventsDispatcherType",
     "description": "The WwEventsDispatcherType represents a container that is an event dispatcher for machine diagnostic and information events.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=15",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=15",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1274,7 +1274,7 @@
     "displayName": "WwMachineType",
     "description": "The WwMachineType represents a woodworking machine.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking;i=2",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=2",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

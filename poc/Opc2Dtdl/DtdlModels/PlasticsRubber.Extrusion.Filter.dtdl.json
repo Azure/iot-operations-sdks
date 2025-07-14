@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
     "displayName": "Filter_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter/;i=1002",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Filter/Filter_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -120,7 +120,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FilterPackageType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter/;i=1004",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Filter/FilterPackageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Filter/FilterPackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -129,7 +129,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Filter:FilterPackageType:dataType:FilterPackageStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FilterPackageStatusEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -218,7 +218,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ScreenPackageType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter/;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Filter/ScreenPackageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Filter/ScreenPackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "AssetVerificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1247",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1247",
     "telemetryTopic": "opcua/FX_CM/AssetVerificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -22,7 +22,7 @@
         "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifier;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeIdentifier",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -45,7 +45,7 @@
         "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifierValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeIdentifierValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -72,7 +72,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AssetVerificationResultEnum",
         "description": "The verification result is not set.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1037",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1037",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -98,7 +98,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AssetVerificationModeEnum",
         "description": "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1029",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1029",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -119,7 +119,7 @@
         "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeId;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeId",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24106",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24106",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -137,7 +137,7 @@
         "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePath;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePath",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1047",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1047",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -153,7 +153,7 @@
         "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePathElement;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePathElement",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1051",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1051",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -181,7 +181,7 @@
         "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableQualifiedName;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableQualifiedName",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24105",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -255,7 +255,7 @@
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "AutomationComponentConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1246",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1246",
     "telemetryTopic": "opcua/FX_CM/AutomationComponentConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -263,7 +263,7 @@
         "@id": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType:dataType:PortableNodeIdentifier;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeIdentifier",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -286,7 +286,7 @@
         "@id": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType:dataType:PortableNodeId;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeId",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24106",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24106",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -304,7 +304,7 @@
         "@id": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType:dataType:PortableRelativePath;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePath",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1047",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1047",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -320,7 +320,7 @@
         "@id": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType:dataType:PortableRelativePathElement;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePathElement",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1051",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1051",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -348,7 +348,7 @@
         "@id": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType:dataType:PortableQualifiedName;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableQualifiedName",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24105",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -395,7 +395,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ConnectionConfigurationSetEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1006",
     "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetEventType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -405,7 +405,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FxProcessEnum",
         "description": "The ConnectionManager shall establish enabled Connections from the ConnectionConfigurationSets.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -476,7 +476,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ConnectionConfigurationSetProcessingFailedEventType",
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1009",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -497,7 +497,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ConnectionConfigurationSetProcessingStartedEventType",
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -518,7 +518,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ConnectionConfigurationSetProcessingSucceededEventType",
     "extends": "dtmi:opcua:FX_CM:ConnectionConfigurationSetEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -540,7 +540,7 @@
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "IConnectionManagerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -569,7 +569,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CommunicationFlowConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -591,7 +591,7 @@
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "PubSubCommunicationFlowConfigurationType",
     "extends": "dtmi:opcua:FX_CM:CommunicationFlowConfigurationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1014",
     "telemetryTopic": "opcua/FX_CM/PubSubCommunicationFlowConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -599,7 +599,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:NetworkAddressDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NetworkAddressDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=15502",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=15502",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -612,7 +612,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:CommunicationFlowQosDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "CommunicationFlowQosDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3004",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -641,7 +641,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:MessageSecurityMode;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MessageSecurityMode",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=302",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=302",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -736,7 +736,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CommunicationModelConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1016",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -758,7 +758,7 @@
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "PubSubCommunicationModelConfigurationType",
     "extends": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1042",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1042",
     "telemetryTopic": "opcua/FX_CM/PubSubCommunicationModelConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -766,7 +766,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PubSubConfigurationRefDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=25519",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=25519",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -794,7 +794,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationValueDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PubSubConfigurationValueDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=25520",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=25520",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -817,7 +817,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfiguration2DataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PubSubConfiguration2DataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=23602",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=23602",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -878,7 +878,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "DataSetMetaDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=14523",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=14523",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -914,7 +914,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:StandaloneSubscribedDataSetDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "StandaloneSubscribedDataSetDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=23600",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=23600",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -945,7 +945,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:FieldMetaData;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "FieldMetaData",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=14524",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=14524",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1009,7 +1009,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:DataSetFieldFlags;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DataSetFieldFlags",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=15904",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=15904",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1022,7 +1022,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:NodeIdTranslationDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdTranslationDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1040,7 +1040,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableNodeIdentifier;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeIdentifier",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1063,7 +1063,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePath;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePath",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1047",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1047",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1079,7 +1079,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePathElement;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePathElement",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1051",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1051",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1107,7 +1107,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableQualifiedName;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableQualifiedName",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24105",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1125,7 +1125,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeId",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24106",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24106",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1143,7 +1143,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefMask;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PubSubConfigurationRefMask",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=25517",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=25517",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1204,7 +1204,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:EndpointDescription;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "EndpointDescription",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=312",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=312",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1255,7 +1255,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "UserTokenPolicy",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=304",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=304",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1288,7 +1288,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:MessageSecurityMode;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MessageSecurityMode",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=302",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=302",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1313,7 +1313,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ApplicationDescription;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ApplicationDescription",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=308",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1359,7 +1359,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ApplicationType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ApplicationType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=307",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1384,7 +1384,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:UserTokenType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "UserTokenType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=303",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1409,7 +1409,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:SecurityGroupDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "SecurityGroupDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=23601",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=23601",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1471,7 +1471,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:RolePermissionType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RolePermissionType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=96",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=96",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1489,7 +1489,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PermissionType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PermissionType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=94",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=94",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1566,7 +1566,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubKeyPushTargetDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PubSubKeyPushTargetDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=25270",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=25270",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1628,7 +1628,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "KeyValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1646,7 +1646,7 @@
         "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ConfigurationVersionDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConfigurationVersionDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=14593",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=14593",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1726,7 +1726,7 @@
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionConfigurationSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1012",
     "commandTopic": "opcua/FX_CM/ConnectionConfigurationSetType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1735,7 +1735,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PubSubKeyPushTargetDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=25270",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=25270",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1797,7 +1797,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "SecurityGroupDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=23601",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=23601",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1859,7 +1859,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:RolePermissionType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RolePermissionType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=96",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=96",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1877,7 +1877,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PermissionType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PermissionType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=94",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=94",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1954,7 +1954,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "SecurityKeyServerAddressDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3021",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1982,7 +1982,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:UserTokenPolicy;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "UserTokenPolicy",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=304",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=304",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2015,7 +2015,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:UserTokenType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "UserTokenType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=303",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2040,7 +2040,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:KeyValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "KeyValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2178,7 +2178,7 @@
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1013",
     "telemetryTopic": "opcua/FX_CM/ConnectionConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2223,7 +2223,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionEndpointConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1129",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1129",
     "telemetryTopic": "opcua/FX_CM/ConnectionEndpointConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2231,7 +2231,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeIdentifierValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3005",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2257,7 +2257,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeIdentifier",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2280,7 +2280,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeId;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeId",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24106",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24106",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2298,7 +2298,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableRelativePath;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePath",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1047",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1047",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2314,7 +2314,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableRelativePathElement;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePathElement",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1051",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1051",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2342,7 +2342,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableQualifiedName;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableQualifiedName",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24105",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2419,7 +2419,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionEndpointParameterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1261",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1261",
     "telemetryTopic": "opcua/FX_CM/ConnectionEndpointParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2427,7 +2427,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeId;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeId",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24106",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24106",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2445,7 +2445,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeIdentifier;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableNodeIdentifier",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2468,7 +2468,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableRelativePath;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePath",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1047",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1047",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2484,7 +2484,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableRelativePathElement;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableRelativePathElement",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1051",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1051",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2512,7 +2512,7 @@
         "@id": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableQualifiedName;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PortableQualifiedName",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=24105",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2621,7 +2621,7 @@
     "ontology": "http://opcfoundation.org/UA/FX.CM",
     "displayName": "ConnectionManagerType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1002",
     "commandTopic": "opcua/FX_CM/ConnectionManagerType/{commandName}",
     "telemetryTopic": "opcua/FX_CM/ConnectionManagerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2631,7 +2631,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FxEditEnum",
         "description": "The ConnectionManager shall allow editing of the ConnectionConfigurationSets.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3001",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3001",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2653,7 +2653,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FxProcessEnum",
         "description": "The ConnectionManager shall establish enabled Connections from the ConnectionConfigurationSets.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2821,7 +2821,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionManagerConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:FileType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1011",
     "commandTopic": "opcua/FX_CM/ConnectionManagerConfigurationType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2830,7 +2830,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ConnectionConfigurationSetOperation",
         "description": "The ConnectionConfigurationSet is added to the ConnectionManager configuration.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=13054",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=13054",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2928,7 +2928,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionManagerCapabilitiesType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1010",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2949,7 +2949,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionConfigurationSetStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3026,7 +3026,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SubscriberConfigurationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM/;i=1001",
     "telemetryTopic": "opcua/FX_CM/SubscriberConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3034,7 +3034,7 @@
         "@id": "dtmi:opcua:FX_CM:SubscriberConfigurationType:dataType:NetworkAddressDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NetworkAddressDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=15502",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=15502",
         "fields": [
           {
             "@type": [ "Field", "Required" ],

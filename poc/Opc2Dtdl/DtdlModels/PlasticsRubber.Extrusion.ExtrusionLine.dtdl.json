@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "JobGroupStatusChangedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1012",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupStatusChangedEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupStatusChangedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JobStatusEnumeration",
         "description": "Current status of the job",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3017",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -118,7 +118,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "JobStatusChangedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1008",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobStatusChangedEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobStatusChangedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -128,7 +128,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JobStatusEnumeration",
         "description": "Current status of the job",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3017",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -231,7 +231,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "LotFinishedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1010",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/LotFinishedEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/LotFinishedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -278,7 +278,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "RequestAddMaterialEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1006",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/RequestAddMaterialEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/RequestAddMaterialEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -309,7 +309,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "UnitFinishedEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1009",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/UnitFinishedEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/UnitFinishedEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -365,7 +365,7 @@
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
     "displayName": "ExtrusionLine_InterfaceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/ExtrusionLine_InterfaceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/ExtrusionLine_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -375,7 +375,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConfigurationParameterType",
         "description": "Unique identifier",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3024",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3024",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -404,7 +404,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ProductionStatusEnumeration",
         "description": "Production status of the machine",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3016",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -586,7 +586,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "JobGroupsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1013",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupsType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -595,7 +595,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupsType:dataType:MaterialMappingType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "MaterialMappingType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -809,7 +809,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "JobGroupType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1011",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -819,7 +819,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConfigurationParameterType",
         "description": "Unique identifier",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3024",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3024",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -847,7 +847,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:MaterialMappingType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "MaterialMappingType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -871,7 +871,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JobStatusEnumeration",
         "description": "Current status of the job",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3017",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -928,7 +928,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType:dataType:ParameterSettingType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ParameterSettingType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3026",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3026",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1260,7 +1260,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "JobType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1007",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/JobType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1269,7 +1269,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobType:dataType:ParameterSettingType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ParameterSettingType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3026",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3026",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1288,7 +1288,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JobStatusEnumeration",
         "description": "Current status of the job",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3017",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1527,7 +1527,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductionParametersType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine/;i=1002",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_ExtrusionLine/ProductionParametersType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

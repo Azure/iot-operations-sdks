@@ -14,7 +14,7 @@
     "displayName": "TopologyElementType",
     "description": "Defines the basic information components for all configurable elements in a device topology",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -79,7 +79,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IVendorNameplateType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15035",
     "commandTopic": "opcua/DI/IVendorNameplateType/{commandName}",
     "telemetryTopic": "opcua/DI/IVendorNameplateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -217,7 +217,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ITagNameplateType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15048",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15048",
     "commandTopic": "opcua/DI/ITagNameplateType/{commandName}",
     "telemetryTopic": "opcua/DI/ITagNameplateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -256,7 +256,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IDeviceHealthType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15051",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15051",
     "telemetryTopic": "opcua/DI/IDeviceHealthType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -265,7 +265,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DeviceHealthEnumeration",
         "description": "This device functions normally.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -323,7 +323,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ISupportInfoType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15054",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15054",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -384,7 +384,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ComponentType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15063",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
     "commandTopic": "opcua/DI/ComponentType/{commandName}",
     "telemetryTopic": "opcua/DI/ComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -520,7 +520,7 @@
     "displayName": "DeviceType",
     "description": "Defines the basic information components for all configurable elements in a device topology",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1002",
     "telemetryTopic": "opcua/DI/DeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -529,7 +529,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DeviceHealthEnumeration",
         "description": "This device functions normally.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -631,7 +631,7 @@
     "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "SoftwareType",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15106",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15106",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -653,7 +653,7 @@
     "displayName": "BlockType",
     "description": "Adds the concept of Blocks needed for block-oriented FieldDevices",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1003",
     "commandTopic": "opcua/DI/BlockType/{commandName}",
     "telemetryTopic": "opcua/DI/BlockType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -730,7 +730,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "DeviceHealthDiagnosticAlarmType",
     "extends": "dtmi:opcua:OpcUaCore:InstrumentDiagnosticAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15143",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15143",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -751,7 +751,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "FailureAlarmType",
     "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15292",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15292",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -772,7 +772,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "CheckFunctionAlarmType",
     "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15441",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15441",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -793,7 +793,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "OffSpecAlarmType",
     "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15590",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15590",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -814,7 +814,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "MaintenanceRequiredAlarmType",
     "extends": "dtmi:opcua:DI:DeviceHealthDiagnosticAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=15739",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15739",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -836,7 +836,7 @@
     "displayName": "ConfigurableObjectType",
     "description": "Defines a general pattern to expose and configure modular components",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -874,7 +874,7 @@
     "displayName": "BaseLifetimeIndicationType",
     "description": "Base indication type not further defining a semantic",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=473",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=473",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -896,7 +896,7 @@
     "displayName": "TimeIndicationType",
     "description": "Indicates the time the entity has been in use or can still be used",
     "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=474",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=474",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -918,7 +918,7 @@
     "displayName": "NumberOfPartsIndicationType",
     "description": "Indicates the total number of parts that have been produced or can still be produced.",
     "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=475",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=475",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -940,7 +940,7 @@
     "displayName": "NumberOfUsagesIndicationType",
     "description": "Indicates counting the process steps the entity has been used or can still be used for (for example usages of a punching tool).",
     "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=476",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=476",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -962,7 +962,7 @@
     "displayName": "LengthIndicationType",
     "description": "Indicates the abraded length, for example of a drill.",
     "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=477",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=477",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -984,7 +984,7 @@
     "displayName": "DiameterIndicationType",
     "description": "Indicates the abraded diameter, for example of a drill.",
     "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=478",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=478",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1006,7 +1006,7 @@
     "displayName": "SubstanceVolumeIndicationType",
     "description": "Indicates the volume of a substance, for example of a liquid.",
     "extends": "dtmi:opcua:DI:BaseLifetimeIndicationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=479",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=479",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1028,7 +1028,7 @@
     "displayName": "FunctionalGroupType",
     "description": "FolderType is used to organize the Parameters and Methods from the complete set (ParameterSet, MethodSet) with regard to their application",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
     "telemetryTopic": "opcua/DI/FunctionalGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1067,7 +1067,7 @@
     "displayName": "ProtocolType",
     "description": "General structure of a Protocol ObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1089,7 +1089,7 @@
     "displayName": "IOperationCounterType",
     "description": "Interface defining counters for the duration of operation",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=480",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=480",
     "commandTopic": "opcua/DI/IOperationCounterType/{commandName}",
     "telemetryTopic": "opcua/DI/IOperationCounterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1141,7 +1141,7 @@
     "displayName": "NetworkType",
     "description": "Represents the communication means for Devices that are connected to it.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6247",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6247",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1179,7 +1179,7 @@
     "displayName": "ConnectionPointType",
     "description": "Represents the interface (interface card) of a Device to a Network.",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6308",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6308",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1217,7 +1217,7 @@
     "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "TransferServicesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6526",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6526",
     "commandTopic": "opcua/DI/TransferServicesType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1339,7 +1339,7 @@
     "displayName": "LockingServicesType",
     "description": "An interface for Locking.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6388",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
     "commandTopic": "opcua/DI/LockingServicesType/{commandName}",
     "telemetryTopic": "opcua/DI/LockingServicesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1497,7 +1497,7 @@
     "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "SoftwareUpdateType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1",
     "commandTopic": "opcua/DI/SoftwareUpdateType/{commandName}",
     "telemetryTopic": "opcua/DI/SoftwareUpdateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1590,7 +1590,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SoftwareLoadingType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=135",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=135",
     "telemetryTopic": "opcua/DI/SoftwareLoadingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1619,7 +1619,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PackageLoadingType",
     "extends": "dtmi:opcua:DI:SoftwareLoadingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=137",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=137",
     "commandTopic": "opcua/DI/PackageLoadingType/{commandName}",
     "telemetryTopic": "opcua/DI/PackageLoadingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1674,7 +1674,7 @@
     "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "DirectLoadingType",
     "extends": "dtmi:opcua:DI:PackageLoadingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=153",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=153",
     "commandTopic": "opcua/DI/DirectLoadingType/{commandName}",
     "telemetryTopic": "opcua/DI/DirectLoadingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1684,7 +1684,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "UpdateBehavior",
         "description": "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=333",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=333",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1743,7 +1743,7 @@
     "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "CachedLoadingType",
     "extends": "dtmi:opcua:DI:PackageLoadingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=171",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=171",
     "commandTopic": "opcua/DI/CachedLoadingType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1752,7 +1752,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "UpdateBehavior",
         "description": "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=333",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=333",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1859,7 +1859,7 @@
     "ontology": "http://opcfoundation.org/UA/DI",
     "displayName": "FileSystemLoadingType",
     "extends": "dtmi:opcua:DI:SoftwareLoadingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=192",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=192",
     "commandTopic": "opcua/DI/FileSystemLoadingType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1868,7 +1868,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "UpdateBehavior",
         "description": "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=333",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=333",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1998,7 +1998,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SoftwareVersionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=212",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=212",
     "commandTopic": "opcua/DI/SoftwareVersionType/{commandName}",
     "telemetryTopic": "opcua/DI/SoftwareVersionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2080,7 +2080,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PrepareForUpdateStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=213",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=213",
     "commandTopic": "opcua/DI/PrepareForUpdateStateMachineType/{commandName}",
     "telemetryTopic": "opcua/DI/PrepareForUpdateStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2200,7 +2200,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "InstallationStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=249",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=249",
     "commandTopic": "opcua/DI/InstallationStateMachineType/{commandName}",
     "telemetryTopic": "opcua/DI/InstallationStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2360,7 +2360,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PowerCycleStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=285",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=285",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2413,7 +2413,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConfirmationStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=307",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=307",
     "commandTopic": "opcua/DI/ConfirmationStateMachineType/{commandName}",
     "telemetryTopic": "opcua/DI/ConfirmationStateMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

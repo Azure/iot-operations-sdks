@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/CranesHoists",
     "displayName": "BrakeType",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists;i=1556",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1556",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -36,7 +36,7 @@
     "ontology": "http://opcfoundation.org/UA/CranesHoists",
     "displayName": "CraneAxisType",
     "extends": "dtmi:opcua:Robotics:AxisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists;i=1369",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1369",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -58,7 +58,7 @@
     "ontology": "http://opcfoundation.org/UA/CranesHoists",
     "displayName": "CraneMotionDeviceType",
     "extends": "dtmi:opcua:Robotics:MotionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists;i=1392",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1392",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -80,7 +80,7 @@
     "ontology": "http://opcfoundation.org/UA/CranesHoists",
     "displayName": "CraneMotionDeviceSystemType",
     "extends": "dtmi:opcua:Robotics:MotionDeviceSystemType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists;i=2112",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=2112",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -102,7 +102,7 @@
     "ontology": "http://opcfoundation.org/UA/CranesHoists",
     "displayName": "CraneMotorType",
     "extends": "dtmi:opcua:Robotics:MotorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists;i=1262",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1262",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -124,7 +124,7 @@
     "ontology": "http://opcfoundation.org/UA/CranesHoists",
     "displayName": "ProtectiveFunctionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists;i=1462",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1462",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

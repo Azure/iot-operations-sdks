@@ -15,7 +15,7 @@
     "displayName": "ActiveProgramType",
     "description": "The ActiveProgramType specifies the current state of operation of a FunctionalUnit. It provides context and information about the currently active program on the device. This allows users to follow the progress of a program run in a standardized fashion by organising steps into a flat, linear sequence.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1040",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1040",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -38,7 +38,7 @@
     "displayName": "LADSComponentsType",
     "description": "The LADSComponentsType is a type used for structuring objects of type LADSComponentsType in an unordered list structure.",
     "extends": "dtmi:opcua:Machinery:MachineComponentsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1025",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -60,7 +60,7 @@
     "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "LADSOperationCountersType",
     "extends": "dtmi:opcua:Machinery:MachineryOperationCounterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -83,7 +83,7 @@
     "displayName": "FunctionalUnitSetType",
     "description": "The FunctionalUnitSetType provides a set of a FunctionalUnit objects.",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1023",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -106,7 +106,7 @@
     "displayName": "FunctionSetType",
     "description": "The FunctionSetType is used for organising FunctionType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1026",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -129,7 +129,7 @@
     "displayName": "ProgramTemplateSetType",
     "description": "The ProgramTemplateSetType is used for organising ProgramTemplateType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -152,7 +152,7 @@
     "displayName": "ProgramTemplateType",
     "description": "The ProgramTemplateType provides a program template.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -175,7 +175,7 @@
     "displayName": "SupportedPropertiesSetType",
     "description": "The SupportedPropertiesSetType provides a set of properties which are supported as members of a properties list Argument for Method calls such as, FunctionalUnit.StartFunctions() or ActiveProgram.Start().",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1033",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -198,7 +198,7 @@
     "displayName": "SupportedPropertyType",
     "description": "The SupportedPropertyType provides alias names and links to variables within the information model, typically target values or parameters of Functions. This makes it possible to specify a list of KeyValuePairs as an input object. The SupportedPropertyType is used in the SupportedPropertiesSet of the FunctionalUnit or ActiveProgram. The name of each Property object is used as a key in the KeyValuePair list input Argument of the Start()/StartFunctions() Method. Each Property object should contain an Organizes Reference to the target variable to which it belongs. Thus, the metadata of the target variable can be introspected online. The name of the Property object is typically an alias for a variable in the Device.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1035",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -221,7 +221,7 @@
     "displayName": "ResultFileSetType",
     "description": "The ResultFileSetType is used for organising ResultFileType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1022",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -244,7 +244,7 @@
     "displayName": "ResultFileType",
     "description": "ResultFile provides a description of a file that is part of a result of a program managers run.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1001",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -267,7 +267,7 @@
     "displayName": "ResultSetType",
     "description": "The ResultSetType is used for organising ResultType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1020",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -290,7 +290,7 @@
     "displayName": "ResultType",
     "description": "The ResultType provides the results of a specific program run.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1021",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -313,7 +313,7 @@
     "displayName": "CoverStateMachineType",
     "description": "he CoverStateMachineType is used to control the lid, door, or cover of a laboratory device. One Device may have any arbitrary number of lids, doors, covers and their corresponding CoverFunction.",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1010",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -336,7 +336,7 @@
     "displayName": "LADSDeviceStateMachineType",
     "description": "The LADSDeviceStateMachineType state machine represents the Device’s operation mode. It is inspired by the AnalyserDeviceStateMachineType from the Analyzer Devices Specification.",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1039",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1039",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -357,7 +357,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FunctionalStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1038",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1038",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -380,7 +380,7 @@
     "displayName": "RunningStateMachineType",
     "description": "The RunningStateMachineType is a sub-state machine of the FunctionalStateMachine and includes detailed substates.",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1036",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -403,7 +403,7 @@
     "displayName": "MaintenanceSetType",
     "description": "The MaintenanceSetType is a set containing all maintenance tasks for a Device or Component according to the recommendations in OPC UA 10000-110.",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1027",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -425,7 +425,7 @@
     "displayName": "MaintenanceTaskType",
     "description": "The MaintenanceTaskType shall be used to implement instances of maintenance tasks applicable at both the Device and Component levels. Maintenance tasks include activities such as periodic maintenance, cleaning, calibration, and validation.",
     "extends": "dtmi:opcua:DI:MaintenanceRequiredAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1028",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -448,7 +448,7 @@
     "displayName": "LADSDeviceType",
     "description": "The LADSDeviceType provides a base class for laboratory- and analytical devices.",
     "extends": "dtmi:opcua:DI:DeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -471,7 +471,7 @@
     "displayName": "LADSComponentType",
     "description": "Devices may be composed of tangible sub-components. A component is represented by the LADSComponentType. A component itself may also have sub-components.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1024",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -494,7 +494,7 @@
     "displayName": "FunctionalUnitType",
     "description": "The FunctionalUnitType represents a functional unit of a laboratory or analytical device.",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -516,7 +516,7 @@
     "displayName": "FunctionType",
     "description": "Abstract function type",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -538,7 +538,7 @@
     "displayName": "BaseControlFunctionType",
     "description": "The BaseControlFunctionType provides an abstract superclass for all control functions.",
     "extends": "dtmi:opcua:LADS:FunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -561,7 +561,7 @@
     "displayName": "AnalogControlFunctionType",
     "description": "The AnalogControlFunctionType describes an analogue control function (using analogue values). More specialized analogue control functions can be derived from this ObjectType.",
     "extends": "dtmi:opcua:LADS:BaseControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1009",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -584,7 +584,7 @@
     "displayName": "AnalogControlFunctionWithTotalizerType",
     "description": "The AnalogControlFunctionWithTotalizerType describes an analogue control (using analogue values) function with totalizer. Typical usage examples include but are not limited to fluid controllers where the quantity of fluid needs to be accurately measured and totalled for metering purposes.",
     "extends": "dtmi:opcua:LADS:AnalogControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -606,7 +606,7 @@
     "displayName": "DiscreteControlFunctionType",
     "description": "The DiscreteControlFunctionType describes an abstract discrete control function (using discrete values). More specialized discrete control functions can be derived from this ObjectType.",
     "extends": "dtmi:opcua:LADS:BaseControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1017",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -629,7 +629,7 @@
     "displayName": "MultiStateDiscreteControlFunctionType",
     "description": "The MultiStateDiscreteControlFunctionType describes a discrete control function (using more than two discrete values).",
     "extends": "dtmi:opcua:LADS:DiscreteControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1045",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1045",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -652,7 +652,7 @@
     "displayName": "TwoStateDiscreteControlFunctionType",
     "description": "The TwoStateDiscreteControlFunctionType describes a discrete control function with two possible values (e.g., on/off).",
     "extends": "dtmi:opcua:LADS:DiscreteControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1042",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1042",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -674,7 +674,7 @@
     "displayName": "BaseSensorFunctionType",
     "description": "The BaseSensorFunctionType is an abstract ObjectType used as a base for derivation of Sensor Functions. A Sensor Function is a Function that measures data.",
     "extends": "dtmi:opcua:LADS:FunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -697,7 +697,7 @@
     "displayName": "AnalogScalarSensorFunctionType",
     "description": "The AnalogScalarSensorFunctionType is a concrete subtype of the AnalogSensorFunctionType which represents an analogue measured value.",
     "extends": "dtmi:opcua:LADS:AnalogSensorFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1016",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -719,7 +719,7 @@
     "displayName": "DiscreteSensorFunctionType",
     "description": "The DiscreteSensorFunctionType is an abstract ObjectType used as a base for derivation of sensors with discrete signals.",
     "extends": "dtmi:opcua:LADS:BaseSensorFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -742,7 +742,7 @@
     "displayName": "CoverFunctionType",
     "description": "The CoverFunctionType is used to control the cover, door, or lid of a Laboratory Device.",
     "extends": "dtmi:opcua:LADS:FunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1011",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -765,7 +765,7 @@
     "displayName": "ProgramManagerType",
     "description": "The ProgramManager provides the functional unit's program manager.",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -788,7 +788,7 @@
     "displayName": "TimerControlFunctionType",
     "description": "The TimerControlFunctionType defines a simple “one shot” Timer which stops once it has elapsed. It follows the design of other LADS ControlFunctions, utilizing the same state machine and similar variable definitions. As soon as the CurrentValue reaches the TargetValue, the CurrentState of the TimerFunction automatically transitions to Off. This is typically accompanied by some (internal) action/effect, such as stopping the execution of a Function or similar. In the SuspendedState the CurrentValue holds its current value and does not count further until the state switches back to On, either due to a Client command or an internal state change.",
     "extends": "dtmi:opcua:LADS:BaseControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1013",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -811,7 +811,7 @@
     "displayName": "AnalogScalarSensorFunctionWithCompensationType",
     "description": "The AnalogScalarSensorFunctionWithCompensationType represents a compensated analogue measured value (e.g. pH sensor, dissolved oxygen sensor, ..)",
     "extends": "dtmi:opcua:LADS:AnalogScalarSensorFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1000",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1000",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -834,7 +834,7 @@
     "displayName": "ControllerTuningParameterType",
     "description": "The ControllerTuningParameterType is an abstract class. It is formally defined in Table 85. Subtypes of the ControllerTuningParameterType contain the parameters and information about a Controller (configuration).",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -857,7 +857,7 @@
     "displayName": "PidControllerParameterType",
     "description": "The PidControllerParameterType contains the parameters of an PID controller.",
     "extends": "dtmi:opcua:LADS:ControllerTuningParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1030",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -880,7 +880,7 @@
     "displayName": "TwoStateDiscreteSensorFunctionType",
     "description": "The TwoStateDiscreteSensorFunctionType represents a Boolean value that is measured by a Sensor.",
     "extends": "dtmi:opcua:LADS:DiscreteSensorFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1031",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -903,7 +903,7 @@
     "displayName": "MultiStateDiscreteSensorFunctionType",
     "description": "The MultiStateDiscreteSensorFunctionType represents a value that is measured by a Sensor and can only be set to a discrete set of values.",
     "extends": "dtmi:opcua:LADS:DiscreteSensorFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1037",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1037",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -926,7 +926,7 @@
     "displayName": "FunctionalUnitStateMachineType",
     "description": "Represents the state of a FunctionalUnit in a LADS Device",
     "extends": "dtmi:opcua:LADS:FunctionalStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1043",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1043",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -949,7 +949,7 @@
     "displayName": "ControlFunctionStateMachineType",
     "description": "Represents the state of a Function in a LADS Device",
     "extends": "dtmi:opcua:LADS:FunctionalStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1044",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1044",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -972,7 +972,7 @@
     "displayName": "MultiModeAnalogControlFunctionType",
     "description": "The MultiModeAnalogControlFunctionType is used when a controller or actuator can be operated in different modes, depending on how the target value and current value are represented. A common example in the laboratory and analytical domain is a peristaltic pump. In this case, the user can choose from various operation modes, such as relative pump speed (0 to 100%), absolute pump rotor speed in RPM, volumetric rate in mL/min (requiring pump calibration), or mass flow rate in g/min (requiring knowledge of the fluid density). Another example in the laboratory and analytical domain is centrifuges. Operators can select between RPM or RCF (Rotational Centrifugal Force, defined as a multiple of G-force) modes. The RCF mode considers the radius of the centrifuge rotor when converting RCF to RPM.",
     "extends": "dtmi:opcua:LADS:BaseControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1047",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1047",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -994,7 +994,7 @@
     "ontology": "http://opcfoundation.org/UA/LADS",
     "displayName": "ControllerParameterType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1048",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1048",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1017,7 +1017,7 @@
     "displayName": "ControllerParameterSetType",
     "description": "The ControllerParameterSetType is used for organising ControllerParameterType objects in an unordered list structure.",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1049",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1049",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1040,7 +1040,7 @@
     "displayName": "AnalogControlFunctionWithComposedTargetValueType",
     "description": "The AnalogControlFunctionWithComposedTargetValueType describes an analogue control function (using analogue values), but the TargetValue is composed of several partial values. An example of a composed target value used in mechanical stress analysers involves combining a static/constant base value with periodically changing values for defined amplitude, frequency, and waveform. As the TargetValue is calculated from variables in the TargetValueSet, it should be read-only.",
     "extends": "dtmi:opcua:LADS:AnalogControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1052",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1052",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1063,7 +1063,7 @@
     "displayName": "MultiSensorFunctionType",
     "description": "The MultiSensorFunction represents complex detectors with multiple sensors targeting a specific measurement task, e.g. diode array detector of a HPLC system. The specific sensor elements are represented by sensor-functions in the FunctionSet.",
     "extends": "dtmi:opcua:LADS:BaseSensorFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1051",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1051",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1086,7 +1086,7 @@
     "displayName": "AnalogControlFunctionWithRelativeTargetValueType",
     "description": "The AnalogControlFunctionWithRelativeTargetValueType supports applications where the target value is typically modified by relative increments or decrements. Examples of its usage include position controllers where the actuator needs to modify its position relative to the last defined position by a specific amount, or dispenser controllers that are responsible for aspirating or dispensing a certain volume of fluid. The optional DecreaseRate and IncreaseRate variables can be utilized to customize the dynamics of the resulting action based on application-specific requirements. These variables allow for adapting to factors such as viscosity when aspirating or dispensing fluids.",
     "extends": "dtmi:opcua:LADS:AnalogControlFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1029",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1109,7 +1109,7 @@
     "displayName": "AnalogArraySensorFunctionType",
     "description": "The AnalogArraySensorFunctionType is a concrete subtype of the AnalogSensorFunctionType which represents an array of analogue measured values.",
     "extends": "dtmi:opcua:LADS:AnalogSensorFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1015",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1131,7 +1131,7 @@
     "displayName": "SetType",
     "description": "The SetType provides an unordered set of objects.",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=61",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=61",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1154,7 +1154,7 @@
     "displayName": "VariableSetType",
     "description": "The VariableSetType is used for storing additional sample data that was created during a run.",
     "extends": "dtmi:opcua:LADS:SetType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1041",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1041",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1176,7 +1176,7 @@
     "displayName": "AnalogSensorFunctionType",
     "description": "The AnalogSensorFunctionType is a abstract subtype of the BaseSensorFunctionType which represents an analogue measured value. This is an extension point for all analogue measured values without built-in compensation on the Sensor.",
     "extends": "dtmi:opcua:LADS:BaseSensorFunctionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1046",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1046",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1199,7 +1199,7 @@
     "displayName": "LADSOperationModeStateMachineType",
     "description": "State machine representing the operation mode of a laboratory device. Optional methods allow for initiating changes of the operation mode from remote.",
     "extends": "dtmi:opcua:Machinery:MachineryOperationModeStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1050",
+    "typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1050",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

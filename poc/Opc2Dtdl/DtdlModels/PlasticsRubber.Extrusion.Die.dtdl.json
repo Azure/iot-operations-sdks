@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Die",
     "displayName": "Die_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Die;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Die/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

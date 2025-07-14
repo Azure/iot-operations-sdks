@@ -15,7 +15,7 @@
     "displayName": "CalendarType",
     "description": "Provides a list of calendar dates. Each entry in the list describes a specific date or date pattern, or range of dates",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=37",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=37",
     "commandTopic": "opcua/Scheduler/CalendarType/{commandName}",
     "telemetryTopic": "opcua/Scheduler/CalendarType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -25,7 +25,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "CalendarEntryType",
         "description": "This union that defines various calendar date values",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=72",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=72",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -44,7 +44,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "DateType",
         "description": "This structure defines a calendar date. It allows to define a concrete date, e.g. 2022-02-12. By using wildcards, it also allows to define repeating dates, like every Wednesday, every odd day of a month, every 24th of December, every last day of a month in 2023, etc.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=73",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=73",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -73,7 +73,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "Month",
         "description": "This enumeration indicates either a specific Gregorian calendar month, or a relative relationship ('odd', 'even', and 'unspecified').",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=74",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=74",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -143,7 +143,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "DateRangeType",
         "description": "This structure defines a time span, with absolute start and end dates. The StartDate and EndDate are limited to specific values, i.e., wild cards like odd months are not allowed. The Year field shall not be 0; the Month field shall be a value between 1 to 12; the DayOfMonth field shall be between 1 to 31 and the DayOfMonth field shall be 'unspecified'.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=80",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=80",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -162,7 +162,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DayOfMonth",
         "description": "This enumeration indicates specific days of the month by specific date ('1', '22', and so on) or by relative position ('last day of month', 'even day of month', and so on).",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=76",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=76",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -312,7 +312,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DayOfWeek",
         "description": "This enumeration indicates each of the seven days of the week, or 'unspecified'.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=78",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=78",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -471,7 +471,7 @@
     "displayName": "ScheduleType",
     "description": "Defines a periodic schedule that can recur over a range of dates. The schedule may have optional exceptions at arbitrary times or dates. The basic unit of a schedule is days, which are divided into two types: normal days within a week and exception days. A priority mechanism defines which scheduled event is currently valid. The schedule includes a PresentValue Variable whose value describes the current state of the schedule, including a default value when no schedules are in effect.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=52",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=52",
     "commandTopic": "opcua/Scheduler/ScheduleType/{commandName}",
     "telemetryTopic": "opcua/Scheduler/ScheduleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -481,7 +481,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "SpecialEventType",
         "description": "This structure contains a period, a list of time values, and a priority. It is a means to identify moments in time over one or more days.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=70",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=70",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -508,7 +508,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "DailyScheduleType",
         "description": "This structure defines a sequence of TimeActionsType structures. Each element in the sequence defines a time/actions pair that describes the actions to be executed at a given point in the day.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=86",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=86",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -524,7 +524,7 @@
         "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:TimeZoneDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "TimeZoneDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=8912",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -543,7 +543,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "DateRangeType",
         "description": "This structure defines a time span, with absolute start and end dates. The StartDate and EndDate are limited to specific values, i.e., wild cards like odd months are not allowed. The Year field shall not be 0; the Month field shall be a value between 1 to 12; the DayOfMonth field shall be between 1 to 31 and the DayOfMonth field shall be 'unspecified'.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=80",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=80",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -562,7 +562,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "DateType",
         "description": "This structure defines a calendar date. It allows to define a concrete date, e.g. 2022-02-12. By using wildcards, it also allows to define repeating dates, like every Wednesday, every odd day of a month, every 24th of December, every last day of a month in 2023, etc.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=73",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=73",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -591,7 +591,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DayOfWeek",
         "description": "This enumeration indicates each of the seven days of the week, or 'unspecified'.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=78",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=78",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -633,7 +633,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DayOfMonth",
         "description": "This enumeration indicates specific days of the month by specific date ('1', '22', and so on) or by relative position ('last day of month', 'even day of month', and so on).",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=76",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=76",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -783,7 +783,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "Month",
         "description": "This enumeration indicates either a specific Gregorian calendar month, or a relative relationship ('odd', 'even', and 'unspecified').",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=74",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=74",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -853,7 +853,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "SpecialEventPeriodType",
         "description": "This union contains a calendar entry or a reference to a calendar object",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=71",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=71",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -872,7 +872,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "CalendarEntryType",
         "description": "This union that defines various calendar date values",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=72",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=72",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -891,7 +891,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "TimeActionsType",
         "description": "This structure contains a time and an array of actions. It is used to define actions to be executed at a specific point in time.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=81",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=81",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -913,7 +913,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "TimeType",
         "description": "This structure that represents a point in time during a day",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=85",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=85",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -937,7 +937,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "BaseActionType",
         "description": "This abstract structure defines the base of an action. The base only contains information, if the last execution of the action was successful.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=82",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=82",
         "fields": [
           {
             "@type": [ "Field", "Required" ],

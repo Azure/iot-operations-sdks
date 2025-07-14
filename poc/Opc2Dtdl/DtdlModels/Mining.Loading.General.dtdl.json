@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/Mining.Loading.General",
     "displayName": "LoadingMachineType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.Loading.General;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.Loading.General/;i=1002",
     "commandTopic": "opcua/Mining_Loading_General/LoadingMachineType/{commandName}",
     "telemetryTopic": "opcua/Mining_Loading_General/LoadingMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

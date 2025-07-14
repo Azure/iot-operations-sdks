@@ -15,7 +15,7 @@
     "displayName": "MotionDeviceSystemType",
     "description": "Contains the set of controllers and motion devices in a closely-coupled motion device system.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -65,7 +65,7 @@
     "displayName": "MotionDeviceType",
     "description": "Represents a specific motion device in the motion device system like a robot, a linear unit or a positioner. A MotionDevice should have at least one axis.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1004",
     "commandTopic": "opcua/Robotics/MotionDeviceType/{commandName}",
     "telemetryTopic": "opcua/Robotics/MotionDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -75,7 +75,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MotionDeviceCategoryEnumeration",
         "description": "Any MotionDevice which is not defined by the MotionDeviceCategoryEnumeration.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=18193",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18193",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -173,7 +173,7 @@
     "displayName": "AxisType",
     "description": "The AxisType describes an axis of a motion device.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=16601",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=16601",
     "commandTopic": "opcua/Robotics/AxisType/{commandName}",
     "telemetryTopic": "opcua/Robotics/AxisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -183,7 +183,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AxisMotionProfileEnumeration",
         "description": "Any motion-profile which is not defined by the AxisMotionProfileEnumeration.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -246,7 +246,7 @@
     "displayName": "PowerTrainType",
     "description": "The PowerTrainType represents instances of powertrains of a motion device.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=16794",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=16794",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -282,7 +282,7 @@
     "displayName": "MotorType",
     "description": "The MotorType is for representing instances of electric motors.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -304,7 +304,7 @@
     "displayName": "GearType",
     "description": "The GearType describes a gear in a powertrain, e.g. a gear box or a spindle.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1022",
     "telemetryTopic": "opcua/Robotics/GearType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -312,7 +312,7 @@
         "@id": "dtmi:opcua:Robotics:GearType:dataType:RationalNumber;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RationalNumber",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=18806",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=18806",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -388,7 +388,7 @@
     "displayName": "SafetyStateType",
     "description": "SafetyStateType describes the safety states of the motion devices and controllers. One motion device system is associated with one or more instances of the SafetyStateType.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1013",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -429,7 +429,7 @@
     "displayName": "EmergencyStopFunctionType",
     "description": "According to ISO 10218-1:2011 Ch.5.5.2 Emergency stop the robot shall have one or more emergency stop functions.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=17230",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17230",
     "commandTopic": "opcua/Robotics/EmergencyStopFunctionType/{commandName}",
     "telemetryTopic": "opcua/Robotics/EmergencyStopFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -471,7 +471,7 @@
     "displayName": "ProtectiveStopFunctionType",
     "description": "According to ISO 10218-1:2011 Ch.5.5.3 the robot shall have one or more protective stop functions designed for the connection of external protective devices.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=17233",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17233",
     "commandTopic": "opcua/Robotics/ProtectiveStopFunctionType/{commandName}",
     "telemetryTopic": "opcua/Robotics/ProtectiveStopFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -521,7 +521,7 @@
     "displayName": "ControllerType",
     "description": "The ControllerType describes the control unit of motion devices. One motion device system can have one or more instances of the ControllerType.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -580,7 +580,7 @@
     "displayName": "AuxiliaryComponentType",
     "description": "Components mounted in a controller cabinet or a motion device e.g. an IO-board or a power supply.",
     "extends": "dtmi:opcua:DI:DeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=17725",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17725",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -603,7 +603,7 @@
     "displayName": "DriveType",
     "description": "Drives (multi-slot or single-slot axis amplifier) mounted in a controller cabinet or a motion device.",
     "extends": "dtmi:opcua:DI:DeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=17793",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17793",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -626,7 +626,7 @@
     "displayName": "TaskControlType",
     "description": "Represents a specific task control active on the controller.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1011",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -648,7 +648,7 @@
     "displayName": "LoadType",
     "description": "The LoadType is for describing loads mounted on the motion device typically by an integrator or a customer.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1018",
     "telemetryTopic": "opcua/Robotics/LoadType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -656,7 +656,7 @@
         "@id": "dtmi:opcua:Robotics:LoadType:dataType:X_3DFrame;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "3DFrame",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=18814",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=18814",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -674,7 +674,7 @@
         "@id": "dtmi:opcua:Robotics:LoadType:dataType:X_3DCartesianCoordinates;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "3DCartesianCoordinates",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=18810",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -697,7 +697,7 @@
         "@id": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "3DOrientation",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=18812",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -720,7 +720,7 @@
         "@id": "dtmi:opcua:Robotics:LoadType:dataType:X_3DVector;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "3DVector",
-        "typeRef": "nsu=http://opcfoundation.org/UA;i=18808",
+        "typeRef": "nsu=http://opcfoundation.org/UA/;i=18808",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -841,7 +841,7 @@
     "displayName": "UserType",
     "description": "The UserType ObjectType describes information of the registered user groups within the control system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics;i=18175",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18175",
     "commandTopic": "opcua/Robotics/UserType/{commandName}",
     "telemetryTopic": "opcua/Robotics/UserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

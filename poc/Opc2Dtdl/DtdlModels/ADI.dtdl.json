@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1001",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -82,7 +82,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserDeviceStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -228,7 +228,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserChannelType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -289,7 +289,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserChannelOperatingStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -310,7 +310,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserChannelLocalStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -331,7 +331,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserChannelMaintenanceStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -353,7 +353,7 @@
     "displayName": "AnalyserChannelStateMachineType",
     "description": "Contains a nested state model that defines the top level states Operating, Local and Maintenance",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -514,7 +514,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserChannelOperatingExecuteStateType",
     "extends": "dtmi:opcua:OpcUaCore:StateType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=8964",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=8964",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -536,7 +536,7 @@
     "displayName": "AnalyserChannel_OperatingModeSubStateMachineType",
     "description": "AnalyserChannel OperatingMode SubStateMachine",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1150,7 +1150,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AnalyserChannel_OperatingModeExecuteSubStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1009",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1655,7 +1655,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "StreamType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1010",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1733,7 +1733,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "SpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1030",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1763,7 +1763,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "MassSpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1031",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1785,7 +1785,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "ParticleSizeMonitorDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1032",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1032",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1807,7 +1807,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "AcousticSpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1033",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1829,7 +1829,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "ChromatographDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1851,7 +1851,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "MNRDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1035",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1873,7 +1873,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "SpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1011",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1895,7 +1895,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "ParticleSizeMonitorDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1012",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1917,7 +1917,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "ChromatographDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1013",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1939,7 +1939,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "MassSpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1961,7 +1961,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "AcousticSpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1015",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1983,7 +1983,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "NMRDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1016",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2005,7 +2005,7 @@
     "displayName": "AccessorySlotType",
     "description": "Organizes zero or more Accessory objects identified by 'AccessoryIdentifier' which represent Accessories currently being used on that AccessorySlot.",
     "extends": "dtmi:opcua:DI:ConfigurableObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1017",
     "commandTopic": "opcua/ADI/AccessorySlotType/{commandName}",
     "telemetryTopic": "opcua/ADI/AccessorySlotType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2063,7 +2063,7 @@
     "displayName": "AccessorySlotStateMachineType",
     "description": "Describes the behaviour of an AccessorySlot when a physical accessory is inserted or removed.",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2234,7 +2234,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AccessoryType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1019",
     "commandTopic": "opcua/ADI/AccessoryType/{commandName}",
     "telemetryTopic": "opcua/ADI/AccessoryType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2300,7 +2300,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "DetectorType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9350",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9350",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2322,7 +2322,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "SmartSamplingSystemType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9359",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9359",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2344,7 +2344,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "SourceType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=9368",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9368",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2366,7 +2366,7 @@
     "ontology": "http://opcfoundation.org/UA/ADI",
     "displayName": "GcOvenType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/ADI;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1020",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

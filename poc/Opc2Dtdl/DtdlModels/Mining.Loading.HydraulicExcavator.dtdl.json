@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/Mining.Loading.HydraulicExcavator",
     "displayName": "HydraulicExcavatorType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.Loading.HydraulicExcavator;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.Loading.HydraulicExcavator/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -15,7 +15,7 @@
     "displayName": "WSMachineType",
     "description": "Definition of a machine according to the Weihenstephan standards",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1000",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1000",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -37,7 +37,7 @@
     "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSBaseObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1001",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -59,7 +59,7 @@
     "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSAlarmType",
     "extends": "dtmi:opcua:Weihenstephan:WSBaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -81,7 +81,7 @@
     "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSWarningType",
     "extends": "dtmi:opcua:Weihenstephan:WSBaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -103,7 +103,7 @@
     "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSBaseStateMachineType",
     "extends": "dtmi:opcua:PackML:PackMLBaseStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -125,7 +125,7 @@
     "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSExecuteStateMachineType",
     "extends": "dtmi:opcua:PackML:PackMLExecuteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -147,7 +147,7 @@
     "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSHeldStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -169,7 +169,7 @@
     "ontology": "http://opcfoundation.org/UA/Weihenstephan",
     "displayName": "WSSuspendedStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -14,7 +14,7 @@
     "displayName": "ITighteningToolParametersType",
     "description": "This interface is inherited from 0:BaseInterfaceType to add additional parameters of a tool in a tightening system. It shall be added to 2:Parameters object of the tool instance.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Tightening;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Tightening/;i=1003",
     "telemetryTopic": "opcua/IJT_Tightening/ITighteningToolParametersType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

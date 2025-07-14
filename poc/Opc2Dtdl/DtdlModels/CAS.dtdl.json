@@ -14,7 +14,7 @@
     "displayName": "AnalysisType",
     "description": "Invokable analysis for the topology element.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1004",
     "commandTopic": "opcua/CAS/AnalysisType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -54,7 +54,7 @@
     "displayName": "CASType",
     "description": "Compressed air system type",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1035",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -112,7 +112,7 @@
     "displayName": "CommunicationSettingsType",
     "description": "OPC UA communication settings of the MCS in a compressed air system.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1048",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1048",
     "commandTopic": "opcua/CAS/CommunicationSettingsType/{commandName}",
     "telemetryTopic": "opcua/CAS/CommunicationSettingsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -122,7 +122,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "IpVersionEnum",
         "description": "IP address is in IPv4 format",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3016",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -233,7 +233,7 @@
     "displayName": "ElectricalCircuitType",
     "description": "Measurements and calculations of the electrical ports and delta of the topology element.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -290,7 +290,7 @@
     "displayName": "ElectricalQuantitiesType",
     "description": "Contains parameters for measurements and calculations of electrical connections at the component.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1011",
     "commandTopic": "opcua/CAS/ElectricalQuantitiesType/{commandName}",
     "telemetryTopic": "opcua/CAS/ElectricalQuantitiesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -370,7 +370,7 @@
     "displayName": "FluidCircuitType",
     "description": "Measurements and calculations of a fluid of the topology element.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1013",
     "telemetryTopic": "opcua/CAS/FluidCircuitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -379,7 +379,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FluidTypeEnum",
         "description": "possible process fluid types",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -462,7 +462,7 @@
     "displayName": "FluidQuantitiesType",
     "description": "Contains parameters for fluid conditions at the component.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1012",
     "commandTopic": "opcua/CAS/FluidQuantitiesType/{commandName}",
     "telemetryTopic": "opcua/CAS/FluidQuantitiesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -609,7 +609,7 @@
     "displayName": "AirnetComponentsType",
     "description": "All components connected to the airnet.",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1050",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1050",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -747,7 +747,7 @@
     "displayName": "AnalysesType",
     "description": "Invokable analyses for the topology element.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1049",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1049",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -794,7 +794,7 @@
     "displayName": "CalibrationType",
     "description": "Dates important for the calibration of a sensor.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1054",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1054",
     "telemetryTopic": "opcua/CAS/CalibrationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -833,7 +833,7 @@
     "displayName": "CASIdentificationType",
     "description": "Identification properties for compressed air systems and airnets.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1051",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1051",
     "commandTopic": "opcua/CAS/CASIdentificationType/{commandName}",
     "telemetryTopic": "opcua/CAS/CASIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -873,7 +873,7 @@
     "displayName": "ConfigurationType",
     "description": "Configure the behavior of the topology element.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1037",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1037",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -895,7 +895,7 @@
     "displayName": "AirnetConfigurationType",
     "description": "Configure the behavior of an airnet.",
     "extends": "dtmi:opcua:CAS:ConfigurationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1016",
     "telemetryTopic": "opcua/CAS/AirnetConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -934,7 +934,7 @@
     "displayName": "MCSConfigurationType",
     "description": "Contains parameters and methods for configuring the behaviour of the MCS.",
     "extends": "dtmi:opcua:CAS:ConfigurationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1019",
     "commandTopic": "opcua/CAS/MCSConfigurationType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -989,7 +989,7 @@
     "displayName": "DesignType",
     "description": "Static design properties of the topology element.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1044",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1044",
     "telemetryTopic": "opcua/CAS/DesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1021,7 +1021,7 @@
     "displayName": "CompressorDesignType",
     "description": "Static design properties of a compressor.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1008",
     "telemetryTopic": "opcua/CAS/CompressorDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1030,7 +1030,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DisplacementTypeEnum",
         "description": "possible displacement types for a compressor",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3020",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1048,7 +1048,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "LubricationTypeEnum",
         "description": "possible lubrication types for the compression process of a compressor",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3019",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1117,7 +1117,7 @@
     "displayName": "ConverterDesignType",
     "description": "Static design properties of a converter.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1041",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1041",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1140,7 +1140,7 @@
     "displayName": "DrainDesignType",
     "description": "Static design properties of a condensate drain.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1036",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1163,7 +1163,7 @@
     "displayName": "DryerDesignType",
     "description": "Static design properties of a dryer.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1033",
     "telemetryTopic": "opcua/CAS/DryerDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1195,7 +1195,7 @@
     "displayName": "FilterDesignType",
     "description": "Static design properties of a filter.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1009",
     "telemetryTopic": "opcua/CAS/FilterDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1204,7 +1204,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "FilterClassDataType",
         "description": "information about the used filter class according to ISO 8573-1 of a filter",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3007",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1228,7 +1228,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FilterClassEnum",
         "description": "possible filter classes according to ISO 8573-1",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1305,7 +1305,7 @@
     "displayName": "ReceiverDesignType",
     "description": "Static design properties of a receiver.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1023",
     "telemetryTopic": "opcua/CAS/ReceiverDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1337,7 +1337,7 @@
     "displayName": "SensorDesignType",
     "description": "Static design properties of a sensor.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1031",
     "telemetryTopic": "opcua/CAS/SensorDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1346,7 +1346,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SensorTechnologyOptionSet",
         "description": "flags for the used sensor technologies for a sensor",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1435,7 +1435,7 @@
     "displayName": "SeparatorDesignType",
     "description": "Static design properties of a separator.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1040",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1040",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1458,7 +1458,7 @@
     "displayName": "ValveDesignType",
     "description": "Static design properties of a valve.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1032",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1032",
     "telemetryTopic": "opcua/CAS/ValveDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1489,7 +1489,7 @@
     "displayName": "EventsType",
     "description": "Alarms and conditions of the topology element.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1020",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1555,7 +1555,7 @@
     "displayName": "MaintenanceType",
     "description": "Maintenance purposes of sensors.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1028",
     "telemetryTopic": "opcua/CAS/MaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1594,7 +1594,7 @@
     "displayName": "OperationalType",
     "description": "Data for normal operation of the topology element.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1006",
     "telemetryTopic": "opcua/CAS/OperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1649,7 +1649,7 @@
     "displayName": "AirnetOperationalType",
     "description": "Contains parameters and methods related to counting process or maintenance data of the airnet.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1002",
     "telemetryTopic": "opcua/CAS/AirnetOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1745,7 +1745,7 @@
     "displayName": "CompressorOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the compressor, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1045",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1045",
     "telemetryTopic": "opcua/CAS/CompressorOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1801,7 +1801,7 @@
     "displayName": "ConverterOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the converter, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1046",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1046",
     "telemetryTopic": "opcua/CAS/ConverterOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1833,7 +1833,7 @@
     "displayName": "DrainOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the condensate drain, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1003",
     "commandTopic": "opcua/CAS/DrainOperationalType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1864,7 +1864,7 @@
     "displayName": "DryerOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the dryer, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1052",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1052",
     "telemetryTopic": "opcua/CAS/DryerOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1896,7 +1896,7 @@
     "displayName": "ValveOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the valve, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1053",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1053",
     "telemetryTopic": "opcua/CAS/ValveOperationalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1935,7 +1935,7 @@
     "displayName": "StatisticsType",
     "description": "Data for statistics applications for the topology element.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1018",
     "commandTopic": "opcua/CAS/StatisticsType/{commandName}",
     "telemetryTopic": "opcua/CAS/StatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2017,7 +2017,7 @@
     "displayName": "CompressorStatisticsType",
     "description": "Contains parameters and methods related to counting process or maintenance data of the compressor.",
     "extends": "dtmi:opcua:CAS:StatisticsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1027",
     "telemetryTopic": "opcua/CAS/CompressorStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2055,7 +2055,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AirnetsType",
     "extends": "dtmi:opcua:Machinery:MachineComponentsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1038",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1038",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2077,7 +2077,7 @@
     "displayName": "ComponentsGroupType",
     "description": "All components of a specific type in a compressed air system as browsable objects.",
     "extends": "dtmi:opcua:Machinery:MachineComponentsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1047",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1047",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2214,7 +2214,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ParticleType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1043",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1043",
     "telemetryTopic": "opcua/CAS/ParticleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2262,7 +2262,7 @@
     "displayName": "AirnetType",
     "description": "In a compressed air system the airnet describes the piping, including valves and vessels, and all components between the inlet of the compressed air station and the distribution point to the customer, including compressors, dryers, filters, etc. A compressed air system may contain several airnets and it’s possible for the master control system to manage all airnets simultaniously. A component, like a compressor, must not be assigned to more than one airnet.",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2338,7 +2338,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CASComponentType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1021",
     "commandTopic": "opcua/CAS/CASComponentType/{commandName}",
     "telemetryTopic": "opcua/CAS/CASComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2452,7 +2452,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ChargingSystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2474,7 +2474,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CompressorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1039",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1039",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2496,7 +2496,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ConverterType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1029",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2518,7 +2518,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "CoolingSystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1001",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2540,7 +2540,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "DrainType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1025",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2562,7 +2562,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "DryerType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1030",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2584,7 +2584,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "FilterType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2606,7 +2606,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "HeatRecoverySystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1042",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1042",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2628,7 +2628,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ReceiverType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1022",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2650,7 +2650,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "SensorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1015",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2690,7 +2690,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "SeparatorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1026",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2712,7 +2712,7 @@
     "ontology": "http://opcfoundation.org/UA/CAS",
     "displayName": "ValveType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1024",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2733,7 +2733,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MCSType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CAS;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1017",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OperatorConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=47",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=47",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -34,7 +34,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ClampingConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=48",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=48",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -55,7 +55,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ManualProcessStepConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=52",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=52",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -76,7 +76,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MeasurementConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=53",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=53",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -97,7 +97,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PartMissingConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=54",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=54",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -118,7 +118,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProcessIrregularityConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=55",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=55",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -139,7 +139,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ToolBreakageConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=57",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=57",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -160,7 +160,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ToolChangeConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:ProcessConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=58",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=58",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -181,7 +181,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "UtilityConditionClassType",
     "extends": "dtmi:opcua:OpcUaCore:BaseConditionClassType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=60",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=60",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -202,7 +202,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "AlertType",
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=39",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=39",
     "commandTopic": "opcua/MachineTool/AlertType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/AlertType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -233,7 +233,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "InterruptionConditionType",
     "extends": "dtmi:opcua:OpcUaCore:ConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=19",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=19",
     "commandTopic": "opcua/MachineTool/InterruptionConditionType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/InterruptionConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -264,7 +264,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "NotificationEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=35",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=35",
     "commandTopic": "opcua/MachineTool/NotificationEventType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/NotificationEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -295,7 +295,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ProductionJobTransitionEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=31",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=31",
     "commandTopic": "opcua/MachineTool/ProductionJobTransitionEventType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ProductionJobTransitionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -356,7 +356,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ProductionPartTransitionEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=27",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=27",
     "commandTopic": "opcua/MachineTool/ProductionPartTransitionEventType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ProductionPartTransitionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -366,7 +366,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PartQuality",
         "description": "The machine tool is not able to give a statement about the part quality.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=63",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -396,7 +396,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ProcessIrregularity",
         "description": "The machine tool is not able to give a statement about process irregularities.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=62",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -481,7 +481,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ProductionProgramTransitionEventType",
     "extends": "dtmi:opcua:OpcUaCore:TransitionEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=17",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=17",
     "commandTopic": "opcua/MachineTool/ProductionProgramTransitionEventType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ProductionProgramTransitionEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -520,7 +520,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "BaseToolType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=49",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=49",
     "commandTopic": "opcua/MachineTool/BaseToolType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/BaseToolType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -568,7 +568,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "MultiToolType",
     "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=51",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=51",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -596,7 +596,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ToolType",
     "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=50",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=50",
     "telemetryTopic": "opcua/MachineTool/ToolType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -605,7 +605,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ToolManagement",
         "description": "The tool is addressed using a single identifier.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=69",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=69",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -690,7 +690,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ChannelModifierType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=33",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=33",
     "telemetryTopic": "opcua/MachineTool/ChannelModifierType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -747,7 +747,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ElementMonitoringType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=23",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=23",
     "commandTopic": "opcua/MachineTool/ElementMonitoringType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ElementMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -779,7 +779,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ChannelMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=16",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=16",
     "telemetryTopic": "opcua/MachineTool/ChannelMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -788,7 +788,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ChannelMode",
         "description": "NC channel mode Automatic – execute CNC part programs.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=67",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=67",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -830,7 +830,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ChannelState",
         "description": "There is an active command being executed by the NC channel.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=64",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=64",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -902,7 +902,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "CombinedChannelMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ChannelMonitoringType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=46",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=46",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -923,7 +923,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "WorkingUnitMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=41",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=41",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -945,7 +945,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "EDMGeneratorMonitoringType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=42",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=42",
     "telemetryTopic": "opcua/MachineTool/EDMGeneratorMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -954,7 +954,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EDMGeneratorState",
         "description": "The EDM spark generator state cannot be indicated.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=71",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=71",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1011,7 +1011,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "LaserMonitoringType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=36",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=36",
     "telemetryTopic": "opcua/MachineTool/LaserMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1020,7 +1020,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "LaserState",
         "description": "The laser state cannot be indicated, for example because the device does not provide this information or because it is currently unavailable. This can be e.g. during the startup phase.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=70",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1074,7 +1074,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "SpindleMonitoringType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=22",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=22",
     "telemetryTopic": "opcua/MachineTool/SpindleMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1117,7 +1117,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EquipmentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=12",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=12",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1147,7 +1147,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "MachineToolIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=11",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=11",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1176,7 +1176,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MachineOperationMonitoringType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=26",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=26",
     "telemetryTopic": "opcua/MachineTool/MachineOperationMonitoringType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1185,7 +1185,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MachineOperationMode",
         "description": "The machine tool is controlled manually, by the operator. Depending on technology specific norms, the maximum axis movement speeds of the machine tool are limited.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=65",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1269,7 +1269,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "MachineToolType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=13",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=13",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1338,7 +1338,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MessagesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=38",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=38",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1359,7 +1359,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MonitoringType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=14",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=14",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1403,7 +1403,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "NotificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=7",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=7",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1440,7 +1440,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ObligationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1002",
     "telemetryTopic": "opcua/MachineTool/ObligationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1476,7 +1476,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductionJobListType",
     "extends": "dtmi:opcua:OpcUaCore:OrderedListType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=30",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=30",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1498,7 +1498,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ProductionJobType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=29",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=29",
     "commandTopic": "opcua/MachineTool/ProductionJobType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ProductionJobType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1606,7 +1606,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ProductionPartSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=34",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=34",
     "commandTopic": "opcua/MachineTool/ProductionPartSetType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ProductionPartSetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1668,7 +1668,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ProductionPartType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=56",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=56",
     "commandTopic": "opcua/MachineTool/ProductionPartType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ProductionPartType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1678,7 +1678,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PartQuality",
         "description": "The machine tool is not able to give a statement about the part quality.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=63",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1708,7 +1708,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ProcessIrregularity",
         "description": "The machine tool is not able to give a statement about process irregularities.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=62",
+        "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1794,7 +1794,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ProductionProgramType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=59",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=59",
     "commandTopic": "opcua/MachineTool/ProductionProgramType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ProductionProgramType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1841,7 +1841,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductionActiveProgramType",
     "extends": "dtmi:opcua:MachineTool:ProductionProgramType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=32",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=32",
     "telemetryTopic": "opcua/MachineTool/ProductionActiveProgramType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1877,7 +1877,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductionStatisticsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=20",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=20",
     "telemetryTopic": "opcua/MachineTool/ProductionStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1906,7 +1906,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=21",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=21",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1951,7 +1951,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PrognosisListType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=2",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=2",
     "commandTopic": "opcua/MachineTool/PrognosisListType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/PrognosisListType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1989,7 +1989,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PrognosisType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=3",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=3",
     "commandTopic": "opcua/MachineTool/PrognosisType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/PrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2021,7 +2021,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "MaintenancePrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=9",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=9",
     "telemetryTopic": "opcua/MachineTool/MaintenancePrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2051,7 +2051,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ManualActivityPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=10",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=10",
     "telemetryTopic": "opcua/MachineTool/ManualActivityPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2081,7 +2081,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "PartLoadPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1",
     "telemetryTopic": "opcua/MachineTool/PartLoadPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2132,7 +2132,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "PartUnloadPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=5",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=5",
     "telemetryTopic": "opcua/MachineTool/PartUnloadPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2183,7 +2183,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ProcessChangeoverPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=8",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=8",
     "telemetryTopic": "opcua/MachineTool/ProcessChangeoverPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2220,7 +2220,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ProductionJobEndPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=37",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=37",
     "telemetryTopic": "opcua/MachineTool/ProductionJobEndPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2257,7 +2257,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ToolChangePrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=45",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=45",
     "telemetryTopic": "opcua/MachineTool/ToolChangePrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2308,7 +2308,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ToolLoadPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=4",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=4",
     "telemetryTopic": "opcua/MachineTool/ToolLoadPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2352,7 +2352,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ToolUnloadPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=18",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=18",
     "telemetryTopic": "opcua/MachineTool/ToolUnloadPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2403,7 +2403,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "UtilityChangePrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=6",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=6",
     "telemetryTopic": "opcua/MachineTool/UtilityChangePrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2433,7 +2433,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "SoftwareIdentificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=43",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=43",
     "commandTopic": "opcua/MachineTool/SoftwareIdentificationType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/SoftwareIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2481,7 +2481,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "MachineOperationModeStateMachineType",
     "extends": "dtmi:opcua:Machinery:MachineryOperationModeStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2510,7 +2510,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MaintenanceModeStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2572,7 +2572,7 @@
     "ontology": "http://opcfoundation.org/UA/MachineTool",
     "displayName": "ProductionStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=24",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=24",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2713,7 +2713,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductionJobStateMachineType",
     "extends": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=28",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=28",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2734,7 +2734,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductionPartStateMachineType",
     "extends": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=40",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=40",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2755,7 +2755,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ProductionProgramStateMachineType",
     "extends": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=15",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=15",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2776,7 +2776,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ToolListType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=44",
+    "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=44",
     "commandTopic": "opcua/MachineTool/ToolListType/{commandName}",
     "telemetryTopic": "opcua/MachineTool/ToolListType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",

@@ -14,7 +14,7 @@
     "displayName": "TTDResultReadyEventType",
     "description": "Provides information of a complete or partial result.",
     "extends": "dtmi:opcua:Machinery_Result:ResultReadyEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -36,7 +36,7 @@
     "ontology": "http://opcfoundation.org/UA/TTD",
     "displayName": "JobStatisticsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1009",
     "commandTopic": "opcua/TTD/JobStatisticsType/{commandName}",
     "telemetryTopic": "opcua/TTD/JobStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -99,7 +99,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MachineStatisticsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1012",
     "commandTopic": "opcua/TTD/MachineStatisticsType/{commandName}",
     "telemetryTopic": "opcua/TTD/MachineStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -137,7 +137,7 @@
     "ontology": "http://opcfoundation.org/UA/TTD",
     "displayName": "RecurrentPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1004",
     "commandTopic": "opcua/TTD/RecurrentPrognosisType/{commandName}",
     "telemetryTopic": "opcua/TTD/RecurrentPrognosisType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -183,7 +183,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "RecipeManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1003",
     "commandTopic": "opcua/TTD/RecipeManagementType/{commandName}",
     "telemetryTopic": "opcua/TTD/RecipeManagementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -193,7 +193,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "RecipeIdDataType",
         "description": "Human readable name for the recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -242,7 +242,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "RecipeDataType",
         "description": "RecipeId meta data describing this recipe.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3018",
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -444,7 +444,7 @@
     "ontology": "http://opcfoundation.org/UA/TTD",
     "displayName": "TTDResultManagementType",
     "extends": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -466,7 +466,7 @@
     "ontology": "http://opcfoundation.org/UA/TTD",
     "displayName": "TextileTestingDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1010",
     "commandTopic": "opcua/TTD/TextileTestingDeviceType/{commandName}",
     "telemetryTopic": "opcua/TTD/TextileTestingDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -476,7 +476,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ExchangeablePartDataType",
         "description": "Name of the machine part.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -515,7 +515,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "OptionalModuleDataType",
         "description": "The name of the module.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3009",
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3009",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -544,7 +544,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "TestProcedureIdDataType",
         "description": "The available test procedures are stored on the testing device and referenced by name (TestProcedureId).",
-        "typeRef": "nsu=http://opcfoundation.org/UA/TTD;i=3034",
+        "typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3034",
         "fields": [
           {
             "@type": [ "Field", "Required" ],

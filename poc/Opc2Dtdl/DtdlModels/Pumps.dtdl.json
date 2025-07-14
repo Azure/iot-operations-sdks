@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IPumpVendorNameplateType",
     "extends": "dtmi:opcua:Machinery:IMachineVendorNameplateType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1004",
     "commandTopic": "opcua/Pumps/IPumpVendorNameplateType/{commandName}",
     "telemetryTopic": "opcua/Pumps/IPumpVendorNameplateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PhysicalAddressDataType",
         "description": "Physical address of the manufacturer.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3020",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -165,7 +165,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DiscreteObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1029",
     "telemetryTopic": "opcua/Pumps/DiscreteObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -203,7 +203,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DiscreteInputObjectType",
     "extends": "dtmi:opcua:Pumps:DiscreteObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1030",
     "telemetryTopic": "opcua/Pumps/DiscreteInputObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -233,7 +233,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DiscreteOutputObjectType",
     "extends": "dtmi:opcua:Pumps:DiscreteObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1031",
     "telemetryTopic": "opcua/Pumps/DiscreteOutputObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -279,7 +279,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PumpKickObjectType",
     "extends": "dtmi:opcua:Pumps:DiscreteOutputObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1032",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1032",
     "telemetryTopic": "opcua/Pumps/PumpKickObjectType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -288,7 +288,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PumpKickModeEnum",
         "description": "describes the pump kick mode of the pump",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3009",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3009",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -348,7 +348,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ActuationType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1025",
     "telemetryTopic": "opcua/Pumps/ActuationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -428,7 +428,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PumpActuationType",
     "extends": "dtmi:opcua:Pumps:ActuationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1028",
     "telemetryTopic": "opcua/Pumps/PumpActuationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -437,7 +437,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ControlModeEnum",
         "description": "describes the possible control modes of the pump",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -495,7 +495,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperationModeEnum",
         "description": "describes the possible operation modes of the pump",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3007",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -707,7 +707,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "BreakdownMaintenanceType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1010",
     "telemetryTopic": "opcua/Pumps/BreakdownMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -770,7 +770,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConditionBasedMaintenanceType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1008",
     "telemetryTopic": "opcua/Pumps/ConditionBasedMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -891,7 +891,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConfigurationGroupType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1024",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -939,7 +939,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionDesignType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1040",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1040",
     "telemetryTopic": "opcua/Pumps/ConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -969,7 +969,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "InletConnectionDesignType",
     "extends": "dtmi:opcua:Pumps:ConnectionDesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1041",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1041",
     "telemetryTopic": "opcua/Pumps/InletConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1063,7 +1063,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OutletConnectionDesignType",
     "extends": "dtmi:opcua:Pumps:ConnectionDesignType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1042",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1042",
     "telemetryTopic": "opcua/Pumps/OutletConnectionDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1148,7 +1148,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionImplementationType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1046",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1046",
     "telemetryTopic": "opcua/Pumps/ConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1178,7 +1178,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "InletConnectionImplementationType",
     "extends": "dtmi:opcua:Pumps:ConnectionImplementationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1047",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1047",
     "telemetryTopic": "opcua/Pumps/InletConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1236,7 +1236,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OutletConnectionImplementationType",
     "extends": "dtmi:opcua:Pumps:ConnectionImplementationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1048",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1048",
     "telemetryTopic": "opcua/Pumps/OutletConnectionImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1294,7 +1294,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ControlType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1021",
     "telemetryTopic": "opcua/Pumps/ControlType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1421,7 +1421,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DesignType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1020",
     "telemetryTopic": "opcua/Pumps/DesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1430,7 +1430,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DeclarationOfConformityOptionSet",
         "description": "defines flags for directives on the basis of which conformity was determined",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3019",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1472,7 +1472,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ExplosionProtectionOptionSet",
         "description": "defines flags for the category of explosion protection for devices according to EU Directive 2014/34/EU (ATEX)",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3016",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1514,7 +1514,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OfferedControlModesOptionSet",
         "description": "defines flags for offerd control modes supported by the manufacturer for the product",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3017",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1572,7 +1572,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OfferedFieldbusesOptionSet",
         "description": "defines flags for fieldbuses supported by the manufacturer for the product",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3018",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3018",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1782,7 +1782,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PumpClassEnum",
         "description": "defines possible pump types",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3021",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2546,7 +2546,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DocumentationType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1006",
     "telemetryTopic": "opcua/Pumps/DocumentationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2942,7 +2942,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DriveDesignType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1043",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1043",
     "telemetryTopic": "opcua/Pumps/DriveDesignType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3070,7 +3070,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DriveMeasurementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1051",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1051",
     "telemetryTopic": "opcua/Pumps/DriveMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3208,7 +3208,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "GeneralMaintenanceType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1007",
     "telemetryTopic": "opcua/Pumps/GeneralMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3217,7 +3217,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MaintenanceLevelEnum",
         "description": "defines maintenance levels for the pump",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3247,7 +3247,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "StateOfTheItemEnum",
         "description": "describes the state of the pump",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3467,7 +3467,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ImplementationType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1023",
     "telemetryTopic": "opcua/Pumps/ImplementationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3786,7 +3786,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "InletConnectionMeasurementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1050",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1050",
     "telemetryTopic": "opcua/Pumps/InletConnectionMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3826,7 +3826,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "InletConnectionSystemRequirementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1045",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1045",
     "telemetryTopic": "opcua/Pumps/InletConnectionSystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3858,7 +3858,7 @@
     "ontology": "http://opcfoundation.org/UA/Pumps",
     "displayName": "PumpIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1005",
     "commandTopic": "opcua/Pumps/PumpIdentificationType/{commandName}",
     "telemetryTopic": "opcua/Pumps/PumpIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3868,7 +3868,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PhysicalAddressDataType",
         "description": "Physical address of the manufacturer.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3020",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -4019,7 +4019,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MaintenanceGroupType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1011",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4076,7 +4076,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MeasurementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1054",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1054",
     "telemetryTopic": "opcua/Pumps/MeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4554,7 +4554,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MultiPumpType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1039",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1039",
     "telemetryTopic": "opcua/Pumps/MultiPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4563,7 +4563,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DistributionTypeEnum",
         "description": "describes the share of operation time of different pumps of the pump system in addition operation mode",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3013",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4589,7 +4589,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ExchangeModeEnum",
         "description": "specifies the exchange mode of the pump",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3012",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4611,7 +4611,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MultiPumpOperationModeEnum",
         "description": "specifies the actual multi pump operation mode",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3011",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4637,7 +4637,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PumpRoleEnum",
         "description": "identifies the role rsp. task of the pump within the multi pump management",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4770,7 +4770,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OperationalGroupType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1053",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1053",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4854,7 +4854,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OutletConnectionMeasurementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1049",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1049",
     "telemetryTopic": "opcua/Pumps/OutletConnectionMeasurementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4894,7 +4894,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OutletConnectionSystemRequirementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1044",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1044",
     "telemetryTopic": "opcua/Pumps/OutletConnectionSystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4925,7 +4925,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PortsGroupType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4970,7 +4970,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PreventiveMaintenanceType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1009",
     "telemetryTopic": "opcua/Pumps/PreventiveMaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5050,7 +5050,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SignalsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1033",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5261,7 +5261,7 @@
     "displayName": "SupervisionAuxiliaryDeviceType",
     "description": "Supervision auxiliary device specifies information for monitoring an additional device.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1017",
     "telemetryTopic": "opcua/Pumps/SupervisionAuxiliaryDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5564,7 +5564,7 @@
     "displayName": "SupervisionElectronicsType",
     "description": "Supervision Electrics specifies information for monitoring the electronics.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1018",
     "telemetryTopic": "opcua/Pumps/SupervisionElectronicsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5747,7 +5747,7 @@
     "displayName": "SupervisionHardwareType",
     "description": "Supervision hardware specifies supervising information related to device hardware.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1013",
     "telemetryTopic": "opcua/Pumps/SupervisionHardwareType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5866,7 +5866,7 @@
     "displayName": "SupervisionMechanicsType",
     "description": "Supervision mechanics specifies supervising information related to device mechanics.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1012",
     "telemetryTopic": "opcua/Pumps/SupervisionMechanicsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6017,7 +6017,7 @@
     "displayName": "SupervisionProcessFluidType",
     "description": "Supervision process fluid specifies information for monitoring the fluid of a pump.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1015",
     "telemetryTopic": "opcua/Pumps/SupervisionProcessFluidType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6144,7 +6144,7 @@
     "displayName": "SupervisionPumpOperationType",
     "description": "Supervision pump operation specifies information for monitoring the pump operation.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1016",
     "telemetryTopic": "opcua/Pumps/SupervisionPumpOperationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6463,7 +6463,7 @@
     "displayName": "SupervisionSoftwareType",
     "description": "Supervision software specifies supervising information related to device software.",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1014",
     "telemetryTopic": "opcua/Pumps/SupervisionSoftwareType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6549,7 +6549,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SupervisionType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6633,7 +6633,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SystemRequirementsType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1022",
     "telemetryTopic": "opcua/Pumps/SystemRequirementsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6642,7 +6642,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ExplosionZoneOptionSet",
         "description": "defines flags for the category of explosion zones for devices",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3015",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -6676,7 +6676,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FieldbusEnum",
         "description": "defines possible field buses",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -6886,7 +6886,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperatingModeEnum",
         "description": "specifies whether the pump is to be operated in single, parallel or series connection",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -6908,7 +6908,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ControlModeEnum",
         "description": "describes the possible control modes of the pump",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -7305,7 +7305,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "VibrationMeasurementType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1055",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1055",
     "telemetryTopic": "opcua/Pumps/VibrationMeasurementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7643,7 +7643,7 @@
     "displayName": "MarkingsType",
     "description": "Safety instructions for safe use, e.g. temperature and pressure resistance, electrostatic charge, high voltage, radioactivity, explosive protection.",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7672,7 +7672,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PortType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1035",
     "telemetryTopic": "opcua/Pumps/PortType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7681,7 +7681,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PortDirectionEnum",
         "description": "determines whether the port is an inlet and outlet or both",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3014",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3014",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -7740,7 +7740,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DrivePortType",
     "extends": "dtmi:opcua:Pumps:PortType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1038",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1038",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7779,7 +7779,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "InletConnectionPortType",
     "extends": "dtmi:opcua:Pumps:PortType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1036",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7836,7 +7836,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OutletConnectionPortType",
     "extends": "dtmi:opcua:Pumps:PortType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1037",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1037",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7894,7 +7894,7 @@
     "ontology": "http://opcfoundation.org/UA/Pumps",
     "displayName": "PumpType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1052",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1052",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

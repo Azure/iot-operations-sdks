@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/CuttingTool",
     "displayName": "CuttingToolFileType",
     "extends": "dtmi:opcua:OpcUaCore:FileType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1003",
     "commandTopic": "opcua/CuttingTool/CuttingToolFileType/{commandName}",
     "telemetryTopic": "opcua/CuttingTool/CuttingToolFileType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@id": "dtmi:opcua:CuttingTool:CuttingToolFileType:dataType:FileFormatDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "FileFormatDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -69,7 +69,7 @@
     "ontology": "http://opcfoundation.org/UA/CuttingTool",
     "displayName": "ToolMeasuringMachineType",
     "extends": "dtmi:opcua:GMS:GMSType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1021",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -91,7 +91,7 @@
     "ontology": "http://opcfoundation.org/UA/CuttingTool",
     "displayName": "ToolManufacturingMachineType",
     "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1025",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

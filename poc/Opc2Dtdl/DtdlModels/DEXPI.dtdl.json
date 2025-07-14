@@ -15,7 +15,7 @@
     "displayName": "DEXPISupplementaryDataType",
     "description": "Additional data including the original XML source file, the DEXPI specification as UML XMI and used version numbers for the DEXPI specification and the Proteus schema",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1061",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1061",
     "commandTopic": "opcua/DEXPI/DEXPISupplementaryDataType/{commandName}",
     "telemetryTopic": "opcua/DEXPI/DEXPISupplementaryDataType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -93,7 +93,7 @@
     "displayName": "BaseDEXPIObjectType",
     "description": "Base object type, parent for all DEXPI Object types",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1060",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1060",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -116,7 +116,7 @@
     "displayName": "PlantModelType",
     "description": "A model of a chemical plant. It includes various aspects such as the engineering content, a diagram, and metadata.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1068",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1068",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -162,7 +162,7 @@
     "displayName": "PlantType",
     "description": "The engineering content of a PlantModel.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1072",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1072",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -232,7 +232,7 @@
     "displayName": "MetaDataType",
     "description": "A container for meta data about a PlantModel.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1079",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1079",
     "telemetryTopic": "opcua/DEXPI/MetaDataType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -240,7 +240,7 @@
         "@id": "dtmi:opcua:DEXPI:MetaDataType:dataType:ConfidentialityClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ConfidentialityClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1012",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -568,7 +568,7 @@
     "displayName": "SensingLocationType",
     "description": "An object than can act as a SensingLocation of a ProcessSignalGeneratingFunction.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1117",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1117",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -590,7 +590,7 @@
     "displayName": "ProcessSignalGeneratingSystemType",
     "description": "An assembly of artefacts that is designed to fulfill one or more ProcessSignalGeneratingFunctions. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1118",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1118",
     "telemetryTopic": "opcua/DEXPI/ProcessSignalGeneratingSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -645,7 +645,7 @@
     "displayName": "PositionerType",
     "description": "A positioner.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1127",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1127",
     "telemetryTopic": "opcua/DEXPI/PositionerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -684,7 +684,7 @@
     "displayName": "ProcessInstrumentationFunctionType",
     "description": "A requirement for instrumentation and/or control structures relating to Process Engineering. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1130",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1130",
     "telemetryTopic": "opcua/DEXPI/ProcessInstrumentationFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -692,7 +692,7 @@
         "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:GmpRelevanceClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GmpRelevanceClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1020",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -709,7 +709,7 @@
         "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:GuaranteedSupplyFunctionClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GuaranteedSupplyFunctionClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -726,7 +726,7 @@
         "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:LocationClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "LocationClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1054",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1054",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -747,7 +747,7 @@
         "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:QualityRelevanceClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "QualityRelevanceClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -916,7 +916,7 @@
     "displayName": "ProcessControlFunctionType",
     "description": "A requirement for control structures relating to Process Engineering. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1152",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1152",
     "telemetryTopic": "opcua/DEXPI/ProcessControlFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -924,7 +924,7 @@
         "@id": "dtmi:opcua:DEXPI:ProcessControlFunctionType:dataType:GmpRelevanceClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GmpRelevanceClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1020",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -941,7 +941,7 @@
         "@id": "dtmi:opcua:DEXPI:ProcessControlFunctionType:dataType:GuaranteedSupplyFunctionClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "GuaranteedSupplyFunctionClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -958,7 +958,7 @@
         "@id": "dtmi:opcua:DEXPI:ProcessControlFunctionType:dataType:LocationClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "LocationClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1054",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1054",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -979,7 +979,7 @@
         "@id": "dtmi:opcua:DEXPI:ProcessControlFunctionType:dataType:QualityRelevanceClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "QualityRelevanceClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1148,7 +1148,7 @@
     "displayName": "SignalLineFunctionType",
     "description": "Information flow function for signals. Association to Source (SignalConveyingFunctionSource) Association to Target (SignalConveyingFunctionTarget)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1174",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1174",
     "telemetryTopic": "opcua/DEXPI/SignalLineFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1156,7 +1156,7 @@
         "@id": "dtmi:opcua:DEXPI:SignalLineFunctionType:dataType:PortStatusClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PortStatusClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1056",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1189,7 +1189,7 @@
         "@id": "dtmi:opcua:DEXPI:SignalLineFunctionType:dataType:SignalConveyingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalConveyingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1040",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1266,7 +1266,7 @@
     "displayName": "MeasuringLineFunctionType",
     "description": "Information flow function for measured values. Association to Source (SignalConveyingFunctionSource) Association to Target (SignalConveyingFunctionTarget)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1181",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1181",
     "telemetryTopic": "opcua/DEXPI/MeasuringLineFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1274,7 +1274,7 @@
         "@id": "dtmi:opcua:DEXPI:MeasuringLineFunctionType:dataType:PortStatusClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PortStatusClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1056",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1307,7 +1307,7 @@
         "@id": "dtmi:opcua:DEXPI:MeasuringLineFunctionType:dataType:SignalConveyingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalConveyingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1040",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1383,7 +1383,7 @@
     "displayName": "InstrumentationLoopFunctionType",
     "description": "An identified collection of related ProcessInstrumentationFunctions that interact for a known purpose. Association to ProcessInstrumentationFunctions (ProcessInstrumentationFunction) Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1188",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1188",
     "telemetryTopic": "opcua/DEXPI/InstrumentationLoopFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1414,7 +1414,7 @@
     "displayName": "PrimaryElementType",
     "description": "An artefact that converts the input variable into a signal suitable for measurement.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1195",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1195",
     "telemetryTopic": "opcua/DEXPI/PrimaryElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1445,7 +1445,7 @@
     "displayName": "ShutOffValveReferenceType",
     "description": "A reference to a ShutOffValve. Association to Valve (ShutOffValve)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1197",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1197",
     "telemetryTopic": "opcua/DEXPI/ShutOffValveReferenceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1476,7 +1476,7 @@
     "displayName": "ActuatingSystemType",
     "description": "An assembly of artefacts that is designed to fulfill an ActuatingFunction. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1200",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1200",
     "telemetryTopic": "opcua/DEXPI/ActuatingSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1539,7 +1539,7 @@
     "displayName": "ProcessSignalGeneratingFunctionType",
     "description": "A function for instrumentation and/or control structures relating to Process Engineering Association to Systems (ProcessSignalGeneratingSystem) Association to SensingLocation (SensingLocation) Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1210",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1210",
     "telemetryTopic": "opcua/DEXPI/ProcessSignalGeneratingFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1578,7 +1578,7 @@
     "displayName": "SignalConveyingFunctionTargetType",
     "description": "An object than can act as the Target of a SignalConveyingFunction.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1219",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1219",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1601,7 +1601,7 @@
     "displayName": "OfflinePrimaryElementType",
     "description": "A PrimaryElement that is not part of a PipingNetworkSegment.",
     "extends": "dtmi:opcua:DEXPI:PrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1220",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1220",
     "telemetryTopic": "opcua/DEXPI/OfflinePrimaryElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1609,7 +1609,7 @@
         "@id": "dtmi:opcua:DEXPI:OfflinePrimaryElementType:dataType:NominalDiameterStandardClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NominalDiameterStandardClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1032",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1878,7 +1878,7 @@
         "@id": "dtmi:opcua:DEXPI:OfflinePrimaryElementType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2034,7 +2034,7 @@
     "displayName": "ActuatingFunctionType",
     "description": "A function for acting control structures relating to the process. Association to ActuatingLocation (PipingNetworkSegment) Association to Systems (ActuatingSystem) Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1239",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1239",
     "telemetryTopic": "opcua/DEXPI/ActuatingFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2065,7 +2065,7 @@
     "displayName": "TransmitterType",
     "description": "A detecting instrument that generates a process variable signal and converts it into an output signal.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1247",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1247",
     "telemetryTopic": "opcua/DEXPI/TransmitterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2104,7 +2104,7 @@
     "displayName": "SignalConveyingFunctionSourceType",
     "description": "An object than can act as the Source of a SignalConveyingFunction.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1250",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1250",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2126,7 +2126,7 @@
     "displayName": "SignalConveyingFunctionType",
     "description": "A function for conveying a signal. Association to Source (SignalConveyingFunctionSource) Association to Target (SignalConveyingFunctionTarget)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1251",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1251",
     "telemetryTopic": "opcua/DEXPI/SignalConveyingFunctionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2134,7 +2134,7 @@
         "@id": "dtmi:opcua:DEXPI:SignalConveyingFunctionType:dataType:PortStatusClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PortStatusClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1056",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2167,7 +2167,7 @@
         "@id": "dtmi:opcua:DEXPI:SignalConveyingFunctionType:dataType:SignalConveyingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalConveyingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1040",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2243,7 +2243,7 @@
     "displayName": "ControlledActuatorType",
     "description": "A transducer that is intended to convert energy (electric, mechanical, pneumatic or hydraulic) from an external source into kinetic energy (motion) in response to a signal or or power input.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1258",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1258",
     "telemetryTopic": "opcua/DEXPI/ControlledActuatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2251,7 +2251,7 @@
         "@id": "dtmi:opcua:DEXPI:ControlledActuatorType:dataType:FailActionClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FailActionClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1050",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1050",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2320,7 +2320,7 @@
     "displayName": "InlinePrimaryElementReferenceType",
     "description": "A reference to an InlinePrimaryElement that is part of a PipingNetworkSegment. Association to InlinePrimaryElement (InlinePrimaryElement)",
     "extends": "dtmi:opcua:DEXPI:PrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1263",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1263",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2343,7 +2343,7 @@
     "displayName": "PlantSectionIso10209-2012Type",
     "description": "A plant section as defined by ISO 10209:2012. Association to ParentStructure (PlantSectionIso10209-2012ParentStructure) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1265",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1265",
     "telemetryTopic": "opcua/DEXPI/PlantSectionIso10209_2012Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2382,7 +2382,7 @@
     "displayName": "AreaIsa95LocatedStructureType",
     "description": "A structure that can be located in an AreaIsa95. Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1270",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1270",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2405,7 +2405,7 @@
     "displayName": "IndustrialComplexIso10209-2012Type",
     "description": "An industrial complex as defined by ISO 10209:2012. Association to ParentStructure (IndustrialComplexIso10209-2012ParentStructure) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1272",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1272",
     "telemetryTopic": "opcua/DEXPI/IndustrialComplexIso10209_2012Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2444,7 +2444,7 @@
     "displayName": "PlantTrainLocatedStructureType",
     "description": "A structure can be located in a PlantTrain. Association to PlantTrain (PlantTrain)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1277",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1277",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2466,7 +2466,7 @@
     "displayName": "ProcessPlantParentStructureType",
     "description": "A PlantItemStructure that is a suitable ParentStructure of a ProcessPlant.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1279",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1279",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2489,7 +2489,7 @@
     "displayName": "SiteIsa95Type",
     "description": "A site as defined by ISA 95. Association to ParentStructure (Isa95Enterprise)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1280",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1280",
     "telemetryTopic": "opcua/DEXPI/SiteIsa95Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2528,7 +2528,7 @@
     "displayName": "IndustrialComplexIso10209-2012ParentStructureType",
     "description": "A PlantItemStructure that is a suitable ParentStructure of am IndustrialComplexIso10209-2012.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1284",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1284",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2550,7 +2550,7 @@
     "displayName": "TechnicalItemType",
     "description": "An item at the lowest level of the plant structure. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1285",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1285",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2573,7 +2573,7 @@
     "displayName": "AreaIsa95Type",
     "description": "An area as defined by ISA 95.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1290",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1290",
     "telemetryTopic": "opcua/DEXPI/AreaIsa95Type/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2612,7 +2612,7 @@
     "displayName": "PlantSystemLocatedStructureType",
     "description": "A structure can be located in a PlantSystem. Association to PlantSystem (PlantSystem)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1293",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1293",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2634,7 +2634,7 @@
     "displayName": "TechnicalItemParentStructureType",
     "description": "A PlantItemStructure that is a suitable ParentStructure of a TechnicalItem.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1295",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1295",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2656,7 +2656,7 @@
     "displayName": "PlantSectionIso10209-2012ParentStructureType",
     "description": "A PlantItemStructure that is a suitable ParentStructure of a PlantSectionIso10209-2012.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1296",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1296",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2679,7 +2679,7 @@
     "displayName": "PlantSystemType",
     "description": "A plant system.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1297",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1297",
     "telemetryTopic": "opcua/DEXPI/PlantSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2719,7 +2719,7 @@
     "displayName": "ProcessPlantType",
     "description": "A plant employed in carrying out chemical processes, including the required supporting processes (from http://data.posccaesar.org/rdl/RDS7151859). Association to ParentStructure (ProcessPlantParentStructure) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1300",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1300",
     "telemetryTopic": "opcua/DEXPI/ProcessPlantType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2759,7 +2759,7 @@
     "displayName": "Isa95EnterpriseType",
     "description": "An enterprise as defined by ISA 95.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1305",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1305",
     "telemetryTopic": "opcua/DEXPI/Isa95EnterpriseType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2798,7 +2798,7 @@
     "displayName": "PlantStructureItemType",
     "description": "Item of the plant break down structure.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1308",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1308",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2821,7 +2821,7 @@
     "displayName": "PlantTrainType",
     "description": "A plant train.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1309",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1309",
     "telemetryTopic": "opcua/DEXPI/PlantTrainType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2861,7 +2861,7 @@
     "displayName": "EjectorPumpType",
     "description": "A pump which uses pressurized gas or liquid passing through an ejector to transport liquid (from http://data.posccaesar.org/rdl/RDS860624).",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1312",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1312",
     "telemetryTopic": "opcua/DEXPI/EjectorPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2893,7 +2893,7 @@
     "displayName": "KneaderType",
     "description": "A kneading machine that kneads different ingredients.",
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1316",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1316",
     "telemetryTopic": "opcua/DEXPI/KneaderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2941,7 +2941,7 @@
     "displayName": "HeatExchangerType",
     "description": "An artefact that is intended to transfer heat from one object to another (from http://data.posccaesar.org/rdl/RDS304199). Association to Agitator (Agitator)",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1326",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1326",
     "telemetryTopic": "opcua/DEXPI/HeatExchangerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2988,7 +2988,7 @@
     "displayName": "TaggedPlantItemType",
     "description": "A fully tagged item in a plant.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1337",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1337",
     "telemetryTopic": "opcua/DEXPI/TaggedPlantItemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3044,7 +3044,7 @@
     "displayName": "RotaryPumpType",
     "description": "A positive displacement pump that consists of a chamber containing gears, cams, screws, vanes, plungers or similar elements actuated by relative rotation of the drive shaft or casing and which has no separate inlet and outlet valves (from http://data.posccaesar.org/rdl/RDS420749).",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1342",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1342",
     "telemetryTopic": "opcua/DEXPI/RotaryPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3092,7 +3092,7 @@
     "displayName": "ThinFilmEvaporatorType",
     "description": "A thin film evaporator.",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1350",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1350",
     "telemetryTopic": "opcua/DEXPI/ThinFilmEvaporatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3147,7 +3147,7 @@
     "displayName": "NozzleType",
     "description": "A physical object that has a protruding part through which a stream of fluid is directed (from http://data.posccaesar.org/rdl/RDS415214). Association to Chamber (Chamber)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1361",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1361",
     "telemetryTopic": "opcua/DEXPI/NozzleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3155,7 +3155,7 @@
         "@id": "dtmi:opcua:DEXPI:NozzleType:dataType:NominalPressureStandardClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NominalPressureStandardClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1018",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1018",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3404,7 +3404,7 @@
     "displayName": "SpiralHeatExchangerType",
     "description": "A spiral heat exchanger",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1369",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1369",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3427,7 +3427,7 @@
     "displayName": "ColumnPackingsArrangementType",
     "description": "The packings of a column.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1370",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1370",
     "telemetryTopic": "opcua/DEXPI/ColumnPackingsArrangementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3482,7 +3482,7 @@
     "displayName": "ChamberOwnerType",
     "description": "An object that can have chambers.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1377",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1377",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3513,7 +3513,7 @@
     "displayName": "ReciprocatingCompressorType",
     "description": "A positive displacement compressor in which forced reduction of gas volume takes place by the movement of a displacing element in a cylinder or enclosure (from http://data.posccaesar.org/rdl/RDS417284).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1379",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1379",
     "telemetryTopic": "opcua/DEXPI/ReciprocatingCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3561,7 +3561,7 @@
     "displayName": "SpecialCompressorType",
     "description": "A Compressor that is not covered by any of the sibling classes of SpecialCompressor.",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1387",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1387",
     "telemetryTopic": "opcua/DEXPI/SpecialCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3624,7 +3624,7 @@
     "displayName": "SubTaggedColumnSectionType",
     "description": "A sub tagged column section.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1399",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1399",
     "telemetryTopic": "opcua/DEXPI/SubTaggedColumnSectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3680,7 +3680,7 @@
     "displayName": "CompressorType",
     "description": "A 'gas pressure increase device' and an 'artefact' that is driven by a prime mover by which energy is either constantly or periodically added to an amount of gas in order to increase its pressure (from http://data.posccaesar.org/rdl/RDS14286497).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1408",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1408",
     "telemetryTopic": "opcua/DEXPI/CompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3720,7 +3720,7 @@
     "displayName": "RotaryMixerType",
     "description": "Rotating mixer.",
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1415",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1415",
     "telemetryTopic": "opcua/DEXPI/RotaryMixerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3768,7 +3768,7 @@
     "displayName": "VesselType",
     "description": "A container intended for storage and/or processing of fluids (from http://data.posccaesar.org/rdl/RDS414674). Association to ColumnSections (TaggedColumnSection) Association to Agitator (Agitator)",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1425",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1425",
     "telemetryTopic": "opcua/DEXPI/VesselType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3800,7 +3800,7 @@
     "displayName": "GasFilterType",
     "description": "A filter that is specifically designed to filter a gas.",
     "extends": "dtmi:opcua:DEXPI:FilterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1431",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1431",
     "telemetryTopic": "opcua/DEXPI/GasFilterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3864,7 +3864,7 @@
     "displayName": "PressureVesselType",
     "description": "A vessel intended to withstand external and/or internal pressure (from http://data.posccaesar.org/rdl/RDS427229).",
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1445",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1445",
     "telemetryTopic": "opcua/DEXPI/PressureVesselType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3896,7 +3896,7 @@
     "displayName": "SpecialVesselType",
     "description": "A Vessel that is not covered by any of other subclasses of Vessel.",
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1449",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1449",
     "telemetryTopic": "opcua/DEXPI/SpecialVesselType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3936,7 +3936,7 @@
     "displayName": "MixerType",
     "description": "An object that mixes two or more different ingredients.",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1454",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1454",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3966,7 +3966,7 @@
     "displayName": "FilterUnitType",
     "description": "The filtering unit as part of a filter. Association to Chamber (Chamber)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1456",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1456",
     "telemetryTopic": "opcua/DEXPI/FilterUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4054,7 +4054,7 @@
     "displayName": "AirCoolingSystemType",
     "description": "A cooling system which uses air as the cooling medium (from http://data.posccaesar.org/rdl/RDS277379).",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1478",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1478",
     "telemetryTopic": "opcua/DEXPI/AirCoolingSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4109,7 +4109,7 @@
     "displayName": "ColumnInternalsArrangementType",
     "description": "The internals of a column.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1489",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1489",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4132,7 +4132,7 @@
     "displayName": "SiloType",
     "description": "A vessel that has a bottom in the shape of a cone and is intended to store solid particles (from http://data.posccaesar.org/rdl/RDS1022399).",
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1490",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1490",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4154,7 +4154,7 @@
     "displayName": "HeatExchangerRotorType",
     "description": "A heat exchanger rotor. Association to Chamber (Chamber)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1491",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1491",
     "telemetryTopic": "opcua/DEXPI/HeatExchangerRotorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4185,7 +4185,7 @@
     "displayName": "ColumnSectionType",
     "description": "A column section.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1494",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1494",
     "telemetryTopic": "opcua/DEXPI/ColumnSectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4232,7 +4232,7 @@
     "displayName": "PumpEquipmentType",
     "description": "Equipment of a Pump.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1502",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1502",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4255,7 +4255,7 @@
     "displayName": "ReciprocatingPumpType",
     "description": "a positive displacement pump which contains a displacing element intended to be moved in a reciprocating movement to exert pressure on a fluid, typically moving within a cylindrical space (from http://data.posccaesar.org/rdl/RDS416969).",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1503",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1503",
     "telemetryTopic": "opcua/DEXPI/ReciprocatingPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4303,7 +4303,7 @@
     "displayName": "TaggedColumnSectionType",
     "description": "A fully tagged column section.",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1511",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1511",
     "telemetryTopic": "opcua/DEXPI/TaggedColumnSectionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4350,7 +4350,7 @@
     "displayName": "ChamberType",
     "description": "A physical object that is an enclosed space (from http://data.posccaesar.org/rdl/RDS903151421).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1523",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1523",
     "telemetryTopic": "opcua/DEXPI/ChamberType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4358,7 +4358,7 @@
         "@id": "dtmi:opcua:DEXPI:ChamberType:dataType:ChamberFunctionClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ChamberFunctionClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1044",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1044",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4519,7 +4519,7 @@
     "displayName": "ElectricHeaterType",
     "description": "A heater in which electric energy is converted into heat for useful purposes (from http://data.posccaesar.org/rdl/RDS14070475).",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1557",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1557",
     "telemetryTopic": "opcua/DEXPI/ElectricHeaterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4558,7 +4558,7 @@
     "displayName": "MixingElementAssemblyType",
     "description": "Assembly of mixing elements as part of a mixer. Association to Chamber (Chamber)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1562",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1562",
     "telemetryTopic": "opcua/DEXPI/MixingElementAssemblyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4598,7 +4598,7 @@
     "displayName": "CentrifugalCompressorType",
     "description": "A dynamic compressor in which one ore more impellers accelerate the gas and where the main flow through the impeller is radial (from http://data.posccaesar.org/rdl/RDS417194).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1566",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1566",
     "telemetryTopic": "opcua/DEXPI/CentrifugalCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4645,7 +4645,7 @@
     "displayName": "NozzleOwnerType",
     "description": "An object that can have nozzles.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1574",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1574",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4676,7 +4676,7 @@
     "displayName": "PlateAndShellHeatExchangerType",
     "description": "A corrugated plate heat exchanger that has a corrugated plate pack inside a shell (from http://data.posccaesar.org/rdl/RDS441719).",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1576",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1576",
     "telemetryTopic": "opcua/DEXPI/PlateAndShellHeatExchangerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4724,7 +4724,7 @@
     "displayName": "CentrifugalPumpType",
     "description": "A dynamic pump utilizing impellers provided with vanes generating centrifugal force to achieve the required pressure head (from http://data.posccaesar.org/rdl/RDS416834).",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1584",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1584",
     "telemetryTopic": "opcua/DEXPI/CentrifugalPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4771,7 +4771,7 @@
     "displayName": "TubeBundleType",
     "description": "A bundle that consists of several tubes assembled together allowing multiple flow paths from a single source (from http://data.posccaesar.org/rdl/RDS415259). Association to Chamber (Chamber)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1592",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1592",
     "telemetryTopic": "opcua/DEXPI/TubeBundleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4779,7 +4779,7 @@
         "@id": "dtmi:opcua:DEXPI:TubeBundleType:dataType:NominalDiameterStandardClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NominalDiameterStandardClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1032",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -5120,7 +5120,7 @@
     "displayName": "ColumnTraysArrangementType",
     "description": "The trays of a column.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1603",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1603",
     "telemetryTopic": "opcua/DEXPI/ColumnTraysArrangementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5168,7 +5168,7 @@
     "displayName": "SpecialPumpType",
     "description": "A Pump that is not covered by any of the sibling classes of SpecialPump.",
     "extends": "dtmi:opcua:DEXPI:PumpType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1607",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1607",
     "telemetryTopic": "opcua/DEXPI/SpecialPumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5232,7 +5232,7 @@
     "displayName": "FilterType",
     "description": "A separator intended to remove solids from vapour or liquid (from http://data.posccaesar.org/rdl/RDS300689).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1619",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1619",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5255,7 +5255,7 @@
     "displayName": "AirEjectorType",
     "description": "An ejector intended to create vacuum using compressed air (from http://data.posccaesar.org/rdl/RDS5770157).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1620",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1620",
     "telemetryTopic": "opcua/DEXPI/AirEjectorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5295,7 +5295,7 @@
     "displayName": "StaticMixerType",
     "description": "A physical object that is intended to mix fluid by means of diverging the flow with static obstacles or by increasing locally the velocity.",
     "extends": "dtmi:opcua:DEXPI:MixerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1625",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1625",
     "telemetryTopic": "opcua/DEXPI/StaticMixerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5326,7 +5326,7 @@
     "displayName": "ImpellerType",
     "description": "A physical object that is an assembly of rotating vanes within an enclosure which is used to impart energy to or derive energy from a fluid through dynamic force (from http://data.posccaesar.org/rdl/RDS414539). Association to Chamber (Chamber)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1629",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1629",
     "telemetryTopic": "opcua/DEXPI/ImpellerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5373,7 +5373,7 @@
     "displayName": "CompressorEquipmentType",
     "description": "Equipment of a Compressor.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1636",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1636",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5396,7 +5396,7 @@
     "displayName": "AgitatorType",
     "description": "A dynamic mixer that stir or shake fluids by reaction force from moving vanes (from http://data.posccaesar.org/rdl/RDS16045622).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1637",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1637",
     "telemetryTopic": "opcua/DEXPI/AgitatorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5444,7 +5444,7 @@
     "displayName": "AxialCompressorType",
     "description": "A dynamic compressor in which the gas is accelerated by the action of a bladed rotor and where the main flow is along the rotation axis of the rotor (from http://data.posccaesar.org/rdl/RDS417239).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1645",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1645",
     "telemetryTopic": "opcua/DEXPI/AxialCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5492,7 +5492,7 @@
     "displayName": "ShellAndTubeHeatExchangerType",
     "description": "A tubular heat exchanger in which a tube bundle is surrounded by a shell (from http://data.posccaesar.org/rdl/RDS419084).",
     "extends": "dtmi:opcua:DEXPI:HeatExchangerType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1653",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1653",
     "telemetryTopic": "opcua/DEXPI/ShellAndTubeHeatExchangerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5531,7 +5531,7 @@
     "displayName": "DisplacerType",
     "description": "A displacer. Association to Chamber (Chamber)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1656",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1656",
     "telemetryTopic": "opcua/DEXPI/DisplacerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5579,7 +5579,7 @@
     "displayName": "TankType",
     "description": "A vessel intended to contain fluid for storage. Typically a receiving or collecting function for further distribution. Typically with a vertical and cylindrical or square shape and a flat or conical bottom (from http://data.posccaesar.org/rdl/RDS445139).",
     "extends": "dtmi:opcua:DEXPI:VesselType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1663",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1663",
     "telemetryTopic": "opcua/DEXPI/TankType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5611,7 +5611,7 @@
     "displayName": "ProcessColumnType",
     "description": "A vertical vessel intended to enable chemical reactions or physical processes utilising differences in density of fluids and/or forced flow of fluid (from http://data.posccaesar.org/rdl/RDS4316825224).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1667",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1667",
     "telemetryTopic": "opcua/DEXPI/ProcessColumnType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5650,7 +5650,7 @@
     "displayName": "AgitatorRotorType",
     "description": "An agitator rotor. Association to Chamber (Chamber)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1672",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1672",
     "telemetryTopic": "opcua/DEXPI/AgitatorRotorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5705,7 +5705,7 @@
     "displayName": "EquipmentType",
     "description": "A piece of equipment. Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1682",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1682",
     "telemetryTopic": "opcua/DEXPI/EquipmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5785,7 +5785,7 @@
     "displayName": "LiquidFilterType",
     "description": "A filter that is specifically designed to filter a liquid.",
     "extends": "dtmi:opcua:DEXPI:FilterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1694",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1694",
     "telemetryTopic": "opcua/DEXPI/LiquidFilterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5849,7 +5849,7 @@
     "displayName": "RotaryCompressorType",
     "description": "A positive displacement compressor in which compression displacement is effected by the positive action of rotating elements (from http://data.posccaesar.org/rdl/RDS435374).",
     "extends": "dtmi:opcua:DEXPI:CompressorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1708",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1708",
     "telemetryTopic": "opcua/DEXPI/RotaryCompressorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5897,7 +5897,7 @@
     "displayName": "PumpType",
     "description": "A physical object that is a driven piece of equipment in which energy is either constantly or periodically added to an amount of pumped liquid in order to increase the pressure required for the process in which the pump is in operation (from http://data.posccaesar.org/rdl/RDS327239).",
     "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1716",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1716",
     "telemetryTopic": "opcua/DEXPI/PumpType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5944,7 +5944,7 @@
     "displayName": "PipingNetworkSystemType",
     "description": "A fluid system of interconnected piping network branches limited by Unit Operation Inlet/Outlet and Piping Network Terminators. In this context Piping includes e.g. plumbing and tubing (from http://data.posccaesar.org/rdl/RDS270359). Association to ParentStructure (TechnicalItemParentStructure) Association to PlantTrain (PlantTrain) Association to PlantSystem (PlantSystem) Association to AreaIsa95 (AreaIsa95)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1726",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1726",
     "telemetryTopic": "opcua/DEXPI/PipingNetworkSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -5952,7 +5952,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSystemType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -5981,7 +5981,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSystemType:dataType:JacketedPipeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JacketedPipeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1052",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1052",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -5998,7 +5998,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSystemType:dataType:NominalDiameterStandardClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NominalDiameterStandardClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1032",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -6267,7 +6267,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSystemType:dataType:OnHoldClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OnHoldClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -6451,7 +6451,7 @@
     "displayName": "PipingNetworkSegmentItemType",
     "description": "An item that can be part of a PipingNetworkSegment.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1754",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1754",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6474,7 +6474,7 @@
     "displayName": "TurbineFlowMeterType",
     "description": "A velocity flow meter that uses a multi bladed rotor to measure fluid flow rate in units of volumetric flow through a closed conduit (from http://data.posccaesar.org/rdl/RDS417914).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1755",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1755",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6497,7 +6497,7 @@
     "displayName": "AngleValveType",
     "description": "A valve that has valve ports which are not in-line (from http://data.posccaesar.org/rdl/RDS5789384).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1756",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1756",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6520,7 +6520,7 @@
     "displayName": "StrainerType",
     "description": "A mechanical separator that is separating solid particles from a fluid by passing the fluid through a wire mesh, screen or metal plates containing perforations or slits (from http://data.posccaesar.org/rdl/RDS422504).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1757",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1757",
     "telemetryTopic": "opcua/DEXPI/StrainerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6528,7 +6528,7 @@
         "@id": "dtmi:opcua:DEXPI:StrainerType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -6637,7 +6637,7 @@
     "displayName": "FunnelType",
     "description": "A hollow cone with a tube extending from the smaller end and that is designed to catch and direct a downward flow (from http://data.posccaesar.org/rdl/RDS6689917).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1770",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1770",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6660,7 +6660,7 @@
     "displayName": "NeedleValveType",
     "description": "A globe valve that has a closure member with the shape of a conical plug (needle) which closes into a small seat (from http://data.posccaesar.org/rdl/RDS421064).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1771",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1771",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6683,7 +6683,7 @@
     "displayName": "InLineMixerType",
     "description": "A static mixer that is intended to be supported by connected equipment. Typically supported by piping (from http://data.posccaesar.org/rdl/RDS43167562195).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1772",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1772",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6706,7 +6706,7 @@
     "displayName": "CheckValveType",
     "description": "A valve that permits fluid to flow in one direction only (from http://data.posccaesar.org/rdl/RDS292229).",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1773",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1773",
     "telemetryTopic": "opcua/DEXPI/CheckValveType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6714,7 +6714,7 @@
         "@id": "dtmi:opcua:DEXPI:CheckValveType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -6822,7 +6822,7 @@
     "displayName": "PipeConnectorSymbolType",
     "description": "A pipe connector symbol. It is usually drawn as an arrow.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1786",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1786",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6853,7 +6853,7 @@
     "displayName": "FlangeType",
     "description": "A physical object that is a projecting flat rim, plate,collar, or rib (from http://data.posccaesar.org/rdl/RDS13307654).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1788",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1788",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6876,7 +6876,7 @@
     "displayName": "AngleBallValveType",
     "description": "An angle ball valve.",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1789",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1789",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6899,7 +6899,7 @@
     "displayName": "BallValveType",
     "description": "A rotary valve that has a ball closure member (from http://data.posccaesar.org/rdl/RDS416654).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1790",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1790",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6922,7 +6922,7 @@
     "displayName": "PlugValveType",
     "description": "A rotary valve that has a quarter turn action in which the closure member is a cylindrical or tapered plug which operates by rotating on its axis and sealing against a downstream seat (from http://data.posccaesar.org/rdl/RDS421109).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1791",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1791",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6945,7 +6945,7 @@
     "displayName": "CompensatorType",
     "description": "A device compensating for axial or radial movement between two elements that is connected (from http://data.posccaesar.org/rdl/RDS1280084541).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1792",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1792",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -6968,7 +6968,7 @@
     "displayName": "InlinePrimaryElementType",
     "description": "An inline primary element.",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1793",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1793",
     "telemetryTopic": "opcua/DEXPI/InlinePrimaryElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -6976,7 +6976,7 @@
         "@id": "dtmi:opcua:DEXPI:InlinePrimaryElementType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -7077,7 +7077,7 @@
     "displayName": "FlangedConnectionType",
     "description": "A flanged connection.",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1805",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1805",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7100,7 +7100,7 @@
     "displayName": "HoseType",
     "description": "A tubular which is flexible and capable of conveying liquids under pressure (from http://data.posccaesar.org/rdl/RDS302174).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1806",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1806",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7122,7 +7122,7 @@
     "displayName": "PipingSourceItemType",
     "description": "An item that can be the source of a PipingConnection (attribute SourceItem) or a PipingNetworkSegment (attribute SourceItem).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1807",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1807",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7145,7 +7145,7 @@
     "displayName": "AngleGlobeValveType",
     "description": "A globe valve that deviates from the in-line design, i.e. with a body shape designed to adjust the flow direction with a specified angle relative to the straight through-flow an in-line valve would have provided for (from http://data.posccaesar.org/rdl/RDS882944).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1808",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1808",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7168,7 +7168,7 @@
     "displayName": "PositiveDisplacementFlowMeterType",
     "description": "A flow meter that measures the volumetric flow rate of a liquid or gas by separating the flow stream into known volumes and counting them over time (from http://data.posccaesar.org/rdl/RDS418094).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1809",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1809",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7191,7 +7191,7 @@
     "displayName": "VariableAreaFlowMeterType",
     "description": "A flow meter consisting of a vertical tube with a conically shaped bore which widens to the top in which a solid body (float) is supported by the force exerted by the fluid stream (from http://data.posccaesar.org/rdl/RDS418229).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1810",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1810",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7214,7 +7214,7 @@
     "displayName": "ElectromagneticFlowMeterType",
     "description": "A velocity flow meter that is measuring flow rate of a conductive fluid running through a magnetic field by measuring the charge created when fluid interacting with the field (from http://data.posccaesar.org/rdl/RDS1009664).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1811",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1811",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7237,7 +7237,7 @@
     "displayName": "SteamTrapType",
     "description": "A trap that consists of a chamber into which condensed steam from steam pipes etc. is allowed to drain, and which automatically ejects it without permitting the escape of steam (from http://data.posccaesar.org/rdl/RDS5782388).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1812",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1812",
     "telemetryTopic": "opcua/DEXPI/SteamTrapType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7245,7 +7245,7 @@
         "@id": "dtmi:opcua:DEXPI:SteamTrapType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -7354,7 +7354,7 @@
     "displayName": "IlluminatedSightGlassType",
     "description": "An illuminated sight glass.",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1825",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1825",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7376,7 +7376,7 @@
     "displayName": "PipingTargetItemType",
     "description": "An item that can be the target of a PipingConnection (attribute TargetItem) or a PipingNetworkSegment (attribute TargetItem).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1826",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1826",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7399,7 +7399,7 @@
     "displayName": "FlowInPipeConnectorSymbolType",
     "description": "A pipe connector symbol that indicates that a preceding part of a PipingNetworkSegment is represented somewhere else, either on the same P&ID, or on some other P&ID.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1827",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1827",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7430,7 +7430,7 @@
     "displayName": "FlowOutPipeConnectorSymbolType",
     "description": "A pipe connector symbol that indicates that a subsequent part of a PipingNetworkSegment is represented somewhere else, either on the same P&ID, or on some other P&ID.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1829",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1829",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7461,7 +7461,7 @@
     "displayName": "SpringLoadedGlobeSafetyValveType",
     "description": "A spring-loaded globe safety valve.",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1831",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1831",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7484,7 +7484,7 @@
     "displayName": "SilencerType",
     "description": "A device intended to reduce a noise level (from http://data.posccaesar.org/rdl/RDS1049368591).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1832",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1832",
     "telemetryTopic": "opcua/DEXPI/SilencerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7492,7 +7492,7 @@
         "@id": "dtmi:opcua:DEXPI:SilencerType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -7601,7 +7601,7 @@
     "displayName": "ShutOffValveType",
     "description": "A shut off valve.",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1845",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1845",
     "telemetryTopic": "opcua/DEXPI/ShutOffValveType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -7609,7 +7609,7 @@
         "@id": "dtmi:opcua:DEXPI:ShutOffValveType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -7638,7 +7638,7 @@
         "@id": "dtmi:opcua:DEXPI:ShutOffValveType:dataType:NumberOfPortsClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NumberOfPortsClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1022",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1022",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -7659,7 +7659,7 @@
         "@id": "dtmi:opcua:DEXPI:ShutOffValveType:dataType:OperationClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperationClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1046",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1046",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -7772,7 +7772,7 @@
     "displayName": "DirectPipingConnectionType",
     "description": "A direct connection between two piping items, i.e. a connection that is not realized by a pipe. Association to SourceItem (PipingSourceItem) Association to TargetItem (PipingTargetItem) Association to SourceNode (PipingNode) Association to TargetNode (PipingNode)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1860",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1860",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7795,7 +7795,7 @@
     "displayName": "FlowDetectorType",
     "description": "A detector that is intended to detect whether a fluid flow exists (from http://data.posccaesar.org/rdl/RDS1008719).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1865",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1865",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7818,7 +7818,7 @@
     "displayName": "ConicalStrainerType",
     "description": "A strainer where the screen has a conical tubular shape (from http://data.posccaesar.org/rdl/RDS16044540).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1866",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1866",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7841,7 +7841,7 @@
     "displayName": "SightGlassType",
     "description": "A physical object that is transparent and intended for viewing a vessel or piping system interior (from http://data.posccaesar.org/rdl/RDS648674).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1867",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1867",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7864,7 +7864,7 @@
     "displayName": "BreatherValveType",
     "description": "A breather valve.",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1868",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1868",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7887,7 +7887,7 @@
     "displayName": "GlobeValveType",
     "description": "A valve that is a valve where the closure member is a disc or piston operating with linear motion normal to the flat or shaped seat (from http://data.posccaesar.org/rdl/RDS416204).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1869",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1869",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7910,7 +7910,7 @@
     "displayName": "PipeFlangeSpacerType",
     "description": "A 'spacer' and an 'artefact' that is intended to be inserted between two pipe flanged ends to provide the distance between the flanges required to insert a 'pipe flange spade' (from http://data.posccaesar.org/rdl/RDS472724).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1870",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1870",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7933,7 +7933,7 @@
     "displayName": "BlindFlangeType",
     "description": "A pipe flange that is without a central opening and used to shut off a flanged pipe end (from http://data.posccaesar.org/rdl/RDS414719).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1871",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1871",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7956,7 +7956,7 @@
     "displayName": "RuptureDiscType",
     "description": "A physical object that is designed to burst at a certain excess pressure. It is part of a rupture disc assembly (from http://data.posccaesar.org/rdl/RDS8372601).",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1872",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1872",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -7979,7 +7979,7 @@
     "displayName": "StraightwayValveType",
     "description": "A valve that is straight, i.e. the centerlines perpendicular to the ends are in-line with no offset (from http://data.posccaesar.org/rdl/RDS9390905).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1873",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1873",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8002,7 +8002,7 @@
     "displayName": "GlobeCheckValveType",
     "description": "A globe chack valve.",
     "extends": "dtmi:opcua:DEXPI:CheckValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1874",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1874",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8025,7 +8025,7 @@
     "displayName": "PipeTeeType",
     "description": "An 'artefact' that has three piping ends in T-shape, including a branch at 90 degrees (from http://data.posccaesar.org/rdl/RDS427724).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1875",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1875",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8048,7 +8048,7 @@
     "displayName": "SpringLoadedAngleGlobeSafetyValveType",
     "description": "A spring-loaded angle globe safety valve.",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1876",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1876",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8071,7 +8071,7 @@
     "displayName": "PipeFittingType",
     "description": "A pipe fitting.",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1877",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1877",
     "telemetryTopic": "opcua/DEXPI/PipeFittingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8079,7 +8079,7 @@
         "@id": "dtmi:opcua:DEXPI:PipeFittingType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8188,7 +8188,7 @@
     "displayName": "PipeType",
     "description": "An elementary piece of piping, i.e., not interrupted by any item. Association to SourceItem (PipingSourceItem) Association to TargetItem (PipingTargetItem) Association to SourceNode (PipingNode) Association to TargetNode (PipingNode)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1890",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1890",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8211,7 +8211,7 @@
     "displayName": "VolumetricFlowDetectorType",
     "description": "A volumetric flow detector.",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1895",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1895",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8234,7 +8234,7 @@
     "displayName": "PipeFlangeSpadeType",
     "description": "A 'line blind' and an 'artefact' that is a circular plate with no central opening and holes to match mating flanged ends. It is also equipped with a handle (from http://data.posccaesar.org/rdl/RDS472679).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1896",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1896",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8257,7 +8257,7 @@
     "displayName": "ClampedFlangeCouplingType",
     "description": "A clamped flange coupling.",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1897",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1897",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8279,7 +8279,7 @@
     "displayName": "PipingNetworkSegmentType",
     "description": "The piping limited by a Node and a Break, Node and Connector, two Nodes, two Breaks, two Connectors or a Break and a Connector. The last five providing there are no Breaks or Connectors in between. In the last three cases the Segment will coincide with a Piping Branch (from http://data.posccaesar.org/rdl/RDS267704). Association to SourceItem (PipingSourceItem) Association to SourceNode (PipingNode) Association to TargetItem (PipingTargetItem) Association to TargetNode (PipingNode)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1898",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1898",
     "telemetryTopic": "opcua/DEXPI/PipingNetworkSegmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8287,7 +8287,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentFlowClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PipingNetworkSegmentFlowClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8304,7 +8304,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8333,7 +8333,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:JacketedPipeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JacketedPipeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1052",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1052",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8350,7 +8350,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:NominalDiameterStandardClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NominalDiameterStandardClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1032",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8619,7 +8619,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:OnHoldClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OnHoldClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8636,7 +8636,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PrimarySecondaryPipingNetworkSegmentClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PrimarySecondaryPipingNetworkSegmentClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1042",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1042",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8653,7 +8653,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:SiphonClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SiphonClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1000",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1000",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8670,7 +8670,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentSlopeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PipingNetworkSegmentSlopeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1034",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1034",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8903,7 +8903,7 @@
     "displayName": "PenetrationType",
     "description": "A device intended to provide a penetration (from http://data.posccaesar.org/rdl/RDS13068275).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1936",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1936",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8926,7 +8926,7 @@
     "displayName": "SwingCheckValveType",
     "description": "A check valve that is a check valve where the closure member is a disc which swings freely on a hinge and which opens automatically when flow is established and closes automatically when flow ceases or is reversed (from http://data.posccaesar.org/rdl/RDS610424).",
     "extends": "dtmi:opcua:DEXPI:CheckValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1937",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1937",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -8948,7 +8948,7 @@
     "displayName": "PropertyBreakType",
     "description": "A symbol indicating a change in the piping properties.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1938",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1938",
     "telemetryTopic": "opcua/DEXPI/PropertyBreakType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -8956,7 +8956,7 @@
         "@id": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:CompositionBreakClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CompositionBreakClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1026",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1026",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8973,7 +8973,7 @@
         "@id": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:InsulationBreakClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "InsulationBreakClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1030",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1030",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -8990,7 +8990,7 @@
         "@id": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:NominalDiameterBreakClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NominalDiameterBreakClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1048",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1048",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9007,7 +9007,7 @@
         "@id": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:PipingClassBreakClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PipingClassBreakClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1016",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9080,7 +9080,7 @@
     "displayName": "SafetyValveOrFittingType",
     "description": "A safety valve or fitting.",
     "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1944",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1944",
     "telemetryTopic": "opcua/DEXPI/SafetyValveOrFittingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -9152,7 +9152,7 @@
     "displayName": "VenturiTubeType",
     "description": "A 'measuring device' that has a constriction with a relative long passage with a smooth coned entry and exit (from http://data.posccaesar.org/rdl/RDS648044).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1955",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1955",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9175,7 +9175,7 @@
     "displayName": "FlowNozzleType",
     "description": "A nozzle with a smooth entry and a sharp exit (from http://data.posccaesar.org/rdl/RDS821024).",
     "extends": "dtmi:opcua:DEXPI:InlinePrimaryElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1956",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1956",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9198,7 +9198,7 @@
     "displayName": "AnglePlugValveType",
     "description": "An angle plug valve.",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1957",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1957",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9221,7 +9221,7 @@
     "displayName": "VentilationDeviceType",
     "description": "A 'device' that allows gas or vapour to leave a container under excess pressure (from http://data.posccaesar.org/rdl/RDS1049335351).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1958",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1958",
     "telemetryTopic": "opcua/DEXPI/VentilationDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -9229,7 +9229,7 @@
         "@id": "dtmi:opcua:DEXPI:VentilationDeviceType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9338,7 +9338,7 @@
     "displayName": "PipeCouplingType",
     "description": "An 'artefact' that is a one-piece cylindrical section intended to join pipes and/or piping components (from http://data.posccaesar.org/rdl/RDS415664).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1971",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1971",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9361,7 +9361,7 @@
     "displayName": "FlameArrestorType",
     "description": "An 'arrestor' which is a trap covering an opening, e.g of a ventilation system or a pipe, to prevent flames from entering the system (from http://data.posccaesar.org/rdl/RDS1325028651).",
     "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1972",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1972",
     "telemetryTopic": "opcua/DEXPI/FlameArrestorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -9369,7 +9369,7 @@
         "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:DetonationProofArtefactClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DetonationProofArtefactClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1024",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1024",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9386,7 +9386,7 @@
         "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:ExplosionProofArtefactClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ExplosionProofArtefactClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1014",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1014",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9403,7 +9403,7 @@
         "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:FireResistantArtefactClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FireResistantArtefactClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9460,7 +9460,7 @@
     "displayName": "OrificePlateType",
     "description": "An 'artefact' that is a thin plate with a specified hole in the middle. It is usually placed in a pipe to measure the rate of fluid flow (from http://data.posccaesar.org/rdl/RDS418364).",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1976",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1976",
     "telemetryTopic": "opcua/DEXPI/OrificePlateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -9468,7 +9468,7 @@
         "@id": "dtmi:opcua:DEXPI:OrificePlateType:dataType:HeatTracingTypeClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "HeatTracingTypeClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9576,7 +9576,7 @@
     "displayName": "PipingConnectionType",
     "description": "An elementary connection between two piping items. Association to SourceItem (PipingSourceItem) Association to TargetItem (PipingTargetItem) Association to SourceNode (PipingNode) Association to TargetNode (PipingNode)",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1989",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1989",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9599,7 +9599,7 @@
     "displayName": "ButterflyValveType",
     "description": "A rotary valve that has a closure member of a disc type with a shaft parallel, or near parallel, to the plane of the disc, with an axis of rotation transverse to the flow direction (from http://data.posccaesar.org/rdl/RDS416609).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1994",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1994",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9621,7 +9621,7 @@
     "displayName": "PipingComponentType",
     "description": "A piping component",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1995",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1995",
     "telemetryTopic": "opcua/DEXPI/PipingComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -9629,7 +9629,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingComponentType:dataType:OnHoldClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OnHoldClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9646,7 +9646,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingComponentType:dataType:PipingClassArtefactClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PipingClassArtefactClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1036",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1036",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9735,7 +9735,7 @@
     "displayName": "GateValveType",
     "description": "A valve that is a valve where the closure member is a gate or disc with a linear motion parallel, or nearly parallel, to the plane of flat seats, which are transverse to the direction of flow (from http://data.posccaesar.org/rdl/RDS416519).",
     "extends": "dtmi:opcua:DEXPI:ShutOffValveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9758,7 +9758,7 @@
     "displayName": "PipeReducerType",
     "description": "An 'artefact' that has different nominal pipe size at the two ends, intended to connect pipes or piping components (from http://data.posccaesar.org/rdl/RDS416294).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9781,7 +9781,7 @@
     "displayName": "LineBlindType",
     "description": "A functional unit used to blind off a process stream (from http://data.posccaesar.org/rdl/RDS280034).",
     "extends": "dtmi:opcua:DEXPI:PipeFittingType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9803,7 +9803,7 @@
     "displayName": "PipingNodeOwnerType",
     "description": "An object that can have PipingNodes.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -9833,7 +9833,7 @@
     "displayName": "PipingNodeType",
     "description": "A possible connection point for a PipingConnection.",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2008",
     "telemetryTopic": "opcua/DEXPI/PipingNodeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -9841,7 +9841,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNodeType:dataType:NodeFlowClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NodeFlowClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1028",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1028",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -9858,7 +9858,7 @@
         "@id": "dtmi:opcua:DEXPI:PipingNodeType:dataType:NominalDiameterStandardClassification;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "NominalDiameterStandardClassification",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1032",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -10182,7 +10182,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "RotationalSpeedType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2014",
     "telemetryTopic": "opcua/DEXPI/RotationalSpeedType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10219,7 +10219,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "HeatTransferCoefficientType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2018",
     "telemetryTopic": "opcua/DEXPI/HeatTransferCoefficientType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10256,7 +10256,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "TemperatureType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2022",
     "telemetryTopic": "opcua/DEXPI/TemperatureType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10292,7 +10292,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PhysicalQuantityType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2026",
     "telemetryTopic": "opcua/DEXPI/PhysicalQuantityType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10322,7 +10322,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AreaType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2029",
     "telemetryTopic": "opcua/DEXPI/AreaType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10359,7 +10359,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VolumeFlowRateType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2033",
     "telemetryTopic": "opcua/DEXPI/VolumeFlowRateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10396,7 +10396,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PowerType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2037",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2037",
     "telemetryTopic": "opcua/DEXPI/PowerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10433,7 +10433,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "LengthType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2041",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2041",
     "telemetryTopic": "opcua/DEXPI/LengthType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10470,7 +10470,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PercentageType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2045",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2045",
     "telemetryTopic": "opcua/DEXPI/PercentageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10507,7 +10507,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "VolumeType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2049",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2049",
     "telemetryTopic": "opcua/DEXPI/VolumeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10544,7 +10544,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "MassType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2053",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2053",
     "telemetryTopic": "opcua/DEXPI/MassType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10581,7 +10581,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "PressureType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2057",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2057",
     "telemetryTopic": "opcua/DEXPI/PressureType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -10618,7 +10618,7 @@
     "ontology": "http://opcfoundation.org/UA/DEXPI",
     "displayName": "AngleType",
     "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=2061",
+    "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2061",
     "telemetryTopic": "opcua/DEXPI/AngleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [

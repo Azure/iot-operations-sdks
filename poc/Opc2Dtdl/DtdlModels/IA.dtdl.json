@@ -15,7 +15,7 @@
     "displayName": "AcousticSignalType",
     "description": "Represents an acoustic signal.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1009",
     "commandTopic": "opcua/IA/AcousticSignalType/{commandName}",
     "telemetryTopic": "opcua/IA/AcousticSignalType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -56,7 +56,7 @@
     "displayName": "BaseCalibrationTargetCategoryType",
     "description": "Abstract base type for categorizing calibration targets. Subtypes define the concrete categories.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1014",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -79,7 +79,7 @@
     "displayName": "DynamicCalibrationTargetCategoryType",
     "description": "Characterizes a calibration target to be used together with a measurement instrument, that determines the values to be calibrated. It can be a piece created during the normal production process or an item specifically created for calibration purposes. The calibration target represents an individual piece or item, that is, if a new piece should be used or item is created, a new Object of this ObjectType is created.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1018",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -102,7 +102,7 @@
     "displayName": "OneTimeCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be used only once, for example because the calibration destroys the target. Typically, Objects of this ObjectType do not represent one individual calibration target, but a batch of calibration targets with the same characteristics.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1017",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -125,7 +125,7 @@
     "displayName": "ReusableCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be reused several times. For example, a calibration target like a meter, that is bought specifically for calibration and not destroyed by an individual usage is of this category.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1015",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -148,7 +148,7 @@
     "displayName": "ReusableDeviceCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be a reusable device that produces a certain environment like pressure that can be used for calibration.",
     "extends": "dtmi:opcua:IA:ReusableCalibrationTargetCategoryType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1016",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -170,7 +170,7 @@
     "displayName": "IStatisticsType",
     "description": "Base interface for managing statistical data.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1011",
     "commandTopic": "opcua/IA/IStatisticsType/{commandName}",
     "telemetryTopic": "opcua/IA/IStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -210,7 +210,7 @@
     "displayName": "IAggregateStatisticsType",
     "description": "Base interface for managing statistical data that is not rolled over all data from the start of tracking the statistical data are considered, until the tracking gets reset.",
     "extends": "dtmi:opcua:IA:IStatisticsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1012",
     "commandTopic": "opcua/IA/IAggregateStatisticsType/{commandName}",
     "telemetryTopic": "opcua/IA/IAggregateStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -243,7 +243,7 @@
     "displayName": "IRollingStatisticsType",
     "description": "Base interface for managing statistical data that is rolled over, i.e. only a certain amount of data is considered for statistical data.",
     "extends": "dtmi:opcua:IA:IStatisticsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1013",
     "commandTopic": "opcua/IA/IRollingStatisticsType/{commandName}",
     "telemetryTopic": "opcua/IA/IRollingStatisticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -286,7 +286,7 @@
     "displayName": "CalibrationTargetType",
     "description": "Provides information about a calibration target.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1019",
     "commandTopic": "opcua/IA/CalibrationTargetType/{commandName}",
     "telemetryTopic": "opcua/IA/CalibrationTargetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -382,7 +382,7 @@
     "displayName": "ControlChannelType",
     "description": "Used for control channels of single colour elements within a stack element (e.g. RGB elements would use three ControlChannels, one for each controllable colour).",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1008",
     "commandTopic": "opcua/IA/ControlChannelType/{commandName}",
     "telemetryTopic": "opcua/IA/ControlChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -392,7 +392,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalColor",
         "description": "Holds the possible colour values for stacklight lamps.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -434,7 +434,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalModeLight",
         "description": "Contains the values used to indicate in what way a lamp behaves when switched on.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -507,7 +507,7 @@
     "displayName": "BasicStacklightType",
     "description": "Entry point to a stacklight containing elements of the stacklight as well as additional information valid for the whole unit.",
     "extends": "dtmi:opcua:OpcUaCore:OrderedListType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1002",
     "commandTopic": "opcua/IA/BasicStacklightType/{commandName}",
     "telemetryTopic": "opcua/IA/BasicStacklightType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -517,7 +517,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "StacklightOperationMode",
         "description": "Contains the values used to indicate how a stacklight (as a whole unit) is used.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -585,7 +585,7 @@
     "displayName": "StacklightType",
     "description": "Entry point to a stacklight with the possibility to show the stacklight’s health status.",
     "extends": "dtmi:opcua:IA:BasicStacklightType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1010",
     "telemetryTopic": "opcua/IA/StacklightType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -594,7 +594,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DeviceHealthEnumeration",
         "description": "This device functions normally.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
+        "typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -655,7 +655,7 @@
     "displayName": "StackElementType",
     "description": "Base class for elements in a stacklight.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1005",
     "commandTopic": "opcua/IA/StackElementType/{commandName}",
     "telemetryTopic": "opcua/IA/StackElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -707,7 +707,7 @@
     "displayName": "StackElementAcousticType",
     "description": "Represents an acoustic element in a stacklight.",
     "extends": "dtmi:opcua:IA:StackElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1007",
     "telemetryTopic": "opcua/IA/StackElementAcousticType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -756,7 +756,7 @@
     "displayName": "StackElementLightType",
     "description": "Represents a lamp element in a stacklight.",
     "extends": "dtmi:opcua:IA:StackElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1006",
     "telemetryTopic": "opcua/IA/StackElementLightType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -765,7 +765,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalColor",
         "description": "Holds the possible colour values for stacklight lamps.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -807,7 +807,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SignalModeLight",
         "description": "Contains the values used to indicate in what way a lamp behaves when switched on.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -879,7 +879,7 @@
     "displayName": "StackLevelType",
     "description": "Contains information relevant to a stacklight operating as a level meter. The whole stack is controlled by a percentual value.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1003",
     "telemetryTopic": "opcua/IA/StackLevelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -888,7 +888,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "LevelDisplayMode",
         "description": "Contains the values used to indicate how a percentual value is displayed if the stacklight unit works in Levelmeter mode.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -940,7 +940,7 @@
     "displayName": "StackRunningType",
     "description": "Contains information relevant to a stacklight operating as a running light. This base type does not define any specific information, but can be extended.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IA;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
