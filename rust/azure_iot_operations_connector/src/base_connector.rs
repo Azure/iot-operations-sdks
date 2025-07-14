@@ -58,8 +58,8 @@ impl BaseConnector {
     /// Returns a String error if any of the setup fails, detailing the cause.
     #[must_use]
     pub fn new(
-        connector_artifacts: ConnectorArtifacts,
         application_context: ApplicationContext,
+        connector_artifacts: ConnectorArtifacts,
     ) -> Result<Self, String> {
         // Create Session
         let mqtt_connection_settings = connector_artifacts
