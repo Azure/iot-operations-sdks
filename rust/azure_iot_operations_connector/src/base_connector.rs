@@ -53,63 +53,53 @@ pub struct BaseConnector {
 
 impl BaseConnector {
     /// Creates a new [`BaseConnector`] and all required clients/etc needed to run connector operations.
-    /// On any failures, will log the error and then retry getting the connector configuration
-    /// with exponential backoff. This allows for new configuration to be deployed to fix any
-    /// errors without needing to restart the connector.
+    ///
+    /// # Errors
+    /// Returns a String error if any of the setup fails, detailing the cause.
     #[must_use]
     pub fn new(
         connector_artifacts: ConnectorArtifacts,
         application_context: ApplicationContext,
-    ) -> Self {
-        // if any of these operations fail, wait and try again in case connector configuration has changed
-        let (azure_device_registry_client, schema_registry_client, state_store_client, session) =
-            operation_with_retries::<(_, _, _, _), String>(|| {
-                // Create Session
-                let mqtt_connection_settings = connector_artifacts
-                    .to_mqtt_connection_settings("0")
-                    .map_err(|e| e.to_string())?;
-                let session_options = SessionOptionsBuilder::default()
-                    .connection_settings(mqtt_connection_settings.clone())
-                    // TODO: reconnect policy
-                    // TODO: outgoing_max
-                    .build()
-                    .map_err(|e| e.to_string())?;
-                let session = Session::new(session_options).map_err(|e| e.to_string())?;
+    ) -> Result<Self, String> {
+        // Create Session
+        let mqtt_connection_settings = connector_artifacts
+            .to_mqtt_connection_settings("0")
+            .map_err(|e| e.to_string())?;
+        let session_options = SessionOptionsBuilder::default()
+            .connection_settings(mqtt_connection_settings.clone())
+            // TODO: reconnect policy
+            // TODO: outgoing_max
+            .build()
+            .map_err(|e| e.to_string())?;
+        let session = Session::new(session_options).map_err(|e| e.to_string())?;
 
-                // Create clients
-                // Create Azure Device Registry Client
-                let azure_device_registry_client = azure_device_registry::Client::new(
-                    application_context.clone(),
-                    session.create_managed_client(),
-                    azure_device_registry::ClientOptions::default(),
-                )
-                .map_err(|e| e.to_string())?;
+        // Create clients
+        // Create Azure Device Registry Client
+        let azure_device_registry_client = azure_device_registry::Client::new(
+            application_context.clone(),
+            session.create_managed_client(),
+            azure_device_registry::ClientOptions::default(),
+        )
+        .map_err(|e| e.to_string())?;
 
-                // Create Schema Registry Client
-                let schema_registry_client = schema_registry::Client::new(
-                    application_context.clone(),
-                    &session.create_managed_client(),
-                );
+        // Create Schema Registry Client
+        let schema_registry_client = schema_registry::Client::new(
+            application_context.clone(),
+            &session.create_managed_client(),
+        );
 
-                // Create State Store Client
-                let state_store_client = state_store::Client::new(
-                    application_context.clone(),
-                    session.create_managed_client(),
-                    session.create_connection_monitor(),
-                    state_store::ClientOptionsBuilder::default()
-                        .build()
-                        .map_err(|e| e.to_string())?,
-                )
-                .map_err(|e| e.to_string())?;
+        // Create State Store Client
+        let state_store_client = state_store::Client::new(
+            application_context.clone(),
+            session.create_managed_client(),
+            session.create_connection_monitor(),
+            state_store::ClientOptionsBuilder::default()
+                .build()
+                .map_err(|e| e.to_string())?,
+        )
+        .map_err(|e| e.to_string())?;
 
-                Ok((
-                    azure_device_registry_client,
-                    schema_registry_client,
-                    state_store_client,
-                    session,
-                ))
-            });
-        Self {
+        Ok(Self {
             connector_context: Arc::new(ConnectorContext {
                 // TODO: validate these timeouts here once they come from somewhere
                 debounce_duration: Duration::from_secs(5), // TODO: come from somewhere
@@ -122,7 +112,7 @@ impl BaseConnector {
                 state_store_client: Arc::new(state_store_client),
             }),
             session,
-        }
+        })
     }
 
     /// Runs the MQTT Session that allows all Connector Operations to be performed
