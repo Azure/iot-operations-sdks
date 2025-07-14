@@ -3,22 +3,19 @@
 
 //! Types for Azure IoT Operations Connectors.
 
-use std::{
-    collections::HashMap,
-    path::PathBuf,
-    sync::{Arc, RwLock},
-};
+use std::{collections::HashMap, path::PathBuf, sync::Arc};
 
 use azure_iot_operations_services::{
     azure_device_registry::{
         self,
-        models::{self as adr_models},
+        models::{self as adr_models, Asset},
     },
     schema_registry,
 };
 use chrono::{DateTime, Utc};
 use thiserror::Error;
 use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
+use tokio::sync::watch;
 use tokio_retry2::{Retry, RetryError};
 use tokio_util::sync::CancellationToken;
 
@@ -126,11 +123,18 @@ impl DeviceEndpointClientCreationObservation {
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                     );
                     // unobserve as cleanup
-                    DeviceEndpointClient::unobserve_device(
-                        &self.connector_context,
-                        &device_endpoint_ref,
-                    )
-                    .await;
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens
+                    tokio::task::spawn({
+                        let connector_context_clone = self.connector_context.clone();
+                        async move {
+                            DeviceEndpointClient::unobserve_device(
+                                &connector_context_clone,
+                                &device_endpoint_ref,
+                            )
+                            .await;
+                        }
+                    });
                     continue;
                 }
             };
@@ -156,7 +160,19 @@ impl DeviceEndpointClientCreationObservation {
                 Err(e) => {
                     log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device Status after retries: {e}");
                     // unobserve as cleanup
-                    DeviceEndpointClient::unobserve_device(&self.connector_context, &device_endpoint_ref).await;
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens
+                    tokio::task::spawn(
+                        {
+                            let connector_context_clone = self.connector_context.clone();
+                            async move {
+                                DeviceEndpointClient::unobserve_device(
+                                    &connector_context_clone,
+                                    &device_endpoint_ref)
+                                .await;
+                            }
+                        }
+                    );
                     continue;
                 }
             };
@@ -178,11 +194,18 @@ impl DeviceEndpointClientCreationObservation {
                         "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
                     );
                     // unobserve as cleanup
-                    DeviceEndpointClient::unobserve_device(
-                        &self.connector_context,
-                        &device_endpoint_ref,
-                    )
-                    .await;
+                    // Spawn a new task to prevent a possible cancellation and ensure the unobserve
+                    // happens.
+                    tokio::task::spawn({
+                        let connector_context_clone = self.connector_context.clone();
+                        async move {
+                            DeviceEndpointClient::unobserve_device(
+                                &connector_context_clone,
+                                &device_endpoint_ref,
+                            )
+                            .await;
+                        }
+                    });
                     continue;
                 }
             };
@@ -197,10 +220,10 @@ pub struct DeviceEndpointClient {
     device_endpoint_ref: DeviceEndpointRef,
     /// The 'specification' Field.
     #[getter(skip)]
-    specification: Arc<RwLock<DeviceSpecification>>,
+    specification: Arc<std::sync::RwLock<DeviceSpecification>>,
     /// The 'status' Field.
     #[getter(skip)]
-    status: Arc<RwLock<DeviceEndpointStatus>>,
+    status: Arc<std::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
     /// The internal observation for updates
     #[getter(skip)]
@@ -221,7 +244,7 @@ impl DeviceEndpointClient {
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
         Ok(DeviceEndpointClient {
-            specification: Arc::new(RwLock::new(DeviceSpecification::new(
+            specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
                 device,
                 connector_context
                     .connector_artifacts
@@ -229,7 +252,7 @@ impl DeviceEndpointClient {
                     .as_ref(),
                 &device_endpoint_ref.inbound_endpoint_name,
             )?)),
-            status: Arc::new(RwLock::new(DeviceEndpointStatus::new(
+            status: Arc::new(std::sync::RwLock::new(DeviceEndpointStatus::new(
                 device_status,
                 &device_endpoint_ref.inbound_endpoint_name,
             ))),
@@ -274,7 +297,7 @@ impl DeviceEndpointClient {
         };
 
         log::debug!(
-            "reporting device endpoint status from app for {:?}",
+            "Reporting device endpoint status from app for {:?}",
             self.device_endpoint_ref
         );
         // send status update to the service
@@ -316,7 +339,7 @@ impl DeviceEndpointClient {
         };
 
         log::debug!(
-            "reporting device status from app for {:?}",
+            "Reporting device status from app for {:?}",
             self.device_endpoint_ref
         );
         // send status update to the service
@@ -366,7 +389,7 @@ impl DeviceEndpointClient {
         };
 
         log::debug!(
-            "reporting endpoint status from app for {:?}",
+            "Reporting endpoint status from app for {:?}",
             self.device_endpoint_ref
         );
         // send status update to the service
@@ -402,7 +425,17 @@ impl DeviceEndpointClient {
                     let Some((updated_device, _)) = update else {
                         // if the update notification is None, then the device endpoint has been deleted
                         // unobserve as cleanup
-                        Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
+                        // Spawn a new task to prevent a possible cancellation and ensure the deleted
+                        // notification reaches the application.
+                        tokio::task::spawn(
+                            {
+                                let connector_context_clone = self.connector_context.clone();
+                                let device_endpoint_ref_clone = self.device_endpoint_ref.clone();
+                                async move {
+                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone).await;
+                                }
+                            }
+                        );
                         return ClientNotification::Deleted;
                     };
                     // update self with updated specification
@@ -422,7 +455,17 @@ impl DeviceEndpointClient {
                         // if the create notification is None, then the device endpoint has been deleted
                         log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
                         // unobserve as cleanup
-                        Self::unobserve_device(&self.connector_context, &self.device_endpoint_ref).await;
+                        // Spawn a new task to prevent a possible cancellation and ensure the deleted
+                        // notification reaches the application.
+                        tokio::task::spawn(
+                            {
+                                let connector_context_clone = self.connector_context.clone();
+                                let device_endpoint_ref_clone = self.device_endpoint_ref.clone();
+                                async move {
+                                    Self::unobserve_device(&connector_context_clone, &device_endpoint_ref_clone).await;
+                                }
+                            }
+                        );
                         return ClientNotification::Deleted;
                     };
                     // Get asset update observation as well
@@ -500,7 +543,16 @@ impl DeviceEndpointClient {
                                 Err(e) => {
                                     log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset status after retries: {e}");
                                     // unobserve as cleanup
-                                    AssetClient::unobserve_asset(&self.connector_context, &asset_ref).await;
+                                    // Spawn a new task to prevent a possible cancellation and ensure
+                                    // the unobserve happens.
+                                    tokio::task::spawn(
+                                        {
+                                            let connector_context_clone = self.connector_context.clone();
+                                            async move {
+                                                AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
+                                            }
+                                        }
+                                    );
                                     continue;
                                 },
                             }
@@ -508,7 +560,16 @@ impl DeviceEndpointClient {
                         Err(e) => {
                             log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}");
                             // unobserve as cleanup
-                            AssetClient::unobserve_asset(&self.connector_context, &asset_ref).await;
+                            // Spawn a new task to prevent a possible cancellation and ensure the
+                            // unobserve happens.
+                            tokio::task::spawn(
+                                {
+                                    let connector_context_clone = self.connector_context.clone();
+                                    async move {
+                                        AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
+                                    }
+                                }
+                            );
                             continue;
                         }
                     };
@@ -600,16 +661,16 @@ pub struct AssetClient {
     asset_ref: AssetRef,
     /// Specification for the Asset
     #[getter(skip)]
-    specification: Arc<RwLock<AssetSpecification>>,
+    specification: Arc<std::sync::RwLock<AssetSpecification>>,
     /// Status for the Asset
     #[getter(skip)]
-    status: Arc<RwLock<adr_models::AssetStatus>>,
+    status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     /// Specification of the device that this Asset is tied to
     #[getter(skip)]
-    device_specification: Arc<RwLock<DeviceSpecification>>,
+    device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
     /// Status of the device that this Asset is tied to
     #[getter(skip)]
-    device_status: Arc<RwLock<DeviceEndpointStatus>>,
+    device_status: Arc<std::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
     /// Internal `CancellationToken` for when the Asset is deleted. Surfaced to the user through the receive update flow
     #[getter(skip)]
@@ -617,6 +678,11 @@ pub struct AssetClient {
     /// The internal observation for updates
     #[getter(skip)]
     asset_update_observation: azure_device_registry::AssetUpdateObservation,
+    /// Internal watcher receiver that holds a snapshot of the latest update and whether it has
+    /// been fully processed or not
+    asset_update_watcher_rx: watch::Receiver<Asset>,
+    /// Internal watcher sender that sends the latest update
+    asset_update_watcher_tx: watch::Sender<Asset>,
     /// Internal sender for when new datasets are created
     #[getter(skip)]
     dataset_creation_tx: UnboundedSender<DatasetClient>,
@@ -625,14 +691,14 @@ pub struct AssetClient {
     dataset_creation_rx: UnboundedReceiver<DatasetClient>,
     /// Internal watch sender for releasing dataset create/update notifications
     #[getter(skip)]
-    release_dataset_notifications_tx: tokio::sync::watch::Sender<()>,
+    release_dataset_notifications_tx: watch::Sender<()>,
     /// hashmap of current dataset names to their current definition and a sender to send dataset updates
     #[getter(skip)]
     dataset_hashmap: HashMap<
         String,
         (
             adr_models::Dataset,
-            UnboundedSender<DatasetUpdateNotification>,
+            watch::Sender<DatasetUpdateNotification>,
         ),
     >,
     #[getter(skip)]
@@ -645,92 +711,141 @@ impl AssetClient {
         asset: adr_models::Asset,
         asset_status: adr_models::AssetStatus,
         asset_ref: AssetRef,
-        device_specification: Arc<RwLock<DeviceSpecification>>,
-        device_status: Arc<RwLock<DeviceEndpointStatus>>,
+        device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+        device_status: Arc<std::sync::RwLock<DeviceEndpointStatus>>,
         asset_update_observation: azure_device_registry::AssetUpdateObservation,
         asset_deletion_token: CancellationToken,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
-        let status = Arc::new(RwLock::new(asset_status));
         let dataset_definitions = asset.datasets.clone();
+        let (asset_update_watcher_tx, asset_update_watcher_rx) = watch::channel(asset.clone());
         let specification = AssetSpecification::from(asset);
         let specification_version = specification.version;
         let (dataset_creation_tx, dataset_creation_rx) = mpsc::unbounded_channel();
 
-        // Create the default dataset destinations from the asset definition
-        let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
-            match destination_endpoint::Destination::new_dataset_destinations(
-                &specification.default_datasets_destinations,
-                &asset_ref.inbound_endpoint_name,
-                &connector_context,
-            ) {
-                Ok(res) => res.into_iter().map(Arc::new).collect(),
-                Err(e) => {
-                    log::error!(
-                        "Invalid default dataset destination for Asset {asset_ref:?}: {e:?}"
-                    );
-                    let adr_asset_status =
-                        Self::internal_asset_status(&status, Err(e), specification_version);
-                    // send status update to the service
-                    if let Err(e) = Self::internal_report_status(
-                        adr_asset_status,
-                        &connector_context,
-                        &asset_ref,
-                        &status,
-                        "AssetClient::new default_dataset_destination",
-                    )
-                    .await
-                    {
-                        log::error!(
-                            "Failed to report default dataset destination error Asset status for new asset {asset_ref:?}: {e}"
-                        );
-                    }
-                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
-                    vec![]
-                }
-            };
-
         // Create the AssetClient so that we can use the same helper functions for processing the datasets as we do during the update flow
         let mut asset_client = AssetClient {
             asset_ref,
-            specification: Arc::new(RwLock::new(specification)),
-            status,
+            specification: Arc::new(std::sync::RwLock::new(specification)),
+            status: Arc::new(tokio::sync::RwLock::new(asset_status)),
             device_specification,
             device_status,
             asset_update_observation,
+            asset_update_watcher_rx,
+            asset_update_watcher_tx,
             dataset_creation_tx,
             dataset_creation_rx,
             dataset_hashmap: HashMap::new(),
             connector_context,
-            release_dataset_notifications_tx: tokio::sync::watch::Sender::new(()),
+            release_dataset_notifications_tx: watch::Sender::new(()),
             asset_deletion_token,
         };
 
-        // if there are any config errors when creating the datasets, collect them all so we can report them at once
-        let mut dataset_config_errors = Vec::new();
+        {
+            // lock the status write guard so that no other threads can modify the status while we update it
+            // (not possible in new, but allows use of Self:: helper fns)
+            let mut status_write_guard = asset_client.status.write().await;
+            // if there are any config errors when parsing the asset, collect them all so we can report them at once
+            let mut new_status: adr_models::AssetStatus =
+                Self::current_status_to_modify(&status_write_guard, specification_version);
+            let mut status_updated = false;
 
-        // create the DatasetClients for each dataset in the definition, add them
-        // to our tracking for handling updates, and send the create notification
-        // to the dataset creation observation
-        for dataset_definition in dataset_definitions {
-            if let Err(e) =
-                asset_client.setup_new_dataset(dataset_definition, &default_dataset_destinations)
-            {
-                // If an error is returned, continue to process other datasets even if one isn't valid. Don't give this one to
-                // the application since we can't forward data on it. If there's an update to the
-                // definition, they'll get the create notification for it at that point if it's valid
-                dataset_config_errors.push(e);
+            // Create the default dataset destinations from the asset definition
+            let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
+                match destination_endpoint::Destination::new_dataset_destinations(
+                    &asset_client
+                        .specification
+                        .read()
+                        .unwrap()
+                        .default_datasets_destinations,
+                    &asset_client.asset_ref.inbound_endpoint_name,
+                    &asset_client.connector_context,
+                ) {
+                    Ok(res) => res.into_iter().map(Arc::new).collect(),
+                    Err(e) => {
+                        log::error!(
+                            "Invalid default dataset destination for Asset {:?}: {e:?}",
+                            asset_client.asset_ref
+                        );
+                        // Add this to the status to be reported to ADR
+                        new_status.config = Some(azure_device_registry::ConfigStatus {
+                            version: specification_version,
+                            error: Some(e),
+                            last_transition_time: Some(chrono::Utc::now()),
+                        });
+                        status_updated = true;
+                        // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
+                        vec![]
+                    }
+                };
+
+            // create the DatasetClients for each dataset in the definition, add them
+            // to our tracking for handling updates, and send the create notification
+            // to the dataset creation observation
+            for dataset_definition in dataset_definitions {
+                let (dataset_update_watcher_tx, dataset_update_watcher_rx) = watch::channel((
+                    dataset_definition.clone(),
+                    default_dataset_destinations.clone(),
+                    asset_client.release_dataset_notifications_tx.subscribe(),
+                ));
+                match DatasetClient::new(
+                    dataset_definition.clone(),
+                    dataset_update_watcher_rx,
+                    &default_dataset_destinations,
+                    asset_client.asset_ref.clone(),
+                    asset_client.status.clone(),
+                    asset_client.specification.clone(),
+                    asset_client.device_specification.clone(),
+                    asset_client.device_status.clone(),
+                    asset_client.connector_context.clone(),
+                ) {
+                    Ok(new_dataset_client) => {
+                        // insert the dataset client into the hashmap so we can handle updates
+                        asset_client.dataset_hashmap.insert(
+                            dataset_definition.name.clone(),
+                            (dataset_definition, dataset_update_watcher_tx),
+                        );
+
+                        // error is not possible since the receiving side of the channel is owned by the AssetClient
+                        let _ = asset_client.dataset_creation_tx.send(new_dataset_client);
+                    }
+                    Err(e) => {
+                        // Add the error to the status to be reported to ADR, and then continue to process
+                        // other datasets even if one isn't valid. Don't give this one to
+                        // the application since we can't forward data on it. If there's an update to the
+                        // definition, they'll get the create notification for it at that point if it's valid
+                        DatasetClient::update_dataset_status(
+                            &mut new_status,
+                            &dataset_definition.name,
+                            Err(e),
+                        );
+                        status_updated = true;
+                    }
+                };
+            }
+
+            // if there were any config errors, report them to the ADR service together
+            if status_updated {
+                log::debug!(
+                    "Reporting error asset status on new for {:?}",
+                    asset_client.asset_ref
+                );
+                if let Err(e) = Self::internal_report_status(
+                    new_status,
+                    &asset_client.connector_context,
+                    &asset_client.asset_ref,
+                    &mut status_write_guard,
+                    "AssetClient::new",
+                )
+                .await
+                {
+                    log::error!(
+                        "Failed to report error Asset status for new Asset {:?}: {e}",
+                        asset_client.asset_ref
+                    );
+                }
             }
         }
-
-        // if there were any config errors, report them to the ADR service
-        asset_client
-            .report_dataset_config_errors(
-                dataset_config_errors,
-                specification_version,
-                "AssetClient::new dataset_destination(s)",
-            )
-            .await;
 
         asset_client
     }
@@ -747,24 +862,215 @@ impl AssetClient {
     /// by the Azure Device Registry service.
     ///
     /// # Panics
-    /// if the specification or status mutexes have been poisoned, which should not be possible
+    /// if the specification mutex has been poisoned, which should not be possible
     pub async fn report_status(
         &self,
         status: Result<(), AdrConfigError>,
     ) -> Result<(), azure_device_registry::Error> {
+        let mut status_write_guard = self.status.write().await;
         let version = self.specification.read().unwrap().version;
-        let new_status = Self::internal_asset_status(&self.status, status, version);
+        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
+        let mut new_status = Self::current_status_to_modify(&status_write_guard, version);
+        // no matter whether we kept other fields or not, we will always fully replace the config status
+        new_status.config = Some(azure_device_registry::ConfigStatus {
+            version,
+            error: status.err(),
+            last_transition_time: Some(chrono::Utc::now()),
+        });
 
-        log::debug!("reporting asset status from app for {:?}", self.asset_ref);
+        log::debug!("Reporting asset status from app for {:?}", self.asset_ref);
         // send status update to the service
         Self::internal_report_status(
             new_status,
             &self.connector_context,
             &self.asset_ref,
-            &self.status,
+            &mut status_write_guard,
             "AssetClient::report_status",
         )
         .await
+    }
+
+    /// Helper function to handle an asset update
+    async fn handle_update(&mut self, updated_asset: Asset) -> ClientNotification<DatasetClient> {
+        // lock the status write guard so that no other threads can modify the status while we update it
+        let mut status_write_guard = self.status.write().await;
+        // if there are any config errors when parsing the asset, collect them all so we can report them at once
+        let mut new_status: adr_models::AssetStatus =
+            Self::current_status_to_modify(&status_write_guard, updated_asset.version);
+        let mut status_updated = false;
+
+        // make changes to a copy of the dataset_hashmap so that this function is cancel safe
+        let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
+        // update datasets
+        // remove the datasets that are no longer present in the new asset definition.
+        // This triggers deletion notification since this drops the update sender.
+        temp_dataset_hashmap.retain(|dataset_name, _| {
+            updated_asset
+                .datasets
+                .iter()
+                .any(|dataset| dataset.name == *dataset_name)
+        });
+
+        // Get the new default dataset destination and track whether it's different or not from the current one
+        let default_dataset_destination_updated = updated_asset.default_datasets_destinations
+            != self
+                .specification
+                .read()
+                .unwrap()
+                .default_datasets_destinations;
+        let default_dataset_destinations =
+            match destination_endpoint::Destination::new_dataset_destinations(
+                &updated_asset.default_datasets_destinations,
+                &self.asset_ref.inbound_endpoint_name,
+                &self.connector_context,
+            ) {
+                Ok(res) => res.into_iter().map(Arc::new).collect(),
+                Err(e) => {
+                    log::error!(
+                        "Invalid default dataset destination for Asset {:?}: {e:?}",
+                        self.asset_ref
+                    );
+                    // Add this to the status to be reported to ADR
+                    new_status.config = Some(azure_device_registry::ConfigStatus {
+                        version: updated_asset.version,
+                        error: Some(e),
+                        last_transition_time: Some(chrono::Utc::now()),
+                    });
+                    status_updated = true;
+                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
+                    vec![]
+                }
+            };
+
+        // track all datasets to update and save notifications for once the task can't be cancelled
+        let mut dataset_updates: Vec<(
+            watch::Sender<DatasetUpdateNotification>,
+            DatasetUpdateNotification,
+        )> = Vec::new();
+        let mut new_dataset_clients: Vec<DatasetClient> = Vec::new();
+
+        // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
+        for received_dataset_definition in &updated_asset.datasets {
+            // it already exists
+            if let Some((dataset_definition, dataset_update_tx)) =
+                temp_dataset_hashmap.get_mut(&received_dataset_definition.name)
+            {
+                // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
+                // otherwise, only send an update if the dataset definition has changed
+                if default_dataset_destination_updated
+                    || received_dataset_definition != dataset_definition
+                {
+                    // we need to make sure we have the updated definition for comparing next time
+                    *dataset_definition = received_dataset_definition.clone();
+                    // save update to send to the dataset after the task can't get cancelled
+                    dataset_updates.push((
+                        dataset_update_tx.clone(),
+                        (
+                            received_dataset_definition.clone(),
+                            default_dataset_destinations.clone(),
+                            self.release_dataset_notifications_tx.subscribe(),
+                        ),
+                    ));
+                } else {
+                    // TODO: copy over the existing dataset status for a new status report? (other bug)
+                }
+            }
+            // it needs to be created
+            else {
+                let (dataset_update_watcher_tx, dataset_update_watcher_rx) = watch::channel((
+                    received_dataset_definition.clone(),
+                    default_dataset_destinations.clone(),
+                    self.release_dataset_notifications_tx.subscribe(),
+                ));
+                match DatasetClient::new(
+                    received_dataset_definition.clone(),
+                    dataset_update_watcher_rx,
+                    &default_dataset_destinations,
+                    self.asset_ref.clone(),
+                    self.status.clone(),
+                    self.specification.clone(),
+                    self.device_specification.clone(),
+                    self.device_status.clone(),
+                    self.connector_context.clone(),
+                ) {
+                    Ok(new_dataset_client) => {
+                        // insert the dataset client into the hashmap so we can handle updates
+                        temp_dataset_hashmap.insert(
+                            received_dataset_definition.name.clone(),
+                            (
+                                received_dataset_definition.clone(),
+                                dataset_update_watcher_tx,
+                            ),
+                        );
+
+                        // save new dataset client to be sent on self.dataset_creation_tx after the task can't get cancelled
+                        new_dataset_clients.push(new_dataset_client);
+                    }
+                    Err(e) => {
+                        // Add the error to the status to be reported to ADR, and then continue to process
+                        // other datasets even if one isn't valid. Don't give this one to
+                        // the application since we can't forward data on it. If there's an update to the
+                        // definition, they'll get the create notification for it at that point if it's valid
+                        DatasetClient::update_dataset_status(
+                            &mut new_status,
+                            &received_dataset_definition.name,
+                            Err(e),
+                        );
+                        status_updated = true;
+                    }
+                };
+            }
+        }
+
+        // if there were any config errors, report them to the ADR service together
+        if status_updated {
+            log::debug!(
+                "Reporting error asset status on recv_notification for {:?}",
+                self.asset_ref
+            );
+            if let Err(e) = Self::internal_report_status(
+                new_status,
+                &self.connector_context,
+                &self.asset_ref,
+                &mut status_write_guard,
+                "AssetClient::recv_notification",
+            )
+            .await
+            {
+                log::error!(
+                    "Failed to report error Asset status for updated Asset {:?}: {e}",
+                    self.asset_ref
+                );
+            }
+        }
+
+        // update specification
+        let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        *unlocked_specification = AssetSpecification::from(updated_asset);
+
+        // update dataset_hashmap now that this task can't be cancelled
+        self.dataset_hashmap = temp_dataset_hashmap;
+
+        // send all notifications associated with this asset update
+        for (dataset_update_tx, dataset_update_notification) in dataset_updates {
+            // send update to the dataset
+            let _ = dataset_update_tx.send(dataset_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_dataset_definition, _,_))| {
+                // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
+                log::warn!(
+                    "Update received for dataset {} on asset {:?}, but DatasetClient has been dropped",
+                    e_dataset_definition.name,
+                    self.asset_ref
+                );
+            });
+        }
+        for new_dataset_client in new_dataset_clients {
+            // error is not possible since the receiving side of the channel is owned by the AssetClient
+            let _ = self.dataset_creation_tx.send(new_dataset_client);
+        }
+
+        // Asset update has been fully processed, mark as seen.
+        self.asset_update_watcher_rx.mark_unchanged();
+        ClientNotification::Updated
     }
 
     /// Used to receive notifications related to the Asset from the Azure Device
@@ -785,8 +1091,13 @@ impl AssetClient {
     /// dataset notifications won't be released until this function is polled again after receiving an
     /// update.
     ///
+    /// # Cancel safety
+    /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
+    /// completes first, then it is guaranteed that no asset notifications will be lost, and the asset will not
+    /// be updated without a notification being returned.
+    ///
     /// # Panics
-    /// If the status or specification mutexes have been poisoned, which should not be possible
+    /// If the specification mutex has been poisoned, which should not be possible
     pub async fn recv_notification(&mut self) -> ClientNotification<DatasetClient> {
         // release any pending dataset create/update notifications
         self.release_dataset_notifications_tx.send_modify(|()| ());
@@ -795,132 +1106,70 @@ impl AssetClient {
             () = self.asset_deletion_token.cancelled() => {
                 log::debug!("Asset deletion token received, stopping asset update observation for {:?}", self.asset_ref);
                 // unobserve as cleanup
-                Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
+                // Spawn a new task to prevent a possible cancellation and ensure the deleted
+                // notification reaches the application.
+                tokio::task::spawn(
+                    {
+                        let connector_context_clone = self.connector_context.clone();
+                        let asset_ref_clone = self.asset_ref.clone();
+                        async move {
+                            Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                        }
+                    }
+                );
                 ClientNotification::Deleted
             },
             notification = self.asset_update_observation.recv_notification() => {
-                // handle the notification
                 // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
                 // get the update again because we'll pull the latest definition on the restart, so we don't need to get
                 // the notification again as an MQTT message.
-                let Some((updated_asset, _)) = notification else {
+                if let Some((updated_asset, _)) = notification {
+                    // The asset client holds the receiving end so `send` will never return an error,
+                    // we are saving the updated asset in the watcher in case `handle_update` is
+                    // cancelled
+                    let _ = self.asset_update_watcher_tx.send(updated_asset.clone());
+                    self.handle_update(updated_asset).await
+                } else {
                     // unobserve as cleanup
-                    Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
-                    return ClientNotification::Deleted;
-                };
-
-                // update datasets
-                // remove the datasets that are no longer present in the new asset definition.
-                // This triggers deletion notification since this drops the update sender.
-                self.dataset_hashmap.retain(|dataset_name, _| {
-                    updated_asset
-                        .datasets
-                        .iter()
-                        .any(|dataset| dataset.name == *dataset_name)
-                });
-
-                // Get the new default dataset destination and track whether it's different or not from the current one
-                let default_dataset_destination_updated = updated_asset.default_datasets_destinations
-                    != self
-                        .specification
-                        .read()
-                        .unwrap()
-                        .default_datasets_destinations;
-                let default_dataset_destinations =
-                    match destination_endpoint::Destination::new_dataset_destinations(
-                        &updated_asset.default_datasets_destinations,
-                        &self.asset_ref.inbound_endpoint_name,
-                        &self.connector_context,
-                    ) {
-                        Ok(res) => res.into_iter().map(Arc::new).collect(),
-                        Err(e) => {
-                            log::error!(
-                                "Invalid default dataset destination for Asset {:?}: {e:?}",
-                                self.asset_ref
-                            );
-                            let adr_asset_status =
-                                Self::internal_asset_status(&self.status, Err(e), updated_asset.version);
-                            // send status update to the service
-                            if let Err(e) = Self::internal_report_status(
-                                adr_asset_status,
-                                &self.connector_context,
-                                &self.asset_ref,
-                                &self.status,
-                                "AssetClient::recv_notification default_dataset_destination",
-                            )
-                            .await {
-                                log::error!(
-                                    "Failed to report default dataset destination error Asset status for updated asset {:?}: {e}",
-                                    self.asset_ref
-                                );
-                            }
-                            // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
-                            vec![]
-                        }
-                    };
-
-                // if there are any config errors when creating the datasets, collect them all so we can report them at once
-                let mut dataset_config_errors = Vec::new();
-
-                // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
-                for received_dataset_definition in &updated_asset.datasets {
-                    // it already exists
-                    if let Some((dataset_definition, dataset_update_tx)) = self
-                        .dataset_hashmap
-                        .get_mut(&received_dataset_definition.name)
-                    {
-                        // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
-                        // otherwise, only send an update if the dataset definition has changed
-                        if default_dataset_destination_updated
-                            || received_dataset_definition != dataset_definition
+                    // Spawn a new task to prevent a possible cancellation and ensure the deleted
+                    // notification reaches the application.
+                    tokio::task::spawn(
                         {
-                            // we need to make sure we have the updated definition for comparing next time
-                            *dataset_definition = received_dataset_definition.clone();
-                            // send update to the dataset
-                            let _ = dataset_update_tx
-                                .send((
-                                    received_dataset_definition.clone(),
-                                    default_dataset_destinations.clone(),
-                                    self.release_dataset_notifications_tx.subscribe(),
-                                )).inspect_err(|tokio::sync::mpsc::error::SendError((e_dataset_definition, _,_))| {
-                                    // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
-                                    log::warn!(
-                                        "Update received for dataset {} on asset {:?}, but DatasetClient has been dropped",
-                                        e_dataset_definition.name,
-                                        self.asset_ref
-                                    );
-                                });
+                            let connector_context_clone = self.connector_context.clone();
+                            let asset_ref_clone = self.asset_ref.clone();
+                            async move {
+                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                            }
                         }
-                    }
-                    // it needs to be created
-                    else if let Err(e) = self.setup_new_dataset(
-                        received_dataset_definition.clone(),
-                        &default_dataset_destinations,
-                    ) {
-                        // If an error is returned, continue to process other datasets even if one isn't valid. Don't give this one to
-                        // the application since we can't forward data on it. If there's an update to the
-                        // definition, they'll get the create notification for it at that point if it's valid
-                        dataset_config_errors.push(e);
-                    }
+                    );
+                    // Asset update has been fully processed, mark as seen.
+                    self.asset_update_watcher_rx.mark_unchanged();
+                    ClientNotification::Deleted
                 }
-
-                // if there were any config errors on the datasets, report them to the ADR service
-                self.report_dataset_config_errors(
-                    dataset_config_errors,
-                    updated_asset.version,
-                    "AssetClient::recv_notification dataset_destination",
-                ).await;
-
-                // update specification
-                let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
-                *unlocked_specification = AssetSpecification::from(updated_asset);
-
-                ClientNotification::Updated
             },
+            // An error here is not possible since the asset client holds the sender end
+            Ok(()) = self.asset_update_watcher_rx.changed() => {
+                // We need to mark as changed in case `handle_update` is cancelled so we can enter
+                // this branch again
+                self.asset_update_watcher_rx.mark_changed();
+                let updated_asset = self.asset_update_watcher_rx.borrow().clone();
+
+                self.handle_update(updated_asset).await
+            }
             create_notification = self.dataset_creation_rx.recv() => {
                 let Some(dataset_client) = create_notification else {
                     // unobserve as cleanup
-                    Self::unobserve_asset(&self.connector_context, &self.asset_ref).await;
+                    // Spawn a new task to prevent a possible cancellation and ensure the deleted
+                    // notification reaches the application.
+                    tokio::task::spawn(
+                        {
+                            let connector_context_clone = self.connector_context.clone();
+                            let asset_ref_clone = self.asset_ref.clone();
+                            async move {
+                                Self::unobserve_asset(&connector_context_clone, &asset_ref_clone).await;
+                            }
+                        }
+                    );
                     return ClientNotification::Deleted;
                 };
                 ClientNotification::Created(dataset_client)
@@ -940,12 +1189,9 @@ impl AssetClient {
     /// Note that this is the value of the last reported status (or the status
     /// from when the asset was first received if one hasn't been reported yet),
     /// so it is possible that this is not the latest value that the ADR service has
-    ///
-    /// # Panics
-    /// if the status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn status(&self) -> adr_models::AssetStatus {
-        (*self.status.read().unwrap()).clone()
+    pub async fn status(&self) -> adr_models::AssetStatus {
+        (*self.status.read().await).clone()
     }
 
     // Returns a clone of the current device specification
@@ -972,10 +1218,9 @@ impl AssetClient {
     /// Then, the caller of this function can modify only what they are explicitly reporting, and all other fields will
     /// be either maintained or will be their default values if this is the first time reporting for a new version.
     fn current_status_to_modify(
-        locked_current_status: &Arc<RwLock<adr_models::AssetStatus>>,
+        current_status: &adr_models::AssetStatus,
         version: Option<u64>,
     ) -> adr_models::AssetStatus {
-        let current_status = locked_current_status.read().unwrap();
         if let Some(config) = &current_status.config {
             // version matches
             if config.version == version {
@@ -990,30 +1235,11 @@ impl AssetClient {
         }
     }
 
-    /// Internal helper function to create an updated [`adr_models::AssetStatus`] from the current status,
-    /// the new Result and the version that the status is for
-    fn internal_asset_status(
-        locked_current_status: &Arc<RwLock<adr_models::AssetStatus>>,
-        new_status_result: Result<(), AdrConfigError>,
-        version: Option<u64>,
-    ) -> adr_models::AssetStatus {
-        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
-        let mut new_status = Self::current_status_to_modify(locked_current_status, version);
-
-        // no matter whether we kept other fields or not, we will always fully replace the config status
-        new_status.config = Some(azure_device_registry::ConfigStatus {
-            version,
-            error: new_status_result.err(),
-            last_transition_time: Some(chrono::Utc::now()),
-        });
-        new_status
-    }
-
     pub(crate) async fn internal_report_status(
         adr_asset_status: adr_models::AssetStatus,
         connector_context: &ConnectorContext,
         asset_ref: &AssetRef,
-        asset_status_ref: &Arc<RwLock<adr_models::AssetStatus>>,
+        asset_status_ref: &mut adr_models::AssetStatus,
         log_identifier: &str,
     ) -> Result<(), azure_device_registry::Error> {
         // send status update to the service
@@ -1035,123 +1261,8 @@ impl AssetClient {
         )
         .await?;
         // update self with new returned status
-        let mut unlocked_status = asset_status_ref.write().unwrap(); // unwrap can't fail unless lock is poisoned
-        *unlocked_status = updated_asset_status;
+        *asset_status_ref = updated_asset_status;
         Ok(())
-    }
-
-    /// Creates a new [`DatasetClient`] for the given dataset definition,
-    /// adds it to the dataset hashmap, and sends the create notification.
-    /// If the dataset definition is invalid, it returns an error with the
-    /// `adr_models::DatasetEventStreamStatus` that can be used to report the error.
-    #[allow(clippy::result_large_err)] // since we are immediately using the error value, not worth boxing
-    fn setup_new_dataset(
-        &mut self,
-        dataset_definition: adr_models::Dataset,
-        default_dataset_destinations: &[Arc<destination_endpoint::Destination>],
-    ) -> Result<(), adr_models::DatasetEventStreamStatus> {
-        let (dataset_update_tx, dataset_update_rx) = mpsc::unbounded_channel();
-
-        let new_dataset_client = DatasetClient::new(
-            dataset_definition.clone(),
-            dataset_update_rx,
-            default_dataset_destinations,
-            self.asset_ref.clone(),
-            self.status.clone(),
-            self.specification.clone(),
-            self.device_specification.clone(),
-            self.device_status.clone(),
-            self.connector_context.clone(),
-        )
-        .map_err(|e| {
-            log::error!(
-                "Ignoring new Dataset {} on asset {:?}. Invalid dataset destination: {e:?}",
-                dataset_definition.name,
-                self.asset_ref
-            );
-            // Get current message schema reference if there is one, so that it isn't overwritten
-            let message_schema_reference =
-                self.status
-                    .read()
-                    .unwrap()
-                    .datasets
-                    .as_ref()
-                    .and_then(|datasets| {
-                        datasets
-                            .iter()
-                            .find(|dataset| dataset.name == dataset_definition.name)?
-                            .message_schema_reference
-                            .clone()
-                    });
-            // Don't give this dataset to the application or track it in our dataset_hashmap since
-            // we can't forward data on it. If there's an update to the definition, they'll get the
-            // create notification for it at that point if it's valid
-            adr_models::DatasetEventStreamStatus {
-                name: dataset_definition.name.clone(),
-                message_schema_reference,
-                error: Some(e),
-            }
-        })?;
-
-        // insert the dataset client into the hashmap so we can handle updates
-        self.dataset_hashmap.insert(
-            dataset_definition.name.clone(),
-            (dataset_definition, dataset_update_tx),
-        );
-
-        // error is not possible since the receiving side of the channel is owned by the AssetClient
-        let _ = self.dataset_creation_tx.send(new_dataset_client);
-
-        Ok(())
-    }
-
-    /// Convenience function to report a vector of dataset errors to the ADR service
-    async fn report_dataset_config_errors(
-        &self,
-        mut dataset_config_errors: Vec<adr_models::DatasetEventStreamStatus>,
-        specification_version: Option<u64>,
-        log_identifier: &str,
-    ) {
-        if !dataset_config_errors.is_empty() {
-            // get current or cleared (if it's out of date) status as our base to modify only what we're explicitly trying to set
-            let mut new_status =
-                Self::current_status_to_modify(&self.status, specification_version);
-
-            // remove all dataset statuses that are in the new errors vec and already exist, because we will replace them
-            new_status
-                .datasets
-                .get_or_insert_with(Vec::new)
-                .retain(|dataset_status| {
-                    !dataset_config_errors
-                        .iter()
-                        .any(|new_dataset_status| new_dataset_status.name == dataset_status.name)
-                });
-            // append all of the new and updated statuses to the datasets statuses, without modifying any of the old ones
-            new_status
-                .datasets
-                .get_or_insert_with(Vec::new)
-                .append(&mut dataset_config_errors);
-
-            // send status update to the service
-            log::debug!(
-                "Reporting status(es) for invalid dataset destination(s) for Asset {:?}",
-                self.asset_ref
-            );
-            if let Err(e) = AssetClient::internal_report_status(
-                new_status,
-                &self.connector_context,
-                &self.asset_ref,
-                &self.status,
-                log_identifier,
-            )
-            .await
-            {
-                log::error!(
-                    "Failed to report status(es) for invalid dataset destination(s) for Asset {:?}: {e}",
-                    self.asset_ref
-                );
-            }
-        }
     }
 
     /// Internal convenience function to unobserve from an asset's update notifications for cleanup
@@ -1194,7 +1305,7 @@ pub enum MessageSchemaError {
 type DatasetUpdateNotification = (
     adr_models::Dataset,                         // new Dataset definition
     Vec<Arc<destination_endpoint::Destination>>, // new default dataset destinations
-    tokio::sync::watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
+    watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
 );
 
 /// Notifications that can be received for a Dataset
@@ -1221,16 +1332,16 @@ pub struct DatasetClient {
     dataset_definition: adr_models::Dataset,
     /// Current status for the Asset
     #[getter(skip)]
-    asset_status: Arc<RwLock<adr_models::AssetStatus>>,
+    asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
     /// Current specification for the Asset
     #[getter(skip)]
-    asset_specification: Arc<RwLock<AssetSpecification>>,
+    asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
     /// Specification of the device that this dataset is tied to
     #[getter(skip)]
-    device_specification: Arc<RwLock<DeviceSpecification>>,
+    device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
     /// Status of the device that this dataset is tied to
     #[getter(skip)]
-    device_status: Arc<RwLock<DeviceEndpointStatus>>,
+    device_status: Arc<std::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
     /// Internal [`Forwarder`] that handles forwarding data to the destination defined in the dataset definition
     #[getter(skip)]
@@ -1240,22 +1351,23 @@ pub struct DatasetClient {
     /// Asset reference for internal use
     #[getter(skip)]
     asset_ref: AssetRef,
-    /// Internal channel for receiving notifications about dataset updates.
+    /// Internal watcher receiver that holds a snapshot of the latest update and whether it has been
+    /// fully processed or not.
     #[getter(skip)]
-    dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
+    dataset_update_watcher_rx: watch::Receiver<DatasetUpdateNotification>,
 }
 
 impl DatasetClient {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         dataset_definition: adr_models::Dataset,
-        dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
+        dataset_update_watcher_rx: watch::Receiver<DatasetUpdateNotification>,
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
-        asset_status: Arc<RwLock<adr_models::AssetStatus>>,
-        asset_specification: Arc<RwLock<AssetSpecification>>,
-        device_specification: Arc<RwLock<DeviceSpecification>>,
-        device_status: Arc<RwLock<DeviceEndpointStatus>>,
+        asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+        asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+        device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+        device_status: Arc<std::sync::RwLock<DeviceEndpointStatus>>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
@@ -1279,7 +1391,7 @@ impl DatasetClient {
             device_specification,
             device_status,
             forwarder,
-            dataset_update_rx,
+            dataset_update_watcher_rx,
             connector_context,
         })
     }
@@ -1295,45 +1407,56 @@ impl DatasetClient {
     /// by the Azure Device Registry service.
     ///
     /// # Panics
-    /// if the asset status or specification mutexes have been poisoned, which should not be possible
+    /// if the asset specification mutex has been poisoned, which should not be possible
     pub async fn report_status(
         &self,
         status: Result<(), AdrConfigError>,
     ) -> Result<(), azure_device_registry::Error> {
-        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
-        let mut new_status = AssetClient::current_status_to_modify(
+        log::debug!("Reporting dataset {:?} status from app", self.dataset_ref);
+        Self::internal_report_status(
             &self.asset_status,
-            self.asset_specification.read().unwrap().version,
+            &self.asset_specification,
+            status,
+            &self.dataset_ref,
+            &self.connector_context,
+            &self.asset_ref,
+            "DatasetClient::report_status",
+        )
+        .await
+    }
+
+    async fn internal_report_status(
+        asset_status_mutex: &Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+        asset_specification: &Arc<std::sync::RwLock<AssetSpecification>>,
+        desired_dataset_status: Result<(), AdrConfigError>,
+        dataset_ref: &DatasetRef,
+        connector_context: &Arc<ConnectorContext>,
+        asset_ref: &AssetRef,
+        log_identifier: &str,
+    ) -> Result<(), azure_device_registry::Error> {
+        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
+        let mut status_write_guard = asset_status_mutex.write().await;
+        let mut new_status = AssetClient::current_status_to_modify(
+            &status_write_guard,
+            asset_specification.read().unwrap().version,
         );
 
         // if dataset is already in the current status, then update the existing dataset with the new error
         // Otherwise if the dataset isn't present, or no datasets have been reported yet, then add it with the new error
-        if let Some(dataset_status) = new_status.datasets.as_mut().and_then(|datasets| {
-            datasets
-                .iter_mut()
-                .find(|dataset| dataset.name == self.dataset_ref.dataset_name)
-        }) {
-            // If the dataset already has a status, update the existing dataset with the new error
-            dataset_status.error = status.err();
-        } else {
-            // If the dataset doesn't exist in the current status, then add it
-            new_status.datasets.get_or_insert_with(Vec::new).push(
-                adr_models::DatasetEventStreamStatus {
-                    name: self.dataset_ref.dataset_name.clone(),
-                    message_schema_reference: None,
-                    error: status.err(),
-                },
-            );
-        }
+        Self::update_dataset_status(
+            &mut new_status,
+            &dataset_ref.dataset_name,
+            desired_dataset_status,
+        );
 
         // send status update to the service
-        log::debug!("reporting dataset {:?} status from app", self.dataset_ref);
+
         AssetClient::internal_report_status(
             new_status,
-            &self.connector_context,
-            &self.asset_ref,
-            &self.asset_status,
-            "DatasetClient::report_status",
+            connector_context,
+            asset_ref,
+            &mut status_write_guard,
+            log_identifier,
         )
         .await
     }
@@ -1358,7 +1481,7 @@ impl DatasetClient {
     /// If the Schema Registry Service returns a schema without required values. This should get updated
     /// to be validated by the Schema Registry API surface in the future
     ///
-    /// If the asset status or specification mutexes have been poisoned, which should not be possible
+    /// If the asset specification mutex has been poisoned, which should not be possible
     pub async fn report_message_schema(
         &mut self,
         message_schema: MessageSchema,
@@ -1414,8 +1537,9 @@ impl DatasetClient {
         })?;
 
         // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
+        let mut status_write_guard = self.asset_status.write().await;
         let mut new_status = AssetClient::current_status_to_modify(
-            &self.asset_status,
+            &status_write_guard,
             self.asset_specification.read().unwrap().version,
         );
 
@@ -1448,7 +1572,7 @@ impl DatasetClient {
             new_status,
             &self.connector_context,
             &self.asset_ref,
-            &self.asset_status,
+            &mut status_write_guard,
             "DatasetClient::report_message_schema",
         )
         .await?;
@@ -1479,18 +1603,32 @@ impl DatasetClient {
     }
 
     /// Used to receive notifications about the Dataset from the Azure Device Registry Service.
-    /// This function returning `Some(())` indicates that the dataset definition has been
-    /// updated in place. The function returns [`None`] if there will be no more
-    /// notifications. This can occur if the Dataset has been deleted or the
-    /// [`AssetClient`] that this [`DatasetClient`] is related to has been dropped.
+    ///
+    /// Returns [`DatasetNotification::Updated`] if the Dataset's definition has been updated in place.
+    ///
+    /// Returns [`DatasetNotification::UpdatedInvalid`] if the Dataset received an update, but the update was not valid.
+    /// The definition is still updated in place, but the dataset should not be used until
+    /// there is a new update, otherwise the out of date definition will be used for
+    /// sending data to the destination.
+    ///
+    /// Returns [`DatasetNotification::Deleted`] if the Dataset has been deleted. The [`DatasetClient`]
+    /// should not be used after this point, and no more notifications will be received.
+    ///
+    /// # Cancel safety
+    /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
+    /// completes first, then it is guaranteed that no dataset notifications will be lost, and the dataset will not
+    /// be updated without a notification being returned.
     pub async fn recv_notification(&mut self) -> DatasetNotification {
-        let Some((updated_dataset, default_destinations, mut watch_receiver)) =
-            self.dataset_update_rx.recv().await
-        else {
+        if self.dataset_update_watcher_rx.changed().await.is_err() {
             return DatasetNotification::Deleted;
-        };
+        }
+        // In case this function gets cancelled the next time it is called we will process the update again.
+        self.dataset_update_watcher_rx.mark_changed();
+        let (updated_dataset, default_destinations, mut watch_receiver) =
+            self.dataset_update_watcher_rx.borrow().clone();
+
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
-        if watch_receiver.changed().await.ok().is_none() {
+        if watch_receiver.changed().await.is_err() {
             return DatasetNotification::Deleted;
         }
         // create new forwarder, in case destination has changed
@@ -1507,32 +1645,52 @@ impl DatasetClient {
                     self.dataset_ref
                 );
 
-                if let Err(e) = self.report_status(Err(e)).await {
-                    log::error!(
-                        "Failed to report status for updated dataset {:?}: {e}",
-                        self.dataset_ref
-                    );
-                }
+                tokio::task::spawn({
+                    let asset_status_mutex_clone = self.asset_status.clone();
+                    let asset_specification_mutex_clone = self.asset_specification.clone();
+                    let dataset_ref_clone = self.dataset_ref.clone();
+                    let connector_context = self.connector_context.clone();
+                    let asset_ref = self.asset_ref.clone();
+                    async move {
+                        log::debug!(
+                            "Reporting dataset {dataset_ref_clone:?} status from recv_notification"
+                        );
+                        if let Err(e) = Self::internal_report_status(
+                            &asset_status_mutex_clone,
+                            &asset_specification_mutex_clone,
+                            Err(e),
+                            &dataset_ref_clone,
+                            &connector_context,
+                            &asset_ref,
+                            "DatasetClient::recv_notification",
+                        )
+                        .await
+                        {
+                            log::error!(
+                                "Failed to report status for updated dataset {dataset_ref_clone:?}: {e}"
+                            );
+                        }
+                    }
+                });
                 // notify the application to not use this dataset until a new update is received
                 self.dataset_definition = updated_dataset;
                 return DatasetNotification::UpdatedInvalid;
             }
         };
         self.dataset_definition = updated_dataset;
+        // Once the dataset definition has been updated we can mark the value in the watcher as seen
+        self.dataset_update_watcher_rx.mark_unchanged();
         DatasetNotification::Updated
     }
 
     /// Returns a clone of this dataset's [`adr_models::MessageSchemaReference`] from
     /// the `AssetStatus`, if it exists
-    ///
-    /// # Panics
-    /// if the asset status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn message_schema_reference(&self) -> Option<adr_models::MessageSchemaReference> {
+    pub async fn message_schema_reference(&self) -> Option<adr_models::MessageSchemaReference> {
         // unwrap can't fail unless lock is poisoned
         self.asset_status
             .read()
-            .unwrap()
+            .await
             .datasets
             .as_ref()?
             .iter()
@@ -1550,11 +1708,9 @@ impl DatasetClient {
     }
 
     /// Returns a clone of the current asset status, if it exists
-    /// # Panics
-    /// if the asset status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn asset_status(&self) -> adr_models::AssetStatus {
-        (*self.asset_status.read().unwrap()).clone()
+    pub async fn asset_status(&self) -> adr_models::AssetStatus {
+        (*self.asset_status.read().await).clone()
     }
 
     // Returns a clone of the current device specification
@@ -1571,6 +1727,37 @@ impl DatasetClient {
     #[must_use]
     pub fn device_status(&self) -> DeviceEndpointStatus {
         (*self.device_status.read().unwrap()).clone()
+    }
+
+    /// Helper function to update the specific dataset status within the asset status
+    fn update_dataset_status(
+        asset_status_to_update: &mut adr_models::AssetStatus,
+        dataset_name: &str,
+        dataset_status: Result<(), AdrConfigError>,
+    ) {
+        if let Some(curr_dataset_status) =
+            asset_status_to_update
+                .datasets
+                .as_mut()
+                .and_then(|datasets| {
+                    datasets
+                        .iter_mut()
+                        .find(|dataset| dataset.name == dataset_name)
+                })
+        {
+            // If the dataset already has a status, update the existing dataset with the new error
+            curr_dataset_status.error = dataset_status.err();
+        } else {
+            // If the dataset doesn't exist in the current status, then add it
+            asset_status_to_update
+                .datasets
+                .get_or_insert_with(Vec::new)
+                .push(adr_models::DatasetEventStreamStatus {
+                    name: dataset_name.to_string(),
+                    message_schema_reference: None,
+                    error: dataset_status.err(),
+                });
+        }
     }
 }
 
@@ -1988,10 +2175,7 @@ mod tests {
             }]),
             ..Default::default()
         };
-        let new_status_base = AssetClient::current_status_to_modify(
-            &Arc::new(RwLock::new(current_status.clone())),
-            spec_version,
-        );
+        let new_status_base = AssetClient::current_status_to_modify(&current_status, spec_version);
         if expect_keep_received {
             assert_eq!(new_status_base, current_status);
         } else {

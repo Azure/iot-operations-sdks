@@ -10,12 +10,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 internal static class ModelsConverter
 {
-
-    private static JsonDocumentOptions _jsonDocumentOptions = new()
-    {
-        AllowTrailingCommas = true,
-    };
-
     internal static CreateOrUpdateDiscoveredAssetResponsePayload ToModel(this AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload source)
     {
         return new()
@@ -206,7 +200,7 @@ internal static class ModelsConverter
         {
             Name = source.Name,
             Destinations = source.Destinations?.Select(x => x.ToModel()).ToList(),
-            StreamConfiguration = source.StreamConfiguration != null ? JsonDocument.Parse(source.StreamConfiguration, _jsonDocumentOptions) : null,
+            StreamConfiguration = source.StreamConfiguration,
             TypeRef = source.TypeRef
         };
     }
@@ -219,7 +213,7 @@ internal static class ModelsConverter
             Actions = source.Actions?.Select(x => x.ToModel()).ToList(),
             DefaultTimeOutInSeconds = source.DefaultTimeOutInSeconds,
             DefaultTopic = source.DefaultTopic,
-            ManagementGroupConfiguration = source.ManagementGroupConfiguration != null ? JsonDocument.Parse(source.ManagementGroupConfiguration, _jsonDocumentOptions) : null,
+            ManagementGroupConfiguration = source.ManagementGroupConfiguration,
             TypeRef = source.TypeRef
         };
     }
@@ -233,7 +227,7 @@ internal static class ModelsConverter
             TimeOutInSeconds = source.TimeOutInSeconds,
             Topic = source.Topic,
             TypeRef = source.TypeRef,
-            ActionConfiguration = source.ActionConfiguration != null ? JsonDocument.Parse(source.ActionConfiguration, _jsonDocumentOptions) : null,
+            ActionConfiguration = source.ActionConfiguration,
             ActionType = source.ActionType.ToModel()
         };
     }
@@ -299,7 +293,7 @@ internal static class ModelsConverter
         {
             Name = source.Name,
             DataSource = source.DataSource,
-            DataPointConfiguration = source.DataPointConfiguration != null ? JsonDocument.Parse(source.DataPointConfiguration, _jsonDocumentOptions) : null,
+            DataPointConfiguration = source.DataPointConfiguration,
             TypeRef = source.TypeRef,
         };
     }
@@ -310,7 +304,7 @@ internal static class ModelsConverter
         {
             Name = source.Name,
             Destinations = source.Destinations?.Select(x => x.ToModel()).ToList(),
-            EventConfiguration = source.EventConfiguration != null ? JsonDocument.Parse(source.EventConfiguration, _jsonDocumentOptions) : null,
+            EventConfiguration = source.EventConfiguration,
             EventNotifier = source.EventNotifier,
             DataPoints = source.DataPoints?.Select(x => x.ToModel()).ToList(),
             TypeRef = source.TypeRef
@@ -336,7 +330,7 @@ internal static class ModelsConverter
         return new AssetEventDataPointSchemaElement
         {
             DataSource = source.DataSource,
-            DataPointConfiguration = source.DataPointConfiguration != null ? JsonDocument.Parse(source.DataPointConfiguration, _jsonDocumentOptions) : null,
+            DataPointConfiguration = source.DataPointConfiguration,
             Name = source.Name
         };
     }
@@ -389,7 +383,7 @@ internal static class ModelsConverter
         return new InboundEndpointSchemaMapValue
         {
             Address = source.Address,
-            AdditionalConfiguration = source.AdditionalConfiguration != null ? JsonDocument.Parse(source.AdditionalConfiguration, _jsonDocumentOptions) : null,
+            AdditionalConfiguration = source.AdditionalConfiguration,
             Version = source.Version,
             EndpointType = source.EndpointType,
             Authentication = source.Authentication?.ToModel(),

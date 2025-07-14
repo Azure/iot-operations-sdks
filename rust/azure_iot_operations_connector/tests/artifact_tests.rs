@@ -99,7 +99,7 @@ fn local_connector_artifacts_tls() {
 
             // --- Create a Session from the MqttConnectionSettings ---
             let session_options = SessionOptionsBuilder::default()
-                .connection_settings(mcs.clone())
+                .connection_settings(mcs)
                 .build()
                 .unwrap();
             assert!(Session::new(session_options).is_ok());
@@ -168,7 +168,7 @@ fn local_connector_artifacts_no_tls() {
 
             // --- Create a Session from the MqttConnectionSettings ---
             let session_options = SessionOptionsBuilder::default()
-                .connection_settings(mcs.clone())
+                .connection_settings(mcs)
                 .build()
                 .unwrap();
             assert!(Session::new(session_options).is_ok());
