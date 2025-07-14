@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/WireHarness/VEC/
+
 DataTypes:
 - UADataType: [ WireHarness.VEC:3500, WireHarness.VEC:ConductorType ]
   DisplayName: "ConductorType"

@@ -371,7 +371,7 @@
         "name": "ConfigurationChanged",
         "displayName": "ConfigurationChanged",
         "description": "Information if the configuration of the asset is planned to be changed or has changed during the maintenance activity. FALSE indicates no change, and TRUE indicates a change. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual configuration changes during the maintenance activity.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": "boolean",
         "writable": true
       },
@@ -380,7 +380,7 @@
         "name": "EstimatedDowntime",
         "displayName": "EstimatedDowntime",
         "description": "The estimated time the execution of the maintenance activity will take. In case of replanning, it is allowed to change the EstimatedDowntime. If during the execution of the maintenance activity the EstimatedDowntime can be adjusted (e.g., the asset needs to be repaired because an inspection found some issues) this should be done. Clients can access the history of Events to receive the information on the original estimates when the maintenance activity started.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": "duration",
         "writable": true
       },
@@ -389,7 +389,7 @@
         "name": "MaintenanceMethod",
         "displayName": "MaintenanceMethod",
         "description": "Information about the planned or used maintenance method. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual used maintenance method during the maintenance activity.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:MaintenanceMethodEnum;1",
         "writable": true
       },
@@ -398,7 +398,7 @@
         "name": "MaintenanceSupplier",
         "displayName": "MaintenanceSupplier",
         "description": "Information on the supplier that is planned to execute, currently executing or has executed the maintenance activity. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual supplier that executed the maintenance activity. The value contains always a human-readable name of the supplier and optionally references a Node representing the supplier in the AddressSpace.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:NameNodeIdDataType;1",
         "writable": true
       },
@@ -407,7 +407,7 @@
         "name": "PartsOfAssetReplaced",
         "displayName": "PartsOfAssetReplaced",
         "description": "Information on the parts of the assets that are planned to be serviced during the maintenance activity, currently serviced or have been serviced, depending on the different MaintenanceStates. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual parts of the assets serviced during the maintenance activity. The value contains always an array of a human-readable name of the qualification of the parts of the asset to be serviced and optionally references a Node representing the part of the asset in the AddressSpace.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:NameNodeIdDataType;1"
@@ -419,7 +419,7 @@
         "name": "PartsOfAssetServiced",
         "displayName": "PartsOfAssetServiced",
         "description": "Information on the parts of the assets that are planned to be serviced during the maintenance activity, currently serviced or have been serviced, depending on the different MaintenanceStates. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual parts of the assets serviced during the maintenance activity. The value contains always an array of a human-readable name of the qualification of the parts of the asset to be serviced and optionally references a Node representing the part of the asset in the AddressSpace.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:NameNodeIdDataType;1"
@@ -431,7 +431,7 @@
         "name": "PlannedDate",
         "displayName": "PlannedDate",
         "description": "Date for which the maintenance activity has been scheduled. In case of replanning, it is allowed to change the PlannedDate. However, it is not the intention that the PlannedDate is modified because the maintenance activity starts to get executed. If the PlannedDate depends for example on the operation hours of the asset, it might get adapted depending on the passed operation hours.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": "time",
         "writable": true
       },
@@ -440,7 +440,7 @@
         "name": "QualificationOfPersonnel",
         "displayName": "QualificationOfPersonnel",
         "description": "Information on the qualification of the personnel that is planned to execute, currently executing or has executed the maintenance activity. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual qualification of the personnel that executed the maintenance activity. The value contains always a human-readable name of the qualification of the personnel and optionally references a Node representing the qualification of the personnel in the AddressSpace.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": "dtmi:opcua:AMB:IMaintenanceEventType:dataType:NameNodeIdDataType;1",
         "writable": true
       },
@@ -450,7 +450,7 @@
         "name": "MaintenanceState",
         "displayName": "MaintenanceState",
         "description": "Information if the maintenance activity is still planned, currently in execution, or has already been executed.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "target": "dtmi:opcua:AMB:MaintenanceEventStateMachineType"
       }
     ]
@@ -501,7 +501,7 @@
         "name": "PotentialRootCauses",
         "displayName": "PotentialRootCauses",
         "description": "An array of potential root causes of the alarm. This is intended to be a hint to the client and might be a local view on the potential root causes of the alarm. The list might not contain all potential root causes, that is, other potential root causes might exist as well. If the alarm itself is considered to be the root cause, the array shall be empty. If no potential root causes have been identified, there shall be at least one entry in the array indicating that the root cause is unknown.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:AMB:IRootCauseIndicationType:dataType:RootCauseDataType;1"
@@ -522,7 +522,7 @@
     ],
     "@id": "dtmi:opcua:AMB:DocumentationLinksType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/AMB",
+    "ontology": "http://opcfoundation.org/UA/AMB/",
     "displayName": "DocumentationLinksType",
     "description": "AddIn to link documentation provided by the manufacturer and / or end-user.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -537,7 +537,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": "string",
         "writable": true
       },
@@ -546,7 +546,7 @@
         "name": "Link",
         "displayName": "<Link>",
         "description": "Represents links to externally managed documentation, typically URLs.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -564,7 +564,7 @@
         "name": "AddLink",
         "displayName": "AddLink",
         "description": "Method to add an end-user specific link that is stored persistently in the server.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -614,7 +614,7 @@
         "name": "RemoveLink",
         "displayName": "RemoveLink",
         "description": "Method to remove an end-user specific link that is managed in the server.",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -657,7 +657,7 @@
         "maxMultiplicity": 1,
         "name": "Executing",
         "displayName": "Executing",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -665,7 +665,7 @@
         "maxMultiplicity": 1,
         "name": "Finished",
         "displayName": "Finished",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -673,7 +673,7 @@
         "maxMultiplicity": 1,
         "name": "FromExecutingToFinished",
         "displayName": "FromExecutingToFinished",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -681,7 +681,7 @@
         "maxMultiplicity": 1,
         "name": "FromFinishedToPlanned",
         "displayName": "FromFinishedToPlanned",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -689,7 +689,7 @@
         "maxMultiplicity": 1,
         "name": "FromPlannedToExecuting",
         "displayName": "FromPlannedToExecuting",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -697,7 +697,7 @@
         "maxMultiplicity": 1,
         "name": "Planned",
         "displayName": "Planned",
-        "namespace": "http://opcfoundation.org/UA/AMB",
+        "namespace": "http://opcfoundation.org/UA/AMB/",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       }
     ]

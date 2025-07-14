@@ -15,7 +15,7 @@
     "displayName": "SafetyConsumerParametersType",
     "description": "Safety parameters for the SafetyProvider",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Safety/;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1006",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -37,7 +37,7 @@
     "displayName": "SafetyObjectsType",
     "description": "Base type of all safety objects",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Safety/;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -59,7 +59,7 @@
     "ontology": "http://opcfoundation.org/UA/Safety",
     "displayName": "SafetyConsumerType",
     "extends": "dtmi:opcua:Safety:SafetyObjectsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Safety/;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1005",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -81,7 +81,7 @@
     "ontology": "http://opcfoundation.org/UA/Safety",
     "displayName": "SafetyProviderType",
     "extends": "dtmi:opcua:Safety:SafetyObjectsType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Safety/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -103,7 +103,7 @@
     "ontology": "http://opcfoundation.org/UA/Safety",
     "displayName": "SafetyPDUsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Safety/;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1007",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -126,7 +126,7 @@
     "displayName": "SafetyProviderParametersType",
     "description": "Safety parameters for the SafetyProvider",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Safety/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

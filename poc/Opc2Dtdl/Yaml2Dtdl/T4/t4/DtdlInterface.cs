@@ -44,7 +44,7 @@ namespace Yaml2Dtdl
             this.Write(", \"Mqtt\", \"Congruence\" ],\r\n");
  if (this.isComposite) { 
             this.Write("    \"ontology\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(this.definedType))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(this.definedType))));
             this.Write("\",\r\n");
  } 
  if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { 
@@ -67,7 +67,7 @@ namespace Yaml2Dtdl
             this.Write(" ],\r\n");
  } 
             this.Write("    \"typeRef\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.definedType.NodeId)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.specMapper, this.definedType.NodeId)));
             this.Write("\",\r\n");
  if (this.dtdlCommands.Count > 0 || this.dtdlProperties.Count > 0) { 
             this.Write("    \"commandTopic\": \"");

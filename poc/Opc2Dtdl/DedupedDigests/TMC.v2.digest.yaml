@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/TMC/v2/
+
 DataTypes:
 - UADataType: [ TMC.v2:3007, TMC.v2:CommandEnumeration ]
   DisplayName: "CommandEnumeration"

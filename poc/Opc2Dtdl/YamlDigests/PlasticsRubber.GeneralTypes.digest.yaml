@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/
+
 DataTypes:
 - UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
   DisplayName: "CavityCycleQualityEnumeration"

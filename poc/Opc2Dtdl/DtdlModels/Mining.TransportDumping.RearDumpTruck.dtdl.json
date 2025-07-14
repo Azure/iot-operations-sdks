@@ -11,10 +11,10 @@
     ],
     "@id": "dtmi:opcua:Mining_TransportDumping_RearDumpTruck:RearDumpTruckType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Mining.TransportDumping.RearDumpTruck",
+    "ontology": "http://opcfoundation.org/UA/Mining/TransportDumping/RearDumpTruck/",
     "displayName": "RearDumpTruckType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.TransportDumping.RearDumpTruck/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining/TransportDumping/RearDumpTruck/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

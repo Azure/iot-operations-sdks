@@ -32,7 +32,7 @@
     ],
     "@id": "dtmi:opcua:FDI5:ActionServiceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5",
+    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5/",
     "displayName": "ActionServiceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=21",
@@ -45,7 +45,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "InvokeAction",
         "displayName": "InvokeAction",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -89,7 +89,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RespondAction",
         "displayName": "RespondAction",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -128,7 +128,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AbortAction",
         "displayName": "AbortAction",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -162,7 +162,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ActionIdentifier",
         "displayName": "<ActionIdentifier>",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "target": "dtmi:opcua:FDI5:ActionType"
       }
     ]
@@ -179,7 +179,7 @@
     ],
     "@id": "dtmi:opcua:FDI5:EditContextType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5",
+    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5/",
     "displayName": "EditContextType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=54",
@@ -329,7 +329,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetEditContext",
         "displayName": "GetEditContext",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -373,7 +373,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RegisterNodesById",
         "displayName": "RegisterNodesById",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -415,7 +415,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RegisterNodesByRelativePath",
         "displayName": "RegisterNodesByRelativePath",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -457,7 +457,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Apply",
         "displayName": "Apply",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -491,7 +491,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Reset",
         "displayName": "Reset",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -525,7 +525,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Discard",
         "displayName": "Discard",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -569,7 +569,7 @@
     ],
     "@id": "dtmi:opcua:FDI5:DirectDeviceAccessType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5",
+    "ontology": "http://fdi-cooperation.com/OPCUA/FDI5/",
     "displayName": "DirectDeviceAccessType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=82",
@@ -582,7 +582,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "InitDirectAccess",
         "displayName": "InitDirectAccess",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -616,7 +616,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Transfer",
         "displayName": "Transfer",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -655,7 +655,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "EndDirectAccess",
         "displayName": "EndDirectAccess",
-        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
+        "namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",

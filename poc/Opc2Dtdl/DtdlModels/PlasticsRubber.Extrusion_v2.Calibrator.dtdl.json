@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CalibrationZonesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Calibrator/CalibrationZonesType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Calibrator/CalibrationZonesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -24,7 +24,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "schema": "string",
         "writable": false
       },
@@ -32,7 +32,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CalibrationZone_Nr",
         "displayName": "CalibrationZone_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calibrator:CalibrationZoneType"
       },
       {
@@ -40,7 +40,7 @@
         "maxMultiplicity": 1,
         "name": "WaterFlowIn",
         "displayName": "WaterFlowIn",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
@@ -48,7 +48,7 @@
         "maxMultiplicity": 1,
         "name": "WaterFlowOut",
         "displayName": "WaterFlowOut",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
@@ -56,7 +56,7 @@
         "maxMultiplicity": 1,
         "name": "WaterTemperatureIn",
         "displayName": "WaterTemperatureIn",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
@@ -64,7 +64,7 @@
         "maxMultiplicity": 1,
         "name": "WaterTemperatureOut",
         "displayName": "WaterTemperatureOut",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       }
     ]
@@ -83,7 +83,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "CalibrationZoneType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1002",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Calibrator/CalibrationZoneType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Calibrator/CalibrationZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -94,7 +94,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "schema": "boolean",
         "writable": false
       },
@@ -102,7 +102,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "schema": "string",
         "writable": true
       },
@@ -110,7 +110,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Position",
         "displayName": "Position",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "schema": "string",
         "writable": false
       },
@@ -119,7 +119,7 @@
         "maxMultiplicity": 1,
         "name": "AdditionalMeasuringDevices",
         "displayName": "AdditionalMeasuringDevices",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -127,7 +127,7 @@
         "maxMultiplicity": 1,
         "name": "AirShowerPressure",
         "displayName": "AirShowerPressure",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
@@ -135,7 +135,7 @@
         "maxMultiplicity": 1,
         "name": "Vacuum",
         "displayName": "Vacuum",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
@@ -143,7 +143,7 @@
         "maxMultiplicity": 1,
         "name": "VacuumPumps",
         "displayName": "VacuumPumps",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
       },
       {
@@ -151,7 +151,7 @@
         "maxMultiplicity": 1,
         "name": "WaterFlow",
         "displayName": "WaterFlow",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
@@ -159,7 +159,7 @@
         "maxMultiplicity": 1,
         "name": "WaterLevel",
         "displayName": "WaterLevel",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
@@ -167,7 +167,7 @@
         "maxMultiplicity": 1,
         "name": "WaterPumps",
         "displayName": "WaterPumps",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
       },
       {
@@ -175,7 +175,7 @@
         "maxMultiplicity": 1,
         "name": "WaterTemperature",
         "displayName": "WaterTemperature",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       }
     ]
@@ -192,10 +192,10 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calibrator:Calibrator_InterfaceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
     "displayName": "Calibrator_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator/;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -205,7 +205,7 @@
         "maxMultiplicity": 1,
         "name": "CalibrationZones",
         "displayName": "CalibrationZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calibrator:CalibrationZonesType"
       },
       {
@@ -213,7 +213,7 @@
         "maxMultiplicity": 1,
         "name": "PositionsPipeSupport",
         "displayName": "PositionsPipeSupport",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -221,7 +221,7 @@
         "maxMultiplicity": 1,
         "name": "PositionsX",
         "displayName": "PositionsX",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -229,7 +229,7 @@
         "maxMultiplicity": 1,
         "name": "PositionsY",
         "displayName": "PositionsY",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -237,7 +237,7 @@
         "maxMultiplicity": 1,
         "name": "PositionZ",
         "displayName": "PositionZ",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       }
     ]

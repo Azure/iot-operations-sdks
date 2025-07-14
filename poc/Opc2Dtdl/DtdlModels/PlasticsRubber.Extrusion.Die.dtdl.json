@@ -11,10 +11,10 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Die:Die_InterfaceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Die",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Die/",
     "displayName": "Die_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Die/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Die/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -24,7 +24,7 @@
         "maxMultiplicity": 1,
         "name": "DimensionAdjustment",
         "displayName": "DimensionAdjustment",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Die",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Die/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -32,7 +32,7 @@
         "maxMultiplicity": 1,
         "name": "MeltPressures",
         "displayName": "MeltPressures",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Die",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Die/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -40,7 +40,7 @@
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "displayName": "TemperatureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Die",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Die/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType"
       }
     ]

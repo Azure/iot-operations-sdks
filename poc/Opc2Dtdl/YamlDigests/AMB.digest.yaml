@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/AMB/
+
 DataTypes:
 - UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
   DisplayName: "MaintenanceMethodEnum"

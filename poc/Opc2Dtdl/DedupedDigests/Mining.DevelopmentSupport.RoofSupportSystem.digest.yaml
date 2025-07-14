@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Mining/DevelopmentSupport/RoofSupportSystem/
+
 DataTypes:
 - UADataType: [ Mining.DevelopmentSupport.RoofSupportSystem:3002, Mining.DevelopmentSupport.RoofSupportSystem:RSSStateEnum ]
   DisplayName: "RSSStateEnum"

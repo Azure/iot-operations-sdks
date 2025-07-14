@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PDRV/
+
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   DisplayName: "DeviceHealthEnumeration"

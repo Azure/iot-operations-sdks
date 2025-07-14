@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/MachineVision/AMCM/
+
 DataTypes:
 - UADataType: [ MachineVision.AMCM:3002, MachineVision.AMCM:SEMI_E10SystemStateDataType ]
   DisplayName: "SEMI_E10SystemStateDataType"

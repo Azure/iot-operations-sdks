@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Glass/Flat/
+
 DataTypes:
 - UADataType: [ Glass.Flat:3009, Glass.Flat:CoatingClassEnumeration ]
   DisplayName: "CoatingClassEnumeration"

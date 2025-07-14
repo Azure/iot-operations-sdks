@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Mining/DevelopmentSupport/Dozer/
+
 DataTypes:
 - UADataType: [ Mining.DevelopmentSupport.Dozer:3002, Mining.DevelopmentSupport.Dozer:DozerJobMissionEnum ]
   DisplayName: "DozerJobMissionEnum"

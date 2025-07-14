@@ -9,7 +9,7 @@
 <# if (this.objType.Description != null && this.objType.Description != string.Empty) { #>
         "description": "<#=objType.Description#>",
 <# } #>
-        "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.objType.NodeId)#>",
+        "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.specMapper, this.objType.NodeId)#>",
         "fields": [
 <# int ix = 1; foreach (KeyValuePair<string, (string, int)> field in this.objType.Fields) { #>
           {

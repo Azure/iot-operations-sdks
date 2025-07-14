@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FeederType",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder/;i=1063",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=1063",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Extruder/FeederType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Extruder/FeederType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -22,7 +22,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Extruder:FeederType:dataType:FeedingModeEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FeedingModeEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder/;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=3003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -57,7 +57,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "string",
         "writable": false
       },
@@ -65,7 +65,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IsControlled",
         "displayName": "IsControlled",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "boolean",
         "writable": false
       },
@@ -73,7 +73,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "boolean",
         "writable": false
       },
@@ -81,7 +81,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Mode",
         "displayName": "Mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Extruder:FeederType:dataType:FeedingModeEnumeration;1",
         "writable": false
       },
@@ -89,7 +89,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "string",
         "writable": false
       },
@@ -97,7 +97,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Target",
         "displayName": "Target",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "string",
         "writable": false
       },
@@ -106,7 +106,7 @@
         "maxMultiplicity": 1,
         "name": "Hopper",
         "displayName": "Hopper",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Extruder:HopperType"
       },
       {
@@ -114,7 +114,7 @@
         "maxMultiplicity": 1,
         "name": "Throughput",
         "displayName": "Throughput",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
     ]
@@ -131,10 +131,10 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Extruder:Extruder_InterfaceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
     "displayName": "Extruder_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder/;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=1015",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Extruder/Extruder_InterfaceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Extruder/Extruder_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -145,7 +145,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BarrelId",
         "displayName": "BarrelId",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "string",
         "writable": false
       },
@@ -153,7 +153,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ScrewId",
         "displayName": "ScrewId",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "string",
         "writable": false
       },
@@ -161,7 +161,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SpecificOutput",
         "displayName": "SpecificOutput",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "double"
       },
       {
@@ -169,7 +169,7 @@
         "maxMultiplicity": 1,
         "name": "AdditionalDrives",
         "displayName": "AdditionalDrives",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
       },
       {
@@ -177,7 +177,7 @@
         "maxMultiplicity": 1,
         "name": "Feeders",
         "displayName": "Feeders",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Extruder:FeedersType"
       },
       {
@@ -185,7 +185,7 @@
         "maxMultiplicity": 1,
         "name": "MainDrive",
         "displayName": "MainDrive",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
       {
@@ -193,7 +193,7 @@
         "maxMultiplicity": 1,
         "name": "MeltPressureZones",
         "displayName": "MeltPressureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -201,7 +201,7 @@
         "maxMultiplicity": 1,
         "name": "MeltTemperatureZones",
         "displayName": "MeltTemperatureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -209,7 +209,7 @@
         "maxMultiplicity": 1,
         "name": "ScrewTemperatures",
         "displayName": "ScrewTemperatures",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
       },
       {
@@ -217,7 +217,7 @@
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "displayName": "TemperatureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
       },
       {
@@ -225,7 +225,7 @@
         "maxMultiplicity": 1,
         "name": "Throughput",
         "displayName": "Throughput",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -233,7 +233,7 @@
         "maxMultiplicity": 1,
         "name": "Users",
         "displayName": "Users",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType"
       },
       {
@@ -241,7 +241,7 @@
         "maxMultiplicity": 1,
         "name": "VacuumZones",
         "displayName": "VacuumZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       }
     ]
@@ -260,7 +260,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FeedersType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=1002",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Extruder/FeedersType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Extruder/FeedersType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -271,7 +271,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "string",
         "writable": false
       },
@@ -279,7 +279,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Feeder_Nr",
         "displayName": "Feeder_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Extruder:FeederType"
       }
     ]
@@ -298,7 +298,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "HopperType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Extruder/HopperType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Extruder/HopperType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -309,7 +309,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "string",
         "writable": false
       },
@@ -317,7 +317,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MaterialLot",
         "displayName": "MaterialLot",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "string",
         "writable": false
       },
@@ -325,14 +325,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaterialLevel",
         "displayName": "MaterialLevel",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Weight",
         "displayName": "Weight",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "schema": "double"
       },
       {
@@ -340,7 +340,7 @@
         "maxMultiplicity": 1,
         "name": "Material",
         "displayName": "Material",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialType"
       },
       {
@@ -348,7 +348,7 @@
         "maxMultiplicity": 1,
         "name": "MaterialTemperature",
         "displayName": "MaterialTemperature",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
     ]

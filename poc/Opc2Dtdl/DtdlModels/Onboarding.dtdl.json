@@ -23,7 +23,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RegisterTickets",
         "displayName": "RegisterTickets",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -63,7 +63,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "UnregisterTickets",
         "displayName": "UnregisterTickets",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -104,7 +104,7 @@
         "maxMultiplicity": 1,
         "name": "TicketAuthorities",
         "displayName": "TicketAuthorities",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "target": "dtmi:opcua:OpcUaCore:TrustListType"
       },
       {
@@ -112,7 +112,7 @@
         "maxMultiplicity": 1,
         "name": "DeviceIdentityAuthorities",
         "displayName": "DeviceIdentityAuthorities",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "target": "dtmi:opcua:OpcUaCore:TrustListType"
       }
     ]
@@ -129,7 +129,7 @@
     ],
     "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Onboarding",
+    "ontology": "http://opcfoundation.org/UA/Onboarding/",
     "displayName": "DeviceRegistrarType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1259",
@@ -373,7 +373,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ProvideIdentities",
         "displayName": "ProvideIdentities",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -441,7 +441,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "UpdateSoftwareStatus",
         "displayName": "UpdateSoftwareStatus",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -471,7 +471,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RegisterDeviceEndpoint",
         "displayName": "RegisterDeviceEndpoint",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -491,7 +491,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetManagers",
         "displayName": "GetManagers",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
@@ -514,7 +514,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RegisterManagedApplication",
         "displayName": "RegisterManagedApplication",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -554,7 +554,7 @@
         "maxMultiplicity": 1,
         "name": "Administration",
         "displayName": "Administration",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "target": "dtmi:opcua:Onboarding:DeviceRegistrarAdminType"
       }
     ]
@@ -584,7 +584,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductInstanceUri",
         "displayName": "ProductInstanceUri",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "schema": "string",
         "writable": false
       }
@@ -615,7 +615,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Certificate",
         "displayName": "Certificate",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "schema": "bytes",
         "writable": false
       },
@@ -623,7 +623,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Ticket",
         "displayName": "Ticket",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "schema": "string",
         "writable": false
       },
@@ -631,7 +631,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Composite",
         "displayName": "Composite",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "schema": "string",
         "writable": false
       }
@@ -662,7 +662,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
-        "namespace": "http://opcfoundation.org/UA/Onboarding",
+        "namespace": "http://opcfoundation.org/UA/Onboarding/",
         "schema": "string",
         "writable": false
       }

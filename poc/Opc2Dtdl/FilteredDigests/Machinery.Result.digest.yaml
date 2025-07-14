@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Machinery/Result/
+
 DataTypes:
 - UADataType: [ Machinery.Result:3002, Machinery.Result:ResultEvaluationEnum ]
   DisplayName: "ResultEvaluationEnum"

@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Mining/TransportDumping/ArmouredFaceConveyor/
+
 DataTypes:
 - UADataType: [ Mining.TransportDumping.ArmouredFaceConveyor:3004, Mining.TransportDumping.ArmouredFaceConveyor:AFCNormalRunningDirectionEnum ]
   DisplayName: "AFCNormalRunningDirectionEnum"

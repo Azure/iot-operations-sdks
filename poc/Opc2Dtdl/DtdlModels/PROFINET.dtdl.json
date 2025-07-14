@@ -162,7 +162,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Accumulative",
         "displayName": "Accumulative",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelAccumulativeEnumeration;1",
         "writable": false
       },
@@ -170,7 +170,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "API",
         "displayName": "API",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -178,7 +178,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChannelErrorType",
         "displayName": "ChannelErrorType",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -186,7 +186,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChannelNumber",
         "displayName": "ChannelNumber",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -194,7 +194,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Direction",
         "displayName": "Direction",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelDirectionEnumeration;1",
         "writable": false
       },
@@ -202,7 +202,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ExtChannelAddValue",
         "displayName": "ExtChannelAddValue",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -210,7 +210,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ExtChannelErrorType",
         "displayName": "ExtChannelErrorType",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -218,7 +218,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HelpText",
         "displayName": "HelpText",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -226,7 +226,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Maintenance",
         "displayName": "Maintenance",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelMaintenanceEnumeration;1",
         "writable": false
       },
@@ -234,7 +234,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ManufacturerData",
         "displayName": "ManufacturerData",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "bytes",
         "writable": false
       },
@@ -242,7 +242,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "QualifiedChannelQualifier",
         "displayName": "QualifiedChannelQualifier",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -250,7 +250,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Slot",
         "displayName": "Slot",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -258,7 +258,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Specifier",
         "displayName": "Specifier",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelSpecifierEnumeration;1",
         "writable": false
       },
@@ -266,7 +266,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Subslot",
         "displayName": "Subslot",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -274,7 +274,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Type",
         "displayName": "Type",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnDiagnosisAlarmType:dataType:PnChannelTypeEnumeration;1",
         "writable": false
       },
@@ -282,7 +282,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserStructureIdentifier",
         "displayName": "UserStructureIdentifier",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -361,7 +361,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AssetChange",
         "displayName": "AssetChange",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnAssetChangedEventType:dataType:PnAssetChangeEnumeration;1",
         "writable": false
       },
@@ -369,7 +369,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AssetType",
         "displayName": "AssetType",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnAssetChangedEventType:dataType:PnAssetTypeEnumeration;1",
         "writable": false
       }
@@ -420,7 +420,7 @@
         "maxMultiplicity": 1,
         "name": "Nodes",
         "displayName": "Nodes",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnEquipmentContainerType"
       }
     ]
@@ -682,7 +682,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Vendor",
         "displayName": "Vendor",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -690,7 +690,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Diagnosis",
         "displayName": "Diagnosis",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnDeviceDiagnosisDataType;1"
@@ -700,14 +700,14 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ShowLocation",
         "displayName": "ShowLocation",
-        "namespace": "http://opcfoundation.org/UA/PROFINET"
+        "namespace": "http://opcfoundation.org/UA/PROFINET/"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Alarms",
         "displayName": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -715,7 +715,7 @@
         "maxMultiplicity": 1,
         "name": "Assets",
         "displayName": "Assets",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnAssetContainerType"
       },
       {
@@ -723,7 +723,7 @@
         "maxMultiplicity": 1,
         "name": "IM",
         "displayName": "IM",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       },
       {
@@ -731,7 +731,7 @@
         "maxMultiplicity": 1,
         "name": "Interfaces",
         "displayName": "Interfaces",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnInterfaceContainerType"
       },
       {
@@ -739,7 +739,7 @@
         "maxMultiplicity": 1,
         "name": "Modules",
         "displayName": "Modules",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnRealModuleContainerType"
       }
     ]
@@ -768,7 +768,7 @@
         "maxMultiplicity": 1,
         "name": "ARs",
         "displayName": "ARs",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnApplicationRelationContainerType"
       }
     ]
@@ -824,7 +824,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "GSDDescription",
         "displayName": "GSDDescription",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -832,7 +832,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:IPnDeviceType:dataType:PnDeviceStateEnumeration;1"
       }
     ]
@@ -892,7 +892,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceId",
         "displayName": "DeviceId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -900,7 +900,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceInstance",
         "displayName": "DeviceInstance",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -908,7 +908,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceRole",
         "displayName": "DeviceRole",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:IPnInterfaceType:dataType:PnDeviceRoleOptionSet;1",
         "writable": false
       },
@@ -916,7 +916,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceVendor",
         "displayName": "DeviceVendor",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -924,7 +924,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NameOfStation",
         "displayName": "NameOfStation",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -932,7 +932,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "OEMDeviceId",
         "displayName": "OEMDeviceId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -940,7 +940,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "OEMVendorId",
         "displayName": "OEMVendorId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -948,7 +948,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "VendorId",
         "displayName": "VendorId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -956,7 +956,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetNameOfStation",
         "displayName": "SetNameOfStation",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -977,7 +977,7 @@
         "maxMultiplicity": 1,
         "name": "Ports",
         "displayName": "Ports",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnPortContainerType"
       },
       {
@@ -985,7 +985,7 @@
         "maxMultiplicity": 1,
         "name": "Statistic",
         "displayName": "Statistic",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnPortStatisticType"
       }
     ]
@@ -1015,7 +1015,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "GSDDescription",
         "displayName": "GSDDescription",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -1023,7 +1023,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "GSDName",
         "displayName": "GSDName",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -1031,7 +1031,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IdentNumber",
         "displayName": "IdentNumber",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -1039,7 +1039,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Slot",
         "displayName": "Slot",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -1099,7 +1099,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:IPnExpectedModuleType:dataType:PnModuleStateEnumeration;1"
       },
       {
@@ -1107,7 +1107,7 @@
         "maxMultiplicity": 1,
         "name": "Submodules",
         "displayName": "Submodules",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnExpectedSubmoduleContainerType"
       }
     ]
@@ -1368,7 +1368,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Diagnosis",
         "displayName": "Diagnosis",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PROFINET:IPnRealModuleType:dataType:PnDeviceDiagnosisDataType;1"
@@ -1379,7 +1379,7 @@
         "maxMultiplicity": 1,
         "name": "Alarms",
         "displayName": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -1387,7 +1387,7 @@
         "maxMultiplicity": 1,
         "name": "IM",
         "displayName": "IM",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       },
       {
@@ -1395,7 +1395,7 @@
         "maxMultiplicity": 1,
         "name": "Submodules",
         "displayName": "Submodules",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnRealSubmoduleContainerType"
       }
     ]
@@ -1425,7 +1425,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "API",
         "displayName": "API",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -1433,7 +1433,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "GSDDescription",
         "displayName": "GSDDescription",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -1441,7 +1441,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "GSDName",
         "displayName": "GSDName",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -1449,7 +1449,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IdentNumber",
         "displayName": "IdentNumber",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -1457,7 +1457,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Subslot",
         "displayName": "Subslot",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -1487,7 +1487,7 @@
         "maxMultiplicity": 1,
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnSubmoduleStateType"
       }
     ]
@@ -1748,7 +1748,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Diagnosis",
         "displayName": "Diagnosis",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnDeviceDiagnosisDataType;1"
@@ -1759,7 +1759,7 @@
         "maxMultiplicity": 1,
         "name": "Alarms",
         "displayName": "Alarms",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -1767,7 +1767,7 @@
         "maxMultiplicity": 1,
         "name": "IM",
         "displayName": "IM",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnIdentificationType"
       }
     ]
@@ -1805,7 +1805,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:IPv4FeatureType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PROFINET",
+    "ontology": "http://opcfoundation.org/UA/PROFINET/",
     "displayName": "IPv4FeatureType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentFeatureType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1017",
@@ -1818,7 +1818,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DefaultGateway",
         "displayName": "DefaultGateway",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedByte"
@@ -1828,14 +1828,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DhcpEnabled",
         "displayName": "DhcpEnabled",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IpAddress",
         "displayName": "IpAddress",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedByte"
@@ -1845,7 +1845,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SubnetMask",
         "displayName": "SubnetMask",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedByte"
@@ -1877,14 +1877,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Enabled",
         "displayName": "Enabled",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "boolean"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FeatureName",
         "displayName": "<FeatureName>",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:NetworkComponentFeatureType"
       }
     ]
@@ -1901,7 +1901,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:EthernetInterfaceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PROFINET",
+    "ontology": "http://opcfoundation.org/UA/PROFINET/",
     "displayName": "EthernetInterfaceType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1014",
@@ -1914,7 +1914,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MacAddress",
         "displayName": "MacAddress",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedByte"
@@ -1934,7 +1934,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:EthernetPortType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PROFINET",
+    "ontology": "http://opcfoundation.org/UA/PROFINET/",
     "displayName": "EthernetPortType",
     "extends": "dtmi:opcua:PROFINET:NetworkComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1015",
@@ -1947,7 +1947,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PhysAddress",
         "displayName": "PhysAddress",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedByte"
@@ -1988,7 +1988,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnApplicationRelationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PROFINET",
+    "ontology": "http://opcfoundation.org/UA/PROFINET/",
     "displayName": "PnApplicationRelationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1029",
@@ -2058,7 +2058,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DataHoldFactor",
         "displayName": "DataHoldFactor",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2066,7 +2066,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "uuid",
         "writable": false
       },
@@ -2074,7 +2074,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ReductionRatio",
         "displayName": "ReductionRatio",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2082,7 +2082,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SendClockFactor",
         "displayName": "SendClockFactor",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2090,7 +2090,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Type",
         "displayName": "Type",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnApplicationRelationType:dataType:PnARTypeEnumeration;1",
         "writable": false
       },
@@ -2098,7 +2098,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnApplicationRelationType:dataType:PnARStateEnumeration;1"
       },
       {
@@ -2106,7 +2106,7 @@
         "maxMultiplicity": 1,
         "name": "Modules",
         "displayName": "Modules",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnExpectedModuleContainerType"
       }
     ]
@@ -2144,7 +2144,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnAssetType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PROFINET",
+    "ontology": "http://opcfoundation.org/UA/PROFINET/",
     "displayName": "PnAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1006",
@@ -2158,7 +2158,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Annotation",
         "displayName": "Annotation",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2166,7 +2166,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceId",
         "displayName": "DeviceId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2174,7 +2174,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DeviceSubId",
         "displayName": "DeviceSubId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2182,7 +2182,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HardwareRevision",
         "displayName": "HardwareRevision",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2190,7 +2190,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2198,7 +2198,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OrderId",
         "displayName": "OrderId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2206,7 +2206,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Organization",
         "displayName": "Organization",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2214,7 +2214,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SerialNumber",
         "displayName": "SerialNumber",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2222,7 +2222,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2230,7 +2230,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "TypeIdentification",
         "displayName": "TypeIdentification",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2238,7 +2238,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "UniqueIdentifier",
         "displayName": "UniqueIdentifier",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "uuid",
         "writable": false
       },
@@ -2246,7 +2246,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "VendorId",
         "displayName": "VendorId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -2275,7 +2275,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PnEquipments",
         "displayName": "<PnEquipments>",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
@@ -2407,7 +2407,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Date",
         "displayName": "Date",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dateTime",
         "writable": false
       },
@@ -2415,7 +2415,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Descriptor",
         "displayName": "Descriptor",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2423,7 +2423,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HardwareRevision",
         "displayName": "HardwareRevision",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2431,7 +2431,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IM5",
         "displayName": "IM5",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PROFINET:PnIdentificationType:dataType:PnIM5DataType;1"
@@ -2442,7 +2442,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IMSupported",
         "displayName": "IMSupported",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2450,7 +2450,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OrderId",
         "displayName": "OrderId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2458,7 +2458,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProfileId",
         "displayName": "ProfileId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -2466,7 +2466,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProfileSpecificType",
         "displayName": "ProfileSpecificType",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2474,7 +2474,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "RevisionCounter",
         "displayName": "RevisionCounter",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2482,7 +2482,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SerialNumber",
         "displayName": "SerialNumber",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2490,7 +2490,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Signature",
         "displayName": "Signature",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "bytes",
         "writable": false
       },
@@ -2498,7 +2498,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2506,7 +2506,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "TagFunction",
         "displayName": "TagFunction",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2514,7 +2514,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "TagLocation",
         "displayName": "TagLocation",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2522,7 +2522,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "VendorId",
         "displayName": "VendorId",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2530,7 +2530,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Version",
         "displayName": "Version",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "string",
         "writable": false
       },
@@ -2538,7 +2538,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetDate",
         "displayName": "SetDate",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2558,7 +2558,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetDescriptor",
         "displayName": "SetDescriptor",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2578,7 +2578,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetTags",
         "displayName": "SetTags",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2672,42 +2672,42 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InDiscards",
         "displayName": "InDiscards",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InErrors",
         "displayName": "InErrors",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InOctets",
         "displayName": "InOctets",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutDiscards",
         "displayName": "OutDiscards",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutErrors",
         "displayName": "OutErrors",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutOctets",
         "displayName": "OutOctets",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger"
       }
     ]
@@ -2724,7 +2724,7 @@
     ],
     "@id": "dtmi:opcua:PROFINET:PnPortType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PROFINET",
+    "ontology": "http://opcfoundation.org/UA/PROFINET/",
     "displayName": "PnPortType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1010",
@@ -2813,42 +2813,42 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CableDelay",
         "displayName": "CableDelay",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsWireless",
         "displayName": "IsWireless",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LinkState",
         "displayName": "LinkState",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnPortType:dataType:PnLinkStateEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MAUType",
         "displayName": "MAUType",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PortState",
         "displayName": "PortState",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnPortType:dataType:PnPortStateEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerBudget",
         "displayName": "PowerBudget",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "unsignedInteger"
       },
       {
@@ -2856,7 +2856,7 @@
         "maxMultiplicity": 1,
         "name": "Statistic",
         "displayName": "Statistic",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "target": "dtmi:opcua:PROFINET:PnPortStatisticType"
       }
     ]
@@ -3001,49 +3001,49 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AddInfo",
         "displayName": "AddInfo",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleAddInfoEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ARInfo",
         "displayName": "ARInfo",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleARInfoEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DiagInfo",
         "displayName": "DiagInfo",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IdentInfo",
         "displayName": "IdentInfo",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleIdentInfoEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaintenanceDemanded",
         "displayName": "MaintenanceDemanded",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaintenanceRequired",
         "displayName": "MaintenanceRequired",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "QualifiedInfo",
         "displayName": "QualifiedInfo",
-        "namespace": "http://opcfoundation.org/UA/PROFINET",
+        "namespace": "http://opcfoundation.org/UA/PROFINET/",
         "schema": "boolean"
       }
     ]

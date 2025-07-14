@@ -1,3 +1,5 @@
+SpecUri: http://www.OPCFoundation.org/UA/2013/01/ISA95
+
 DataTypes:
 - UADataType: [ ISA95:4772, ISA95:DecimalString ]
   Bases:

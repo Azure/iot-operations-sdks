@@ -11,7 +11,7 @@
 <# if (this.definedType.Description != null && this.definedType.Description != string.Empty) { #>
         "description": "<#=definedType.Description#>",
 <# } #>
-        "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>"<#=this.InputArgs != null || this.OutputArgs != null ? "," : ""#>
+        "namespace": "<#=this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>"<#=this.InputArgs != null || this.OutputArgs != null ? "," : ""#>
 <# if (this.InputArgs != null) { #>
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],

@@ -149,13 +149,13 @@ namespace Yaml2Dtdl
             }
         }
 
-        public static string GetTypeRefFromNodeId(string nodeId)
+        public static string GetTypeRefFromNodeId(SpecMapper specMapper, string nodeId)
         {
             int sepIx = nodeId.IndexOf(':');
             string? specName = sepIx < 0 ? null : nodeId.Substring(0, sepIx);
             string idNum = nodeId.Substring(sepIx + 1);
-            string uri = SpecMapper.GetUriFromSpecName(specName);
-            return $"nsu={uri}/;i={idNum}";
+            string uri = specMapper.GetUriFromSpecName(specName);
+            return $"nsu={uri};i={idNum}";
         }
 
         public static HashSet<string> BuiltInTypes { get => builtInTypeMap.Keys.ToHashSet(); }

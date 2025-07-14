@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/DEXPI/
+
 DataTypes:
 - UADataType: [ DEXPI:1000, DEXPI:SiphonClassification ]
   DisplayName: "SiphonClassification"

@@ -3,9 +3,11 @@ namespace Yaml2Dtdl
     using System.Collections.Generic;
     using System.Linq;
     using OpcUaDigest;
+    using SpecMapper;
 
     public partial class DtdlCommand
     {
+        private SpecMapper specMapper;
         private string modelId;
         private OpcUaDefinedType definedType;
         private TypeConverter typeConverter;
@@ -18,8 +20,9 @@ namespace Yaml2Dtdl
 
         public bool OutputIsOptional { get; }
 
-        public DtdlCommand(string modelId, OpcUaDefinedType definedType, TypeConverter typeConverter)
+        public DtdlCommand(SpecMapper specMapper, string modelId, OpcUaDefinedType definedType, TypeConverter typeConverter)
         {
+            this.specMapper = specMapper;
             this.modelId = modelId;
             this.definedType = definedType;
 

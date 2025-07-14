@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/WireHarness/
+
 DataTypes:
 - UADataType: [ WireHarness:3033, WireHarness:ForceCurveDataType ]
   DisplayName: "ForceCurveDataType"

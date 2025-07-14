@@ -23,7 +23,7 @@
         "maxMultiplicity": 1,
         "name": "Configuration",
         "displayName": "Configuration",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -31,7 +31,7 @@
         "maxMultiplicity": 1,
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -39,7 +39,7 @@
         "maxMultiplicity": 1,
         "name": "FactorySettings",
         "displayName": "FactorySettings",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -47,7 +47,7 @@
         "maxMultiplicity": 1,
         "name": "AnalyserStateMachine",
         "displayName": "AnalyserStateMachine",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserDeviceStateMachineType"
       },
       {
@@ -55,7 +55,7 @@
         "name": "ChannelIdentifier",
         "displayName": "<ChannelIdentifier>",
         "description": "Channel definition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserChannelType"
       },
       {
@@ -63,7 +63,7 @@
         "name": "AccessorySlotIdentifier",
         "displayName": "<AccessorySlotIdentifier>",
         "description": "AccessorySlot definition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AccessorySlotType"
       }
     ]
@@ -93,7 +93,7 @@
         "name": "Powerup",
         "displayName": "Powerup",
         "description": "The AnalyserDevice is in its power-up sequence and cannot perform any other task.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
@@ -102,7 +102,7 @@
         "name": "Operating",
         "displayName": "Operating",
         "description": "The AnalyserDevice is in the Operating mode.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -111,7 +111,7 @@
         "name": "Local",
         "displayName": "Local",
         "description": "The AnalyserDevice is in the Local mode. This mode is normally used to perform local physical maintenance on the analyser.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -120,7 +120,7 @@
         "name": "Maintenance",
         "displayName": "Maintenance",
         "description": "The AnalyserDevice is in the Maintenance mode. This mode is used to perform remote maintenance on the analyser like firmware upgrade.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -129,7 +129,7 @@
         "name": "Shutdown",
         "displayName": "Shutdown",
         "description": "The AnalyserDevice is in its power-down sequence and cannot perform any other task.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -137,7 +137,7 @@
         "maxMultiplicity": 1,
         "name": "PowerupToOperatingTransition",
         "displayName": "PowerupToOperatingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -145,7 +145,7 @@
         "maxMultiplicity": 1,
         "name": "OperatingToLocalTransition",
         "displayName": "OperatingToLocalTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -153,7 +153,7 @@
         "maxMultiplicity": 1,
         "name": "OperatingToMaintenanceTransition",
         "displayName": "OperatingToMaintenanceTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -161,7 +161,7 @@
         "maxMultiplicity": 1,
         "name": "LocalToOperatingTransition",
         "displayName": "LocalToOperatingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -169,7 +169,7 @@
         "maxMultiplicity": 1,
         "name": "LocalToMaintenanceTransition",
         "displayName": "LocalToMaintenanceTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -177,7 +177,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceToOperatingTransition",
         "displayName": "MaintenanceToOperatingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -185,7 +185,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceToLocalTransition",
         "displayName": "MaintenanceToLocalTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -193,7 +193,7 @@
         "maxMultiplicity": 1,
         "name": "OperatingToShutdownTransition",
         "displayName": "OperatingToShutdownTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -201,7 +201,7 @@
         "maxMultiplicity": 1,
         "name": "LocalToShutdownTransition",
         "displayName": "LocalToShutdownTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -209,7 +209,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceToShutdownTransition",
         "displayName": "MaintenanceToShutdownTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
@@ -238,7 +238,7 @@
         "maxMultiplicity": 1,
         "name": "Configuration",
         "displayName": "Configuration",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -246,7 +246,7 @@
         "maxMultiplicity": 1,
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -254,7 +254,7 @@
         "maxMultiplicity": 1,
         "name": "ChannelStateMachine",
         "displayName": "ChannelStateMachine",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserChannelStateMachineType"
       },
       {
@@ -262,7 +262,7 @@
         "name": "StreamIdentifier",
         "displayName": "<StreamIdentifier>",
         "description": "Stream definition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:StreamType"
       },
       {
@@ -270,7 +270,7 @@
         "name": "AccessorySlotIdentifier",
         "displayName": "<AccessorySlotIdentifier>",
         "description": "AccessorySlot definition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AccessorySlotType"
       }
     ]
@@ -363,7 +363,7 @@
         "maxMultiplicity": 1,
         "name": "OperatingSubStateMachine",
         "displayName": "OperatingSubStateMachine",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeSubStateMachineType"
       },
       {
@@ -371,7 +371,7 @@
         "maxMultiplicity": 1,
         "name": "LocalSubStateMachine",
         "displayName": "LocalSubStateMachine",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:FiniteStateMachineType"
       },
       {
@@ -379,7 +379,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceSubStateMachine",
         "displayName": "MaintenanceSubStateMachine",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:FiniteStateMachineType"
       },
       {
@@ -388,7 +388,7 @@
         "name": "SlaveMode",
         "displayName": "SlaveMode",
         "description": "The AnalyserDevice is in Local or Maintenance mode and all AnalyserChannels are in SlaveMode",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
@@ -397,7 +397,7 @@
         "name": "Operating",
         "displayName": "Operating",
         "description": "The AnalyserChannel is in the Operating mode.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserChannelOperatingStateType"
       },
       {
@@ -406,7 +406,7 @@
         "name": "Local",
         "displayName": "Local",
         "description": "The AnalyserChannel is in the Local mode. This mode is normally used to perform local physical maintenance on the analyser.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserChannelLocalStateType"
       },
       {
@@ -415,7 +415,7 @@
         "name": "Maintenance",
         "displayName": "Maintenance",
         "description": "The AnalyserChannel is in the Maintenance mode. This mode is used to perform remote maintenance on the analyser like firmware upgrade.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserChannelMaintenanceStateType"
       },
       {
@@ -423,7 +423,7 @@
         "maxMultiplicity": 1,
         "name": "SlaveModeToOperatingTransition",
         "displayName": "SlaveModeToOperatingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -431,7 +431,7 @@
         "maxMultiplicity": 1,
         "name": "OperatingToLocalTransition",
         "displayName": "OperatingToLocalTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -439,7 +439,7 @@
         "maxMultiplicity": 1,
         "name": "OperatingToMaintenanceTransition",
         "displayName": "OperatingToMaintenanceTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -447,7 +447,7 @@
         "maxMultiplicity": 1,
         "name": "LocalToOperatingTransition",
         "displayName": "LocalToOperatingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -455,7 +455,7 @@
         "maxMultiplicity": 1,
         "name": "LocalToMaintenanceTransition",
         "displayName": "LocalToMaintenanceTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -463,7 +463,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceToOperatingTransition",
         "displayName": "MaintenanceToOperatingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -471,7 +471,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceToLocalTransition",
         "displayName": "MaintenanceToLocalTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -479,7 +479,7 @@
         "maxMultiplicity": 1,
         "name": "OperatingToSlaveModeTransition",
         "displayName": "OperatingToSlaveModeTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -487,7 +487,7 @@
         "maxMultiplicity": 1,
         "name": "LocalToSlaveModeTransition",
         "displayName": "LocalToSlaveModeTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -495,7 +495,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceToSlaveModeTransition",
         "displayName": "MaintenanceToSlaveModeTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
@@ -546,7 +546,7 @@
         "maxMultiplicity": 1,
         "name": "OperatingExecuteSubStateMachine",
         "displayName": "OperatingExecuteSubStateMachine",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType"
       },
       {
@@ -555,7 +555,7 @@
         "name": "Stopped",
         "displayName": "Stopped",
         "description": "This is the initial state after AnalyserDeviceStateMachine state Powerup",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
@@ -564,7 +564,7 @@
         "name": "Resetting",
         "displayName": "Resetting",
         "description": "This state is the result of a Reset or SetConfiguration Method call from the Stopped state.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -573,7 +573,7 @@
         "name": "Idle",
         "displayName": "Idle",
         "description": "The Resetting state is completed, all parameters have been committed and ready to start acquisition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -582,7 +582,7 @@
         "name": "Starting",
         "displayName": "Starting",
         "description": "The analyser has received the Start or SingleAcquisitionStart Method call and it is preparing to enter in Execute state.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -591,7 +591,7 @@
         "name": "Execute",
         "displayName": "Execute",
         "description": "All repetitive acquisition cycles are done in this state:",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AnalyserChannelOperatingExecuteStateType"
       },
       {
@@ -600,7 +600,7 @@
         "name": "Completing",
         "displayName": "Completing",
         "description": "This state is an automatic or commanded exit from the Execute state.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -609,7 +609,7 @@
         "name": "Complete",
         "displayName": "Complete",
         "description": "At this point, the Completing state is done and it transitions automatically to Stopped state to wait.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -618,7 +618,7 @@
         "name": "Suspending",
         "displayName": "Suspending",
         "description": "This state is a result of a change in monitored conditions due to process conditions or factors.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -627,7 +627,7 @@
         "name": "Suspended",
         "displayName": "Suspended",
         "description": "The analyser or channel may be running but no results are being generated while the analyser or channel is waiting for external process conditions to return to normal.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -636,7 +636,7 @@
         "name": "Unsuspending",
         "displayName": "Unsuspending",
         "description": "This state is a result of a device request from Suspended state to transition back to the Execute state by calling the Unsuspend Method.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -645,7 +645,7 @@
         "name": "Holding",
         "displayName": "Holding",
         "description": "Brings the analyser or channel to a controlled stop or to a state which represents Held for the particular unit control mode",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -654,7 +654,7 @@
         "name": "Held",
         "displayName": "Held",
         "description": "The Held state holds the analyser or channel's operation. At this state, no acquisition cycle is performed.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -663,7 +663,7 @@
         "name": "Unholding",
         "displayName": "Unholding",
         "description": "The Unholding state is a response to an operator command to resume the Execute state.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -672,7 +672,7 @@
         "name": "Stopping",
         "displayName": "Stopping",
         "description": "Initiated by a Stop Method call, this state:",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -681,7 +681,7 @@
         "name": "Aborting",
         "displayName": "Aborting",
         "description": "The Aborting state can be entered at any time in response to the Abort command or on the occurrence of a machine fault.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -690,7 +690,7 @@
         "name": "Aborted",
         "displayName": "Aborted",
         "description": "This state maintains machine status information relevant to the Abort condition.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -699,7 +699,7 @@
         "name": "Clearing",
         "displayName": "Clearing",
         "description": "Clears faults that may have occurred when Aborting and are present in the Aborted state before proceeding to a Stopped state",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -707,7 +707,7 @@
         "maxMultiplicity": 1,
         "name": "StoppedToResettingTransition",
         "displayName": "StoppedToResettingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -715,7 +715,7 @@
         "maxMultiplicity": 1,
         "name": "ResettingTransition",
         "displayName": "ResettingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -723,7 +723,7 @@
         "maxMultiplicity": 1,
         "name": "ResettingToIdleTransition",
         "displayName": "ResettingToIdleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -731,7 +731,7 @@
         "maxMultiplicity": 1,
         "name": "IdleToStartingTransition",
         "displayName": "IdleToStartingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -739,7 +739,7 @@
         "maxMultiplicity": 1,
         "name": "StartingTransition",
         "displayName": "StartingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -747,7 +747,7 @@
         "maxMultiplicity": 1,
         "name": "StartingToExecuteTransition",
         "displayName": "StartingToExecuteTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -755,7 +755,7 @@
         "maxMultiplicity": 1,
         "name": "ExecuteToCompletingTransition",
         "displayName": "ExecuteToCompletingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -763,7 +763,7 @@
         "maxMultiplicity": 1,
         "name": "CompletingTransition",
         "displayName": "CompletingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -771,7 +771,7 @@
         "maxMultiplicity": 1,
         "name": "CompletingToCompleteTransition",
         "displayName": "CompletingToCompleteTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -779,7 +779,7 @@
         "maxMultiplicity": 1,
         "name": "CompleteToStoppedTransition",
         "displayName": "CompleteToStoppedTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -787,7 +787,7 @@
         "maxMultiplicity": 1,
         "name": "ExecuteToHoldingTransition",
         "displayName": "ExecuteToHoldingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -795,7 +795,7 @@
         "maxMultiplicity": 1,
         "name": "HoldingTransition",
         "displayName": "HoldingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -803,7 +803,7 @@
         "maxMultiplicity": 1,
         "name": "HoldingToHeldTransition",
         "displayName": "HoldingToHeldTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -811,7 +811,7 @@
         "maxMultiplicity": 1,
         "name": "HeldToUnholdingTransition",
         "displayName": "HeldToUnholdingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -819,7 +819,7 @@
         "maxMultiplicity": 1,
         "name": "UnholdingTransition",
         "displayName": "UnholdingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -827,7 +827,7 @@
         "maxMultiplicity": 1,
         "name": "UnholdingToHoldingTransition",
         "displayName": "UnholdingToHoldingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -835,7 +835,7 @@
         "maxMultiplicity": 1,
         "name": "UnholdingToExecuteTransition",
         "displayName": "UnholdingToExecuteTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -843,7 +843,7 @@
         "maxMultiplicity": 1,
         "name": "ExecuteToSuspendingTransition",
         "displayName": "ExecuteToSuspendingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -851,7 +851,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendingTransition",
         "displayName": "SuspendingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -859,7 +859,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendingToSuspendedTransition",
         "displayName": "SuspendingToSuspendedTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -867,7 +867,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendedToUnsuspendingTransition",
         "displayName": "SuspendedToUnsuspendingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -875,7 +875,7 @@
         "maxMultiplicity": 1,
         "name": "UnsuspendingTransition",
         "displayName": "UnsuspendingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -883,7 +883,7 @@
         "maxMultiplicity": 1,
         "name": "UnsuspendingToSuspendingTransition",
         "displayName": "UnsuspendingToSuspendingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -891,7 +891,7 @@
         "maxMultiplicity": 1,
         "name": "UnsuspendingToExecuteTransition",
         "displayName": "UnsuspendingToExecuteTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -899,7 +899,7 @@
         "maxMultiplicity": 1,
         "name": "StoppingToStoppedTransition",
         "displayName": "StoppingToStoppedTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -907,7 +907,7 @@
         "maxMultiplicity": 1,
         "name": "AbortingToAbortedTransition",
         "displayName": "AbortingToAbortedTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -915,7 +915,7 @@
         "maxMultiplicity": 1,
         "name": "AbortedToClearingTransition",
         "displayName": "AbortedToClearingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -923,7 +923,7 @@
         "maxMultiplicity": 1,
         "name": "ClearingToStoppedTransition",
         "displayName": "ClearingToStoppedTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -931,7 +931,7 @@
         "maxMultiplicity": 1,
         "name": "ResettingToStoppingTransition",
         "displayName": "ResettingToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -939,7 +939,7 @@
         "maxMultiplicity": 1,
         "name": "IdleToStoppingTransition",
         "displayName": "IdleToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -947,7 +947,7 @@
         "maxMultiplicity": 1,
         "name": "StartingToStoppingTransition",
         "displayName": "StartingToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -955,7 +955,7 @@
         "maxMultiplicity": 1,
         "name": "ExecuteToStoppingTransition",
         "displayName": "ExecuteToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -963,7 +963,7 @@
         "maxMultiplicity": 1,
         "name": "CompletingToStoppingTransition",
         "displayName": "CompletingToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -971,7 +971,7 @@
         "maxMultiplicity": 1,
         "name": "CompleteToStoppingTransition",
         "displayName": "CompleteToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -979,7 +979,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendingToStoppingTransition",
         "displayName": "SuspendingToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -987,7 +987,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendedToStoppingTransition",
         "displayName": "SuspendedToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -995,7 +995,7 @@
         "maxMultiplicity": 1,
         "name": "UnsuspendingToStoppingTransition",
         "displayName": "UnsuspendingToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1003,7 +1003,7 @@
         "maxMultiplicity": 1,
         "name": "HoldingToStoppingTransition",
         "displayName": "HoldingToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1011,7 +1011,7 @@
         "maxMultiplicity": 1,
         "name": "HeldToStoppingTransition",
         "displayName": "HeldToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1019,7 +1019,7 @@
         "maxMultiplicity": 1,
         "name": "UnholdingToStoppingTransition",
         "displayName": "UnholdingToStoppingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1027,7 +1027,7 @@
         "maxMultiplicity": 1,
         "name": "StoppedToAbortingTransition",
         "displayName": "StoppedToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1035,7 +1035,7 @@
         "maxMultiplicity": 1,
         "name": "ResettingToAbortingTransition",
         "displayName": "ResettingToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1043,7 +1043,7 @@
         "maxMultiplicity": 1,
         "name": "IdleToAbortingTransition",
         "displayName": "IdleToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1051,7 +1051,7 @@
         "maxMultiplicity": 1,
         "name": "StartingToAbortingTransition",
         "displayName": "StartingToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1059,7 +1059,7 @@
         "maxMultiplicity": 1,
         "name": "ExecuteToAbortingTransition",
         "displayName": "ExecuteToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1067,7 +1067,7 @@
         "maxMultiplicity": 1,
         "name": "CompletingToAbortingTransition",
         "displayName": "CompletingToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1075,7 +1075,7 @@
         "maxMultiplicity": 1,
         "name": "CompleteToAbortingTransition",
         "displayName": "CompleteToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1083,7 +1083,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendingToAbortingTransition",
         "displayName": "SuspendingToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1091,7 +1091,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendedToAbortingTransition",
         "displayName": "SuspendedToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1099,7 +1099,7 @@
         "maxMultiplicity": 1,
         "name": "UnsuspendingToAbortingTransition",
         "displayName": "UnsuspendingToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1107,7 +1107,7 @@
         "maxMultiplicity": 1,
         "name": "HoldingToAbortingTransition",
         "displayName": "HoldingToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1115,7 +1115,7 @@
         "maxMultiplicity": 1,
         "name": "HeldToAbortingTransition",
         "displayName": "HeldToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1123,7 +1123,7 @@
         "maxMultiplicity": 1,
         "name": "UnholdingToAbortingTransition",
         "displayName": "UnholdingToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1131,7 +1131,7 @@
         "maxMultiplicity": 1,
         "name": "StoppingToAbortingTransition",
         "displayName": "StoppingToAbortingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
@@ -1161,7 +1161,7 @@
         "name": "SelectExecutionCycle",
         "displayName": "SelectExecutionCycle",
         "description": "This pseudo-state is used to decide which execution path shall be taken.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
@@ -1170,7 +1170,7 @@
         "name": "WaitForCalibrationTrigger",
         "displayName": "WaitForCalibrationTrigger",
         "description": "Wait until the analyser channel is ready to perform the Calibration acquisition cycle",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1179,7 +1179,7 @@
         "name": "ExtractCalibrationSample",
         "displayName": "ExtractCalibrationSample",
         "description": "Collect / setup the sampling system to perform the acquisition cycle of a Calibration cycle",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1188,7 +1188,7 @@
         "name": "PrepareCalibrationSample",
         "displayName": "PrepareCalibrationSample",
         "description": "Prepare the Calibration sample for the AnalyseCalibrationSample state",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1197,7 +1197,7 @@
         "name": "AnalyseCalibrationSample",
         "displayName": "AnalyseCalibrationSample",
         "description": "Perform the analysis of the Calibration Sample",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1206,7 +1206,7 @@
         "name": "WaitForValidationTrigger",
         "displayName": "WaitForValidationTrigger",
         "description": "Wait until the analyser channel is ready to perform the Validation acquisition cycle",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1215,7 +1215,7 @@
         "name": "ExtractValidationSample",
         "displayName": "ExtractValidationSample",
         "description": "Collect / setup the sampling system to perform the acquisition cycle of a Validation cycle",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1224,7 +1224,7 @@
         "name": "PrepareValidationSample",
         "displayName": "PrepareValidationSample",
         "description": "Prepare the Validation sample for the AnalyseValidationSample state",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1233,7 +1233,7 @@
         "name": "AnalyseValidationSample",
         "displayName": "AnalyseValidationSample",
         "description": "Perform the analysis of the Validation Sample",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1242,7 +1242,7 @@
         "name": "WaitForSampleTrigger",
         "displayName": "WaitForSampleTrigger",
         "description": "Wait until the analyser channel is ready to perform the Sample acquisition cycle",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1251,7 +1251,7 @@
         "name": "ExtractSample",
         "displayName": "ExtractSample",
         "description": "Collect the Sample from the process",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1260,7 +1260,7 @@
         "name": "PrepareSample",
         "displayName": "PrepareSample",
         "description": "Prepare the Sample for the AnalyseSample state",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1269,7 +1269,7 @@
         "name": "AnalyseSample",
         "displayName": "AnalyseSample",
         "description": "Perform the analysis of the Sample",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1278,7 +1278,7 @@
         "name": "WaitForDiagnosticTrigger",
         "displayName": "WaitForDiagnosticTrigger",
         "description": "Wait until the analyser channel is ready to perform the diagnostic cycle,",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1287,7 +1287,7 @@
         "name": "Diagnostic",
         "displayName": "Diagnostic",
         "description": "Perform the diagnostic cycle.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1296,7 +1296,7 @@
         "name": "WaitForCleaningTrigger",
         "displayName": "WaitForCleaningTrigger",
         "description": "Wait until the analyser channel is ready to perform the cleaning cycle,",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1305,7 +1305,7 @@
         "name": "Cleaning",
         "displayName": "Cleaning",
         "description": "Perform the cleaning cycle.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1314,7 +1314,7 @@
         "name": "PublishResults",
         "displayName": "PublishResults",
         "description": "Publish the results of the previous acquisition cycle",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1323,7 +1323,7 @@
         "name": "EjectGrabSample",
         "displayName": "EjectGrabSample",
         "description": "The Sample that was just analysed is ejected from the system to allow the operator or another system to grab it",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1332,7 +1332,7 @@
         "name": "CleanupSamplingSystem",
         "displayName": "CleanupSamplingSystem",
         "description": "Cleanup the sampling sub-system to be ready for the next acquisition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1340,7 +1340,7 @@
         "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForCalibrationTriggerTransition",
         "displayName": "SelectExecutionCycleToWaitForCalibrationTriggerTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1348,7 +1348,7 @@
         "maxMultiplicity": 1,
         "name": "WaitForCalibrationTriggerToExtractCalibrationSampleTransition",
         "displayName": "WaitForCalibrationTriggerToExtractCalibrationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1356,7 +1356,7 @@
         "maxMultiplicity": 1,
         "name": "ExtractCalibrationSampleTransition",
         "displayName": "ExtractCalibrationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1364,7 +1364,7 @@
         "maxMultiplicity": 1,
         "name": "ExtractCalibrationSampleToPrepareCalibrationSampleTransition",
         "displayName": "ExtractCalibrationSampleToPrepareCalibrationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1372,7 +1372,7 @@
         "maxMultiplicity": 1,
         "name": "PrepareCalibrationSampleTransition",
         "displayName": "PrepareCalibrationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1380,7 +1380,7 @@
         "maxMultiplicity": 1,
         "name": "PrepareCalibrationSampleToAnalyseCalibrationSampleTransition",
         "displayName": "PrepareCalibrationSampleToAnalyseCalibrationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1388,7 +1388,7 @@
         "maxMultiplicity": 1,
         "name": "AnalyseCalibrationSampleTransition",
         "displayName": "AnalyseCalibrationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1396,7 +1396,7 @@
         "maxMultiplicity": 1,
         "name": "AnalyseCalibrationSampleToPublishResultsTransition",
         "displayName": "AnalyseCalibrationSampleToPublishResultsTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1404,7 +1404,7 @@
         "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForValidationTriggerTransition",
         "displayName": "SelectExecutionCycleToWaitForValidationTriggerTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1412,7 +1412,7 @@
         "maxMultiplicity": 1,
         "name": "WaitForValidationTriggerToExtractValidationSampleTransition",
         "displayName": "WaitForValidationTriggerToExtractValidationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1420,7 +1420,7 @@
         "maxMultiplicity": 1,
         "name": "ExtractValidationSampleTransition",
         "displayName": "ExtractValidationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1428,7 +1428,7 @@
         "maxMultiplicity": 1,
         "name": "ExtractValidationSampleToPrepareValidationSampleTransition",
         "displayName": "ExtractValidationSampleToPrepareValidationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1436,7 +1436,7 @@
         "maxMultiplicity": 1,
         "name": "PrepareValidationSampleTransition",
         "displayName": "PrepareValidationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1444,7 +1444,7 @@
         "maxMultiplicity": 1,
         "name": "PrepareValidationSampleToAnalyseValidationSampleTransition",
         "displayName": "PrepareValidationSampleToAnalyseValidationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1452,7 +1452,7 @@
         "maxMultiplicity": 1,
         "name": "AnalyseValidationSampleTransition",
         "displayName": "AnalyseValidationSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1460,7 +1460,7 @@
         "maxMultiplicity": 1,
         "name": "AnalyseValidationSampleToPublishResultsTransition",
         "displayName": "AnalyseValidationSampleToPublishResultsTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1468,7 +1468,7 @@
         "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForSampleTriggerTransition",
         "displayName": "SelectExecutionCycleToWaitForSampleTriggerTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1476,7 +1476,7 @@
         "maxMultiplicity": 1,
         "name": "WaitForSampleTriggerToExtractSampleTransition",
         "displayName": "WaitForSampleTriggerToExtractSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1484,7 +1484,7 @@
         "maxMultiplicity": 1,
         "name": "ExtractSampleTransition",
         "displayName": "ExtractSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1492,7 +1492,7 @@
         "maxMultiplicity": 1,
         "name": "ExtractSampleToPrepareSampleTransition",
         "displayName": "ExtractSampleToPrepareSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1500,7 +1500,7 @@
         "maxMultiplicity": 1,
         "name": "PrepareSampleTransition",
         "displayName": "PrepareSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1508,7 +1508,7 @@
         "maxMultiplicity": 1,
         "name": "PrepareSampleToAnalyseSampleTransition",
         "displayName": "PrepareSampleToAnalyseSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1516,7 +1516,7 @@
         "maxMultiplicity": 1,
         "name": "AnalyseSampleTransition",
         "displayName": "AnalyseSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1524,7 +1524,7 @@
         "maxMultiplicity": 1,
         "name": "AnalyseSampleToPublishResultsTransition",
         "displayName": "AnalyseSampleToPublishResultsTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1532,7 +1532,7 @@
         "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForDiagnosticTriggerTransition",
         "displayName": "SelectExecutionCycleToWaitForDiagnosticTriggerTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1540,7 +1540,7 @@
         "maxMultiplicity": 1,
         "name": "WaitForDiagnosticTriggerToDiagnosticTransition",
         "displayName": "WaitForDiagnosticTriggerToDiagnosticTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1548,7 +1548,7 @@
         "maxMultiplicity": 1,
         "name": "DiagnosticTransition",
         "displayName": "DiagnosticTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1556,7 +1556,7 @@
         "maxMultiplicity": 1,
         "name": "DiagnosticToPublishResultsTransition",
         "displayName": "DiagnosticToPublishResultsTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1564,7 +1564,7 @@
         "maxMultiplicity": 1,
         "name": "SelectExecutionCycleToWaitForCleaningTriggerTransition",
         "displayName": "SelectExecutionCycleToWaitForCleaningTriggerTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1572,7 +1572,7 @@
         "maxMultiplicity": 1,
         "name": "WaitForCleaningTriggerToCleaningTransition",
         "displayName": "WaitForCleaningTriggerToCleaningTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1580,7 +1580,7 @@
         "maxMultiplicity": 1,
         "name": "CleaningTransition",
         "displayName": "CleaningTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1588,7 +1588,7 @@
         "maxMultiplicity": 1,
         "name": "CleaningToPublishResultsTransition",
         "displayName": "CleaningToPublishResultsTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1596,7 +1596,7 @@
         "maxMultiplicity": 1,
         "name": "PublishResultsToCleanupSamplingSystemTransition",
         "displayName": "PublishResultsToCleanupSamplingSystemTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1604,7 +1604,7 @@
         "maxMultiplicity": 1,
         "name": "PublishResultsToEjectGrabSampleTransition",
         "displayName": "PublishResultsToEjectGrabSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1612,7 +1612,7 @@
         "maxMultiplicity": 1,
         "name": "EjectGrabSampleTransition",
         "displayName": "EjectGrabSampleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1620,7 +1620,7 @@
         "maxMultiplicity": 1,
         "name": "EjectGrabSampleToCleanupSamplingSystemTransition",
         "displayName": "EjectGrabSampleToCleanupSamplingSystemTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1628,7 +1628,7 @@
         "maxMultiplicity": 1,
         "name": "CleanupSamplingSystemTransition",
         "displayName": "CleanupSamplingSystemTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1636,7 +1636,7 @@
         "maxMultiplicity": 1,
         "name": "CleanupSamplingSystemToSelectExecutionCycleTransition",
         "displayName": "CleanupSamplingSystemToSelectExecutionCycleTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
@@ -1665,7 +1665,7 @@
         "maxMultiplicity": 1,
         "name": "Configuration",
         "displayName": "Configuration",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -1673,7 +1673,7 @@
         "maxMultiplicity": 1,
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -1681,7 +1681,7 @@
         "maxMultiplicity": 1,
         "name": "AcquisitionSettings",
         "displayName": "AcquisitionSettings",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -1689,7 +1689,7 @@
         "maxMultiplicity": 1,
         "name": "AcquisitionStatus",
         "displayName": "AcquisitionStatus",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -1697,7 +1697,7 @@
         "maxMultiplicity": 1,
         "name": "AcquisitionData",
         "displayName": "AcquisitionData",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -1705,7 +1705,7 @@
         "maxMultiplicity": 1,
         "name": "ChemometricModelSettings",
         "displayName": "ChemometricModelSettings",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -1713,7 +1713,7 @@
         "maxMultiplicity": 1,
         "name": "Context",
         "displayName": "Context",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       }
     ]
@@ -1730,7 +1730,7 @@
     ],
     "@id": "dtmi:opcua:ADI:SpectrometerDeviceStreamType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "SpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1030",
@@ -1743,7 +1743,7 @@
         "maxMultiplicity": 1,
         "name": "FactorySettings",
         "displayName": "FactorySettings",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
@@ -1760,7 +1760,7 @@
     ],
     "@id": "dtmi:opcua:ADI:MassSpectrometerDeviceStreamType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "MassSpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1031",
@@ -1782,7 +1782,7 @@
     ],
     "@id": "dtmi:opcua:ADI:ParticleSizeMonitorDeviceStreamType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "ParticleSizeMonitorDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1032",
@@ -1804,7 +1804,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AcousticSpectrometerDeviceStreamType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "AcousticSpectrometerDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1033",
@@ -1826,7 +1826,7 @@
     ],
     "@id": "dtmi:opcua:ADI:ChromatographDeviceStreamType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "ChromatographDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1034",
@@ -1848,7 +1848,7 @@
     ],
     "@id": "dtmi:opcua:ADI:MNRDeviceStreamType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "MNRDeviceStreamType",
     "extends": "dtmi:opcua:ADI:StreamType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1035",
@@ -1870,7 +1870,7 @@
     ],
     "@id": "dtmi:opcua:ADI:SpectrometerDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "SpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1011",
@@ -1892,7 +1892,7 @@
     ],
     "@id": "dtmi:opcua:ADI:ParticleSizeMonitorDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "ParticleSizeMonitorDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1012",
@@ -1914,7 +1914,7 @@
     ],
     "@id": "dtmi:opcua:ADI:ChromatographDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "ChromatographDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1013",
@@ -1936,7 +1936,7 @@
     ],
     "@id": "dtmi:opcua:ADI:MassSpectrometerDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "MassSpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1014",
@@ -1958,7 +1958,7 @@
     ],
     "@id": "dtmi:opcua:ADI:AcousticSpectrometerDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "AcousticSpectrometerDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1015",
@@ -1980,7 +1980,7 @@
     ],
     "@id": "dtmi:opcua:ADI:NMRDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "NMRDeviceType",
     "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1016",
@@ -2017,7 +2017,7 @@
         "name": "IsHotSwappable",
         "displayName": "IsHotSwappable",
         "description": "True if an accessory can be inserted in the accessory slot while it is powered",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "schema": "boolean",
         "writable": false
       },
@@ -2026,7 +2026,7 @@
         "name": "IsEnabled",
         "displayName": "IsEnabled",
         "description": "True if this accessory slot is capable of accepting an accessory in it",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "schema": "boolean",
         "writable": false
       },
@@ -2035,7 +2035,7 @@
         "maxMultiplicity": 1,
         "name": "AccessorySlotStateMachine",
         "displayName": "AccessorySlotStateMachine",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AccessorySlotStateMachineType"
       },
       {
@@ -2043,7 +2043,7 @@
         "name": "AccessoryIdentifier",
         "displayName": "<AccessoryIdentifier>",
         "description": "Accessory definition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:ADI:AccessoryType"
       }
     ]
@@ -2074,7 +2074,7 @@
         "name": "Powerup",
         "displayName": "Powerup",
         "description": "The AccessorySlot is in its power-up sequence and cannot perform any other task.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
@@ -2083,7 +2083,7 @@
         "name": "Empty",
         "displayName": "Empty",
         "description": "This represents an AccessorySlot where no Accessory is installed.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2092,7 +2092,7 @@
         "name": "Inserting",
         "displayName": "Inserting",
         "description": "This represents an AccessorySlot when an Accessory is being inserted and initializing.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2101,7 +2101,7 @@
         "name": "Installed",
         "displayName": "Installed",
         "description": "This represents an AccessorySlot where an Accessory is installed and ready to use.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2110,7 +2110,7 @@
         "name": "Removing",
         "displayName": "Removing",
         "description": "This represents an AccessorySlot where no Accessory is installed.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2119,7 +2119,7 @@
         "name": "Shutdown",
         "displayName": "Shutdown",
         "description": "The AccessorySlot is in its power-down sequence and cannot perform any other task.",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2127,7 +2127,7 @@
         "maxMultiplicity": 1,
         "name": "PowerupToEmptyTransition",
         "displayName": "PowerupToEmptyTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2135,7 +2135,7 @@
         "maxMultiplicity": 1,
         "name": "EmptyToInsertingTransition",
         "displayName": "EmptyToInsertingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2143,7 +2143,7 @@
         "maxMultiplicity": 1,
         "name": "InsertingTransition",
         "displayName": "InsertingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2151,7 +2151,7 @@
         "maxMultiplicity": 1,
         "name": "InsertingToRemovingTransition",
         "displayName": "InsertingToRemovingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2159,7 +2159,7 @@
         "maxMultiplicity": 1,
         "name": "InsertingToInstalledTransition",
         "displayName": "InsertingToInstalledTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2167,7 +2167,7 @@
         "maxMultiplicity": 1,
         "name": "InstalledToRemovingTransition",
         "displayName": "InstalledToRemovingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2175,7 +2175,7 @@
         "maxMultiplicity": 1,
         "name": "RemovingTransition",
         "displayName": "RemovingTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2183,7 +2183,7 @@
         "maxMultiplicity": 1,
         "name": "RemovingToEmptyTransition",
         "displayName": "RemovingToEmptyTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2191,7 +2191,7 @@
         "maxMultiplicity": 1,
         "name": "EmptyToShutdownTransition",
         "displayName": "EmptyToShutdownTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2199,7 +2199,7 @@
         "maxMultiplicity": 1,
         "name": "InsertingToShutdownTransition",
         "displayName": "InsertingToShutdownTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2207,7 +2207,7 @@
         "maxMultiplicity": 1,
         "name": "InstalledToShutdownTransition",
         "displayName": "InstalledToShutdownTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2215,7 +2215,7 @@
         "maxMultiplicity": 1,
         "name": "RemovingToShutdownTransition",
         "displayName": "RemovingToShutdownTransition",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
@@ -2246,7 +2246,7 @@
         "name": "IsHotSwappable",
         "displayName": "IsHotSwappable",
         "description": "True if this accessory can be inserted in the accessory slot while it is powered",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "schema": "boolean",
         "writable": false
       },
@@ -2255,7 +2255,7 @@
         "name": "IsReady",
         "displayName": "IsReady",
         "description": "True if this accessory is ready for use",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "schema": "boolean",
         "writable": false
       },
@@ -2264,7 +2264,7 @@
         "maxMultiplicity": 1,
         "name": "Configuration",
         "displayName": "Configuration",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -2272,7 +2272,7 @@
         "maxMultiplicity": 1,
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -2280,7 +2280,7 @@
         "maxMultiplicity": 1,
         "name": "FactorySettings",
         "displayName": "FactorySettings",
-        "namespace": "http://opcfoundation.org/UA/ADI",
+        "namespace": "http://opcfoundation.org/UA/ADI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       }
     ]
@@ -2297,7 +2297,7 @@
     ],
     "@id": "dtmi:opcua:ADI:DetectorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "DetectorType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9350",
@@ -2319,7 +2319,7 @@
     ],
     "@id": "dtmi:opcua:ADI:SmartSamplingSystemType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "SmartSamplingSystemType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9359",
@@ -2341,7 +2341,7 @@
     ],
     "@id": "dtmi:opcua:ADI:SourceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "SourceType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9368",
@@ -2363,7 +2363,7 @@
     ],
     "@id": "dtmi:opcua:ADI:GcOvenType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ADI",
+    "ontology": "http://opcfoundation.org/UA/ADI/",
     "displayName": "GcOvenType",
     "extends": "dtmi:opcua:ADI:AccessoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1020",

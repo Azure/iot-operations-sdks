@@ -11,10 +11,10 @@
     ],
     "@id": "dtmi:opcua:Mining_Loading_General:LoadingMachineType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Mining.Loading.General",
+    "ontology": "http://opcfoundation.org/UA/Mining/Loading/General/",
     "displayName": "LoadingMachineType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.Loading.General/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining/Loading/General/;i=1002",
     "commandTopic": "opcua/Mining_Loading_General/LoadingMachineType/{commandName}",
     "telemetryTopic": "opcua/Mining_Loading_General/LoadingMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -26,7 +26,7 @@
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",
-        "namespace": "http://opcfoundation.org/UA/Mining.Loading.General",
+        "namespace": "http://opcfoundation.org/UA/Mining/Loading/General/",
         "schema": "string",
         "writable": false
       }

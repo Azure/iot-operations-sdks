@@ -25,7 +25,7 @@
         "name": "Trigger",
         "displayName": "Trigger",
         "description": "Triggers the analysis on the MCS in a compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS"
+        "namespace": "http://opcfoundation.org/UA/CAS/"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
@@ -33,7 +33,7 @@
         "name": "OutputFile",
         "displayName": "OutputFile",
         "description": "File containing the result of an analysis.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
@@ -50,7 +50,7 @@
     ],
     "@id": "dtmi:opcua:CAS:CASType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "CASType",
     "description": "Compressed air system type",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -65,7 +65,7 @@
         "name": "Airnets",
         "displayName": "Airnets",
         "description": "All airnets in a compressed air system as browsable objects.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:AirnetsType"
       },
       {
@@ -74,7 +74,7 @@
         "name": "Components",
         "displayName": "Components",
         "description": "All components in a compressed air system as browsable objects.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:CAS:ComponentsGroupType"
       },
       {
@@ -83,7 +83,7 @@
         "name": "Identification",
         "displayName": "Identification",
         "description": "Identification properties of the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:CASIdentificationType"
       },
       {
@@ -92,7 +92,7 @@
         "name": "MCS",
         "displayName": "MCS",
         "description": "Representation of the MCS in a compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:MCSType"
       }
     ]
@@ -142,7 +142,7 @@
         "name": "DefaultGateway",
         "displayName": "DefaultGateway",
         "description": "IP Address of the default gateway used by the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": false
       },
@@ -151,7 +151,7 @@
         "name": "DnsServer",
         "displayName": "DnsServer",
         "description": "IP Address of the DNS server used by the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": false
       },
@@ -160,7 +160,7 @@
         "name": "DomainName",
         "displayName": "DomainName",
         "description": "Domain name the MCS is assigned to.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": false
       },
@@ -169,7 +169,7 @@
         "name": "Hostname",
         "displayName": "Hostname",
         "description": "Host name of the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": false
       },
@@ -178,7 +178,7 @@
         "name": "IpAddress",
         "displayName": "IpAddress",
         "description": "IP address of the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": false
       },
@@ -187,7 +187,7 @@
         "name": "IpVersion",
         "displayName": "IpVersion",
         "description": "Version of the internet protocol used for the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "dtmi:opcua:CAS:CommunicationSettingsType:dataType:IpVersionEnum;1",
         "writable": false
       },
@@ -196,7 +196,7 @@
         "name": "SubnetMask",
         "displayName": "SubnetMask",
         "description": "Subnet mask of the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": false
       },
@@ -205,7 +205,7 @@
         "name": "Dhcp",
         "displayName": "Dhcp",
         "description": "States if DHCP is enabled or disabled on the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "boolean"
       },
       {
@@ -213,7 +213,7 @@
         "name": "MacAddress",
         "displayName": "MacAddress",
         "description": "MAC address of the NIC of the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string"
       }
     ]
@@ -243,7 +243,7 @@
         "name": "Other",
         "displayName": "<Other>",
         "description": "Placeholder for manufacturer or system specific groups.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
       },
       {
@@ -252,7 +252,7 @@
         "name": "Delta",
         "displayName": "Delta",
         "description": "Measured or calculated deltas of electrical properties between inlet and outlet of the component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
       },
       {
@@ -261,7 +261,7 @@
         "name": "Input",
         "displayName": "Input",
         "description": "Measured or calculated electrical properties at the input of the component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
       },
       {
@@ -270,7 +270,7 @@
         "name": "Output",
         "displayName": "Output",
         "description": "Measured or calculated electrical properties at the output of the component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
       }
     ]
@@ -302,7 +302,7 @@
         "name": "StartTime",
         "displayName": "StartTime",
         "description": "Indicates the point in time at which the collection of the statistical data has been started.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dateTime",
         "writable": false
       },
@@ -311,7 +311,7 @@
         "name": "ApparentPower",
         "displayName": "ApparentPower",
         "description": "Measured or calculated actual apparent power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -319,7 +319,7 @@
         "name": "Current",
         "displayName": "Current",
         "description": "Measured or calculated actual root mean square of the electric power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -327,7 +327,7 @@
         "name": "Energy",
         "displayName": "Energy",
         "description": "Measured or calculated accumulated electrical energy consumed including all auxiliary components (e.g. on a compressor including fans, controller, …) since last reset.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -335,7 +335,7 @@
         "name": "Power",
         "displayName": "Power",
         "description": "Measured or calculated actual electric real power consumption including all auxiliary components (e.g. on a compressor including fans, controller, …).",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -343,7 +343,7 @@
         "name": "Voltage",
         "displayName": "Voltage",
         "description": "Measured or calculated actual root mean square of the voltage applied including all auxiliary components (e.g. on a compressor including fans, controller, …).",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -351,7 +351,7 @@
         "name": "ResetStatistics",
         "displayName": "ResetStatistics",
         "description": "Restarts all statistical data, including a reset of the StartTime to the current time.",
-        "namespace": "http://opcfoundation.org/UA/IA"
+        "namespace": "http://opcfoundation.org/UA/IA/"
       }
     ]
   },
@@ -407,7 +407,7 @@
         "name": "FluidType",
         "displayName": "FluidType",
         "description": "Enumeration of possible fluid types.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "dtmi:opcua:CAS:FluidCircuitType:dataType:FluidTypeEnum;1"
       },
       {
@@ -415,7 +415,7 @@
         "name": "Other",
         "displayName": "<Other>",
         "description": "Placeholder for manufacturer or system specific groups.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
       },
       {
@@ -424,7 +424,7 @@
         "name": "Delta",
         "displayName": "Delta",
         "description": "Measured or calculated deltas of fluid properties between inlet and outlet of the component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
       },
       {
@@ -433,7 +433,7 @@
         "name": "Inlet",
         "displayName": "Inlet",
         "description": "Measured or calculated fluid properties at the inlet of the component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
       },
       {
@@ -442,7 +442,7 @@
         "name": "Outlet",
         "displayName": "Outlet",
         "description": "Measured or calculated fluid properties at the outlet of the component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
       }
     ]
@@ -474,7 +474,7 @@
         "name": "StartTime",
         "displayName": "StartTime",
         "description": "Indicates the point in time at which the collection of the statistical data has been started.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dateTime",
         "writable": false
       },
@@ -483,7 +483,7 @@
         "name": "Quantity",
         "displayName": "<Quantity>",
         "description": "Manufacturer or system specific measurements or calculations.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -501,7 +501,7 @@
         "name": "AbsolutePressure",
         "displayName": "AbsolutePressure",
         "description": "Measured or calculated actual absolute pressure of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -509,7 +509,7 @@
         "name": "AccumulatedVolume",
         "displayName": "AccumulatedVolume",
         "description": "Measured or calculated accumulated volume of a fluid since last reset.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -517,7 +517,7 @@
         "name": "DewPoint",
         "displayName": "DewPoint",
         "description": "Measured or calculated actual dew point of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -525,7 +525,7 @@
         "name": "GaugePressure",
         "displayName": "GaugePressure",
         "description": "Measured or calculated actual gauge pressure of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -533,7 +533,7 @@
         "name": "MassFlowRate",
         "displayName": "MassFlowRate",
         "description": "Measured or calculated actual mass flow rate of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -541,7 +541,7 @@
         "name": "OilConcentration",
         "displayName": "OilConcentration",
         "description": "Measured or calculated actual oil concentration of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -549,7 +549,7 @@
         "name": "RelativeHumidity",
         "displayName": "RelativeHumidity",
         "description": "Measured or calculated actual relative humidity of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -557,7 +557,7 @@
         "name": "Temperature",
         "displayName": "Temperature",
         "description": "Measured or calculated actual temperature of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -565,7 +565,7 @@
         "name": "Volume",
         "displayName": "Volume",
         "description": "Measured or calculated actual volume of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -573,7 +573,7 @@
         "name": "VolumeFlowRate",
         "displayName": "VolumeFlowRate",
         "description": "Measured or calculated actual volume flow rate of a fluid.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -581,7 +581,7 @@
         "name": "ResetStatistics",
         "displayName": "ResetStatistics",
         "description": "Restarts all statistical data, including a reset of the StartTime to the current time.",
-        "namespace": "http://opcfoundation.org/UA/IA"
+        "namespace": "http://opcfoundation.org/UA/IA/"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -589,7 +589,7 @@
         "name": "ParticlesPerSizeRange",
         "displayName": "ParticlesPerSizeRange",
         "description": "Collection of particle counts for a fluid according to ISO 8573.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:ParticleType"
       }
     ]
@@ -619,7 +619,7 @@
         "name": "ComponentsGroup",
         "displayName": "<ComponentsGroup>",
         "description": "All components of a specific type connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -628,7 +628,7 @@
         "name": "ChargingSystems",
         "displayName": "ChargingSystems",
         "description": "Organizes all charging systems connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -637,7 +637,7 @@
         "name": "Compressors",
         "displayName": "Compressors",
         "description": "Organizes all compressors connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -646,7 +646,7 @@
         "name": "CondensateDrains",
         "displayName": "CondensateDrains",
         "description": "Organizes all condensate drains connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -655,7 +655,7 @@
         "name": "CondensateSeparators",
         "displayName": "CondensateSeparators",
         "description": "Organizes all condensate separators connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -664,7 +664,7 @@
         "name": "Converters",
         "displayName": "Converters",
         "description": "Organizes all converters connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -673,7 +673,7 @@
         "name": "CoolingSystems",
         "displayName": "CoolingSystems",
         "description": "Organizes all cooling systems connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -682,7 +682,7 @@
         "name": "Dryers",
         "displayName": "Dryers",
         "description": "Organizes all dryers connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -691,7 +691,7 @@
         "name": "Filters",
         "displayName": "Filters",
         "description": "Organizes all filters connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -700,7 +700,7 @@
         "name": "HeatRecoverySystems",
         "displayName": "HeatRecoverySystems",
         "description": "Organizes all heat recovery systems connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -709,7 +709,7 @@
         "name": "Receivers",
         "displayName": "Receivers",
         "description": "Organizes all receivers connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -718,7 +718,7 @@
         "name": "Sensors",
         "displayName": "Sensors",
         "description": "Organizes all sensors connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -727,7 +727,7 @@
         "name": "Valves",
         "displayName": "Valves",
         "description": "Organizes all valves connected to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -757,7 +757,7 @@
         "name": "Analysis",
         "displayName": "<Analysis>",
         "description": "Manufacturer or system specific analyses.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:AnalysisType"
       },
       {
@@ -765,7 +765,7 @@
         "name": "PrefabAnalysis",
         "displayName": "<PrefabAnalysis>",
         "description": "Prefabricated analysis provided by the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       },
       {
@@ -774,7 +774,7 @@
         "name": "EnergyReportISO50001",
         "displayName": "EnergyReportISO50001",
         "description": "Energy report according to ISO 50001.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:AnalysisType"
       }
     ]
@@ -805,7 +805,7 @@
         "name": "LastCalibrationDate",
         "displayName": "LastCalibrationDate",
         "description": "Date when the sensor was last calibrated.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "dateTime"
       },
       {
@@ -813,7 +813,7 @@
         "name": "NextCalibrationDate",
         "displayName": "NextCalibrationDate",
         "description": "Date when the sensor is scheduled for the next calibration.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "dateTime"
       }
     ]
@@ -844,7 +844,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AssetId",
         "displayName": "AssetId",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": true
       },
@@ -852,7 +852,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ComponentName",
         "displayName": "ComponentName",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": true
       }
@@ -906,7 +906,7 @@
         "name": "OperatingModes",
         "displayName": "OperatingModes",
         "description": "Configured operating mode for an airnet in a compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       },
       {
@@ -914,7 +914,7 @@
         "name": "OperatingProfiles",
         "displayName": "OperatingProfiles",
         "description": "Configured operating profile for an airnet in a compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       }
     ]
@@ -945,14 +945,14 @@
         "name": "LoadConfigurationFile",
         "displayName": "LoadConfigurationFile",
         "description": "Loads the configuration stored in ConfigurationFile to the MCS.",
-        "namespace": "http://opcfoundation.org/UA/CAS"
+        "namespace": "http://opcfoundation.org/UA/CAS/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SaveConfigurationFile",
         "displayName": "SaveConfigurationFile",
         "description": "Saves the current configuration of the MCS to the stored ConfigurationFile.",
-        "namespace": "http://opcfoundation.org/UA/CAS"
+        "namespace": "http://opcfoundation.org/UA/CAS/"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -960,7 +960,7 @@
         "name": "CommunicationSettings",
         "displayName": "CommunicationSettings",
         "description": "OPC UA communication settings of the MCS in a compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:CommunicationSettingsType"
       },
       {
@@ -969,7 +969,7 @@
         "name": "ConfigurationFile",
         "displayName": "ConfigurationFile",
         "description": "Configuration file for the MCS in a compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
@@ -1000,7 +1000,7 @@
         "name": "ComponentClass",
         "displayName": "ComponentClass",
         "description": "Enumeration of possible types of the component’s device class.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string"
       }
     ]
@@ -1017,7 +1017,7 @@
     ],
     "@id": "dtmi:opcua:CAS:CompressorDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "CompressorDesignType",
     "description": "Static design properties of a compressor.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1072,7 +1072,7 @@
         "name": "DisplacementType",
         "displayName": "DisplacementType",
         "description": "Enumeration of possible displacement types.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "dtmi:opcua:CAS:CompressorDesignType:dataType:DisplacementTypeEnum;1"
       },
       {
@@ -1080,7 +1080,7 @@
         "name": "LubricationType",
         "displayName": "LubricationType",
         "description": "Enumeration of possible lubrication types for the compression process of a compressor.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "dtmi:opcua:CAS:CompressorDesignType:dataType:LubricationTypeEnum;1"
       },
       {
@@ -1088,7 +1088,7 @@
         "name": "NumberOfStages",
         "displayName": "NumberOfStages",
         "description": "Number of stages the compressor has available.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       },
       {
@@ -1096,7 +1096,7 @@
         "name": "VariableFlow",
         "displayName": "VariableFlow",
         "description": "Indicates if a compressor has a variable or fixed flow.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "boolean"
       }
     ]
@@ -1113,7 +1113,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ConverterDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ConverterDesignType",
     "description": "Static design properties of a converter.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1136,7 +1136,7 @@
     ],
     "@id": "dtmi:opcua:CAS:DrainDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "DrainDesignType",
     "description": "Static design properties of a condensate drain.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1159,7 +1159,7 @@
     ],
     "@id": "dtmi:opcua:CAS:DryerDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "DryerDesignType",
     "description": "Static design properties of a dryer.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1174,7 +1174,7 @@
         "name": "LowestAmbientTemperature",
         "displayName": "LowestAmbientTemperature",
         "description": "Lowest allowable ambient temperature for the dryer to work as intended.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       }
     ]
@@ -1191,7 +1191,7 @@
     ],
     "@id": "dtmi:opcua:CAS:FilterDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "FilterDesignType",
     "description": "Static design properties of a filter.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1284,7 +1284,7 @@
         "name": "FilterClass",
         "displayName": "FilterClass",
         "description": "Filter classes according to ISO 8573-1.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1"
       }
     ]
@@ -1301,7 +1301,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ReceiverDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ReceiverDesignType",
     "description": "Static design properties of a receiver.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1316,7 +1316,7 @@
         "name": "Volume",
         "displayName": "Volume",
         "description": "Total volume of the receiver.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       }
     ]
@@ -1333,7 +1333,7 @@
     ],
     "@id": "dtmi:opcua:CAS:SensorDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "SensorDesignType",
     "description": "Static design properties of a sensor.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1406,7 +1406,7 @@
         "name": "SensorTechnology",
         "displayName": "SensorTechnology",
         "description": "Selection of sensor technologies this sensor uses.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "dtmi:opcua:CAS:SensorDesignType:dataType:SensorTechnologyOptionSet;1"
       },
       {
@@ -1414,7 +1414,7 @@
         "name": "SoftSensor",
         "displayName": "SoftSensor",
         "description": "Indicates if the sensor is a software or hardware sensor.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "boolean"
       }
     ]
@@ -1431,7 +1431,7 @@
     ],
     "@id": "dtmi:opcua:CAS:SeparatorDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "SeparatorDesignType",
     "description": "Static design properties of a separator.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1454,7 +1454,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ValveDesignType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ValveDesignType",
     "description": "Static design properties of a valve.",
     "extends": "dtmi:opcua:CAS:DesignType;1",
@@ -1469,7 +1469,7 @@
         "name": "NumberOfPorts",
         "displayName": "NumberOfPorts",
         "description": "Number of ports of a valve.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       }
     ]
@@ -1499,7 +1499,7 @@
         "name": "Event",
         "displayName": "<Event>",
         "description": "Manufacturer or system specific conditions.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:ConditionType"
       },
       {
@@ -1508,7 +1508,7 @@
         "name": "EmergencyStop",
         "displayName": "EmergencyStop",
         "description": "Indicating an emergency stop of a component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:OffNormalAlarmType"
       },
       {
@@ -1517,7 +1517,7 @@
         "name": "Service",
         "displayName": "Service",
         "description": "Indicates that a component requires service.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:OffNormalAlarmType"
       },
       {
@@ -1526,7 +1526,7 @@
         "name": "Shutdown",
         "displayName": "Shutdown",
         "description": "Indicating a shutdown of a component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:OffNormalAlarmType"
       },
       {
@@ -1535,7 +1535,7 @@
         "name": "Warning",
         "displayName": "Warning",
         "description": "Indicating a general warning of a component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:OpcUaCore:OffNormalAlarmType"
       }
     ]
@@ -1566,7 +1566,7 @@
         "name": "RealTimeSinceLastService",
         "displayName": "RealTimeSinceLastService",
         "description": "Real time passed since the sensor was last serviced.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1574,7 +1574,7 @@
         "name": "RealTimeToNextService",
         "displayName": "RealTimeToNextService",
         "description": "Real time left until the sensor is scheduled for the next servicing.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       }
     ]
@@ -1605,7 +1605,7 @@
         "name": "HealthState",
         "displayName": "HealthState",
         "description": "Actual health state of the part.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string"
       },
       {
@@ -1613,7 +1613,7 @@
         "name": "IntegratedState",
         "displayName": "IntegratedState",
         "description": "Actual integrated state of the part.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string"
       },
       {
@@ -1621,7 +1621,7 @@
         "name": "OnOff",
         "displayName": "OnOff",
         "description": "Actual OnOff state of the component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "boolean"
       },
       {
@@ -1629,7 +1629,7 @@
         "name": "OperatingState",
         "displayName": "OperatingState",
         "description": "Actual operating state of the part.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string"
       }
     ]
@@ -1660,7 +1660,7 @@
         "name": "AirDeliveryRate",
         "displayName": "AirDeliveryRate",
         "description": "Volume of generated compressed air per time frame.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1668,7 +1668,7 @@
         "name": "CompressorsIntegrated",
         "displayName": "CompressorsIntegrated",
         "description": "Number of integrated compressors in the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       },
       {
@@ -1676,7 +1676,7 @@
         "name": "CompressorsIsolated",
         "displayName": "CompressorsIsolated",
         "description": "Number of isolated compressors in the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       },
       {
@@ -1684,7 +1684,7 @@
         "name": "CompressorsNotAvailable",
         "displayName": "CompressorsNotAvailable",
         "description": "Number of unavailable compressors in the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       },
       {
@@ -1692,7 +1692,7 @@
         "name": "ControlPressure",
         "displayName": "ControlPressure",
         "description": "Current pressure in the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1700,7 +1700,7 @@
         "name": "SpecificEnergy",
         "displayName": "SpecificEnergy",
         "description": "Electrical energy consumed in the generation of a volume of compressed air.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1708,7 +1708,7 @@
         "name": "SpecificEnergyCost",
         "displayName": "SpecificEnergyCost",
         "description": "Costs for generating a volume of compressed air.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1716,7 +1716,7 @@
         "name": "VolumeFlowRateAvailable",
         "displayName": "VolumeFlowRateAvailable",
         "description": "Measured or calculated available volume flow rate of the process fluid in the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1724,7 +1724,7 @@
         "name": "VolumeFlowRateUnavailable",
         "displayName": "VolumeFlowRateUnavailable",
         "description": "Calculated unavailable volume flow rate of the process fluid in the airnet.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       }
     ]
@@ -1741,7 +1741,7 @@
     ],
     "@id": "dtmi:opcua:CAS:CompressorOperationalType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "CompressorOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the compressor, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1756,7 +1756,7 @@
         "name": "ActivePressureBand",
         "displayName": "ActivePressureBand",
         "description": "Indicates the actual active pressure band.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       },
       {
@@ -1764,7 +1764,7 @@
         "name": "FlowRateRatio",
         "displayName": "FlowRateRatio",
         "description": "Calculated ratio of actual and maximum possible flow rate of a compressor.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1772,7 +1772,7 @@
         "name": "IsentropicEfficiency",
         "displayName": "IsentropicEfficiency",
         "description": "Calculated isentropic efficiency.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1780,7 +1780,7 @@
         "name": "SpecificEnergyRequirement",
         "displayName": "SpecificEnergyRequirement",
         "description": "Calculated shaft input energy per unit of compressor actual rate of flow.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       }
     ]
@@ -1797,7 +1797,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ConverterOperationalType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ConverterOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the converter, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1812,7 +1812,7 @@
         "name": "CatalyticMaterialTemperature",
         "displayName": "CatalyticMaterialTemperature",
         "description": "Measured actual temperature of the catalytic material inside a converter.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       }
     ]
@@ -1829,7 +1829,7 @@
     ],
     "@id": "dtmi:opcua:CAS:DrainOperationalType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "DrainOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the condensate drain, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1844,7 +1844,7 @@
         "name": "DrainTest",
         "displayName": "DrainTest",
         "description": "Invoke a drain test on a condensate drain.",
-        "namespace": "http://opcfoundation.org/UA/CAS"
+        "namespace": "http://opcfoundation.org/UA/CAS/"
       }
     ]
   },
@@ -1860,7 +1860,7 @@
     ],
     "@id": "dtmi:opcua:CAS:DryerOperationalType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "DryerOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the dryer, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1875,7 +1875,7 @@
         "name": "PressureDewPoint",
         "displayName": "PressureDewPoint",
         "description": "Measured or calculated actual pressure dew point of the process fluid at a dryer.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       }
     ]
@@ -1892,7 +1892,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ValveOperationalType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ValveOperationalType",
     "description": "Contains parameters and methods useful for normal operation of the valve, like process data.",
     "extends": "dtmi:opcua:CAS:OperationalType;1",
@@ -1907,7 +1907,7 @@
         "name": "ContinuousPosition",
         "displayName": "ContinuousPosition",
         "description": "Actual valve stroke.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1915,7 +1915,7 @@
         "name": "PortUsed",
         "displayName": "PortUsed",
         "description": "Actual port used.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedShort"
       }
     ]
@@ -1947,7 +1947,7 @@
         "name": "ResetCondition",
         "displayName": "ResetCondition",
         "description": "The reason and context for the reset of the statistics, which is done without a trigger from an OPC UA Client, like calling the ResetStatistics Method. ResetCondition is a vendor-specific, human readable string. ResetCondition is non-localized and might contain an expression that can be parsed by certain clients. Examples are: “AFTER 4 HOURS”, “AFTER 1000 ITEMS”, “OPERATOR”. “OPERATOR” means, that an operator resets the statistics on a local HMI.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "string",
         "writable": false
       },
@@ -1956,7 +1956,7 @@
         "name": "StartTime",
         "displayName": "StartTime",
         "description": "Indicates the point in time at which the collection of the statistical data has been started.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dateTime",
         "writable": false
       },
@@ -1965,7 +1965,7 @@
         "name": "RealTime",
         "displayName": "RealTime",
         "description": "Real time passed since last counter reset.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1973,7 +1973,7 @@
         "name": "RealTimeToNextService",
         "displayName": "RealTimeToNextService",
         "description": "Real time left until the real time of the next service level is exceeded.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1981,7 +1981,7 @@
         "name": "RunningTime",
         "displayName": "RunningTime",
         "description": "Time spent running since last counter reset.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1989,7 +1989,7 @@
         "name": "RunningTimeToNextService",
         "displayName": "RunningTimeToNextService",
         "description": "Running time left until the running time of the next service level is exceeded.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -1997,7 +1997,7 @@
         "name": "ResetStatistics",
         "displayName": "ResetStatistics",
         "description": "Restarts all statistical data, including a reset of the StartTime to the current time.",
-        "namespace": "http://opcfoundation.org/UA/IA"
+        "namespace": "http://opcfoundation.org/UA/IA/"
       }
     ]
   },
@@ -2013,7 +2013,7 @@
     ],
     "@id": "dtmi:opcua:CAS:CompressorStatisticsType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "CompressorStatisticsType",
     "description": "Contains parameters and methods related to counting process or maintenance data of the compressor.",
     "extends": "dtmi:opcua:CAS:StatisticsType;1",
@@ -2028,7 +2028,7 @@
         "name": "LoadedTime",
         "displayName": "LoadedTime",
         "description": "Time spent in loaded state since last counter reset.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       },
       {
@@ -2036,7 +2036,7 @@
         "name": "UnloadedTime",
         "displayName": "UnloadedTime",
         "description": "Time spent in unloaded state since last counter reset.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "double"
       }
     ]
@@ -2087,7 +2087,7 @@
         "name": "ComponentsGroup",
         "displayName": "<ComponentsGroup>",
         "description": "All components of a specific type in a compressed air system as browsable objects.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2096,7 +2096,7 @@
         "name": "ChargingSystems",
         "displayName": "ChargingSystems",
         "description": "Organizes all charging systems connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2105,7 +2105,7 @@
         "name": "Compressors",
         "displayName": "Compressors",
         "description": "Organizes all compressors connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2114,7 +2114,7 @@
         "name": "CondensateDrains",
         "displayName": "CondensateDrains",
         "description": "Organizes all condensate drains connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2123,7 +2123,7 @@
         "name": "CondensateSeparators",
         "displayName": "CondensateSeparators",
         "description": "Organizes all condensate separators connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2132,7 +2132,7 @@
         "name": "Converters",
         "displayName": "Converters",
         "description": "Organizes all converters connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2141,7 +2141,7 @@
         "name": "CoolingSystems",
         "displayName": "CoolingSystems",
         "description": "Organizes all cooling systems connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2150,7 +2150,7 @@
         "name": "Dryers",
         "displayName": "Dryers",
         "description": "Organizes all dryers connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2159,7 +2159,7 @@
         "name": "Filters",
         "displayName": "Filters",
         "description": "Organizes all filters connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2168,7 +2168,7 @@
         "name": "HeatRecoverySystems",
         "displayName": "HeatRecoverySystems",
         "description": "Organizes all heat recovery systems connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2177,7 +2177,7 @@
         "name": "Receivers",
         "displayName": "Receivers",
         "description": "Organizes all receivers connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2186,7 +2186,7 @@
         "name": "Sensors",
         "displayName": "Sensors",
         "description": "Organizes all sensors connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       },
       {
@@ -2195,7 +2195,7 @@
         "name": "Valves",
         "displayName": "Valves",
         "description": "Organizes all valves connected to the compressed air system.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:Machinery:MachineComponentsType"
       }
     ]
@@ -2225,7 +2225,7 @@
         "name": "Fine",
         "displayName": "Fine",
         "description": "Particle count of sizes from 0.1 to 0.5 um.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedLong"
       },
       {
@@ -2233,7 +2233,7 @@
         "name": "Large",
         "displayName": "Large",
         "description": "Particle count of sizes from 1.0 to 5.0 um.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedLong"
       },
       {
@@ -2241,7 +2241,7 @@
         "name": "Medium",
         "displayName": "Medium",
         "description": "Particle count of sizes from 0.5 to 1.0 um.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "unsignedLong"
       }
     ]
@@ -2258,7 +2258,7 @@
     ],
     "@id": "dtmi:opcua:CAS:AirnetType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "AirnetType",
     "description": "In a compressed air system the airnet describes the piping, including valves and vessels, and all components between the inlet of the compressed air station and the distribution point to the customer, including compressors, dryers, filters, etc. A compressed air system may contain several airnets and it’s possible for the master control system to manage all airnets simultaniously. A component, like a compressor, must not be assigned to more than one airnet.",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
@@ -2273,7 +2273,7 @@
         "name": "Ambient",
         "displayName": "Ambient",
         "description": "Measurements and calculations of ambient air at the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
       },
       {
@@ -2282,7 +2282,7 @@
         "name": "Components",
         "displayName": "Components",
         "description": "Organizes components assigned to the airnet.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:CAS:AirnetComponentsType"
       },
       {
@@ -2291,7 +2291,7 @@
         "name": "Configuration",
         "displayName": "Configuration",
         "description": "Configure the behavior of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:AirnetConfigurationType"
       },
       {
@@ -2300,7 +2300,7 @@
         "name": "ElectricalCircuit",
         "displayName": "ElectricalCircuit",
         "description": "Measurements and calculations of the electrical ports and delta of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:ElectricalCircuitType"
       },
       {
@@ -2309,7 +2309,7 @@
         "name": "Operational",
         "displayName": "Operational",
         "description": "Data for normal operation of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:AirnetOperationalType"
       },
       {
@@ -2318,7 +2318,7 @@
         "name": "ProcessFluidCircuit",
         "displayName": "ProcessFluidCircuit",
         "description": "Measurements and calculations of the process fluid ports and delta of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidCircuitType"
       }
     ]
@@ -2335,7 +2335,7 @@
     ],
     "@id": "dtmi:opcua:CAS:CASComponentType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "CASComponentType",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1021",
@@ -2350,7 +2350,7 @@
         "name": "ActiveAirnet",
         "displayName": "ActiveAirnet",
         "description": "Indicates which airnet is currently using this component.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "schema": "string",
         "writable": true
       },
@@ -2360,7 +2360,7 @@
         "name": "Ambient",
         "displayName": "Ambient",
         "description": "Measurements and calculations of ambient air at the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidQuantitiesType"
       },
       {
@@ -2369,7 +2369,7 @@
         "name": "Configuration",
         "displayName": "Configuration",
         "description": "Configure the behavior of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:ConfigurationType"
       },
       {
@@ -2378,7 +2378,7 @@
         "name": "CoolantCircuit",
         "displayName": "CoolantCircuit",
         "description": "Measurements and calculations of the coolant ports and delta of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidCircuitType"
       },
       {
@@ -2387,7 +2387,7 @@
         "name": "Design",
         "displayName": "Design",
         "description": "Static design properties of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:DesignType"
       },
       {
@@ -2396,7 +2396,7 @@
         "name": "ElectricalCircuit",
         "displayName": "ElectricalCircuit",
         "description": "Measurements and calculations of the electrical ports and delta of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:ElectricalCircuitType"
       },
       {
@@ -2405,7 +2405,7 @@
         "name": "Events",
         "displayName": "Events",
         "description": "Alarms and conditions of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:EventsType"
       },
       {
@@ -2414,7 +2414,7 @@
         "name": "Operational",
         "displayName": "Operational",
         "description": "Data for normal operation of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:OperationalType"
       },
       {
@@ -2423,7 +2423,7 @@
         "name": "ProcessFluidCircuit",
         "displayName": "ProcessFluidCircuit",
         "description": "Measurements and calculations of the process fluid ports and delta of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:FluidCircuitType"
       },
       {
@@ -2432,7 +2432,7 @@
         "name": "Statistics",
         "displayName": "Statistics",
         "description": "Data for statistics applications for the topology element.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:StatisticsType"
       }
     ]
@@ -2449,7 +2449,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ChargingSystemType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ChargingSystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1005",
@@ -2471,7 +2471,7 @@
     ],
     "@id": "dtmi:opcua:CAS:CompressorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "CompressorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1039",
@@ -2493,7 +2493,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ConverterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ConverterType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1029",
@@ -2515,7 +2515,7 @@
     ],
     "@id": "dtmi:opcua:CAS:CoolingSystemType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "CoolingSystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1001",
@@ -2537,7 +2537,7 @@
     ],
     "@id": "dtmi:opcua:CAS:DrainType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "DrainType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1025",
@@ -2559,7 +2559,7 @@
     ],
     "@id": "dtmi:opcua:CAS:DryerType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "DryerType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1030",
@@ -2581,7 +2581,7 @@
     ],
     "@id": "dtmi:opcua:CAS:FilterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "FilterType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1034",
@@ -2603,7 +2603,7 @@
     ],
     "@id": "dtmi:opcua:CAS:HeatRecoverySystemType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "HeatRecoverySystemType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1042",
@@ -2625,7 +2625,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ReceiverType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ReceiverType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1022",
@@ -2647,7 +2647,7 @@
     ],
     "@id": "dtmi:opcua:CAS:SensorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "SensorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1015",
@@ -2661,7 +2661,7 @@
         "name": "Calibration",
         "displayName": "Calibration",
         "description": "Dates important for the calibration of a sensor.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:CalibrationType"
       },
       {
@@ -2670,7 +2670,7 @@
         "name": "Maintenance",
         "displayName": "Maintenance",
         "description": "Servicing intervals for the sensor.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:MaintenanceType"
       }
     ]
@@ -2687,7 +2687,7 @@
     ],
     "@id": "dtmi:opcua:CAS:SeparatorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "SeparatorType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1026",
@@ -2709,7 +2709,7 @@
     ],
     "@id": "dtmi:opcua:CAS:ValveType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/CAS",
+    "ontology": "http://opcfoundation.org/UA/CAS/",
     "displayName": "ValveType",
     "extends": "dtmi:opcua:CAS:CASComponentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1024",
@@ -2744,7 +2744,7 @@
         "name": "Analyses",
         "displayName": "Analyses",
         "description": "Invokable analyses for the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:AnalysesType"
       },
       {
@@ -2753,7 +2753,7 @@
         "name": "Configuration",
         "displayName": "Configuration",
         "description": "Configure the behavior of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:MCSConfigurationType"
       },
       {
@@ -2762,7 +2762,7 @@
         "name": "ElectricalCircuit",
         "displayName": "ElectricalCircuit",
         "description": "Measurements and calculations of the electrical ports and delta of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:ElectricalCircuitType"
       },
       {
@@ -2771,7 +2771,7 @@
         "name": "Events",
         "displayName": "Events",
         "description": "Alarms and conditions of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/CAS",
+        "namespace": "http://opcfoundation.org/UA/CAS/",
         "target": "dtmi:opcua:CAS:EventsType"
       },
       {
@@ -2780,7 +2780,7 @@
         "name": "Operational",
         "displayName": "Operational",
         "description": "Data for normal operation of the topology element.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:OperationalType"
       },
       {
@@ -2789,7 +2789,7 @@
         "name": "Statistics",
         "displayName": "Statistics",
         "description": "Data for statistics applications for the topology element.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:CAS:StatisticsType"
       }
     ]

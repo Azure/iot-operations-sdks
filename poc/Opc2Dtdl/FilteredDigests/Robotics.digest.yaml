@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Robotics/
+
 DataTypes:
 - UADataType: [ Robotics:18191, Robotics:ExecutionModeEnumeration ]
   DisplayName: "ExecutionModeEnumeration"

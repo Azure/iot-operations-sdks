@@ -37,7 +37,7 @@ namespace Yaml2Dtdl
             this.Write("\",\r\n");
  } 
             this.Write("        \"typeRef\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.specMapper, this.enumType.NodeId)));
             this.Write("\",\r\n        \"valueSchema\": \"integer\",\r\n        \"enumValues\": [\r\n");
  int ix = 1; foreach (KeyValuePair<string, int> intEnum in this.enumType.Enums) { 
             this.Write("          {\r\n            \"name\": \"");

@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/MDIS
+
 DataTypes:
 - UADataType: [ MDIS:15009, MDIS:ArbitrationModeEnum ]
   DisplayName: "ArbitrationModeEnum"

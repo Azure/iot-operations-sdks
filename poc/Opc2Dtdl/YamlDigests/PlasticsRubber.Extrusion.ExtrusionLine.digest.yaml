@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/
+
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion.ExtrusionLine:3003, PlasticsRubber.Extrusion.ExtrusionLine:MaterialMappingType ]
   DisplayName: "MaterialMappingType"

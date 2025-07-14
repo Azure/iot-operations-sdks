@@ -2,9 +2,11 @@ namespace Yaml2Dtdl
 {
     using System.Linq;
     using OpcUaDigest;
+    using SpecMapper;
 
     public partial class DtdlRelationship
     {
+        private SpecMapper specMapper;
         private OpcUaDefinedType sourceDefinedType;
         private OpcUaDefinedType relationshipDefinedType;
         private OpcUaDefinedType? targetDefinedType;
@@ -12,8 +14,9 @@ namespace Yaml2Dtdl
 
         public string? Target { get; }
 
-        public DtdlRelationship(OpcUaDefinedType sourceDefinedType, OpcUaDefinedType relationshipDefinedType, CotypeRuleEngine cotypeRuleEngine)
+        public DtdlRelationship(SpecMapper specMapper, OpcUaDefinedType sourceDefinedType, OpcUaDefinedType relationshipDefinedType, CotypeRuleEngine cotypeRuleEngine)
         {
+            this.specMapper = specMapper;
             this.sourceDefinedType = sourceDefinedType;
             this.relationshipDefinedType = relationshipDefinedType;
             this.targetDefinedType = relationshipDefinedType.Contents.FirstOrDefault(c => c.Relationship == "HasTypeDefinition")?.DefinedType;

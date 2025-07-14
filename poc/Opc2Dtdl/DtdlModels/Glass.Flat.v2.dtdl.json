@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "GlassEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1030",
     "commandTopic": "opcua/Glass_Flat_v2/GlassEventType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat_v2/GlassEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -24,7 +24,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": "string",
         "writable": false
       },
@@ -32,7 +32,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "JobdIdentifier",
         "displayName": "JobdIdentifier",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": "string",
         "writable": false
       },
@@ -40,7 +40,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": "string",
         "writable": false
       },
@@ -48,7 +48,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MaterialIdentifier",
         "displayName": "MaterialIdentifier",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": "string",
         "writable": false
       }
@@ -68,7 +68,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConfigurationRulesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=1063",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1063",
     "commandTopic": "opcua/Glass_Flat_v2/ConfigurationRulesType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat_v2/ConfigurationRulesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -77,7 +77,7 @@
         "@id": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType:dataType:FileFormatDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "FileFormatDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3007",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -100,7 +100,7 @@
         "@id": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType:dataType:CoordinateSystemEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CoordinateSystemEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -147,7 +147,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AllowedEngineeringUnits",
         "displayName": "AllowedEngineeringUnits",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -158,7 +158,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AllowedFileFormats",
         "displayName": "AllowedFileFormats",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType:dataType:FileFormatDataType;1"
@@ -169,7 +169,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MachineProcessingCoordinateSystem",
         "displayName": "MachineProcessingCoordinateSystem",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType:dataType:CoordinateSystemEnumeration;1",
         "writable": true
       }
@@ -187,10 +187,10 @@
     ],
     "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Glass.Flat.v2",
+    "ontology": "http://opcfoundation.org/UA/Glass/Flat/v2/",
     "displayName": "GlassMachineIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1020",
     "commandTopic": "opcua/Glass_Flat_v2/GlassMachineIdentificationType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat_v2/GlassMachineIdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -199,7 +199,7 @@
         "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:UserProfileDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "UserProfileDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -237,7 +237,7 @@
         "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ProcessingCategoryDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProcessingCategoryDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=3014",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3014",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -289,7 +289,7 @@
         "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ProcessingParameterDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProcessingParameterDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3011",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -327,7 +327,7 @@
         "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ValueDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ValueDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=3020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3020",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -355,7 +355,7 @@
         "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:EClassTermDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "EClassTermDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3017",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -380,7 +380,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LoggedInProfiles",
         "displayName": "LoggedInProfiles",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:UserProfileDataType;1"
@@ -391,7 +391,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProcessingCategories",
         "displayName": "ProcessingCategories",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Glass_Flat_v2:GlassMachineIdentificationType:dataType:ProcessingCategoryDataType;1"
@@ -414,7 +414,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ManualFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=1041",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1041",
     "commandTopic": "opcua/Glass_Flat_v2/ManualFolderType/{commandName}",
     "telemetryTopic": "opcua/Glass_Flat_v2/ManualFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -425,7 +425,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ExternalManuals",
         "displayName": "ExternalManuals",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -436,7 +436,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "LocalManuals",
         "displayName": "<LocalManuals>",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
@@ -453,10 +453,10 @@
     ],
     "@id": "dtmi:opcua:Glass_Flat_v2:GlassMachineType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Glass.Flat.v2",
+    "ontology": "http://opcfoundation.org/UA/Glass/Flat/v2/",
     "displayName": "GlassMachineType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Glass.Flat.v2/;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1015",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -466,7 +466,7 @@
         "maxMultiplicity": 1,
         "name": "ConfigurationRules",
         "displayName": "ConfigurationRules",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "target": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType"
       },
       {
@@ -474,7 +474,7 @@
         "maxMultiplicity": 1,
         "name": "FileSystem",
         "displayName": "FileSystem",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "target": "dtmi:opcua:OpcUaCore:FileDirectoryType"
       },
       {
@@ -482,7 +482,7 @@
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "displayName": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -490,7 +490,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceManuals",
         "displayName": "MaintenanceManuals",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "target": "dtmi:opcua:Glass_Flat_v2:ManualFolderType"
       },
       {
@@ -498,7 +498,7 @@
         "maxMultiplicity": 1,
         "name": "OperationManuals",
         "displayName": "OperationManuals",
-        "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
+        "namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "target": "dtmi:opcua:Glass_Flat_v2:ManualFolderType"
       }
     ]

@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/MachineVision
+
 DataTypes:
 - UADataType: [ MachineVision:3023, MachineVision:SystemStateDataType ]
   DisplayName: "SystemStateDataType"

@@ -12,7 +12,7 @@
 <# if (this.definedType.Description != null && this.definedType.Description != string.Empty) { #>
         "description": "<#=this.definedType.Description#>",
 <# } #>
-        "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
+        "namespace": "<#=this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
 <# if (this.SubVars.Count == 0) { #>
 <# if (this.TryGetUnitInfo(null, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { #>
         "unit": "<#=unitInfo.Item2#>",
@@ -31,7 +31,7 @@
 <# if (this.definedType.Description != null && this.definedType.Description != string.Empty) { #>
               "description": "<#=this.definedType.Description#>",
 <# } #>
-              "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
+              "namespace": "<#=this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
 <# if (this.TryGetUnitInfo(this.definedType, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { #>
               "unit": "<#=unitInfo.Item2#>",
 <# } #>
@@ -47,7 +47,7 @@
 <# if (subVar.Description != null && subVar.Description != string.Empty) { #>
               "description": "<#=subVar.Description#>",
 <# } #>
-              "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))#>",
+              "namespace": "<#=this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))#>",
 <# if (this.TryGetUnitInfo(subVar, out unitInfo)) { #>
               "unit": "<#=unitInfo.Item2#>",
 <# } #>

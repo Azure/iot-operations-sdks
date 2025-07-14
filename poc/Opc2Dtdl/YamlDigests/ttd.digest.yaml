@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/TTD/
+
 DataTypes:
 - UADataType: [ TTD:3006, TTD:ExchangeablePartDataType ]
   DisplayName: "ExchangeablePartDataType"

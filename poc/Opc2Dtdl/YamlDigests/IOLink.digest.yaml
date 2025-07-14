@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/IOLink/
+
 DataTypes:
 - UADataType: [ IOLink:3000, IOLink:EncodingEnum ]
   DisplayName: "EncodingEnum"

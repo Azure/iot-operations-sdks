@@ -11,10 +11,10 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:Filter_InterfaceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
     "displayName": "Filter_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/;i=1002",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/Filter_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -24,21 +24,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Area",
         "displayName": "Area",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BackflushPressure",
         "displayName": "BackflushPressure",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FiltrationFineness",
         "displayName": "FiltrationFineness",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "double"
       },
       {
@@ -46,14 +46,14 @@
         "maxMultiplicity": 1,
         "name": "Drive",
         "displayName": "Drive",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FilterPackage_Nr",
         "displayName": "FilterPackage_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:FilterPackageType"
       },
       {
@@ -61,7 +61,7 @@
         "maxMultiplicity": 1,
         "name": "HydraulicPressure",
         "displayName": "HydraulicPressure",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       },
       {
@@ -69,7 +69,7 @@
         "maxMultiplicity": 1,
         "name": "MeltPressureZones",
         "displayName": "MeltPressureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -77,7 +77,7 @@
         "maxMultiplicity": 1,
         "name": "MeltTemperatureZones",
         "displayName": "MeltTemperatureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -85,7 +85,7 @@
         "maxMultiplicity": 1,
         "name": "SpecificWasteOutput",
         "displayName": "SpecificWasteOutput",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -93,7 +93,7 @@
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "displayName": "TemperatureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
       },
       {
@@ -101,7 +101,7 @@
         "maxMultiplicity": 1,
         "name": "WasteOutput",
         "displayName": "WasteOutput",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
     ]
@@ -120,7 +120,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FilterPackageType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter/;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/;i=1004",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/FilterPackageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/FilterPackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -129,7 +129,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:FilterPackageType:dataType:FilterPackageStatusEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FilterPackageStatusEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter/;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -160,7 +160,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BackflushCounter",
         "displayName": "BackflushCounter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -168,7 +168,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BackflushTime",
         "displayName": "BackflushTime",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "duration",
         "writable": true
       },
@@ -176,7 +176,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "string",
         "writable": false
       },
@@ -184,7 +184,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:FilterPackageType:dataType:FilterPackageStatusEnumeration;1",
         "writable": false
       },
@@ -192,14 +192,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Area",
         "displayName": "Area",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "double"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ScreenPackage_Nr",
         "displayName": "ScreenPackage_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:ScreenPackageType"
       }
     ]
@@ -218,7 +218,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ScreenPackageType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/ScreenPackageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_v2_Filter/ScreenPackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -229,7 +229,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "string",
         "writable": false
       },
@@ -237,7 +237,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PackageSetup",
         "displayName": "PackageSetup",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "string",
         "writable": false
       },
@@ -245,7 +245,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SerialNr",
         "displayName": "SerialNr",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "string",
         "writable": false
       },
@@ -253,7 +253,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Area",
         "displayName": "Area",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Filter",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
         "schema": "double"
       }
     ]

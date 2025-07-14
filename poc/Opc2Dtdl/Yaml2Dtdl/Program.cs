@@ -84,9 +84,10 @@
 
             Dictionary<string, List<string>> objectTypeIdSupers = new();
             HashSet<string> typeDefinitions = new();
+            SpecMapper specMapper = new ();
             foreach (string yamlFilePath in Directory.GetFiles(sourceRoot, $"*{sourceFileSuffix}"))
             {
-                Preload(yamlFilePath, objectTypeIdSupers, typeDefinitions);
+                Preload(yamlFilePath, objectTypeIdSupers, typeDefinitions, specMapper);
             }
 
             CotypeRuleEngine cotypeRuleEngine = new CotypeRuleEngine(objectTypeIdSupers, cotypeRulesFile);
@@ -98,7 +99,7 @@
                 string yamlFileName = Path.GetFileName(yamlFilePath);
                 string specName = yamlFileName.Substring(0, yamlFileName.Length - sourceFileSuffix.Length);
 
-                ConvertToDtdl(coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeIdSupers, typeDefinitions, cotypeRuleEngine, specInfos);
+                ConvertToDtdl(specMapper, coreOpcUaDigest, yamlFilePath, destRoot, specName, unitTypesDict, objectTypeIdSupers, typeDefinitions, cotypeRuleEngine, specInfos);
             }
 
             Console.WriteLine();
@@ -180,7 +181,7 @@
             }
         }
 
-        private static void Preload(string sourceFilePath, Dictionary<string, List<string>> objectTypeIdSupers, HashSet<string> typeDefinitions)
+        private static void Preload(string sourceFilePath, Dictionary<string, List<string>> objectTypeIdSupers, HashSet<string> typeDefinitions, SpecMapper specMapper)
         {
             string yamlFileName = Path.GetFileName(sourceFilePath);
 
@@ -189,6 +190,7 @@
             string sourceFileText = File.ReadAllText(sourceFilePath);
 
             OpcUaDigest opcUaDigest = deserializer.Deserialize<OpcUaDigest>(sourceFileText);
+            specMapper.PreloadUri(opcUaDigest.SpecUri);
 
             if (opcUaDigest.DefinedTypes != null)
             {
@@ -227,7 +229,7 @@
             return false;
         }
 
-        private static void ConvertToDtdl(OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeIdSupers, HashSet<string> typeDefinitions, CotypeRuleEngine cotypeRuleEngine, List<SpecInfo> specInfos)
+        private static void ConvertToDtdl(SpecMapper specMapper, OpcUaDigest coreOpcUaDigest, string yamlFilePath, string destRoot, string specName, Dictionary<int, (string, string)> unitTypesDict, Dictionary<string, List<string>> objectTypeIdSupers, HashSet<string> typeDefinitions, CotypeRuleEngine cotypeRuleEngine, List<SpecInfo> specInfos)
         {
             Console.WriteLine($"Processing file {yamlFilePath}");
 
@@ -239,7 +241,7 @@
                 string outFilePath = Path.Combine(destRoot, $"{specName}{destFileSuffix}");
                 Console.WriteLine($"  Writing file {outFilePath}");
 
-                SpecInfo specInfo = new SpecInfo(Path.GetFileName(outFilePath), SpecMapper.GetUriFromSpecName(specName));
+                SpecInfo specInfo = new SpecInfo(Path.GetFileName(outFilePath), specMapper.GetUriFromSpecName(specName));
 
                 using (StreamWriter outputFile = new StreamWriter(outFilePath))
                 {
@@ -252,12 +254,12 @@
                         bool isEvent = DoesAncestorHaveType(TypeConverter.GetModelId(definedType.Value), "dtmi:opcua:OpcUaCore:BaseEventType", objectTypeIdSupers);
                         bool isComposite = !typeDefinitions.Contains(definedType.Key) && definedType.Value.Datatype != "Abstract" && !isEvent;
                         bool appendComma = ix < opcUaDigest.DefinedTypes.Count;
-                        DtdlInterface dtdlInterface = new DtdlInterface(modelId, isComposite, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, cotypeRuleEngine, appendComma);
+                        DtdlInterface dtdlInterface = new DtdlInterface(specMapper, modelId, isComposite, isEvent, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes, unitTypesDict, cotypeRuleEngine, appendComma);
                         string jsonText = dtdlInterface.TransformText();
 
                         outputFile.Write(jsonText);
 
-                        specInfo.AddComponent($"{modelId};1", definedType.Value.DisplayName, TypeConverter.GetTypeRefFromNodeId(definedType.Value.NodeId), isComposite, isEvent);
+                        specInfo.AddComponent($"{modelId};1", definedType.Value.DisplayName, TypeConverter.GetTypeRefFromNodeId(specMapper, definedType.Value.NodeId), isComposite, isEvent);
 
                         ix++;
                     }

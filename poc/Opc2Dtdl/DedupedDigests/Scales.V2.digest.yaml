@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Scales/V2/
+
 DataTypes:
 - UADataType: [ Scales.V2:65, Scales.V2:DraftShieldType ]
   DisplayName: "DraftShieldType"

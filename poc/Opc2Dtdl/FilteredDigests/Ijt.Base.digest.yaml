@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/IJT/Base/
+
 DataTypes:
 - UADataType: [ IJT.Base:3003, IJT.Base:CalibrationDataType ]
   DisplayName: "CalibrationDataType"

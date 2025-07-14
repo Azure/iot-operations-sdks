@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:MotionDeviceSystemType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "MotionDeviceSystemType",
     "description": "Contains the set of controllers and motion devices in a closely-coupled motion device system.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -26,7 +26,7 @@
         "name": "MotionDevices",
         "displayName": "MotionDevices",
         "description": "Contains any kinematic or motion device which is part of the motion device system.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -35,7 +35,7 @@
         "name": "Controllers",
         "displayName": "Controllers",
         "description": "Contains the set of controllers in the motion device system.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -44,7 +44,7 @@
         "name": "SafetyStates",
         "displayName": "SafetyStates",
         "description": "Contains safety-related data from motion device system.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -61,7 +61,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:MotionDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "MotionDeviceType",
     "description": "Represents a specific motion device in the motion device system like a robot, a linear unit or a positioner. A MotionDevice should have at least one axis.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -115,7 +115,7 @@
         "name": "MotionDeviceCategory",
         "displayName": "MotionDeviceCategory",
         "description": "The variable MotionDeviceCategory provides the kind of motion device defined by MotionDeviceCategoryEnumeration based on ISO 8373.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "dtmi:opcua:Robotics:MotionDeviceType:dataType:MotionDeviceCategoryEnumeration;1",
         "writable": false
       },
@@ -125,7 +125,7 @@
         "name": "Axes",
         "displayName": "Axes",
         "description": "Axes is a container for one or more instances of the AxisType.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -134,7 +134,7 @@
         "name": "PowerTrains",
         "displayName": "PowerTrains",
         "description": "PowerTrains is a container for one or more instances of the PowerTrainType.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -143,7 +143,7 @@
         "name": "FlangeLoad",
         "displayName": "FlangeLoad",
         "description": "The FlangeLoad is the load on the flange or at the mounting point of the MotionDevice. This can be the maximum load of the MotionDevice.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:Robotics:LoadType"
       },
       {
@@ -152,7 +152,7 @@
         "name": "AdditionalComponents",
         "displayName": "AdditionalComponents",
         "description": "AdditionalComponents is a container for one or more instances of subtypes of ComponentType defined in OPC UA DI. The listed components are installed at the motion device, e.g. an IO-board.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -169,7 +169,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:AxisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "AxisType",
     "description": "The AxisType describes an axis of a motion device.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -215,7 +215,7 @@
         "name": "MotionProfile",
         "displayName": "MotionProfile",
         "description": "The kind of axis motion as defined with the AxisMotionProfileEnumeration.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "dtmi:opcua:Robotics:AxisType:dataType:AxisMotionProfileEnumeration;1",
         "writable": false
       },
@@ -225,7 +225,7 @@
         "name": "AdditionalLoad",
         "displayName": "AdditionalLoad",
         "description": "The additional load which is mounted on this axis. E.g. for process-need a transformer for welding.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:Robotics:LoadType"
       }
     ]
@@ -242,7 +242,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:PowerTrainType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "PowerTrainType",
     "description": "The PowerTrainType represents instances of powertrains of a motion device.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -255,14 +255,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MotorIdentifier",
         "displayName": "<MotorIdentifier>",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:Robotics:MotorType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "GearIdentifier",
         "displayName": "<GearIdentifier>",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:Robotics:GearType"
       }
     ]
@@ -333,7 +333,7 @@
         "name": "GearRatio",
         "displayName": "GearRatio",
         "description": "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side).",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -342,21 +342,21 @@
               "name": "GearRatio",
               "displayName": "GearRatio",
               "description": "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side).",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "dtmi:opcua:Robotics:GearType:dataType:RationalNumber;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Numerator",
               "displayName": "Numerator",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "integer"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Denominator",
               "displayName": "Denominator",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "unsignedInteger"
             }
           ]
@@ -367,7 +367,7 @@
         "name": "Pitch",
         "displayName": "Pitch",
         "description": "Pitch describes the distance covered in millimeters (mm) for linear motion per one revolution of the output side of the driving unit. Pitch is used in combination with GearRatio to describe the overall transmission from input to output of the gear.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "double"
       }
     ]
@@ -384,7 +384,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:SafetyStateType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "SafetyStateType",
     "description": "SafetyStateType describes the safety states of the motion devices and controllers. One motion device system is associated with one or more instances of the SafetyStateType.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -399,7 +399,7 @@
         "name": "EmergencyStopFunctions",
         "displayName": "EmergencyStopFunctions",
         "description": "EmergencyStopFunctions is a container for one or more instances of the EmergencyStopFunctionType.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -408,7 +408,7 @@
         "name": "ProtectiveStopFunctions",
         "displayName": "ProtectiveStopFunctions",
         "description": "ProtectiveStopFunctions is a container for one or more instances of the ProtectiveStopFunctionType.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -425,7 +425,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:EmergencyStopFunctionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "EmergencyStopFunctionType",
     "description": "According to ISO 10218-1:2011 Ch.5.5.2 Emergency stop the robot shall have one or more emergency stop functions.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -441,7 +441,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "The Name of the EmergencyStopFunctionType provides a manufacturer-specific emergency stop function identifier within the safety system.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "string",
         "writable": false
       },
@@ -450,7 +450,7 @@
         "name": "Active",
         "displayName": "Active",
         "description": "The Active variable is TRUE if this particular emergency stop function is active, e.g. that the emergency stop button is pressed, FALSE otherwise.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "boolean"
       }
     ]
@@ -467,7 +467,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:ProtectiveStopFunctionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "ProtectiveStopFunctionType",
     "description": "According to ISO 10218-1:2011 Ch.5.5.3 the robot shall have one or more protective stop functions designed for the connection of external protective devices.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -483,7 +483,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "The Name of the ProtectiveStopFunctionType provides a manufacturer-specific protective stop function identifier within the safety system.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "string",
         "writable": false
       },
@@ -492,7 +492,7 @@
         "name": "Enabled",
         "displayName": "Enabled",
         "description": "– The Enabled variable is TRUE if this protective stop function is currently supervising the system, FALSE otherwise. A protective stop function may or may not be enabled at all times, e.g. the protective stop function of the safety doors are typically enabled in automatic operational mode and disabled in manual mode. On the other hand for example, the protective stop function of the teach pendant enabling device is enabled in manual modes and disabled in automatic modes.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "boolean"
       },
       {
@@ -500,7 +500,7 @@
         "name": "Active",
         "displayName": "Active",
         "description": "– The Active variable is TRUE if this particular protective stop function is active, i.e. that a stop is initiated, FALSE otherwise. If Enabled is FALSE then Active shall be FALSE.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "boolean"
       }
     ]
@@ -517,7 +517,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:ControllerType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "ControllerType",
     "description": "The ControllerType describes the control unit of motion devices. One motion device system can have one or more instances of the ControllerType.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -532,7 +532,7 @@
         "name": "CurrentUser",
         "displayName": "CurrentUser",
         "description": "The given name of the device.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:Robotics:UserType"
       },
       {
@@ -541,7 +541,7 @@
         "name": "Components",
         "displayName": "Components",
         "description": "Components is a container for one or more instances of subtypes of ComponentType defined in OPC UA DI. The listed components are installed in the motion device system, e.g. a processing-unit, a power-supply, an IO-board or a drive, and have an electrical interface to the controller.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -550,7 +550,7 @@
         "name": "Software",
         "displayName": "Software",
         "description": "Software is a container for one or more instances of SoftwareType defined in OPC UA DI.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -559,7 +559,7 @@
         "name": "TaskControls",
         "displayName": "TaskControls",
         "description": "TaskControls is a container for one or more instances of TaskControlType.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -576,7 +576,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:AuxiliaryComponentType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "AuxiliaryComponentType",
     "description": "Components mounted in a controller cabinet or a motion device e.g. an IO-board or a power supply.",
     "extends": "dtmi:opcua:DI:DeviceType;1",
@@ -599,7 +599,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:DriveType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "DriveType",
     "description": "Drives (multi-slot or single-slot axis amplifier) mounted in a controller cabinet or a motion device.",
     "extends": "dtmi:opcua:DI:DeviceType;1",
@@ -622,7 +622,7 @@
     ],
     "@id": "dtmi:opcua:Robotics:TaskControlType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Robotics",
+    "ontology": "http://opcfoundation.org/UA/Robotics/",
     "displayName": "TaskControlType",
     "description": "Represents a specific task control active on the controller.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
@@ -746,7 +746,7 @@
         "name": "Mass",
         "displayName": "Mass",
         "description": "The weight of the load mounted on one mounting point.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "double"
       },
       {
@@ -754,7 +754,7 @@
         "name": "CenterOfMass",
         "displayName": "CenterOfMass",
         "description": "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these values.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -763,21 +763,21 @@
               "name": "CenterOfMass",
               "displayName": "CenterOfMass",
               "description": "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these values.",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DFrame;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "CartesianCoordinates",
               "displayName": "CartesianCoordinates",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DCartesianCoordinates;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Orientation",
               "displayName": "Orientation",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1"
             }
           ]
@@ -788,7 +788,7 @@
         "name": "Inertia",
         "displayName": "Inertia",
         "description": "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -797,28 +797,28 @@
               "name": "Inertia",
               "displayName": "Inertia",
               "description": "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well.",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DVector;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "X",
               "displayName": "X",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "double"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Y",
               "displayName": "Y",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "double"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Z",
               "displayName": "Z",
-              "namespace": "http://opcfoundation.org/UA/Robotics",
+              "namespace": "http://opcfoundation.org/UA/Robotics/",
               "schema": "double"
             }
           ]
@@ -853,7 +853,7 @@
         "name": "Level",
         "displayName": "Level",
         "description": "The weight of the load mounted on one mounting point.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "string",
         "writable": false
       },
@@ -862,7 +862,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "The name for the current user within the control system.",
-        "namespace": "http://opcfoundation.org/UA/Robotics",
+        "namespace": "http://opcfoundation.org/UA/Robotics/",
         "schema": "string",
         "writable": false
       }

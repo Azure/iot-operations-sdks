@@ -23,7 +23,7 @@
         "@type": [ "Telemetry", "Qualified", "Current" ],
         "name": "DcCurrent",
         "displayName": "DcCurrent",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "unit": "ampere",
         "schema": "float"
       }
@@ -76,7 +76,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcCurrent",
         "displayName": "AcCurrent",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:IEnergyProfileE0Type:dataType:AcPeDataType;1"
       }
     ]
@@ -105,7 +105,7 @@
         "@type": [ "Telemetry", "Qualified", "Power" ],
         "name": "AcActivePowerTotal",
         "displayName": "AcActivePowerTotal",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "unit": "watt",
         "schema": "float"
       }
@@ -135,7 +135,7 @@
         "@type": [ "Telemetry", "Qualified", "Energy" ],
         "name": "AcActiveEnergyTotalExportLp",
         "displayName": "AcActiveEnergyTotalExportLp",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "unit": "wattHour",
         "schema": "float"
       },
@@ -143,7 +143,7 @@
         "@type": [ "Telemetry", "Qualified", "Energy" ],
         "name": "AcActiveEnergyTotalImportLp",
         "displayName": "AcActiveEnergyTotalImportLp",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "unit": "wattHour",
         "schema": "float"
       },
@@ -151,7 +151,7 @@
         "@type": [ "Telemetry", "Qualified", "Power" ],
         "name": "AcActivePowerTotal",
         "displayName": "AcActivePowerTotal",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "unit": "watt",
         "schema": "float"
       }
@@ -227,7 +227,7 @@
         "@type": [ "Telemetry", "Qualified", "Energy" ],
         "name": "AcActiveEnergyTotalExportHp",
         "displayName": "AcActiveEnergyTotalExportHp",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "unit": "wattHour",
         "schema": "double"
       },
@@ -235,7 +235,7 @@
         "@type": [ "Telemetry", "Qualified", "Energy" ],
         "name": "AcActiveEnergyTotalImportHp",
         "displayName": "AcActiveEnergyTotalImportHp",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "unit": "wattHour",
         "schema": "double"
       },
@@ -243,56 +243,56 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcActivePower",
         "displayName": "AcActivePower",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcCurrent",
         "displayName": "AcCurrent",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcPowerFactor",
         "displayName": "AcPowerFactor",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcReactiveEnergyTotalExportHp",
         "displayName": "AcReactiveEnergyTotalExportHp",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcReactiveEnergyTotalImportHp",
         "displayName": "AcReactiveEnergyTotalImportHp",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcReactivePower",
         "displayName": "AcReactivePower",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcVoltagePe",
         "displayName": "AcVoltagePe",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcVoltagePp",
         "displayName": "AcVoltagePp",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPpDataType;1"
       }
     ]
@@ -309,7 +309,7 @@
     ],
     "@id": "dtmi:opcua:PNEM:EnergyDevicePowerOffType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNEM",
+    "ontology": "http://opcfoundation.org/UA/PNEM/",
     "displayName": "EnergyDevicePowerOffType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1012",
@@ -323,7 +323,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "WOLMagicPacket",
         "displayName": "WOLMagicPacket",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "bytes",
         "writable": false
       },
@@ -331,28 +331,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ModePowerConsumption",
         "displayName": "ModePowerConsumption",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RegularTimeToOperate",
         "displayName": "RegularTimeToOperate",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeMinPause",
         "displayName": "TimeMinPause",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "duration"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SwitchOffWOL",
         "displayName": "SwitchOffWOL",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
@@ -402,7 +402,7 @@
     ],
     "@id": "dtmi:opcua:PNEM:EnergyMeasurementType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNEM",
+    "ontology": "http://opcfoundation.org/UA/PNEM/",
     "displayName": "EnergyMeasurementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1006",
@@ -416,7 +416,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PeObjectNumber",
         "displayName": "PeObjectNumber",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -424,7 +424,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MeasurementValue",
         "displayName": "<MeasurementValue>",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -441,7 +441,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ResetEnergyCounter",
         "displayName": "ResetEnergyCounter",
-        "namespace": "http://opcfoundation.org/UA/PNEM"
+        "namespace": "http://opcfoundation.org/UA/PNEM/"
       }
     ]
   },
@@ -468,7 +468,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "EnergySavingModes",
         "displayName": "<EnergySavingModes>",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "target": "dtmi:opcua:PNEM:EnergySavingModeType"
       }
     ]
@@ -555,14 +555,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentTransitionData",
         "displayName": "CurrentTransitionData",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StateInformation",
         "displayName": "StateInformation",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1"
       }
     ]
@@ -592,7 +592,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DynamicData",
         "displayName": "DynamicData",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "boolean",
         "writable": false
       },
@@ -600,7 +600,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ID",
         "displayName": "ID",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "unsignedByte",
         "writable": false
       },
@@ -608,56 +608,56 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EnergyConsumptionToOperate",
         "displayName": "EnergyConsumptionToOperate",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EnergyConsumptionToPause",
         "displayName": "EnergyConsumptionToPause",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ModePowerConsumption",
         "displayName": "ModePowerConsumption",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RegularTimeToOperate",
         "displayName": "RegularTimeToOperate",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeMaxLengthOfStay",
         "displayName": "TimeMaxLengthOfStay",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeMinLengthOfStay",
         "displayName": "TimeMinLengthOfStay",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeMinPause",
         "displayName": "TimeMinPause",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeToPause",
         "displayName": "TimeToPause",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "duration"
       }
     ]
@@ -674,7 +674,7 @@
     ],
     "@id": "dtmi:opcua:PNEM:EnergyStandbyManagementType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNEM",
+    "ontology": "http://opcfoundation.org/UA/PNEM/",
     "displayName": "EnergyStandbyManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1005",
@@ -688,21 +688,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PauseTime",
         "displayName": "PauseTime",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StandbyManagementStatus",
         "displayName": "StandbyManagementStatus",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "unsignedByte"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "EndPause",
         "displayName": "EndPause",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
@@ -727,7 +727,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StartPause",
         "displayName": "StartPause",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -781,7 +781,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SwitchToEnergySavingMode",
         "displayName": "SwitchToEnergySavingMode",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -836,7 +836,7 @@
         "maxMultiplicity": 1,
         "name": "EnergySavingModes",
         "displayName": "EnergySavingModes",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "target": "dtmi:opcua:PNEM:EnergySavingModesContainerType"
       },
       {
@@ -844,7 +844,7 @@
         "maxMultiplicity": 1,
         "name": "EnergySavingModeStatus",
         "displayName": "EnergySavingModeStatus",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "target": "dtmi:opcua:PNEM:EnergySavingModeStatusType"
       },
       {
@@ -852,7 +852,7 @@
         "maxMultiplicity": 1,
         "name": "Lock",
         "displayName": "Lock",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "target": "dtmi:opcua:DI:LockingServicesType"
       }
     ]
@@ -869,7 +869,7 @@
     ],
     "@id": "dtmi:opcua:PNEM:PeServiceAccessPointType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNEM",
+    "ontology": "http://opcfoundation.org/UA/PNEM/",
     "displayName": "PeServiceAccessPointType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1013",
@@ -946,7 +946,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PeClass",
         "displayName": "PeClass",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:PeServiceAccessPointType:dataType:PeClassEnumeration;1",
         "writable": true
       },
@@ -954,7 +954,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PeSubclass",
         "displayName": "PeSubclass",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:PeServiceAccessPointType:dataType:PeSubclassEnumeration;1",
         "writable": true
       },
@@ -962,7 +962,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PeVersion",
         "displayName": "PeVersion",
-        "namespace": "http://opcfoundation.org/UA/PNEM",
+        "namespace": "http://opcfoundation.org/UA/PNEM/",
         "schema": "dtmi:opcua:PNEM:PeServiceAccessPointType:dataType:PeVersionDataType;1",
         "writable": true
       }

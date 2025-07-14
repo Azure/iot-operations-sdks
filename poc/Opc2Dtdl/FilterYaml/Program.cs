@@ -85,12 +85,15 @@
 
                 using (StringReader stringReader = new StringReader(sourceFileText))
                 {
-                    string? line;
-                    do
+                    for (int i = 0; i < 2; i++)
                     {
-                        line = stringReader.ReadLine();
-                        outputFile.WriteLine(line);
-                    } while (line != string.Empty);
+                        string? line;
+                        do
+                        {
+                            line = stringReader.ReadLine();
+                            outputFile.WriteLine(line);
+                        } while (line != string.Empty);
+                    }
                 }
 
                 OpcUaDigest opcUaDigest = deserializer.Deserialize<OpcUaDigest>(sourceFileText);

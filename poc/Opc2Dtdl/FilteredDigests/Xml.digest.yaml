@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/XML/
+
 DataTypes:
 - UADataType: [ XML:3042, XML:XmlHexBinary ]
   Bases:

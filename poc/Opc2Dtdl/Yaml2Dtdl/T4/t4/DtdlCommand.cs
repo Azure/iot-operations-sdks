@@ -39,7 +39,7 @@ namespace Yaml2Dtdl
             this.Write("\",\r\n");
  } 
             this.Write("        \"namespace\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.InputArgs != null || this.OutputArgs != null ? "," : ""));
             this.Write("\r\n");

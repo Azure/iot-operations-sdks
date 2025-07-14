@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PNEM/
+
 DataTypes:
 - UADataType: [ PNEM:3009, PNEM:AccuracyClassEnumeration ]
   DisplayName: "AccuracyClassEnumeration"

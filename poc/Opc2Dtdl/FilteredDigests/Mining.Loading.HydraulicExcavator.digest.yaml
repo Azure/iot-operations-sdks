@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Mining/Loading/HydraulicExcavator/
+
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   DisplayName: "DeviceHealthEnumeration"

@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PAEFS/
+
 DataTypes:
 - UADataType: [ PAEFS:3005, PAEFS:AirConnectionOpenEnum ]
   DisplayName: "AirConnectionOpenEnum"

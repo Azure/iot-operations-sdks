@@ -24,7 +24,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ErrorCode",
         "displayName": "ErrorCode",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       }
@@ -55,7 +55,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ProgramName",
         "displayName": "ProgramName",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -63,7 +63,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Characteristics",
         "displayName": "<Characteristics>",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "target": "dtmi:opcua:GMS:CharacteristicType"
       }
     ]
@@ -80,7 +80,7 @@
     ],
     "@id": "dtmi:opcua:GMS:MultiSensorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "MultiSensorType",
     "extends": "dtmi:opcua:MachineTool:MultiToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1012",
@@ -115,7 +115,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Alignment",
         "displayName": "Alignment",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "dtmi:opcua:GMS:MultiSensorType:dataType:ToolAlignmentState;1",
         "writable": true
       },
@@ -123,7 +123,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Axes",
         "displayName": "Axes",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -144,7 +144,7 @@
     ],
     "@id": "dtmi:opcua:GMS:SensorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "SensorType",
     "extends": "dtmi:opcua:MachineTool:ToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1007",
@@ -200,7 +200,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AbsoluteProbe",
         "displayName": "AbsoluteProbe",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "boolean",
         "writable": true
       },
@@ -208,7 +208,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Alignment",
         "displayName": "Alignment",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "dtmi:opcua:GMS:SensorType:dataType:ToolAlignmentState;1",
         "writable": true
       },
@@ -216,7 +216,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Axes",
         "displayName": "Axes",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -227,7 +227,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "EngineeringUnit",
         "displayName": "EngineeringUnit",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -235,7 +235,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IsQualifiedStatus",
         "displayName": "IsQualifiedStatus",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "dtmi:opcua:GMS:SensorType:dataType:ToolIsQualifiedStatus;1",
         "writable": true
       },
@@ -243,7 +243,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MeasuringRange",
         "displayName": "MeasuringRange",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double",
         "writable": true
       },
@@ -251,7 +251,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Resolution",
         "displayName": "Resolution",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double",
         "writable": true
       },
@@ -259,7 +259,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "WorkingRange",
         "displayName": "WorkingRange",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double",
         "writable": true
       },
@@ -267,7 +267,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Capabilities",
         "displayName": "Capabilities",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedInteger"
@@ -277,7 +277,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Class",
         "displayName": "Class",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "unsignedInteger"
       }
     ]
@@ -306,7 +306,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ResultEvaluationEnum",
         "description": "Indicates whether a result was in tolerance",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result/;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -333,7 +333,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CharacteristicIdentifier",
         "displayName": "CharacteristicIdentifier",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -341,7 +341,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CharacteristicsClass",
         "displayName": "CharacteristicsClass",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "unsignedByte",
         "writable": true
       },
@@ -349,7 +349,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Formula",
         "displayName": "Formula",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -357,7 +357,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IsValid",
         "displayName": "IsValid",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "boolean",
         "writable": true
       },
@@ -365,7 +365,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ResultEvaluation",
         "displayName": "ResultEvaluation",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "dtmi:opcua:GMS:CharacteristicType:dataType:ResultEvaluationEnum;1",
         "writable": true
       },
@@ -373,28 +373,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LowerToleranceLimit",
         "displayName": "LowerToleranceLimit",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Nominal",
         "displayName": "Nominal",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResultValue",
         "displayName": "ResultValue",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UpperToleranceLimit",
         "displayName": "UpperToleranceLimit",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double"
       }
     ]
@@ -411,7 +411,7 @@
     ],
     "@id": "dtmi:opcua:GMS:CorrectionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "CorrectionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1005",
@@ -425,7 +425,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CharacteristicIdentifier",
         "displayName": "CharacteristicIdentifier",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -433,7 +433,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Description",
         "displayName": "Description",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -441,7 +441,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -449,7 +449,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ProgramName",
         "displayName": "ProgramName",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -457,28 +457,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CorrectionValueAbsolute",
         "displayName": "CorrectionValueAbsolute",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CorrectionValueRelative",
         "displayName": "CorrectionValueRelative",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LowerControlLimit",
         "displayName": "LowerControlLimit",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UpperControlLimit",
         "displayName": "UpperControlLimit",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "double"
       }
     ]
@@ -507,14 +507,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsInLoadingPosition",
         "displayName": "IsInLoadingPosition",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LoadStatus",
         "displayName": "LoadStatus",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "unsignedInteger"
       }
     ]
@@ -544,7 +544,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ActiveTool",
         "displayName": "ActiveTool",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -565,7 +565,7 @@
     ],
     "@id": "dtmi:opcua:GMS:GMSEquipmentType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "GMSEquipmentType",
     "extends": "dtmi:opcua:MachineTool:EquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1003",
@@ -578,7 +578,7 @@
         "maxMultiplicity": 1,
         "name": "Accessories",
         "displayName": "Accessories",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -586,7 +586,7 @@
         "maxMultiplicity": 1,
         "name": "AdditionalSensor",
         "displayName": "AdditionalSensor",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -603,7 +603,7 @@
     ],
     "@id": "dtmi:opcua:GMS:GMSIdentificationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "GMSIdentificationType",
     "extends": "dtmi:opcua:MachineTool:MachineToolIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1011",
@@ -617,7 +617,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SubDeviceClass",
         "displayName": "SubDeviceClass",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -625,7 +625,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Workspace",
         "displayName": "Workspace",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "bytes",
         "writable": false
       }
@@ -643,7 +643,7 @@
     ],
     "@id": "dtmi:opcua:GMS:GMSType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "GMSType",
     "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1002",
@@ -656,7 +656,7 @@
         "maxMultiplicity": 1,
         "name": "ResultManagement",
         "displayName": "ResultManagement",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "target": "dtmi:opcua:GMS:GMSResultManagementType"
       }
     ]
@@ -673,7 +673,7 @@
     ],
     "@id": "dtmi:opcua:GMS:GMSMonitoringType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "GMSMonitoringType",
     "extends": "dtmi:opcua:MachineTool:MonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1004",
@@ -686,7 +686,7 @@
         "maxMultiplicity": 1,
         "name": "LoadingMonitoring",
         "displayName": "LoadingMonitoring",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "target": "dtmi:opcua:GMS:LoadingMonitoringType"
       },
       {
@@ -694,7 +694,7 @@
         "maxMultiplicity": 1,
         "name": "ToolMonitoring",
         "displayName": "ToolMonitoring",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "target": "dtmi:opcua:GMS:ToolMonitoringType"
       }
     ]
@@ -711,7 +711,7 @@
     ],
     "@id": "dtmi:opcua:GMS:GMSJobType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "GMSJobType",
     "extends": "dtmi:opcua:MachineTool:ProductionJobType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1016",
@@ -758,7 +758,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BatchIdentifier",
         "displayName": "BatchIdentifier",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -766,7 +766,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Duration",
         "displayName": "Duration",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "duration",
         "writable": true
       },
@@ -774,7 +774,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MeasurementReason",
         "displayName": "MeasurementReason",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "dtmi:opcua:GMS:GMSJobType:dataType:MeasurementReasonEnum;1",
         "writable": true
       },
@@ -782,7 +782,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "RemainingTime",
         "displayName": "RemainingTime",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "duration",
         "writable": true
       }
@@ -800,7 +800,7 @@
     ],
     "@id": "dtmi:opcua:GMS:GMSPartType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "GMSPartType",
     "extends": "dtmi:opcua:MachineTool:ProductionPartType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1017",
@@ -814,7 +814,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PartAmendmentStatus",
         "displayName": "PartAmendmentStatus",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -822,7 +822,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PartDescription",
         "displayName": "PartDescription",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -830,7 +830,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ProductionNumber",
         "displayName": "ProductionNumber",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "string",
         "writable": true
       },
@@ -838,35 +838,35 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NestIdentifier",
         "displayName": "NestIdentifier",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Operator",
         "displayName": "Operator",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartCarrierIdentifier",
         "displayName": "PartCarrierIdentifier",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessingMachineIdentifier",
         "displayName": "ProcessingMachineIdentifier",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessParameter",
         "displayName": "ProcessParameter",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "integer"
@@ -886,7 +886,7 @@
     ],
     "@id": "dtmi:opcua:GMS:CalibrationPrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "CalibrationPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1019",
@@ -900,7 +900,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Calibrated",
         "displayName": "Calibrated",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "boolean",
         "writable": true
       },
@@ -908,7 +908,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CalibrationCertificate",
         "displayName": "CalibrationCertificate",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -919,7 +919,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CalibrationInterval",
         "displayName": "CalibrationInterval",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "duration",
         "writable": true
       },
@@ -927,7 +927,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CalibrationPreptime",
         "displayName": "CalibrationPreptime",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "duration",
         "writable": true
       },
@@ -935,7 +935,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DateOfCalibration",
         "displayName": "DateOfCalibration",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "time",
         "writable": true
       }
@@ -965,7 +965,7 @@
         "maxMultiplicity": 1,
         "name": "CorrectionsFolder",
         "displayName": "CorrectionsFolder",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -982,7 +982,7 @@
     ],
     "@id": "dtmi:opcua:GMS:RotaryTableType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "RotaryTableType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1018",
@@ -996,7 +996,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsIntegrated",
         "displayName": "IsIntegrated",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "boolean",
         "writable": true
       },
@@ -1004,7 +1004,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfAxes",
         "displayName": "NumberOfAxes",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "unsignedByte",
         "writable": true
       }
@@ -1022,7 +1022,7 @@
     ],
     "@id": "dtmi:opcua:GMS:SensorExchangeRackType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "SensorExchangeRackType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1015",
@@ -1036,7 +1036,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsAvailable",
         "displayName": "IsAvailable",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "boolean",
         "writable": true
       }
@@ -1054,7 +1054,7 @@
     ],
     "@id": "dtmi:opcua:GMS:TipExchangeRackType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GMS",
+    "ontology": "http://opcfoundation.org/UA/GMS/",
     "displayName": "TipExchangeRackType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1022",
@@ -1068,7 +1068,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsAvailable",
         "displayName": "IsAvailable",
-        "namespace": "http://opcfoundation.org/UA/GMS",
+        "namespace": "http://opcfoundation.org/UA/GMS/",
         "schema": "boolean",
         "writable": true
       }

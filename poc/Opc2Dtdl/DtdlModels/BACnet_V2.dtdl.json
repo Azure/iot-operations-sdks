@@ -2002,7 +2002,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Backup_And_Restore_State",
         "displayName": "Backup_And_Restore_State",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetBackupRestoreType:dataType:BACnetBackupState;1",
         "writable": true
       },
@@ -2010,7 +2010,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Backup_Failure_Timeout",
         "displayName": "Backup_Failure_Timeout",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -2018,7 +2018,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Backup_Preparation_Time",
         "displayName": "Backup_Preparation_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -2026,7 +2026,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Configuration_Files",
         "displayName": "Configuration_Files",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetBackupRestoreType:dataType:BACnetDeviceObjectPropertyReference;1"
@@ -2037,7 +2037,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Last_Restore_Time",
         "displayName": "Last_Restore_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetBackupRestoreType:dataType:BACnetTimeStamp;1",
         "writable": true
       },
@@ -2045,7 +2045,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Restore_Completion_Time",
         "displayName": "Restore_Completion_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -2053,7 +2053,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Restore_Preparation_Time",
         "displayName": "Restore_Preparation_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -2061,13 +2061,13 @@
         "@type": [ "Command", "Qualified" ],
         "name": "BACnetBackup",
         "displayName": "BACnetBackup",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "BACnetRestore",
         "displayName": "BACnetRestore",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/"
       }
     ]
   },
@@ -2429,7 +2429,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Change_Of_State_Count",
         "displayName": "Change_Of_State_Count",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -2437,7 +2437,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Change_Of_State_Time",
         "displayName": "Change_Of_State_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateCountType:dataType:BACnetDateTime;1",
         "writable": true
       },
@@ -2445,7 +2445,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time_Of_State_Count_Reset",
         "displayName": "Time_Of_State_Count_Reset",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dateTime",
         "writable": true
       },
@@ -2453,7 +2453,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Reset",
         "displayName": "Reset",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/"
       }
     ]
   },
@@ -2916,7 +2916,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Last_Restart_Reason",
         "displayName": "Last_Restart_Reason",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetRestartReason;1",
         "writable": true
       },
@@ -2924,7 +2924,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Restart_Notification_Recipients",
         "displayName": "Restart_Notification_Recipients",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetRecipient;1"
@@ -2935,7 +2935,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time_Of_Device_Restart",
         "displayName": "Time_Of_Device_Restart",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetTimeStamp;1",
         "writable": true
       },
@@ -2943,7 +2943,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AddRestartRecipients",
         "displayName": "AddRestartRecipients",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2980,7 +2980,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveRestartRecipients",
         "displayName": "RemoveRestartRecipients",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3040,7 +3040,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Elapsed_Active_Time",
         "displayName": "Elapsed_Active_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -3048,7 +3048,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time_Of_Active_Time_Reset",
         "displayName": "Time_Of_Active_Time_Reset",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dateTime",
         "writable": true
       },
@@ -3056,7 +3056,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Reset",
         "displayName": "Reset",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2"
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/"
       }
     ]
   },
@@ -3085,7 +3085,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "TimeDelay",
         "displayName": "TimeDelay",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -3093,7 +3093,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "TimeDelayNormal",
         "displayName": "TimeDelayNormal",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -3111,7 +3111,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetBufferReadyAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetBufferReadyAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101005",
@@ -3125,7 +3125,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PreviousCount",
         "displayName": "PreviousCount",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -3133,7 +3133,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Threshold",
         "displayName": "Threshold",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -3151,7 +3151,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfBitStringAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetChangeOfBitStringAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101003",
@@ -3183,7 +3183,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AlarmValues",
         "displayName": "AlarmValues",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfBitStringAlgorithmType:dataType:OptionSet;1",
         "writable": true
       }
@@ -3201,7 +3201,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfCharacterStringAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetChangeOfCharacterStringAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101034",
@@ -3215,7 +3215,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AlarmValues",
         "displayName": "AlarmValues",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -3236,7 +3236,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfLifeSafetyAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetChangeOfLifeSafetyAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101028",
@@ -3354,7 +3354,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AlarmValues",
         "displayName": "AlarmValues",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetChangeOfLifeSafetyAlgorithmType:dataType:BACnetLifeSafetyState;1"
@@ -3364,7 +3364,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LifeSafetyAlarmValues",
         "displayName": "LifeSafetyAlarmValues",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetChangeOfLifeSafetyAlgorithmType:dataType:BACnetLifeSafetyState;1"
@@ -3384,7 +3384,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetChangeOfStateAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1010",
@@ -3398,7 +3398,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AlarmValues",
         "displayName": "AlarmValues",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": false
       }
@@ -3416,7 +3416,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfStatusFlagsAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetChangeOfStatusFlagsAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101030",
@@ -3455,7 +3455,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SelectedFlags",
         "displayName": "SelectedFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStatusFlagsAlgorithmType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -3473,7 +3473,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetChangeOfValueAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101004",
@@ -3505,7 +3505,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Bitmask",
         "displayName": "Bitmask",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueAlgorithmType:dataType:OptionSet;1",
         "writable": true
       },
@@ -3513,7 +3513,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Increment",
         "displayName": "Increment",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       }
@@ -3531,7 +3531,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetCommandFailureAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetCommandFailureAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1029",
@@ -5130,7 +5130,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "FeedbackValueRef",
         "displayName": "FeedbackValueRef",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetCommandFailureAlgorithmType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       }
@@ -5148,7 +5148,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetDoubleOutOfRangeAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetDoubleOutOfRangeAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101031",
@@ -5179,7 +5179,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "double",
         "writable": true
       },
@@ -5187,7 +5187,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "double",
         "writable": true
       },
@@ -5195,7 +5195,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitEnable",
         "displayName": "LimitEnable",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetDoubleOutOfRangeAlgorithmType:dataType:BACnetLimitEnable;1",
         "writable": true
       },
@@ -5203,7 +5203,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "double",
         "writable": true
       }
@@ -5221,7 +5221,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetFloatingLimitAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetFloatingLimitAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101002",
@@ -6820,7 +6820,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -6828,7 +6828,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighDiffLimit",
         "displayName": "HighDiffLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -6836,7 +6836,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowDiffLimit",
         "displayName": "LowDiffLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -6844,7 +6844,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SetpointReference",
         "displayName": "SetpointReference",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetFloatingLimitAlgorithmType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       }
@@ -6862,7 +6862,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetOutOfRangeAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetOutOfRangeAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1009",
@@ -6893,7 +6893,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -6901,7 +6901,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -6909,7 +6909,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitEnable",
         "displayName": "LimitEnable",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetOutOfRangeAlgorithmType:dataType:BACnetLimitEnable;1",
         "writable": true
       },
@@ -6917,7 +6917,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       }
@@ -6935,7 +6935,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetSignedOutOfRangeAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetSignedOutOfRangeAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101032",
@@ -6966,7 +6966,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "integer",
         "writable": true
       },
@@ -6974,7 +6974,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "integer",
         "writable": true
       },
@@ -6982,7 +6982,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitEnable",
         "displayName": "LimitEnable",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetSignedOutOfRangeAlgorithmType:dataType:BACnetLimitEnable;1",
         "writable": true
       },
@@ -6990,7 +6990,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "integer",
         "writable": true
       }
@@ -7008,7 +7008,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetUnsignedOutOfRangeAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetUnsignedOutOfRangeAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101033",
@@ -7039,7 +7039,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -7047,7 +7047,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -7055,7 +7055,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LimitEnable",
         "displayName": "LimitEnable",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetUnsignedOutOfRangeAlgorithmType:dataType:BACnetLimitEnable;1",
         "writable": true
       },
@@ -7063,7 +7063,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -7081,7 +7081,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetUnsignedRangeAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetUnsignedRangeAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101029",
@@ -7095,7 +7095,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -7103,7 +7103,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -9150,7 +9150,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Acked_Transitions",
         "displayName": "Acked_Transitions",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventReportingType:dataType:BACnetEventTransitionBits;1",
         "writable": true
       },
@@ -9158,7 +9158,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Event_Algorithm_Inhibit",
         "displayName": "Event_Algorithm_Inhibit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -9166,7 +9166,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Event_Algorithm_Inhibit_Ref",
         "displayName": "Event_Algorithm_Inhibit_Ref",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventReportingType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       },
@@ -9174,7 +9174,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Event_Detection_Enable",
         "displayName": "Event_Detection_Enable",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -9182,7 +9182,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_Enable",
         "displayName": "Event_Enable",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventReportingType:dataType:BACnetEventTransitionBits;1",
         "writable": true
       },
@@ -9190,7 +9190,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Event_Message_Texts",
         "displayName": "Event_Message_Texts",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -9201,7 +9201,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Event_Message_Texts_Config",
         "displayName": "Event_Message_Texts_Config",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -9212,7 +9212,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_State",
         "displayName": "Event_State",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventReportingType:dataType:BACnetEventState;1",
         "writable": true
       },
@@ -9220,7 +9220,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_Time_Stamps",
         "displayName": "Event_Time_Stamps",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetEventReportingType:dataType:BACnetTimeStamp;1"
@@ -9231,7 +9231,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notification_Class",
         "displayName": "Notification_Class",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -9239,7 +9239,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notify_Type",
         "displayName": "Notify_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventReportingType:dataType:BACnetNotifyType;1",
         "writable": true
       },
@@ -9248,7 +9248,7 @@
         "maxMultiplicity": 1,
         "name": "EventAlgorithm",
         "displayName": "EventAlgorithm",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventAlgorithmType"
       }
     ]
@@ -9265,7 +9265,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetIntrinsicReportingTrendLogType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetIntrinsicReportingTrendLogType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetEventReportingType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101016",
@@ -9279,7 +9279,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Recorded_Since_Notification",
         "displayName": "Recorded_Since_Notification",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -9318,7 +9318,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetFaultCharacterStringAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetFaultCharacterStringAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101009",
@@ -9332,7 +9332,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "FaultValues",
         "displayName": "FaultValues",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -9353,7 +9353,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetFaultStateAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetFaultStateAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101011",
@@ -9367,7 +9367,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "FaultValues",
         "displayName": "FaultValues",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": false
       }
@@ -9385,7 +9385,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetFaultStatusFlagsAlgorithmType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetFaultStatusFlagsAlgorithmType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetFaultAlgorithmType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101012",
@@ -9490,7 +9490,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Reliability",
         "displayName": "Reliability",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType:dataType:BACnetReliability;1",
         "writable": true
       },
@@ -9498,7 +9498,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Reliability_Evaluation_Inhibit",
         "displayName": "Reliability_Evaluation_Inhibit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -9507,7 +9507,7 @@
         "maxMultiplicity": 1,
         "name": "FaultAlgorithm",
         "displayName": "FaultAlgorithm",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetFaultAlgorithmType"
       }
     ]
@@ -9524,7 +9524,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetInternetworkType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetInternetworkType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1030",
@@ -11147,7 +11147,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AddDeviceByAddress",
         "displayName": "AddDeviceByAddress",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -11167,7 +11167,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AddDeviceById",
         "displayName": "AddDeviceById",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -11187,7 +11187,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetDeviceIdList",
         "displayName": "GetDeviceIdList",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
@@ -11218,7 +11218,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "NetworkScan",
         "displayName": "NetworkScan",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -11294,7 +11294,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "TimeSynchronization",
         "displayName": "TimeSynchronization",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -11314,7 +11314,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "TranslateBACnetIds",
         "displayName": "TranslateBACnetIds",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -11354,7 +11354,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "BACnetDeviceName",
         "displayName": "<BACnetDeviceName>",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetDeviceType"
       }
     ]
@@ -11421,7 +11421,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Auto_Slave_Discovery",
         "displayName": "Auto_Slave_Discovery",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -11429,7 +11429,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Manual_Slave_Address_Binding",
         "displayName": "Manual_Slave_Address_Binding",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType:dataType:BACnetAddressBinding;1"
@@ -11440,7 +11440,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Max_Info_Frames",
         "displayName": "Max_Info_Frames",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -11448,7 +11448,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Max_Master",
         "displayName": "Max_Master",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedByte",
         "writable": true
       },
@@ -11456,7 +11456,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Slave_Address_Binding",
         "displayName": "Slave_Address_Binding",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType:dataType:BACnetAddressBinding;1"
@@ -11467,7 +11467,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Slave_Proxy_Enable",
         "displayName": "Slave_Proxy_Enable",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       }
@@ -11498,7 +11498,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Object_Identifier",
         "displayName": "Object_Identifier",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -11506,7 +11506,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Profile_Name",
         "displayName": "Profile_Name",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       }
@@ -11562,7 +11562,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "COV_Increment",
         "displayName": "COV_Increment",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -11570,7 +11570,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -11578,7 +11578,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Resolution",
         "displayName": "Resolution",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -11586,7 +11586,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetAnalogType:dataType:BACnetStatusFlags;1",
         "writable": true
       },
@@ -11594,7 +11594,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Present_Value",
         "displayName": "Present_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float"
       },
       {
@@ -11602,7 +11602,7 @@
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "displayName": "EventReporting",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
@@ -11610,7 +11610,7 @@
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "displayName": "FaultEvaluation",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
       }
     ]
@@ -11627,7 +11627,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetAnalogInputType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetAnalogInputType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetAnalogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1005",
@@ -11641,7 +11641,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Device_Type",
         "displayName": "Device_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       }
@@ -11659,7 +11659,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetAnalogOutputType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetAnalogOutputType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetAnalogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1006",
@@ -11711,7 +11711,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Device_Type",
         "displayName": "Device_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -11719,7 +11719,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetAnalogOutputType:dataType:BACnetPriorityValue;1"
@@ -11730,7 +11730,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       }
@@ -11748,7 +11748,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetAnalogValueType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetAnalogValueType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetAnalogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1007",
@@ -11800,7 +11800,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetAnalogValueType:dataType:BACnetPriorityValue;1"
@@ -11811,7 +11811,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       }
@@ -11867,7 +11867,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -11875,7 +11875,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetBinaryType:dataType:BACnetStatusFlags;1",
         "writable": true
       },
@@ -11883,7 +11883,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Present_Value",
         "displayName": "Present_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean"
       },
       {
@@ -11891,7 +11891,7 @@
         "maxMultiplicity": 1,
         "name": "ChangeOfState",
         "displayName": "ChangeOfState",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateCountType"
       },
       {
@@ -11899,7 +11899,7 @@
         "maxMultiplicity": 1,
         "name": "ElapsedActiveTime",
         "displayName": "ElapsedActiveTime",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetElapsedActiveTimeType"
       },
       {
@@ -11907,7 +11907,7 @@
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "displayName": "EventReporting",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
@@ -11915,7 +11915,7 @@
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "displayName": "FaultEvaluation",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
       }
     ]
@@ -11932,7 +11932,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetBinaryInputType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetBinaryInputType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetBinaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1013",
@@ -11963,7 +11963,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Device_Type",
         "displayName": "Device_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -11971,7 +11971,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Polarity",
         "displayName": "Polarity",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetBinaryInputType:dataType:BACnetPolarity;1",
         "writable": true
       }
@@ -11989,7 +11989,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetBinaryOutputType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetBinaryOutputType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetBinaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1014",
@@ -12058,7 +12058,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Device_Type",
         "displayName": "Device_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -12066,7 +12066,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Feedback_Value",
         "displayName": "Feedback_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -12074,7 +12074,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Minimum_Off_Time",
         "displayName": "Minimum_Off_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -12082,7 +12082,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Minimum_On_Time",
         "displayName": "Minimum_On_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -12090,7 +12090,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Polarity",
         "displayName": "Polarity",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetBinaryOutputType:dataType:BACnetPolarity;1",
         "writable": true
       },
@@ -12098,7 +12098,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetBinaryOutputType:dataType:BACnetPriorityValue;1"
@@ -12109,7 +12109,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       }
@@ -12127,7 +12127,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetBinaryValueType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetBinaryValueType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetBinaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1015",
@@ -12179,7 +12179,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Minimum_Off_Time",
         "displayName": "Minimum_Off_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -12187,7 +12187,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Minimum_On_Time",
         "displayName": "Minimum_On_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -12195,7 +12195,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetBinaryValueType:dataType:BACnetPriorityValue;1"
@@ -12206,7 +12206,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       }
@@ -12224,7 +12224,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetCalendarType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1008",
@@ -12627,7 +12627,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Date_List",
         "displayName": "Date_List",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetCalendarEntry;1"
@@ -12638,14 +12638,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Present_Value",
         "displayName": "Present_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AddDateListElements",
         "displayName": "AddDateListElements",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -12682,7 +12682,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveDateListElements",
         "displayName": "RemoveDateListElements",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -15000,7 +15000,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Active_COV_Subscriptions",
         "displayName": "Active_COV_Subscriptions",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetCOVSubscription;1"
@@ -15011,7 +15011,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "APDU_Segment_Timeout",
         "displayName": "APDU_Segment_Timeout",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -15019,7 +15019,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "APDU_Timeout",
         "displayName": "APDU_Timeout",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -15027,7 +15027,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Application_Software_Version",
         "displayName": "Application_Software_Version",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -15035,7 +15035,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Database_Revision",
         "displayName": "Database_Revision",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -15043,7 +15043,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Device_Address_Binding",
         "displayName": "Device_Address_Binding",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1"
@@ -15054,7 +15054,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Firmware_Revision",
         "displayName": "Firmware_Revision",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -15062,7 +15062,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -15070,7 +15070,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Max_APDU_Length_Accepted",
         "displayName": "Max_APDU_Length_Accepted",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -15078,7 +15078,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Max_Segments_Accepted",
         "displayName": "Max_Segments_Accepted",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -15086,7 +15086,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Model_Name",
         "displayName": "Model_Name",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -15094,7 +15094,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Number_Of_APDU_Retries",
         "displayName": "Number_Of_APDU_Retries",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -15102,7 +15102,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Protocol_Object_Types_Supported",
         "displayName": "Protocol_Object_Types_Supported",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetObjectTypeSupportedBits;1",
         "writable": true
       },
@@ -15110,7 +15110,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Protocol_Revision",
         "displayName": "Protocol_Revision",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -15118,7 +15118,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Protocol_Services_Supported",
         "displayName": "Protocol_Services_Supported",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetServicesSupportedBits;1",
         "writable": true
       },
@@ -15126,7 +15126,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Protocol_Version",
         "displayName": "Protocol_Version",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -15134,7 +15134,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Segmentation_Supported",
         "displayName": "Segmentation_Supported",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetSegmentation;1",
         "writable": true
       },
@@ -15142,7 +15142,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Serial_Number",
         "displayName": "Serial_Number",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -15150,7 +15150,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "System_Status",
         "displayName": "System_Status",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceStatus;1",
         "writable": true
       },
@@ -15158,7 +15158,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Vendor_Identifier",
         "displayName": "Vendor_Identifier",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -15166,7 +15166,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Vendor_Name",
         "displayName": "Vendor_Name",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -15174,7 +15174,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AddDeviceAddressBindings",
         "displayName": "AddDeviceAddressBindings",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -15211,7 +15211,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "CreateObject",
         "displayName": "CreateObject",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -15239,7 +15239,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "DeleteObject",
         "displayName": "DeleteObject",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -15260,7 +15260,7 @@
         "name": "DeviceCommunicationControl",
         "displayName": "DeviceCommunicationControl",
         "description": "ToDo",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -15290,7 +15290,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ReinitializeDevice",
         "displayName": "ReinitializeDevice",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -15315,7 +15315,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveDeviceAddressBindings",
         "displayName": "RemoveDeviceAddressBindings",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -15352,7 +15352,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "TextMessage",
         "displayName": "TextMessage",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -15393,7 +15393,7 @@
         "maxMultiplicity": 1,
         "name": "BackupRestore",
         "displayName": "BackupRestore",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetBackupRestoreType"
       },
       {
@@ -15401,7 +15401,7 @@
         "maxMultiplicity": 1,
         "name": "DeviceRestart",
         "displayName": "DeviceRestart",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType"
       },
       {
@@ -15409,7 +15409,7 @@
         "maxMultiplicity": 1,
         "name": "MstpMaster",
         "displayName": "MstpMaster",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType"
       },
       {
@@ -15417,7 +15417,7 @@
         "maxMultiplicity": 1,
         "name": "Object_List",
         "displayName": "Object_List",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
@@ -15425,7 +15425,7 @@
         "maxMultiplicity": 1,
         "name": "Structured_Object_List",
         "displayName": "Structured_Object_List",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
@@ -15433,7 +15433,7 @@
         "maxMultiplicity": 1,
         "name": "TimeManagement",
         "displayName": "TimeManagement",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetTimeManagementType"
       }
     ]
@@ -15450,7 +15450,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetEventEnrollmentType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101006",
@@ -18725,7 +18725,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_State",
         "displayName": "Event_State",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventState;1",
         "writable": true
       },
@@ -18733,7 +18733,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_Type",
         "displayName": "Event_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventType;1",
         "writable": true
       },
@@ -18741,7 +18741,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Fault_Type",
         "displayName": "Fault_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultType;1",
         "writable": true
       },
@@ -18749,7 +18749,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Object_Property_Reference",
         "displayName": "Object_Property_Reference",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       },
@@ -18757,7 +18757,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetStatusFlags;1",
         "writable": true
       },
@@ -18765,7 +18765,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetEventAlgorithm",
         "displayName": "SetEventAlgorithm",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -18785,7 +18785,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetFaultAlgorithm",
         "displayName": "SetFaultAlgorithm",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -18806,7 +18806,7 @@
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "displayName": "EventReporting",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
@@ -18814,7 +18814,7 @@
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "displayName": "FaultEvaluation",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
       }
     ]
@@ -19202,7 +19202,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Buffer_Size",
         "displayName": "Buffer_Size",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -19210,7 +19210,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Enable",
         "displayName": "Enable",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -19218,7 +19218,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Record_Count",
         "displayName": "Record_Count",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -19226,7 +19226,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Records_Since_Notification",
         "displayName": "Records_Since_Notification",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -19234,7 +19234,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Start_Time",
         "displayName": "Start_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetLogType:dataType:BACnetDateTime;1",
         "writable": true
       },
@@ -19242,7 +19242,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetLogType:dataType:BACnetStatusFlags;1",
         "writable": true
       },
@@ -19250,7 +19250,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Stop_Time",
         "displayName": "Stop_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetLogType:dataType:BACnetDateTime;1",
         "writable": true
       },
@@ -19258,7 +19258,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Stop_When_Full",
         "displayName": "Stop_When_Full",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": false
       },
@@ -19266,7 +19266,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Total_Record_Count",
         "displayName": "Total_Record_Count",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -19275,7 +19275,7 @@
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "displayName": "EventReporting",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
@@ -19283,7 +19283,7 @@
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "displayName": "FaultEvaluation",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
       }
     ]
@@ -19300,7 +19300,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetEventLogType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetEventLogType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101018",
@@ -19356,7 +19356,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Align_Intervals",
         "displayName": "Align_Intervals",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -19364,7 +19364,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Interval_Offset",
         "displayName": "Interval_Offset",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -19372,7 +19372,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Log_Interval",
         "displayName": "Log_Interval",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -19380,7 +19380,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Logging_Type",
         "displayName": "Logging_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetTrendLogBaseType:dataType:BACnetLoggingType;1",
         "writable": true
       },
@@ -19388,7 +19388,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Trigger",
         "displayName": "Trigger",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       }
@@ -19406,7 +19406,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetTrendLogMultipleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetTrendLogMultipleType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetTrendLogBaseType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101027",
@@ -21005,7 +21005,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Log_DeviceObjectProperty",
         "displayName": "Log_DeviceObjectProperty",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetTrendLogMultipleType:dataType:BACnetDeviceObjectPropertyReference;1"
@@ -21016,7 +21016,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Log_Buffer",
         "displayName": "Log_Buffer",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string"
       }
     ]
@@ -21033,7 +21033,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetTrendLogType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetTrendLogType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetTrendLogBaseType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101017",
@@ -22645,7 +22645,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Client_COV_Increment",
         "displayName": "Client_COV_Increment",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetTrendLogType:dataType:BACnetClientCOV;1",
         "writable": true
       },
@@ -22653,7 +22653,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "COV_Resubscription_Interval",
         "displayName": "COV_Resubscription_Interval",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -22661,7 +22661,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Log_DeviceObjectProperty",
         "displayName": "Log_DeviceObjectProperty",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetTrendLogType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       },
@@ -22669,7 +22669,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Log_Buffer",
         "displayName": "Log_Buffer",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string"
       }
     ]
@@ -22686,7 +22686,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetClockAlignedTrendLogType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetClockAlignedTrendLogType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetTrendLogType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101015",
@@ -22700,7 +22700,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Align_Interval",
         "displayName": "Align_Interval",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       }
@@ -22718,7 +22718,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetLoopType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetLoopType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101001",
@@ -24359,7 +24359,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Action",
         "displayName": "Action",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetLoopType:dataType:BACnetAction;1",
         "writable": true
       },
@@ -24367,7 +24367,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Controlled_Variable_Reference",
         "displayName": "Controlled_Variable_Reference",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetLoopType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       },
@@ -24375,7 +24375,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "COV_Increment",
         "displayName": "COV_Increment",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -24383,7 +24383,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Manipulated_Variable_Reference",
         "displayName": "Manipulated_Variable_Reference",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetLoopType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       },
@@ -24391,7 +24391,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -24399,7 +24399,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Priority_For_Writing",
         "displayName": "Priority_For_Writing",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedByte",
         "writable": true
       },
@@ -24407,7 +24407,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Setpoint_Reference",
         "displayName": "Setpoint_Reference",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetLoopType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       },
@@ -24415,7 +24415,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetLoopType:dataType:BACnetStatusFlags;1",
         "writable": true
       },
@@ -24423,49 +24423,49 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Bias",
         "displayName": "Bias",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Controlled_Variable_Value",
         "displayName": "Controlled_Variable_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Derivative_Constant",
         "displayName": "Derivative_Constant",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Integral_Constant",
         "displayName": "Integral_Constant",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Present_Value",
         "displayName": "Present_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Proportional_Constant",
         "displayName": "Proportional_Constant",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Setpoint",
         "displayName": "Setpoint",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float"
       },
       {
@@ -24473,7 +24473,7 @@
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "displayName": "EventReporting",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
@@ -24481,7 +24481,7 @@
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "displayName": "FaultEvaluation",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
       }
     ]
@@ -24536,7 +24536,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -24544,7 +24544,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetMultiStateType:dataType:BACnetStatusFlags;1",
         "writable": true
       },
@@ -24552,7 +24552,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Present_Value",
         "displayName": "Present_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -24560,7 +24560,7 @@
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "displayName": "EventReporting",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
@@ -24568,7 +24568,7 @@
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "displayName": "FaultEvaluation",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
       }
     ]
@@ -24585,7 +24585,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetMultiStateInputType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetMultiStateInputType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetMultiStateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1019",
@@ -24599,7 +24599,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Device_Type",
         "displayName": "Device_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       }
@@ -24617,7 +24617,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetMultiStateOutputType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetMultiStateOutputType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetMultiStateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1020",
@@ -24669,7 +24669,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Device_Type",
         "displayName": "Device_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -24677,7 +24677,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Feedback_Value",
         "displayName": "Feedback_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -24685,7 +24685,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetMultiStateOutputType:dataType:BACnetPriorityValue;1"
@@ -24696,7 +24696,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -24714,7 +24714,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetMultiStateValueType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetMultiStateValueType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetMultiStateType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1021",
@@ -24766,7 +24766,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Priority_Array",
         "displayName": "Priority_Array",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetMultiStateValueType:dataType:BACnetPriorityValue;1"
@@ -24777,7 +24777,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Relinquish_Default",
         "displayName": "Relinquish_Default",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -24975,7 +24975,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Recipient_List",
         "displayName": "Recipient_List",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetNotifierType:dataType:BACnetDestination;1",
         "writable": true
       }
@@ -24993,7 +24993,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetNotificationClassType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetNotificationClassType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetNotifierType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1024",
@@ -25028,7 +25028,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Ack_Required",
         "displayName": "Ack_Required",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetNotificationClassType:dataType:BACnetEventTransitionBits;1",
         "writable": true
       },
@@ -25036,7 +25036,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notification_Class",
         "displayName": "Notification_Class",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -25044,7 +25044,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority",
         "displayName": "Priority",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedByte"
@@ -25065,7 +25065,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetObjectTypeUnknown;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetObjectTypeUnknown",
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=101024",
@@ -25307,7 +25307,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Object_Type",
         "displayName": "Object_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetObjectTypeUnknown:dataType:BACnetObjectTypeEnum;1"
       }
     ]
@@ -25324,7 +25324,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetScheduleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetScheduleType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1022",
@@ -27509,7 +27509,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Effective_Period",
         "displayName": "Effective_Period",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetScheduleType:dataType:BACnetDateRange;1",
         "writable": true
       },
@@ -27517,7 +27517,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Exception_Schedule",
         "displayName": "Exception_Schedule",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetScheduleType:dataType:BACnetSpecialEvent;1"
@@ -27528,7 +27528,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "List_Of_Object_Property_References",
         "displayName": "List_Of_Object_Property_References",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetScheduleType:dataType:BACnetDeviceObjectPropertyReference;1"
@@ -27539,7 +27539,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Out_Of_Service",
         "displayName": "Out_Of_Service",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -27547,7 +27547,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Priority_For_Writing",
         "displayName": "Priority_For_Writing",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedByte",
         "writable": true
       },
@@ -27555,7 +27555,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetScheduleType:dataType:BACnetStatusFlags;1",
         "writable": true
       },
@@ -27563,7 +27563,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Weekly_Schedule",
         "displayName": "Weekly_Schedule",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetScheduleType:dataType:BACnetDailySchedule;1"
@@ -27574,21 +27574,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Present_Value",
         "displayName": "Present_Value",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Schedule_Default",
         "displayName": "Schedule_Default",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AddObjectPropertyReferences",
         "displayName": "AddObjectPropertyReferences",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -27625,7 +27625,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveObjectPropertyReferences",
         "displayName": "RemoveObjectPropertyReferences",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -27663,7 +27663,7 @@
         "maxMultiplicity": 1,
         "name": "EventReporting",
         "displayName": "EventReporting",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
       },
       {
@@ -27671,7 +27671,7 @@
         "maxMultiplicity": 1,
         "name": "FaultEvaluation",
         "displayName": "FaultEvaluation",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
       }
     ]
@@ -29343,7 +29343,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Node_Subtype",
         "displayName": "Node_Subtype",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -29351,7 +29351,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Node_Type",
         "displayName": "Node_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetStructuredViewType:dataType:BACnetNodeType;1",
         "writable": true
       },
@@ -29359,7 +29359,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Subordinate_Annotations",
         "displayName": "Subordinate_Annotations",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -29370,7 +29370,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Subordinate_List",
         "displayName": "Subordinate_List",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetStructuredViewType:dataType:BACnetDeviceObjectPropertyReference;1"
@@ -29381,14 +29381,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "BACnetObject",
         "displayName": "<BACnetObject>",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetObjectType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "BACnetStructuredView",
         "displayName": "<BACnetStructuredView>",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "target": "dtmi:opcua:BACnet_V2:BACnetStructuredViewType"
       }
     ]
@@ -29733,7 +29733,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Daylight_Savings_Status",
         "displayName": "Daylight_Savings_Status",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -29741,7 +29741,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Local_Date",
         "displayName": "Local_Date",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetTimeManagementType:dataType:BACnetDate;1",
         "writable": true
       },
@@ -29749,7 +29749,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Local_Time",
         "displayName": "Local_Time",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetTimeManagementType:dataType:BACnetTime;1",
         "writable": true
       },
@@ -29757,7 +29757,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "UTC_Offset",
         "displayName": "UTC_Offset",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "short",
         "writable": true
       },
@@ -29765,7 +29765,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "TimeSynchronization",
         "displayName": "TimeSynchronization",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -29795,7 +29795,7 @@
     ],
     "@id": "dtmi:opcua:BACnet_V2:BACnetAutomaticTimeSynchronizationMasterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/BACnet_V2",
+    "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "displayName": "BACnetAutomaticTimeSynchronizationMasterType",
     "extends": "dtmi:opcua:BACnet_V2:BACnetTimeManagementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=1052",
@@ -29846,7 +29846,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Align_Intervals",
         "displayName": "Align_Intervals",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -29854,7 +29854,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Interval_Offset",
         "displayName": "Interval_Offset",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -29862,7 +29862,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Time_Synchronization_Interval",
         "displayName": "Time_Synchronization_Interval",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -29870,7 +29870,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Time_Synchronization_Recipients",
         "displayName": "Time_Synchronization_Recipients",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetAutomaticTimeSynchronizationMasterType:dataType:BACnetRecipient;1"
@@ -29881,7 +29881,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "UTC_Time_Synchronization_Recipients",
         "displayName": "UTC_Time_Synchronization_Recipients",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:BACnet_V2:BACnetAutomaticTimeSynchronizationMasterType:dataType:BACnetRecipient;1"
@@ -29892,7 +29892,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AddTimeSynchronizationRecipients",
         "displayName": "AddTimeSynchronizationRecipients",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -29934,7 +29934,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveTimeSynchronizationRecipients",
         "displayName": "RemoveTimeSynchronizationRecipients",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -30053,7 +30053,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "From_State",
         "displayName": "From_State",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetNotificationType:dataType:BACnetEventState;1",
         "writable": true
       },
@@ -30061,7 +30061,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notification_Class",
         "displayName": "Notification_Class",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -30069,7 +30069,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Notify_Type",
         "displayName": "Notify_Type",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetNotificationType:dataType:BACnetNotifyType;1",
         "writable": true
       },
@@ -30077,7 +30077,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "To_State",
         "displayName": "To_State",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetNotificationType:dataType:BACnetEventState;1",
         "writable": true
       }
@@ -30108,7 +30108,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Event_Values",
         "displayName": "Event_Values",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": false
       }
@@ -31724,7 +31724,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "BufferProperty",
         "displayName": "BufferProperty",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetBufferReadyNotificationType:dataType:BACnetDeviceObjectPropertyReference;1",
         "writable": true
       },
@@ -31732,7 +31732,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CurrentNotification",
         "displayName": "CurrentNotification",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -31740,7 +31740,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PreviousNotification",
         "displayName": "PreviousNotification",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -31796,7 +31796,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReferencedBitString",
         "displayName": "ReferencedBitString",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "boolean"
@@ -31807,7 +31807,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfBitStringNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -31863,7 +31863,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AlarmValue",
         "displayName": "AlarmValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -31871,7 +31871,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChangedValue",
         "displayName": "ChangedValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": true
       },
@@ -31879,7 +31879,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfCharacterStringNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -31935,7 +31935,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValue",
         "displayName": "NewValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -31943,7 +31943,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfRealValueNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -32565,7 +32565,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewState",
         "displayName": "NewState",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetPropertyStates;1",
         "writable": true
       },
@@ -32573,7 +32573,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -32647,7 +32647,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NewValue",
         "displayName": "NewValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueNotificationType:dataType:OptionSet;1",
         "writable": true
       },
@@ -32655,7 +32655,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetChangeOfValueNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -32711,7 +32711,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CommandValue",
         "displayName": "CommandValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": false
       },
@@ -32719,7 +32719,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "FeedbackValue",
         "displayName": "FeedbackValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": false
       },
@@ -32727,7 +32727,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetCommandFailureNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -32783,7 +32783,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "double",
         "writable": true
       },
@@ -32791,7 +32791,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "double",
         "writable": true
       },
@@ -32799,7 +32799,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "double",
         "writable": true
       },
@@ -32807,7 +32807,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetDoubleOutOfRangeNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -32863,7 +32863,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ErrorLimit",
         "displayName": "ErrorLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -32871,7 +32871,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ReferenceValue",
         "displayName": "ReferenceValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -32879,7 +32879,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SetpointValue",
         "displayName": "SetpointValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -32887,7 +32887,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetFloatingLimitNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -32943,7 +32943,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -32951,7 +32951,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -32959,7 +32959,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "float",
         "writable": true
       },
@@ -32967,7 +32967,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetOutOfRangeNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -33023,7 +33023,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "integer",
         "writable": true
       },
@@ -33031,7 +33031,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "integer",
         "writable": true
       },
@@ -33039,7 +33039,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "integer",
         "writable": true
       },
@@ -33047,7 +33047,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetSignedOutOfRangeNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -33103,7 +33103,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Deadband",
         "displayName": "Deadband",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -33111,7 +33111,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -33119,7 +33119,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -33127,7 +33127,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetUnsignedOutOfRangeNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -33183,7 +33183,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingLimit",
         "displayName": "ExceedingLimit",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -33191,7 +33191,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ExceedingValue",
         "displayName": "ExceedingValue",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -33199,7 +33199,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StatusFlags",
         "displayName": "StatusFlags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetUnsignedRangeNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -33325,7 +33325,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Reliability",
         "displayName": "Reliability",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType:dataType:BACnetReliability;1",
         "writable": true
       },
@@ -33333,7 +33333,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Status_Flags",
         "displayName": "Status_Flags",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "dtmi:opcua:BACnet_V2:BACnetFaultNotificationType:dataType:BACnetStatusFlags;1",
         "writable": true
       }
@@ -33364,7 +33364,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PropertyValues",
         "displayName": "PropertyValues",
-        "namespace": "http://opcfoundation.org/UA/BACnet_V2",
+        "namespace": "http://opcfoundation.org/UA/BACnet_V2/",
         "schema": "string",
         "writable": false
       }

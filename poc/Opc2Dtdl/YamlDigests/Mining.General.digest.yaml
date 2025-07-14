@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Mining/General/
+
 DataTypes:
 - UADataType: [ Mining.General:3002, Mining.General:LongwallShieldOffsetDataType ]
   DisplayName: "LongwallShieldOffsetDataType"

@@ -3,6 +3,7 @@ namespace Yaml2Dtdl
     using System.Collections.Generic;
     using System.Linq;
     using OpcUaDigest;
+    using SpecMapper;
 
     public partial class DtdlPropTelem
     {
@@ -31,6 +32,7 @@ namespace Yaml2Dtdl
             "Decimal",
         };
 
+        private SpecMapper specMapper;
         private string classType;
         private string modelId;
         private OpcUaDefinedType definedType;
@@ -43,8 +45,9 @@ namespace Yaml2Dtdl
 
         public List<OpcUaDefinedType> SubVars { get; }
 
-        public DtdlPropTelem(string classType, string modelId, OpcUaDefinedType definedType, TypeConverter typeConverter, Dictionary<int, (string, string)> unitTypesDict, bool canBeWritable)
+        public DtdlPropTelem(SpecMapper specMapper, string classType, string modelId, OpcUaDefinedType definedType, TypeConverter typeConverter, Dictionary<int, (string, string)> unitTypesDict, bool canBeWritable)
         {
+            this.specMapper = specMapper;
             this.classType = classType;
             this.modelId = modelId;
             this.definedType = definedType;

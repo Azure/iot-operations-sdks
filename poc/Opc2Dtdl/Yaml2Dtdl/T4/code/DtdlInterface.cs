@@ -3,9 +3,11 @@ namespace Yaml2Dtdl
     using System.Collections.Generic;
     using System.Linq;
     using OpcUaDigest;
+    using SpecMapper;
 
     public partial class DtdlInterface
     {
+        private SpecMapper specMapper;
         private string modelId;
         private bool isComposite;
         private bool isEvent;
@@ -21,8 +23,9 @@ namespace Yaml2Dtdl
         private int contentCount;
         private bool appendComma;
 
-        public DtdlInterface(string modelId, bool isComposite, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, CotypeRuleEngine cotypeRuleEngine, bool appendComma)
+        public DtdlInterface(SpecMapper specMapper, string modelId, bool isComposite, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, CotypeRuleEngine cotypeRuleEngine, bool appendComma)
         {
+            this.specMapper = specMapper;
             this.modelId = modelId;
             this.isComposite = isComposite;
             this.isEvent = isEvent;
@@ -31,10 +34,10 @@ namespace Yaml2Dtdl
             this.typeConverter = new();
 
             this.supertypeIds = new (definedType.Contents.Where(c => c.Relationship == "HasSubtype_reverse" && c.DefinedType.NodeType == "UAObjectType").Select(c => TypeConverter.GetModelId(c.DefinedType)));
-            this.dtdlProperties = definedType.Contents.Where(c => c.Relationship == "HasProperty" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlProperty(modelId, c.DefinedType, this.typeConverter, unitTypesDict)).ToList();
-            this.dtdlTelemetries = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlTelemetry(modelId, c.DefinedType, this.typeConverter, unitTypesDict)).ToList();
-            this.dtdlCommands = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAMethod").Select(c => new DtdlCommand(modelId, c.DefinedType, this.typeConverter)).ToList();
-            this.dtdlRelationships = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAObject").Select(c => new DtdlRelationship(definedType, c.DefinedType, cotypeRuleEngine)).ToList();
+            this.dtdlProperties = definedType.Contents.Where(c => c.Relationship == "HasProperty" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlProperty(specMapper, modelId, c.DefinedType, this.typeConverter, unitTypesDict)).ToList();
+            this.dtdlTelemetries = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlTelemetry(specMapper, modelId, c.DefinedType, this.typeConverter, unitTypesDict)).ToList();
+            this.dtdlCommands = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAMethod").Select(c => new DtdlCommand(specMapper, modelId, c.DefinedType, this.typeConverter)).ToList();
+            this.dtdlRelationships = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAObject").Select(c => new DtdlRelationship(specMapper, definedType, c.DefinedType, cotypeRuleEngine)).ToList();
             this.contentCount = dtdlProperties.Count + dtdlTelemetries.Count + dtdlCommands.Count + dtdlRelationships.Count;
 
             this.appendComma = appendComma;
@@ -45,7 +48,7 @@ namespace Yaml2Dtdl
             AddCommandReferences(pendingTypeStrings);
             List<OpcUaDataType> referencedDataTypes = GetReferencedDataTypes(pendingTypeStrings, dataTypes, coreDataTypes);
 
-            this.dtdlDataTypes = referencedDataTypes.Where(dt => dt is OpcUaObj || dt is OpcUaEnum).Select(dt => new DtdlDataType(modelId, dt, this.typeConverter)).ToList();
+            this.dtdlDataTypes = referencedDataTypes.Where(dt => dt is OpcUaObj || dt is OpcUaEnum).Select(dt => new DtdlDataType(specMapper, modelId, dt, this.typeConverter)).ToList();
             Dictionary<string, string> localTypeMap = referencedDataTypes.Where(dt => dt is OpcUaSub).ToDictionary(dt => dt.BrowseName, dt => ((OpcUaSub)dt).Bases.First());
             this.typeConverter.SetLocalTypeMap(localTypeMap);
         }

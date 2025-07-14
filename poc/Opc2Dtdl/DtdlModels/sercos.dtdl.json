@@ -95,7 +95,7 @@
     ],
     "@id": "dtmi:opcua:sercos:SercosDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://sercos.org/UA",
+    "ontology": "http://sercos.org/UA/",
     "displayName": "SercosDeviceType",
     "extends": "dtmi:opcua:DI:DeviceType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=1001",
@@ -108,7 +108,7 @@
         "maxMultiplicity": 1,
         "name": "ProfileSet",
         "displayName": "ProfileSet",
-        "namespace": "http://sercos.org/UA",
+        "namespace": "http://sercos.org/UA/",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"
       },
       {
@@ -116,7 +116,7 @@
         "maxMultiplicity": 1,
         "name": "ClassSet",
         "displayName": "ClassSet",
-        "namespace": "http://sercos.org/UA",
+        "namespace": "http://sercos.org/UA/",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"
       },
       {
@@ -124,7 +124,7 @@
         "maxMultiplicity": 1,
         "name": "FunctionGroupSet",
         "displayName": "FunctionGroupSet",
-        "namespace": "http://sercos.org/UA",
+        "namespace": "http://sercos.org/UA/",
         "target": "dtmi:opcua:sercos:FunctionalGroupType"
       }
     ]
@@ -141,7 +141,7 @@
     ],
     "@id": "dtmi:opcua:sercos:ProfileSet;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://sercos.org/UA",
+    "ontology": "http://sercos.org/UA/",
     "displayName": "ProfileSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=6075",
@@ -153,7 +153,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SercosProfileIdentifier",
         "displayName": "<SercosProfileIdentifier>",
-        "namespace": "http://sercos.org/UA",
+        "namespace": "http://sercos.org/UA/",
         "target": "dtmi:opcua:sercos:SercosProfileType"
       }
     ]
@@ -170,7 +170,7 @@
     ],
     "@id": "dtmi:opcua:sercos:ClassSet;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://sercos.org/UA",
+    "ontology": "http://sercos.org/UA/",
     "displayName": "ClassSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=6077",
@@ -182,7 +182,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SercosClassIdentifier",
         "displayName": "<SercosClassIdentifier>",
-        "namespace": "http://sercos.org/UA",
+        "namespace": "http://sercos.org/UA/",
         "target": "dtmi:opcua:sercos:SercosClassType"
       }
     ]
@@ -199,7 +199,7 @@
     ],
     "@id": "dtmi:opcua:sercos:FunctionGroupSet;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://sercos.org/UA",
+    "ontology": "http://sercos.org/UA/",
     "displayName": "FunctionGroupSet",
     "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
     "typeRef": "nsu=http://sercos.org/UA/;i=6079",
@@ -211,7 +211,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FunctionGroupIdentifier",
         "displayName": "<FunctionGroupIdentifier>",
-        "namespace": "http://sercos.org/UA",
+        "namespace": "http://sercos.org/UA/",
         "target": "dtmi:opcua:sercos:SercosFunctionGroupType"
       }
     ]

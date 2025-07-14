@@ -11,10 +11,10 @@
     ],
     "@id": "dtmi:opcua:FX_AC:AcDescriptorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/FX.AC",
+    "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "displayName": "AcDescriptorType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1027",
     "commandTopic": "opcua/FX_AC/AcDescriptorType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/AcDescriptorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -23,7 +23,7 @@
         "@id": "dtmi:opcua:FX_AC:AcDescriptorType:dataType:FxVersion;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "FxVersion",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=25",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -53,7 +53,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DescriptorIdentifier",
         "displayName": "DescriptorIdentifier",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "string",
         "writable": true
       },
@@ -61,7 +61,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DescriptorVersion",
         "displayName": "DescriptorVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:AcDescriptorType:dataType:FxVersion;1",
         "writable": true
       },
@@ -70,7 +70,7 @@
         "maxMultiplicity": 1,
         "name": "DescriptorFile",
         "displayName": "DescriptorFile",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
@@ -90,7 +90,7 @@
     "displayName": "AssetConnectorType",
     "description": "AssetConnectorType provides information about physical connections that are part of an asset",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=5",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=5",
     "commandTopic": "opcua/FX_AC/AssetConnectorType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/AssetConnectorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -101,7 +101,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Id",
         "displayName": "Id",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -109,7 +109,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "string",
         "writable": true
       }
@@ -127,11 +127,11 @@
     ],
     "@id": "dtmi:opcua:FX_AC:ClampBlockType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/FX.AC",
+    "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "displayName": "ClampBlockType",
     "description": "ClampBlockType represents a wire connection block",
     "extends": "dtmi:opcua:FX_AC:AssetConnectorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=7",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=7",
     "commandTopic": "opcua/FX_AC/ClampBlockType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/ClampBlockType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -142,7 +142,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BlockSize",
         "displayName": "BlockSize",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -150,14 +150,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Kind",
         "displayName": "Kind",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Clamp",
         "displayName": "<Clamp>",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ClampType"
       }
     ]
@@ -177,7 +177,7 @@
     "displayName": "ClampType",
     "description": "ClampType represents a wire connection",
     "extends": "dtmi:opcua:FX_AC:AssetConnectorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=10",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=10",
     "telemetryTopic": "opcua/FX_AC/ClampType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -187,7 +187,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Kind",
         "displayName": "Kind",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort"
       }
     ]
@@ -204,11 +204,11 @@
     ],
     "@id": "dtmi:opcua:FX_AC:SlotType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/FX.AC",
+    "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "displayName": "SlotType",
     "description": "SlotType represents a physical slot where a module can attach",
     "extends": "dtmi:opcua:FX_AC:AssetConnectorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=6",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6",
     "commandTopic": "opcua/FX_AC/SlotType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/SlotType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -219,7 +219,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LogicalId",
         "displayName": "LogicalId",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       }
@@ -237,11 +237,11 @@
     ],
     "@id": "dtmi:opcua:FX_AC:SocketType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/FX.AC",
+    "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "displayName": "SocketType",
     "description": "SocketType represents a physical socket where a cable can be connected",
     "extends": "dtmi:opcua:FX_AC:AssetConnectorType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=8",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=8",
     "telemetryTopic": "opcua/FX_AC/SocketType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -251,7 +251,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Kind",
         "displayName": "Kind",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort"
       }
     ]
@@ -268,10 +268,10 @@
     ],
     "@id": "dtmi:opcua:FX_AC:AutomationComponentType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/FX.AC",
+    "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "displayName": "AutomationComponentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=2",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=2",
     "commandTopic": "opcua/FX_AC/AutomationComponentType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/AutomationComponentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -280,7 +280,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AggregatedHealthDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "AggregatedHealthDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -299,7 +299,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DeviceHealthOptionSet",
         "description": "At least one of the top-level Assets has its DeviceHealth set to Failure.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -325,7 +325,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperationalHealthOptionSet",
         "description": "FunctionalEntity indicates a warning.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -351,7 +351,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FxCommandMask",
         "description": "This OptionSet defines flags indicating the commands a ConnectionManager may use in its call to the EstablishConnections Method.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1024",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1024",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -396,7 +396,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "AssetVerificationDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1048",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1048",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -435,7 +435,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1028",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -472,7 +472,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AssetVerificationResultEnum",
         "description": "The verification result is not set.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1037",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -498,7 +498,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AssetVerificationModeEnum",
         "description": "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1029",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -519,7 +519,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdArray;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdArray",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1034",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -540,7 +540,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointConfigurationDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConnectionEndpointConfigurationDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1044",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1044",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -587,7 +587,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConnectionEndpointDefinitionDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3011",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -605,7 +605,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConnectionEndpointParameterDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3009",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3009",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -659,7 +659,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:RelatedEndpointDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RelatedEndpointDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -703,7 +703,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "AssetVerificationResultDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1038",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1038",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -737,7 +737,7 @@
         "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointConfigurationResultDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ConnectionEndpointConfigurationResultDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3008",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -813,7 +813,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FunctionalEntityVerificationResultEnum",
         "description": "The verification result is not set.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -836,7 +836,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ConformanceName",
         "displayName": "ConformanceName",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "string",
         "writable": false
       },
@@ -844,7 +844,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AggregatedHealth",
         "displayName": "AggregatedHealth",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -852,21 +852,21 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "AggregatedHealth",
               "displayName": "AggregatedHealth",
-              "namespace": "http://opcfoundation.org/UA/FX.AC",
+              "namespace": "http://opcfoundation.org/UA/FX/AC/",
               "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AggregatedHealthDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AggregatedDeviceHealth",
               "displayName": "AggregatedDeviceHealth",
-              "namespace": "http://opcfoundation.org/UA/FX.AC",
+              "namespace": "http://opcfoundation.org/UA/FX/AC/",
               "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AggregatedOperationalHealth",
               "displayName": "AggregatedOperationalHealth",
-              "namespace": "http://opcfoundation.org/UA/FX.AC",
+              "namespace": "http://opcfoundation.org/UA/FX/AC/",
               "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
             }
           ]
@@ -876,7 +876,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "CloseConnections",
         "displayName": "CloseConnections",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -921,7 +921,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "EstablishConnections",
         "displayName": "EstablishConnections",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1015,7 +1015,7 @@
         "maxMultiplicity": 1,
         "name": "Assets",
         "displayName": "Assets",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -1023,7 +1023,7 @@
         "maxMultiplicity": 1,
         "name": "ComponentCapabilities",
         "displayName": "ComponentCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:AutomationComponentCapabilitiesType"
       },
       {
@@ -1031,7 +1031,7 @@
         "maxMultiplicity": 1,
         "name": "Descriptors",
         "displayName": "Descriptors",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -1039,7 +1039,7 @@
         "maxMultiplicity": 1,
         "name": "FunctionalEntities",
         "displayName": "FunctionalEntities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -1047,7 +1047,7 @@
         "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "displayName": "PublisherCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
@@ -1055,7 +1055,7 @@
         "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "displayName": "SubscriberCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
       }
     ]
@@ -1074,7 +1074,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "AuditUaFxEventType",
     "extends": "dtmi:opcua:OpcUaCore:AuditEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1030",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1095,7 +1095,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "AuditConnectionCleanupEventType",
     "extends": "dtmi:opcua:FX_AC:AuditUaFxEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1040",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1040",
     "commandTopic": "opcua/FX_AC/AuditConnectionCleanupEventType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/AuditConnectionCleanupEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1104,7 +1104,7 @@
         "@id": "dtmi:opcua:FX_AC:AuditConnectionCleanupEventType:dataType:RelatedEndpointDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RelatedEndpointDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1150,7 +1150,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "RelatedEndpoint",
         "displayName": "RelatedEndpoint",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:AuditConnectionCleanupEventType:dataType:RelatedEndpointDataType;1",
         "writable": true
       },
@@ -1158,7 +1158,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "RemovedEndpoint",
         "displayName": "RemovedEndpoint",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "string",
         "writable": true
       }
@@ -1178,7 +1178,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IAssetExtensionsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1009",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1188,7 +1188,7 @@
         "maxMultiplicity": 1,
         "name": "Connectors",
         "displayName": "Connectors",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -1207,7 +1207,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IAssetRevisionType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=9",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=9",
     "commandTopic": "opcua/FX_AC/IAssetRevisionType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/IAssetRevisionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1217,7 +1217,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AssetVerificationModeEnum",
         "description": "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1029",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1257,7 +1257,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AssetVerificationResultEnum",
         "description": "The verification result is not set.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1037",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1284,7 +1284,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BuildAssetNumber",
         "displayName": "BuildAssetNumber",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -1292,7 +1292,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MajorAssetVersion",
         "displayName": "MajorAssetVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -1300,7 +1300,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MinorAssetVersion",
         "displayName": "MinorAssetVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -1308,7 +1308,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SubBuildAssetNumber",
         "displayName": "SubBuildAssetNumber",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -1316,7 +1316,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "VerifyAsset",
         "displayName": "VerifyAsset",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1381,7 +1381,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "IFunctionalEntityType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=11",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=11",
     "commandTopic": "opcua/FX_AC/IFunctionalEntityType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/IFunctionalEntityType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1390,7 +1390,7 @@
         "@id": "dtmi:opcua:FX_AC:IFunctionalEntityType:dataType:ApplicationIdentifierDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ApplicationIdentifierDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=28",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=28",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1408,7 +1408,7 @@
         "@id": "dtmi:opcua:FX_AC:IFunctionalEntityType:dataType:FxVersion;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "FxVersion",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=25",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1437,7 +1437,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperationalHealthOptionSet",
         "description": "FunctionalEntity indicates a warning.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1462,7 +1462,7 @@
         "@id": "dtmi:opcua:FX_AC:IFunctionalEntityType:dataType:NodeIdValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1028",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1480,7 +1480,7 @@
         "@id": "dtmi:opcua:FX_AC:IFunctionalEntityType:dataType:NodeIdArray;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdArray",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1034",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1502,7 +1502,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FunctionalEntityVerificationResultEnum",
         "description": "The verification result is not set.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1523,7 +1523,7 @@
         "@id": "dtmi:opcua:FX_AC:IFunctionalEntityType:dataType:ApplicationId;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ApplicationId",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3013",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1553,7 +1553,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ApplicationIdentifier",
         "displayName": "ApplicationIdentifier",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:FX_AC:IFunctionalEntityType:dataType:ApplicationIdentifierDataType;1"
@@ -1564,7 +1564,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AuthorAssignedIdentifier",
         "displayName": "AuthorAssignedIdentifier",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "string",
         "writable": true
       },
@@ -1572,7 +1572,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AuthorAssignedVersion",
         "displayName": "AuthorAssignedVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:IFunctionalEntityType:dataType:FxVersion;1",
         "writable": true
       },
@@ -1580,7 +1580,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AuthorUri",
         "displayName": "AuthorUri",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "string",
         "writable": true
       },
@@ -1588,14 +1588,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperationalHealth",
         "displayName": "OperationalHealth",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:IFunctionalEntityType:dataType:OperationalHealthOptionSet;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Verify",
         "displayName": "Verify",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1641,7 +1641,7 @@
         "maxMultiplicity": 1,
         "name": "Capabilities",
         "displayName": "Capabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:FunctionalEntityCapabilitiesType"
       },
       {
@@ -1649,7 +1649,7 @@
         "maxMultiplicity": 1,
         "name": "ConfigurationData",
         "displayName": "ConfigurationData",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ConfigurationDataFolderType"
       },
       {
@@ -1657,7 +1657,7 @@
         "maxMultiplicity": 1,
         "name": "ConnectionEndpoints",
         "displayName": "ConnectionEndpoints",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType"
       },
       {
@@ -1665,7 +1665,7 @@
         "maxMultiplicity": 1,
         "name": "ControlGroups",
         "displayName": "ControlGroups",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ControlGroupsFolderType"
       },
       {
@@ -1673,7 +1673,7 @@
         "maxMultiplicity": 1,
         "name": "InputData",
         "displayName": "InputData",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:InputsFolderType"
       },
       {
@@ -1681,7 +1681,7 @@
         "maxMultiplicity": 1,
         "name": "OperationalHealthAlarms",
         "displayName": "OperationalHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -1689,7 +1689,7 @@
         "maxMultiplicity": 1,
         "name": "OutputData",
         "displayName": "OutputData",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:OutputsFolderType"
       },
       {
@@ -1697,7 +1697,7 @@
         "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "displayName": "PublisherCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
@@ -1705,7 +1705,7 @@
         "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "displayName": "SubscriberCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
       }
     ]
@@ -1724,7 +1724,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionEndpointType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1002",
     "telemetryTopic": "opcua/FX_AC/ConnectionEndpointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1732,7 +1732,7 @@
         "@id": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:RelatedEndpointDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RelatedEndpointDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1759,7 +1759,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ConnectionEndpointStatusEnum",
         "description": "This enumeration defines the values of the FlcConnectionStatus of an FlcConnectionEndpointType.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3007",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3007",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1808,14 +1808,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CleanupTimeout",
         "displayName": "CleanupTimeout",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputVariables",
         "displayName": "InputVariables",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1825,14 +1825,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsPersistent",
         "displayName": "IsPersistent",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputVariables",
         "displayName": "OutputVariables",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1842,14 +1842,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RelatedEndpoint",
         "displayName": "RelatedEndpoint",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:RelatedEndpointDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1"
       }
     ]
@@ -1866,10 +1866,10 @@
     ],
     "@id": "dtmi:opcua:FX_AC:PubSubConnectionEndpointType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/FX.AC",
+    "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "displayName": "PubSubConnectionEndpointType",
     "extends": "dtmi:opcua:FX_AC:ConnectionEndpointType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1005",
     "telemetryTopic": "opcua/FX_AC/PubSubConnectionEndpointType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1878,7 +1878,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "PubSubConnectionEndpointModeEnum",
         "description": "Reference to DataSetReader and DataSetWriter required.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=31",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=31",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1901,7 +1901,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Mode",
         "displayName": "Mode",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1"
       }
     ]
@@ -1920,7 +1920,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ControlGroupType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=15",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=15",
     "commandTopic": "opcua/FX_AC/ControlGroupType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/ControlGroupType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1931,7 +1931,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsControlled",
         "displayName": "IsControlled",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "boolean",
         "writable": true
       },
@@ -1939,7 +1939,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "EstablishControl",
         "displayName": "EstablishControl",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1973,7 +1973,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ReassignControl",
         "displayName": "ReassignControl",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2007,13 +2007,13 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ReleaseControl",
         "displayName": "ReleaseControl",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX/AC/"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ControlGroup",
         "displayName": "<ControlGroup>",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ControlGroupType"
       },
       {
@@ -2021,7 +2021,7 @@
         "maxMultiplicity": 1,
         "name": "ListOfRelated",
         "displayName": "ListOfRelated",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -2029,7 +2029,7 @@
         "maxMultiplicity": 1,
         "name": "ListToBlock",
         "displayName": "ListToBlock",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ControlItemFolderType"
       },
       {
@@ -2037,7 +2037,7 @@
         "maxMultiplicity": 1,
         "name": "ListToRestrict",
         "displayName": "ListToRestrict",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ControlItemFolderType"
       }
     ]
@@ -2056,7 +2056,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "AutomationComponentCapabilitiesType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1001",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2077,7 +2077,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConnectionEndpointsFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=20",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=20",
     "telemetryTopic": "opcua/FX_AC/ConnectionEndpointsFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2086,7 +2086,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CommHealthOptionSet",
         "description": "At least one of the ConnectionEndpoints has its Status set to Initial.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3004",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3004",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2109,7 +2109,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CommHealth",
         "displayName": "CommHealth",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType:dataType:CommHealthOptionSet;1"
       }
     ]
@@ -2128,7 +2128,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ControlGroupsFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1010",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2149,7 +2149,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "FunctionalEntityCapabilitiesType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1008",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2170,7 +2170,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ConfigurationDataFolderType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1041",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1041",
     "commandTopic": "opcua/FX_AC/ConfigurationDataFolderType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2178,7 +2178,7 @@
         "@id": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1028",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2196,7 +2196,7 @@
         "@id": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdArray;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdArray",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1034",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2219,7 +2219,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ClearStoredVariables",
         "displayName": "ClearStoredVariables",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2259,7 +2259,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ListStoredVariables",
         "displayName": "ListStoredVariables",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
@@ -2282,7 +2282,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetStoredVariables",
         "displayName": "SetStoredVariables",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2334,7 +2334,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "ControlItemFolderType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1011",
     "commandTopic": "opcua/FX_AC/ControlItemFolderType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/ControlItemFolderType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2345,7 +2345,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MaxInactiveLockTime",
         "displayName": "MaxInactiveLockTime",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "duration",
         "writable": true
       },
@@ -2354,7 +2354,7 @@
         "maxMultiplicity": 1,
         "name": "Lock",
         "displayName": "Lock",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:DI:LockingServicesType"
       }
     ]
@@ -2373,7 +2373,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "InputsFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1000",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1000",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2383,7 +2383,7 @@
         "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "displayName": "SubscriberCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
       }
     ]
@@ -2402,7 +2402,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "OutputsFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1019",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2412,7 +2412,7 @@
         "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "displayName": "PublisherCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       }
     ]
@@ -2429,10 +2429,10 @@
     ],
     "@id": "dtmi:opcua:FX_AC:FunctionalEntityType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/FX.AC",
+    "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "displayName": "FunctionalEntityType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=4",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=4",
     "commandTopic": "opcua/FX_AC/FunctionalEntityType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/FunctionalEntityType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2441,7 +2441,7 @@
         "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:ApplicationIdentifierDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ApplicationIdentifierDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=28",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=28",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2459,7 +2459,7 @@
         "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:FxVersion;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "FxVersion",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=25",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2488,7 +2488,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperationalHealthOptionSet",
         "description": "FunctionalEntity indicates a warning.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2513,7 +2513,7 @@
         "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1028",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2531,7 +2531,7 @@
         "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdArray;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdArray",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1034",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2553,7 +2553,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FunctionalEntityVerificationResultEnum",
         "description": "The verification result is not set.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2574,7 +2574,7 @@
         "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:ApplicationId;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "ApplicationId",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3013",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2604,7 +2604,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ApplicationIdentifier",
         "displayName": "ApplicationIdentifier",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:ApplicationIdentifierDataType;1"
@@ -2615,7 +2615,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AuthorAssignedIdentifier",
         "displayName": "AuthorAssignedIdentifier",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "string",
         "writable": true
       },
@@ -2623,7 +2623,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AuthorAssignedVersion",
         "displayName": "AuthorAssignedVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:FxVersion;1",
         "writable": true
       },
@@ -2631,7 +2631,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AuthorUri",
         "displayName": "AuthorUri",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "string",
         "writable": true
       },
@@ -2639,14 +2639,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperationalHealth",
         "displayName": "OperationalHealth",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:OperationalHealthOptionSet;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Verify",
         "displayName": "Verify",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2692,7 +2692,7 @@
         "maxMultiplicity": 1,
         "name": "Capabilities",
         "displayName": "Capabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:FunctionalEntityCapabilitiesType"
       },
       {
@@ -2700,7 +2700,7 @@
         "maxMultiplicity": 1,
         "name": "ConfigurationData",
         "displayName": "ConfigurationData",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ConfigurationDataFolderType"
       },
       {
@@ -2708,7 +2708,7 @@
         "maxMultiplicity": 1,
         "name": "ConnectionEndpoints",
         "displayName": "ConnectionEndpoints",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType"
       },
       {
@@ -2716,7 +2716,7 @@
         "maxMultiplicity": 1,
         "name": "ControlGroups",
         "displayName": "ControlGroups",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:ControlGroupsFolderType"
       },
       {
@@ -2724,7 +2724,7 @@
         "maxMultiplicity": 1,
         "name": "InputData",
         "displayName": "InputData",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:InputsFolderType"
       },
       {
@@ -2732,7 +2732,7 @@
         "maxMultiplicity": 1,
         "name": "OperationalHealthAlarms",
         "displayName": "OperationalHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -2740,7 +2740,7 @@
         "maxMultiplicity": 1,
         "name": "OutputData",
         "displayName": "OutputData",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:OutputsFolderType"
       },
       {
@@ -2748,7 +2748,7 @@
         "maxMultiplicity": 1,
         "name": "PublisherCapabilities",
         "displayName": "PublisherCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
       },
       {
@@ -2756,7 +2756,7 @@
         "maxMultiplicity": 1,
         "name": "SubscriberCapabilities",
         "displayName": "SubscriberCapabilities",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
       }
     ]
@@ -2773,10 +2773,10 @@
     ],
     "@id": "dtmi:opcua:FX_AC:FxAssetType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/FX.AC",
+    "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "displayName": "FxAssetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3",
     "commandTopic": "opcua/FX_AC/FxAssetType/{commandName}",
     "telemetryTopic": "opcua/FX_AC/FxAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2816,7 +2816,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AssetVerificationModeEnum",
         "description": "Verify whether an Asset’s functionality matches or is compatible to the expectation of system engineering.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1029",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2855,7 +2855,7 @@
         "@id": "dtmi:opcua:FX_AC:FxAssetType:dataType:NodeIdValuePair;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdValuePair",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1028",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2873,7 +2873,7 @@
         "@id": "dtmi:opcua:FX_AC:FxAssetType:dataType:NodeIdArray;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "NodeIdArray",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1034",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2895,7 +2895,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "AssetVerificationResultEnum",
         "description": "The verification result is not set.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data/;i=1037",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2922,7 +2922,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AssetId",
         "displayName": "AssetId",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -2930,7 +2930,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BuildAssetNumber",
         "displayName": "BuildAssetNumber",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -2938,7 +2938,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ComponentName",
         "displayName": "ComponentName",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -2946,7 +2946,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceClass",
         "displayName": "DeviceClass",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -2954,7 +2954,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceManual",
         "displayName": "DeviceManual",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -2962,7 +2962,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceRevision",
         "displayName": "DeviceRevision",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -2970,7 +2970,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HardwareRevision",
         "displayName": "HardwareRevision",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -2978,7 +2978,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MajorAssetVersion",
         "displayName": "MajorAssetVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -2986,7 +2986,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Manufacturer",
         "displayName": "Manufacturer",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -2994,7 +2994,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ManufacturerUri",
         "displayName": "ManufacturerUri",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -3002,7 +3002,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MinorAssetVersion",
         "displayName": "MinorAssetVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -3010,7 +3010,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Model",
         "displayName": "Model",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -3018,7 +3018,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ProductCode",
         "displayName": "ProductCode",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -3026,7 +3026,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ProductInstanceUri",
         "displayName": "ProductInstanceUri",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -3034,7 +3034,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "RevisionCounter",
         "displayName": "RevisionCounter",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "integer",
         "writable": true
       },
@@ -3042,7 +3042,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SerialNumber",
         "displayName": "SerialNumber",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -3050,7 +3050,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -3058,7 +3058,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SubBuildAssetNumber",
         "displayName": "SubBuildAssetNumber",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -3066,14 +3066,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DeviceHealth",
         "displayName": "DeviceHealth",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "dtmi:opcua:FX_AC:FxAssetType:dataType:DeviceHealthEnumeration;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "VerifyAsset",
         "displayName": "VerifyAsset",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3140,7 +3140,7 @@
         "maxMultiplicity": 1,
         "name": "Connectors",
         "displayName": "Connectors",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -3148,7 +3148,7 @@
         "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "displayName": "DeviceHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -3167,7 +3167,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "PublisherCapabilitiesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1003",
     "telemetryTopic": "opcua/FX_AC/PublisherCapabilitiesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3175,7 +3175,7 @@
         "@id": "dtmi:opcua:FX_AC:PublisherCapabilitiesType:dataType:IntervalRange;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "IntervalRange",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3208,7 +3208,7 @@
         "@id": "dtmi:opcua:FX_AC:PublisherCapabilitiesType:dataType:PublisherQosDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "PublisherQosDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3011",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3230,7 +3230,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FxTimeUnitsEnum",
         "description": "This enumeration describes the support units of time",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3257,14 +3257,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreconfiguredDataSetOnly",
         "displayName": "PreconfiguredDataSetOnly",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreconfiguredPublishedDataSets",
         "displayName": "PreconfiguredPublishedDataSets",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -3274,7 +3274,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SupportedPublishingIntervals",
         "displayName": "SupportedPublishingIntervals",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:FX_AC:PublisherCapabilitiesType:dataType:IntervalRange;1"
@@ -3284,7 +3284,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SupportedQos",
         "displayName": "SupportedQos",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:FX_AC:PublisherCapabilitiesType:dataType:PublisherQosDataType;1"
@@ -3306,7 +3306,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "SubscriberCapabilitiesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1004",
     "telemetryTopic": "opcua/FX_AC/SubscriberCapabilitiesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3314,7 +3314,7 @@
         "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "IntervalRange",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3347,7 +3347,7 @@
         "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "SubscriberQosDataType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3012",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3369,7 +3369,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "FxTimeUnitsEnum",
         "description": "This enumeration describes the support units of time",
-        "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC/;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3396,14 +3396,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreconfiguredDataSetOnly",
         "displayName": "PreconfiguredDataSetOnly",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreconfiguredSubscribedDataSets",
         "displayName": "PreconfiguredSubscribedDataSets",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -3413,7 +3413,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SupportedMessageReceiveTimeouts",
         "displayName": "SupportedMessageReceiveTimeouts",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1"
@@ -3423,7 +3423,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SupportedPublishingIntervals",
         "displayName": "SupportedPublishingIntervals",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1"
@@ -3433,7 +3433,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SupportedQos",
         "displayName": "SupportedQos",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1"

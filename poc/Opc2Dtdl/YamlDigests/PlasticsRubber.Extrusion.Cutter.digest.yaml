@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/
+
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion.Cutter:3002, PlasticsRubber.Extrusion.Cutter:WallThickeningEnumeration ]
   DisplayName: "WallThickeningEnumeration"

@@ -14,7 +14,7 @@
     "displayName": "ITighteningToolParametersType",
     "description": "This interface is inherited from 0:BaseInterfaceType to add additional parameters of a tool in a tightening system. It shall be added to 2:Parameters object of the tool instance.",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Tightening/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IJT/Tightening/;i=1003",
     "telemetryTopic": "opcua/IJT_Tightening/ITighteningToolParametersType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -25,7 +25,7 @@
         "name": "DesignType",
         "displayName": "DesignType",
         "description": "DesignType provides information on the design of the Tool.",
-        "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+        "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
         "schema": "unsignedByte"
       },
       {
@@ -33,7 +33,7 @@
         "name": "DriveMethod",
         "displayName": "DriveMethod",
         "description": "DriveMethod provides information on the drive method of the motor of the Tool.",
-        "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+        "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
         "schema": "unsignedByte"
       },
       {
@@ -41,7 +41,7 @@
         "name": "DriveType",
         "displayName": "DriveType",
         "description": "DriveType provides information on the drive type of the Tool.",
-        "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+        "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
         "schema": "unsignedByte"
       },
       {
@@ -49,7 +49,7 @@
         "name": "MaxSpeed",
         "displayName": "MaxSpeed",
         "description": "MaxSpeed is the maximum rotation speed of the driving shaft.",
-        "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+        "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -58,7 +58,7 @@
               "name": "MaxSpeed",
               "displayName": "MaxSpeed",
               "description": "MaxSpeed is the maximum rotation speed of the driving shaft.",
-              "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+              "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
               "schema": "double"
             },
             {
@@ -66,7 +66,7 @@
               "name": "PhysicalQuantity",
               "displayName": "PhysicalQuantity",
               "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
-              "namespace": "http://opcfoundation.org/UA/IJT.Base",
+              "namespace": "http://opcfoundation.org/UA/IJT/Base/",
               "schema": "unsignedByte"
             }
           ]
@@ -77,7 +77,7 @@
         "name": "MaxTorque",
         "displayName": "MaxTorque",
         "description": "MaxTorque is the maximum allowed torque for which the tool may be used for tightening processes. For Click Wrenches, it may not be available.",
-        "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+        "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -86,7 +86,7 @@
               "name": "MaxTorque",
               "displayName": "MaxTorque",
               "description": "MaxTorque is the maximum allowed torque for which the tool may be used for tightening processes. For Click Wrenches, it may not be available.",
-              "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+              "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
               "schema": "double"
             },
             {
@@ -94,7 +94,7 @@
               "name": "PhysicalQuantity",
               "displayName": "PhysicalQuantity",
               "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
-              "namespace": "http://opcfoundation.org/UA/IJT.Base",
+              "namespace": "http://opcfoundation.org/UA/IJT/Base/",
               "schema": "unsignedByte"
             }
           ]
@@ -105,7 +105,7 @@
         "name": "MinTorque",
         "displayName": "MinTorque",
         "description": "MinTorque is the minimum allowed torque for which the tool may be used for tightening processes.",
-        "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+        "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -114,7 +114,7 @@
               "name": "MinTorque",
               "displayName": "MinTorque",
               "description": "MinTorque is the minimum allowed torque for which the tool may be used for tightening processes.",
-              "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+              "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
               "schema": "double"
             },
             {
@@ -122,7 +122,7 @@
               "name": "PhysicalQuantity",
               "displayName": "PhysicalQuantity",
               "description": "PhysicalQuantity is to determine the type of the physical quantity associated to a given value(s).",
-              "namespace": "http://opcfoundation.org/UA/IJT.Base",
+              "namespace": "http://opcfoundation.org/UA/IJT/Base/",
               "schema": "unsignedByte"
             }
           ]
@@ -133,7 +133,7 @@
         "name": "MotorType",
         "displayName": "MotorType",
         "description": "MotorType is the type of motor in the tool.",
-        "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+        "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
         "schema": "string"
       },
       {
@@ -141,7 +141,7 @@
         "name": "ShutOffMethod",
         "displayName": "ShutOffMethod",
         "description": "ShutOffMethod provides information on the shutoff method of the tool.",
-        "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
+        "namespace": "http://opcfoundation.org/UA/IJT/Tightening/",
         "schema": "unsignedByte"
       }
     ]

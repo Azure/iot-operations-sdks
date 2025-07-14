@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:IA:AcousticSignalType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "AcousticSignalType",
     "description": "Represents an acoustic signal.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -27,7 +27,7 @@
         "name": "NumberInList",
         "displayName": "NumberInList",
         "description": "Enumerate the acoustic signals. Instances of StackElementAcousticType index into this number using the OperationMode Property.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -36,7 +36,7 @@
         "name": "AudioSample",
         "displayName": "AudioSample",
         "description": "Contains the audio data, e.g. for devices capable of audio playback.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "bytes"
       }
     ]
@@ -75,7 +75,7 @@
     ],
     "@id": "dtmi:opcua:IA:DynamicCalibrationTargetCategoryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "DynamicCalibrationTargetCategoryType",
     "description": "Characterizes a calibration target to be used together with a measurement instrument, that determines the values to be calibrated. It can be a piece created during the normal production process or an item specifically created for calibration purposes. The calibration target represents an individual piece or item, that is, if a new piece should be used or item is created, a new Object of this ObjectType is created.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
@@ -98,7 +98,7 @@
     ],
     "@id": "dtmi:opcua:IA:OneTimeCalibrationTargetCategoryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "OneTimeCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be used only once, for example because the calibration destroys the target. Typically, Objects of this ObjectType do not represent one individual calibration target, but a batch of calibration targets with the same characteristics.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
@@ -121,7 +121,7 @@
     ],
     "@id": "dtmi:opcua:IA:ReusableCalibrationTargetCategoryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "ReusableCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be reused several times. For example, a calibration target like a meter, that is bought specifically for calibration and not destroyed by an individual usage is of this category.",
     "extends": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType;1",
@@ -144,7 +144,7 @@
     ],
     "@id": "dtmi:opcua:IA:ReusableDeviceCalibrationTargetCategoryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "ReusableDeviceCalibrationTargetCategoryType",
     "description": "Categorizes a calibration target to be a reusable device that produces a certain environment like pressure that can be used for calibration.",
     "extends": "dtmi:opcua:IA:ReusableCalibrationTargetCategoryType;1",
@@ -182,7 +182,7 @@
         "name": "StartTime",
         "displayName": "StartTime",
         "description": "Indicates the point in time at which the collection of the statistical data has been started.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dateTime",
         "writable": true
       },
@@ -191,7 +191,7 @@
         "name": "ResetStatistics",
         "displayName": "ResetStatistics",
         "description": "Restarts all statistical data, including a reset of the StartTime to the current time.",
-        "namespace": "http://opcfoundation.org/UA/IA"
+        "namespace": "http://opcfoundation.org/UA/IA/"
       }
     ]
   },
@@ -222,7 +222,7 @@
         "name": "ResetCondition",
         "displayName": "ResetCondition",
         "description": "The reason and context for the reset of the statistics, which is done without a trigger from an OPC UA Client, like calling the ResetStatistics Method. ResetCondition is a vendor-specific, human readable string. ResetCondition is non-localized and might contain an expression that can be parsed by certain clients. Examples are: “AFTER 4 HOURS”, “AFTER 1000 ITEMS”, “OPERATOR”. “OPERATOR” means, that an operator resets the statistics on a local HMI.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "string",
         "writable": true
       }
@@ -255,7 +255,7 @@
         "name": "WindowDuration",
         "displayName": "WindowDuration",
         "description": "The duration after the statistical data are rolled over. Only the data that were gathered during that duration are considered for the statistical data, even if the time intervals between the StartTime and the current time is longer.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "duration",
         "writable": true
       },
@@ -264,7 +264,7 @@
         "name": "WindowNumberOfValues",
         "displayName": "WindowNumberOfValues",
         "description": "The number of values before the data gets rolled over. For the statistical data, only the data fitting into the number of values is considered, even if more data were gathered since StartTime.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -282,7 +282,7 @@
     ],
     "@id": "dtmi:opcua:IA:CalibrationTargetType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "CalibrationTargetType",
     "description": "Provides information about a calibration target.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -298,7 +298,7 @@
         "name": "CertificateUri",
         "displayName": "CertificateUri",
         "description": "Contains the Uri of a certificate of the calibration target, in case the calibration target is certified and the information available. Otherwise, the Property should be omitted.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "string",
         "writable": true
       },
@@ -307,7 +307,7 @@
         "name": "LastValidationDate",
         "displayName": "LastValidationDate",
         "description": "Provides the date, the calibration target was validated the last time. If there is no specific validation date known, the date when the calibration target was bought or created should be used.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "time",
         "writable": true
       },
@@ -316,7 +316,7 @@
         "name": "NextValidationDate",
         "displayName": "NextValidationDate",
         "description": "Provides the date, when the calibration target should be validated the next time. If this date is not known, the Property should be omitted. Note: Potentially the NextValidationDate is in the past, when the next validation did not take place.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "time",
         "writable": true
       },
@@ -325,7 +325,7 @@
         "name": "Quality",
         "displayName": "Quality",
         "description": "Provides the quality of the calibration target in percentage, this is, the value shall be between 0 and 100. 100 means the highest quality, 0 the lowest. The semantic of the quality is application-specific.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "unsignedByte",
         "writable": true
       },
@@ -335,7 +335,7 @@
         "name": "CalibrationTargetCategory",
         "displayName": "CalibrationTargetCategory",
         "description": "Defines what category the calibration target is of.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "target": "dtmi:opcua:IA:BaseCalibrationTargetCategoryType"
       },
       {
@@ -344,7 +344,7 @@
         "name": "CalibrationTargetFeatures",
         "displayName": "CalibrationTargetFeatures",
         "description": "A folder containing information about the features of a calibration target, that is, what can be calibrated with the calibration target.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -353,7 +353,7 @@
         "name": "Identification",
         "displayName": "Identification",
         "description": "Provides identification information.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -362,7 +362,7 @@
         "name": "OperationalConditions",
         "displayName": "OperationalConditions",
         "description": "A folder containing information about operational conditions of the calibration target. For example, it might provide in what ranges of humidity the calibration target can be operated. It might also provide correction information, for example, depending on the temperature the calibration values need to be corrected (in case of a length, the length might increase with high temperatures). If no operational conditions are provided, this folder should be omitted.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -462,7 +462,7 @@
         "name": "SignalOn",
         "displayName": "SignalOn",
         "description": "Indicates if the colour is switched on.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "boolean",
         "writable": true
       },
@@ -471,7 +471,7 @@
         "name": "ChannelColor",
         "displayName": "ChannelColor",
         "description": "Indicates in what mode (continuously on, blinking, flashing) the channel operates when switched on.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dtmi:opcua:IA:ControlChannelType:dataType:SignalColor;1"
       },
       {
@@ -479,7 +479,7 @@
         "name": "Intensity",
         "displayName": "Intensity",
         "description": "Shows the channel’s intensity, thus its brightness. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "float"
       },
       {
@@ -487,7 +487,7 @@
         "name": "SignalMode",
         "displayName": "SignalMode",
         "description": "Contains a list of audio signals used by this acoustic stacklight element.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dtmi:opcua:IA:ControlChannelType:dataType:SignalModeLight;1"
       }
     ]
@@ -545,7 +545,7 @@
         "name": "StacklightMode",
         "displayName": "StacklightMode",
         "description": "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dtmi:opcua:IA:BasicStacklightType:dataType:StacklightOperationMode;1",
         "writable": true
       },
@@ -555,7 +555,7 @@
         "name": "StackLevel",
         "displayName": "StackLevel",
         "description": "Valid if the stacklight is used in “Levelmeter” StacklightMode. If so, the whole stack is controlled by a single percentual value. In this case, the SignalOn parameter of any stack element of StackElementLightType has no meaning.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "target": "dtmi:opcua:IA:StackLevelType"
       },
       {
@@ -564,7 +564,7 @@
         "name": "StackRunning",
         "displayName": "StackRunning",
         "description": "Valid if the stacklight is used in “Running_Light” StacklightMode.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "target": "dtmi:opcua:IA:StackRunningType"
       }
     ]
@@ -581,7 +581,7 @@
     ],
     "@id": "dtmi:opcua:IA:StacklightType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "StacklightType",
     "description": "Entry point to a stacklight with the possibility to show the stacklight’s health status.",
     "extends": "dtmi:opcua:IA:BasicStacklightType;1",
@@ -626,7 +626,7 @@
         "name": "DeviceHealth",
         "displayName": "DeviceHealth",
         "description": "Contains the health status information of the stacklight.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "dtmi:opcua:IA:StacklightType:dataType:DeviceHealthEnumeration;1"
       },
       {
@@ -635,7 +635,7 @@
         "name": "DeviceHealthAlarms",
         "displayName": "DeviceHealthAlarms",
         "description": "Contains alarms of the stacklights providing more detailed information on the health of the stacklight.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -667,7 +667,7 @@
         "name": "IsPartOfBase",
         "displayName": "IsPartOfBase",
         "description": "Indicates, if the element is contained in the mounting base of the stacklight. All elements contained in the mounting base shall be at the beginning of the list of stack elements.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "boolean",
         "writable": true
       },
@@ -676,7 +676,7 @@
         "name": "NumberInList",
         "displayName": "NumberInList",
         "description": "Enumerate the stacklight elements counting upwards beginning from the base of the stacklight.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -685,7 +685,7 @@
         "name": "SignalOn",
         "displayName": "SignalOn",
         "description": "Indicates if the signal emitted by the stack element is currently switched on or not.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "boolean",
         "writable": true
       }
@@ -703,7 +703,7 @@
     ],
     "@id": "dtmi:opcua:IA:StackElementAcousticType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "StackElementAcousticType",
     "description": "Represents an acoustic element in a stacklight.",
     "extends": "dtmi:opcua:IA:StackElementType;1",
@@ -718,7 +718,7 @@
         "name": "Intensity",
         "displayName": "Intensity",
         "description": "Indicates the sound pressure level of the acoustic signal when switched on. This value shall only have positive values. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "float"
       },
       {
@@ -726,7 +726,7 @@
         "name": "OperationMode",
         "displayName": "OperationMode",
         "description": "Indicates what signal of the list of AcousticSignalType nodes is played when the acoustic element is switched on. It shall contain an index into the NumberInList of the respective AcousticSignalType Object of AcousticSignals.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "unsignedInteger"
       },
       {
@@ -735,7 +735,7 @@
         "name": "AcousticSignals",
         "displayName": "AcousticSignals",
         "description": "Contains a list of audio signals used by this acoustic stacklight element.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "target": "dtmi:opcua:OpcUaCore:OrderedListType"
       }
     ]
@@ -752,7 +752,7 @@
     ],
     "@id": "dtmi:opcua:IA:StackElementLightType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/IA",
+    "ontology": "http://opcfoundation.org/UA/IA/",
     "displayName": "StackElementLightType",
     "description": "Represents a lamp element in a stacklight.",
     "extends": "dtmi:opcua:IA:StackElementType;1",
@@ -835,7 +835,7 @@
         "name": "Intensity",
         "displayName": "Intensity",
         "description": "Intensity of the lamp, thus its brightness. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "float"
       },
       {
@@ -843,7 +843,7 @@
         "name": "SignalColor",
         "displayName": "SignalColor",
         "description": "Indicates the colour the lamp element has when switched on.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalColor;1"
       },
       {
@@ -851,7 +851,7 @@
         "name": "SignalMode",
         "displayName": "SignalMode",
         "description": "Shows in what way the lamp is used (continuous light, flashing, blinking) when switched on.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1"
       },
       {
@@ -859,7 +859,7 @@
         "name": "ControlChannel",
         "displayName": "<ControlChannel>",
         "description": "The list of <ControlChannel> instances shows the control information for each independent colour channel of the stacked element.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "target": "dtmi:opcua:IA:ControlChannelType"
       }
     ]
@@ -912,7 +912,7 @@
         "name": "DisplayMode",
         "displayName": "DisplayMode",
         "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dtmi:opcua:IA:StackLevelType:dataType:LevelDisplayMode;1"
       },
       {
@@ -920,7 +920,7 @@
         "name": "LevelPercent",
         "displayName": "LevelPercent",
         "description": "Shows the percentual value the stacklight is representing. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "float"
       }
     ]

@@ -124,7 +124,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ArticleSpecList",
         "displayName": "ArticleSpecList",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:WireHarness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
@@ -134,7 +134,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ClearArticleSpec",
         "displayName": "ClearArticleSpec",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -154,7 +154,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StoreArticleSpec",
         "displayName": "StoreArticleSpec",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -196,7 +196,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JobResult",
         "description": "Unknown state. Used when result is not known, e.g. because job order is still running.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Jobs/;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Jobs/;i=3006",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -219,7 +219,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndTime",
         "displayName": "EndTime",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "dateTime",
         "writable": true
       },
@@ -227,7 +227,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobOrderID",
         "displayName": "JobOrderID",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "string",
         "writable": true
       },
@@ -235,7 +235,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaterialDefinitionID",
         "displayName": "MaterialDefinitionID",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "string",
         "writable": true
       },
@@ -243,7 +243,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductID",
         "displayName": "ProductID",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "string",
         "writable": true
       },
@@ -251,7 +251,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResultIDs",
         "displayName": "ResultIDs",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -262,7 +262,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Run",
         "displayName": "Run",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -270,7 +270,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StartTime",
         "displayName": "StartTime",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "dateTime",
         "writable": true
       },
@@ -278,7 +278,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "dtmi:opcua:WireHarness:ProductFinishedEventType:dataType:JobResult;1",
         "writable": true
       }
@@ -309,7 +309,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "EndTime",
         "displayName": "EndTime",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "dateTime",
         "writable": true
       },
@@ -317,7 +317,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "GoodQuantity",
         "displayName": "GoodQuantity",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "double",
         "writable": true
       },
@@ -325,7 +325,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobOrderID",
         "displayName": "JobOrderID",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "string",
         "writable": true
       },
@@ -333,7 +333,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProducedQuantity",
         "displayName": "ProducedQuantity",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "double",
         "writable": true
       },
@@ -341,7 +341,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductIDs",
         "displayName": "ProductIDs",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -352,7 +352,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Run",
         "displayName": "Run",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -360,7 +360,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StartTime",
         "displayName": "StartTime",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": "dateTime",
         "writable": true
       }
@@ -378,7 +378,7 @@
     ],
     "@id": "dtmi:opcua:WireHarness:WireHarnessMachineIdentificationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/WireHarness",
+    "ontology": "http://opcfoundation.org/UA/WireHarness/",
     "displayName": "WireHarnessMachineIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1003",
@@ -513,7 +513,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Seals",
         "displayName": "Seals",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
@@ -523,7 +523,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Sleeves",
         "displayName": "Sleeves",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
@@ -533,7 +533,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Terminals",
         "displayName": "Terminals",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
@@ -543,7 +543,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Wires",
         "displayName": "Wires",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
@@ -553,7 +553,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ClearPart",
         "displayName": "ClearPart",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -573,7 +573,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "FindPartsByType",
         "displayName": "FindPartsByType",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -610,7 +610,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StorePart",
         "displayName": "StorePart",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -640,7 +640,7 @@
     ],
     "@id": "dtmi:opcua:WireHarness:WireHarnessJobOrderReceiverSubStatesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/WireHarness",
+    "ontology": "http://opcfoundation.org/UA/WireHarness/",
     "displayName": "WireHarnessJobOrderReceiverSubStatesType",
     "extends": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverSubStatesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1006",
@@ -662,7 +662,7 @@
     ],
     "@id": "dtmi:opcua:WireHarness:WireHarnessMachineType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/WireHarness",
+    "ontology": "http://opcfoundation.org/UA/WireHarness/",
     "displayName": "WireHarnessMachineType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1000",
@@ -675,7 +675,7 @@
         "maxMultiplicity": 1,
         "name": "ArticleSpecManagement",
         "displayName": "ArticleSpecManagement",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "target": "dtmi:opcua:WireHarness:ArticleSpecManagementType"
       },
       {
@@ -683,7 +683,7 @@
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "displayName": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -691,7 +691,7 @@
         "maxMultiplicity": 1,
         "name": "PartManagement",
         "displayName": "PartManagement",
-        "namespace": "http://opcfoundation.org/UA/WireHarness",
+        "namespace": "http://opcfoundation.org/UA/WireHarness/",
         "target": "dtmi:opcua:WireHarness:PartManagementType"
       }
     ]

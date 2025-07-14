@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/ADI/
+
 DataTypes:
 - UADataType: [ ADI:9378, ADI:ExecutionCycleEnumeration ]
   DisplayName: "ExecutionCycleEnumeration"

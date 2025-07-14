@@ -22,7 +22,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CommIfSection",
         "displayName": "<CommIfSection>",
-        "namespace": "http://opcfoundation.org/UA/CSPPlusForMachine",
+        "namespace": "http://opcfoundation.org/UA/CSPPlusForMachine/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       }
     ]

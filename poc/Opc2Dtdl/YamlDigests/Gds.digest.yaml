@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/GDS/
+
 DataTypes:
 - UADataType: [ GDS:1, GDS:ApplicationRecordDataType ]
   DisplayName: "ApplicationRecordDataType"

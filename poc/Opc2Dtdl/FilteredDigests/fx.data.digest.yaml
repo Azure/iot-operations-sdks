@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/FX/Data/
+
 DataTypes:
 - UADataType: [ FX.Data:1029, FX.Data:AssetVerificationModeEnum ]
   DisplayName: "AssetVerificationModeEnum"

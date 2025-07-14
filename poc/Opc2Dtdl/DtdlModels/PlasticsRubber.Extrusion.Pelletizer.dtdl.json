@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DiePlateType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/;i=1002",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Pelletizer/DiePlateType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Pelletizer/DiePlateType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -24,7 +24,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ActiveTime",
         "displayName": "ActiveTime",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "schema": "duration",
         "writable": false
       },
@@ -32,7 +32,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "schema": "string",
         "writable": false
       }
@@ -50,10 +50,10 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Pelletizer:Pelletizer_InterfaceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
     "displayName": "Pelletizer_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer/;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/;i=1004",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Pelletizer/Pelletizer_InterfaceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Pelletizer/Pelletizer_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -64,7 +64,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PelletizerClosed",
         "displayName": "PelletizerClosed",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "schema": "boolean",
         "writable": false
       },
@@ -72,7 +72,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "WaterFlowActive",
         "displayName": "WaterFlowActive",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "schema": "boolean",
         "writable": false
       },
@@ -80,14 +80,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CutGap",
         "displayName": "CutGap",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "schema": "double"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DiePlate_Nr",
         "displayName": "DiePlate_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Pelletizer:DiePlateType"
       },
       {
@@ -95,14 +95,14 @@
         "maxMultiplicity": 1,
         "name": "Drive",
         "displayName": "Drive",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "KnifePackage_Nr",
         "displayName": "KnifePackage_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_Pelletizer:KnifePackageType"
       },
       {
@@ -110,7 +110,7 @@
         "maxMultiplicity": 1,
         "name": "PressureZones",
         "displayName": "PressureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -118,7 +118,7 @@
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "displayName": "TemperatureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType"
       }
     ]
@@ -137,7 +137,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "KnifePackageType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/;i=1003",
     "commandTopic": "opcua/PlasticsRubber_Extrusion_Pelletizer/KnifePackageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_Pelletizer/KnifePackageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -148,7 +148,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ActiveTime",
         "displayName": "ActiveTime",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "schema": "duration",
         "writable": false
       },
@@ -156,7 +156,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Amount",
         "displayName": "Amount",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -164,7 +164,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Pelletizer",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "schema": "string",
         "writable": false
       }

@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:AMLBaseTypes:CAEXBasicObjectType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/AML",
+    "ontology": "http://opcfoundation.org/UA/AML/",
     "displayName": "CAEXBasicObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1006",
@@ -25,7 +25,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Version",
         "displayName": "Version",
-        "namespace": "http://opcfoundation.org/UA/AML",
+        "namespace": "http://opcfoundation.org/UA/AML/",
         "schema": "string",
         "writable": false
       }
@@ -43,7 +43,7 @@
     ],
     "@id": "dtmi:opcua:AMLBaseTypes:CAEXFileType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/AML",
+    "ontology": "http://opcfoundation.org/UA/AML/",
     "displayName": "CAEXFileType",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXBasicObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1005",
@@ -56,7 +56,7 @@
         "maxMultiplicity": 1,
         "name": "InstanceHierarchies",
         "displayName": "InstanceHierarchies",
-        "namespace": "http://opcfoundation.org/UA/AML",
+        "namespace": "http://opcfoundation.org/UA/AML/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -64,7 +64,7 @@
         "maxMultiplicity": 1,
         "name": "InterfaceClassLibs",
         "displayName": "InterfaceClassLibs",
-        "namespace": "http://opcfoundation.org/UA/AML",
+        "namespace": "http://opcfoundation.org/UA/AML/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -72,7 +72,7 @@
         "maxMultiplicity": 1,
         "name": "RoleClassLibs",
         "displayName": "RoleClassLibs",
-        "namespace": "http://opcfoundation.org/UA/AML",
+        "namespace": "http://opcfoundation.org/UA/AML/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -80,7 +80,7 @@
         "maxMultiplicity": 1,
         "name": "SystemUnitClassLibs",
         "displayName": "SystemUnitClassLibs",
-        "namespace": "http://opcfoundation.org/UA/AML",
+        "namespace": "http://opcfoundation.org/UA/AML/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -97,7 +97,7 @@
     ],
     "@id": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/AML",
+    "ontology": "http://opcfoundation.org/UA/AML/",
     "displayName": "CAEXObjectType",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXBasicObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1001",
@@ -111,7 +111,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ID",
         "displayName": "ID",
-        "namespace": "http://opcfoundation.org/UA/AML",
+        "namespace": "http://opcfoundation.org/UA/AML/",
         "schema": "string",
         "writable": false
       }
@@ -129,7 +129,7 @@
     ],
     "@id": "dtmi:opcua:AMLBaseTypes:AutomationMLBaseInterface;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/AML",
+    "ontology": "http://opcfoundation.org/UA/AML/",
     "displayName": "AutomationMLBaseInterface",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1002",
@@ -151,7 +151,7 @@
     ],
     "@id": "dtmi:opcua:AMLBaseTypes:AutomationMLBaseRole;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/AML",
+    "ontology": "http://opcfoundation.org/UA/AML/",
     "displayName": "AutomationMLBaseRole",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1003",
@@ -173,7 +173,7 @@
     ],
     "@id": "dtmi:opcua:AMLBaseTypes:AutomationMLBaseSystemUnit;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/AML",
+    "ontology": "http://opcfoundation.org/UA/AML/",
     "displayName": "AutomationMLBaseSystemUnit",
     "extends": "dtmi:opcua:AMLBaseTypes:CAEXObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1004",

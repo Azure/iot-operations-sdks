@@ -120,7 +120,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Accumulative",
         "displayName": "Accumulative",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelAccumulativeEnumeration;1",
         "writable": false
       },
@@ -128,7 +128,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "API",
         "displayName": "API",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -136,7 +136,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ChannelErrorType",
         "displayName": "ChannelErrorType",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -144,7 +144,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ChannelNumber",
         "displayName": "ChannelNumber",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -152,7 +152,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Direction",
         "displayName": "Direction",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelDirectionEnumeration;1",
         "writable": false
       },
@@ -160,7 +160,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ExtChannelAddValue",
         "displayName": "ExtChannelAddValue",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -168,7 +168,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ExtChannelErrorType",
         "displayName": "ExtChannelErrorType",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -176,7 +176,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HelpText",
         "displayName": "HelpText",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "string",
         "writable": false
       },
@@ -184,7 +184,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Maintenance",
         "displayName": "Maintenance",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelMaintenanceEnumeration;1",
         "writable": false
       },
@@ -192,7 +192,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ManufacturerData",
         "displayName": "ManufacturerData",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "bytes",
         "writable": false
       },
@@ -200,7 +200,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "QualifiedChannelQualifier",
         "displayName": "QualifiedChannelQualifier",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -208,7 +208,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Slot",
         "displayName": "Slot",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -216,7 +216,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Specifier",
         "displayName": "Specifier",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "dtmi:opcua:PNGSDGM:GsdGenAlarmEventType:dataType:GsdGenChannelSpecifierEnumeration;1",
         "writable": false
       },
@@ -224,7 +224,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Subslot",
         "displayName": "Subslot",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -232,7 +232,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "UserStructureIdentifier",
         "displayName": "UserStructureIdentifier",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -263,7 +263,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "BitLength",
         "displayName": "BitLength",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -271,7 +271,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "BitOffset",
         "displayName": "BitOffset",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -324,7 +324,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "BitOffset",
         "displayName": "BitOffset",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -332,7 +332,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Format",
         "displayName": "Format",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType:dataType:GsdGenIoQualityFormatEnumeration;1",
         "writable": false
       }
@@ -363,7 +363,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Number",
         "displayName": "Number",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -372,7 +372,7 @@
         "maxMultiplicity": 1,
         "name": "Data",
         "displayName": "Data",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelDataType"
       },
       {
@@ -380,7 +380,7 @@
         "maxMultiplicity": 1,
         "name": "Quality",
         "displayName": "Quality",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType"
       }
     ]
@@ -428,7 +428,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Consistency",
         "displayName": "Consistency",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "dtmi:opcua:PNGSDGM:GsdGenIoDataType:dataType:GsdGenIoConsistencyEnumeration;1",
         "writable": false
       },
@@ -436,7 +436,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DataItemx",
         "displayName": "<DataItemx>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -453,14 +453,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "InputChannelx",
         "displayName": "<InputChannelx>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "OutputChannelx",
         "displayName": "<OutputChannelx>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
       }
     ]
@@ -477,7 +477,7 @@
     ],
     "@id": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNGSDGM",
+    "ontology": "http://opcfoundation.org/UA/PNGSDGM/",
     "displayName": "GsdGenSubmoduleApplicationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNGSDGM/;i=1007",
@@ -535,7 +535,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValueProperty",
         "displayName": "<ValueProperty>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -553,7 +553,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ApplicationTag",
         "displayName": "ApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "string",
         "writable": false
       },
@@ -561,7 +561,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ARIdentifier",
         "displayName": "ARIdentifier",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "uuid",
         "writable": false
       },
@@ -569,7 +569,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CommunicationStatus",
         "displayName": "CommunicationStatus",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoCommunicationStatusEnumeration;1",
         "writable": false
       },
@@ -577,7 +577,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ConfigurationStatus",
         "displayName": "ConfigurationStatus",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "dtmi:opcua:PNGSDGM:GsdGenSubmoduleApplicationType:dataType:GsdGenIoConfigurationStatusEnumeration;1",
         "writable": false
       },
@@ -585,7 +585,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ControllerName",
         "displayName": "ControllerName",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": "string",
         "writable": false
       },
@@ -593,7 +593,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EnumerationVariable",
         "displayName": "<EnumerationVariable>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -610,7 +610,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OptionSetVariable",
         "displayName": "<OptionSetVariable>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -627,7 +627,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UnitRangeVariable",
         "displayName": "<UnitRangeVariable>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -644,7 +644,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UnitVariable",
         "displayName": "<UnitVariable>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -661,7 +661,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ValueVariable",
         "displayName": "<ValueVariable>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -678,7 +678,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetApplicationTag",
         "displayName": "SetApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -698,14 +698,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ArrayFolder",
         "displayName": "<ArrayFolder>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FolderName",
         "displayName": "<FolderName>",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -713,7 +713,7 @@
         "maxMultiplicity": 1,
         "name": "Configuration",
         "displayName": "Configuration",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:DI:FunctionalGroupType"
       },
       {
@@ -721,7 +721,7 @@
         "maxMultiplicity": 1,
         "name": "Input",
         "displayName": "Input",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"
       },
       {
@@ -729,7 +729,7 @@
         "maxMultiplicity": 1,
         "name": "Lock",
         "displayName": "Lock",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
       {
@@ -737,7 +737,7 @@
         "maxMultiplicity": 1,
         "name": "Output",
         "displayName": "Output",
-        "namespace": "http://opcfoundation.org/UA/PNGSDGM",
+        "namespace": "http://opcfoundation.org/UA/PNGSDGM/",
         "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"
       }
     ]

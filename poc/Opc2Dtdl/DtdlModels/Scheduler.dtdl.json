@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:Scheduler:CalendarType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scheduler",
+    "ontology": "http://opcfoundation.org/UA/Scheduler/",
     "displayName": "CalendarType",
     "description": "Provides a list of calendar dates. Each entry in the list describes a specific date or date pattern, or range of dates",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -356,7 +356,7 @@
         "name": "DateList",
         "displayName": "DateList",
         "description": "Array of elements each defining either a specific date or date pattern, or range of dates",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Scheduler:CalendarType:dataType:CalendarEntryType;1"
@@ -368,7 +368,7 @@
         "name": "PresentValue",
         "displayName": "PresentValue",
         "description": "Indicates if the current date is in the DateList (true) or not (false)",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "schema": "boolean"
       },
       {
@@ -376,7 +376,7 @@
         "name": "AddDateListElements",
         "displayName": "AddDateListElements",
         "description": "Adds elements to the DateList",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -417,7 +417,7 @@
         "name": "RemoveDateListElements",
         "displayName": "RemoveDateListElements",
         "description": "Removes elements of the DateList",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -467,7 +467,7 @@
     ],
     "@id": "dtmi:opcua:Scheduler:ScheduleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scheduler",
+    "ontology": "http://opcfoundation.org/UA/Scheduler/",
     "displayName": "ScheduleType",
     "description": "Defines a periodic schedule that can recur over a range of dates. The schedule may have optional exceptions at arbitrary times or dates. The basic unit of a schedule is days, which are divided into two types: normal days within a week and exception days. A priority mechanism defines which scheduled event is currently valid. The schedule includes a PresentValue Variable whose value describes the current state of the schedule, including a default value when no schedules are in effect.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -953,7 +953,7 @@
         "name": "ExceptionSchedule",
         "displayName": "ExceptionSchedule",
         "description": "An array of special events. If present, each of those special events describes a sequence of schedule actions that take precedence over a normal day's behaviour on a special day or days.",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Scheduler:ScheduleType:dataType:SpecialEventType;1"
@@ -965,7 +965,7 @@
         "name": "WeeklySchedule",
         "displayName": "WeeklySchedule",
         "description": "Each entry represents one day of the week. The first entry in the array represents Monday, the last Sunday. Each element describes a sequence of times and a list of actions that provides a sequence of schedule actions on one day of the week when no ExceptionSchedule is in effect.",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Scheduler:ScheduleType:dataType:DailyScheduleType;1"
@@ -977,7 +977,7 @@
         "name": "LocalTime",
         "displayName": "LocalTime",
         "description": "Provides information about the local time of the schedule Object. All scheduled times are UTC time. Clients need to consider this Property to calculate the local time of the schedule. If this Property is changed, it is server-specific whether the times of the schedule are adjusted or not.",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:TimeZoneDataType;1",
         "writable": false
       },
@@ -986,7 +986,7 @@
         "name": "EffectivePeriod",
         "displayName": "EffectivePeriod",
         "description": "Specifies the range of dates within which the schedule Object is active. Upon entering its effective period, the object shall execute the defined actions at the defined times, otherwise it shall not execute any actions.",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "schema": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateRangeType;1",
         "writable": false
       },
@@ -995,7 +995,7 @@
         "name": "ApplyLastAfterStart",
         "displayName": "ApplyLastAfterStart",
         "description": "The ApplyLastAfterStart Property defines if the last set of actions shall be applied when starting the schedule Object",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "schema": "boolean",
         "writable": false
       },
@@ -1004,7 +1004,7 @@
         "name": "AddExceptionScheduleElements",
         "displayName": "AddExceptionScheduleElements",
         "description": "Adds elements to the ExceptionSchedule",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1045,7 +1045,7 @@
         "name": "RemoveExceptionScheduleElements",
         "displayName": "RemoveExceptionScheduleElements",
         "description": "Removes elements from the ExceptionSchedule",
-        "namespace": "http://opcfoundation.org/UA/Scheduler",
+        "namespace": "http://opcfoundation.org/UA/Scheduler/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",

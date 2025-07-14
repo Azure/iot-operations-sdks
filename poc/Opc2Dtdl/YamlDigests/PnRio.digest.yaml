@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PNRIO/
+
 DataTypes:
 - UADataType: [ PNRIO:3002, PNRIO:PnIoTelegramStatusEnumeration ]
   DisplayName: "PnIoTelegramStatusEnumeration"

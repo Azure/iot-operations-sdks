@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:ECM:AccuracyDomainType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ECM",
+    "ontology": "http://opcfoundation.org/UA/ECM/",
     "displayName": "AccuracyDomainType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1014",
@@ -48,7 +48,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "EnumValues",
         "displayName": "EnumValues",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:ECM:AccuracyDomainType:dataType:EnumValueType;1"
@@ -81,7 +81,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DcCurrent",
         "displayName": "DcCurrent",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -89,7 +89,7 @@
               "@type": [ "Field", "Subject", "Qualified", "Required", "Current" ],
               "name": "DcCurrent",
               "displayName": "DcCurrent",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "unit": "ampere",
               "schema": "float"
             },
@@ -97,14 +97,14 @@
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -136,7 +136,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DcActivePower",
         "displayName": "DcActivePower",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -144,7 +144,7 @@
               "@type": [ "Field", "Subject", "Qualified", "Required", "Power" ],
               "name": "DcActivePower",
               "displayName": "DcActivePower",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "unit": "watt",
               "schema": "float"
             },
@@ -152,14 +152,14 @@
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -169,7 +169,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DcCurrent",
         "displayName": "DcCurrent",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -177,7 +177,7 @@
               "@type": [ "Field", "Subject", "Qualified", "Required", "Current" ],
               "name": "DcCurrent",
               "displayName": "DcCurrent",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "unit": "ampere",
               "schema": "float"
             },
@@ -185,14 +185,14 @@
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -202,7 +202,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DcVoltage",
         "displayName": "DcVoltage",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -210,7 +210,7 @@
               "@type": [ "Field", "Subject", "Qualified", "Required", "Voltage" ],
               "name": "DcVoltage",
               "displayName": "DcVoltage",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "unit": "volt",
               "schema": "float"
             },
@@ -218,14 +218,14 @@
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -281,7 +281,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcCurrentPe",
         "displayName": "AcCurrentPe",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -289,21 +289,21 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "AcCurrentPe",
               "displayName": "AcCurrentPe",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "dtmi:opcua:ECM:IEnergyProfileE0Type:dataType:AcPeDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -335,7 +335,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcActivePowerTotal",
         "displayName": "AcActivePowerTotal",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -343,7 +343,7 @@
               "@type": [ "Field", "Subject", "Qualified", "Required", "Power" ],
               "name": "AcActivePowerTotal",
               "displayName": "AcActivePowerTotal",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "unit": "watt",
               "schema": "float"
             },
@@ -351,14 +351,14 @@
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -390,7 +390,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcActivePowerTotal",
         "displayName": "AcActivePowerTotal",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -398,7 +398,7 @@
               "@type": [ "Field", "Subject", "Qualified", "Required", "Power" ],
               "name": "AcActivePowerTotal",
               "displayName": "AcActivePowerTotal",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "unit": "watt",
               "schema": "float"
             },
@@ -406,14 +406,14 @@
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -493,7 +493,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcActivePowerPe",
         "displayName": "AcActivePowerPe",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -501,21 +501,21 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "AcActivePowerPe",
               "displayName": "AcActivePowerPe",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -525,7 +525,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcCurrentPe",
         "displayName": "AcCurrentPe",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -533,21 +533,21 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "AcCurrentPe",
               "displayName": "AcCurrentPe",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -557,7 +557,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcPowerFactorPe",
         "displayName": "AcPowerFactorPe",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -565,21 +565,21 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "AcPowerFactorPe",
               "displayName": "AcPowerFactorPe",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -589,7 +589,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcReactivePowerPe",
         "displayName": "AcReactivePowerPe",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -597,21 +597,21 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "AcReactivePowerPe",
               "displayName": "AcReactivePowerPe",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -621,7 +621,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcVoltagePe",
         "displayName": "AcVoltagePe",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -629,21 +629,21 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "AcVoltagePe",
               "displayName": "AcVoltagePe",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -653,7 +653,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AcVoltagePp",
         "displayName": "AcVoltagePp",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -661,21 +661,21 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "AcVoltagePp",
               "displayName": "AcVoltagePp",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPpDataType;1"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -695,7 +695,7 @@
     ],
     "@id": "dtmi:opcua:ECM:EnergyDevicePowerOffType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ECM",
+    "ontology": "http://opcfoundation.org/UA/ECM/",
     "displayName": "EnergyDevicePowerOffType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1012",
@@ -709,7 +709,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "WOLMagicPacket",
         "displayName": "WOLMagicPacket",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "bytes",
         "writable": false
       },
@@ -717,28 +717,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ModePowerConsumption",
         "displayName": "ModePowerConsumption",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RegularTimeToOperate",
         "displayName": "RegularTimeToOperate",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeMinPause",
         "displayName": "TimeMinPause",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "duration"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SwitchOffWOL",
         "displayName": "SwitchOffWOL",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
@@ -788,7 +788,7 @@
     ],
     "@id": "dtmi:opcua:ECM:EnergyMeasurementType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ECM",
+    "ontology": "http://opcfoundation.org/UA/ECM/",
     "displayName": "EnergyMeasurementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1006",
@@ -802,7 +802,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ApplicationTag",
         "displayName": "ApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "string",
         "writable": true
       },
@@ -810,7 +810,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "StartTime",
         "displayName": "StartTime",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dateTime",
         "writable": true
       },
@@ -818,7 +818,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MeasurementValue",
         "displayName": "<MeasurementValue>",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -826,7 +826,7 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "MeasurementValue",
               "displayName": "<MeasurementValue>",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": {
                 "@type": "Map",
                 "mapKey": {
@@ -843,14 +843,14 @@
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "AccuracyClass",
               "displayName": "AccuracyClass",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             },
             {
               "@type": [ "Field", "Qualified", "Required" ],
               "name": "Resource",
               "displayName": "Resource",
-              "namespace": "http://opcfoundation.org/UA/ECM",
+              "namespace": "http://opcfoundation.org/UA/ECM/",
               "schema": "unsignedInteger"
             }
           ]
@@ -860,7 +860,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ResetStatistics",
         "displayName": "ResetStatistics",
-        "namespace": "http://opcfoundation.org/UA/IA"
+        "namespace": "http://opcfoundation.org/UA/IA/"
       }
     ]
   },
@@ -887,7 +887,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "EnergySavingModes",
         "displayName": "<EnergySavingModes>",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "target": "dtmi:opcua:ECM:EnergySavingModeType"
       }
     ]
@@ -974,14 +974,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentTransitionData",
         "displayName": "CurrentTransitionData",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StateInformation",
         "displayName": "StateInformation",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1"
       }
     ]
@@ -1011,7 +1011,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DynamicData",
         "displayName": "DynamicData",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "boolean",
         "writable": false
       },
@@ -1019,7 +1019,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ID",
         "displayName": "ID",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "unsignedByte",
         "writable": false
       },
@@ -1027,56 +1027,56 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EnergyConsumptionToOperate",
         "displayName": "EnergyConsumptionToOperate",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EnergyConsumptionToPause",
         "displayName": "EnergyConsumptionToPause",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ModePowerConsumption",
         "displayName": "ModePowerConsumption",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RegularTimeToOperate",
         "displayName": "RegularTimeToOperate",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeMaxLengthOfStay",
         "displayName": "TimeMaxLengthOfStay",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeMinLengthOfStay",
         "displayName": "TimeMinLengthOfStay",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeMinPause",
         "displayName": "TimeMinPause",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TimeToPause",
         "displayName": "TimeToPause",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "duration"
       }
     ]
@@ -1093,7 +1093,7 @@
     ],
     "@id": "dtmi:opcua:ECM:EnergyStandbyManagementType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ECM",
+    "ontology": "http://opcfoundation.org/UA/ECM/",
     "displayName": "EnergyStandbyManagementType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1005",
@@ -1107,21 +1107,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PauseTime",
         "displayName": "PauseTime",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StandbyManagementStatus",
         "displayName": "StandbyManagementStatus",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "schema": "unsignedByte"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "EndPause",
         "displayName": "EndPause",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
@@ -1146,7 +1146,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StartPause",
         "displayName": "StartPause",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1200,7 +1200,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SwitchToEnergySavingMode",
         "displayName": "SwitchToEnergySavingMode",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1255,7 +1255,7 @@
         "maxMultiplicity": 1,
         "name": "EnergySavingModes",
         "displayName": "EnergySavingModes",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "target": "dtmi:opcua:ECM:EnergySavingModesContainerType"
       },
       {
@@ -1263,7 +1263,7 @@
         "maxMultiplicity": 1,
         "name": "EnergySavingModeStatus",
         "displayName": "EnergySavingModeStatus",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "target": "dtmi:opcua:ECM:EnergySavingModeStatusType"
       },
       {
@@ -1271,7 +1271,7 @@
         "maxMultiplicity": 1,
         "name": "Lock",
         "displayName": "Lock",
-        "namespace": "http://opcfoundation.org/UA/ECM",
+        "namespace": "http://opcfoundation.org/UA/ECM/",
         "target": "dtmi:opcua:DI:LockingServicesType"
       }
     ]

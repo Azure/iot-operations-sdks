@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PADIM/
+
 DataTypes:
 - UADataType: [ PADIM:1156, PADIM:ResetModeEnum ]
   DisplayName: "ResetModeEnum"

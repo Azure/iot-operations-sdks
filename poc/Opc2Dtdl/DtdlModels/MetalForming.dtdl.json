@@ -191,14 +191,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CycleCount",
         "displayName": "CycleCount",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartId",
         "displayName": "PartId",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "schema": "string"
       },
       {
@@ -206,7 +206,7 @@
         "maxMultiplicity": 1,
         "name": "CurrentProcessValue",
         "displayName": "CurrentProcessValue",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
       }
     ]
@@ -244,7 +244,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:FormingMultiToolType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MetalForming",
+    "ontology": "http://opcfoundation.org/UA/MetalForming/",
     "displayName": "FormingMultiToolType",
     "extends": "dtmi:opcua:MachineTool:MultiToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1012",
@@ -256,7 +256,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "FormingTool",
         "displayName": "<FormingTool>",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:MetalForming:FormingToolType"
       }
     ]
@@ -273,7 +273,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:ProcessWorkingUnitType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MetalForming",
+    "ontology": "http://opcfoundation.org/UA/MetalForming/",
     "displayName": "ProcessWorkingUnitType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1004",
@@ -285,14 +285,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "CyclicProcessValue",
         "displayName": "<CyclicProcessValue>",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "<ProcessValue>",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
       },
       {
@@ -300,7 +300,7 @@
         "maxMultiplicity": 1,
         "name": "MachineryItemState",
         "displayName": "MachineryItemState",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:Machinery:MachineryItemState_StateMachineType"
       }
     ]
@@ -317,7 +317,7 @@
     ],
     "@id": "dtmi:opcua:MetalForming:FormingProcessWorkingUnitType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MetalForming",
+    "ontology": "http://opcfoundation.org/UA/MetalForming/",
     "displayName": "FormingProcessWorkingUnitType",
     "extends": "dtmi:opcua:MetalForming:ProcessWorkingUnitType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1008",
@@ -330,7 +330,7 @@
         "maxMultiplicity": 1,
         "name": "FormingPositions",
         "displayName": "FormingPositions",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:MetalForming:FormingPositionsType"
       }
     ]
@@ -359,7 +359,7 @@
         "maxMultiplicity": 1,
         "name": "BDC",
         "displayName": "BDC",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
@@ -367,7 +367,7 @@
         "maxMultiplicity": 1,
         "name": "Retract",
         "displayName": "Retract",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
@@ -375,7 +375,7 @@
         "maxMultiplicity": 1,
         "name": "Start",
         "displayName": "Start",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
@@ -383,7 +383,7 @@
         "maxMultiplicity": 1,
         "name": "TDC",
         "displayName": "TDC",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       },
       {
@@ -391,7 +391,7 @@
         "maxMultiplicity": 1,
         "name": "Touch",
         "displayName": "Touch",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
       }
     ]
@@ -448,7 +448,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CyclicProcessValue",
         "displayName": "CyclicProcessValue",
-        "namespace": "http://opcfoundation.org/UA/MetalForming",
+        "namespace": "http://opcfoundation.org/UA/MetalForming/",
         "schema": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1"
       }
     ]

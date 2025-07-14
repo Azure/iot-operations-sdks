@@ -11,11 +11,11 @@
     ],
     "@id": "dtmi:opcua:Mining_PELOServices_FaceAlignmentSystem:FaceAlignmentSystemType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Mining.PELOServices.FaceAlignmentSystem",
+    "ontology": "http://opcfoundation.org/UA/Mining/PELOServices/FaceAlignmentSystem/",
     "displayName": "FaceAlignmentSystemType",
     "description": "The FaceAlignmentSystemType ObjectType describes a Face Alignment System (FAS) for longwall mining operations",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.PELOServices.FaceAlignmentSystem/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining/PELOServices/FaceAlignmentSystem/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

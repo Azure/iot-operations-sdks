@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/LADS/
+
 DataTypes:
 - UADataType: [ LADS:3003, LADS:KeyValueType ]
   DisplayName: "KeyValueType"

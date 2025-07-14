@@ -24,7 +24,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Revision",
         "displayName": "Revision",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -32,7 +32,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Version",
         "displayName": "Version",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       }
@@ -50,7 +50,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASAssetAdministrationShellType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASAssetAdministrationShellType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1002",
@@ -62,35 +62,35 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ConceptDictionary",
         "displayName": "<ConceptDictionary>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASConceptDictionaryType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "displayName": "<DataSpecification>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Submodel",
         "displayName": "<Submodel>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASSubmodelType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubmodelReference",
         "displayName": "<SubmodelReference>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "View",
         "displayName": "<View>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASViewType"
       },
       {
@@ -98,7 +98,7 @@
         "maxMultiplicity": 1,
         "name": "Asset",
         "displayName": "Asset",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASAssetType"
       },
       {
@@ -106,7 +106,7 @@
         "maxMultiplicity": 1,
         "name": "DerivedFrom",
         "displayName": "DerivedFrom",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -154,7 +154,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AssetKind",
         "displayName": "AssetKind",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASAssetType:dataType:AASAssetKindDataType;1",
         "writable": true
       },
@@ -162,7 +162,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "displayName": "<DataSpecification>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
@@ -170,7 +170,7 @@
         "maxMultiplicity": 1,
         "name": "AssetIdentificationModel",
         "displayName": "AssetIdentificationModel",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
@@ -178,7 +178,7 @@
         "maxMultiplicity": 1,
         "name": "BillOfMaterial",
         "displayName": "BillOfMaterial",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -237,7 +237,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASDataSpecificationIEC61360Type",
     "extends": "dtmi:opcua:I4AAS:AASDataSpecificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1028",
@@ -372,7 +372,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Category",
         "displayName": "Category",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASCategoryDataType;1",
         "writable": true
       },
@@ -380,7 +380,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DataType",
         "displayName": "DataType",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASDataTypeIEC61360DataType;1",
         "writable": true
       },
@@ -388,7 +388,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -396,7 +396,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Definition",
         "displayName": "Definition",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -404,7 +404,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LevelType",
         "displayName": "LevelType",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type:dataType:AASLevelTypeDataType;1",
         "writable": true
       },
@@ -412,7 +412,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PreferredName",
         "displayName": "PreferredName",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -420,7 +420,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ShortName",
         "displayName": "ShortName",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -428,7 +428,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SourceOfDefinition",
         "displayName": "SourceOfDefinition",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -436,7 +436,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Symbol",
         "displayName": "Symbol",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -444,7 +444,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Unit",
         "displayName": "Unit",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -452,7 +452,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Value",
         "displayName": "Value",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": false
       },
@@ -460,7 +460,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ValueFormat",
         "displayName": "ValueFormat",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -469,7 +469,7 @@
         "maxMultiplicity": 1,
         "name": "Administration",
         "displayName": "Administration",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
       },
       {
@@ -477,7 +477,7 @@
         "maxMultiplicity": 1,
         "name": "Identification",
         "displayName": "Identification",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASIdentifierType"
       },
       {
@@ -485,7 +485,7 @@
         "maxMultiplicity": 1,
         "name": "UnitId",
         "displayName": "UnitId",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
@@ -493,7 +493,7 @@
         "maxMultiplicity": 1,
         "name": "ValueId",
         "displayName": "ValueId",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
@@ -501,7 +501,7 @@
         "maxMultiplicity": 1,
         "name": "ValueList",
         "displayName": "ValueList",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:ValueListType"
       }
     ]
@@ -553,7 +553,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -561,7 +561,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IdType",
         "displayName": "IdType",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASIdentifierType:dataType:AASIdentifierTypeDataType;1",
         "writable": true
       }
@@ -665,7 +665,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Type",
         "displayName": "Type",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -673,7 +673,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Value",
         "displayName": "Value",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": false
       },
@@ -681,7 +681,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValueType",
         "displayName": "ValueType",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASQualifierType:dataType:AASValueTypeDataType;1",
         "writable": true
       },
@@ -690,7 +690,7 @@
         "maxMultiplicity": 1,
         "name": "ValueId",
         "displayName": "ValueId",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -884,7 +884,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Keys",
         "displayName": "Keys",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:I4AAS:AASReferenceType:dataType:AASKeyDataType;1"
@@ -895,7 +895,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Referable",
         "displayName": "<Referable>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
@@ -943,7 +943,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Category",
         "displayName": "Category",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -951,7 +951,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ModelingKind",
         "displayName": "ModelingKind",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASSubmodelElementType:dataType:AASModelingKindDataType;1",
         "writable": true
       },
@@ -959,14 +959,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "displayName": "<DataSpecification>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Qualifier",
         "displayName": "<Qualifier>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASQualifierType"
       }
     ]
@@ -983,7 +983,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASBlobType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASBlobType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1016",
@@ -996,7 +996,7 @@
         "maxMultiplicity": 1,
         "name": "File",
         "displayName": "File",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
@@ -1013,7 +1013,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASCapabilityType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASCapabilityType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1014",
@@ -1035,7 +1035,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASEntityType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASEntityType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1022",
@@ -1067,7 +1067,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "EntityType",
         "displayName": "EntityType",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASEntityType:dataType:AASEntityTypeDataType;1",
         "writable": true
       },
@@ -1075,7 +1075,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubmodelElement",
         "displayName": "<SubmodelElement>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
       },
       {
@@ -1083,7 +1083,7 @@
         "maxMultiplicity": 1,
         "name": "Asset",
         "displayName": "Asset",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -1100,7 +1100,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASEventType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASEventType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1021",
@@ -1122,7 +1122,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASFileType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASFileType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1017",
@@ -1136,7 +1136,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MimeType",
         "displayName": "MimeType",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -1144,7 +1144,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Value",
         "displayName": "Value",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       },
@@ -1153,7 +1153,7 @@
         "maxMultiplicity": 1,
         "name": "File",
         "displayName": "File",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
@@ -1170,7 +1170,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASMultiLanguagePropertyType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASMultiLanguagePropertyType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1012",
@@ -1184,7 +1184,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Value",
         "displayName": "Value",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1196,7 +1196,7 @@
         "maxMultiplicity": 1,
         "name": "ValueId",
         "displayName": "ValueId",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -1213,7 +1213,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASOperationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASOperationType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1015",
@@ -1226,7 +1226,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Operation",
         "displayName": "Operation",
-        "namespace": "http://opcfoundation.org/UA/I4AAS"
+        "namespace": "http://opcfoundation.org/UA/I4AAS/"
       }
     ]
   },
@@ -1242,7 +1242,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASPropertyType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASPropertyType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1013",
@@ -1329,7 +1329,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Value",
         "displayName": "Value",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": false
       },
@@ -1337,7 +1337,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValueType",
         "displayName": "ValueType",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASPropertyType:dataType:AASValueTypeDataType;1",
         "writable": true
       },
@@ -1346,7 +1346,7 @@
         "maxMultiplicity": 1,
         "name": "ValueId",
         "displayName": "ValueId",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -1363,7 +1363,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASRangeType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASRangeType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1023",
@@ -1450,7 +1450,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Max",
         "displayName": "Max",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": false
       },
@@ -1458,7 +1458,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Min",
         "displayName": "Min",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": false
       },
@@ -1466,7 +1466,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ValueType",
         "displayName": "ValueType",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASRangeType:dataType:AASValueTypeDataType;1",
         "writable": true
       }
@@ -1484,7 +1484,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASReferenceElementType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASReferenceElementType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1020",
@@ -1497,7 +1497,7 @@
         "maxMultiplicity": 1,
         "name": "Value",
         "displayName": "Value",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -1514,7 +1514,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASRelationshipElementType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASRelationshipElementType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1018",
@@ -1527,7 +1527,7 @@
         "maxMultiplicity": 1,
         "name": "First",
         "displayName": "First",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
@@ -1535,7 +1535,7 @@
         "maxMultiplicity": 1,
         "name": "Second",
         "displayName": "Second",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -1552,7 +1552,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASAnnotatedRelationshipElementType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASAnnotatedRelationshipElementType",
     "extends": "dtmi:opcua:I4AAS:AASRelationshipElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1019",
@@ -1564,7 +1564,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataElement",
         "displayName": "<DataElement>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
       }
     ]
@@ -1581,7 +1581,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASSubmodelElementCollectionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASSubmodelElementCollectionType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1010",
@@ -1595,7 +1595,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AllowDuplicates",
         "displayName": "AllowDuplicates",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "boolean",
         "writable": true
       },
@@ -1603,7 +1603,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubmodelElement",
         "displayName": "<SubmodelElement>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
       }
     ]
@@ -1620,7 +1620,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASOrderedSubmodelElementCollectionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASOrderedSubmodelElementCollectionType",
     "extends": "dtmi:opcua:I4AAS:AASSubmodelElementCollectionType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1011",
@@ -1673,7 +1673,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ModelingKind",
         "displayName": "ModelingKind",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "dtmi:opcua:I4AAS:AASSubmodelType:dataType:AASModelingKindDataType;1",
         "writable": true
       },
@@ -1681,21 +1681,21 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "displayName": "<DataSpecification>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Qualifier",
         "displayName": "<Qualifier>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASQualifierType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "SubmodelElement",
         "displayName": "<SubmodelElement>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
       }
     ]
@@ -1712,7 +1712,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:IAASReferableType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "IAASReferableType",
     "extends": "dtmi:opcua:OpcUaCore:BaseInterfaceType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1033",
@@ -1726,7 +1726,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Category",
         "displayName": "Category",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "schema": "string",
         "writable": true
       }
@@ -1744,7 +1744,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:IAASIdentifiableType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "IAASIdentifiableType",
     "extends": "dtmi:opcua:I4AAS:IAASReferableType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1034",
@@ -1757,7 +1757,7 @@
         "maxMultiplicity": 1,
         "name": "Administration",
         "displayName": "Administration",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
       },
       {
@@ -1765,7 +1765,7 @@
         "maxMultiplicity": 1,
         "name": "Identification",
         "displayName": "Identification",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASIdentifierType"
       }
     ]
@@ -1782,7 +1782,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASCustomConceptDescriptionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASCustomConceptDescriptionType",
     "extends": "dtmi:opcua:OpcUaCore:DictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1026",
@@ -1794,14 +1794,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ConceptDescription",
         "displayName": "<ConceptDescription>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "displayName": "<DataSpecification>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -1818,7 +1818,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASIrdiConceptDescriptionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASIrdiConceptDescriptionType",
     "extends": "dtmi:opcua:OpcUaCore:IrdiDictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1024",
@@ -1830,14 +1830,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "displayName": "<DataSpecification>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ConceptDescription",
         "displayName": "<ConceptDescription>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -1854,7 +1854,7 @@
     ],
     "@id": "dtmi:opcua:I4AAS:AASIriConceptDescriptionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/I4AAS",
+    "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "displayName": "AASIriConceptDescriptionType",
     "extends": "dtmi:opcua:OpcUaCore:UriDictionaryEntryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1025",
@@ -1866,14 +1866,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ConceptDescription",
         "displayName": "<ConceptDescription>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "displayName": "<DataSpecification>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]
@@ -1901,14 +1901,14 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "DataSpecification",
         "displayName": "<DataSpecification>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Referable",
         "displayName": "<Referable>",
-        "namespace": "http://opcfoundation.org/UA/I4AAS",
+        "namespace": "http://opcfoundation.org/UA/I4AAS/",
         "target": "dtmi:opcua:I4AAS:AASReferenceType"
       }
     ]

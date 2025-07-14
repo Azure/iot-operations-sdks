@@ -13,7 +13,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ScaleAlarmType",
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=21",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=21",
     "commandTopic": "opcua/Scales_V2/ScaleAlarmType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ScaleAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -24,7 +24,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AuxParameters",
         "displayName": "AuxParameters",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -35,7 +35,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HelpSource",
         "displayName": "HelpSource",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -43,21 +43,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NotificationCategory",
         "displayName": "NotificationCategory",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NotificationId",
         "displayName": "NotificationId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VendorNotificationId",
         "displayName": "VendorNotificationId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       }
     ]
@@ -76,7 +76,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "ScaleEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=13",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=13",
     "commandTopic": "opcua/Scales_V2/ScaleEventType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ScaleEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -87,7 +87,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AuxParameters",
         "displayName": "AuxParameters",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -98,7 +98,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HelpSource",
         "displayName": "HelpSource",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -106,21 +106,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NotificationCategory",
         "displayName": "NotificationCategory",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NotificationId",
         "displayName": "NotificationId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VendorNotificationId",
         "displayName": "VendorNotificationId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       }
     ]
@@ -140,7 +140,7 @@
     "displayName": "MaterialType",
     "description": "Represents a material.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=35",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=35",
     "telemetryTopic": "opcua/Scales_V2/MaterialType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -151,7 +151,7 @@
         "name": "MaterialId",
         "displayName": "MaterialId",
         "description": "Defines a unique identifier for the material.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -159,7 +159,7 @@
         "name": "MaterialName",
         "displayName": "MaterialName",
         "description": "Defines a user-readable name of the material.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       }
     ]
@@ -176,11 +176,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:MaterialAutomaticType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "MaterialAutomaticType",
     "description": "Represents a material in a recipe that will be filled automatically.",
     "extends": "dtmi:opcua:Scales_V2:MaterialType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=41",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=41",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -191,7 +191,7 @@
         "name": "FillingProductInformation",
         "displayName": "FillingProductInformation",
         "description": "Defines the parameters necessary for filling of the material.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:AutomaticFillingProductType"
       }
     ]
@@ -211,7 +211,7 @@
     "displayName": "ProductionPresetType",
     "description": "Provides methods to manage the Production preset.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=14",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=14",
     "commandTopic": "opcua/Scales_V2/ProductionPresetType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ProductionPresetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -222,7 +222,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentProducts",
         "displayName": "CurrentProducts",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -233,7 +233,7 @@
         "name": "AddProduct",
         "displayName": "AddProduct",
         "description": "Creates an object with the JobType from the address space.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -277,7 +277,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "DeselectProduct",
         "displayName": "DeselectProduct",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -298,7 +298,7 @@
         "name": "RemoveProduct",
         "displayName": "RemoveProduct",
         "description": "Removes an object with the JobType from the address space.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -318,7 +318,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SelectProduct",
         "displayName": "SelectProduct",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -338,7 +338,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SwitchProduct",
         "displayName": "SwitchProduct",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -360,7 +360,7 @@
         "name": "Products",
         "displayName": "Products",
         "description": "The products used in the scale aggregated in the Products Object.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -380,7 +380,7 @@
     "displayName": "ProductType",
     "description": "Represents a product related to the scale.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=11",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=11",
     "commandTopic": "opcua/Scales_V2/ProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -392,7 +392,7 @@
         "name": "BatchId",
         "displayName": "BatchId",
         "description": "Defines a unique Id of this Batch.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -401,7 +401,7 @@
         "name": "BatchName",
         "displayName": "BatchName",
         "description": "Defines the name of this Batch.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -410,7 +410,7 @@
         "name": "JobId",
         "displayName": "JobId",
         "description": "Defines a unique Id of this job.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -419,7 +419,7 @@
         "name": "JobName",
         "displayName": "JobName",
         "description": "Defines the name of this job.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -428,7 +428,7 @@
         "name": "ProductName",
         "displayName": "ProductName",
         "description": "Defines the name of this product.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -436,7 +436,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PresetTare",
         "displayName": "PresetTare",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -444,14 +444,14 @@
         "name": "ProductId",
         "displayName": "ProductId",
         "description": "Defines a unique Id of this product.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProductMode",
         "displayName": "ProductMode",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean"
       },
       {
@@ -459,7 +459,7 @@
         "maxMultiplicity": 1,
         "name": "Lock",
         "displayName": "Lock",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:DI:LockingServicesType"
       },
       {
@@ -468,7 +468,7 @@
         "name": "Statistic",
         "displayName": "Statistic",
         "description": "Contains the different statistic values of the product.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:StatisticType"
       }
     ]
@@ -488,7 +488,7 @@
     "displayName": "AutomaticFillingProductType",
     "description": "Represents a product of an automatic filling scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=16",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=16",
     "commandTopic": "opcua/Scales_V2/AutomaticFillingProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/AutomaticFillingProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -500,7 +500,7 @@
         "name": "TareId",
         "displayName": "TareId",
         "description": "Defines an Id of tare value for the current product or item.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -509,7 +509,7 @@
         "name": "FeedRateMeasuringInterval",
         "displayName": "FeedRateMeasuringInterval",
         "description": "Defines the measuring interval for evaluating the current flowrate.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "duration"
       },
       {
@@ -517,7 +517,7 @@
         "name": "FillingTime",
         "displayName": "FillingTime",
         "description": "Defines the maximal duration for the filling process to take place. Needs to be completed during this period.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "duration"
       },
       {
@@ -525,7 +525,7 @@
         "name": "FineFeedWeight",
         "displayName": "FineFeedWeight",
         "description": "Defines the volume to be dosed in fine flow.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -533,7 +533,7 @@
         "name": "InFlightWeight",
         "displayName": "InFlightWeight",
         "description": "Defines the volume that is behind the valve / in flight after feeding is stopped.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -541,7 +541,7 @@
         "name": "JogFeed",
         "displayName": "JogFeed",
         "description": "Defines if an additional dosage is necessary.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean"
       },
       {
@@ -549,7 +549,7 @@
         "name": "MinimumDeltaPerFeedRateMeasuringInterval",
         "displayName": "MinimumDeltaPerFeedRateMeasuringInterval",
         "description": "Defines the minimum amount of weight data which needs to change within the FeedRateMeasuringInterval.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -557,7 +557,7 @@
         "name": "SettlingTime",
         "displayName": "SettlingTime",
         "description": "Defines the time that needs to be passed before measurement process can be triggered.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "duration"
       },
       {
@@ -565,7 +565,7 @@
         "name": "TargetWeight",
         "displayName": "TargetWeight",
         "description": "Defines the preset of the volume to be processed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -582,11 +582,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "CatchweigherProductType",
     "description": "Represents a product of a Catchweigher.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=17",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=17",
     "commandTopic": "opcua/Scales_V2/CatchweigherProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/CatchweigherProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -598,7 +598,7 @@
         "name": "PresetHeight",
         "displayName": "PresetHeight",
         "description": "Defines the predefined height (in direction of global gravity) of the measured item. The value must be write before the item is measured.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -606,7 +606,7 @@
         "name": "PresetLength",
         "displayName": "PresetLength",
         "description": "Defines the predefined length (in direction of travel) of the measured item. The value must be written before the item is measured.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -614,14 +614,14 @@
         "name": "PresetWidth",
         "displayName": "PresetWidth",
         "description": "Defines the predefined width (in third possible orthogonal direction to height and length) of the measured item. The value must be write before the item is measured.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TargetThroughput",
         "displayName": "TargetThroughput",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -629,7 +629,7 @@
         "name": "AddZone",
         "displayName": "AddZone",
         "description": "Adds a zone to the zone array.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -679,7 +679,7 @@
         "name": "RemoveZone",
         "displayName": "RemoveZone",
         "description": "Removes a zone from the zone array.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -699,7 +699,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Zones",
         "displayName": "<Zones>",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:ZoneType"
       },
       {
@@ -707,7 +707,7 @@
         "maxMultiplicity": 1,
         "name": "LastItem",
         "displayName": "LastItem",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:WeighingItemType"
       }
     ]
@@ -724,11 +724,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:AutomaticWeightPriceLabelerProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "AutomaticWeightPriceLabelerProductType",
     "description": "Represents a product of a automatic weight-price-labeler.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=47",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=47",
     "telemetryTopic": "opcua/Scales_V2/AutomaticWeightPriceLabelerProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -739,7 +739,7 @@
         "name": "UnitPrice",
         "displayName": "UnitPrice",
         "description": "Defines the price per weight unit.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -756,11 +756,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:CheckweigherProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "CheckweigherProductType",
     "description": "Represents a product of a Checkweigher.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=46",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=46",
     "telemetryTopic": "opcua/Scales_V2/CheckweigherProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -770,14 +770,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LowerToleranceLimit1",
         "displayName": "LowerToleranceLimit1",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LowerToleranceLimit2",
         "displayName": "LowerToleranceLimit2",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -785,7 +785,7 @@
         "name": "NominalWeight",
         "displayName": "NominalWeight",
         "description": "Defines the nominal (printed) weight of the product.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -802,11 +802,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:ContinuousProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "ContinuousProductType",
     "description": "Represents a product of a continuous scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=18",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=18",
     "telemetryTopic": "opcua/Scales_V2/ContinuousProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -817,7 +817,7 @@
         "name": "MaterialDensity",
         "displayName": "MaterialDensity",
         "description": "Defines the density of the used material.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -825,7 +825,7 @@
         "name": "TargetFlowRate",
         "displayName": "TargetFlowRate",
         "description": "Defines a preset of flowrate that needs to be conveyed. This value defines the setpoint for the FlowRate control loop.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -833,7 +833,7 @@
         "name": "TargetWeight",
         "displayName": "TargetWeight",
         "description": "Defines a preset of the volume to be processed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -850,11 +850,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:PieceCountingProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "PieceCountingProductType",
     "description": "Represents a product of a piece counting scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=12",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=12",
     "commandTopic": "opcua/Scales_V2/PieceCountingProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/PieceCountingProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -863,7 +863,7 @@
         "@id": "dtmi:opcua:Scales_V2:PieceCountingProductType:dataType:WeightType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "WeightType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=55",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -889,7 +889,7 @@
         "name": "CurrentItemCount",
         "displayName": "CurrentItemCount",
         "description": "Defines the current number of items that are captured by the scale.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -897,7 +897,7 @@
         "name": "FeedRateMeasuringInterval",
         "displayName": "FeedRateMeasuringInterval",
         "description": "Defines the measurement interval for evaluating the current flowrate.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "duration"
       },
       {
@@ -905,14 +905,14 @@
         "name": "FillingTime",
         "displayName": "FillingTime",
         "description": "Defines the interval during which the filling has to be completed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "duration"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FineFeedCount",
         "displayName": "FineFeedCount",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -920,7 +920,7 @@
         "name": "InFlightCount",
         "displayName": "InFlightCount",
         "description": "Defines the number of items that is behind valve / in flight after feeding is stopped.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -928,7 +928,7 @@
         "name": "JogFeed",
         "displayName": "JogFeed",
         "description": "Defines if an additional dosage is necessary.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean"
       },
       {
@@ -936,7 +936,7 @@
         "name": "MinimumDeltaPerFeedRateMeasuringInterval",
         "displayName": "MinimumDeltaPerFeedRateMeasuringInterval",
         "description": "Defines the minimum amount of weight that needs to change within the FeedRateMeasuringInterval. Otherwise the filling procedure is not valid.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -944,7 +944,7 @@
         "name": "NumberOfReferencePieces",
         "displayName": "NumberOfReferencePieces",
         "description": "Defines the number of pieces that need to be used for reference process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -952,7 +952,7 @@
         "name": "ReferencePieceWeight",
         "displayName": "ReferencePieceWeight",
         "description": "Defines the reference weight of a piece.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -960,7 +960,7 @@
         "name": "RegisteredPieceCount",
         "displayName": "RegisteredPieceCount",
         "description": "Defines the number of pieces that were actually counted related to the ReferencePieceWeight.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -968,7 +968,7 @@
         "name": "SettlingTime",
         "displayName": "SettlingTime",
         "description": "Defines the time that needs to be passed before measurement process can be triggered.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "duration"
       },
       {
@@ -976,7 +976,7 @@
         "name": "TareId",
         "displayName": "TareId",
         "description": "Defines the Id of tare value for the current product or item.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -984,7 +984,7 @@
         "name": "TargetItemCount",
         "displayName": "TargetItemCount",
         "description": "Defines the number of items that are supposed to be counted during the measurement process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -992,7 +992,7 @@
         "name": "TargetPieceCount",
         "displayName": "TargetPieceCount",
         "description": "Defines the number of pieces that need to be counted.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -1000,7 +1000,7 @@
         "name": "TotalizedItemCount",
         "displayName": "TotalizedItemCount",
         "description": "Defines the summed up number of items. Will be reset either triggered by the user or a different product selection.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -1008,7 +1008,7 @@
         "name": "TotalizedWeight",
         "displayName": "TotalizedWeight",
         "description": "Defines the summed up number of weight. Will be reset either triggered by the user or a different product selection.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:PieceCountingProductType:dataType:WeightType;1"
       },
       {
@@ -1016,7 +1016,7 @@
         "name": "SetTargetItemCount",
         "displayName": "SetTargetItemCount",
         "description": "Set the number of TargetItemCount.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1037,7 +1037,7 @@
         "name": "SetTargetPieceCount",
         "displayName": "SetTargetPieceCount",
         "description": "Sets the value of TargetPieceCount. See TargetPieceCount.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1077,11 +1077,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:RecipeProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "RecipeProductType",
     "description": "Represents a product of a recipe scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=19",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=19",
     "telemetryTopic": "opcua/Scales_V2/RecipeProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1089,7 +1089,7 @@
         "@id": "dtmi:opcua:Scales_V2:RecipeProductType:dataType:RecipeReportElementType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RecipeReportElementType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=59",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=59",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1110,7 +1110,7 @@
         "name": "RecipeNodeId",
         "displayName": "RecipeNodeId",
         "description": "Defines the NodeId of the recipe that is being produced.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -1118,7 +1118,7 @@
         "name": "Report",
         "displayName": "Report",
         "description": "Defines an array with the various messages from the recipe. Each RecipeElement generates its own report message.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Scales_V2:RecipeProductType:dataType:RecipeReportElementType;1"
@@ -1130,7 +1130,7 @@
         "name": "ReportFile",
         "displayName": "ReportFile",
         "description": "Defines the file (binary, xml or other) that contains the report of the current process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
@@ -1147,11 +1147,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:SimpleProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "SimpleProductType",
     "description": "Represents a product of a simple scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=20",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=20",
     "commandTopic": "opcua/Scales_V2/SimpleProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/SimpleProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1162,7 +1162,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ContainerId",
         "displayName": "ContainerId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1170,7 +1170,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UnitPrice",
         "displayName": "UnitPrice",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -1187,11 +1187,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:TotalizingHopperProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "TotalizingHopperProductType",
     "description": "Represents a product of a totalizing hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=22",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=22",
     "telemetryTopic": "opcua/Scales_V2/TotalizingHopperProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1202,7 +1202,7 @@
         "name": "TipCounter",
         "displayName": "TipCounter",
         "description": "Defines the number of fillings (downpour, bulk produce)",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       },
       {
@@ -1210,7 +1210,7 @@
         "name": "VolumeTargetValue",
         "displayName": "VolumeTargetValue",
         "description": "Defines the preset of the volume to be processed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -1227,10 +1227,10 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:VehicleProductType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "VehicleProductType",
     "extends": "dtmi:opcua:Scales_V2:ProductType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=832",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=832",
     "commandTopic": "opcua/Scales_V2/VehicleProductType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/VehicleProductType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1239,7 +1239,7 @@
         "@id": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "WeightType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=55",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1264,7 +1264,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CarrierDisplayName",
         "displayName": "CarrierDisplayName",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1272,7 +1272,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CarrierId",
         "displayName": "CarrierId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1280,7 +1280,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Customer",
         "displayName": "Customer",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1288,7 +1288,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Destination",
         "displayName": "Destination",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1296,7 +1296,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DriverDisplayName",
         "displayName": "DriverDisplayName",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1304,7 +1304,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DriverId",
         "displayName": "DriverId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1312,7 +1312,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "InboundScale",
         "displayName": "InboundScale",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1320,7 +1320,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "OutboundScale",
         "displayName": "OutboundScale",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1328,7 +1328,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ScaleOperatorId",
         "displayName": "ScaleOperatorId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1336,7 +1336,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Supplier",
         "displayName": "Supplier",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1344,7 +1344,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Tare",
         "displayName": "Tare",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer",
         "writable": true
       },
@@ -1352,7 +1352,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "TareExpirationDate",
         "displayName": "TareExpirationDate",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dateTime",
         "writable": true
       },
@@ -1360,7 +1360,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "TotalWeight",
         "displayName": "TotalWeight",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
         "writable": true
       },
@@ -1368,7 +1368,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "TotalWeightResetDate",
         "displayName": "TotalWeightResetDate",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dateTime",
         "writable": true
       },
@@ -1376,7 +1376,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "VehicleId",
         "displayName": "VehicleId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1384,28 +1384,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DeltaWeight",
         "displayName": "DeltaWeight",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InboundWeight",
         "displayName": "InboundWeight",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutboundWeight",
         "displayName": "OutboundWeight",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "GetVehicleInformation",
         "displayName": "GetVehicleInformation",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1426,7 +1426,7 @@
         "maxMultiplicity": 1,
         "name": "Material",
         "displayName": "Material",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:MaterialType"
       }
     ]
@@ -1446,7 +1446,7 @@
     "displayName": "RecipeElementType",
     "description": "Represents a step, process or action in a recipe.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=32",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=32",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1465,11 +1465,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:ActivationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "ActivationType",
     "description": "Represents an activation step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=40",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=40",
     "commandTopic": "opcua/Scales_V2/ActivationType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ActivationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1481,7 +1481,7 @@
         "name": "TargetValueId",
         "displayName": "TargetValueId",
         "description": "Defines a unique Id of the aggregate that is being activated. A list of all possible TargetValueIds is defined in RecipeScaleDeviceType.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1489,7 +1489,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "TargetValueNodeId",
         "displayName": "TargetValueNodeId",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1498,7 +1498,7 @@
         "name": "TargetValue",
         "displayName": "TargetValue",
         "description": "Defines the value to be reached of the TargetValue of an aggregate that is referenced by TargetValueId.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -1518,7 +1518,7 @@
     "displayName": "ConditionSleepType",
     "description": "Represents a condition sleep step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=37",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=37",
     "telemetryTopic": "opcua/Scales_V2/ConditionSleepType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1529,7 +1529,7 @@
         "name": "TargetThresholdValue",
         "displayName": "TargetThresholdValue",
         "description": "The target value with which the threshold value is compared.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -1537,7 +1537,7 @@
         "name": "ThresholdValueId",
         "displayName": "ThresholdValueId",
         "description": "Defines an Id of process value that needs to be monitored and is element of the SupportedThresholdValues in the RecipeScale.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -1545,7 +1545,7 @@
         "name": "ThresholdValueNodeId",
         "displayName": "ThresholdValueNodeId",
         "description": "The NodeId of process value that needs to be monitored and is element of the SupportedThresholdValues in the RecipeScale. This variable should be used if the value is part of the address space.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -1553,7 +1553,7 @@
         "name": "Timeout",
         "displayName": "Timeout",
         "description": "Timeout specifies the duration within the TargetThresholdValue needs to be reached. If Timeout is exceeded and operator intervention is necessary.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "duration"
       }
     ]
@@ -1570,11 +1570,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:AnalogConditionSleepType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "AnalogConditionSleepType",
     "description": "Represents a condition sleep step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:ConditionSleepType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=38",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=38",
     "commandTopic": "opcua/Scales_V2/AnalogConditionSleepType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/AnalogConditionSleepType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1584,7 +1584,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EqualityAndRelationalOperator",
         "description": "This enumeration describes the different condition modes for an analog condition.",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=61",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=61",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1620,7 +1620,7 @@
         "name": "ConditionMode",
         "displayName": "ConditionMode",
         "description": "Defines the type of condition operator that is used.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:AnalogConditionSleepType:dataType:EqualityAndRelationalOperator;1",
         "writable": true
       }
@@ -1638,11 +1638,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:EdgeTriggeredSleepType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "EdgeTriggeredSleepType",
     "description": "Represents a condition sleep step in a recipe.",
     "extends": "dtmi:opcua:Scales_V2:ConditionSleepType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=39",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=39",
     "commandTopic": "opcua/Scales_V2/EdgeTriggeredSleepType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/EdgeTriggeredSleepType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1651,7 +1651,7 @@
         "@id": "dtmi:opcua:Scales_V2:EdgeTriggeredSleepType:dataType:EdgeOperator;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EdgeOperator",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=62",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=62",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1671,7 +1671,7 @@
         "name": "ConditionMode",
         "displayName": "ConditionMode",
         "description": "Defines the type of condition operator that is used.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:EdgeTriggeredSleepType:dataType:EdgeOperator;1",
         "writable": true
       }
@@ -1689,11 +1689,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:TimerType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "TimerType",
     "description": "TimerType represents a timer step in a recipe. The recipe waits until at least Duration has passed from now.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=36",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=36",
     "telemetryTopic": "opcua/Scales_V2/TimerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1704,7 +1704,7 @@
         "name": "Duration",
         "displayName": "Duration",
         "description": "Defines the period of time the processing needs to wait before processing the next RecipeElement.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "duration"
       }
     ]
@@ -1721,11 +1721,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:UserInstructionType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "UserInstructionType",
     "description": "UserInstructionType represents a recipe step that requires user interaction. The recipe scale display instruction (a text and/or some application- specific symbols) on an HMI and waits until the user acknowledged the instruction.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=33",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=33",
     "telemetryTopic": "opcua/Scales_V2/UserInstructionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1736,7 +1736,7 @@
         "name": "DisplayText",
         "displayName": "DisplayText",
         "description": "Defines instructions for this RecipeElement that will be displayed to the user.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -1744,7 +1744,7 @@
         "name": "InstructionId",
         "displayName": "InstructionId",
         "description": "Defines a unique Id used to identify the instruction that is displayed via DisplayText.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "unsignedInteger"
       }
     ]
@@ -1761,11 +1761,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:WeighingType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "WeighingType",
     "description": "Represents a weighing process in a recipe. The process can be an automatic or manual filling process.",
     "extends": "dtmi:opcua:Scales_V2:RecipeElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=34",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=34",
     "telemetryTopic": "opcua/Scales_V2/WeighingType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1776,7 +1776,7 @@
         "name": "TargetWeight",
         "displayName": "TargetWeight",
         "description": "Defines the preset of the volume to be processed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -1784,7 +1784,7 @@
         "name": "WeighingModuleNodeId",
         "displayName": "WeighingModuleNodeId",
         "description": "Defines the Id of the load cell which is used for weighing the product.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -1793,7 +1793,7 @@
         "name": "Material",
         "displayName": "Material",
         "description": "Defines the material which needs to be measured. Each material has different characteristics that are defined in MaterialType.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:MaterialType"
       }
     ]
@@ -1813,7 +1813,7 @@
     "displayName": "RecipeManagementType",
     "description": "Contains methods and properties required for managing recipes.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=30",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=30",
     "commandTopic": "opcua/Scales_V2/RecipeManagementType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -1824,7 +1824,7 @@
         "name": "AddRecipe",
         "displayName": "AddRecipe",
         "description": "Method to add an additional recipe of RecipeType.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1864,7 +1864,7 @@
         "name": "RemoveRecipe",
         "displayName": "RemoveRecipe",
         "description": "Method to remove a recipe of RecipeType.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1885,7 +1885,7 @@
         "name": "Recipe_No",
         "displayName": "<Recipe_No>",
         "description": "Defines an instance of a recipe with the number No.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:RecipeType"
       }
     ]
@@ -1905,7 +1905,7 @@
     "displayName": "RecipeType",
     "description": "Represents a recipe. It defines additional methods and properties required for managing a recipe.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=31",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=31",
     "commandTopic": "opcua/Scales_V2/RecipeType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/RecipeType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1917,7 +1917,7 @@
         "name": "RecipeId",
         "displayName": "RecipeId",
         "description": "RecipeId defines a unique identifier of a recipe.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1926,7 +1926,7 @@
         "name": "RecipeName",
         "displayName": "RecipeName",
         "description": "Defines a user-readable name of the recipe.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -1934,7 +1934,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AddRecipeElement",
         "displayName": "AddRecipeElement",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1981,7 +1981,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveRecipeElement",
         "displayName": "RemoveRecipeElement",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2003,7 +2003,7 @@
         "name": "RecipeElements",
         "displayName": "RecipeElements",
         "description": "Defines a Placeholder for all RecipeElements that are part of the Recipe.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -2011,7 +2011,7 @@
         "maxMultiplicity": 1,
         "name": "RecipeFile",
         "displayName": "RecipeFile",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:OpcUaCore:FileType"
       }
     ]
@@ -2031,7 +2031,7 @@
     "displayName": "StatisticCounterType",
     "description": "Container for the different statisticvalues needed in a Checkweigher.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=43",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=43",
     "commandTopic": "opcua/Scales_V2/StatisticCounterType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/StatisticCounterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2043,7 +2043,7 @@
         "name": "Weighed",
         "displayName": "Weighed",
         "description": "This flag indicates that the element is considered in the weighed statistic.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       }
@@ -2061,10 +2061,10 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:AcceptedStatisticCounterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "AcceptedStatisticCounterType",
     "extends": "dtmi:opcua:Scales_V2:StatisticCounterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1027",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2083,10 +2083,10 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:RejectedStatisticCounterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "RejectedStatisticCounterType",
     "extends": "dtmi:opcua:Scales_V2:StatisticCounterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1028",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2108,7 +2108,7 @@
     "displayName": "StatisticType",
     "description": "Container for the different statisticvalues. All variables are optional, so that the statistics can be instantiated application-specific.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=25",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=25",
     "commandTopic": "opcua/Scales_V2/StatisticType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/StatisticType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2120,7 +2120,7 @@
         "name": "ResetCondition",
         "displayName": "ResetCondition",
         "description": "The reason and context for the reset of the statistics, which is done without a trigger from an OPC UA Client, like calling the ResetStatistics Method. ResetCondition is a vendor-specific, human readable string. ResetCondition is non-localized and might contain an expression that can be parsed by certain clients. Examples are: “AFTER 4 HOURS”, “AFTER 1000 ITEMS”, “OPERATOR”. “OPERATOR” means, that an operator resets the statistics on a local HMI.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "string",
         "writable": true
       },
@@ -2129,7 +2129,7 @@
         "name": "StartTime",
         "displayName": "StartTime",
         "description": "Indicates the point in time at which the collection of the statistical data has been started.",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "dateTime",
         "writable": false
       },
@@ -2138,7 +2138,7 @@
         "maxMultiplicity": 1,
         "name": "LastItem",
         "displayName": "LastItem",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:WeighingItemType"
       }
     ]
@@ -2155,10 +2155,10 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:CheckweigherStatisticType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "CheckweigherStatisticType",
     "extends": "dtmi:opcua:Scales_V2:StatisticType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=48",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=48",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2177,11 +2177,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:FloatingStatisticType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "FloatingStatisticType",
     "description": "Container for the different statisticvalues. All variables are optional, so that the statistics can be instantiated application-specific. Should be used for application-specific statistics.",
     "extends": "dtmi:opcua:Scales_V2:StatisticType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=26",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=26",
     "commandTopic": "opcua/Scales_V2/FloatingStatisticType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/FloatingStatisticType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2192,7 +2192,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "WindowNumberOfValues",
         "displayName": "WindowNumberOfValues",
-        "namespace": "http://opcfoundation.org/UA/IA",
+        "namespace": "http://opcfoundation.org/UA/IA/",
         "schema": "unsignedInteger",
         "writable": true
       }
@@ -2210,11 +2210,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:FeederModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "FeederModuleType",
     "description": "Represents a feeder system. A feeder system is a subdevice of an automatic scale for conveying the product to or from the WeighingBridge.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=28",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=28",
     "commandTopic": "opcua/Scales_V2/FeederModuleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/FeederModuleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2226,7 +2226,7 @@
         "name": "FeederRunning",
         "displayName": "FeederRunning",
         "description": "Indicates that the feeder system is running.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": false
       },
@@ -2235,7 +2235,7 @@
         "name": "FeederLoad",
         "displayName": "FeederLoad",
         "description": "Defines the current loaded weight on the feeder system.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2243,7 +2243,7 @@
         "name": "FeederSpeed",
         "displayName": "FeederSpeed",
         "description": "Defines the current speed of a feeder system. The unit of the FeederSpeed depends on the construction system.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2251,7 +2251,7 @@
         "name": "MaximumFeederSpeed",
         "displayName": "MaximumFeederSpeed",
         "description": "Defines the maximal possible speed of the feeder.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2259,7 +2259,7 @@
         "name": "MinimalFeederSpeed",
         "displayName": "MinimalFeederSpeed",
         "description": "Defines the minimal possible speed of the feeder.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2267,7 +2267,7 @@
         "name": "SetFeederSpeed",
         "displayName": "SetFeederSpeed",
         "description": "Allows to set a new value for the speed of the feeder system. The OPC UA server must check if the value is between the minimal and maximum allowed speed and if the unit is allowed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2293,7 +2293,7 @@
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "displayName": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -2310,11 +2310,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:PrinterModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "PrinterModuleType",
     "description": "Represents a printing device. A printing device is a subdevice of a scale, that prints labels or other documents releated to the scale or the measurement results.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=29",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=29",
     "telemetryTopic": "opcua/Scales_V2/PrinterModuleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2325,7 +2325,7 @@
         "name": "LabelLength",
         "displayName": "LabelLength",
         "description": "Defines the length of the labels in stock.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2333,7 +2333,7 @@
         "name": "LabelStock",
         "displayName": "LabelStock",
         "description": "Indicates the level of labels in stock in percent.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2341,7 +2341,7 @@
         "name": "LabelTypeId",
         "displayName": "LabelTypeId",
         "description": "Defines the Id of the label to be printed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -2349,7 +2349,7 @@
         "name": "LabelWidth",
         "displayName": "LabelWidth",
         "description": "Defines the width of the labels in stock.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2357,7 +2357,7 @@
         "name": "PrintMediaStock",
         "displayName": "PrintMediaStock",
         "description": "Defines the level of the print media in percent (e.g. ink, wear of thermal element, etc)",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2365,7 +2365,7 @@
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "displayName": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -2385,7 +2385,7 @@
     "displayName": "ScaleDeviceType",
     "description": "Represents a scale.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=2",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=2",
     "commandTopic": "opcua/Scales_V2/ScaleDeviceType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ScaleDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2394,7 +2394,7 @@
         "@id": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "WeightType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=55",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2419,7 +2419,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AllowedEngineeringUnits",
         "displayName": "AllowedEngineeringUnits",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2431,7 +2431,7 @@
         "name": "MaterialClass",
         "displayName": "MaterialClass",
         "description": "Defines the allowed material the scale may measure. Only relevant for certain scales (e.g. totalizing hopper scale or continuous scale)",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -2439,7 +2439,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Policy",
         "displayName": "Policy",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2451,7 +2451,7 @@
         "name": "ProcessStateId",
         "displayName": "ProcessStateId",
         "description": "Contains an relating identification for the occurring ProcessStateMessage.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -2460,7 +2460,7 @@
         "name": "ProcessStateMessage",
         "displayName": "ProcessStateMessage",
         "description": "Contains the message of the current overall state of the scale.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -2469,14 +2469,14 @@
         "name": "CurrentWeight",
         "displayName": "CurrentWeight",
         "description": "Defines the current value that is measured at the sensor at the current timestamp. Might be a highly fluctuating value.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MinimalWeight",
         "displayName": "MinimalWeight",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2484,26 +2484,26 @@
         "name": "RegisteredWeight",
         "displayName": "RegisteredWeight",
         "description": "Defines the last valid measurement that was recorded and will be used for further processing. This is the legal registered value of the scale.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ClearTare",
         "displayName": "ClearTare",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RegisterWeight",
         "displayName": "RegisterWeight",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetPresetTare",
         "displayName": "SetPresetTare",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2528,19 +2528,19 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetTare",
         "displayName": "SetTare",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetZero",
         "displayName": "SetZero",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ListOfWeighingRanges",
         "displayName": "<ListOfWeighingRanges>",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:WeighingRangeElementType"
       },
       {
@@ -2548,7 +2548,7 @@
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "displayName": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -2556,7 +2556,7 @@
         "maxMultiplicity": 1,
         "name": "ProductionOutput",
         "displayName": "ProductionOutput",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:StatisticType"
       },
       {
@@ -2565,7 +2565,7 @@
         "name": "ProductionPreset",
         "displayName": "ProductionPreset",
         "description": "Contains the productions presets.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
       },
       {
@@ -2573,7 +2573,7 @@
         "maxMultiplicity": 1,
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
       },
       {
@@ -2581,7 +2581,7 @@
         "maxMultiplicity": 1,
         "name": "SubDevices",
         "displayName": "SubDevices",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:DI:ConfigurableObjectType"
       }
     ]
@@ -2598,11 +2598,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:AutomaticFillingScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "AutomaticFillingScaleType",
     "description": "Represents an automatic filling scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=5",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=5",
     "commandTopic": "opcua/Scales_V2/AutomaticFillingScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/AutomaticFillingScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2611,7 +2611,7 @@
         "@id": "dtmi:opcua:Scales_V2:AutomaticFillingScaleType:dataType:ToleranceState;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ToleranceState",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=60",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=60",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2639,7 +2639,7 @@
         "name": "ToleranceState",
         "displayName": "ToleranceState",
         "description": "Describes the state of the tolerance deviation. The option under and over needs to be determined via TargetItemType information of TargetWeight.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:AutomaticFillingScaleType:dataType:ToleranceState;1",
         "writable": true
       },
@@ -2648,7 +2648,7 @@
         "name": "Deviation",
         "displayName": "Deviation",
         "description": "Defines the relative amount of over (positive value) or under (negative value) dosed value in relation of the TargetWeight.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -2665,11 +2665,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:CatchweigherType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "CatchweigherType",
     "description": "Represents a Catchweigher. It has no method or properties defined.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=4",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=4",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2688,11 +2688,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:AutomaticWeightPriceLabelerType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "AutomaticWeightPriceLabelerType",
     "description": "Represents an automatic weight-price-labeler.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=49",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=49",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -2711,11 +2711,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:CheckweigherType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "CheckweigherType",
     "description": "Represents a Checkweigher.",
     "extends": "dtmi:opcua:Scales_V2:CatchweigherType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=45",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=45",
     "telemetryTopic": "opcua/Scales_V2/CheckweigherType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2726,7 +2726,7 @@
         "name": "TU1Percent",
         "displayName": "TU1Percent",
         "description": "Permitted percentage of items with weight less than TU1",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -2743,11 +2743,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:ContinuousScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "ContinuousScaleType",
     "description": "Represents a continuous scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=10",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=10",
     "telemetryTopic": "opcua/Scales_V2/ContinuousScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2755,7 +2755,7 @@
         "@id": "dtmi:opcua:Scales_V2:ContinuousScaleType:dataType:RateControlMode;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "RateControlMode",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=30003",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=30003",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -2774,7 +2774,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ControlMagnitude",
         "displayName": "ControlMagnitude",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2782,14 +2782,14 @@
         "name": "FlowRate",
         "displayName": "FlowRate",
         "description": "Defines the conveying capacity in volume per time.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Load",
         "displayName": "Load",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2797,7 +2797,7 @@
         "name": "MaxFlowRate",
         "displayName": "MaxFlowRate",
         "description": "Defines the maximum volume that may be conveyed. Largest volume per time.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2805,28 +2805,28 @@
         "name": "MinFlowRate",
         "displayName": "MinFlowRate",
         "description": "Defines the minimum volume that can be conveyed. Smallest volume per time.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RateControlMode",
         "displayName": "RateControlMode",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:ContinuousScaleType:dataType:RateControlMode;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Speed",
         "displayName": "Speed",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TargetFlowRate",
         "displayName": "TargetFlowRate",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2834,7 +2834,7 @@
         "name": "Totalizer",
         "displayName": "<Totalizer>",
         "description": "Defines the overall volume that was conveyed over a defined duration. Multiple object may be instantiated depending on the use case.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:TotalizerType"
       },
       {
@@ -2843,7 +2843,7 @@
         "name": "MasterTotalizer",
         "displayName": "MasterTotalizer",
         "description": "Defines the overall volume that was conveyed over the lifetime of the scale.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:TotalizerType"
       }
     ]
@@ -2860,11 +2860,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:LossInWeightScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "LossInWeightScaleType",
     "description": "Represents a loss in weight scale.",
     "extends": "dtmi:opcua:Scales_V2:ContinuousScaleType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=50",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=50",
     "commandTopic": "opcua/Scales_V2/LossInWeightScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/LossInWeightScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2876,7 +2876,7 @@
         "name": "Discharging",
         "displayName": "Discharging",
         "description": "Indicates that a discharging process is taking place.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -2884,7 +2884,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Refilling",
         "displayName": "Refilling",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -2892,21 +2892,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BinWeight",
         "displayName": "BinWeight",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HopperFillLevel",
         "displayName": "HopperFillLevel",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HopperWeight",
         "displayName": "HopperWeight",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -2914,28 +2914,28 @@
         "name": "DischargeStart",
         "displayName": "DischargeStart",
         "description": "Starts a discharging process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DischargeStop",
         "displayName": "DischargeStop",
         "description": "Stops a discharging process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RefillStart",
         "displayName": "RefillStart",
         "description": "Starts a refilling process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RefillStop",
         "displayName": "RefillStop",
         "description": "Stops a refilling process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       }
     ]
   },
@@ -2951,11 +2951,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:PieceCountingScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "PieceCountingScaleType",
     "description": "Represents a piece counting scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=6",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=6",
     "commandTopic": "opcua/Scales_V2/PieceCountingScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/PieceCountingScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2967,7 +2967,7 @@
         "name": "CurrentPieceCount",
         "displayName": "CurrentPieceCount",
         "description": "Defines the number of pieces that are currently measured related to the ReferencePieceWeight.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -2975,14 +2975,14 @@
         "name": "ReferenceOptimisationRange",
         "displayName": "ReferenceOptimisationRange",
         "description": "Defines the tolerance range within the scale may optimize the ReferencePieceWeight.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetNumberOfReferencePieces",
         "displayName": "SetNumberOfReferencePieces",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3003,7 +3003,7 @@
         "name": "SetReferencePieceWeight",
         "displayName": "SetReferencePieceWeight",
         "description": "Sets the value for the ReferencePieceWeight (product-specific data).",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3029,7 +3029,7 @@
         "name": "StartReference",
         "displayName": "StartReference",
         "description": "Triggers the reference weighing process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3059,11 +3059,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:RecipeScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "RecipeScaleType",
     "description": "RecipeScaleType represents a recipe scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=7",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=7",
     "commandTopic": "opcua/Scales_V2/RecipeScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/RecipeScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3072,7 +3072,7 @@
         "@id": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeTargetValueType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RecipeTargetValueType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=58",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=58",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3095,7 +3095,7 @@
         "@id": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeThresholdType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "RecipeThresholdType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=57",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=57",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3121,7 +3121,7 @@
         "name": "SupportedTargetValues",
         "displayName": "SupportedTargetValues",
         "description": "Defines a list of values that may be set via the recipe.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeTargetValueType;1"
@@ -3132,7 +3132,7 @@
         "name": "SupportedThresholdValues",
         "displayName": "SupportedThresholdValues",
         "description": "Defines a list of threshold values that may be used within one recipe.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeThresholdType;1"
@@ -3142,7 +3142,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AbortRecipe",
         "displayName": "AbortRecipe",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3162,7 +3162,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ContinueRecipe",
         "displayName": "ContinueRecipe",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3182,7 +3182,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SkipCurrentRecipeElement",
         "displayName": "SkipCurrentRecipeElement",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3202,7 +3202,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StartRecipe",
         "displayName": "StartRecipe",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3222,7 +3222,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StopRecipe",
         "displayName": "StopRecipe",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3244,7 +3244,7 @@
         "name": "Recipes",
         "displayName": "Recipes",
         "description": "Defines a folder that contains all recipes. Elements in this folder must have the RecipeType.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:RecipeManagementType"
       },
       {
@@ -3252,7 +3252,7 @@
         "maxMultiplicity": 1,
         "name": "SupportedMaterial",
         "displayName": "SupportedMaterial",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:MaterialType"
       }
     ]
@@ -3269,11 +3269,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "SimpleScaleType",
     "description": "Represents a simple scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=3",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=3",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3292,11 +3292,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:HopperScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "HopperScaleType",
     "description": "Represents a hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=9",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=9",
     "commandTopic": "opcua/Scales_V2/HopperScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/HopperScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3308,7 +3308,7 @@
         "name": "Limits",
         "displayName": "<Limits>",
         "description": "Defines a placeholder for individual additional limits that may be reached.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -3327,7 +3327,7 @@
         "name": "LimitMax",
         "displayName": "LimitMax",
         "description": "The current fill level exceeds the allowed maximum level.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3336,7 +3336,7 @@
         "name": "LimitMin",
         "displayName": "LimitMin",
         "description": "The current fill level falls below the allowed minimum level.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3345,7 +3345,7 @@
         "name": "LevelMax",
         "displayName": "LevelMax",
         "description": "Defines a the maximum fill level where a action is necessary.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -3353,7 +3353,7 @@
         "name": "LevelMin",
         "displayName": "LevelMin",
         "description": "Defines a the minimum fill level where a action is necessary.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -3370,11 +3370,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:LaboratoryScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "LaboratoryScaleType",
     "description": "Represents a laboratory scale.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=15",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=15",
     "commandTopic": "opcua/Scales_V2/LaboratoryScaleType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/LaboratoryScaleType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3383,7 +3383,7 @@
         "@id": "dtmi:opcua:Scales_V2:LaboratoryScaleType:dataType:DraftShieldType;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DraftShieldType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=65",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=65",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3411,7 +3411,7 @@
         "name": "CalibrationNeeded",
         "displayName": "CalibrationNeeded",
         "description": "Defines if a calibration procedure is needed and the current process should be paused.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3420,7 +3420,7 @@
         "name": "CalibrationRunning",
         "displayName": "CalibrationRunning",
         "description": "Defines if a calibration procedure is running.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3429,7 +3429,7 @@
         "name": "DraftShieldLeftClosed",
         "displayName": "DraftShieldLeftClosed",
         "description": "Defines if the left draft shield is closed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3438,7 +3438,7 @@
         "name": "DraftShieldRightClosed",
         "displayName": "DraftShieldRightClosed",
         "description": "Defines if the right draft shield is closed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3447,7 +3447,7 @@
         "name": "DraftShieldTopClosed",
         "displayName": "DraftShieldTopClosed",
         "description": "Defines if the top draft shield is closed.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3455,7 +3455,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IonisatorRunning",
         "displayName": "IonisatorRunning",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3464,7 +3464,7 @@
         "name": "LevelingRunning",
         "displayName": "LevelingRunning",
         "description": "Defines if a levelling process is running.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "boolean",
         "writable": true
       },
@@ -3473,7 +3473,7 @@
         "name": "CloseDraftShields",
         "displayName": "CloseDraftShields",
         "description": "Method to close a certain or all draft shields.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3494,7 +3494,7 @@
         "name": "OpenDraftShields",
         "displayName": "OpenDraftShields",
         "description": "Method to open a certain or all draft shields.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3515,28 +3515,28 @@
         "name": "StartCalibration",
         "displayName": "StartCalibration",
         "description": "Method to start the automatic calibration procedure.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StartIonisator",
         "displayName": "StartIonisator",
         "description": "Method to start the ionization process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StartLeveling",
         "displayName": "StartLeveling",
         "description": "Method to start the automatic leveling procedure of the scale.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StopIonisator",
         "displayName": "StopIonisator",
         "description": "Method to stop the ionization process.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       }
     ]
   },
@@ -3552,11 +3552,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:WeighingModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "WeighingModuleType",
     "description": "Represents a weighing bridge.",
     "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3575,11 +3575,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:TotalizingHopperScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "TotalizingHopperScaleType",
     "description": "Represents a totalizing hopper scale.",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=8",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=8",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3598,10 +3598,10 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:VehicleScaleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "VehicleScaleType",
     "extends": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=834",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=834",
     "commandTopic": "opcua/Scales_V2/VehicleScaleType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3611,7 +3611,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "InboundWeighing",
         "displayName": "InboundWeighing",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3631,7 +3631,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "OnePassWeighing",
         "displayName": "OnePassWeighing",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3651,7 +3651,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "OutboundWeighing",
         "displayName": "OutboundWeighing",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3681,11 +3681,11 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:ScaleSystemType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "ScaleSystemType",
     "description": "Represents a scale system and contains one or more scales.",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=44",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=44",
     "commandTopic": "opcua/Scales_V2/ScaleSystemType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/ScaleSystemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3697,7 +3697,7 @@
         "name": "Policy",
         "displayName": "Policy",
         "description": "Defines the legal guidelines that apply for the scale or need to be complied by the scale.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -3709,7 +3709,7 @@
         "name": "ProcessStateId",
         "displayName": "ProcessStateId",
         "description": "Contains an relating identification for the occurring ProcessStateMessage.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -3718,7 +3718,7 @@
         "name": "ProcessStateMessage",
         "displayName": "ProcessStateMessage",
         "description": "Contains the message of the current overall state of the scale.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -3726,14 +3726,14 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ResetGlobalStatistics",
         "displayName": "ResetGlobalStatistics",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "displayName": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -3741,7 +3741,7 @@
         "maxMultiplicity": 1,
         "name": "ProductionOutput",
         "displayName": "ProductionOutput",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:StatisticType"
       },
       {
@@ -3750,7 +3750,7 @@
         "name": "ProductionPreset",
         "displayName": "ProductionPreset",
         "description": "Contains the productions presets.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
       },
       {
@@ -3759,7 +3759,7 @@
         "name": "SubDevices",
         "displayName": "SubDevices",
         "description": "The Scales must be a subtype of the ScaleDeviceType but must not be from the same type.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:DI:ConfigurableObjectType"
       },
       {
@@ -3767,7 +3767,7 @@
         "maxMultiplicity": 1,
         "name": "SystemState",
         "displayName": "SystemState",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
       }
     ]
@@ -3787,7 +3787,7 @@
     "displayName": "TotalizerType",
     "description": "Contains the sum over the last measurement results.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=27",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=27",
     "commandTopic": "opcua/Scales_V2/TotalizerType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/TotalizerType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3799,7 +3799,7 @@
         "name": "TotalizedValue",
         "displayName": "TotalizedValue",
         "description": "Defines a summed up/totalized volume within a period of time.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "bytes"
       },
       {
@@ -3807,7 +3807,7 @@
         "name": "ResetTotalizer",
         "displayName": "ResetTotalizer",
         "description": "Resets the TotalizedValue of this totalizer object. Only useful if reset is not related to a period of time.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2"
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/"
       }
     ]
   },
@@ -3825,7 +3825,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "WeighingItemType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=24",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=24",
     "commandTopic": "opcua/Scales_V2/WeighingItemType/{commandName}",
     "telemetryTopic": "opcua/Scales_V2/WeighingItemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3834,7 +3834,7 @@
         "@id": "dtmi:opcua:Scales_V2:WeighingItemType:dataType:WeightType;1",
         "@type": [ "Object", "Congruence" ],
         "displayName": "WeightType",
-        "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=55",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -3860,7 +3860,7 @@
         "name": "ItemId",
         "displayName": "ItemId",
         "description": "Defines a unique number that is assigned to an item.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -3868,7 +3868,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ZoneName",
         "displayName": "ZoneName",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string",
         "writable": true
       },
@@ -3877,7 +3877,7 @@
         "name": "MeasuredHeight",
         "displayName": "MeasuredHeight",
         "description": "Defines the maximum height (in direction of travel) of the measured item.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -3885,7 +3885,7 @@
         "name": "MeasuredLength",
         "displayName": "MeasuredLength",
         "description": "Defines the maximum measured length (in direction of travel) of the measured item.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -3893,7 +3893,7 @@
         "name": "MeasuredVolume",
         "displayName": "MeasuredVolume",
         "description": "Defines the volume of the item.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -3901,7 +3901,7 @@
         "name": "MeasuredWeight",
         "displayName": "MeasuredWeight",
         "description": "Defines the registered weight that may be unmistakeable referenced to one item.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:WeighingItemType:dataType:WeightType;1"
       },
       {
@@ -3909,7 +3909,7 @@
         "name": "MeasuredWidth",
         "displayName": "MeasuredWidth",
         "description": "Defines the maximum width (in third possible orthogonal direction to height and length) of the measured item.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -3926,10 +3926,10 @@
     ],
     "@id": "dtmi:opcua:Scales_V2:PriceItemType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Scales.V2",
+    "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "displayName": "PriceItemType",
     "extends": "dtmi:opcua:Scales_V2:WeighingItemType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=833",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=833",
     "telemetryTopic": "opcua/Scales_V2/PriceItemType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3940,7 +3940,7 @@
         "name": "ItemPrice",
         "displayName": "ItemPrice",
         "description": "ItemPrice defines the price related to measured weight and UnitPrice.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       }
     ]
@@ -3960,7 +3960,7 @@
     "displayName": "WeighingRangeElementType",
     "description": "For each weighing range a scale supports the OPC UA server provides an object of WeighingRangeElementType that contains the propertys of the weighing range like the ScaleDivision.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=23",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=23",
     "telemetryTopic": "opcua/Scales_V2/WeighingRangeElementType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -3989,7 +3989,7 @@
         "name": "ActualScaleInterval",
         "displayName": "ActualScaleInterval",
         "description": "Value expressed in units of mass of the difference between two consecutive indicated values, for digital indication ('d' as described in Welmec /OIML).",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "double"
       },
       {
@@ -3997,7 +3997,7 @@
         "name": "Range",
         "displayName": "Range",
         "description": "Defines the range within the scale may be operated depending on the additional parameters within this type.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "dtmi:opcua:Scales_V2:WeighingRangeElementType:dataType:Range;1"
       },
       {
@@ -4005,7 +4005,7 @@
         "name": "VerificationScaleInterval",
         "displayName": "VerificationScaleInterval",
         "description": "Value, expressed in units of mass, used for the classification and verification of an instrument. ('e' as described in Welmec /OIML)",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "double"
       }
     ]
@@ -4025,7 +4025,7 @@
     "displayName": "ZoneType",
     "description": "Container for the weighing zones in a Checkweigher.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2/;i=42",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=42",
     "telemetryTopic": "opcua/Scales_V2/ZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4036,7 +4036,7 @@
         "name": "LowerLimit",
         "displayName": "LowerLimit",
         "description": "Defines the lower weight limit of this zone. The lower limit is prior to the upper limit if two zones are beside each other.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -4044,7 +4044,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "Defines the user-readable name of the zone.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "string"
       },
       {
@@ -4052,7 +4052,7 @@
         "name": "UpperLimit",
         "displayName": "UpperLimit",
         "description": "Defines the upper weight limit of this zone.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "schema": "integer"
       },
       {
@@ -4061,7 +4061,7 @@
         "name": "ZoneStatistic",
         "displayName": "ZoneStatistic",
         "description": "Contains statistics regarding this zone.",
-        "namespace": "http://opcfoundation.org/UA/Scales.V2",
+        "namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "target": "dtmi:opcua:Scales_V2:StatisticCounterType"
       }
     ]

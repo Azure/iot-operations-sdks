@@ -14,7 +14,7 @@
     "displayName": "ZeroPointAdjustmentEventType",
     "description": "Provides information, that a zero-point adjustment took place",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1002",
     "commandTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{commandName}",
     "telemetryTopic": "opcua/Machinery_ProcessValues/ZeroPointAdjustmentEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -25,7 +25,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ZeroPointAdjustmentResult",
         "displayName": "ZeroPointAdjustmentResult",
-        "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
+        "namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "schema": "integer",
         "writable": true
       }
@@ -46,7 +46,7 @@
     "displayName": "ProcessValueType",
     "description": "Represents a process value",
     "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.ProcessValues/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1003",
     "telemetryTopic": "opcua/Machinery_ProcessValues/ProcessValueType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -57,7 +57,7 @@
         "name": "AlarmSuppression",
         "displayName": "AlarmSuppression",
         "description": "Indicates if alarms based on the Status shall be suppressed.",
-        "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
+        "namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "schema": "unsignedShort"
       },
       {
@@ -65,7 +65,7 @@
         "name": "ProcessValueSetpoint",
         "displayName": "ProcessValueSetpoint",
         "description": "The desired value, may or may not be controlled by the server.",
-        "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
+        "namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "schema": "integer"
       },
       {
@@ -73,7 +73,7 @@
         "name": "Status",
         "displayName": "Status",
         "description": "Indicates if a limit has been reached.",
-        "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
+        "namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "schema": "unsignedShort"
       },
       {
@@ -82,7 +82,7 @@
         "name": "DeviationAlarm",
         "displayName": "DeviationAlarm",
         "description": "Becomes active, when the process values derivates from the ProcessValueSetpoint.",
-        "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
+        "namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "target": "dtmi:opcua:OpcUaCore:ExclusiveDeviationAlarmType"
       },
       {
@@ -91,7 +91,7 @@
         "name": "LimitAlarm",
         "displayName": "LimitAlarm",
         "description": "Becomes active, when absolute limits are reached.",
-        "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
+        "namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "target": "dtmi:opcua:OpcUaCore:ExclusiveLimitAlarmType"
       }
     ]

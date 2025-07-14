@@ -44,7 +44,7 @@ namespace Yaml2Dtdl
             this.Write("\",\r\n");
  } 
             this.Write("        \"namespace\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\",\r\n");
  if (this.SubVars.Count == 0) { 
  if (this.TryGetUnitInfo(null, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { 
@@ -74,7 +74,7 @@ namespace Yaml2Dtdl
             this.Write("\",\r\n");
  } 
             this.Write("              \"namespace\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\",\r\n");
  if (this.TryGetUnitInfo(this.definedType, out unitInfo) && !this.definedType.BrowseName.Contains('<')) { 
             this.Write("              \"unit\": \"");
@@ -101,7 +101,7 @@ namespace Yaml2Dtdl
             this.Write("\",\r\n");
  } 
             this.Write("              \"namespace\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))));
             this.Write("\",\r\n");
  if (this.TryGetUnitInfo(subVar, out unitInfo)) { 
             this.Write("              \"unit\": \"");

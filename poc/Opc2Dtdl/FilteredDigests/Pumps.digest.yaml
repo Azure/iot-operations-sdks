@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Pumps/
+
 DataTypes:
 - UADataType: [ Pumps:3008, Pumps:ControlModeEnum ]
   DisplayName: "ControlModeEnum"

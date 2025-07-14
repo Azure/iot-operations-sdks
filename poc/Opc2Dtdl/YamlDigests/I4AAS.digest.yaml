@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/I4AAS/
+
 DataTypes:
 - UADataType: [ I4AAS:3003, I4AAS:AASAssetKindDataType ]
   DisplayName: "AASAssetKindDataType"

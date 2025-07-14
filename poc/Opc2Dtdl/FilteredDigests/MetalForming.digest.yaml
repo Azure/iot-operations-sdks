@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/MetalForming/
+
 DataTypes:
 - UADataType: [ MetalForming:3004, MetalForming:CyclicPartInformationDataType ]
   DisplayName: "CyclicPartInformationDataType"

@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/
+
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion.Extruder:3003, PlasticsRubber.Extrusion.Extruder:FeedingModeEnumeration ]
   DisplayName: "FeedingModeEnumeration"

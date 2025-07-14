@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PNENC/
+
 DataTypes:
 - UADataType: [ PNENC:3006, PNENC:EncoderAlarmChannelControlEnumeration ]
   DisplayName: "EncoderAlarmChannelControlEnumeration"

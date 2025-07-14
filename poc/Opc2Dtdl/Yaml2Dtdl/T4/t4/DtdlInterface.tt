@@ -16,7 +16,7 @@
     "@id": "<#=this.modelId#>;1",
     "@type": [ "Interface"<#=this.isComposite ? ", \"Composite\"" : ""#><#=this.isEvent ? ", \"Event\"" : ""#>, "Mqtt", "Congruence" ],
 <# if (this.isComposite) { #>
-    "ontology": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(this.definedType))#>",
+    "ontology": "<#=this.specMapper.GetUriFromSpecName(TypeConverter.GetSpecName(this.definedType))#>",
 <# } #>
 <# if (this.definedType.DisplayName != null && this.definedType.DisplayName != string.Empty) { #>
     "displayName": "<#=this.definedType.DisplayName#>",
@@ -29,7 +29,7 @@
 <# } if (this.supertypeIds.Count > 1) { #>
     "extends": [ <#=string.Join(", ", this.supertypeIds.Select(s => $"\"{s};1\""))#> ],
 <# } #>
-    "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.definedType.NodeId)#>",
+    "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.specMapper, this.definedType.NodeId)#>",
 <# if (this.dtdlCommands.Count > 0 || this.dtdlProperties.Count > 0) { #>
     "commandTopic": "<#=this.topicBase#>/{commandName}",
 <# } #>

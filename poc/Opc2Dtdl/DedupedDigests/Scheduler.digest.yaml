@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Scheduler/
+
 DataTypes:
 - UADataType: [ Scheduler:70, Scheduler:SpecialEventType ]
   DisplayName: "SpecialEventType"

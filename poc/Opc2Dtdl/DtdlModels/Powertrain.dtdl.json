@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:IPtTagNameplateType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "IPtTagNameplateType",
     "description": "Is a subtype of IMachineTagNameplateType defined in OPC 40001-1",
     "extends": "dtmi:opcua:Machinery:IMachineTagNameplateType;1",
@@ -26,7 +26,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Comment",
         "displayName": "Comment",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": true
       },
@@ -34,7 +34,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ContactInformation",
         "displayName": "ContactInformation",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": true
       },
@@ -42,7 +42,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Function",
         "displayName": "Function",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": true
       }
@@ -74,7 +74,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": true
       }
@@ -92,7 +92,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtBleedAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtBleedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1008",
@@ -105,7 +105,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResistanceValue",
         "displayName": "<ResistanceValue>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -122,7 +122,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerRated",
         "displayName": "PowerRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -139,7 +139,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtBrakeAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtBrakeAttributesType",
     "description": "Provides attributes of a brake",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -154,7 +154,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeCoolingMethod",
         "displayName": "BrakeCoolingMethod",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -162,7 +162,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeDutyType",
         "displayName": "BrakeDutyType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -170,7 +170,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeEmergencySwitchOffCount",
         "displayName": "BrakeEmergencySwitchOffCount",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "short",
         "writable": false
       },
@@ -178,7 +178,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeInsulationClass",
         "displayName": "BrakeInsulationClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -186,7 +186,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeProtectionMechanicalImpact",
         "displayName": "BrakeProtectionMechanicalImpact",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -194,7 +194,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeRectifierType",
         "displayName": "BrakeRectifierType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -202,7 +202,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeVibrationClass",
         "displayName": "BrakeVibrationClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -210,7 +210,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeVoltageType",
         "displayName": "BrakeVoltageType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -218,7 +218,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakeWireTerminalCount",
         "displayName": "BrakeWireTerminalCount",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "short",
         "writable": false
       },
@@ -226,7 +226,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BrakingFrequencyOperation",
         "displayName": "BrakingFrequencyOperation",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "integer",
         "writable": false
       },
@@ -234,7 +234,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SafetyPropertySupported",
         "displayName": "SafetyPropertySupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -242,126 +242,126 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "B10dValue",
         "displayName": "B10dValue",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeAccelerationVoltage",
         "displayName": "BrakeAccelerationVoltage",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeCurrentRated",
         "displayName": "BrakeCurrentRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeDesignType",
         "displayName": "BrakeDesignType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeHoldingVoltage",
         "displayName": "BrakeHoldingVoltage",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeInertia",
         "displayName": "BrakeInertia",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakePowerRated",
         "displayName": "BrakePowerRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeSurroundingAirTemperature",
         "displayName": "BrakeSurroundingAirTemperature",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeTorqueHolding",
         "displayName": "BrakeTorqueHolding",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeTorqueRated",
         "displayName": "BrakeTorqueRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeTurnOffDelayAC",
         "displayName": "BrakeTurnOffDelayAC",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeTurnOffDelayDC",
         "displayName": "BrakeTurnOffDelayDC",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeTurnOffType",
         "displayName": "BrakeTurnOffType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeTurnOnDelay",
         "displayName": "BrakeTurnOnDelay",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeType",
         "displayName": "BrakeType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeVoltageRated",
         "displayName": "BrakeVoltageRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakeWearMaximum",
         "displayName": "BrakeWearMaximum",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BrakingEnergySingleEngagementMax",
         "displayName": "BrakingEnergySingleEngagementMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -378,7 +378,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtCapacitanceAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtCapacitanceAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1004",
@@ -391,7 +391,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Capacitance",
         "displayName": "Capacitance",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -443,49 +443,49 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AltitudeMax",
         "displayName": "AltitudeMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HumidityMax",
         "displayName": "HumidityMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HumidityMin",
         "displayName": "HumidityMin",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PressureMax",
         "displayName": "PressureMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PressureMin",
         "displayName": "PressureMin",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TemperatureMax",
         "displayName": "TemperatureMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TemperatureMin",
         "displayName": "TemperatureMin",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -534,7 +534,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "GalvanicIsolationSupported",
         "displayName": "GalvanicIsolationSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -542,7 +542,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "NumberOfChannels",
         "displayName": "NumberOfChannels",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -550,7 +550,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Resolution",
         "displayName": "Resolution",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "integer",
         "writable": false
       },
@@ -558,28 +558,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AnalogInputElectricalType",
         "displayName": "AnalogInputElectricalType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputCurrentRange",
         "displayName": "InputCurrentRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputVoltageRange",
         "displayName": "InputVoltageRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InternalResistance",
         "displayName": "InternalResistance",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -628,7 +628,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "NumberOfChannels",
         "displayName": "NumberOfChannels",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -636,21 +636,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AnalogOutputElectricalType",
         "displayName": "AnalogOutputElectricalType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FrequencyRange",
         "displayName": "FrequencyRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LoadResistance",
         "displayName": "LoadResistance",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -680,35 +680,35 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentMax",
         "displayName": "CurrentMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FuseProtectionCurrentMax",
         "displayName": "FuseProtectionCurrentMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerConsumptionMax",
         "displayName": "PowerConsumptionMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SupplyVoltageAc",
         "displayName": "SupplyVoltageAc",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SupplyVoltageDc",
         "displayName": "SupplyVoltageDc",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -739,7 +739,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Certificates",
         "displayName": "Certificates",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -760,7 +760,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtCommunicationInterfaceAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtCommunicationInterfaceAttributesType",
     "description": "Provides information about the communication attributes",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -775,7 +775,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CommunicationSpeed",
         "displayName": "CommunicationSpeed",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -783,7 +783,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "NumberOfPorts",
         "displayName": "NumberOfPorts",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -791,7 +791,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProfileTypes",
         "displayName": "ProfileTypes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedShort"
@@ -801,7 +801,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProtocolTypes",
         "displayName": "ProtocolTypes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedShort"
@@ -811,7 +811,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SafetyProtocolTypes",
         "displayName": "SafetyProtocolTypes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedShort"
@@ -831,7 +831,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtCoolingAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtCoolingAttributesType",
     "description": "Provides information about the cooling type",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -845,7 +845,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CoolingMethod",
         "displayName": "CoolingMethod",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -876,7 +876,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "NumberOfChannels",
         "displayName": "NumberOfChannels",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -884,7 +884,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SafetyPropertySupported",
         "displayName": "SafetyPropertySupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -892,7 +892,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DigitalInputElectricalType",
         "displayName": "DigitalInputElectricalType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -923,7 +923,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "NumberOfChannels",
         "displayName": "NumberOfChannels",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -931,7 +931,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SafetyPropertySupported",
         "displayName": "SafetyPropertySupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -939,14 +939,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DigitalOutputElectricalType",
         "displayName": "DigitalOutputElectricalType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputCurrentMax",
         "displayName": "OutputCurrentMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -963,7 +963,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtFunctionalSafetyAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtFunctionalSafetyAttributesType",
     "description": "Provides the attributes describing various safety functions, certifications and safety transport protocols.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -978,7 +978,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SafetyAssessor",
         "displayName": "SafetyAssessor",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -986,7 +986,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SafetyTransportProtocols",
         "displayName": "SafetyTransportProtocols",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1007,7 +1007,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtFuseAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtFuseAttributesType",
     "description": "Provides the attributes describing a fuse",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -1022,7 +1022,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "FuseIdentificationType",
         "displayName": "FuseIdentificationType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -1030,28 +1030,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BreakingCapacity",
         "displayName": "BreakingCapacity",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurrentRated",
         "displayName": "CurrentRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FuseElementSpeedMarking",
         "displayName": "FuseElementSpeedMarking",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "VoltageRated",
         "displayName": "VoltageRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -1082,7 +1082,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "FrameSizeCoding",
         "displayName": "FrameSizeCoding",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1093,42 +1093,42 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "HeatDissipationPower",
         "displayName": "HeatDissipationPower",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Height",
         "displayName": "Height",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Length",
         "displayName": "Length",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "NoiseLevel",
         "displayName": "NoiseLevel",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Weight",
         "displayName": "Weight",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Width",
         "displayName": "Width",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -1177,7 +1177,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfInputPhases",
         "displayName": "NumberOfInputPhases",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedByte",
         "writable": false
       },
@@ -1185,63 +1185,63 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputCurrentMax",
         "displayName": "InputCurrentMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputCurrentRated",
         "displayName": "InputCurrentRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputFrequencyMax",
         "displayName": "InputFrequencyMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputFrequencyRangeRated",
         "displayName": "InputFrequencyRangeRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputPowerMax",
         "displayName": "InputPowerMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputPowerRated",
         "displayName": "InputPowerRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputVoltageMax",
         "displayName": "InputVoltageMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputVoltageRange",
         "displayName": "InputVoltageRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputVoltageRated",
         "displayName": "InputVoltageRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -1272,7 +1272,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Shock",
         "displayName": "Shock",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1283,7 +1283,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Vibration",
         "displayName": "Vibration",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1304,7 +1304,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtOutputInterfaceAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtOutputInterfaceAttributesType",
     "description": "Provides ....",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -1337,7 +1337,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfOutputPhases",
         "displayName": "NumberOfOutputPhases",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedByte",
         "writable": false
       },
@@ -1345,77 +1345,77 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputCurrentRated",
         "displayName": "InputCurrentRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputVoltageRated",
         "displayName": "InputVoltageRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputCurrentMax",
         "displayName": "OutputCurrentMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputCurrentRated",
         "displayName": "OutputCurrentRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputFrequencyMax",
         "displayName": "OutputFrequencyMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputFrequencyRated",
         "displayName": "OutputFrequencyRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputPowerMax",
         "displayName": "OutputPowerMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputPowerRated",
         "displayName": "OutputPowerRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputVoltageMax",
         "displayName": "OutputVoltageMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputVoltageRange",
         "displayName": "OutputVoltageRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtOutputInterfaceAttributesType:dataType:Range;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputVoltageRated",
         "displayName": "OutputVoltageRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -1446,7 +1446,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ExClass",
         "displayName": "ExClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -1454,7 +1454,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IpClass",
         "displayName": "IpClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -1471,7 +1471,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtSafetyFunctionsAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtSafetyFunctionsAttributesType",
     "description": "Provides the attributes describing the safety functions, standards, safety integrity level (SIL), safety perofmrance level and safety category.",
     "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
@@ -1486,7 +1486,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SafetyStandards",
         "displayName": "SafetyStandards",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1497,28 +1497,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FunctionalSafetyCategory",
         "displayName": "FunctionalSafetyCategory",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FunctionalSafetyPerformanceLevel",
         "displayName": "FunctionalSafetyPerformanceLevel",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FunctionalSafetySilLevel",
         "displayName": "FunctionalSafetySilLevel",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SafetyFunctions",
         "displayName": "SafetyFunctions",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -1549,7 +1549,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Standards",
         "displayName": "Standards",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1570,7 +1570,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtContactorAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtContactorAttributesType",
     "description": "power train contactor type",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -1603,7 +1603,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlVoltageAC50HzRangeRated",
         "displayName": "ControlVoltageAC50HzRangeRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtContactorAttributesType:dataType:Range;1",
         "writable": false
       },
@@ -1611,7 +1611,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNC",
         "displayName": "NumberofAuxiliaryContactsNC",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -1619,7 +1619,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNO",
         "displayName": "NumberofAuxiliaryContactsNO",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -1627,7 +1627,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofMainContactsNO",
         "displayName": "NumberofMainContactsNO",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -1635,7 +1635,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperationalCurrentAC3At400VRated",
         "displayName": "OperationalCurrentAC3At400VRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float",
         "writable": false
       }
@@ -1653,7 +1653,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtDcBusAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtDcBusAttributesType",
     "description": "Provides attributes for the DCBus",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -1685,7 +1685,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DcBusVoltageRated",
         "displayName": "<DcBusVoltageRated>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -1702,7 +1702,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DcBusVoltageRange",
         "displayName": "DcBusVoltageRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtDcBusAttributesType:dataType:Range;1"
       }
     ]
@@ -1719,7 +1719,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtElectronicOverloadRelayAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtElectronicOverloadRelayAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1014",
@@ -1751,7 +1751,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "GroundEarthFaultDetectionSupported",
         "displayName": "GroundEarthFaultDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -1759,7 +1759,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JamDetectionSupported",
         "displayName": "JamDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -1767,7 +1767,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNC",
         "displayName": "NumberofAuxiliaryContactsNC",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -1775,7 +1775,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverloadCurrentSettingRange",
         "displayName": "OverloadCurrentSettingRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtElectronicOverloadRelayAttributesType:dataType:Range;1",
         "writable": false
       },
@@ -1783,7 +1783,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PhaseLossSensitiveSupported",
         "displayName": "PhaseLossSensitiveSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -1791,7 +1791,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StallDetectionSuported",
         "displayName": "StallDetectionSuported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -1799,7 +1799,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "VoltageRated",
         "displayName": "VoltageRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -1807,7 +1807,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TripClass",
         "displayName": "TripClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -1824,7 +1824,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtEncoderAttributesType",
     "description": "Provides attributes for the encoder",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -1838,14 +1838,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderTechnology",
         "displayName": "EncoderTechnology",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderType",
         "displayName": "EncoderType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -1862,7 +1862,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderLinearAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtEncoderLinearAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1024",
@@ -1876,7 +1876,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "EncoderMounting",
         "displayName": "EncoderMounting",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float",
         "writable": false
       },
@@ -1884,7 +1884,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ResolutionLinearIncremental",
         "displayName": "ResolutionLinearIncremental",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -1892,28 +1892,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderReadingDistance",
         "displayName": "EncoderReadingDistance",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderSpeedLinearMax",
         "displayName": "EncoderSpeedLinearMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RangeLinear",
         "displayName": "RangeLinear",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResolutionLinearAbsolute",
         "displayName": "ResolutionLinearAbsolute",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -1930,7 +1930,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderRotaryAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtEncoderRotaryAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtEncoderAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1021",
@@ -1944,7 +1944,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "FeedbackResolverPolePairNumber",
         "displayName": "FeedbackResolverPolePairNumber",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -1952,7 +1952,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "FeedbackResolverRatio",
         "displayName": "FeedbackResolverRatio",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float",
         "writable": false
       },
@@ -1960,70 +1960,70 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderFlangeSize",
         "displayName": "EncoderFlangeSize",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderFlangeType",
         "displayName": "EncoderFlangeType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderRotarySpeedMax",
         "displayName": "EncoderRotarySpeedMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderShaftSize",
         "displayName": "EncoderShaftSize",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderShaftType",
         "displayName": "EncoderShaftType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FeedbackResolverExcitationFrequency",
         "displayName": "FeedbackResolverExcitationFrequency",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FeedbackResolverExcitationVoltage",
         "displayName": "FeedbackResolverExcitationVoltage",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResolutionMultiturnAbsolute",
         "displayName": "ResolutionMultiturnAbsolute",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResolutionRotaryIncremental",
         "displayName": "ResolutionRotaryIncremental",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ResolutionSingleturnAbsolute",
         "displayName": "ResolutionSingleturnAbsolute",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedInteger"
       }
     ]
@@ -2040,7 +2040,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderInterfaceAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtEncoderInterfaceAttributesType",
     "description": "The PtEncoderInterfaceAttributesType provides the most common attributes of the encoder interface",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2054,7 +2054,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderSignal",
         "displayName": "EncoderSignal",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -2071,7 +2071,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtEncoderInterfaceProtocolAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtEncoderInterfaceProtocolAttributesType",
     "description": "Provides attributes for the encoder interface protocol",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2085,7 +2085,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EncoderProtocol",
         "displayName": "EncoderProtocol",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -2102,7 +2102,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtGearAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtGearAttributesType",
     "description": "power train gear type",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2117,7 +2117,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LubricantInterval",
         "displayName": "LubricantInterval",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float",
         "writable": false
       },
@@ -2125,7 +2125,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Efficiency",
         "displayName": "<Efficiency>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -2142,7 +2142,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "GearRatio",
         "displayName": "<GearRatio>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -2159,56 +2159,56 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AxialForceMax",
         "displayName": "AxialForceMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Backlash",
         "displayName": "Backlash",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "GearInertia",
         "displayName": "GearInertia",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "GearType",
         "displayName": "GearType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LubricantType",
         "displayName": "LubricantType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SpeedRated",
         "displayName": "SpeedRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TorqueRated",
         "displayName": "TorqueRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TorsionalRigidity",
         "displayName": "TorsionalRigidity",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -2225,7 +2225,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtInputConverterAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtInputConverterAttributesType",
     "description": "Provides attributes for the input converter of a drive",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2240,7 +2240,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "RegenerativeFeedbackSupported",
         "displayName": "RegenerativeFeedbackSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2248,7 +2248,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PwmSwitchingFrequency",
         "displayName": "<PwmSwitchingFrequency>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -2265,28 +2265,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EfficiencyClass",
         "displayName": "EfficiencyClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "InputConverterType",
         "displayName": "InputConverterType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerFactorCorrection",
         "displayName": "PowerFactorCorrection",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RegenerativePowerRated",
         "displayName": "RegenerativePowerRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -2303,7 +2303,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtInputFilterAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtInputFilterAttributesType",
     "description": "Provides attributes for line filter functionality",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2317,28 +2317,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LineFilterEmcCategory",
         "displayName": "LineFilterEmcCategory",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LineFilterEmcClass",
         "displayName": "LineFilterEmcClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LineFilterEmcGroup",
         "displayName": "LineFilterEmcGroup",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LineFilterPowerLoss",
         "displayName": "LineFilterPowerLoss",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -2355,7 +2355,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtMotorAttributesType",
     "description": "Provides operation mode rated attributes of a amotor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2369,7 +2369,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorType",
         "displayName": "MotorType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -2386,7 +2386,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorLinearAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtMotorLinearAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1012",
@@ -2399,21 +2399,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ForcerWeight",
         "displayName": "ForcerWeight",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorBackEMF",
         "displayName": "MotorBackEMF",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorPolePairPitch",
         "displayName": "MotorPolePairPitch",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -2430,7 +2430,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorRotaryAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtMotorRotaryAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1009",
@@ -2444,7 +2444,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MotorPolePairs",
         "displayName": "MotorPolePairs",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2452,14 +2452,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorBackEMF",
         "displayName": "MotorBackEMF",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorInertia",
         "displayName": "MotorInertia",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -2490,7 +2490,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LoadProfile",
         "displayName": "LoadProfile",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2501,7 +2501,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DutyType",
         "displayName": "DutyType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -2518,7 +2518,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtMotorManagementDeviceAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1023",
@@ -2550,7 +2550,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlVoltageAC50HzRangeRated",
         "displayName": "ControlVoltageAC50HzRangeRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType:dataType:Range;1",
         "writable": false
       },
@@ -2558,7 +2558,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CosPhiVariationDetectionSupported",
         "displayName": "CosPhiVariationDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2566,7 +2566,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CurrentImbalanceDetectionSupported",
         "displayName": "CurrentImbalanceDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2574,7 +2574,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "GroundEarthFaultDetectionSupported",
         "displayName": "GroundEarthFaultDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2582,7 +2582,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "HMIPortSupported",
         "displayName": "HMIPortSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2590,7 +2590,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JamDetectionSupported",
         "displayName": "JamDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2598,7 +2598,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "LoadSheddingSupported",
         "displayName": "LoadSheddingSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2606,7 +2606,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfAnalogInputs",
         "displayName": "NumberOfAnalogInputs",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2614,7 +2614,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfDigitalInputs",
         "displayName": "NumberOfDigitalInputs",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2622,7 +2622,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfDigitalOutputs",
         "displayName": "NumberOfDigitalOutputs",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2630,7 +2630,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfPtcThermistorInputs",
         "displayName": "NumberOfPtcThermistorInputs",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2638,7 +2638,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverloadCurrentSettingRange",
         "displayName": "OverloadCurrentSettingRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtMotorManagementDeviceAttributesType:dataType:Range;1",
         "writable": false
       },
@@ -2646,7 +2646,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverUnderCurrentDetectionSupported",
         "displayName": "OverUnderCurrentDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2654,7 +2654,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverUnderVoltageDetectionSupported",
         "displayName": "OverUnderVoltageDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2662,7 +2662,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PhaseLossSensitiveSupported",
         "displayName": "PhaseLossSensitiveSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2670,7 +2670,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PhaseReversalDetectionSupported",
         "displayName": "PhaseReversalDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2678,7 +2678,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "StallDetectionSuported",
         "displayName": "StallDetectionSuported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2686,7 +2686,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "UnderPowerDetectionSupported",
         "displayName": "UnderPowerDetectionSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2694,7 +2694,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "VoltageMonitoringSupported",
         "displayName": "VoltageMonitoringSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2702,7 +2702,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TripClass",
         "displayName": "TripClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -2719,7 +2719,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtMotorRatedAttributesType",
     "description": "Provides operation mode rated attributes of a amotor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2734,7 +2734,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IsCooled",
         "displayName": "IsCooled",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -2742,35 +2742,35 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorCurrentContinuousStall",
         "displayName": "MotorCurrentContinuousStall",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorEfficiencyClass",
         "displayName": "MotorEfficiencyClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorPowerFactor",
         "displayName": "MotorPowerFactor",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorPowerRated",
         "displayName": "MotorPowerRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorWindingType",
         "displayName": "MotorWindingType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
@@ -2778,7 +2778,7 @@
         "maxMultiplicity": 1,
         "name": "PtInputInterfaceAttributes",
         "displayName": "PtInputInterfaceAttributes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType"
       },
       {
@@ -2786,7 +2786,7 @@
         "maxMultiplicity": 1,
         "name": "PtMotorDutyAttributes",
         "displayName": "PtMotorDutyAttributes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtMotorDutyAttributesType"
       }
     ]
@@ -2803,7 +2803,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorLinearRatedAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtMotorLinearRatedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1018",
@@ -2816,42 +2816,42 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorForceConstant",
         "displayName": "MotorForceConstant",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorForceContinuousStall",
         "displayName": "MotorForceContinuousStall",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorForceMax",
         "displayName": "MotorForceMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorForceRated",
         "displayName": "MotorForceRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorSpeedMax",
         "displayName": "MotorSpeedMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorSpeedRated",
         "displayName": "MotorSpeedRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -2868,7 +2868,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorRotaryRatedAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtMotorRotaryRatedAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1015",
@@ -2881,42 +2881,42 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorSpeedMax",
         "displayName": "MotorSpeedMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorSpeedRated",
         "displayName": "MotorSpeedRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorTorqueConstant",
         "displayName": "MotorTorqueConstant",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorTorqueContinuousStall",
         "displayName": "MotorTorqueContinuousStall",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorTorqueMax",
         "displayName": "MotorTorqueMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MotorTorqueRated",
         "displayName": "MotorTorqueRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -2933,7 +2933,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtMotorStarterAttributesType",
     "description": "Provides attributes of a motor starter",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -2966,7 +2966,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlVoltageAC50HzRangeRated",
         "displayName": "ControlVoltageAC50HzRangeRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType:dataType:Range;1",
         "writable": false
       },
@@ -2974,7 +2974,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNC",
         "displayName": "NumberofAuxiliaryContactsNC",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2982,7 +2982,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofAuxiliaryContactsNO",
         "displayName": "NumberofAuxiliaryContactsNO",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2990,7 +2990,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberofMainContactsNO",
         "displayName": "NumberofMainContactsNO",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2998,7 +2998,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperationalCurrentAC3At400VRated",
         "displayName": "OperationalCurrentAC3At400VRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float",
         "writable": false
       },
@@ -3006,7 +3006,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OverloadCurrentSettingRange",
         "displayName": "OverloadCurrentSettingRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtMotorStarterAttributesType:dataType:Range;1",
         "writable": false
       },
@@ -3014,7 +3014,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TripClass",
         "displayName": "TripClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -3031,7 +3031,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtOutputConverterAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtOutputConverterAttributesType",
     "description": "Provides attributes for the output converter of a drive",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3045,7 +3045,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PwmSwitchingFrequency",
         "displayName": "<PwmSwitchingFrequency>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -3062,7 +3062,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EfficiencyClass",
         "displayName": "EfficiencyClass",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -3079,7 +3079,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtOutputFilterAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtOutputFilterAttributesType",
     "description": "Provides attributes for load-side filter functionality",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3093,14 +3093,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputFilterPowerLoss",
         "displayName": "OutputFilterPowerLoss",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputFilterType",
         "displayName": "OutputFilterType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -3117,7 +3117,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtPrechargeAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtPrechargeAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1010",
@@ -3130,42 +3130,42 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreChargeCycleTimeLimit",
         "displayName": "PreChargeCycleTimeLimit",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreChargeMaximumCapacitance",
         "displayName": "PreChargeMaximumCapacitance",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PrechargeThreshold",
         "displayName": "PrechargeThreshold",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreChargeTime",
         "displayName": "PreChargeTime",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreChargeTimeout",
         "displayName": "PreChargeTimeout",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PreChargeType",
         "displayName": "PreChargeType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -3182,7 +3182,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtReactorAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtReactorAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1006",
@@ -3195,7 +3195,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Inductance",
         "displayName": "Inductance",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -3212,7 +3212,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtSoftStarterAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtSoftStarterAttributesType",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1019",
@@ -3244,7 +3244,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IntegratedByPassSupported",
         "displayName": "IntegratedByPassSupported",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -3252,7 +3252,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MotorOverloadProtectionIntegrated",
         "displayName": "MotorOverloadProtectionIntegrated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "boolean",
         "writable": false
       },
@@ -3260,7 +3260,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperationalCurrent40CRated",
         "displayName": "OperationalCurrent40CRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float",
         "writable": false
       },
@@ -3268,7 +3268,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "OperationalVoltageRangeRated",
         "displayName": "OperationalVoltageRangeRated",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtSoftStarterAttributesType:dataType:Range;1",
         "writable": false
       }
@@ -3286,7 +3286,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtTemperatureSensorAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtTemperatureSensorAttributesType",
     "description": "Provides attributes for a temperature sensor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3301,7 +3301,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "TemperatureSensorType",
         "displayName": "TemperatureSensorType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": false
       },
@@ -3309,28 +3309,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Accuracy",
         "displayName": "Accuracy",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TemperatureMax",
         "displayName": "TemperatureMax",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TemperatureMin",
         "displayName": "TemperatureMin",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TemperatureSensorTechnology",
         "displayName": "TemperatureSensorTechnology",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       }
     ]
@@ -3347,7 +3347,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtVibrationSensorAttributesType",
     "description": "Provides attributes for a vibration sensor",
     "extends": "dtmi:opcua:Powertrain:PtAssetAttributesType;1",
@@ -3379,77 +3379,77 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Accuracy",
         "displayName": "Accuracy",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AnalogInputElectricalType",
         "displayName": "AnalogInputElectricalType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AnalogOutputElectricalType",
         "displayName": "AnalogOutputElectricalType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DigitalInputElectricalType",
         "displayName": "DigitalInputElectricalType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DigitalOutputElectricalType",
         "displayName": "DigitalOutputElectricalType",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FrequencyRange",
         "displayName": "FrequencyRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Linearity",
         "displayName": "Linearity",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MeasuringRange",
         "displayName": "MeasuringRange",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperatingVoltage",
         "displayName": "OperatingVoltage",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OutputFunction",
         "displayName": "OutputFunction",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "unsignedShort"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Resolution",
         "displayName": "Resolution",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "float"
       }
     ]
@@ -3466,7 +3466,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetType",
     "description": "Provides properties required for identifying assets of a powertrain",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -3511,7 +3511,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "AssetId",
         "displayName": "AssetId",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -3519,7 +3519,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "BuildAssetNumber",
         "displayName": "BuildAssetNumber",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -3527,7 +3527,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Comment",
         "displayName": "Comment",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": true
       },
@@ -3535,7 +3535,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ComponentName",
         "displayName": "ComponentName",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -3543,7 +3543,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ContactInformation",
         "displayName": "ContactInformation",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": true
       },
@@ -3551,7 +3551,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": true
       },
@@ -3559,7 +3559,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceClass",
         "displayName": "DeviceClass",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3567,7 +3567,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceManual",
         "displayName": "DeviceManual",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3575,7 +3575,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceRevision",
         "displayName": "DeviceRevision",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3583,7 +3583,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Function",
         "displayName": "Function",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "schema": "string",
         "writable": true
       },
@@ -3591,7 +3591,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HardwareRevision",
         "displayName": "HardwareRevision",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3600,7 +3600,7 @@
         "name": "InitialOperationDate",
         "displayName": "InitialOperationDate",
         "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "dateTime",
         "writable": false
       },
@@ -3609,7 +3609,7 @@
         "name": "Location",
         "displayName": "Location",
         "description": "To be used by end users to store the location of the machine in a scheme specific to the end user Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       },
@@ -3617,7 +3617,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MajorAssetVersion",
         "displayName": "MajorAssetVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -3626,7 +3626,7 @@
         "name": "Manufacturer",
         "displayName": "Manufacturer",
         "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3634,7 +3634,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ManufacturerUri",
         "displayName": "ManufacturerUri",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3642,7 +3642,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "MinorAssetVersion",
         "displayName": "MinorAssetVersion",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -3650,7 +3650,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Model",
         "displayName": "Model",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3659,7 +3659,7 @@
         "name": "MonthOfConstruction",
         "displayName": "MonthOfConstruction",
         "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "unsignedByte",
         "writable": false
       },
@@ -3667,7 +3667,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PatchIdentifiers",
         "displayName": "PatchIdentifiers",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -3678,7 +3678,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ProductCode",
         "displayName": "ProductCode",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3686,7 +3686,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ProductInstanceUri",
         "displayName": "ProductInstanceUri",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3694,7 +3694,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "RevisionCounter",
         "displayName": "RevisionCounter",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "integer",
         "writable": false
       },
@@ -3703,7 +3703,7 @@
         "name": "SerialNumber",
         "displayName": "SerialNumber",
         "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3711,7 +3711,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SoftwareReleaseDate",
         "displayName": "SoftwareReleaseDate",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "dateTime",
         "writable": false
       },
@@ -3719,7 +3719,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -3727,7 +3727,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SubBuildAssetNumber",
         "displayName": "SubBuildAssetNumber",
-        "namespace": "http://opcfoundation.org/UA/FX.AC",
+        "namespace": "http://opcfoundation.org/UA/FX/AC/",
         "schema": "unsignedShort",
         "writable": true
       },
@@ -3736,7 +3736,7 @@
         "name": "YearOfConstruction",
         "displayName": "YearOfConstruction",
         "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -3744,48 +3744,48 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DeviceHealth",
         "displayName": "DeviceHealth",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "dtmi:opcua:Powertrain:PtAssetType:dataType:DeviceHealthEnumeration;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "VerifyAsset",
         "displayName": "VerifyAsset",
-        "namespace": "http://opcfoundation.org/UA/FX.AC"
+        "namespace": "http://opcfoundation.org/UA/FX/AC/"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtAnalogInputElectricalAttributes",
         "displayName": "<PtAnalogInputElectricalAttributes>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtAnalogOutputElectricalAttributes",
         "displayName": "<PtAnalogOutputElectricalAttributes>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtDigitalInputElectricalAttributes",
         "displayName": "<PtDigitalInputElectricalAttributes>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtDigitalInputElectricalAttributesType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtDigitalOutputElectricalAttributes",
         "displayName": "<PtDigitalOutputElectricalAttributes>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtDigitalOutputElectricalAttributesType"
       },
       {
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PtStandardAttributes",
         "displayName": "<PtStandardAttributes>",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtStandardAttributesType"
       },
       {
@@ -3793,7 +3793,7 @@
         "maxMultiplicity": 1,
         "name": "DeviceHealthAlarms",
         "displayName": "DeviceHealthAlarms",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -3801,7 +3801,7 @@
         "maxMultiplicity": 1,
         "name": "DeviceTypeImage",
         "displayName": "DeviceTypeImage",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -3809,7 +3809,7 @@
         "maxMultiplicity": 1,
         "name": "Documentation",
         "displayName": "Documentation",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -3817,7 +3817,7 @@
         "maxMultiplicity": 1,
         "name": "DocumentationFiles",
         "displayName": "DocumentationFiles",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -3825,7 +3825,7 @@
         "maxMultiplicity": 1,
         "name": "ImageSet",
         "displayName": "ImageSet",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -3833,7 +3833,7 @@
         "maxMultiplicity": 1,
         "name": "ProtocolSupport",
         "displayName": "ProtocolSupport",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -3841,7 +3841,7 @@
         "maxMultiplicity": 1,
         "name": "PtAmbientAttributes",
         "displayName": "PtAmbientAttributes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtAmbientAttributesType"
       },
       {
@@ -3849,7 +3849,7 @@
         "maxMultiplicity": 1,
         "name": "PtAuxiliarySupplyAttributes",
         "displayName": "PtAuxiliarySupplyAttributes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtAuxiliarySupplyAttributesType"
       },
       {
@@ -3857,7 +3857,7 @@
         "maxMultiplicity": 1,
         "name": "PtCertificateAttributes",
         "displayName": "PtCertificateAttributes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtCertificateAttributesType"
       },
       {
@@ -3865,7 +3865,7 @@
         "maxMultiplicity": 1,
         "name": "PtHardwareAttributes",
         "displayName": "PtHardwareAttributes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtHardwareAttributesType"
       },
       {
@@ -3873,7 +3873,7 @@
         "maxMultiplicity": 1,
         "name": "PtMechanicalStrengthAttributes",
         "displayName": "PtMechanicalStrengthAttributes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtMechanicalStrengthAttributesType"
       },
       {
@@ -3881,7 +3881,7 @@
         "maxMultiplicity": 1,
         "name": "PtProtectionClassAttributes",
         "displayName": "PtProtectionClassAttributes",
-        "namespace": "http://opcfoundation.org/UA/Powertrain",
+        "namespace": "http://opcfoundation.org/UA/Powertrain/",
         "target": "dtmi:opcua:Powertrain:PtProtectionClassAttributesType"
       }
     ]
@@ -3898,7 +3898,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetBleedType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetBleedType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1013",
@@ -3920,7 +3920,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetBrakeType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetBrakeType",
     "description": "Describes a brake used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -3943,7 +3943,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetCommunicationModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetCommunicationModuleType",
     "description": "Describes a communication module of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -3966,7 +3966,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetContactorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetContactorType",
     "description": "powertrain asset contactor type",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -3989,7 +3989,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetControlModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetControlModuleType",
     "description": "Describes the control part of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4012,7 +4012,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetCoolingType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetCoolingType",
     "description": "Describes the colling part of an inveter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4035,7 +4035,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDcBusModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetDcBusModuleType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1005",
@@ -4057,7 +4057,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1035",
@@ -4079,7 +4079,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetFrequencyConverterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetFrequencyConverterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1016",
@@ -4101,7 +4101,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetServoDriveType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetServoDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1020",
@@ -4123,7 +4123,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetVariableSpeedDriveType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetVariableSpeedDriveType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1028",
@@ -4145,7 +4145,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetElectricalBrakingModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetElectricalBrakingModuleType",
     "description": "Brakeing module including brake resistor of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4168,7 +4168,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetElectricOverloadRelayType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetElectricOverloadRelayType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1026",
@@ -4190,7 +4190,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetEncoderInterfaceModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetEncoderInterfaceModuleType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1045",
@@ -4212,7 +4212,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetEncoderType",
     "description": "Describes an encoder used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4235,7 +4235,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetEncoderLinearType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetEncoderLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1042",
@@ -4257,7 +4257,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetEncoderRotaryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetEncoderRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetEncoderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1039",
@@ -4279,7 +4279,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetGearType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetGearType",
     "description": "Describes a gear in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4302,7 +4302,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetInputConverterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetInputConverterType",
     "description": "Describes an input converter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4325,7 +4325,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetInputFilterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetInputFilterType",
     "description": "Describes an input filter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4348,7 +4348,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetInputOutputConverterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetInputOutputConverterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1022",
@@ -4370,7 +4370,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetInputReactorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetInputReactorType",
     "description": "Describes an input filter realized by an input reactor",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4393,7 +4393,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetIoModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetIoModuleType",
     "description": "Describes the IO-Module part of an inveter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4416,7 +4416,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorManagementDeviceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetMotorManagementDeviceType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1040",
@@ -4438,7 +4438,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorStarterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetMotorStarterType",
     "description": "powertrain asset motor startet type",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4461,7 +4461,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetMotorType",
     "description": "Describes a motor in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4484,7 +4484,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1030",
@@ -4506,7 +4506,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorLinearType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetDriveIntegratedMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1017",
@@ -4528,7 +4528,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedGearMotorLinearType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetDriveIntegratedGearMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorLinearType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1036",
@@ -4550,7 +4550,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetGearMotorLinearType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetGearMotorLinearType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorLinearType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1029",
@@ -4572,7 +4572,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1027",
@@ -4594,7 +4594,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorRotaryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetDriveIntegratedMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1011",
@@ -4616,7 +4616,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedGearMotorRotaryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetDriveIntegratedGearMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetDriveIntegratedMotorRotaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1033",
@@ -4638,7 +4638,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetGearMotorRotaryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetGearMotorRotaryType",
     "extends": "dtmi:opcua:Powertrain:PtAssetMotorRotaryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1025",
@@ -4660,7 +4660,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetOutputConverterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetOutputConverterType",
     "description": "Describes an output converter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4683,7 +4683,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetOutputFilterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetOutputFilterType",
     "description": "Describes an output filter in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4706,7 +4706,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetOutputReactorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetOutputReactorType",
     "description": "Describes an output reactor in an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4729,7 +4729,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetPrechargeType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetPrechargeType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1031",
@@ -4751,7 +4751,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetReactorFilterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetReactorFilterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1007",
@@ -4773,7 +4773,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetSafetyModuleType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetSafetyModuleType",
     "description": "Describes the functional safety part of an inverter",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4796,7 +4796,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetSoftStarterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetSoftStarterType",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1034",
@@ -4818,7 +4818,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetTemperatureSensorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetTemperatureSensorType",
     "description": "Describes a temperature sensor used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",
@@ -4841,7 +4841,7 @@
     ],
     "@id": "dtmi:opcua:Powertrain:PtAssetVibrationSensorType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Powertrain",
+    "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "displayName": "PtAssetVibrationSensorType",
     "description": "Vibration sensor used in a powertrain",
     "extends": "dtmi:opcua:Powertrain:PtAssetType;1",

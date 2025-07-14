@@ -517,7 +517,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobOrder",
         "displayName": "JobOrder",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95JobOrderDataType;1",
         "writable": true
       },
@@ -525,7 +525,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobResponse",
         "displayName": "JobResponse",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95JobResponseDataType;1",
         "writable": true
       },
@@ -533,7 +533,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobState",
         "displayName": "JobState",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderStatusEventType:dataType:ISA95StateDataType;1"
@@ -949,7 +949,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "JobOrderResponseList",
         "displayName": "JobOrderResponseList",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
@@ -959,7 +959,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RequestJobResponseByJobOrderID",
         "displayName": "RequestJobResponseByJobOrderID",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -998,7 +998,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RequestJobResponseByJobOrderState",
         "displayName": "RequestJobResponseByJobOrderState",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1053,7 +1053,7 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseReceiverObjectType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+    "ontology": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
     "displayName": "ISA95JobResponseReceiverObjectType",
     "description": "A Job Response Receiver receives unsolicited Job Responses, usually as the result of completion of a job, or at intermediate points within the job.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -1448,7 +1448,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "ReceiveJobResponse",
         "displayName": "ReceiveJobResponse",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1505,7 +1505,7 @@
         "name": "Closed",
         "displayName": "Closed",
         "description": "The job order has been completed and no further post processing is performed.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1514,7 +1514,7 @@
         "name": "Completed",
         "displayName": "Completed",
         "description": "The job order has been completed and is no longer in execution.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1523,7 +1523,7 @@
         "name": "FromCompletedToClosed",
         "displayName": "FromCompletedToClosed",
         "description": "This transition is triggered when the system has finalized post processing of a ended job order.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
@@ -1553,7 +1553,7 @@
         "name": "FromHeldToSuspended",
         "displayName": "FromHeldToSuspended",
         "description": "This transition is triggered when the system has switched the job order from internally held to externally suspended, for example by a call of the Pause Method.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1562,7 +1562,7 @@
         "name": "FromSuspendedToHeld",
         "displayName": "FromSuspendedToHeld",
         "description": "This transition is triggered when the system has switched the job order from externally suspended to an internal held, for example by a call of the Resume Method.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1571,7 +1571,7 @@
         "name": "Held",
         "displayName": "Held",
         "description": "The job order has been temporarily stopped due to a constraint of some form.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1580,7 +1580,7 @@
         "name": "Suspended",
         "displayName": "Suspended",
         "description": "The job order has been temporarily stopped due to a deliberate decision within the execution system.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
@@ -2044,7 +2044,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxDownloadableJobOrders",
         "displayName": "MaxDownloadableJobOrders",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -2053,7 +2053,7 @@
         "name": "EquipmentID",
         "displayName": "EquipmentID",
         "description": "Defines a read-only set of Equipment Class IDs and Equipment IDs that may be specified in a job order.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2064,7 +2064,7 @@
         "name": "JobOrderList",
         "displayName": "JobOrderList",
         "description": "Defines a read-only list of job order information available from the server.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderAndStateDataType;1"
@@ -2075,7 +2075,7 @@
         "name": "MaterialClassID",
         "displayName": "MaterialClassID",
         "description": "Defines a read-only set of Material Classes IDs that may be specified in a job order.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2086,7 +2086,7 @@
         "name": "MaterialDefinitionID",
         "displayName": "MaterialDefinitionID",
         "description": "Defines a read-only set of Material Classes IDs that may be specified in a job order.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2097,7 +2097,7 @@
         "name": "PersonnelID",
         "displayName": "PersonnelID",
         "description": "Defines a read-only set of Personnel IDs and Person IDs that may be specified in a job order.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2108,7 +2108,7 @@
         "name": "PhysicalAssetID",
         "displayName": "PhysicalAssetID",
         "description": "Defines a read-only set of Physical Asset Class IDs and Physical Asset IDs that may be specified in a job order.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2119,7 +2119,7 @@
         "name": "WorkMaster",
         "displayName": "WorkMaster",
         "description": "Defines a read-only set of work master IDs that may be specified in a job order, and the read-only set of parameters that may be specified for a specific work master.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95WorkMasterDataType;1"
@@ -2129,7 +2129,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Abort",
         "displayName": "Abort",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2171,7 +2171,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Cancel",
         "displayName": "Cancel",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2213,7 +2213,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Clear",
         "displayName": "Clear",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2255,7 +2255,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Pause",
         "displayName": "Pause",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2297,7 +2297,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Resume",
         "displayName": "Resume",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2339,7 +2339,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RevokeStart",
         "displayName": "RevokeStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2381,7 +2381,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Start",
         "displayName": "Start",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2423,7 +2423,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Stop",
         "displayName": "Stop",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2465,7 +2465,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Store",
         "displayName": "Store",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2507,7 +2507,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StoreAndStart",
         "displayName": "StoreAndStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2549,7 +2549,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Update",
         "displayName": "Update",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2593,7 +2593,7 @@
         "name": "Aborted",
         "displayName": "Aborted",
         "description": "The job order is aborted.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2602,7 +2602,7 @@
         "name": "AllowedToStart",
         "displayName": "AllowedToStart",
         "description": "The job order is stored and may be executed.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2611,7 +2611,7 @@
         "name": "Ended",
         "displayName": "Ended",
         "description": "The job order has been completed and is no longer in execution.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2620,7 +2620,7 @@
         "name": "FromAllowedToStartToAborted",
         "displayName": "FromAllowedToStartToAborted",
         "description": "This transition is triggered when Abort Method is called.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2629,7 +2629,7 @@
         "name": "FromAllowedToStartToAllowedToStart",
         "displayName": "FromAllowedToStartToAllowedToStart",
         "description": "This transition is triggered when the Update Method is called and the job order is modified.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2638,7 +2638,7 @@
         "name": "FromAllowedToStartToNotAllowedToStart",
         "displayName": "FromAllowedToStartToNotAllowedToStart",
         "description": "This transition is triggered when the RevokeStart Method is called.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2647,7 +2647,7 @@
         "name": "FromAllowedToStartToRunning",
         "displayName": "FromAllowedToStartToRunning",
         "description": "This transition is triggered when a job order is started to be executed.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2656,7 +2656,7 @@
         "name": "FromInterruptedToAborted",
         "displayName": "FromInterruptedToAborted",
         "description": "This transition is triggered when Abort Method is called.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2665,7 +2665,7 @@
         "name": "FromInterruptedToEnded",
         "displayName": "FromInterruptedToEnded",
         "description": "This transition is triggered when Stop Method is called.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2674,7 +2674,7 @@
         "name": "FromInterruptedToRunning",
         "displayName": "FromInterruptedToRunning",
         "description": "This transition is triggered when Resume Method is called.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2683,7 +2683,7 @@
         "name": "FromNotAllowedToStartToAborted",
         "displayName": "FromNotAllowedToStartToAborted",
         "description": "This transition is triggered when Abort Method is called.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2692,7 +2692,7 @@
         "name": "FromNotAllowedToStartToAllowedToStart",
         "displayName": "FromNotAllowedToStartToAllowedToStart",
         "description": "This transition is triggered when the Start Method is called.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2701,7 +2701,7 @@
         "name": "FromNotAllowedToStartToNotAllowedToStart",
         "displayName": "FromNotAllowedToStartToNotAllowedToStart",
         "description": "This transition is triggered when the Update Method is called and the job order is modified.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2710,7 +2710,7 @@
         "name": "FromRunningToAborted",
         "displayName": "FromRunningToAborted",
         "description": "This transition is triggered when Abort Method is called.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2719,7 +2719,7 @@
         "name": "FromRunningToEnded",
         "displayName": "FromRunningToEnded",
         "description": "This transition is triggered when the execution of a job order has finished, either internally or by the Stop Method.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2728,7 +2728,7 @@
         "name": "FromRunningToInterrupted",
         "displayName": "FromRunningToInterrupted",
         "description": "This transition is triggered when an executing job order gets interrupted, either internally or by the Pause Method.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2737,7 +2737,7 @@
         "name": "Interrupted",
         "displayName": "Interrupted",
         "description": "The job order has been temporarily stopped.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2746,7 +2746,7 @@
         "name": "NotAllowedToStart",
         "displayName": "NotAllowedToStart",
         "description": "The job order is stored but may not be executed.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2755,7 +2755,7 @@
         "name": "Running",
         "displayName": "Running",
         "description": "The job order is executing.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
@@ -2772,7 +2772,7 @@
     ],
     "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverSubStatesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+    "ontology": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
     "displayName": "ISA95JobOrderReceiverSubStatesType",
     "extends": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1008",
@@ -2786,7 +2786,7 @@
         "name": "AllowedToStartSubstates",
         "displayName": "AllowedToStartSubstates",
         "description": "Substates of AllowedToStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
       },
       {
@@ -2795,7 +2795,7 @@
         "name": "EndedSubstates",
         "displayName": "EndedSubstates",
         "description": "Substates of Ended",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95EndedStateMachineType"
       },
       {
@@ -2804,7 +2804,7 @@
         "name": "InterruptedSubstates",
         "displayName": "InterruptedSubstates",
         "description": "Substates of Interrupted",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95InterruptedStateMachineType"
       },
       {
@@ -2813,7 +2813,7 @@
         "name": "NotAllowedToStartSubstates",
         "displayName": "NotAllowedToStartSubstates",
         "description": "Substates of NotAllowedToStart",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
       }
     ]
@@ -2843,7 +2843,7 @@
         "name": "FromLoadedToReady",
         "displayName": "FromLoadedToReady",
         "description": "This transition is triggered when the program or configuration to execute the job order is unloaded.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2852,7 +2852,7 @@
         "name": "FromLoadedToWaiting",
         "displayName": "FromLoadedToWaiting",
         "description": "This transition is triggered when the system is not ready to start the execution of the job order anymore.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2861,7 +2861,7 @@
         "name": "FromReadyToLoaded",
         "displayName": "FromReadyToLoaded",
         "description": "This transition is triggered when the program or configuration to execute the job order is loaded.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2870,7 +2870,7 @@
         "name": "FromReadyToWaiting",
         "displayName": "FromReadyToWaiting",
         "description": "This transition is triggered when the system is not ready to start the execution of the job order anymore.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2879,7 +2879,7 @@
         "name": "FromWaitingToReady",
         "displayName": "FromWaitingToReady",
         "description": "This transition is triggered when the system is ready to start the execution of the job order.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2888,7 +2888,7 @@
         "name": "Loaded",
         "displayName": "Loaded",
         "description": "In situations where only one job may be in active memory and is able to be run, then the job is loaded in active memory, the necessary pre-conditions have been met, and the job order is ready to run, awaiting a Start command.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2897,7 +2897,7 @@
         "name": "Ready",
         "displayName": "Ready",
         "description": "The necessary pre-conditions have been met and the job order is ready to run, awaiting a Start command.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2906,7 +2906,7 @@
         "name": "Waiting",
         "displayName": "Waiting",
         "description": "The necessary pre-conditions have not been met and the job order is not ready to run.",
-        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
+        "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]

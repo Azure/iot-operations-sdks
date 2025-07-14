@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES
+
 DataTypes:
 - UADataType: [ Mining.ExternalStandards.IREDES:3009, Mining.ExternalStandards.IREDES:Answer ]
   DisplayName: "Answer"

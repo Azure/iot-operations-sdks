@@ -86,35 +86,35 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AccTimeSinceReset",
         "displayName": "AccTimeSinceReset",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AlarmExtent",
         "displayName": "AlarmExtent",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "AlarmHistoryExtent",
         "displayName": "AlarmHistoryExtent",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MachDesignSpeed",
         "displayName": "MachDesignSpeed",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ModeCumulativeTime",
         "displayName": "ModeCumulativeTime",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "integer"
@@ -124,7 +124,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ModeCurrentTime",
         "displayName": "ModeCurrentTime",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "integer"
@@ -134,7 +134,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Parameter",
         "displayName": "Parameter",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLDescriptorDataType;1"
@@ -144,7 +144,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProdConsumedCount",
         "displayName": "ProdConsumedCount",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
@@ -154,7 +154,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProdDefectiveCount",
         "displayName": "ProdDefectiveCount",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
@@ -164,7 +164,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProdProcessedCount",
         "displayName": "ProdProcessedCount",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
@@ -174,7 +174,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StateCumulativeTime",
         "displayName": "StateCumulativeTime",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": {
@@ -187,7 +187,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StateCurrentTime",
         "displayName": "StateCurrentTime",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": {
@@ -200,14 +200,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StopReasonExtent",
         "displayName": "StopReasonExtent",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "WarningExtent",
         "displayName": "WarningExtent",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "integer"
       }
     ]
@@ -224,7 +224,7 @@
     ],
     "@id": "dtmi:opcua:PackML:PackMLBaseObjectType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PackML",
+    "ontology": "http://opcfoundation.org/UA/PackML/",
     "displayName": "PackMLBaseObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=6",
@@ -351,7 +351,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PackMLVersion",
         "displayName": "PackMLVersion",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "string",
         "writable": false
       },
@@ -359,7 +359,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "TagID",
         "displayName": "TagID",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "string",
         "writable": false
       },
@@ -367,7 +367,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RemoteCommand",
         "displayName": "RemoteCommand",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -390,7 +390,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetInterlock",
         "displayName": "SetInterlock",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -415,7 +415,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetMachSpeed",
         "displayName": "SetMachSpeed",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -435,7 +435,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetParameter",
         "displayName": "SetParameter",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -458,7 +458,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetProduct",
         "displayName": "SetProduct",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -481,7 +481,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetUnitMode",
         "displayName": "SetUnitMode",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -502,7 +502,7 @@
         "maxMultiplicity": 1,
         "name": "Admin",
         "displayName": "Admin",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:PackML:PackMLAdminObjectType"
       },
       {
@@ -510,7 +510,7 @@
         "maxMultiplicity": 1,
         "name": "BaseStateMachine",
         "displayName": "BaseStateMachine",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
       },
       {
@@ -518,7 +518,7 @@
         "maxMultiplicity": 1,
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:PackML:PackMLStatusObjectType"
       }
     ]
@@ -661,7 +661,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "UnitSupportedModes",
         "displayName": "UnitSupportedModes",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "string",
         "writable": false
       },
@@ -669,42 +669,42 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CurMachSpeed",
         "displayName": "CurMachSpeed",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EquipmentBlocked",
         "displayName": "EquipmentBlocked",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EquipmentStarved",
         "displayName": "EquipmentStarved",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MachSpeed",
         "displayName": "MachSpeed",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "float"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MaterialInterlocked",
         "displayName": "MaterialInterlocked",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Parameter",
         "displayName": "Parameter",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLDescriptorDataType;1"
@@ -714,7 +714,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Product",
         "displayName": "Product",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLProductDataType;1"
@@ -724,7 +724,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RemoteParameter",
         "displayName": "RemoteParameter",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLRemoteInterfaceDataType;1"
@@ -734,35 +734,35 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StateChangeInProcess",
         "displayName": "StateChangeInProcess",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "StateRequested",
         "displayName": "StateRequested",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "integer"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UnitModeChangeInProcess",
         "displayName": "UnitModeChangeInProcess",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UnitModeCurrent",
         "displayName": "UnitModeCurrent",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UnitModeRequested",
         "displayName": "UnitModeRequested",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "schema": "boolean"
       }
     ]
@@ -791,20 +791,20 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Abort",
         "displayName": "Abort",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Clear",
         "displayName": "Clear",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
         "maxMultiplicity": 1,
         "name": "Aborted",
         "displayName": "Aborted",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -812,7 +812,7 @@
         "maxMultiplicity": 1,
         "name": "AbortedToCleared",
         "displayName": "AbortedToCleared",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -820,7 +820,7 @@
         "maxMultiplicity": 1,
         "name": "Aborting",
         "displayName": "Aborting",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -828,7 +828,7 @@
         "maxMultiplicity": 1,
         "name": "AbortingToAborted",
         "displayName": "AbortingToAborted",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -836,7 +836,7 @@
         "maxMultiplicity": 1,
         "name": "Cleared",
         "displayName": "Cleared",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -844,7 +844,7 @@
         "maxMultiplicity": 1,
         "name": "ClearedToAborting",
         "displayName": "ClearedToAborting",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -852,7 +852,7 @@
         "maxMultiplicity": 1,
         "name": "MachineState",
         "displayName": "MachineState",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:PackML:PackMLMachineStateMachineType"
       }
     ]
@@ -910,19 +910,19 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Hold",
         "displayName": "Hold",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Reset",
         "displayName": "Reset",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Start",
         "displayName": "Start",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -945,25 +945,25 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Suspend",
         "displayName": "Suspend",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ToComplete",
         "displayName": "ToComplete",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Unhold",
         "displayName": "Unhold",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Unsuspend",
         "displayName": "Unsuspend",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -971,7 +971,7 @@
         "name": "Complete",
         "displayName": "Complete",
         "description": "The machine has finished the COMPLETING state and is now waiting for a Reset command before transitioning to the RESETTING state",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -979,7 +979,7 @@
         "maxMultiplicity": 1,
         "name": "CompleteToResetting",
         "displayName": "CompleteToResetting",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -988,7 +988,7 @@
         "name": "Completing",
         "displayName": "Completing",
         "description": "Normal operation has run to completion (i.e., processing of material at the infeed will stop).",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -996,7 +996,7 @@
         "maxMultiplicity": 1,
         "name": "CompletingToComplete",
         "displayName": "CompletingToComplete",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1005,7 +1005,7 @@
         "name": "Execute",
         "displayName": "Execute",
         "description": "Once the machine is processing materials it is deemed to be executing or in the EXECUTE state.",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1013,7 +1013,7 @@
         "maxMultiplicity": 1,
         "name": "ExecuteToCompleting",
         "displayName": "ExecuteToCompleting",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1021,7 +1021,7 @@
         "maxMultiplicity": 1,
         "name": "ExecuteToHolding",
         "displayName": "ExecuteToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1029,7 +1029,7 @@
         "maxMultiplicity": 1,
         "name": "ExecuteToSuspending",
         "displayName": "ExecuteToSuspending",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1038,7 +1038,7 @@
         "name": "Held",
         "displayName": "Held",
         "description": "The HELD state holds the machine's operation while material blockages are cleared, or to stop throughput while a downstream problem is resolved, or enable the safe correction of an equipment fault before the production may be resumed.",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1046,7 +1046,7 @@
         "maxMultiplicity": 1,
         "name": "HeldToUnholding",
         "displayName": "HeldToUnholding",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1055,7 +1055,7 @@
         "name": "Holding",
         "displayName": "Holding",
         "description": "Issuing the Unhold command will retrieve the saved set-points and return the status conditions to prepare the machine to re-enter the normal EXECUTE state",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1063,7 +1063,7 @@
         "maxMultiplicity": 1,
         "name": "HoldingToHeld",
         "displayName": "HoldingToHeld",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1072,7 +1072,7 @@
         "name": "Idle",
         "displayName": "Idle",
         "description": "This is a state which indicates that RESETTING is complete. This state maintains the machine conditions which were achieved during the RESETTING state, and performs operations required when the machine is in IDLE.",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1080,7 +1080,7 @@
         "maxMultiplicity": 1,
         "name": "IdleToStarting",
         "displayName": "IdleToStarting",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1089,7 +1089,7 @@
         "name": "Resetting",
         "displayName": "Resetting",
         "description": "will typically cause a machine to sound a horn and place the machine in a state where components are energized awaiting a START command",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1097,7 +1097,7 @@
         "maxMultiplicity": 1,
         "name": "ResettingToIdle",
         "displayName": "ResettingToIdle",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1106,7 +1106,7 @@
         "name": "Starting",
         "displayName": "Starting",
         "description": "This state provides the steps needed to start the machine and is a result of a starting type command (local or remote). Following this command, the machine will begin to Execute",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1114,7 +1114,7 @@
         "maxMultiplicity": 1,
         "name": "StartingToExecute",
         "displayName": "StartingToExecute",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1122,7 +1122,7 @@
         "maxMultiplicity": 1,
         "name": "StartingToHolding",
         "displayName": "StartingToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1131,7 +1131,7 @@
         "name": "Suspended",
         "displayName": "Suspended",
         "description": "The machine may be running at a relevant set point speed, but there is no product being produced while the machine is waiting for external process conditions to return to normal.",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1139,7 +1139,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendedToHolding",
         "displayName": "SuspendedToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1147,7 +1147,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendedToUnsuspending",
         "displayName": "SuspendedToUnsuspending",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1156,7 +1156,7 @@
         "name": "Suspending",
         "displayName": "Suspending",
         "description": "This state is a result of a change in monitored conditions due to process conditions or factors. The trigger event will cause a temporary suspension of the EXECUTE state. SUSPENDING is typically the result of starvation of upstream material in-feeds (i.e., container feed, beverage feed, crown feed, lubricant feed, etc.) that is outside the dynamic speed control range or a downstream out-feed blockage that prevents the machine from EXECUTING continued steady production",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1164,7 +1164,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendingToHolding",
         "displayName": "SuspendingToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1172,7 +1172,7 @@
         "maxMultiplicity": 1,
         "name": "SuspendingToSuspended",
         "displayName": "SuspendingToSuspended",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1181,7 +1181,7 @@
         "name": "Unholding",
         "displayName": "Unholding",
         "description": "The UNHOLDING state is a response to an operator command to resume the EXECUTE state. Issuing the Unhold command will retrieve the saved set-points and return the status conditions to prepare the machine to re-enter the normal EXECUTE state",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1189,7 +1189,7 @@
         "maxMultiplicity": 1,
         "name": "UnholdingToExecute",
         "displayName": "UnholdingToExecute",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1197,7 +1197,7 @@
         "maxMultiplicity": 1,
         "name": "UnholdingToHolding",
         "displayName": "UnholdingToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1206,7 +1206,7 @@
         "name": "Unsuspending",
         "displayName": "Unsuspending",
         "description": "This state is a result of a machine generated request from SUSPENDED state to go back to the EXECUTE state. The actions of this state may include ramping up speeds, turning on vacuums, and the re-engagement of clutches.",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1214,7 +1214,7 @@
         "maxMultiplicity": 1,
         "name": "UnsuspendingToExecute",
         "displayName": "UnsuspendingToExecute",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1222,7 +1222,7 @@
         "maxMultiplicity": 1,
         "name": "UnsuspendingToHolding",
         "displayName": "UnsuspendingToHolding",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
@@ -1251,13 +1251,13 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Reset",
         "displayName": "Reset",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "Stop",
         "displayName": "Stop",
-        "namespace": "http://opcfoundation.org/UA/PackML"
+        "namespace": "http://opcfoundation.org/UA/PackML/"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -1265,7 +1265,7 @@
         "name": "Clearing",
         "displayName": "Clearing",
         "description": "Initiated by a state command to clear faults that may have occurred when ABORTING, and are present in the ABORTED state.",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1273,7 +1273,7 @@
         "maxMultiplicity": 1,
         "name": "ClearingToStopped",
         "displayName": "ClearingToStopped",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1282,7 +1282,7 @@
         "name": "ExecuteState",
         "displayName": "ExecuteState",
         "description": "StateMachine that provides additional sube",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:PackML:PackMLExecuteStateMachineType"
       },
       {
@@ -1290,7 +1290,7 @@
         "maxMultiplicity": 1,
         "name": "Running",
         "displayName": "Running",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1298,7 +1298,7 @@
         "maxMultiplicity": 1,
         "name": "RunningToStopping",
         "displayName": "RunningToStopping",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1307,7 +1307,7 @@
         "name": "Stopped",
         "displayName": "Stopped",
         "description": "The machine is powered and stationary after completing the STOPPING state. All communications with other systems are functioning (if applicable).",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1315,7 +1315,7 @@
         "maxMultiplicity": 1,
         "name": "StoppedToRunning",
         "displayName": "StoppedToRunning",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -1324,7 +1324,7 @@
         "name": "Stopping",
         "displayName": "Stopping",
         "description": "This state executes the logic which brings the machine to a controlled stop as reflected by the STOPPED state.",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -1332,7 +1332,7 @@
         "maxMultiplicity": 1,
         "name": "StoppingToStopped",
         "displayName": "StoppingToStopped",
-        "namespace": "http://opcfoundation.org/UA/PackML",
+        "namespace": "http://opcfoundation.org/UA/PackML/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]

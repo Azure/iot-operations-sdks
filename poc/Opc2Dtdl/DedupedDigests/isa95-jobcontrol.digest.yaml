@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/
+
 DataTypes:
 - UADataType: [ isa95-jobcontrol:3005, isa95-jobcontrol:ISA95EquipmentDataType ]
   DisplayName: "ISA95EquipmentDataType"

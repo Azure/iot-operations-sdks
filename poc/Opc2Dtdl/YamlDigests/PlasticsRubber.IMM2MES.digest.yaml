@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/
+
 DataTypes:
 - UADataType: [ PlasticsRubber.IMM2MES:3004, PlasticsRubber.IMM2MES:IMMMessageClassificationEnumeration ]
   DisplayName: "IMMMessageClassificationEnumeration"

@@ -11,10 +11,10 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_Extrusion_MeltPump:MeltPump_InterfaceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/MeltPump/",
     "displayName": "MeltPump_InterfaceType",
     "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/MeltPump/;i=1002",
     "telemetryTopic": "opcua/PlasticsRubber_Extrusion_MeltPump/MeltPump_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -24,7 +24,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FeedRate",
         "displayName": "FeedRate",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/MeltPump/",
         "schema": "double"
       },
       {
@@ -32,7 +32,7 @@
         "maxMultiplicity": 1,
         "name": "Drive",
         "displayName": "Drive",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/MeltPump/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       },
       {
@@ -40,7 +40,7 @@
         "maxMultiplicity": 1,
         "name": "MeltPressures",
         "displayName": "MeltPressures",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/MeltPump/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -48,7 +48,7 @@
         "maxMultiplicity": 1,
         "name": "TemperatureZones",
         "displayName": "TemperatureZones",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/MeltPump/",
         "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType"
       }
     ]

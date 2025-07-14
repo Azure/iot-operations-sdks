@@ -9,7 +9,7 @@
 <# if (this.enumType.Description != null && this.enumType.Description != string.Empty) { #>
         "description": "<#=enumType.Description#>",
 <# } #>
-        "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)#>",
+        "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.specMapper, this.enumType.NodeId)#>",
         "valueSchema": "integer",
         "enumValues": [
 <# int ix = 1; foreach (KeyValuePair<string, int> intEnum in this.enumType.Enums) { #>

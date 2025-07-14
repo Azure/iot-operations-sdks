@@ -37,7 +37,7 @@ namespace Yaml2Dtdl
             this.Write("\",\r\n");
  } 
             this.Write("        \"typeRef\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.objType.NodeId)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.specMapper, this.objType.NodeId)));
             this.Write("\",\r\n        \"fields\": [\r\n");
  int ix = 1; foreach (KeyValuePair<string, (string, int)> field in this.objType.Fields) { 
             this.Write("          {\r\n            \"@type\": [ \"Field\", \"Required\" ],\r\n            \"name\": \"" +

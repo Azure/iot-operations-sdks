@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:Machinery_Example:ExampleComponentType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Machinery_Example",
+    "ontology": "http://opcfoundation.org/UA/Machinery_Example/",
     "displayName": "ExampleComponentType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery_Example/;i=1009",
@@ -24,7 +24,7 @@
         "maxMultiplicity": 1,
         "name": "Identification",
         "displayName": "Identification",
-        "namespace": "http://opcfoundation.org/UA/Machinery_Example",
+        "namespace": "http://opcfoundation.org/UA/Machinery_Example/",
         "target": "dtmi:opcua:Machinery:MachineryComponentIdentificationType"
       }
     ]
@@ -41,7 +41,7 @@
     ],
     "@id": "dtmi:opcua:Machinery_Example:ExampleMachineType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Machinery_Example",
+    "ontology": "http://opcfoundation.org/UA/Machinery_Example/",
     "displayName": "ExampleMachineType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery_Example/;i=1002",
@@ -54,7 +54,7 @@
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "displayName": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]

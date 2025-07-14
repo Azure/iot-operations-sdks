@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public static class SpecMapper
+    public class SpecMapper
     {
         private const string modelUriPrefix = "http://opcfoundation.org/UA/";
 
@@ -21,7 +21,13 @@
         };
 
         private static readonly Dictionary<string, string> UriToSpecName = mapping.ToDictionary(e => e.Item1, e => e.Item2);
-        private static readonly Dictionary<string, string> SpecNameToUri = mapping.ToDictionary(e => e.Item2, e => e.Item1);
+
+        private readonly Dictionary<string, string> specNameToUri;
+
+        public SpecMapper()
+        {
+            specNameToUri = new Dictionary<string, string>();
+        }
 
         public static string GetSpecNameFromUri(string modelUri)
         {
@@ -35,20 +41,15 @@
             }
         }
 
-        public static string GetUriFromSpecName(string? specName)
+        public void PreloadUri(string uri)
         {
-            if (specName == null)
-            {
-                return modelUriPrefix.Substring(0, modelUriPrefix.Length - 1);
-            }
-            else if (SpecNameToUri.TryGetValue(specName, out string? uri))
-            {
-                return uri.EndsWith('/') ? uri.Substring(0, uri.Length - 1) : uri;
-            }
-            else
-            {
-                return $"{modelUriPrefix}{specName}";
-            }
+            string specName = GetSpecNameFromUri(uri);
+            specNameToUri[specName] = uri;
+        }
+
+        public string GetUriFromSpecName(string? specName)
+        {
+            return specName == null ? modelUriPrefix : specNameToUri[specName];
         }
     }
 }

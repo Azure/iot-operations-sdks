@@ -14,7 +14,7 @@
     "displayName": "ISA95ClassType",
     "description": "This abstract ObjectType is used to define groupings of functionality that is associated with an ISA95Object",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=4957",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4957",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -36,7 +36,7 @@
     "displayName": "ISA95ObjectType",
     "description": "This abstract ObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=4958",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4958",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -58,7 +58,7 @@
     "displayName": "ISA95TestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=4959",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4959",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -81,7 +81,7 @@
     "displayName": "QualificationTestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=4977",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4977",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -104,7 +104,7 @@
     "displayName": "PersonnelClassType",
     "description": "This ObjectType indicates a grouping of persons with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=4996",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4996",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -127,7 +127,7 @@
     "displayName": "PersonType",
     "description": "This ObjectType indicates a specifically identified individual",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5131",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5131",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -150,7 +150,7 @@
     "displayName": "PhysicalAssetCapabilityTestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5057",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5057",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -173,7 +173,7 @@
     "displayName": "PhysicalAssetClassType",
     "description": "This ObjectType indicates a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5078",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5078",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -196,7 +196,7 @@
     "displayName": "PhysicalAssetType",
     "description": "This ObjectType defines a piece of equipment",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5085",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5085",
     "telemetryTopic": "opcua/ISA95/PhysicalAssetType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -227,7 +227,7 @@
     "displayName": "EquipmentCapabilityTestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5015",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5015",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -250,7 +250,7 @@
     "displayName": "EquipmentClassType",
     "description": "This ObjectType indicates a grouping of equipment with similar characteristics for a definite purpose such as manufacturing operations definition, scheduling, capability and performance",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5034",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -273,7 +273,7 @@
     "displayName": "EquipmentType",
     "description": "This ObjectType defines a piece of equipment",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5040",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5040",
     "telemetryTopic": "opcua/ISA95/EquipmentType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -304,7 +304,7 @@
     "displayName": "MaterialTestSpecificationType",
     "description": "This ObjectType indicates the existence of a test specification.",
     "extends": "dtmi:opcua:ISA95:ISA95TestSpecificationType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5172",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5172",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -326,7 +326,7 @@
     "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialClassType",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5209",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5209",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -348,7 +348,7 @@
     "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialDefinitionType",
     "extends": "dtmi:opcua:ISA95:ISA95ClassType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5219",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5219",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -370,7 +370,7 @@
     "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialLotType",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5232",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5232",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -392,7 +392,7 @@
     "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "displayName": "MaterialSublotType",
     "extends": "dtmi:opcua:ISA95:ISA95ObjectType;1",
-    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95/;i=5259",
+    "typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5259",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

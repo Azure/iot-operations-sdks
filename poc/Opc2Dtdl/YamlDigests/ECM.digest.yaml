@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/ECM/
+
 DataTypes:
 - UADataType: [ ECM:3010, ECM:MeasurementPeriodEnum ]
   DisplayName: "MeasurementPeriodEnum"

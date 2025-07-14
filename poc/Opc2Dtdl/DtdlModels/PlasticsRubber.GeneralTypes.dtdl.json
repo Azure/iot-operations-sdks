@@ -14,7 +14,7 @@
     "displayName": "ActiveJobValuesType",
     "description": "Values of the active job",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1021",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1021",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ActiveJobValuesType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ActiveJobValuesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -24,7 +24,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JobStatusEnumeration",
         "description": "Current status of the job",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -84,7 +84,7 @@
         "name": "BoxId",
         "displayName": "BoxId",
         "description": "Id of the box in which the current production is put in",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": true
       },
@@ -93,7 +93,7 @@
         "name": "CurrentLotName",
         "displayName": "CurrentLotName",
         "description": "Name of the current production lot",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": true
       },
@@ -102,7 +102,7 @@
         "name": "JobStatus",
         "displayName": "JobStatus",
         "description": "Current status of the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType:dataType:JobStatusEnumeration;1",
         "writable": false
       },
@@ -111,21 +111,21 @@
         "name": "FinishJob",
         "displayName": "FinishJob",
         "description": "With this Method the client (e.g. MES) requests the machine to change the JobStatus to JOB_FINISHED_8",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "InterruptJob",
         "displayName": "InterruptJob",
         "description": "With this Method the client (e.g. MES) requests the machine to change the JobStatus to JOB_INTERRUPTED_7",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StartJob",
         "displayName": "StartJob",
         "description": "With this Method the client (e.g. MES) requests the machine to change the JobStatus to JOB_IN_PRODUCTION_6",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       }
     ]
   },
@@ -141,11 +141,11 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveCyclicJobValuesType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
     "displayName": "ActiveCyclicJobValuesType",
     "description": "Values of the active job for cyclic production",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1031",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1031",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ActiveCyclicJobValuesType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ActiveCyclicJobValuesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -157,7 +157,7 @@
         "name": "AverageCycleTime",
         "displayName": "AverageCycleTime",
         "description": "Average cycle time",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "duration"
       },
       {
@@ -165,7 +165,7 @@
         "name": "BoxBadPartsCounter",
         "displayName": "BoxBadPartsCounter",
         "description": "Number of bad parts produced in the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -173,7 +173,7 @@
         "name": "BoxCycleCounter",
         "displayName": "BoxCycleCounter",
         "description": "Number of finished cycles for the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -181,7 +181,7 @@
         "name": "BoxGoodPartsCounter",
         "displayName": "BoxGoodPartsCounter",
         "description": "Number of good parts produced in the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -189,7 +189,7 @@
         "name": "BoxPartsCounter",
         "displayName": "BoxPartsCounter",
         "description": "Total number of parts produced in the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -197,7 +197,7 @@
         "name": "BoxTestSamplesCounter",
         "displayName": "BoxTestSamplesCounter",
         "description": "Number of test sample parts produced in the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -205,7 +205,7 @@
         "name": "JobBadPartsCounter",
         "displayName": "JobBadPartsCounter",
         "description": "Number of bad parts produced in the current job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -213,7 +213,7 @@
         "name": "JobCycleCounter",
         "displayName": "JobCycleCounter",
         "description": "Number of finished cycles in the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -221,7 +221,7 @@
         "name": "JobGoodPartsCounter",
         "displayName": "JobGoodPartsCounter",
         "description": "Number of good parts produced in the current job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -229,7 +229,7 @@
         "name": "JobPartsCounter",
         "displayName": "JobPartsCounter",
         "description": "Total number of parts produced in the current job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -237,7 +237,7 @@
         "name": "JobTestSamplesCounter",
         "displayName": "JobTestSamplesCounter",
         "description": "Number of test sample parts produced in the current job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -245,7 +245,7 @@
         "name": "LastCycleTime",
         "displayName": "LastCycleTime",
         "description": "Time of the recently finished cycle",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "duration"
       },
       {
@@ -253,7 +253,7 @@
         "name": "LastPartId",
         "displayName": "LastPartId",
         "description": "Id(s) of the parts produced in the recently finished cycle",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -264,7 +264,7 @@
         "name": "MachineCycleCounter",
         "displayName": "MachineCycleCounter",
         "description": "Number of finished cycles in the machine life time",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong"
       },
       {
@@ -272,28 +272,28 @@
         "name": "ResetAverageCycleTime",
         "displayName": "ResetAverageCycleTime",
         "description": "Initiates a new calculation of the average cycle time for the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetBoxCounters",
         "displayName": "ResetBoxCounters",
         "description": "Setting the cycle and parts counters for the current box to 0",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetJobCounters",
         "displayName": "ResetJobCounters",
         "description": "Setting the cycle and parts counters for the job to 0",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StopAtCycleEnd",
         "displayName": "StopAtCycleEnd",
         "description": "Directs the machine to stop at the end of the current cycle",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       }
     ]
   },
@@ -312,7 +312,7 @@
     "displayName": "HelpOffNormalAlarmType",
     "description": "OffNormalAlarmType with additional help text",
     "extends": "dtmi:opcua:OpcUaCore:OffNormalAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1052",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1052",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/HelpOffNormalAlarmType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/HelpOffNormalAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -324,7 +324,7 @@
         "name": "HelpText",
         "displayName": "HelpText",
         "description": "Text with additional information for the operator",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       }
@@ -345,7 +345,7 @@
     "displayName": "MonitoredParameterAlarmType",
     "description": "HelpOffNormalAlarmType with additional infomration, if the cause of the alarm is a process variable expressed as MonitoredParameterType.",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1070",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1070",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MonitoredParameterAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -355,7 +355,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedShort"
       }
     ]
@@ -375,7 +375,7 @@
     "displayName": "MessageConditionType",
     "description": "Text messages (incl. error messages) of the control system currently shown on the screen of the machine",
     "extends": "dtmi:opcua:OpcUaCore:AlarmConditionType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1004",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MessageConditionType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MessageConditionType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -387,7 +387,7 @@
         "name": "Classification",
         "displayName": "Classification",
         "description": "Classification of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -396,7 +396,7 @@
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -405,7 +405,7 @@
         "name": "IsStandstillMessage",
         "displayName": "IsStandstillMessage",
         "description": "Indication if the message has led to a standstill",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       }
@@ -426,7 +426,7 @@
     "displayName": "CycleParametersEventType",
     "description": "Information on a production cycle",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1038",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1038",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/CycleParametersEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/CycleParametersEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -436,7 +436,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CavityCycleQualityEnumeration",
         "description": "Quality of the cycle for each cavity",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3020",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3020",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -462,7 +462,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "CycleQualityEnumeration",
         "description": "Quality of the whole cycle",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3019",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3019",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -488,7 +488,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "JobStatusEnumeration",
         "description": "Current status of the job",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3017",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -547,7 +547,7 @@
         "@type": [ "Property", "Qualified", "Historized" ],
         "name": "AverageCycleTime",
         "displayName": "AverageCycleTime",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "duration",
         "writable": false
       },
@@ -556,7 +556,7 @@
         "name": "BoxBadPartsCounter",
         "displayName": "BoxBadPartsCounter",
         "description": "Number of bad parts produced in the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -564,7 +564,7 @@
         "@type": [ "Property", "Qualified", "Historized" ],
         "name": "BoxCycleCounter",
         "displayName": "BoxCycleCounter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -573,7 +573,7 @@
         "name": "BoxGoodPartsCounter",
         "displayName": "BoxGoodPartsCounter",
         "description": "Number of good parts produced in the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -582,7 +582,7 @@
         "name": "BoxId",
         "displayName": "BoxId",
         "description": "Id of the box in which the current production is put in",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -591,7 +591,7 @@
         "name": "BoxPartsCounter",
         "displayName": "BoxPartsCounter",
         "description": "Total number of parts produced in the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -600,7 +600,7 @@
         "name": "BoxTestSamplesCounter",
         "displayName": "BoxTestSamplesCounter",
         "description": "Number of test sample parts produced in the current box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -609,7 +609,7 @@
         "name": "CavityCycleQuality",
         "displayName": "CavityCycleQuality",
         "description": "Quality of the cycle for each cavity",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:CavityCycleQualityEnumeration;1"
@@ -621,7 +621,7 @@
         "name": "CurrentLotName",
         "displayName": "CurrentLotName",
         "description": "Name of the current production lot",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -630,7 +630,7 @@
         "name": "CycleQuality",
         "displayName": "CycleQuality",
         "description": "Quality of the whole cycle",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:CycleQualityEnumeration;1",
         "writable": false
       },
@@ -639,7 +639,7 @@
         "name": "CycleTime",
         "displayName": "CycleTime",
         "description": "Cycle time",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "duration",
         "writable": false
       },
@@ -648,7 +648,7 @@
         "name": "JobBadPartsCounter",
         "displayName": "JobBadPartsCounter",
         "description": "Number of bad parts produced in the current job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -657,7 +657,7 @@
         "name": "JobCycleCounter",
         "displayName": "JobCycleCounter",
         "description": "Number of the cycle in the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -666,7 +666,7 @@
         "name": "JobGoodPartsCounter",
         "displayName": "JobGoodPartsCounter",
         "description": "Number of good parts produced in the current job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -675,7 +675,7 @@
         "name": "JobName",
         "displayName": "JobName",
         "description": "Name of the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -684,7 +684,7 @@
         "name": "JobPartsCounter",
         "displayName": "JobPartsCounter",
         "description": "Total number of parts produced in the current job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -693,7 +693,7 @@
         "name": "JobStatus",
         "displayName": "JobStatus",
         "description": "Current status of the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:CycleParametersEventType:dataType:JobStatusEnumeration;1",
         "writable": false
       },
@@ -702,7 +702,7 @@
         "name": "JobTestSamplesCounter",
         "displayName": "JobTestSamplesCounter",
         "description": "Number of test sample parts produced in the current job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -711,7 +711,7 @@
         "name": "MachineCycleCounter",
         "displayName": "MachineCycleCounter",
         "description": "Number of finished cycles in the machine life time",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -720,7 +720,7 @@
         "name": "PartId",
         "displayName": "PartId",
         "description": "Id(s) of the parts produced in the cycle",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -743,7 +743,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "DiagnosisEndEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1060",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1060",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosisEndEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosisEndEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -753,7 +753,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DiagnosticsStatusEnumeration",
         "description": "Diagnostics inactive",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3027",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3027",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -784,7 +784,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosisEndEventType:dataType:DiagnosticsStatusEnumeration;1",
         "writable": false
       }
@@ -804,7 +804,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "DiagnosisStepEndEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1062",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1062",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosisStepEndEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosisStepEndEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -815,7 +815,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "InputNode",
         "displayName": "InputNode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -823,7 +823,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Result",
         "displayName": "Result",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       }
@@ -844,7 +844,7 @@
     "displayName": "LogbookEventType",
     "description": "Logbook events are fired by the machine for the documentation of relevant changes in the machine configuration/status",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1011",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/LogbookEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/LogbookEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -854,7 +854,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "EventOriginatorEnumeration",
         "description": "Originator of an event",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3018",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3018",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -886,7 +886,7 @@
         "name": "EventOriginator",
         "displayName": "EventOriginator",
         "description": "Originator of a logbook event",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType:dataType:EventOriginatorEnumeration;1",
         "writable": false
       },
@@ -895,7 +895,7 @@
         "name": "JobCycleCounter",
         "displayName": "JobCycleCounter",
         "description": "Current value of JobCycleCounter in the ActiveJobValues Object when the event is fired. Only to be used for cyclic production",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": false
       },
@@ -905,7 +905,7 @@
         "name": "User",
         "displayName": "User",
         "description": "Indicates the user who is responsible for the change that leads to the event. The fields of UserType shall be null if no user is directly responsible (e.g. for messages coming from the machine control system).",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserType"
       }
     ]
@@ -925,7 +925,7 @@
     "displayName": "MachineModeChangeLogType",
     "description": "The MachineModeChangeLogType is used for logging changes of the machine mode",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1014",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1014",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineModeChangeLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MachineModeChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -935,7 +935,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MachineModeEnumeration",
         "description": "Current machine mode (as defined by mode selector on the machine)",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3011",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -971,7 +971,7 @@
         "name": "NewMachineMode",
         "displayName": "NewMachineMode",
         "description": "New machine mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType:dataType:MachineModeEnumeration;1",
         "writable": false
       },
@@ -980,7 +980,7 @@
         "name": "OldMachineMode",
         "displayName": "OldMachineMode",
         "description": "Old machine mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineModeChangeLogType:dataType:MachineModeEnumeration;1",
         "writable": false
       }
@@ -1001,7 +1001,7 @@
     "displayName": "MessageLogType",
     "description": "The MessageLogType is used for logging MessageConditions",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1042",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1042",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MessageLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MessageLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1013,7 +1013,7 @@
         "name": "Classification",
         "displayName": "Classification",
         "description": "Classification of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1022,7 +1022,7 @@
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1031,7 +1031,7 @@
         "name": "IsStandstillMessage",
         "displayName": "IsStandstillMessage",
         "description": "Indication if the message has led to a standstill",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       }
@@ -1052,7 +1052,7 @@
     "displayName": "ParameterChangeLogType",
     "description": "The ParameterChangeLogType is used for the logging of relevant changes in production parameters. The decision which parameter is relevant for the production is done by the machine.",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1010",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ParameterChangeLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ParameterChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1064,7 +1064,7 @@
         "name": "NewValue",
         "displayName": "NewValue",
         "description": "New value of the changed parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1073,7 +1073,7 @@
         "name": "NewValueUnit",
         "displayName": "NewValueUnit",
         "description": "New unit of the changed parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1082,7 +1082,7 @@
         "name": "OldValue",
         "displayName": "OldValue",
         "description": "Old value of the changed parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1091,7 +1091,7 @@
         "name": "OldValueUnit",
         "displayName": "OldValueUnit",
         "description": "Old unit of the changed parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1100,7 +1100,7 @@
         "name": "ParameterId",
         "displayName": "ParameterId",
         "description": "Id of the changed parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       }
@@ -1121,7 +1121,7 @@
     "displayName": "ProductionDatasetChangeLogType",
     "description": "The ProductionDatasetChangeLogType is used when a new production dataset is loaded and activated in the control system of the machine",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1012",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetChangeLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1133,7 +1133,7 @@
         "name": "NewProductionDatasetName",
         "displayName": "NewProductionDatasetName",
         "description": "Name of new production dataset",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1142,7 +1142,7 @@
         "name": "OldProductionDatasetName",
         "displayName": "OldProductionDatasetName",
         "description": "Name of old production dataset",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       }
@@ -1163,7 +1163,7 @@
     "displayName": "ProductionDatasetFrozenLogType",
     "description": "The ProductionDatasetFrozenLogType is used when a production dataset is locked or unlocked",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1041",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1041",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetFrozenLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetFrozenLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1175,7 +1175,7 @@
         "name": "NewValue",
         "displayName": "NewValue",
         "description": "Information if the production dataset is now locked",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -1184,7 +1184,7 @@
         "name": "OldValue",
         "displayName": "OldValue",
         "description": "Information if the production dataset was locked",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       }
@@ -1205,7 +1205,7 @@
     "displayName": "ProductionStatusChangeLogType",
     "description": "The ProductionStatusChangeLogType is used for logging changes of the production status",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1044",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1044",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionStatusChangeLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionStatusChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1215,7 +1215,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ProductionStatusEnumeration",
         "description": "Production status of the machine",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3016",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1251,7 +1251,7 @@
         "name": "NewProductionStatus",
         "displayName": "NewProductionStatus",
         "description": "New production status",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionStatusChangeLogType:dataType:ProductionStatusEnumeration;1",
         "writable": false
       },
@@ -1260,7 +1260,7 @@
         "name": "OldProductionStatus",
         "displayName": "OldProductionStatus",
         "description": "Old production status",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionStatusChangeLogType:dataType:ProductionStatusEnumeration;1",
         "writable": false
       }
@@ -1281,7 +1281,7 @@
     "displayName": "RemoteAccessLogType",
     "description": "The RemoteAccessLogType is used for logging access from outside to the machine (e.g. remote service)",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1022",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1022",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RemoteAccessLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/RemoteAccessLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1291,7 +1291,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "UserChangeEnumeration",
         "description": "Information if a user logs in or off",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1311,7 +1311,7 @@
         "name": "Origin",
         "displayName": "Origin",
         "description": "Information about the origin of the remote access",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1320,7 +1320,7 @@
         "name": "RemoteUserName",
         "displayName": "RemoteUserName",
         "description": "Name of the remote user (e.g. name of the service employee doing remote service)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1329,7 +1329,7 @@
         "name": "UserChange",
         "displayName": "UserChange",
         "description": "Information if the user logs in or off",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:RemoteAccessLogType:dataType:UserChangeEnumeration;1",
         "writable": false
       }
@@ -1350,7 +1350,7 @@
     "displayName": "SequenceChangeLogType",
     "description": "The SequenceChangeLogType is used for the logging changes in the production sequence",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1043",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1043",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/SequenceChangeLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/SequenceChangeLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1360,7 +1360,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "SequenceChangeEnumeration",
         "description": "Classification of production sequence change",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3012",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3012",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1392,7 +1392,7 @@
         "name": "SequenceChange",
         "displayName": "SequenceChange",
         "description": "Classification of production sequence change",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:SequenceChangeLogType:dataType:SequenceChangeEnumeration;1",
         "writable": false
       }
@@ -1413,7 +1413,7 @@
     "displayName": "StandstillReasonLogType",
     "description": "The StandstillReasonLogType is used for logging StandstillReasons",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1013",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1013",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/StandstillReasonLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/StandstillReasonLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1425,7 +1425,7 @@
         "name": "StandstillReasonId",
         "displayName": "StandstillReasonId",
         "description": "Id of the standstill reason",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       }
@@ -1446,7 +1446,7 @@
     "displayName": "UserFeedbackLogType",
     "description": "The UserFeedbackLogType is used for logging text messages entered by the user into the machine control system",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1046",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1046",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/UserFeedbackLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/UserFeedbackLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1458,7 +1458,7 @@
         "name": "Classification",
         "displayName": "Classification",
         "description": "Classification of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       }
@@ -1479,7 +1479,7 @@
     "displayName": "UserLogType",
     "description": "The UserLogType is used for logging which users are logged in to the machine",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:LogbookEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1015",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1015",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/UserLogType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/UserLogType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1489,7 +1489,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "UserChangeEnumeration",
         "description": "Information if a user logs in or off",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3010",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3010",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1509,7 +1509,7 @@
         "name": "UserChange",
         "displayName": "UserChange",
         "description": "Information if the user logs in or off",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserLogType:dataType:UserChangeEnumeration;1",
         "writable": false
       }
@@ -1529,7 +1529,7 @@
     "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
     "displayName": "RequestAddMaterialEventType",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1061",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1061",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestAddMaterialEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/RequestAddMaterialEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1540,7 +1540,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": true
       }
@@ -1561,7 +1561,7 @@
     "displayName": "RequestCyclicJobListEventType",
     "description": "This EventType is used to initiate a call of SendCyclicJobList by the client",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1028",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1028",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1583,7 +1583,7 @@
     "displayName": "RequestCyclicJobWriteEventType",
     "description": "This EventType is used to initiate a call of the SetCyclicJobData Method by the client",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1025",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1025",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestCyclicJobWriteEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/RequestCyclicJobWriteEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1594,7 +1594,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobName",
         "displayName": "JobName",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       }
@@ -1615,7 +1615,7 @@
     "displayName": "RequestJobListEventType",
     "description": "This EventType is used to initiate a call of SendJobList by the client",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1027",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1027",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -1637,7 +1637,7 @@
     "displayName": "RequestProductionDatasetListEventType",
     "description": "This EventType is used initiate a call of SendProductionDatasetList by the client",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1040",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1040",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetListEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetListEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1649,7 +1649,7 @@
         "name": "MouldId",
         "displayName": "MouldId",
         "description": "Id of the mould for which the available production datasets are requested",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1658,7 +1658,7 @@
         "name": "NameFilter",
         "displayName": "NameFilter",
         "description": "Filtering the list of production datasets by name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       }
@@ -1679,7 +1679,7 @@
     "displayName": "RequestProductionDatasetReadEventType",
     "description": "This EventType is used to trigger a production dataset transfer from the server to the client by the server (e.g. initiated by the operator)",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1006",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetReadEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetReadEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1689,7 +1689,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "StorageEnumeration",
         "description": "Indication which parts of the production dataset shall be activated in the machine control after writing",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1713,7 +1713,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the production dataset that should be transferred from the server to the client",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1722,7 +1722,7 @@
         "name": "Storage",
         "displayName": "Storage",
         "description": "Indication from where the dataset is read",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetReadEventType:dataType:StorageEnumeration;1",
         "writable": false
       }
@@ -1743,7 +1743,7 @@
     "displayName": "RequestProductionDatasetWriteEventType",
     "description": "This EventType is used to trigger a production dataset transfer from the client to the server by the server (e.g. initiated by the operator)",
     "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1007",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetWriteEventType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/RequestProductionDatasetWriteEventType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1753,7 +1753,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "StorageEnumeration",
         "description": "Indication which parts of the production dataset shall be activated in the machine control after writing",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3005",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3005",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1777,7 +1777,7 @@
         "name": "Components",
         "displayName": "Components",
         "description": "Array which indicates which parts of the production dataset shall be activated in the machine control after writing",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedShort"
@@ -1789,7 +1789,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the production dataset that should be transferred from the client to the server",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -1798,7 +1798,7 @@
         "name": "Storage",
         "displayName": "Storage",
         "description": "Indication where the dataset is written to",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:RequestProductionDatasetWriteEventType:dataType:StorageEnumeration;1",
         "writable": false
       }
@@ -1819,7 +1819,7 @@
     "displayName": "ClosedLoopControlType",
     "description": "Settings for the closed loop control on the device for a parameter",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1054",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1054",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ClosedLoopControlType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ClosedLoopControlType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1829,7 +1829,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PIDParametersDataType",
         "description": "Structure for storing the parameters of a PID controller",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3023",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3023",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -1855,7 +1855,7 @@
         "name": "AutomaticControllerMode",
         "displayName": "AutomaticControllerMode",
         "description": "Determination if PID Parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": true
       },
@@ -1864,7 +1864,7 @@
         "name": "AutoTuningActive",
         "displayName": "AutoTuningActive",
         "description": "Informs if the automatic tuning is currently active",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -1873,7 +1873,7 @@
         "name": "PIDParameters",
         "displayName": "PIDParameters",
         "description": "PID Parameters as array if several input signals (sensors) are used for the control",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType:dataType:PIDParametersDataType;1"
@@ -1885,14 +1885,14 @@
         "name": "AutoTuningOff",
         "displayName": "AutoTuningOff",
         "description": "Stops an already active self-optimisation process (no control parameters are changed)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "AutoTuningOn",
         "displayName": "AutoTuningOn",
         "description": "Starts the self-optimisation of the controller",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       }
     ]
   },
@@ -1910,7 +1910,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DiagnosticsType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1066",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1066",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosticsType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/DiagnosticsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1920,7 +1920,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "DiagnosticsStatusEnumeration",
         "description": "Diagnostics inactive",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3027",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3027",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -1951,7 +1951,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType:dataType:DiagnosticsStatusEnumeration;1",
         "writable": false
       },
@@ -1959,13 +1959,13 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RunDiagnostics",
         "displayName": "RunDiagnostics",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StopDiagnostics",
         "displayName": "StopDiagnostics",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       }
     ]
   },
@@ -1983,7 +1983,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DrivesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1069",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1069",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/DrivesType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/DrivesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -1994,7 +1994,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2002,7 +2002,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Name_Nr",
         "displayName": "<Name>_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
       }
     ]
@@ -2021,7 +2021,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "DriveType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1068",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1068",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/DriveType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/DriveType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2032,7 +2032,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Position",
         "displayName": "Position",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2041,7 +2041,7 @@
         "maxMultiplicity": 1,
         "name": "AdditionalMeasuringDevices",
         "displayName": "AdditionalMeasuringDevices",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
       },
       {
@@ -2049,7 +2049,7 @@
         "maxMultiplicity": 1,
         "name": "Energy",
         "displayName": "Energy",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
       },
       {
@@ -2057,7 +2057,7 @@
         "maxMultiplicity": 1,
         "name": "Maintenance",
         "displayName": "Maintenance",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
@@ -2065,7 +2065,7 @@
         "maxMultiplicity": 1,
         "name": "Speed",
         "displayName": "Speed",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -2073,7 +2073,7 @@
         "maxMultiplicity": 1,
         "name": "StartDrive",
         "displayName": "StartDrive",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
       },
       {
@@ -2081,7 +2081,7 @@
         "maxMultiplicity": 1,
         "name": "Torque",
         "displayName": "Torque",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
     ]
@@ -2100,7 +2100,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "EnergyType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1063",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1063",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/EnergyType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2110,28 +2110,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualPower",
         "displayName": "ActualPower",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ActualSpecificEnergy",
         "displayName": "ActualSpecificEnergy",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerConsumption",
         "displayName": "PowerConsumption",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerFactor",
         "displayName": "PowerFactor",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       }
     ]
@@ -2151,7 +2151,7 @@
     "displayName": "JobInformationType",
     "description": "Information about a production job",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1037",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1037",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/JobInformationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/JobInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2163,7 +2163,7 @@
         "name": "ContinueAtJobEnd",
         "displayName": "ContinueAtJobEnd",
         "description": "Indication if the machine continues the production even if the nominal output has been reached",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": true
       },
@@ -2172,7 +2172,7 @@
         "name": "CustomerName",
         "displayName": "CustomerName",
         "description": "Name of the customer for that the job is produced",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2181,7 +2181,7 @@
         "name": "JobDescription",
         "displayName": "JobDescription",
         "description": "Description of the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2190,7 +2190,7 @@
         "name": "JobName",
         "displayName": "JobName",
         "description": "Name of the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2199,7 +2199,7 @@
         "name": "Material",
         "displayName": "Material",
         "description": "Array of material names used for the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2211,7 +2211,7 @@
         "name": "ProductDescription",
         "displayName": "ProductDescription",
         "description": "Array of descriptions of the products produced by the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2223,7 +2223,7 @@
         "name": "ProductionDatasetDescription",
         "displayName": "ProductionDatasetDescription",
         "description": "Additional description of the production dataset which is needed for the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2232,7 +2232,7 @@
         "name": "ProductionDatasetName",
         "displayName": "ProductionDatasetName",
         "description": "Name of the production dataset which is needed for the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2241,7 +2241,7 @@
         "name": "ProductName",
         "displayName": "ProductName",
         "description": "Array of product names produced by the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -2262,11 +2262,11 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CyclicJobInformationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
     "displayName": "CyclicJobInformationType",
     "description": "Information about a cyclic production job",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1024",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1024",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/CyclicJobInformationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/CyclicJobInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2278,7 +2278,7 @@
         "name": "ExpectedCycleTime",
         "displayName": "ExpectedCycleTime",
         "description": "Calculated cycle time for the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "duration",
         "writable": true
       },
@@ -2287,7 +2287,7 @@
         "name": "MouldId",
         "displayName": "MouldId",
         "description": "Id of the Mould used for the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2296,7 +2296,7 @@
         "name": "NominalBoxParts",
         "displayName": "NominalBoxParts",
         "description": "Number of parts that shall be put into one box",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": true
       },
@@ -2305,7 +2305,7 @@
         "name": "NominalParts",
         "displayName": "NominalParts",
         "description": "Total number (sum of all cavities) of parts that shall be produced by the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedLong",
         "writable": true
       },
@@ -2314,7 +2314,7 @@
         "name": "NumCavities",
         "displayName": "NumCavities",
         "description": "Number of cavities in the Mould used for production",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -2323,7 +2323,7 @@
         "name": "SetCyclicJobData",
         "displayName": "SetCyclicJobData",
         "description": "Method for setting the data for cyclic jobs",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2430,7 +2430,7 @@
     "displayName": "JobsType",
     "description": "Management of production jobs on the machine and information on their status including process parameters",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1032",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1032",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/JobsType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -2439,7 +2439,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "CyclicJobListElementType",
         "description": "Description of a job in a cyclic job list",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3022",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3022",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2473,7 +2473,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "JobListElementType",
         "description": "Description of a job in a job list",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3021",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3021",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2558,7 +2558,7 @@
         "name": "SendCyclicJobList",
         "displayName": "SendCyclicJobList",
         "description": "Sends a list of jobs for cyclic processes available on the client to the server",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2582,7 +2582,7 @@
         "name": "SendJobList",
         "displayName": "SendJobList",
         "description": "Sends a list of jobs available on the client to the server",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2607,7 +2607,7 @@
         "name": "ActiveJob",
         "displayName": "ActiveJob",
         "description": "Job that is currently active on the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType"
       },
       {
@@ -2616,7 +2616,7 @@
         "name": "ActiveJobValues",
         "displayName": "ActiveJobValues",
         "description": "Status of the job",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType"
       },
       {
@@ -2625,7 +2625,7 @@
         "name": "JobInPreparation",
         "displayName": "JobInPreparation",
         "description": "Job in a preparation layer of the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType"
       }
     ]
@@ -2645,7 +2645,7 @@
     "displayName": "MachineConfigurationType",
     "description": "Current configuration of the machine",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1016",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1016",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineConfigurationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MachineConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2655,7 +2655,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "PageEntryDataType",
         "description": "Information on a page that is implemented in the machine control system and shown on the screen of the machine",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3014",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3014",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2694,7 +2694,7 @@
         "name": "LocationName",
         "displayName": "LocationName",
         "description": "Description of the location of the machine given by the machine operator or OPC client",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": true
       },
@@ -2703,7 +2703,7 @@
         "name": "PageDirectory",
         "displayName": "PageDirectory",
         "description": "List of the pages that are implemented in the machine control system and are shown on the screen of the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:PageEntryDataType;1"
@@ -2715,7 +2715,7 @@
         "name": "TimeZoneOffset",
         "displayName": "TimeZoneOffset",
         "description": "Difference of the local time to Coordinated Universal Time (UTC) given by the machine operator or OPC client",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType:dataType:TimeZoneDataType;1",
         "writable": true
       },
@@ -2724,7 +2724,7 @@
         "name": "UserMachineName",
         "displayName": "UserMachineName",
         "description": "Description of the machine given by the machine operator or OPC client",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": true
       },
@@ -2733,7 +2733,7 @@
         "name": "GetCurrentPage",
         "displayName": "GetCurrentPage",
         "description": "Method for retrieving a screenshot of the control system with the currently shown contents",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2768,7 +2768,7 @@
         "name": "GetPage",
         "displayName": "GetPage",
         "description": "Method for retrieving the image of a page of the control system",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2803,7 +2803,7 @@
         "name": "SetMachineTime",
         "displayName": "SetMachineTime",
         "description": "Method for setting the server time together with TimeZoneOffset",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2841,7 +2841,7 @@
     "displayName": "MachineMESConfigurationType",
     "description": "Current configuration of a machine related to a Manufacturing Execution System (MES)",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1018",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1018",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineMESConfigurationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MachineMESConfigurationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2851,7 +2851,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "StandstillReasonType",
         "description": "Description of a standstill reason",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3015",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3015",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -2877,7 +2877,7 @@
         "name": "MESUrl",
         "displayName": "MESUrl",
         "description": "URL to display a webpage generated by the MES in a web browser integrated in the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": true
       },
@@ -2886,7 +2886,7 @@
         "name": "StandstillReasons",
         "displayName": "StandstillReasons",
         "description": "List of the standstill reasons from which one is selected by the operator in the case of a standstill",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType:dataType:StandstillReasonType;1"
@@ -2898,7 +2898,7 @@
         "name": "StandstillReasonsLockedByMES",
         "displayName": "StandstillReasonsLockedByMES",
         "description": "Indication if the list StandstillReasons has been modified by the MES and may not be changed by the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": true
       }
@@ -2919,7 +2919,7 @@
     "displayName": "MachineMESStatusType",
     "description": "Current status of a machine related to the MES",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1020",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1020",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineMESStatusType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MachineMESStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -2931,7 +2931,7 @@
         "name": "StandstillReasonId",
         "displayName": "StandstillReasonId",
         "description": "Id of the StandstillReason set by the operator after a standstill occurs",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -2940,14 +2940,14 @@
         "name": "ClearMESMessage",
         "displayName": "ClearMESMessage",
         "description": "Method for clearing the MESMessage",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetMESMessage",
         "displayName": "SetMESMessage",
         "description": "Method for setting the MESMessage",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2979,7 +2979,7 @@
         "name": "MESMessage",
         "displayName": "MESMessage",
         "description": "Text message sent from the MES to be shown on the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType"
       },
       {
@@ -2988,7 +2988,7 @@
         "name": "ProductionControl",
         "displayName": "ProductionControl",
         "description": "Control of the production of the machine by MES",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType"
       },
       {
@@ -2996,7 +2996,7 @@
         "maxMultiplicity": 1,
         "name": "StandstillMessage",
         "displayName": "StandstillMessage",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StandstillMessageType"
       }
     ]
@@ -3016,7 +3016,7 @@
     "displayName": "MachineStatusType",
     "description": "Information on the current status of the machine",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1019",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1019",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineStatusType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MachineStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3026,7 +3026,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MachineModeEnumeration",
         "description": "Current machine mode (as defined by mode selector on the machine)",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3011",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3011",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3062,7 +3062,7 @@
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Indication if the machine is physically present and connected",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -3071,7 +3071,7 @@
         "name": "MachineMode",
         "displayName": "MachineMode",
         "description": "Current machine mode (as defined by mode selector on the machine)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineStatusType:dataType:MachineModeEnumeration;1",
         "writable": false
       },
@@ -3080,14 +3080,14 @@
         "name": "ActivateSleepMode",
         "displayName": "ActivateSleepMode",
         "description": "Method for activation of sleep mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "DeactivateSleepMode",
         "displayName": "DeactivateSleepMode",
         "description": "Method for deactivation of sleep mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Relationship", "HasCapability", "Qualified" ],
@@ -3095,7 +3095,7 @@
         "name": "Users",
         "displayName": "Users",
         "description": "Container for the user(s) of the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType"
       }
     ]
@@ -3115,7 +3115,7 @@
     "displayName": "MaintenanceType",
     "description": "Provides information on the maintenance status of a machine, device or component",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1053",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1053",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MaintenanceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MaintenanceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3125,7 +3125,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MaintenanceStatusEnumeration",
         "description": "Maintenance status of a machine/device/component",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3013",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3013",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3149,7 +3149,7 @@
         "name": "AdditionalInformation",
         "displayName": "AdditionalInformation",
         "description": "Additional information on the necessary maintenance. Can be also a link to another document.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3158,7 +3158,7 @@
         "name": "Status",
         "displayName": "Status",
         "description": "Maintenance status of the machine/device/component (represented by the parent element)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType:dataType:MaintenanceStatusEnumeration;1",
         "writable": false
       },
@@ -3167,7 +3167,7 @@
         "name": "Interval",
         "displayName": "Interval",
         "description": "Regular interval between two maintenances",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3175,7 +3175,7 @@
         "name": "RemainingInterval",
         "displayName": "RemainingInterval",
         "description": "Interval before next maintenance is due",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3183,7 +3183,7 @@
         "name": "TotalOperation",
         "displayName": "TotalOperation",
         "description": "How long is the component running in total",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3191,7 +3191,7 @@
         "name": "Reset",
         "displayName": "Reset",
         "description": "This Method sets the RemainingInterval to Interval and Status to NOT_DUE_0",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       }
     ]
   },
@@ -3209,7 +3209,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MaterialListType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1059",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1059",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MaterialListType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MaterialListType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3220,7 +3220,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "DensityUnit",
         "displayName": "DensityUnit",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3228,7 +3228,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3236,7 +3236,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AddMaterial",
         "displayName": "AddMaterial",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3266,7 +3266,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RemoveMaterialById",
         "displayName": "RemoveMaterialById",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3286,7 +3286,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Material_Nr",
         "displayName": "Material_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialType"
       }
     ]
@@ -3305,7 +3305,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MaterialType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1002",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MaterialType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MaterialType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3316,7 +3316,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3324,7 +3324,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3332,7 +3332,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Density",
         "displayName": "Density",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       }
     ]
@@ -3351,7 +3351,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MeasuringDevicesType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1065",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1065",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MeasuringDevicesType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MeasuringDevicesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3362,7 +3362,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3370,7 +3370,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Name_Nr",
         "displayName": "<Name>_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
       }
     ]
@@ -3390,7 +3390,7 @@
     "displayName": "MESMessageType",
     "description": "Text message sent from the MES to be shown on the machine",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1051",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1051",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MESMessageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MESMessageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3402,7 +3402,7 @@
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3411,7 +3411,7 @@
         "name": "Message",
         "displayName": "Message",
         "description": "Text of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3420,7 +3420,7 @@
         "name": "Severity",
         "displayName": "Severity",
         "description": "Severity of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -3441,7 +3441,7 @@
     "displayName": "MonitoredParameterType",
     "description": "Used for process parameters that are monitored by the client",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1056",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1056",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MonitoredParameterType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MonitoredParameterType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3453,7 +3453,7 @@
         "name": "AutomaticMonitoring",
         "displayName": "AutomaticMonitoring",
         "description": "Determination if monitoring tolerance parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": true
       },
@@ -3462,7 +3462,7 @@
         "name": "ActualValue",
         "displayName": "ActualValue",
         "description": "Actual value of the monitored parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3470,7 +3470,7 @@
         "name": "AlarmSuppression",
         "displayName": "AlarmSuppression",
         "description": "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedShort"
       },
       {
@@ -3478,7 +3478,7 @@
         "name": "LowerTolerance",
         "displayName": "LowerTolerance",
         "description": "Lower relative tolerance value of the process parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3486,7 +3486,7 @@
         "name": "LowerTolerance2",
         "displayName": "LowerTolerance2",
         "description": "Second lower relative tolerance value of the process parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3494,7 +3494,7 @@
         "name": "MaxValue",
         "displayName": "MaxValue",
         "description": "Maximum absolute value of the process parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3502,7 +3502,7 @@
         "name": "MinValue",
         "displayName": "MinValue",
         "description": "Minimum absolute value of the process parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3510,7 +3510,7 @@
         "name": "MonitoringSensitivity",
         "displayName": "MonitoringSensitivity",
         "description": "Defines how closely the tolerances are set during the automatic limit setting",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedShort"
       },
       {
@@ -3518,7 +3518,7 @@
         "name": "SetRampDown",
         "displayName": "SetRampDown",
         "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3526,7 +3526,7 @@
         "name": "SetRampUp",
         "displayName": "SetRampUp",
         "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3534,7 +3534,7 @@
         "name": "SetValue",
         "displayName": "SetValue",
         "description": "Set/nominal/target value of the monitored parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3542,7 +3542,7 @@
         "name": "Status",
         "displayName": "Status",
         "description": "Information if the ActualValue is within the tolerances or has passed a tolerance or min/max value",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedShort"
       },
       {
@@ -3550,7 +3550,7 @@
         "name": "UpperTolerance",
         "displayName": "UpperTolerance",
         "description": "Upper relative tolerance value of the process parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3558,7 +3558,7 @@
         "name": "UpperTolerance2",
         "displayName": "UpperTolerance2",
         "description": "Second upper relative tolerance value of the process parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -3566,7 +3566,7 @@
         "name": "ResetMonitoring",
         "displayName": "ResetMonitoring",
         "description": "With this method the tolerance values are set according to the actual value and the set monitoring sensitivity",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       }
     ]
   },
@@ -3585,7 +3585,7 @@
     "displayName": "ControlledParameterType",
     "description": "Used for process parameters that are controlled by the client by writing a set value and optional ramps and parameters for closed loop control",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1057",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1057",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -3596,7 +3596,7 @@
         "name": "ClosedLoopControl",
         "displayName": "ClosedLoopControl",
         "description": "With this type the client can do settings for the closed loop control on the device for a parameter",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType"
       }
     ]
@@ -3615,7 +3615,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "MeasuringDeviceType",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1064",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1064",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MeasuringDeviceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MeasuringDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3625,7 +3625,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ControlModeEnumeration",
         "description": "Indication how the parameter is currently controlled",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3001",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3001",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3664,7 +3664,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ControlMode",
         "displayName": "ControlMode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType:dataType:ControlModeEnumeration;1",
         "writable": false
       },
@@ -3672,7 +3672,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Id",
         "displayName": "Id",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3680,7 +3680,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsPresent",
         "displayName": "IsPresent",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -3688,7 +3688,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3696,7 +3696,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Position",
         "displayName": "Position",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3705,7 +3705,7 @@
         "maxMultiplicity": 1,
         "name": "Maintenance",
         "displayName": "Maintenance",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
@@ -3713,7 +3713,7 @@
         "maxMultiplicity": 1,
         "name": "StartDevice",
         "displayName": "StartDevice",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
       }
     ]
@@ -3733,7 +3733,7 @@
     "displayName": "MouldCycleParametersType",
     "description": "Information on the production cycle related to a mould",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1005",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MouldCycleParametersType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MouldCycleParametersType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3745,7 +3745,7 @@
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the mould",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedInteger",
         "writable": false
       }
@@ -3766,7 +3766,7 @@
     "displayName": "MouldsType",
     "description": "Container for objects of MouldType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1050",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1050",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MouldsType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MouldsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3777,7 +3777,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3785,7 +3785,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Mould_Nr",
         "displayName": "Mould_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldType"
       }
     ]
@@ -3805,7 +3805,7 @@
     "displayName": "MouldType",
     "description": "Description and status of a mould",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1029",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1029",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MouldType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MouldType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3815,7 +3815,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "MouldStatusEnumeration",
         "description": "Current (physical) status of the mould",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3008",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3008",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -3843,7 +3843,7 @@
         "name": "Description",
         "displayName": "Description",
         "description": "Description of the installed mould",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3852,7 +3852,7 @@
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the installed mould",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3861,7 +3861,7 @@
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the mould",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -3870,7 +3870,7 @@
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Indication if the mould is physically present and connected",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -3879,7 +3879,7 @@
         "name": "MouldStatus",
         "displayName": "MouldStatus",
         "description": "Current (physical) status of the mould",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldType:dataType:MouldStatusEnumeration;1",
         "writable": false
       },
@@ -3889,7 +3889,7 @@
         "name": "TemperatureZones",
         "displayName": "TemperatureZones",
         "description": "Container for the temperature zones of the mould",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZonesType"
       }
     ]
@@ -3909,7 +3909,7 @@
     "displayName": "PowerUnitsType",
     "description": "Container for objects of PowerUnitType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1049",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1049",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/PowerUnitsType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/PowerUnitsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3920,7 +3920,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3928,7 +3928,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "PowerUnit_Nr",
         "displayName": "PowerUnit_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType"
       }
     ]
@@ -3948,7 +3948,7 @@
     "displayName": "PowerUnitType",
     "description": "Information on an hydraulic unit or electric drive",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1033",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1033",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/PowerUnitType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/PowerUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -3960,7 +3960,7 @@
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the PowerUnit",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -3969,7 +3969,7 @@
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the power unit",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -3978,7 +3978,7 @@
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Indication if the power unit is physically present and connected",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -3987,7 +3987,7 @@
         "name": "PowerOn",
         "displayName": "PowerOn",
         "description": "Indication if the PowerUnit is switched on",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -3996,7 +3996,7 @@
         "name": "ActualTemperature",
         "displayName": "ActualTemperature",
         "description": "Current temperature of the PowerUnit",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       }
     ]
@@ -4013,11 +4013,11 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ElectricDriveType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
     "displayName": "ElectricDriveType",
     "description": "Information on an electric drive",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1036",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1036",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -4036,11 +4036,11 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:HydraulicUnitType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
     "displayName": "HydraulicUnitType",
     "description": "Information on an hydraulic unit",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1035",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1035",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/HydraulicUnitType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4051,7 +4051,7 @@
         "name": "ActualPressure",
         "displayName": "ActualPressure",
         "description": "Current pressure of the hydraulic unit",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       }
     ]
@@ -4071,7 +4071,7 @@
     "displayName": "ProductionControlType",
     "description": "Control of the production of the machine by MES",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1017",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1017",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionControlType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionControlType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4081,7 +4081,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ProductionStatusEnumeration",
         "description": "Production status of the machine",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3016",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3016",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4116,7 +4116,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AutomaticRunEnabled",
         "displayName": "AutomaticRunEnabled",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -4124,7 +4124,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ProductionOnlyWithMES",
         "displayName": "ProductionOnlyWithMES",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": true
       },
@@ -4132,7 +4132,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProductionReleasedByMES",
         "displayName": "ProductionReleasedByMES",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": true
       },
@@ -4141,7 +4141,7 @@
         "name": "ProductionStatus",
         "displayName": "ProductionStatus",
         "description": "Production status when the machine is in automatic or semi-automatic mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType:dataType:ProductionStatusEnumeration;1",
         "writable": false
       },
@@ -4150,35 +4150,35 @@
         "name": "DisableAutomaticRun",
         "displayName": "DisableAutomaticRun",
         "description": "Method for disabling the semi-automatic and automatic run of the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "EnableAutomaticRun",
         "displayName": "EnableAutomaticRun",
         "description": "Method for enabling the semi-automatic and automatic run of the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "RequestTestSample",
         "displayName": "RequestTestSample",
         "description": "The machine shall separate a test sample (e.g. for quality check). The size of the test sample depends on the product/machine configuration.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetWatchDog",
         "displayName": "ResetWatchDog",
         "description": "Setting the watch dog timer to the value set by the last calling of SetWatchDogTime",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetWatchDogTime",
         "displayName": "SetWatchDogTime",
         "description": "Release of production for a given time",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -4211,7 +4211,7 @@
     "displayName": "ProductionDatasetListsType",
     "description": "Functions for exchanging information on the available production datasets on client and server",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1003",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetListsType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4220,7 +4220,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductionDatasetInformationType",
         "description": "Information on a production dataset",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -4322,7 +4322,7 @@
         "name": "GetProductionDatasetList",
         "displayName": "GetProductionDatasetList",
         "description": "This Method is used to read a list from the server, which production datasets that are available on the machine's file system",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -4365,7 +4365,7 @@
         "name": "SendProductionDatasetList",
         "displayName": "SendProductionDatasetList",
         "description": "This Method is used to send a list of production datasets available on the client to the server",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -4401,7 +4401,7 @@
     "displayName": "ProductionDatasetManagementType",
     "description": "Management of production datasets",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1008",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetManagementType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -4410,7 +4410,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductionDatasetInformationType",
         "description": "Information on a production dataset",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -4512,7 +4512,7 @@
         "name": "GetProductionDatasetInformation",
         "displayName": "GetProductionDatasetInformation",
         "description": "This Method allows reading the description of a production dataset during the file transfer from the server to the client with ProductionDatasetTransfer",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -4547,7 +4547,7 @@
         "name": "SendProductionDatasetInformation",
         "displayName": "SendProductionDatasetInformation",
         "description": "This Method allows sending of the description of a production dataset during the file transfer from the client to the server with ProductionDatasetTransfer",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -4574,7 +4574,7 @@
         "name": "ActiveProductionDatasetStatus",
         "displayName": "ActiveProductionDatasetStatus",
         "description": "Status of the active production dataset",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType"
       },
       {
@@ -4583,7 +4583,7 @@
         "name": "ProductionDatasetInPreparationStatus",
         "displayName": "ProductionDatasetInPreparationStatus",
         "description": "Status of the production dataset in the preparation layer",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType"
       },
       {
@@ -4592,7 +4592,7 @@
         "name": "ProductionDatasetLists",
         "displayName": "ProductionDatasetLists",
         "description": "Functions for exchanging information on the available production datasets on client and server",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType"
       },
       {
@@ -4601,7 +4601,7 @@
         "name": "ProductionDatasetTransfer",
         "displayName": "ProductionDatasetTransfer",
         "description": "Transfer of production datasets between server and client",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType"
       }
     ]
@@ -4621,7 +4621,7 @@
     "displayName": "ProductionDatasetStatusType",
     "description": "Status of a production dataset",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1039",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1039",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetStatusType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/ProductionDatasetStatusType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4631,7 +4631,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ProductionDatasetInformationType",
         "description": "Information on a production dataset",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3006",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -4733,7 +4733,7 @@
         "name": "Frozen",
         "displayName": "Frozen",
         "description": "Indication if changes on the machine in the production dataset are allowed",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": true
       },
@@ -4742,7 +4742,7 @@
         "name": "Information",
         "displayName": "Information",
         "description": "Set of information on the production dataset",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType:dataType:ProductionDatasetInformationType;1",
         "writable": false
       },
@@ -4751,7 +4751,7 @@
         "name": "Modified",
         "displayName": "Modified",
         "description": "Indication if the production dataset has been changed after the last storage",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -4760,7 +4760,7 @@
         "name": "Load",
         "displayName": "Load",
         "description": "Loads a production dataset from the file system of the machine to the control of the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -4789,7 +4789,7 @@
         "name": "Save",
         "displayName": "Save",
         "description": "Stores a production dataset from the control of the machine to the file system of the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -4822,7 +4822,7 @@
     "displayName": "StandstillMessageType",
     "description": "Information on the fault which causes standstill. This is set by machine control",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1026",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1026",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/StandstillMessageType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/StandstillMessageType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4834,7 +4834,7 @@
         "name": "Classification",
         "displayName": "Classification",
         "description": "Classification of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -4843,7 +4843,7 @@
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -4852,7 +4852,7 @@
         "name": "Message",
         "displayName": "Message",
         "description": "Text of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -4861,7 +4861,7 @@
         "name": "Severity",
         "displayName": "Severity",
         "description": "Severity of the message",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -4881,7 +4881,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "StartDeviceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1023",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1023",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/StartDeviceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/StartDeviceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4890,7 +4890,7 @@
         "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType:dataType:StartEnumeration;1",
         "@type": [ "Enum", "Congruence" ],
         "displayName": "StartEnumeration",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3025",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3025",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -4925,7 +4925,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "StartBlockedByClient",
         "displayName": "StartBlockedByClient",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": true
       },
@@ -4933,7 +4933,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType:dataType:StartEnumeration;1",
         "writable": false
       },
@@ -4941,13 +4941,13 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StartRequest",
         "displayName": "StartRequest",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "StopRequest",
         "displayName": "StopRequest",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/"
       }
     ]
   },
@@ -4963,11 +4963,11 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneCycleParametersType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
     "displayName": "TemperatureZoneCycleParametersType",
     "description": "Information on the production cycle related to a temperature zone",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1047",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1047",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/TemperatureZoneCycleParametersType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/TemperatureZoneCycleParametersType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -4977,7 +4977,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "TemperatureZoneClassificationEnumeration",
         "description": "Type of the temperature zone",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3029",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3029",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -5013,7 +5013,7 @@
         "name": "Classification",
         "displayName": "Classification",
         "description": "Type of the temperature zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneCycleParametersType:dataType:TemperatureZoneClassificationEnumeration;1",
         "writable": false
       },
@@ -5022,7 +5022,7 @@
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -5031,7 +5031,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5040,7 +5040,7 @@
         "name": "ActualTemperature",
         "displayName": "ActualTemperature",
         "description": "Current temperature of the zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       }
     ]
@@ -5060,7 +5060,7 @@
     "displayName": "TemperatureZonesType",
     "description": "Container for objects of TemperatureZoneType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1055",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1055",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/TemperatureZonesType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/TemperatureZonesType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5071,7 +5071,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5079,7 +5079,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "TemperatureZone_Nr",
         "displayName": "<TemperatureZone_Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType"
       }
     ]
@@ -5099,7 +5099,7 @@
     "displayName": "TemperatureZoneType",
     "description": "Information about a temperature zone e.g. on moulds and barrels",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1030",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1030",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/TemperatureZoneType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/TemperatureZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5109,7 +5109,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "TemperatureZoneClassificationEnumeration",
         "description": "Type of the temperature zone",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3029",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3029",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -5143,7 +5143,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "ControlModeEnumeration",
         "description": "Indication how the parameter is currently controlled",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3001",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3001",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -5183,7 +5183,7 @@
         "name": "Classification",
         "displayName": "Classification",
         "description": "Type of the temperature zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType:dataType:TemperatureZoneClassificationEnumeration;1",
         "writable": false
       },
@@ -5192,7 +5192,7 @@
         "name": "ControlMode",
         "displayName": "ControlMode",
         "description": "Indication how the temperature is currently controlled",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType:dataType:ControlModeEnumeration;1",
         "writable": false
       },
@@ -5201,7 +5201,7 @@
         "name": "Index",
         "displayName": "Index",
         "description": "Number of the zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -5210,7 +5210,7 @@
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "Indication if the temperature zone is physically present and connected",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -5219,7 +5219,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5228,7 +5228,7 @@
         "name": "ActualTemperature",
         "displayName": "ActualTemperature",
         "description": "Current temperature of the zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -5236,7 +5236,7 @@
         "name": "HighDeviationTemperature1",
         "displayName": "HighDeviationTemperature1",
         "description": "Maximum temperature that is in the normal tolerance. A higher actual value may create a warning. Used for quality control. Relative value.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -5244,7 +5244,7 @@
         "name": "HighDeviationTemperature2",
         "displayName": "HighDeviationTemperature2",
         "description": "Maximum tolerable temperature. A higher actual value may create an alarm. Relative value.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -5252,7 +5252,7 @@
         "name": "LowDeviationTemperature1",
         "displayName": "LowDeviationTemperature1",
         "description": "Minimum temperature that is in the normal tolerance. A lower actual value may create a warning. Used for quality control. Relative value.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -5260,7 +5260,7 @@
         "name": "LowDeviationTemperature2",
         "displayName": "LowDeviationTemperature2",
         "description": "Minimum tolerable temperature. A lower actual value may create an alarm. Relative value.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -5268,7 +5268,7 @@
         "name": "NominalTemperature",
         "displayName": "NominalTemperature",
         "description": "Nominal temperature (absolute value)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       },
       {
@@ -5276,7 +5276,7 @@
         "name": "StandbyTemperature",
         "displayName": "StandbyTemperature",
         "description": "Standby temperature of the zone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "double"
       }
     ]
@@ -5293,11 +5293,11 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:BarrelTemperatureZoneType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
     "displayName": "BarrelTemperatureZoneType",
     "description": "Information about a temperature zone on a barrel",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1001",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1001",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/BarrelTemperatureZoneType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/BarrelTemperatureZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5309,7 +5309,7 @@
         "name": "Position",
         "displayName": "Position",
         "description": "Location of the temperature zone on a barrel. Counting starts with 1 beginning from the feeding. The highest position is at the nozzle.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedInteger",
         "writable": false
       }
@@ -5327,11 +5327,11 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldTemperatureZoneType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
     "displayName": "MouldTemperatureZoneType",
     "description": "Information about a temperature zone in a mould",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZoneType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1034",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1034",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -5353,7 +5353,7 @@
     "displayName": "IdentificationType",
     "description": "General information about a machine (less detailed than MachineInformationType)",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1058",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1058",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/IdentificationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/IdentificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5365,7 +5365,7 @@
         "name": "YearOfConstruction",
         "displayName": "YearOfConstruction",
         "description": "Represents the year of construction of the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -5386,7 +5386,7 @@
     "displayName": "MachineInformationType",
     "description": "General description of the machine",
     "extends": "dtmi:opcua:DI:ComponentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1009",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/MachineInformationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/MachineInformationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5396,7 +5396,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "LogbookEventsEnumeration",
         "description": "Information which LogbookEvents are supported by the machine",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3009",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3009",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -5452,7 +5452,7 @@
         "name": "ControllerName",
         "displayName": "ControllerName",
         "description": "Name of the machine controller",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5461,7 +5461,7 @@
         "name": "SupportedLogbookEvents",
         "displayName": "SupportedLogbookEvents",
         "description": "Information which LogbookEvents are supported by the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType:dataType:LogbookEventsEnumeration;1"
@@ -5485,7 +5485,7 @@
     "displayName": "UsersType",
     "description": "Container for objects of UserType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1048",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1048",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/UsersType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/UsersType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5496,7 +5496,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5504,7 +5504,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "User_Nr",
         "displayName": "User_<Nr>",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UserType"
       }
     ]
@@ -5524,7 +5524,7 @@
     "displayName": "UserType",
     "description": "Information on a operator of the machine",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=1045",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1045",
     "commandTopic": "opcua/PlasticsRubber_GeneralTypes/UserType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_GeneralTypes/UserType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -5536,7 +5536,7 @@
         "name": "CardUid",
         "displayName": "CardUid",
         "description": "Uid of the identification card used by the operator for logging in to the machine",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5545,7 +5545,7 @@
         "name": "Id",
         "displayName": "Id",
         "description": "Id of the user",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5554,7 +5554,7 @@
         "name": "IsPresent",
         "displayName": "IsPresent",
         "description": "The machine can have instances for the maximum number of users that can be simultaneously logged in. TRUE if the instance of UserType represents a user that is currently logged in.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "boolean",
         "writable": false
       },
@@ -5563,7 +5563,7 @@
         "name": "Language",
         "displayName": "Language",
         "description": "Currently selected language on the machine control unit",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5572,7 +5572,7 @@
         "name": "Name",
         "displayName": "Name",
         "description": "Name of the user",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5581,7 +5581,7 @@
         "name": "UserLevel",
         "displayName": "UserLevel",
         "description": "Level of the user",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       },
@@ -5590,7 +5590,7 @@
         "name": "UserRole",
         "displayName": "UserRole",
         "description": "Role of the user",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "schema": "string",
         "writable": false
       }

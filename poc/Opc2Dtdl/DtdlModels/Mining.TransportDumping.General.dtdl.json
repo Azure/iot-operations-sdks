@@ -11,10 +11,10 @@
     ],
     "@id": "dtmi:opcua:Mining_TransportDumping_General:HaulageMachineType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Mining.TransportDumping.General",
+    "ontology": "http://opcfoundation.org/UA/Mining/TransportDumping/General/",
     "displayName": "HaulageMachineType",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.TransportDumping.General/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining/TransportDumping/General/;i=1003",
     "commandTopic": "opcua/Mining_TransportDumping_General/HaulageMachineType/{commandName}",
     "telemetryTopic": "opcua/Mining_TransportDumping_General/HaulageMachineType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -26,7 +26,7 @@
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type.",
-        "namespace": "http://opcfoundation.org/UA/Mining.TransportDumping.General",
+        "namespace": "http://opcfoundation.org/UA/Mining/TransportDumping/General/",
         "schema": "string",
         "writable": false
       }

@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Safety
+
 DataTypes:
 - UADataType: [ Safety:3005, Safety:InFlagsType ]
   DisplayName: "InFlagsType"

@@ -213,7 +213,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ErrorCode",
         "displayName": "ErrorCode",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       }
@@ -244,7 +244,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "IsAutomated",
         "displayName": "IsAutomated",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean",
         "writable": false
       }
@@ -275,7 +275,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       }
@@ -306,7 +306,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CustomerOrderIdentifier",
         "displayName": "CustomerOrderIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -314,7 +314,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -322,7 +322,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "OrderIdentifier",
         "displayName": "OrderIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -330,14 +330,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RunsCompleted",
         "displayName": "RunsCompleted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RunsPlanned",
         "displayName": "RunsPlanned",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       }
     ]
@@ -423,7 +423,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CustomerOrderIdentifier",
         "displayName": "CustomerOrderIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -431,7 +431,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -439,7 +439,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobIdentifier",
         "displayName": "JobIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -447,7 +447,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -455,14 +455,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartQuality",
         "displayName": "PartQuality",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:PartQuality;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessIrregularity",
         "displayName": "ProcessIrregularity",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:ProcessIrregularity;1"
       }
     ]
@@ -492,7 +492,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "JobIdentifier",
         "displayName": "JobIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -500,7 +500,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       }
@@ -531,7 +531,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -539,7 +539,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -548,7 +548,7 @@
         "maxMultiplicity": 1,
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
@@ -565,7 +565,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:MultiToolType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "MultiToolType",
     "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=51",
@@ -577,7 +577,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Tool",
         "displayName": "<Tool>",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ToolType"
       }
     ]
@@ -628,42 +628,42 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ControlIdentifier1",
         "displayName": "ControlIdentifier1",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ControlIdentifier2",
         "displayName": "ControlIdentifier2",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ControlIdentifierInterpretation",
         "displayName": "ControlIdentifierInterpretation",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:ToolType:dataType:ToolManagement;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LastUsage",
         "displayName": "LastUsage",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "time"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Locked",
         "displayName": "Locked",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PlannedForOperating",
         "displayName": "PlannedForOperating",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
@@ -671,7 +671,7 @@
         "maxMultiplicity": 1,
         "name": "ToolLife",
         "displayName": "ToolLife",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
@@ -700,35 +700,35 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "BlockSkip",
         "displayName": "BlockSkip",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "DryRun",
         "displayName": "DryRun",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OptionalStop",
         "displayName": "OptionalStop",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SingleStep",
         "displayName": "SingleStep",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "TestMode",
         "displayName": "TestMode",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       }
     ]
@@ -758,7 +758,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       }
@@ -776,7 +776,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ChannelMonitoringType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ChannelMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ElementMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=16",
@@ -853,28 +853,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ChannelMode",
         "displayName": "ChannelMode",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelMode;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ChannelState",
         "displayName": "ChannelState",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelState;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FeedOverride",
         "displayName": "FeedOverride",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RapidOverride",
         "displayName": "RapidOverride",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "double"
       },
       {
@@ -882,7 +882,7 @@
         "maxMultiplicity": 1,
         "name": "ChannelModifiers",
         "displayName": "ChannelModifiers",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ChannelModifierType"
       }
     ]
@@ -899,7 +899,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:CombinedChannelMonitoringType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "CombinedChannelMonitoringType",
     "extends": "dtmi:opcua:MachineTool:ChannelMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=46",
@@ -942,7 +942,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "EDMGeneratorMonitoringType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=42",
@@ -985,14 +985,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EDMGeneratorState",
         "displayName": "EDMGeneratorState",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType:dataType:EDMGeneratorState;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsOn",
         "displayName": "IsOn",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       }
     ]
@@ -1047,14 +1047,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ControllerIsOn",
         "displayName": "ControllerIsOn",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LaserState",
         "displayName": "LaserState",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:LaserMonitoringType:dataType:LaserState;1"
       }
     ]
@@ -1071,7 +1071,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:SpindleMonitoringType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "SpindleMonitoringType",
     "extends": "dtmi:opcua:MachineTool:WorkingUnitMonitoringType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=22",
@@ -1084,21 +1084,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsRotating",
         "displayName": "IsRotating",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsUsedAsAxis",
         "displayName": "IsUsedAsAxis",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Override",
         "displayName": "Override",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "double"
       }
     ]
@@ -1127,7 +1127,7 @@
         "maxMultiplicity": 1,
         "name": "Tools",
         "displayName": "Tools",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ToolListType"
       }
     ]
@@ -1144,7 +1144,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:MachineToolIdentificationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "MachineToolIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=11",
@@ -1157,7 +1157,7 @@
         "maxMultiplicity": 1,
         "name": "SoftwareIdentification",
         "displayName": "SoftwareIdentification",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
@@ -1220,28 +1220,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FeedOverride",
         "displayName": "FeedOverride",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "IsWarmUp",
         "displayName": "IsWarmUp",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "OperationMode",
         "displayName": "OperationMode",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:MachineOperationMonitoringType:dataType:MachineOperationMode;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PowerOnDuration",
         "displayName": "PowerOnDuration",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
@@ -1249,7 +1249,7 @@
         "maxMultiplicity": 1,
         "name": "Obligation",
         "displayName": "Obligation",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ObligationType"
       }
     ]
@@ -1266,7 +1266,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:MachineToolType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "MachineToolType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=13",
@@ -1279,7 +1279,7 @@
         "maxMultiplicity": 1,
         "name": "Equipment",
         "displayName": "Equipment",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:EquipmentType"
       },
       {
@@ -1287,7 +1287,7 @@
         "maxMultiplicity": 1,
         "name": "FileSystem",
         "displayName": "FileSystem",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:FileDirectoryType"
       },
       {
@@ -1295,7 +1295,7 @@
         "maxMultiplicity": 1,
         "name": "MachineryBuildingBlocks",
         "displayName": "MachineryBuildingBlocks",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -1303,7 +1303,7 @@
         "maxMultiplicity": 1,
         "name": "Monitoring",
         "displayName": "Monitoring",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:MonitoringType"
       },
       {
@@ -1311,7 +1311,7 @@
         "maxMultiplicity": 1,
         "name": "Notification",
         "displayName": "Notification",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:NotificationType"
       },
       {
@@ -1319,7 +1319,7 @@
         "maxMultiplicity": 1,
         "name": "Production",
         "displayName": "Production",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ProductionType"
       }
     ]
@@ -1368,7 +1368,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "MonitoredElement",
         "displayName": "<MonitoredElement>",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ElementMonitoringType"
       },
       {
@@ -1376,7 +1376,7 @@
         "maxMultiplicity": 1,
         "name": "MachineTool",
         "displayName": "MachineTool",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:MachineOperationMonitoringType"
       },
       {
@@ -1384,7 +1384,7 @@
         "maxMultiplicity": 1,
         "name": "Stacklight",
         "displayName": "Stacklight",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:IA:BasicStacklightType"
       }
     ]
@@ -1413,7 +1413,7 @@
         "maxMultiplicity": 1,
         "name": "Messages",
         "displayName": "Messages",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:MessagesType"
       },
       {
@@ -1421,7 +1421,7 @@
         "maxMultiplicity": 1,
         "name": "Prognoses",
         "displayName": "Prognoses",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:PrognosisListType"
       }
     ]
@@ -1450,14 +1450,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "EndUserObligated",
         "displayName": "EndUserObligated",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "MachineBuilderObligated",
         "displayName": "MachineBuilderObligated",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean"
       }
     ]
@@ -1495,7 +1495,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionJobType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ProductionJobType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=29",
@@ -1509,7 +1509,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CustomerOrderIdentifier",
         "displayName": "CustomerOrderIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1517,7 +1517,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1525,7 +1525,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -1533,7 +1533,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "OrderIdentifier",
         "displayName": "OrderIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1541,28 +1541,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartsCompleted",
         "displayName": "PartsCompleted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartsGood",
         "displayName": "PartsGood",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RunsCompleted",
         "displayName": "RunsCompleted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "RunsPlanned",
         "displayName": "RunsPlanned",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
@@ -1570,7 +1570,7 @@
         "maxMultiplicity": 1,
         "name": "PartSets",
         "displayName": "PartSets",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       },
       {
@@ -1578,7 +1578,7 @@
         "maxMultiplicity": 1,
         "name": "ProductionPrograms",
         "displayName": "ProductionPrograms",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:OrderedListType"
       },
       {
@@ -1586,7 +1586,7 @@
         "maxMultiplicity": 1,
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ProductionJobStateMachineType"
       }
     ]
@@ -1603,7 +1603,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionPartSetType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ProductionPartSetType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=34",
@@ -1617,7 +1617,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ContainsMixedParts",
         "displayName": "ContainsMixedParts",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "boolean",
         "writable": false
       },
@@ -1625,7 +1625,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1633,14 +1633,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartsCompletedPerRun",
         "displayName": "PartsCompletedPerRun",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartsPlannedPerRun",
         "displayName": "PartsPlannedPerRun",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       },
       {
@@ -1648,7 +1648,7 @@
         "maxMultiplicity": 1,
         "name": "PartsPerRun",
         "displayName": "PartsPerRun",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
@@ -1665,7 +1665,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionPartType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ProductionPartType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=56",
@@ -1735,7 +1735,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "CustomerOrderIdentifier",
         "displayName": "CustomerOrderIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1743,7 +1743,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1751,7 +1751,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1759,14 +1759,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartQuality",
         "displayName": "PartQuality",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:PartQuality;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessIrregularity",
         "displayName": "ProcessIrregularity",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:ProcessIrregularity;1"
       },
       {
@@ -1774,7 +1774,7 @@
         "maxMultiplicity": 1,
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ProductionPartStateMachineType"
       }
     ]
@@ -1791,7 +1791,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionProgramType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ProductionProgramType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=59",
@@ -1805,7 +1805,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Name",
         "displayName": "Name",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1813,7 +1813,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberInList",
         "displayName": "NumberInList",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -1822,7 +1822,7 @@
         "maxMultiplicity": 1,
         "name": "State",
         "displayName": "State",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ProductionProgramStateMachineType"
       }
     ]
@@ -1851,14 +1851,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "JobIdentifier",
         "displayName": "JobIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "JobNodeId",
         "displayName": "JobNodeId",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -1887,7 +1887,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartsProducedInLifetime",
         "displayName": "PartsProducedInLifetime",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "unsignedInteger"
       }
     ]
@@ -1916,7 +1916,7 @@
         "maxMultiplicity": 1,
         "name": "ActiveProgram",
         "displayName": "ActiveProgram",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ProductionActiveProgramType"
       },
       {
@@ -1924,7 +1924,7 @@
         "maxMultiplicity": 1,
         "name": "ProductionPlan",
         "displayName": "ProductionPlan",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ProductionJobListType"
       },
       {
@@ -1932,7 +1932,7 @@
         "maxMultiplicity": 1,
         "name": "Statistics",
         "displayName": "Statistics",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:ProductionStatisticsType"
       }
     ]
@@ -1962,7 +1962,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -1970,7 +1970,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Prognosis",
         "displayName": "<Prognosis>",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:PrognosisType"
       }
     ]
@@ -2000,7 +2000,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PredictedTime",
         "displayName": "PredictedTime",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "time",
         "writable": false
       }
@@ -2018,7 +2018,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:MaintenancePrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "MaintenancePrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=9",
@@ -2031,7 +2031,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Activity",
         "displayName": "Activity",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2048,7 +2048,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ManualActivityPrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ManualActivityPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=10",
@@ -2061,7 +2061,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Activity",
         "displayName": "Activity",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2078,7 +2078,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:PartLoadPrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "PartLoadPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1",
@@ -2091,28 +2091,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartIdentifier",
         "displayName": "PartIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartName",
         "displayName": "PartName",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartNodeId",
         "displayName": "PartNodeId",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2129,7 +2129,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:PartUnloadPrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "PartUnloadPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=5",
@@ -2142,28 +2142,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartIdentifier",
         "displayName": "PartIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartName",
         "displayName": "PartName",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PartNodeId",
         "displayName": "PartNodeId",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2180,7 +2180,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ProcessChangeoverPrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ProcessChangeoverPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=8",
@@ -2193,14 +2193,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Activity",
         "displayName": "Activity",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2217,7 +2217,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionJobEndPrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ProductionJobEndPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=37",
@@ -2230,14 +2230,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "JobNodeId",
         "displayName": "JobNodeId",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SourceIdentifier",
         "displayName": "SourceIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2254,7 +2254,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ToolChangePrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ToolChangePrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=45",
@@ -2267,28 +2267,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ToolIdentifier",
         "displayName": "ToolIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ToolName",
         "displayName": "ToolName",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ToolNodeId",
         "displayName": "ToolNodeId",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2305,7 +2305,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ToolLoadPrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ToolLoadPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=4",
@@ -2318,21 +2318,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ToolIdentifier",
         "displayName": "ToolIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ToolName",
         "displayName": "ToolName",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2349,7 +2349,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ToolUnloadPrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ToolUnloadPrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=18",
@@ -2362,28 +2362,28 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Location",
         "displayName": "Location",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ToolIdentifier",
         "displayName": "ToolIdentifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ToolName",
         "displayName": "ToolName",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ToolNodeId",
         "displayName": "ToolNodeId",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2400,7 +2400,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:UtilityChangePrognosisType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "UtilityChangePrognosisType",
     "extends": "dtmi:opcua:MachineTool:PrognosisType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=6",
@@ -2413,7 +2413,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "UtilityName",
         "displayName": "UtilityName",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string"
       }
     ]
@@ -2430,7 +2430,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:SoftwareIdentificationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "SoftwareIdentificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=43",
@@ -2444,7 +2444,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Identifier",
         "displayName": "Identifier",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -2452,7 +2452,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Manufacturer",
         "displayName": "Manufacturer",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -2460,7 +2460,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       }
@@ -2478,7 +2478,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:MachineOperationModeStateMachineType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "MachineOperationModeStateMachineType",
     "extends": "dtmi:opcua:Machinery:MachineryOperationModeStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1003",
@@ -2491,7 +2491,7 @@
         "maxMultiplicity": 1,
         "name": "MaintenanceMode",
         "displayName": "MaintenanceMode",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:MaintenanceModeStateMachineType"
       }
     ]
@@ -2520,7 +2520,7 @@
         "maxMultiplicity": 1,
         "name": "Inspection",
         "displayName": "Inspection",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2528,7 +2528,7 @@
         "maxMultiplicity": 1,
         "name": "Other",
         "displayName": "Other",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2536,7 +2536,7 @@
         "maxMultiplicity": 1,
         "name": "Repair",
         "displayName": "Repair",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2544,7 +2544,7 @@
         "maxMultiplicity": 1,
         "name": "Service",
         "displayName": "Service",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2552,7 +2552,7 @@
         "maxMultiplicity": 1,
         "name": "Upgrade",
         "displayName": "Upgrade",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
@@ -2569,7 +2569,7 @@
     ],
     "@id": "dtmi:opcua:MachineTool:ProductionStateMachineType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/MachineTool",
+    "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "displayName": "ProductionStateMachineType",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=24",
@@ -2582,7 +2582,7 @@
         "maxMultiplicity": 1,
         "name": "Aborted",
         "displayName": "Aborted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2590,7 +2590,7 @@
         "maxMultiplicity": 1,
         "name": "AbortedToInitializing",
         "displayName": "AbortedToInitializing",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2598,7 +2598,7 @@
         "maxMultiplicity": 1,
         "name": "Ended",
         "displayName": "Ended",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2606,7 +2606,7 @@
         "maxMultiplicity": 1,
         "name": "EndedToInitializing",
         "displayName": "EndedToInitializing",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2614,7 +2614,7 @@
         "maxMultiplicity": 1,
         "name": "Initializing",
         "displayName": "Initializing",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:InitialStateType"
       },
       {
@@ -2622,7 +2622,7 @@
         "maxMultiplicity": 1,
         "name": "InitializingToAborted",
         "displayName": "InitializingToAborted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2630,7 +2630,7 @@
         "maxMultiplicity": 1,
         "name": "InitializingToRunning",
         "displayName": "InitializingToRunning",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2638,7 +2638,7 @@
         "maxMultiplicity": 1,
         "name": "Interrupted",
         "displayName": "Interrupted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2646,7 +2646,7 @@
         "maxMultiplicity": 1,
         "name": "InterruptedToAborted",
         "displayName": "InterruptedToAborted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2654,7 +2654,7 @@
         "maxMultiplicity": 1,
         "name": "InterruptedToRunning",
         "displayName": "InterruptedToRunning",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2662,7 +2662,7 @@
         "maxMultiplicity": 1,
         "name": "Running",
         "displayName": "Running",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -2670,7 +2670,7 @@
         "maxMultiplicity": 1,
         "name": "RunningToAborted",
         "displayName": "RunningToAborted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2678,7 +2678,7 @@
         "maxMultiplicity": 1,
         "name": "RunningToEnded",
         "displayName": "RunningToEnded",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2686,7 +2686,7 @@
         "maxMultiplicity": 1,
         "name": "RunningToInterrupted",
         "displayName": "RunningToInterrupted",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -2694,7 +2694,7 @@
         "maxMultiplicity": 1,
         "name": "RunningToRunning",
         "displayName": "RunningToRunning",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       }
     ]
@@ -2787,7 +2787,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "schema": "string",
         "writable": false
       },
@@ -2795,7 +2795,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Tool",
         "displayName": "<Tool>",
-        "namespace": "http://opcfoundation.org/UA/MachineTool",
+        "namespace": "http://opcfoundation.org/UA/MachineTool/",
         "target": "dtmi:opcua:MachineTool:BaseToolType"
       }
     ]

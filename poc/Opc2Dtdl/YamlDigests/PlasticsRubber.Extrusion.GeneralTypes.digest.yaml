@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/
+
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3003, PlasticsRubber.Extrusion.GeneralTypes:ComponentStatusEnumeration ]
   DisplayName: "ComponentStatusEnumeration"

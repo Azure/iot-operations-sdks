@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PlasticsRubber/TCD/
+
 DataTypes:
 - UADataType: [ PlasticsRubber.TCD:3002, PlasticsRubber.TCD:OperatingModeEnumeration ]
   DisplayName: "OperatingModeEnumeration"

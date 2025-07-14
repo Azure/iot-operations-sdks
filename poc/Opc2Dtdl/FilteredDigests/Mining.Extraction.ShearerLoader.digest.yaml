@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Mining/Extraction/ShearerLoader/
+
 DataTypes:
 - UADataType: [ Mining.Extraction.ShearerLoader:3002, Mining.Extraction.ShearerLoader:ShearerDirectionEnum ]
   DisplayName: "ShearerDirectionEnum"

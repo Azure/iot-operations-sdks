@@ -14,7 +14,7 @@
     "displayName": "TCDHelpOffNormalAlarmType",
     "description": "HelpOffNormalAlarmType with additional DeviceMappingNumber for identification",
     "extends": "dtmi:opcua:PlasticsRubber_GeneralTypes:HelpOffNormalAlarmType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1009",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1009",
     "commandTopic": "opcua/PlasticsRubber_TCD/TCDHelpOffNormalAlarmType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/TCDHelpOffNormalAlarmType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -26,7 +26,7 @@
         "name": "DeviceMappingNumber",
         "displayName": "DeviceMappingNumber",
         "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedInteger",
         "writable": false
       }
@@ -47,7 +47,7 @@
     "displayName": "DeviceZoneType",
     "description": "Represents the functional main component of a TCD",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1008",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1008",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/DeviceZoneType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -58,7 +58,7 @@
         "name": "ActualProcessPower",
         "displayName": "ActualProcessPower",
         "description": "Actual calculated process performance (from the view of the TCD: heating = positive value, cooling = negative value)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "kilowatt",
         "schema": "double"
       },
@@ -67,7 +67,7 @@
         "name": "ActualPumpPower",
         "displayName": "ActualPumpPower",
         "description": "Actual power of the pump in kW",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "kilowatt",
         "schema": "double"
       },
@@ -76,7 +76,7 @@
         "name": "ActualPumpSpeedRPM",
         "displayName": "ActualPumpSpeedRPM",
         "description": "Actual speed of the pump in revolutions per minute",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "reciprocalMinute",
         "schema": "double"
       },
@@ -85,7 +85,7 @@
         "name": "ActualRegulationRatio",
         "displayName": "ActualRegulationRatio",
         "description": "Actual Regulation Ratio (heating = positive value, cooling = negative value)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "percent",
         "schema": "double"
       },
@@ -94,7 +94,7 @@
         "name": "DelayTimeAfterCooling",
         "displayName": "DelayTimeAfterCooling",
         "description": "Delay Time after cooling before switching off the TCD",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "minute",
         "schema": "double"
       },
@@ -103,7 +103,7 @@
         "name": "InternalMeasuringPoint",
         "displayName": "InternalMeasuringPoint",
         "description": "Determines whether the temperature of the main or the return is to be controlled",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedShort"
       },
       {
@@ -111,7 +111,7 @@
         "name": "PressureMainLine",
         "displayName": "PressureMainLine",
         "description": "Actual pressure in the main line (Pressure return line + pump pressure)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -119,7 +119,7 @@
         "name": "PressureReturnLine",
         "displayName": "PressureReturnLine",
         "description": "Actual pressure in the return line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -127,7 +127,7 @@
         "name": "PumpControlMode",
         "displayName": "PumpControlMode",
         "description": "Defines to which setpoint or function the pump is controlled",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedShort"
       },
       {
@@ -135,7 +135,7 @@
         "name": "StandbyTemperature",
         "displayName": "StandbyTemperature",
         "description": "The standby value temperature is approached with the Method ReduceToStandByOn. The TCD switches off.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -143,7 +143,7 @@
         "name": "SwitchingOffTemperature",
         "displayName": "SwitchingOffTemperature",
         "description": "Defines the temperature to which the TCD must be cooled down before it switches off",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -151,7 +151,7 @@
         "name": "TemperatureLimitation",
         "displayName": "TemperatureLimitation",
         "description": "This setpoint is for temperature limitation of the mould circuit e.g. to protect the connected tubes or the downstream water distribution system",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -159,7 +159,7 @@
         "name": "TemperatureMainLine",
         "displayName": "TemperatureMainLine",
         "description": "Actual temperature in the main line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -167,7 +167,7 @@
         "name": "TemperatureReturnLine",
         "displayName": "TemperatureReturnLine",
         "description": "Actual temperature in the return line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -176,7 +176,7 @@
         "name": "ExternalChannels",
         "displayName": "ExternalChannels",
         "description": "Container for the external channel(s)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelsType"
       },
       {
@@ -185,7 +185,7 @@
         "name": "ExternalSensor",
         "displayName": "ExternalSensor",
         "description": "Variables for the operation with an external temperature sensor",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalSensorType"
       },
       {
@@ -194,7 +194,7 @@
         "name": "FlowRate",
         "displayName": "FlowRate",
         "description": "Setting and/or monitoring of the flow rate",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -203,7 +203,7 @@
         "name": "LeakStopper",
         "displayName": "LeakStopper",
         "description": "Used for switching the leak stopper mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:LeakStopperType"
       },
       {
@@ -212,7 +212,7 @@
         "name": "MaintenanceInformation",
         "displayName": "MaintenanceInformation",
         "description": "Information on the maintenance status of heating, cooling, pump and fluid",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:MaintenanceInformationType"
       },
       {
@@ -221,7 +221,7 @@
         "name": "MouldEvacuation",
         "displayName": "MouldEvacuation",
         "description": "Iincludes parameters and nodes for mould evacuation",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:MouldEvacuationType"
       },
       {
@@ -230,7 +230,7 @@
         "name": "PressureDifference",
         "displayName": "PressureDifference",
         "description": "Setting and/or monitoring of the pressure difference between main and return line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -239,7 +239,7 @@
         "name": "PumpSpeed",
         "displayName": "PumpSpeed",
         "description": "Setting and/or monitoring the speed of the pump in percent of maximum speed",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -248,7 +248,7 @@
         "name": "Temperature",
         "displayName": "Temperature",
         "description": "Setting and/or monitoring of the temperature in the main or return line (see InternalMeasuringPoint) or active external Sensor (ExternalSensorModeOn)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
       },
       {
@@ -257,7 +257,7 @@
         "name": "TemperatureDifference",
         "displayName": "TemperatureDifference",
         "description": "Setting and/or monitoring of the temperature difference between return and main line. Positive if temperature in return line is higher than in main line.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
     ]
@@ -277,7 +277,7 @@
     "displayName": "ExternalChannelsType",
     "description": "Container for the external channel(s)",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1003",
     "commandTopic": "opcua/PlasticsRubber_TCD/ExternalChannelsType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/ExternalChannelsType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -288,7 +288,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NodeVersion",
         "displayName": "NodeVersion",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "string",
         "writable": false
       },
@@ -297,7 +297,7 @@
         "name": "ExternalChannel_Nr",
         "displayName": "ExternalChannel_<Nr>",
         "description": "Includes information for monitoring or controlling of an external temperature, flow rate or pressure channel",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelType"
       }
     ]
@@ -317,7 +317,7 @@
     "displayName": "ExternalChannelType",
     "description": "Includes information for monitoring or controlling of external temperature, flow rate or pressure channels",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1002",
     "commandTopic": "opcua/PlasticsRubber_TCD/ExternalChannelType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/ExternalChannelType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -329,7 +329,7 @@
         "name": "SwitchedOn",
         "displayName": "SwitchedOn",
         "description": "Information if the external channel is switched on",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "boolean",
         "writable": true
       },
@@ -338,7 +338,7 @@
         "name": "ControlMode",
         "displayName": "ControlMode",
         "description": "Defines to which setpoint the external channel is controlled",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedShort"
       },
       {
@@ -346,7 +346,7 @@
         "name": "PressureMainLine",
         "displayName": "PressureMainLine",
         "description": "Actual value of the pressure in the main line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -354,7 +354,7 @@
         "name": "PressureReturnLine",
         "displayName": "PressureReturnLine",
         "description": "Actual value of the pressure in the return line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -362,7 +362,7 @@
         "name": "TemperatureMainLine",
         "displayName": "TemperatureMainLine",
         "description": "Actual temperature in the main line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -370,7 +370,7 @@
         "name": "TemperatureReturnLine",
         "displayName": "TemperatureReturnLine",
         "description": "Actual temperature in the return line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -378,14 +378,14 @@
         "name": "SwitchOff",
         "displayName": "SwitchOff",
         "description": "Switch method of the external channel for switching off",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SwitchOn",
         "displayName": "SwitchOn",
         "description": "Switch method of the external channel for switching on",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -393,7 +393,7 @@
         "name": "FlowRate",
         "displayName": "FlowRate",
         "description": "Setting and/or monitoring of the flow rate",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -402,7 +402,7 @@
         "name": "PressureDifference",
         "displayName": "PressureDifference",
         "description": "Setting and/or monitoring of the pressure difference between main and return line",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -411,7 +411,7 @@
         "name": "Temperature",
         "displayName": "Temperature",
         "description": "Setting and/or monitoring of the temperature",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       },
       {
@@ -420,7 +420,7 @@
         "name": "TemperatureDifference",
         "displayName": "TemperatureDifference",
         "description": "Setting and/or monitoring of the temperature difference between return and main line. Positive if temperature in return line is higher than in main line.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
       }
     ]
@@ -440,7 +440,7 @@
     "displayName": "ExternalSensorType",
     "description": "Includes variables for the operation with an external temperature sensor",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1007",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1007",
     "commandTopic": "opcua/PlasticsRubber_TCD/ExternalSensorType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/ExternalSensorType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -452,7 +452,7 @@
         "name": "AutomaticModeSwitch",
         "displayName": "AutomaticModeSwitch",
         "description": "Setting whether switching to external sensor is performed automatically (TRUE) or manually (FALSE)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "boolean",
         "writable": true
       },
@@ -461,7 +461,7 @@
         "name": "Used",
         "displayName": "Used",
         "description": "Return whether an external temperature sensor is used for control",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "boolean",
         "writable": false
       },
@@ -470,14 +470,14 @@
         "name": "ActualValue",
         "displayName": "ActualValue",
         "description": "Actual value of external temperature sensor",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "CommunicationProtocolType",
         "displayName": "CommunicationProtocolType",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedShort"
       },
       {
@@ -485,7 +485,7 @@
         "name": "ThermocoupleType",
         "displayName": "ThermocoupleType",
         "description": "Type of connected external temperature sensor",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedShort"
       },
       {
@@ -493,14 +493,14 @@
         "name": "ExternalSensorModeOff",
         "displayName": "ExternalSensorModeOff",
         "description": "Deactivate the mode where the external temperature sensor is used for temperature control",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ExternalSensorModeOn",
         "displayName": "ExternalSensorModeOn",
         "description": "Activate the mode where the external temperature sensor is used for temperature control",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Relationship", "Qualified" ],
@@ -508,7 +508,7 @@
         "name": "ClosedLoopControl",
         "displayName": "ClosedLoopControl",
         "description": "Settings for the closed loop control for the sensor",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType"
       }
     ]
@@ -528,7 +528,7 @@
     "displayName": "LeakStopperType",
     "description": "Used for switching the leak stopper mode",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1006",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1006",
     "commandTopic": "opcua/PlasticsRubber_TCD/LeakStopperType/{commandName}",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
@@ -539,14 +539,14 @@
         "name": "Off",
         "displayName": "Off",
         "description": "Deactivate the leak stopper mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "On",
         "displayName": "On",
         "description": "Activate the leak stopper mode (emergency operation in case of leaks in the system)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       }
     ]
   },
@@ -565,7 +565,7 @@
     "displayName": "MaintenanceInformationType",
     "description": "Information on the maintenance status of heating, cooling, pump and fluid",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1004",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1004",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -576,7 +576,7 @@
         "name": "Cooling",
         "displayName": "Cooling",
         "description": "Information on the maintenance status of the cooling",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
@@ -585,7 +585,7 @@
         "name": "Fluid",
         "displayName": "Fluid",
         "description": "Information on the maintenance status of the fluid",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
@@ -594,7 +594,7 @@
         "name": "Heating",
         "displayName": "Heating",
         "description": "Information on the maintenance status of the heating",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       },
       {
@@ -603,7 +603,7 @@
         "name": "Pump",
         "displayName": "Pump",
         "description": "Information on the maintenance status of the pump",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
       }
     ]
@@ -623,7 +623,7 @@
     "displayName": "MouldEvacuationType",
     "description": "Includes parameters and nodes for mould evacuation",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1005",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1005",
     "commandTopic": "opcua/PlasticsRubber_TCD/MouldEvacuationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/MouldEvacuationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -635,7 +635,7 @@
         "name": "Mode",
         "displayName": "Mode",
         "description": "Defines how the medium is to be emptied",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedShort"
       },
       {
@@ -643,7 +643,7 @@
         "name": "Sink",
         "displayName": "Sink",
         "description": "Defines where the medium is to be emptied",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedShort"
       },
       {
@@ -651,7 +651,7 @@
         "name": "TemperatureLimit",
         "displayName": "TemperatureLimit",
         "description": "Temperature Limitation of the mould evacuation. TCD is cooled to this temperature first if necessary.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -659,7 +659,7 @@
         "name": "Time",
         "displayName": "Time",
         "description": "Duration of the mould evacuation",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "second",
         "schema": "double"
       },
@@ -668,14 +668,14 @@
         "name": "Off",
         "displayName": "Off",
         "description": "Deactivate evacuation mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "On",
         "displayName": "On",
         "description": "Activate evacuation mode",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       }
     ]
   },
@@ -694,7 +694,7 @@
     "displayName": "OperationType",
     "description": "Contains components which are necessary to operate the TCD",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1010",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1010",
     "commandTopic": "opcua/PlasticsRubber_TCD/OperationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/OperationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -704,7 +704,7 @@
         "@type": [ "Enum", "Congruence" ],
         "displayName": "OperatingModeEnumeration",
         "description": "Actual operating mode of the TCD",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=3002",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=3002",
         "valueSchema": "integer",
         "enumValues": [
           {
@@ -754,7 +754,7 @@
         "@type": [ "Object", "Congruence" ],
         "displayName": "ActiveErrorDataType",
         "description": "Iinformation about an active error in a device",
-        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes/;i=3028",
+        "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3028",
         "fields": [
           {
             "@type": [ "Field", "Required" ],
@@ -780,7 +780,7 @@
         "name": "DeviceMappingNumber",
         "displayName": "DeviceMappingNumber",
         "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -789,7 +789,7 @@
         "name": "HighestActiveAlarmSeverity",
         "displayName": "HighestActiveAlarmSeverity",
         "description": "Indication of the severity of the highest active alarm (0 = no active alarm – 1000 = possible error)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -798,7 +798,7 @@
         "name": "OperatingMode",
         "displayName": "OperatingMode",
         "description": "Actual operating mode of the TCD",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:OperatingModeEnumeration;1",
         "writable": false
       },
@@ -807,7 +807,7 @@
         "name": "ActiveErrors",
         "displayName": "ActiveErrors",
         "description": "List of the active errors of the device",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:ActiveErrorDataType;1"
@@ -818,7 +818,7 @@
         "name": "HoursOfOperation",
         "displayName": "HoursOfOperation",
         "description": "Actual hours of operation",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "hour",
         "schema": "double"
       },
@@ -827,34 +827,34 @@
         "name": "IdentifyDevice",
         "displayName": "IdentifyDevice",
         "description": "The TCD on which this method is called shows itself by e.g. activation of a LED",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ReduceToStandByOff",
         "displayName": "ReduceToStandByOff",
         "description": "Deactivate the cooling down function on the TCD. If it is already in progress, it will be interrupted and the device changes back to the last selected operating mode.",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ReduceToStandByOn",
         "displayName": "ReduceToStandByOn",
         "description": "Activate the cooling down function on the TCD followed by switching off",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetAllErrors",
         "displayName": "ResetAllErrors",
         "description": "Method to reset all errors of the device",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "ResetErrorById",
         "displayName": "ResetErrorById",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -875,14 +875,14 @@
         "name": "SwitchOff",
         "displayName": "SwitchOff",
         "description": "Main switch method of the TCD for switching off",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SwitchOn",
         "displayName": "SwitchOn",
         "description": "Main switch method of the TCD for switching on",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/"
       }
     ]
   },
@@ -898,11 +898,11 @@
     ],
     "@id": "dtmi:opcua:PlasticsRubber_TCD:TCD_InterfaceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+    "ontology": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
     "displayName": "TCD_InterfaceType",
     "description": "Root ObjectType representing a temperature control device with its subcomponents",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1012",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1012",
     "commandTopic": "opcua/PlasticsRubber_TCD/TCD_InterfaceType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/TCD_InterfaceType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -914,7 +914,7 @@
         "name": "DisplayLanguage",
         "displayName": "DisplayLanguage",
         "description": "With this Property the client can set the desired language on the user interface at the TCD",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "string",
         "writable": true
       },
@@ -923,7 +923,7 @@
         "maxMultiplicity": 1,
         "name": "DeviceZone",
         "displayName": "DeviceZone",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:DeviceZoneType"
       },
       {
@@ -932,7 +932,7 @@
         "name": "Identification",
         "displayName": "Identification",
         "description": "Identification of the device",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
       },
       {
@@ -940,7 +940,7 @@
         "maxMultiplicity": 1,
         "name": "MachineConfiguration",
         "displayName": "MachineConfiguration",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
       },
       {
@@ -948,7 +948,7 @@
         "maxMultiplicity": 1,
         "name": "Operation",
         "displayName": "Operation",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:OperationType"
       },
       {
@@ -956,7 +956,7 @@
         "maxMultiplicity": 1,
         "name": "TCDSpecification",
         "displayName": "TCDSpecification",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "target": "dtmi:opcua:PlasticsRubber_TCD:TCDSpecificationType"
       }
     ]
@@ -975,7 +975,7 @@
     "@type": [ "Interface", "Mqtt", "Congruence" ],
     "displayName": "TCDSpecificationType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber.TCD/;i=1011",
+    "typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1011",
     "commandTopic": "opcua/PlasticsRubber_TCD/TCDSpecificationType/{commandName}",
     "telemetryTopic": "opcua/PlasticsRubber_TCD/TCDSpecificationType/{telemetryName}/{senderId}",
     "payloadFormat": "Json/ecma/404",
@@ -986,7 +986,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "DeviceZoneId",
         "displayName": "DeviceZoneId",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "string",
         "writable": false
       },
@@ -995,7 +995,7 @@
         "name": "ConnectedLoad",
         "displayName": "ConnectedLoad",
         "description": "Connected load, defines the connections of the TCD (pump performance, heating capacity and performance of the remaining components)",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "kilowatt",
         "schema": "double"
       },
@@ -1004,7 +1004,7 @@
         "name": "CoolingCapacity",
         "displayName": "CoolingCapacity",
         "description": "Power value for cooling, defines the power value for cooling at temperature difference 60 K between cooling water and heat transfer medium",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "kilowatt",
         "schema": "unsignedInteger"
       },
@@ -1013,7 +1013,7 @@
         "name": "MaxTemperature",
         "displayName": "MaxTemperature",
         "description": "Defines the maximum working temperature of the TCD",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "integer"
       },
       {
@@ -1021,7 +1021,7 @@
         "name": "NominalFlowRate",
         "displayName": "NominalFlowRate",
         "description": "Nominal flow rate, defines the maximum achievable flow rate of the TCD",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "schema": "double"
       },
       {
@@ -1029,7 +1029,7 @@
         "name": "PowerValue",
         "displayName": "PowerValue",
         "description": "Power value, defines the heating capacity of the TCD with the rated voltage",
-        "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
+        "namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "unit": "kilowatt",
         "schema": "double"
       }

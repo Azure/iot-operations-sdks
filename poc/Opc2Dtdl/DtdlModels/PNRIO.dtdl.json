@@ -88,7 +88,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ApplicationTag",
         "displayName": "ApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "string",
         "writable": false
       },
@@ -96,7 +96,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HelpText",
         "displayName": "HelpText",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "string",
         "writable": false
       },
@@ -104,7 +104,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ManufacturerData",
         "displayName": "ManufacturerData",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "bytes",
         "writable": false
       },
@@ -112,7 +112,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PnChannelNumber",
         "displayName": "PnChannelNumber",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -120,7 +120,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Reason",
         "displayName": "Reason",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelDiagnosisAlarmType:dataType:RioChannelDiagnosisReasonEnumeration;1",
         "writable": false
       },
@@ -128,7 +128,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "RioChannelNumber",
         "displayName": "RioChannelNumber",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -136,7 +136,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelDiagnosisAlarmType:dataType:RioChannelDiagnosisStatusEnumeration;1",
         "writable": false
       }
@@ -231,7 +231,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ApplicationTag",
         "displayName": "ApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "string",
         "writable": false
       },
@@ -239,7 +239,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HelpText",
         "displayName": "HelpText",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "string",
         "writable": false
       },
@@ -247,7 +247,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ManufacturerData",
         "displayName": "ManufacturerData",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "bytes",
         "writable": false
       },
@@ -255,7 +255,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PnChannelNumber",
         "displayName": "PnChannelNumber",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -263,7 +263,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Reason",
         "displayName": "Reason",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelDiagnosisEventType:dataType:RioChannelDiagnosisReasonEnumeration;1",
         "writable": false
       },
@@ -271,7 +271,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "RioChannelNumber",
         "displayName": "RioChannelNumber",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -279,7 +279,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Status",
         "displayName": "Status",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelDiagnosisEventType:dataType:RioChannelDiagnosisStatusEnumeration;1",
         "writable": false
       }
@@ -310,7 +310,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Offset",
         "displayName": "Offset",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -318,7 +318,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SignalId",
         "displayName": "SignalId",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -379,7 +379,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ConsumerStatus",
         "displayName": "ConsumerStatus",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:PnIoTelegramType:dataType:PnIoTelegramStatusEnumeration;1",
         "writable": false
       },
@@ -387,7 +387,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IoTelegramImage",
         "displayName": "IoTelegramImage",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "bytes",
         "writable": false
       },
@@ -395,7 +395,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "Length",
         "displayName": "Length",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -403,7 +403,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProviderStatus",
         "displayName": "ProviderStatus",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:PnIoTelegramType:dataType:PnIoTelegramStatusEnumeration;1",
         "writable": false
       },
@@ -411,7 +411,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "Nr_SignalName",
         "displayName": "<Nr_SignalName>",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "target": "dtmi:opcua:PNRIO:PnIoSignalType"
       }
     ]
@@ -428,7 +428,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:PnTelegramType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "PnTelegramType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1018",
@@ -441,7 +441,7 @@
         "maxMultiplicity": 1,
         "name": "Input",
         "displayName": "Input",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "target": "dtmi:opcua:PNRIO:PnIoTelegramType"
       },
       {
@@ -449,7 +449,7 @@
         "maxMultiplicity": 1,
         "name": "Output",
         "displayName": "Output",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "target": "dtmi:opcua:PNRIO:PnIoTelegramType"
       }
     ]
@@ -466,7 +466,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioChannelGroupConfigType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioChannelGroupConfigType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1017",
@@ -599,7 +599,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "Damping",
         "displayName": "Damping",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "float",
         "writable": false
       },
@@ -607,7 +607,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "FaAnalogSubstituteValue",
         "displayName": "FaAnalogSubstituteValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioAnalogDataType;1"
@@ -618,7 +618,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "HighLimit",
         "displayName": "HighLimit",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioAnalogDataType;1",
         "writable": false
       },
@@ -626,7 +626,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "InversionEnabled",
         "displayName": "InversionEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean",
         "writable": false
       },
@@ -634,7 +634,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LoadVoltageCheckEnabled",
         "displayName": "LoadVoltageCheckEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean",
         "writable": false
       },
@@ -642,7 +642,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LowLimit",
         "displayName": "LowLimit",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioAnalogDataType;1",
         "writable": false
       },
@@ -650,7 +650,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "PaAnalogSubstituteValue",
         "displayName": "PaAnalogSubstituteValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioAnalogDataType;1"
@@ -661,7 +661,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ShortCircuitCheckEnabled",
         "displayName": "ShortCircuitCheckEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean",
         "writable": false
       },
@@ -669,7 +669,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SignalType",
         "displayName": "SignalType",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioSignalTypeEnumeration;1",
         "writable": false
       },
@@ -677,7 +677,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SubstitutePolicy",
         "displayName": "SubstitutePolicy",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioSubstitutePolicyEnumeration;1",
         "writable": false
       },
@@ -685,7 +685,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SubstituteTime",
         "displayName": "SubstituteTime",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "float",
         "writable": false
       },
@@ -693,7 +693,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SupplyVoltageCheckEnabled",
         "displayName": "SupplyVoltageCheckEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean",
         "writable": false
       },
@@ -701,7 +701,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "WireCheckEnabled",
         "displayName": "WireCheckEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean",
         "writable": false
       },
@@ -709,14 +709,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "FaDigitalSubstituteValue",
         "displayName": "FaDigitalSubstituteValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioBitFieldDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "PaDigitalSubstituteValue",
         "displayName": "PaDigitalSubstituteValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioBitFieldDataType;1"
       }
     ]
@@ -746,7 +746,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "ApplicationTag",
         "displayName": "ApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "string",
         "writable": false
       },
@@ -754,7 +754,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LastParameterChange",
         "displayName": "LastParameterChange",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dateTime",
         "writable": false
       },
@@ -762,7 +762,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "NumberOfChannels",
         "displayName": "NumberOfChannels",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": "Array",
           "elementSchema": "unsignedShort"
@@ -773,7 +773,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetApplicationTag",
         "displayName": "SetApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -794,7 +794,7 @@
         "maxMultiplicity": 1,
         "name": "Lock",
         "displayName": "Lock",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "target": "dtmi:opcua:DI:LockingServicesType"
       }
     ]
@@ -811,7 +811,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioFaAnalogChannelGroupType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioFaAnalogChannelGroupType",
     "extends": "dtmi:opcua:PNRIO:RioChannelGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1014",
@@ -833,7 +833,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioFaDigitalChannelGroupType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioFaDigitalChannelGroupType",
     "extends": "dtmi:opcua:PNRIO:RioChannelGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1016",
@@ -855,7 +855,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioPaAnalogChannelGroupType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioPaAnalogChannelGroupType",
     "extends": "dtmi:opcua:PNRIO:RioChannelGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1013",
@@ -921,7 +921,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SimulationValues",
         "displayName": "SimulationValues",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PNRIO:RioPaAnalogChannelGroupType:dataType:RioPaAnalogValueDataType;1"
@@ -932,7 +932,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationEnabled",
         "displayName": "SimulationEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": "Array",
           "elementSchema": "boolean"
@@ -942,7 +942,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulation",
         "displayName": "SetSimulation",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -967,7 +967,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulationValue",
         "displayName": "SetSimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1007,7 +1007,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioPaDigitalChannelGroupType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioPaDigitalChannelGroupType",
     "extends": "dtmi:opcua:PNRIO:RioChannelGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1015",
@@ -1040,7 +1040,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SimulationValues",
         "displayName": "SimulationValues",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:PNRIO:RioPaDigitalChannelGroupType:dataType:RioPaDigitalValueDataType;1"
@@ -1051,7 +1051,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationEnabled",
         "displayName": "SimulationEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": "Array",
           "elementSchema": "boolean"
@@ -1061,7 +1061,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulation",
         "displayName": "SetSimulation",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1086,7 +1086,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulationValue",
         "displayName": "SetSimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1139,7 +1139,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ApplicationTag",
         "displayName": "ApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "string",
         "writable": false
       },
@@ -1147,7 +1147,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "LastParameterChange",
         "displayName": "LastParameterChange",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dateTime",
         "writable": false
       },
@@ -1155,7 +1155,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "RioChannelNumber",
         "displayName": "RioChannelNumber",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "unsignedShort",
         "writable": false
       },
@@ -1163,7 +1163,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetApplicationTag",
         "displayName": "SetApplicationTag",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1184,7 +1184,7 @@
         "maxMultiplicity": 1,
         "name": "Lock",
         "displayName": "Lock",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "target": "dtmi:opcua:DI:LockingServicesType"
       }
     ]
@@ -1201,7 +1201,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioFaAnalogInputChannelType",
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1003",
@@ -1367,14 +1367,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Config",
         "displayName": "Config",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioFaAnalogInputConfigDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "ProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -1382,14 +1382,14 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "ProcessValue",
               "displayName": "ProcessValue",
-              "namespace": "http://opcfoundation.org/UA/PNRIO",
+              "namespace": "http://opcfoundation.org/UA/PNRIO/",
               "schema": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioFaAnalogProcessValueDataType;1"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "QualifierValue",
               "displayName": "QualifierValue",
-              "namespace": "http://opcfoundation.org/UA/PNRIO",
+              "namespace": "http://opcfoundation.org/UA/PNRIO/",
               "schema": "boolean"
             }
           ]
@@ -1399,7 +1399,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValue",
         "displayName": "SignalValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       }
     ]
@@ -1416,7 +1416,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioFaAnalogOutputChannelType",
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1007",
@@ -1587,14 +1587,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Config",
         "displayName": "Config",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogOutputConfigDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "ProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -1602,14 +1602,14 @@
               "@type": [ "Field", "Subject", "Qualified", "Required" ],
               "name": "ProcessValue",
               "displayName": "ProcessValue",
-              "namespace": "http://opcfoundation.org/UA/PNRIO",
+              "namespace": "http://opcfoundation.org/UA/PNRIO/",
               "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogProcessValueDataType;1"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "QualifierValue",
               "displayName": "QualifierValue",
-              "namespace": "http://opcfoundation.org/UA/PNRIO",
+              "namespace": "http://opcfoundation.org/UA/PNRIO/",
               "schema": "boolean"
             }
           ]
@@ -1619,7 +1619,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValueReadback",
         "displayName": "ProcessValueReadback",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": {
           "@type": [ "Object", "Detail" ],
           "fields": [
@@ -1627,14 +1627,14 @@
               "@type": [ "Field", "Subject", "Qualified" ],
               "name": "ProcessValueReadback",
               "displayName": "ProcessValueReadback",
-              "namespace": "http://opcfoundation.org/UA/PNRIO",
+              "namespace": "http://opcfoundation.org/UA/PNRIO/",
               "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogProcessValueDataType;1"
             },
             {
               "@type": [ "Field", "Qualified" ],
               "name": "QualifierValue",
               "displayName": "QualifierValue",
-              "namespace": "http://opcfoundation.org/UA/PNRIO",
+              "namespace": "http://opcfoundation.org/UA/PNRIO/",
               "schema": "boolean"
             }
           ]
@@ -1644,14 +1644,14 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValue",
         "displayName": "SignalValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValueReadback",
         "displayName": "SignalValueReadback",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       }
     ]
@@ -1668,7 +1668,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioFaDigitalInputChannelType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioFaDigitalInputChannelType",
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1009",
@@ -1796,21 +1796,21 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Config",
         "displayName": "Config",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioFaDigitalInputChannelType:dataType:RioFaDigitalInputConfigDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "ProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioFaDigitalInputChannelType:dataType:RioFaDigitalProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValue",
         "displayName": "SignalValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       }
     ]
@@ -1827,7 +1827,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioFaDigitalOutputChannelType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioFaDigitalOutputChannelType",
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1011",
@@ -1965,35 +1965,35 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Config",
         "displayName": "Config",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioFaDigitalOutputChannelType:dataType:RioFaDigitalOutputConfigDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "ProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioFaDigitalOutputChannelType:dataType:RioFaDigitalProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValueReadback",
         "displayName": "ProcessValueReadback",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioFaDigitalOutputChannelType:dataType:RioFaDigitalProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValue",
         "displayName": "SignalValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValueReadback",
         "displayName": "SignalValueReadback",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       }
     ]
@@ -2010,7 +2010,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioPaAnalogInputChannelType",
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1002",
@@ -2233,56 +2233,56 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Config",
         "displayName": "Config",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioPaAnalogInputConfigDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ManualProcessValue",
         "displayName": "ManualProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioAnalogDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Mode",
         "displayName": "Mode",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioChannelModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "ProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioPaAnalogProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValue",
         "displayName": "SignalValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationEnabled",
         "displayName": "SimulationEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationValue",
         "displayName": "SimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioPaAnalogValueDataType;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetManualProcessValue",
         "displayName": "SetManualProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2302,7 +2302,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetMode",
         "displayName": "SetMode",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2322,7 +2322,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulation",
         "displayName": "SetSimulation",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2342,7 +2342,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulationValue",
         "displayName": "SetSimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2377,7 +2377,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioPaAnalogOutputChannelType",
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1006",
@@ -2590,70 +2590,70 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Config",
         "displayName": "Config",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioPaAnalogOutputConfigDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ManualOutValue",
         "displayName": "ManualOutValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioAnalogDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Mode",
         "displayName": "Mode",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioChannelModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "ProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioPaAnalogProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValueReadback",
         "displayName": "ProcessValueReadback",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioPaAnalogProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValue",
         "displayName": "SignalValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValueReadback",
         "displayName": "SignalValueReadback",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationEnabled",
         "displayName": "SimulationEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationValue",
         "displayName": "SimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioPaAnalogValueDataType;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetManualOutValue",
         "displayName": "SetManualOutValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2673,7 +2673,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetMode",
         "displayName": "SetMode",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2693,7 +2693,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulation",
         "displayName": "SetSimulation",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2713,7 +2713,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulationValue",
         "displayName": "SetSimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2748,7 +2748,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioPaDigitalInputChannelType",
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1008",
@@ -2928,56 +2928,56 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Config",
         "displayName": "Config",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalInputConfigDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ManualProcessValue",
         "displayName": "ManualProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Mode",
         "displayName": "Mode",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioChannelModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "ProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValue",
         "displayName": "SignalValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationEnabled",
         "displayName": "SimulationEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationValue",
         "displayName": "SimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalInputChannelType:dataType:RioPaDigitalValueDataType;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetManualProcessValue",
         "displayName": "SetManualProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -2997,7 +2997,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetMode",
         "displayName": "SetMode",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3017,7 +3017,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulation",
         "displayName": "SetSimulation",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3037,7 +3037,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulationValue",
         "displayName": "SetSimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3072,7 +3072,7 @@
     ],
     "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/PNRIO",
+    "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "displayName": "RioPaDigitalOutputChannelType",
     "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1010",
@@ -3257,70 +3257,70 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Config",
         "displayName": "Config",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalOutputConfigDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ManualOutValue",
         "displayName": "ManualOutValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "Mode",
         "displayName": "Mode",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValue",
         "displayName": "ProcessValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "ProcessValueReadback",
         "displayName": "ProcessValueReadback",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValue",
         "displayName": "SignalValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SignalValueReadback",
         "displayName": "SignalValueReadback",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "double"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationEnabled",
         "displayName": "SimulationEnabled",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "boolean"
       },
       {
         "@type": [ "Telemetry", "Qualified" ],
         "name": "SimulationValue",
         "displayName": "SimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalValueDataType;1"
       },
       {
         "@type": [ "Command", "Qualified" ],
         "name": "SetManualOutValue",
         "displayName": "SetManualOutValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3340,7 +3340,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetMode",
         "displayName": "SetMode",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3360,7 +3360,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulation",
         "displayName": "SetSimulation",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -3380,7 +3380,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SetSimulationValue",
         "displayName": "SetSimulationValue",
-        "namespace": "http://opcfoundation.org/UA/PNRIO",
+        "namespace": "http://opcfoundation.org/UA/PNRIO/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",

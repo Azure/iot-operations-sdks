@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/PackML/
+
 DataTypes:
 - UADataType: [ PackML:11, PackML:ProductionMaintenanceModeEnum ]
   DisplayName: "ProductionMaintenanceModeEnum"

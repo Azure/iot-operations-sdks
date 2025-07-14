@@ -83,11 +83,17 @@
             string coreOutFilePath = Path.Combine(destRoot, coreOutFileName);
             Console.WriteLine($"  {coreSpecFileName} => {coreOutFileName}");
 
+            string specUri = coreSpecDoc.RootElement.SelectSingleNode("//opc:Model", coreSpecDoc.NamespaceManager)!.Attributes!["ModelUri"]!.Value;
+
             using (StreamWriter outputFile = new StreamWriter(coreOutFilePath))
             {
+                outputFile.WriteLine($"SpecUri: {specUri}");
+                outputFile.WriteLine();
+
                 outputFile.WriteLine("DataTypes:");
                 RecordDataTypes(coreSpecDoc, outputFile);
                 outputFile.WriteLine();
+
                 RecordDefinitions(coreSpecDoc, outputFile);
             }
         }
@@ -126,6 +132,12 @@
 
                 using (StreamWriter outputFile = new StreamWriter(outFilePath))
                 {
+                    ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
+                    string specUri = specDoc.RootElement.SelectSingleNode("//opc:Model", specDoc.NamespaceManager)!.Attributes!["ModelUri"]!.Value;
+
+                    outputFile.WriteLine($"SpecUri: {specUri}");
+                    outputFile.WriteLine();
+
                     outputFile.WriteLine("DataTypes:");
                     foreach (ManagedXmlDocument reqSpecDoc in EnumerateRequiredModels(specFile.Value.SpecName, specFiles))
                     {
@@ -133,7 +145,6 @@
                     }
 
                     outputFile.WriteLine();
-                    ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
                     RecordDefinitions(specDoc, outputFile);
                 }
             }

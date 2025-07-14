@@ -26,7 +26,7 @@
         "name": "Location",
         "displayName": "Location",
         "description": "To be used by end users to store the location of the machine in a scheme specific to the end user Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       }
@@ -59,7 +59,7 @@
         "name": "InitialOperationDate",
         "displayName": "InitialOperationDate",
         "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "dateTime",
         "writable": false
       },
@@ -68,7 +68,7 @@
         "name": "MonthOfConstruction",
         "displayName": "MonthOfConstruction",
         "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "unsignedByte",
         "writable": false
       },
@@ -77,7 +77,7 @@
         "name": "YearOfConstruction",
         "displayName": "YearOfConstruction",
         "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -132,7 +132,7 @@
         "name": "AssetId",
         "displayName": "AssetId",
         "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -141,7 +141,7 @@
         "name": "ComponentName",
         "displayName": "ComponentName",
         "description": "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": true
       },
@@ -150,7 +150,7 @@
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       },
@@ -159,7 +159,7 @@
         "name": "DeviceClass",
         "displayName": "DeviceClass",
         "description": "Indicates in which domain or for what purpose the MachineryItem is used.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -168,7 +168,7 @@
         "name": "HardwareRevision",
         "displayName": "HardwareRevision",
         "description": "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -177,7 +177,7 @@
         "name": "InitialOperationDate",
         "displayName": "InitialOperationDate",
         "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "dateTime",
         "writable": false
       },
@@ -186,7 +186,7 @@
         "name": "Manufacturer",
         "displayName": "Manufacturer",
         "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -195,7 +195,7 @@
         "name": "ManufacturerUri",
         "displayName": "ManufacturerUri",
         "description": "A globally unique identifier of the manufacturer of the MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -204,7 +204,7 @@
         "name": "Model",
         "displayName": "Model",
         "description": "A human-readable, localized name of the model of the MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -213,7 +213,7 @@
         "name": "MonthOfConstruction",
         "displayName": "MonthOfConstruction",
         "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "unsignedByte",
         "writable": false
       },
@@ -222,7 +222,7 @@
         "name": "ProductCode",
         "displayName": "ProductCode",
         "description": "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -231,7 +231,7 @@
         "name": "ProductInstanceUri",
         "displayName": "ProductInstanceUri",
         "description": "A globally unique resource identifier provided by the manufacturer of the MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -240,7 +240,7 @@
         "name": "SerialNumber",
         "displayName": "SerialNumber",
         "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -249,7 +249,7 @@
         "name": "SoftwareRevision",
         "displayName": "SoftwareRevision",
         "description": "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       },
@@ -258,7 +258,7 @@
         "name": "YearOfConstruction",
         "displayName": "YearOfConstruction",
         "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "unsignedShort",
         "writable": false
       }
@@ -276,7 +276,7 @@
     ],
     "@id": "dtmi:opcua:Machinery:MachineIdentificationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Machinery",
+    "ontology": "http://opcfoundation.org/UA/Machinery/",
     "displayName": "MachineIdentificationType",
     "description": "Contains information about the identification and nameplate of a machine",
     "extends": "dtmi:opcua:Machinery:MachineryItemIdentificationType;1",
@@ -292,7 +292,7 @@
         "name": "Location",
         "displayName": "Location",
         "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       }
@@ -325,7 +325,7 @@
         "name": "DeviceRevision",
         "displayName": "DeviceRevision",
         "description": "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "string",
         "writable": false
       }
@@ -343,7 +343,7 @@
     ],
     "@id": "dtmi:opcua:Machinery:MachineryOperationCounterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Machinery",
+    "ontology": "http://opcfoundation.org/UA/Machinery/",
     "displayName": "MachineryOperationCounterType",
     "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1009",
@@ -358,7 +358,7 @@
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       },
@@ -367,7 +367,7 @@
         "name": "OperationCycleCounter",
         "displayName": "OperationCycleCounter",
         "description": "OperationCycleCounter is counting the times the component switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the component and shall not be reset when the component is restarted.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -376,7 +376,7 @@
         "name": "OperationDuration",
         "displayName": "OperationDuration",
         "description": "OperationDuration is the duration the MachineryItem has been powered and performing an activity. This counter is intended for machines and components where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for machines or components always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "duration",
         "writable": true
       },
@@ -385,7 +385,7 @@
         "name": "PowerOnDuration",
         "displayName": "PowerOnDuration",
         "description": "PowerOnDuration is the duration the MachineryItem has been powered. The main purpose is to determine the time in which degradation of the MachineryItem occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the MachineryItem has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "schema": "duration",
         "writable": true
       }
@@ -403,7 +403,7 @@
     ],
     "@id": "dtmi:opcua:Machinery:MachineryLifetimeCounterType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Machinery",
+    "ontology": "http://opcfoundation.org/UA/Machinery/",
     "displayName": "MachineryLifetimeCounterType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1015",
@@ -418,7 +418,7 @@
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       },
@@ -426,7 +426,7 @@
         "@type": [ "Telemetry", "Qualified" ],
         "name": "LifetimeVariable",
         "displayName": "<LifetimeVariable>",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": {
           "@type": "Map",
           "mapKey": {
@@ -468,7 +468,7 @@
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       },
@@ -477,7 +477,7 @@
         "name": "Component",
         "displayName": "<Component>",
         "description": "Represents the identifiable components of a machine.",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:BaseObjectType"
       }
     ]
@@ -509,7 +509,7 @@
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       },
@@ -519,7 +519,7 @@
         "name": "Executing",
         "displayName": "Executing",
         "description": "The machine is available & functional and is actively performing an activity (pursues a purpose)",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -528,7 +528,7 @@
         "name": "FromExecutingToExecuting",
         "displayName": "FromExecutingToExecuting",
         "description": "Transition from state Executing to state Executing",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -537,7 +537,7 @@
         "name": "FromExecutingToNotAvailable",
         "displayName": "FromExecutingToNotAvailable",
         "description": "Transition from state Executing to state NotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -546,7 +546,7 @@
         "name": "FromExecutingToNotExecuting",
         "displayName": "FromExecutingToNotExecuting",
         "description": "Transition from state Executing to state NotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -555,7 +555,7 @@
         "name": "FromExecutingToOutOfService",
         "displayName": "FromExecutingToOutOfService",
         "description": "Transition from state Executing to state OutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -564,7 +564,7 @@
         "name": "FromNotAvailableToExecuting",
         "displayName": "FromNotAvailableToExecuting",
         "description": "Transition from state NotAvailable to state Executing",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -573,7 +573,7 @@
         "name": "FromNotAvailableToNotAvailable",
         "displayName": "FromNotAvailableToNotAvailable",
         "description": "Transition from state NotAvailable to state NotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -582,7 +582,7 @@
         "name": "FromNotAvailableToNotExecuting",
         "displayName": "FromNotAvailableToNotExecuting",
         "description": "Transition from state NotAvailable to state NotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -591,7 +591,7 @@
         "name": "FromNotAvailableToOutOfService",
         "displayName": "FromNotAvailableToOutOfService",
         "description": "Transition from state NotAvailable to state OutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -600,7 +600,7 @@
         "name": "FromNotExecutingToExecuting",
         "displayName": "FromNotExecutingToExecuting",
         "description": "Transition from state NotExecuting to state Executing",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -609,7 +609,7 @@
         "name": "FromNotExecutingToNotAvailable",
         "displayName": "FromNotExecutingToNotAvailable",
         "description": "Transition from state NotExecuting to state NotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -618,7 +618,7 @@
         "name": "FromNotExecutingToNotExecuting",
         "displayName": "FromNotExecutingToNotExecuting",
         "description": "Transition from state NotExecuting to state NotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -627,7 +627,7 @@
         "name": "FromNotExecutingToOutOfService",
         "displayName": "FromNotExecutingToOutOfService",
         "description": "Transition from state NotExecuting to state OutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -636,7 +636,7 @@
         "name": "FromOutOfServiceToExecuting",
         "displayName": "FromOutOfServiceToExecuting",
         "description": "Transition from state OutOfService to state Executing",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -645,7 +645,7 @@
         "name": "FromOutOfServiceToNotAvailable",
         "displayName": "FromOutOfServiceToNotAvailable",
         "description": "Transition from state OutOfService to state NotAvailable",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -654,7 +654,7 @@
         "name": "FromOutOfServiceToNotExecuting",
         "displayName": "FromOutOfServiceToNotExecuting",
         "description": "Transition from state OutOfService to state NotExecuting",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -663,7 +663,7 @@
         "name": "FromOutOfServiceToOutOfService",
         "displayName": "FromOutOfServiceToOutOfService",
         "description": "Transition from state OutOfService to state OutOfService",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -672,7 +672,7 @@
         "name": "NotAvailable",
         "displayName": "NotAvailable",
         "description": "The machine is not available and does not perform any activity (e.g., switched off, in energy saving mode)",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -681,7 +681,7 @@
         "name": "NotExecuting",
         "displayName": "NotExecuting",
         "description": "The machine is available & functional and does not perform any activity. It waits for an action from outside to start or restart an activity",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -690,7 +690,7 @@
         "name": "OutOfService",
         "displayName": "OutOfService",
         "description": "The machine is not functional and does not perform any activity (e.g., error, blocked)",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]
@@ -707,7 +707,7 @@
     ],
     "@id": "dtmi:opcua:Machinery:MachineryOperationModeStateMachineType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Machinery",
+    "ontology": "http://opcfoundation.org/UA/Machinery/",
     "displayName": "MachineryOperationModeStateMachineType",
     "description": "State machine representing the operation mode of a MachineryItem",
     "extends": "dtmi:opcua:OpcUaCore:FiniteStateMachineType;1",
@@ -723,7 +723,7 @@
         "name": "DefaultInstanceBrowseName",
         "displayName": "DefaultInstanceBrowseName",
         "description": "The default BrowseName for instances of the type",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "schema": "string",
         "writable": true
       },
@@ -733,7 +733,7 @@
         "name": "FromMaintenanceToMaintenance",
         "displayName": "FromMaintenanceToMaintenance",
         "description": "Transition from state Maintenance to state Maintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -742,7 +742,7 @@
         "name": "FromMaintenanceToNone",
         "displayName": "FromMaintenanceToNone",
         "description": "Transition from state Maintenance to state None",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -751,7 +751,7 @@
         "name": "FromMaintenanceToProcessing",
         "displayName": "FromMaintenanceToProcessing",
         "description": "Transition from state Maintenance to state Processing",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -760,7 +760,7 @@
         "name": "FromMaintenanceToSetup",
         "displayName": "FromMaintenanceToSetup",
         "description": "Transition from state Maintenance to state Setup",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -769,7 +769,7 @@
         "name": "FromNoneToMaintenance",
         "displayName": "FromNoneToMaintenance",
         "description": "Transition from state None to state Maintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -778,7 +778,7 @@
         "name": "FromNoneToNone",
         "displayName": "FromNoneToNone",
         "description": "Transition from state None to state None",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -787,7 +787,7 @@
         "name": "FromNoneToProcessing",
         "displayName": "FromNoneToProcessing",
         "description": "Transition from state None to state Processing",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -796,7 +796,7 @@
         "name": "FromNoneToSetup",
         "displayName": "FromNoneToSetup",
         "description": "Transition from state None to state Setup",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -805,7 +805,7 @@
         "name": "FromProcessingToMaintenance",
         "displayName": "FromProcessingToMaintenance",
         "description": "Transition from state Processing to state Maintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -814,7 +814,7 @@
         "name": "FromProcessingToNone",
         "displayName": "FromProcessingToNone",
         "description": "Transition from state Processing to state None",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -823,7 +823,7 @@
         "name": "FromProcessingToProcessing",
         "displayName": "FromProcessingToProcessing",
         "description": "Transition from state Processing to state Processing",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -832,7 +832,7 @@
         "name": "FromProcessingToSetup",
         "displayName": "FromProcessingToSetup",
         "description": "Transition from state Processing to state Setup",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -841,7 +841,7 @@
         "name": "FromSetupToMaintenance",
         "displayName": "FromSetupToMaintenance",
         "description": "Transition from state Setup to state Maintenance",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -850,7 +850,7 @@
         "name": "FromSetupToNone",
         "displayName": "FromSetupToNone",
         "description": "Transition from state Setup to state None",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -859,7 +859,7 @@
         "name": "FromSetupToProcessing",
         "displayName": "FromSetupToProcessing",
         "description": "Transition from state Setup to state Processing",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -868,7 +868,7 @@
         "name": "FromSetupToSetup",
         "displayName": "FromSetupToSetup",
         "description": "Transition from state Setup to state Setup",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:TransitionType"
       },
       {
@@ -877,7 +877,7 @@
         "name": "Maintenance",
         "displayName": "Maintenance",
         "description": "MachineryItem is set into maintenance mode with the intention to carry out maintenance or servicing activities",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -886,7 +886,7 @@
         "name": "None",
         "displayName": "None",
         "description": "There is currently no operation mode available",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -895,7 +895,7 @@
         "name": "Processing",
         "displayName": "Processing",
         "description": "MachineryItem is set into processing mode with the intention to carry out the value adding activities",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       },
       {
@@ -904,7 +904,7 @@
         "name": "Setup",
         "displayName": "Setup",
         "description": "MachineryItem is set into setup mode with the intention to carry out setup, preparation or postprocessing activities of a production process",
-        "namespace": "http://opcfoundation.org/UA/Machinery",
+        "namespace": "http://opcfoundation.org/UA/Machinery/",
         "target": "dtmi:opcua:OpcUaCore:StateType"
       }
     ]

@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/MachineTool/
+
 DataTypes:
 - UADataType: [ MachineTool:67, MachineTool:ChannelMode ]
   DisplayName: "ChannelMode"

@@ -1,3 +1,5 @@
+SpecUri: http://vdma.org/UA/LaserSystem-Example/
+
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   DisplayName: "DeviceHealthEnumeration"

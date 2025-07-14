@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/OPENSCS-SER/
+
 DataTypes:
 - UADataType: [ OPENSCS-SER:3006, OPENSCS-SER:JobOrderCommandEnum ]
   DisplayName: "JobOrderCommandEnum"

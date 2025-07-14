@@ -2,21 +2,22 @@ namespace Yaml2Dtdl
 {
     using System;
     using OpcUaDigest;
+    using SpecMapper;
 
     public class DtdlDataType
     {
         private readonly DtdlObject? dtdlObject;
         private readonly DtdlEnum? dtdlEnum;
 
-        public DtdlDataType(string modelId, OpcUaDataType dataType, TypeConverter typeConverter)
+        public DtdlDataType(SpecMapper specMapper, string modelId, OpcUaDataType dataType, TypeConverter typeConverter)
         {
             switch (dataType)
             {
                 case OpcUaObj objType:
-                    this.dtdlObject = new DtdlObject(modelId, objType, typeConverter);
+                    this.dtdlObject = new DtdlObject(specMapper, modelId, objType, typeConverter);
                     break;
                 case OpcUaEnum enumType:
-                    this.dtdlEnum = new DtdlEnum(modelId, enumType);
+                    this.dtdlEnum = new DtdlEnum(specMapper, modelId, enumType);
                     break;
                 default:
                     throw new NotSupportedException($"Cannot create {nameof(DtdlDataType)} from object of type {dataType.GetType()}");

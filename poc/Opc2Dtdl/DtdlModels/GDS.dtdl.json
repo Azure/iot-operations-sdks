@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:GDS:DirectoryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GDS",
+    "ontology": "http://opcfoundation.org/UA/GDS/",
     "displayName": "DirectoryType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=13",
@@ -178,7 +178,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "FindApplications",
         "displayName": "FindApplications",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -215,7 +215,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RegisterApplication",
         "displayName": "RegisterApplication",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -249,7 +249,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "UpdateApplication",
         "displayName": "UpdateApplication",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -269,7 +269,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "UnregisterApplication",
         "displayName": "UnregisterApplication",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -289,7 +289,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetApplication",
         "displayName": "GetApplication",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -323,7 +323,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "QueryApplications",
         "displayName": "QueryApplications",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -403,7 +403,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "QueryServers",
         "displayName": "QueryServers",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -474,7 +474,7 @@
         "maxMultiplicity": 1,
         "name": "Applications",
         "displayName": "Applications",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -512,7 +512,7 @@
     ],
     "@id": "dtmi:opcua:GDS:CertificateDirectoryType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GDS",
+    "ontology": "http://opcfoundation.org/UA/GDS/",
     "displayName": "CertificateDirectoryType",
     "extends": "dtmi:opcua:GDS:DirectoryType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=63",
@@ -525,7 +525,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StartSigningRequest",
         "displayName": "StartSigningRequest",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -574,7 +574,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StartNewKeyPairRequest",
         "displayName": "StartNewKeyPairRequest",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -641,7 +641,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "FinishRequest",
         "displayName": "FinishRequest",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -693,7 +693,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RevokeCertificate",
         "displayName": "RevokeCertificate",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -718,7 +718,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetCertificateGroups",
         "displayName": "GetCertificateGroups",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -755,7 +755,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetCertificates",
         "displayName": "GetCertificates",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -805,7 +805,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetTrustList",
         "displayName": "GetTrustList",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -844,7 +844,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetCertificateStatus",
         "displayName": "GetCertificateStatus",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -888,7 +888,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "CheckRevocationStatus",
         "displayName": "CheckRevocationStatus",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -950,7 +950,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateGroup",
         "displayName": "CertificateGroup",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": "string",
         "writable": false
       },
@@ -958,7 +958,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateType",
         "displayName": "CertificateType",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": "string",
         "writable": false
       }
@@ -989,7 +989,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateGroup",
         "displayName": "CertificateGroup",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": "string",
         "writable": false
       },
@@ -997,7 +997,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "CertificateType",
         "displayName": "CertificateType",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": "string",
         "writable": false
       }
@@ -1015,7 +1015,7 @@
     ],
     "@id": "dtmi:opcua:GDS:KeyCredentialManagementFolderType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GDS",
+    "ontology": "http://opcfoundation.org/UA/GDS/",
     "displayName": "KeyCredentialManagementFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=55",
@@ -1027,7 +1027,7 @@
         "@type": [ "Relationship", "HasComponent", "Qualified" ],
         "name": "ServiceName",
         "displayName": "<ServiceName>",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "target": "dtmi:opcua:GDS:KeyCredentialServiceType"
       }
     ]
@@ -1057,7 +1057,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ResourceUri",
         "displayName": "ResourceUri",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": "string",
         "writable": false
       },
@@ -1065,7 +1065,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ProfileUris",
         "displayName": "ProfileUris",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1076,7 +1076,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SecurityPolicyUris",
         "displayName": "SecurityPolicyUris",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1087,7 +1087,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "StartRequest",
         "displayName": "StartRequest",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1139,7 +1139,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "FinishRequest",
         "displayName": "FinishRequest",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1201,7 +1201,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "Revoke",
         "displayName": "Revoke",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1294,7 +1294,7 @@
     ],
     "@id": "dtmi:opcua:GDS:AuthorizationServicesFolderType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GDS",
+    "ontology": "http://opcfoundation.org/UA/GDS/",
     "displayName": "AuthorizationServicesFolderType",
     "extends": "dtmi:opcua:OpcUaCore:FolderType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=233",
@@ -1316,7 +1316,7 @@
     ],
     "@id": "dtmi:opcua:GDS:AuthorizationServiceType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/GDS",
+    "ontology": "http://opcfoundation.org/UA/GDS/",
     "displayName": "AuthorizationServiceType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=966",
@@ -1401,7 +1401,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServiceUri",
         "displayName": "ServiceUri",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": "string",
         "writable": false
       },
@@ -1409,7 +1409,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "ServiceCertificate",
         "displayName": "ServiceCertificate",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": "bytes",
         "writable": false
       },
@@ -1417,7 +1417,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "UserTokenPolicies",
         "displayName": "UserTokenPolicies",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenPolicy;1"
@@ -1428,7 +1428,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "GetServiceDescription",
         "displayName": "GetServiceDescription",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "response": {
           "@type": [ "CommandResponse", "Transparent" ],
           "name": "output",
@@ -1461,7 +1461,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "RequestAccessToken",
         "displayName": "RequestAccessToken",
-        "namespace": "http://opcfoundation.org/UA/GDS",
+        "namespace": "http://opcfoundation.org/UA/GDS/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",

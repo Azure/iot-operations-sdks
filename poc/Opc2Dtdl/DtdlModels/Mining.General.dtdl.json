@@ -11,10 +11,10 @@
     ],
     "@id": "dtmi:opcua:Mining_General:MiningEquipmentIdentificationType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/Mining.General",
+    "ontology": "http://opcfoundation.org/UA/Mining/General/",
     "displayName": "MiningEquipmentIdentificationType",
     "extends": "dtmi:opcua:Machinery:MachineIdentificationType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.General/;i=1003",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining/General/;i=1003",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],
@@ -24,7 +24,7 @@
         "maxMultiplicity": 1,
         "name": "DeviceTypeImage",
         "displayName": "DeviceTypeImage",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -32,7 +32,7 @@
         "maxMultiplicity": 1,
         "name": "Documentation",
         "displayName": "Documentation",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -40,7 +40,7 @@
         "maxMultiplicity": 1,
         "name": "ImageSet",
         "displayName": "ImageSet",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       },
       {
@@ -48,7 +48,7 @@
         "maxMultiplicity": 1,
         "name": "ProtocolSupport",
         "displayName": "ProtocolSupport",
-        "namespace": "http://opcfoundation.org/UA/DI",
+        "namespace": "http://opcfoundation.org/UA/DI/",
         "target": "dtmi:opcua:OpcUaCore:FolderType"
       }
     ]
@@ -68,7 +68,7 @@
     "displayName": "MiningEquipmentType",
     "description": "The MiningEquipmentType ObjectType describes the abstract blueprint for any type of mining field equipment or machinery",
     "extends": "dtmi:opcua:DI:TopologyElementType;1",
-    "typeRef": "nsu=http://opcfoundation.org/UA/Mining.General/;i=1002",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Mining/General/;i=1002",
     "payloadFormat": "Json/ecma/404",
     "schemas": [
     ],

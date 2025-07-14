@@ -1,3 +1,5 @@
+SpecUri: http://fdi-cooperation.com/OPCUA/FDI7/
+
 DataTypes:
 - UADataType: [ FDI7:2048, FDI7:EddDataTypeEnum ]
   DisplayName: "EddDataTypeEnum"

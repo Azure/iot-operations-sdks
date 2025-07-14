@@ -1,3 +1,5 @@
+SpecUri: http://sercos.org/UA/
+
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   DisplayName: "DeviceHealthEnumeration"

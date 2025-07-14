@@ -11,7 +11,7 @@
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
+    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER/",
     "displayName": "OPENSCSAggregationManagerObjectType",
     "description": "The aggregation manager receives unsolicited events through the aggregation methods. The aggregation methods have the same method signature.",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
@@ -169,7 +169,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxAggregationEvents",
         "displayName": "MaxAggregationEvents",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -177,7 +177,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AggregationPackingEvent",
         "displayName": "AggregationPackingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -232,7 +232,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "AggregationUnpackingEvent",
         "displayName": "AggregationUnpackingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -297,7 +297,7 @@
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
+    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER/",
     "displayName": "OPENSCSEventManagerObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15062",
@@ -530,7 +530,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxEPCISaggregationEvents",
         "displayName": "MaxEPCISaggregationEvents",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -538,7 +538,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxEPCISObjectEventSIDs",
         "displayName": "MaxEPCISObjectEventSIDs",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "unsignedInteger",
         "writable": true
       },
@@ -546,7 +546,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxEvents",
         "displayName": "MaxEvents",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -554,7 +554,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "LabelsEncodingEvent",
         "displayName": "LabelsEncodingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -601,7 +601,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "LabelsInspectingEvent",
         "displayName": "LabelsInspectingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -648,7 +648,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "LabelsSamplingEvent",
         "displayName": "LabelsSamplingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -695,7 +695,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "LabelsScrappingEvent",
         "displayName": "LabelsScrappingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -742,7 +742,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SIDCommissioningEvent",
         "displayName": "SIDCommissioningEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -789,7 +789,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SIDDecommissioningEvent",
         "displayName": "SIDDecommissioningEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -836,7 +836,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SIDDestroyingEvent",
         "displayName": "SIDDestroyingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -883,7 +883,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SIDInspectingEvent",
         "displayName": "SIDInspectingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -930,7 +930,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SIDShippingEvent",
         "displayName": "SIDShippingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -977,7 +977,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNInvalidatingEvent",
         "displayName": "SNInvalidatingEvent",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1025,7 +1025,7 @@
         "maxMultiplicity": 1,
         "name": "EPCISStream",
         "displayName": "EPCISStream",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "target": "dtmi:opcua:OpcUaCore:TemporaryFileTransferType"
       }
     ]
@@ -1042,7 +1042,7 @@
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
+    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER/",
     "displayName": "OPENSCSPoolManagerObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15032",
@@ -1228,7 +1228,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxSNPushable",
         "displayName": "MaxSNPushable",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -1236,7 +1236,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxSNRequestable",
         "displayName": "MaxSNRequestable",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -1244,7 +1244,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "MaxSNReturnable",
         "displayName": "MaxSNReturnable",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "unsignedInteger",
         "writable": false
       },
@@ -1252,7 +1252,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "PoolSelectionCriteria",
         "displayName": "PoolSelectionCriteria",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
@@ -1263,7 +1263,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SNFormat",
         "displayName": "SNFormat",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": {
           "@type": "Array",
           "elementSchema": "string"
@@ -1274,7 +1274,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNRequestAllocated",
         "displayName": "SNRequestAllocated",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1341,7 +1341,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNRequestUnallocated",
         "displayName": "SNRequestUnallocated",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1408,7 +1408,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNRequestUnassigned",
         "displayName": "SNRequestUnassigned",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1475,7 +1475,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNReturnAllocated",
         "displayName": "SNReturnAllocated",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1522,7 +1522,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNReturnUnallocated",
         "displayName": "SNReturnUnallocated",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1569,7 +1569,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNtoAllocated",
         "displayName": "SNtoAllocated",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1616,7 +1616,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNtoEncoded",
         "displayName": "SNtoEncoded",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1663,7 +1663,7 @@
         "@type": [ "Command", "Qualified" ],
         "name": "SNtoUnallocated",
         "displayName": "SNtoUnallocated",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "request": {
           "@type": [ "CommandRequest", "Transparent" ],
           "name": "input",
@@ -1720,7 +1720,7 @@
     ],
     "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType;1",
     "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
-    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER",
+    "ontology": "http://opcfoundation.org/UA/OPENSCS-SER/",
     "displayName": "OPENSCSSIDClassObjectType",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15102",
@@ -1790,7 +1790,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "AllowedCharacterSet",
         "displayName": "AllowedCharacterSet",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "string",
         "writable": false
       },
@@ -1798,7 +1798,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "IntendedUse",
         "displayName": "IntendedUse",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "string",
         "writable": false
       },
@@ -1806,7 +1806,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SIDClassDescription",
         "displayName": "SIDClassDescription",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "string",
         "writable": false
       },
@@ -1814,7 +1814,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SIDClassID",
         "displayName": "SIDClassID",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "string",
         "writable": false
       },
@@ -1822,7 +1822,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SIDClassOwner",
         "displayName": "SIDClassOwner",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "string",
         "writable": false
       },
@@ -1830,7 +1830,7 @@
         "@type": [ "Property", "Qualified" ],
         "name": "SIDClassProperty",
         "displayName": "SIDClassProperty",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": {
           "@type": "Array",
           "elementSchema": "dtmi:opcua:OPENSCS_SER:OPENSCSSIDClassObjectType:dataType:OPENSCSSIDClassPropertyDataType;1"
@@ -1841,7 +1841,7 @@
         "@type": [ "Property", "Qualified", "Required" ],
         "name": "SyntaxSpecification",
         "displayName": "SyntaxSpecification",
-        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
+        "namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "schema": "string",
         "writable": false
       }

@@ -1,3 +1,5 @@
+SpecUri: http://fdi-cooperation.com/OPCUA/FDI5/
+
 DataTypes:
 - UADataType: [ FDI5:194, FDI5:WindowModeType ]
   DisplayName: "WindowModeType"

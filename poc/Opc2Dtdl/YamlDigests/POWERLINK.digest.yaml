@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/POWERLINK/
+
 DataTypes:
 - UADataType: [ POWERLINK:28, POWERLINK:PowerlinkNMTResetCmdEnumeration ]
   DisplayName: "PowerlinkNMTResetCmdEnumeration"

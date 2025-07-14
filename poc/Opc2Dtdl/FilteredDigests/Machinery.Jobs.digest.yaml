@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/Machinery/Jobs/
+
 DataTypes:
 - UADataType: [ Machinery.Jobs:3003, Machinery.Jobs:JobExecutionMode ]
   DisplayName: "JobExecutionMode"

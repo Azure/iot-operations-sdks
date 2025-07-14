@@ -1,3 +1,5 @@
+SpecUri: http://opcfoundation.org/UA/MTConnect/v2/
+
 DataTypes:
 - UADataType: [ MTConnect.v2:2618, MTConnect.v2:AssetEventDataType ]
   DisplayName: "AssetEventDataType"
