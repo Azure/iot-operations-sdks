@@ -75,7 +75,7 @@ impl DeviceEndpointCreateObservation {
         let (create_device_tx, create_device_rx) = mpsc::unbounded_channel();
 
         // Tracks devices and assets in the file mount.
-        let mut file_mount_map = FileMountMap::new(create_device_tx.clone(), mount_path.clone());
+        let mut file_mount_map = FileMountMap::new(create_device_tx, mount_path.clone());
 
         // Get all the current devices
         let device_endpoints = get_device_endpoint_names(&mount_path)?;
@@ -628,7 +628,7 @@ mod tests {
         file_mount_manager.add_device_endpoint(&device1_endpoint1, &device1_endpoint1_assets);
 
         let device1_endpoint1_assets_set: HashSet<AssetRef> =
-            HashSet::from_iter(device1_endpoint1_assets.clone());
+            HashSet::from_iter(device1_endpoint1_assets);
 
         temp_env::with_vars(
             [(

@@ -150,10 +150,7 @@ impl CloudEvent {
             ));
         }
         if let Some(data_schema) = self.data_schema {
-            headers.push((
-                CloudEventFields::DataSchema.to_string(),
-                data_schema.to_string(),
-            ));
+            headers.push((CloudEventFields::DataSchema.to_string(), data_schema));
         }
         headers
     }

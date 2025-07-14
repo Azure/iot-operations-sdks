@@ -2175,8 +2175,7 @@ mod tests {
             }]),
             ..Default::default()
         };
-        let new_status_base =
-            AssetClient::current_status_to_modify(&current_status.clone(), spec_version);
+        let new_status_base = AssetClient::current_status_to_modify(&current_status, spec_version);
         if expect_keep_received {
             assert_eq!(new_status_base, current_status);
         } else {
