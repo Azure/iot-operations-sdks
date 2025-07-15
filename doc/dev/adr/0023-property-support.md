@@ -33,20 +33,19 @@ There are five specific actions that are relevant to Properties:
 
 * Action *write*:
   * The Consumer sends a `write` request to the Maintainer, specifying new values for one or more Properties.
-  * The Maintainer attempts to apply the `write` and responds with an indication of which Properties were updated; if an error condition occurs, the Maintainer instead responds with an error indication.
+  * The Maintainer attempts to apply the `write` and responds with an indication of which Properties were updated.
   * The Consumer receives the response from the Maintainer.
-  * Note: A request to write a read-only Property does not trigger an error condition; instead, the response merely indicates that the read-only Property was not updated.
 * Action *read*:
   * The Consumer sends a `read` request to the Maintainer, specifying which Properties it wishes to read.
-  * The Maintainer attempts to read values for the designated Properties and responds with a collation of Property values; if an error condition occurs, the Maintainer instead responds with an error indication.
+  * The Maintainer attempts to read values for the designated Properties and responds with a collation of Property values.
   * The Consumer receives the response from the Maintainer.
 * Action *watch*:
   * The Consumer sends a `watch` request to the Maintainer, indicating Properties to add to the notification list.
-  * The Maintainer attempts to apply the `watch` and responds with an indication of which Properties are now on the notification list; if an error condition occurs, the Maintainer instead responds with an error indication.
+  * The Maintainer attempts to apply the `watch` and responds with an indication of which Properties are now on the notification list.
   * The Consumer receives the response from the Maintainer.
 * Action *unwatch*:
   * The Consumer sends an `unwatch` request to the Maintainer, indicating Properties to remove from the notification list.
-  * The Maintainer attempts to apply the `unwatch` and responds with an indication of which Properties remain on the notification list; if an error condition occurs, the Maintainer instead responds with an error indication.
+  * The Maintainer attempts to apply the `unwatch` and responds with an indication of which Properties remain on the notification list.
   * The Consumer receives the response from the Maintainer.
 * Action *notify*:
   * Values of one or more Properties held by the Maintainer are modified, either by the application of a *write* action, or by an internal state change, or by some other mechanism.
@@ -59,7 +58,7 @@ The *notify* action has a behavior that aligns with the Telemetry communication 
 ## Property envoy
 
 A Property envoy is an assemblage of four Command envoys and one Telemetry envoy.
-It is parameterized by three types:
+It is parameterized by two types:
 
 * `TProp` &mdash; A structure type (class/struct/object) that collates related Properties
   * There is one field in the `TProp` structure per Property in the collation.
@@ -67,8 +66,6 @@ It is parameterized by three types:
   * In a `TProp` instance, the value of one or more fields may be omitted.
 * `TBool` &mdash; a structure type whose field names match those in `TProp`
   * Each field has type Boolean.
-* `TErr` &mdash; an arbitrary type that conveys error information
-  * Used when an exceptional situation prevents a meaningful `TProp` or `TBool` result.
 
 As an example, consider the following types.
 These illustrations use C#, but analogous types can be defined in all supported languages.
@@ -92,42 +89,20 @@ public partial class ControlProp
 }
 ```
 
-There are no restrictions on `TErr`, so any concrete type can serve as an example:
-
-```csharp
-public partial class PropError
-{
-    public ConditionSchema? Condition { get; set; } = default;
-    public string? Explanation { get; set; } = default;
-}
-```
-
-The above types are used both directly and indirectly in the RPC and Telemetry realizations of Property actions.
-Their indirect usage is as values for type parameters in the following generic type, which is used for responses to *write*, *read*, *watch*, and *unwatch* actions:
-
-```csharp
-class Result<TNorm, TErr>
-{
-    public TNorm? NormalResult { get; set; }
-    public TErr? ErrorResult { get; set; }
-}
-```
-
-The `TErr` type parameter must conform to the `TErr` abstract type described above.
-The `TNorm` type parameter may conform to either the `TProp` or `TBool` abstract type, depending on the action.
+The above types are used in the RPC and Telemetry realizations of Property actions.
 
 ## Envoy implementation
 
 Continuing to illustrate in C#, the client-side `PropertyConsumer` is implemented as follows:
 
 ```csharp
-public class PropertyWriteRequester<TProp, TBool, TErr> : CommandInvoker<TProp, Result<TBool, TErr>>;
+public class PropertyWriteRequester<TProp, TBool> : CommandInvoker<TProp, TBool>;
 
-public class PropertyReadRequester<TProp, TBool, TErr> : CommandInvoker<TBool, Result<TProp, TErr>>;
+public class PropertyReadRequester<TProp, TBool> : CommandInvoker<TBool, TProp>;
 
-public class PropertyWatchRequester<TBool, TErr> : CommandInvoker<TBool, Result<TBool, TErr>>;
+public class PropertyWatchRequester<TBool> : CommandInvoker<TBool, TBool>;
 
-public class PropertyUnwatchRequester<TBool, TErr> : CommandInvoker<TBool, Result<TBool, TErr>>;
+public class PropertyUnwatchRequester<TBool> : CommandInvoker<TBool, TBool>;
 
 public class PropertyListener<TProp> : TelemetryReceiver<TProp>;
 ```
@@ -135,32 +110,32 @@ public class PropertyListener<TProp> : TelemetryReceiver<TProp>;
 The service-side `PropertyMaintainer` is implemented as follows:
 
 ```csharp
-public class PropertyWriteResponder<TProp, TBool, TErr> : CommandExecutor<TProp, Result<TBool, TErr>>;
+public class PropertyWriteResponder<TProp, TBool> : CommandExecutor<TProp, TBool>;
 
-public class PropertyReadResponder<TProp, TBool, TErr> : CommandExecutor<TBool, Result<TProp, TErr>>;
+public class PropertyReadResponder<TProp, TBool> : CommandExecutor<TBool, TProp>;
 
-public class PropertyWatchResponder<TBool, TErr> : CommandExecutor<TBool, Result<TBool, TErr>>;
+public class PropertyWatchResponder<TBool> : CommandExecutor<TBool, TBool>;
 
-public class PropertyUnwatchResponder<TBool, TErr> : CommandExecutor<TBool, Result<TBool, TErr>>;
+public class PropertyUnwatchResponder<TBool> : CommandExecutor<TBool, TBool>;
 
 public class PropertyNotifier<TProp> : TelemetrySender<TProp>;
 ```
 
 The *write* action is performed by issuing a 'write' Command request.
 The payload is an instance of `TProp`, whose optional fields contain values for any Properties that are to be written.
-In non-error conditions, the response payload is an instance of `TBool`, which has a value of `true` for each field whose Property was updated.
+The response payload is an instance of `TBool`, which has a value of `true` for each field whose Property was updated.
 
 The *read* action is performed by issuing a 'read' Command request.
 The `TBool` payload has a value of `true` for each field whose Property is to be read.
-The non-error `TProp` response payload contains values in fields for any Properties that are read.
+The `TProp` response payload contains values in fields for any Properties that are read.
 
 The *watch* action is performed by issuing a 'watch' Command request.
 The `TBool` payload has a value of `true` for each field whose Property is to be added to the notify list.
-The non-error `TBool` response payload conveys the updated notify list; each field has a value of `true` if its corresponding Property was added to the list by this action or if it was already in the notify list.
+The `TBool` response payload conveys the updated notify list; each field has a value of `true` if its corresponding Property was added to the list by this action or if it was already in the notify list.
 
 The *unwatch* action is performed by issuing an 'unwatch' Command request.
 The `TBool` payload has a value of `true` for each field whose Property is to be removed from the notify list.
-The non-error `TBool` response payload conveys the updated notify list; each field has a value of `true` if the corresponding Property was previously in the notify list and was not removed by this action.
+The `TBool` response payload conveys the updated notify list; each field has a value of `true` if the corresponding Property was previously in the notify list and was not removed by this action.
 
 The *notify* action is performed by sending a Telemetry.
 The `TProp` payload contains values in fields for any Properties that are in the notify list.
@@ -190,7 +165,7 @@ An example Property topic pattern is illustrated in the sample model below.
 
 ## Sample model
 
-The following DTDL model defines three Properties, which correspond to the example types [defined above](#property-envoy).
+The following DTDL model defines two Properties, which correspond to the example types [defined above](#property-envoy).
 
 ```json
 {
@@ -209,38 +184,6 @@ The following DTDL model defines three Properties, which correspond to the examp
       "@type": "Property",
       "name": "Bar",
       "schema": "string"
-    },
-    {
-      "@type": "Property",
-      "name": "PropError",
-      "schema": {
-        "@type": [ "Object", "Error" ],
-        "description": "The requested operation could not be completed.",
-        "fields": [
-          {
-            "@type": [ "Field", "ErrorMessage" ],
-            "name": "explanation",
-            "schema": "string"
-          },
-          {
-            "name": "condition",
-            "schema": {
-              "@type": "Enum",
-              "valueSchema": "integer",
-              "enumValues": [
-                {
-                  "name": "persistentFailure",
-                  "enumValue": 1
-                },
-                {
-                  "name": "temporaryFailure",
-                  "enumValue": 2
-                }
-              ]
-            }
-          }
-        ]
-      }
     }
   ]
 }
@@ -264,17 +207,5 @@ public partial class ControlProp
 {
     public bool Foo { get; set; } = default;
     public bool Bar { get; set; } = default;
-}
-```
-
-The model Property named "PropError" is not represented in either of the above two classes.
-This is because its "schema" value is an Object with co-type Error, indicating that this is a definition of an error value.
-Consequently, it results in the following generated class:
-
-```csharp
-public partial class PropError
-{
-    public ConditionSchema? Condition { get; set; } = default;
-    public string? Explanation { get; set; } = default;
 }
 ```
