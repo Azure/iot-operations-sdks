@@ -56,7 +56,6 @@ impl BaseConnector {
     ///
     /// # Errors
     /// Returns a String error if any of the setup fails, detailing the cause.
-    #[must_use]
     pub fn new(
         application_context: ApplicationContext,
         connector_artifacts: ConnectorArtifacts,
