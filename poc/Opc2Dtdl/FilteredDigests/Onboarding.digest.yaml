@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Onboarding/
+SpecVer: 1.05.04
 
 DataTypes:
 - UADataType: [ Onboarding:1164, Onboarding:CertificateAuthorityType ]

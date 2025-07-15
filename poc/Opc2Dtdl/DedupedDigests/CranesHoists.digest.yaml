@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/CranesHoists/
+SpecVer: 1.00
 
 DataTypes:
 - UADataType: [ CranesHoists:3000, CranesHoists:CraneOperationalModeEnum ]

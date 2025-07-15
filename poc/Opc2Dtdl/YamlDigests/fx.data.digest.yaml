@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/FX/Data/
+SpecVer: 1.00.02
 
 DataTypes:
 - UADataType: [ FX.Data:1029, FX.Data:AssetVerificationModeEnum ]

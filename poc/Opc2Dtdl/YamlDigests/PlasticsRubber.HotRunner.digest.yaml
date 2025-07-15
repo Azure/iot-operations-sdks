@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PlasticsRubber/HotRunner/
+SpecVer: 1.00
 
 DataTypes:
 - UADataType: [ PlasticsRubber.HotRunner:3002, PlasticsRubber.HotRunner:ControllerTypeEnumeration ]

@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/DI/
+SpecVer: 1.04.0
 
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]

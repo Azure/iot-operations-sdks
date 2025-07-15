@@ -1,5 +1,6 @@
 namespace Yaml2Dtdl
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using OpcUaDigest;
@@ -7,8 +8,10 @@ namespace Yaml2Dtdl
 
     public partial class DtdlInterface
     {
+        private DateTime now;
         private SpecMapper specMapper;
         private string modelId;
+        private string specVer;
         private bool isComposite;
         private bool isEvent;
         private string topicBase;
@@ -23,10 +26,12 @@ namespace Yaml2Dtdl
         private int contentCount;
         private bool appendComma;
 
-        public DtdlInterface(SpecMapper specMapper, string modelId, bool isComposite, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, CotypeRuleEngine cotypeRuleEngine, bool appendComma)
+        public DtdlInterface(DateTime now, SpecMapper specMapper, string modelId, string specVer, bool isComposite, bool isEvent, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes, Dictionary<int, (string, string)> unitTypesDict, CotypeRuleEngine cotypeRuleEngine, bool appendComma)
         {
+            this.now = now;
             this.specMapper = specMapper;
             this.modelId = modelId;
+            this.specVer = specVer;
             this.isComposite = isComposite;
             this.isEvent = isEvent;
             this.topicBase = modelId.Substring("dtmi:".Length).Replace(':', '/');

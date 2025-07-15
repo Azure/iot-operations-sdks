@@ -1,4 +1,5 @@
 SpecUri: http://fdi-cooperation.com/OPCUA/FDI5/
+SpecVer: 1.1
 
 DataTypes:
 - UADataType: [ FDI5:194, FDI5:WindowModeType ]

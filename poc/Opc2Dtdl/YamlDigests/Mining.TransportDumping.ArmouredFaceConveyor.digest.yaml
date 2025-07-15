@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Mining/TransportDumping/ArmouredFaceConveyor/
+SpecVer: 1.0.0
 
 DataTypes:
 - UADataType: [ Mining.TransportDumping.ArmouredFaceConveyor:3004, Mining.TransportDumping.ArmouredFaceConveyor:AFCNormalRunningDirectionEnum ]

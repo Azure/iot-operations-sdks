@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Machinery/Jobs/
+SpecVer: 1.0.1
 
 DataTypes:
 - UADataType: [ Machinery.Jobs:3003, Machinery.Jobs:JobExecutionMode ]

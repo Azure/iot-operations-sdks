@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PackML/
+SpecVer: 1.01
 
 DataTypes:
 - UADataType: [ PackML:11, PackML:ProductionMaintenanceModeEnum ]

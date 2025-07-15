@@ -14,6 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/OPENSCS-SER/",
     "displayName": "OPENSCSAggregationManagerObjectType",
     "description": "The aggregation manager receives unsolicited events through the aggregation methods. The aggregation methods have the same method signature.",
+    "comment": "Model converted from OPC UA spec version 1.00 by Azure Opc2Dtdl converter v0.1.0.0 at 07/15/2025 17:02:06 UTC",
     "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15094",
     "commandTopic": "opcua/OPENSCS_SER/OPENSCSAggregationManagerObjectType/{commandName}",

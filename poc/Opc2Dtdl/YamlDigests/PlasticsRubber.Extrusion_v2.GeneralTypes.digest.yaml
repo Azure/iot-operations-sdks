@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/
+SpecVer: 2.00
 
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion_v2.GeneralTypes:3001, PlasticsRubber.Extrusion_v2.GeneralTypes:ExtrusionMessageClassificationEnumeration ]

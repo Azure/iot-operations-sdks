@@ -1,4 +1,5 @@
 SpecUri: http://sercos.org/UA/
+SpecVer: 1.00
 
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]

@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/
+SpecVer: 1.00
 
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion.Filter:3002, PlasticsRubber.Extrusion.Filter:FilterPackageStatusEnumeration ]

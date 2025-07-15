@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/GDS/
+SpecVer: 1.05.04
 
 DataTypes:
 - UADataType: [ GDS:1, GDS:ApplicationRecordDataType ]

@@ -23,6 +23,7 @@
 <# } #>
 <# if (this.definedType.Description != null && this.definedType.Description != string.Empty) { #>
     "description": "<#=this.definedType.Description#>",
+    "comment": "Model converted from OPC UA spec version <#=this.specVer#> by Azure Opc2Dtdl converter v<#=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version#> at <#=this.now#> UTC",
 <# } #>
 <# if (this.supertypeIds.Count == 1) { #>
     "extends": "<#=this.supertypeIds.First()#>;1",

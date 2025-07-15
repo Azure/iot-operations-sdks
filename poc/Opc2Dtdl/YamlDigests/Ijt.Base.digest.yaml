@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/IJT/Base/
+SpecVer: 1.00.0
 
 DataTypes:
 - UADataType: [ IJT.Base:3003, IJT.Base:CalibrationDataType ]

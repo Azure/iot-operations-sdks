@@ -55,7 +55,13 @@ namespace Yaml2Dtdl
  if (this.definedType.Description != null && this.definedType.Description != string.Empty) { 
             this.Write("    \"description\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.definedType.Description));
-            this.Write("\",\r\n");
+            this.Write("\",\r\n    \"comment\": \"Model converted from OPC UA spec version ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.specVer));
+            this.Write(" by Azure Opc2Dtdl converter v");
+            this.Write(this.ToStringHelper.ToStringWithCulture(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version));
+            this.Write(" at ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.now));
+            this.Write(" UTC\",\r\n");
  } 
  if (this.supertypeIds.Count == 1) { 
             this.Write("    \"extends\": \"");

@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Scales/V2/
+SpecVer: 2.00
 
 DataTypes:
 - UADataType: [ Scales.V2:65, Scales.V2:DraftShieldType ]

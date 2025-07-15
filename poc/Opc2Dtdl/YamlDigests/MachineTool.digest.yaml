@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/MachineTool/
+SpecVer: 1.02.0
 
 DataTypes:
 - UADataType: [ MachineTool:67, MachineTool:ChannelMode ]

@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/LADS/
+SpecVer: 1.0.0
 
 DataTypes:
 - UADataType: [ LADS:3003, LADS:KeyValueType ]

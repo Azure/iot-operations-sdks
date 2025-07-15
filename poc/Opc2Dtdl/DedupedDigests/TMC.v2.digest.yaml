@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/TMC/v2/
+SpecVer: 2.00.1
 
 DataTypes:
 - UADataType: [ TMC.v2:3007, TMC.v2:CommandEnumeration ]

@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Weihenstephan/
+SpecVer: 1.00.0
 
 DataTypes:
 - UADataType: [ Weihenstephan:3000, Weihenstephan:WSOperatingModeEnumerationType ]

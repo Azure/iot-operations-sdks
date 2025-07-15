@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Scheduler/
+SpecVer: 1.05.02
 
 DataTypes:
 - UADataType: [ Scheduler:70, Scheduler:SpecialEventType ]

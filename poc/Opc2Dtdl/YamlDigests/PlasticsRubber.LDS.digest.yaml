@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PlasticsRubber/LDS/
+SpecVer: 1.02.0
 
 DataTypes:
 - UADataType: [ PlasticsRubber.LDS:3002, PlasticsRubber.LDS:AdditiveStatusEnumeration ]

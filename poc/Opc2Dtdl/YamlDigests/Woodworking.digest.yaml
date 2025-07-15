@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Woodworking/
+SpecVer: 1.01.0
 
 DataTypes:
 - UADataType: [ Woodworking:3004, Woodworking:WwEventCategoryEnumeration ]

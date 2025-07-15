@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/IJT/Tightening/
+SpecVer: 2.00.0
 
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]

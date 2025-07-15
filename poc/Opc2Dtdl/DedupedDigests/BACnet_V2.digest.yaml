@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/BACnet_V2/
+SpecVer: 2.00.1
 
 DataTypes:
 - UADataType: [ BACnet_V2:3008, BACnet_V2:BACnetAction ]

@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/
+SpecVer: 1.01
 
 DataTypes:
 - UADataType: [ PlasticsRubber.IMM2MES:3004, PlasticsRubber.IMM2MES:IMMMessageClassificationEnumeration ]

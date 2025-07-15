@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Pelletizer/
+SpecVer: 2.00
 
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]

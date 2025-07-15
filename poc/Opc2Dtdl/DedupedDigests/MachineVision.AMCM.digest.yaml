@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/MachineVision/AMCM/
+SpecVer: 1.00.0
 
 DataTypes:
 - UADataType: [ MachineVision.AMCM:3002, MachineVision.AMCM:SEMI_E10SystemStateDataType ]

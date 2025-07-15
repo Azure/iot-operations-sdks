@@ -83,11 +83,14 @@
             string coreOutFilePath = Path.Combine(destRoot, coreOutFileName);
             Console.WriteLine($"  {coreSpecFileName} => {coreOutFileName}");
 
-            string specUri = coreSpecDoc.RootElement.SelectSingleNode("//opc:Model", coreSpecDoc.NamespaceManager)!.Attributes!["ModelUri"]!.Value;
+            XmlNode modelNode = coreSpecDoc.RootElement.SelectSingleNode("//opc:Model", coreSpecDoc.NamespaceManager)!;
+            string specUri = modelNode.Attributes!["ModelUri"]!.Value;
+            string specVer = modelNode.Attributes!["Version"]!.Value;
 
             using (StreamWriter outputFile = new StreamWriter(coreOutFilePath))
             {
                 outputFile.WriteLine($"SpecUri: {specUri}");
+                outputFile.WriteLine($"SpecVer: {specVer}");
                 outputFile.WriteLine();
 
                 outputFile.WriteLine("DataTypes:");
@@ -133,9 +136,12 @@
                 using (StreamWriter outputFile = new StreamWriter(outFilePath))
                 {
                     ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
-                    string specUri = specDoc.RootElement.SelectSingleNode("//opc:Model", specDoc.NamespaceManager)!.Attributes!["ModelUri"]!.Value;
+                    XmlNode modelNode = specDoc.RootElement.SelectSingleNode("//opc:Model", specDoc.NamespaceManager)!;
+                    string specUri = modelNode.Attributes!["ModelUri"]!.Value;
+                    string specVer = modelNode.Attributes!["Version"]?.Value ?? "unspecified";
 
                     outputFile.WriteLine($"SpecUri: {specUri}");
+                    outputFile.WriteLine($"SpecVer: {specVer}");
                     outputFile.WriteLine();
 
                     outputFile.WriteLine("DataTypes:");

@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Pumps/
+SpecVer: 1.0.0
 
 DataTypes:
 - UADataType: [ Pumps:3008, Pumps:ControlModeEnum ]

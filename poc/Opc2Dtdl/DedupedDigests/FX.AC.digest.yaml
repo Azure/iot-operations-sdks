@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/FX/AC/
+SpecVer: 1.00.02
 
 DataTypes:
 - UADataType: [ FX.AC:3001, FX.AC:ClampKindEnum ]

@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PAEFS/
+SpecVer: 1.0.1
 
 DataTypes:
 - UADataType: [ PAEFS:3005, PAEFS:AirConnectionOpenEnum ]

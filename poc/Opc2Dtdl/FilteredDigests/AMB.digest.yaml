@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/AMB/
+SpecVer: 1.01.1
 
 DataTypes:
 - UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]

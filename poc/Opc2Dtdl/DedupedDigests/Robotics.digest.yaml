@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Robotics/
+SpecVer: 1.01.2
 
 DataTypes:
 - UADataType: [ Robotics:18191, Robotics:ExecutionModeEnumeration ]

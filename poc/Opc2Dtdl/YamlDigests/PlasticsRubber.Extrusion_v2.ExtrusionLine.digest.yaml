@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/ExtrusionLine/
+SpecVer: 2.00
 
 DataTypes:
 - UADataType: [ PlasticsRubber.Extrusion_v2.ExtrusionLine:3003, PlasticsRubber.Extrusion_v2.ExtrusionLine:MaterialMappingType ]

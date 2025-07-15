@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/CommercialKitchenEquipment/
+SpecVer: 1.0
 
 DataTypes:
 - UADataType: [ CommercialKitchenEquipment:3014, CommercialKitchenEquipment:BeverageSMLEnumeration ]

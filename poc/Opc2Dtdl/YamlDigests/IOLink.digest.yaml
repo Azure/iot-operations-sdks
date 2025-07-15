@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/IOLink/
+SpecVer: 1.00.1
 
 DataTypes:
 - UADataType: [ IOLink:3000, IOLink:EncodingEnum ]

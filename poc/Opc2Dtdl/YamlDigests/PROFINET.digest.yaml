@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/PROFINET/
+SpecVer: 1.0.1
 
 DataTypes:
 - UADataType: [ PROFINET:3021, PROFINET:IMTagSelectorEnumeration ]

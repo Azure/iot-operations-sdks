@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/OPENSCS-SER/
+SpecVer: 1.00
 
 DataTypes:
 - UADataType: [ OPENSCS-SER:3006, OPENSCS-SER:JobOrderCommandEnum ]

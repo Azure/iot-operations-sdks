@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/ADI/
+SpecVer: 1.01
 
 DataTypes:
 - UADataType: [ ADI:9378, ADI:ExecutionCycleEnumeration ]

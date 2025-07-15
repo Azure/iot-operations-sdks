@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/CuttingTool/
+SpecVer: 1.0.0
 
 DataTypes:
 - UADataType: [ CuttingTool:3003, CuttingTool:FileFormatDataType ]

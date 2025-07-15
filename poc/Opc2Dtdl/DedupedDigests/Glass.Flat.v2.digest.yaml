@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Glass/Flat/v2/
+SpecVer: 2.0.0
 
 DataTypes:
 - UADataType: [ Glass.Flat.v2:3009, Glass.Flat.v2:CoatingClassEnumeration ]

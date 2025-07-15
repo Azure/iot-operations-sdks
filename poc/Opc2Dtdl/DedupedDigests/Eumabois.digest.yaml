@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/Eumabois/
+SpecVer: 0.14
 
 DataTypes:
 - UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]

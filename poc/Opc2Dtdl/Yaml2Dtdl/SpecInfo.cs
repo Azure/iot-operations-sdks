@@ -1,11 +1,16 @@
 namespace Yaml2Dtdl
 {
+    using System;
     using System.IO;
     using System.Collections.Generic;
 
     public class SpecInfo
     {
         public string FileName { get; set; }
+
+        public DateTime Now { get; set; }
+
+        public string ToolVersion { get; set; } = string.Empty;
 
         public string Ontology { get; set; }
 
@@ -15,18 +20,19 @@ namespace Yaml2Dtdl
 
         public List<ComponentInfo> OtherTypes { get; }
 
-        public SpecInfo(string fileName, string ontology)
+        public SpecInfo(string fileName, DateTime now, string ontology)
         {
             FileName = fileName;
+            Now = now;
             Ontology = ontology;
             Events = new();
             Composites = new();
             OtherTypes = new();
         }
 
-        public void AddComponent(string modelId, string? displayName, string typeRef, bool isComposite, bool isEvent)
+        public void AddComponent(string modelId, string specVer, string? displayName, string typeRef, bool isComposite, bool isEvent)
         {
-            ComponentInfo component = new ComponentInfo(modelId, displayName, typeRef);
+            ComponentInfo component = new ComponentInfo(modelId, specVer, displayName, typeRef);
 
             if (isEvent)
             {
@@ -47,6 +53,8 @@ namespace Yaml2Dtdl
             indexFile.WriteLine("  {");
 
             indexFile.WriteLine($"    \"file\": \"{FileName}\",");
+            indexFile.WriteLine($"    \"dateTime\": \"{Now} UTC\",");
+            indexFile.WriteLine($"    \"toolVersion\": \"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}\",");
             indexFile.WriteLine($"    \"ontology\": \"{Ontology}\",");
 
             indexFile.WriteLine("    \"events\": [");

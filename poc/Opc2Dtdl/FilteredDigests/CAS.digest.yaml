@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/CAS/
+SpecVer: 1.00.1
 
 DataTypes:
 - UADataType: [ CAS:3022, CAS:AirnetHealthStateEnum ]

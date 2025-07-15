@@ -1,4 +1,5 @@
 SpecUri: http://opcfoundation.org/UA/AutoID/
+SpecVer: 1.01
 
 DataTypes:
 - UADataType: [ AutoID:3013, AutoID:AutoIdOperationStatusEnumeration ]
