@@ -65,7 +65,7 @@ impl BaseConnector {
             .to_mqtt_connection_settings("0")
             .map_err(|e| e.to_string())?;
         let session_options = SessionOptionsBuilder::default()
-            .connection_settings(mqtt_connection_settings.clone())
+            .connection_settings(mqtt_connection_settings)
             // TODO: reconnect policy
             // TODO: outgoing_max
             .build()
