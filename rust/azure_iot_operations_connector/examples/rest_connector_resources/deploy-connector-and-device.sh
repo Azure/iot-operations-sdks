@@ -36,4 +36,4 @@ echo "✓ REST sensor deployed"
 
 kubectl apply -f yamls/rest-factory-device-def.yaml
 kubectl apply -f yamls/rest-factory-asset.yaml
-echo "✓ REST factory deployed"
+echo "Changed to directory: $(pwd)"

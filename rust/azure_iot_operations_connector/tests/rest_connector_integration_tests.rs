@@ -49,7 +49,7 @@ async fn test_connector_simple_recv() {
     let exit_handle = session.create_exit_handle();
     let managed_client = session.create_managed_client();
 
-    let topic = "weather/sensor";
+    let topic = "api/sensor/env";
     let payload = "simple_recv_test_payload";
 
     let receiver_done = Arc::new(Notify::new());

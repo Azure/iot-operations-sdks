@@ -28,7 +28,7 @@ spec:
         replicas: 1
         tagDigestSettings:
           tagDigestType: tag
-          tag: "0.2.0"
+          tag: "0.4.0"
       # trustSettings:
       #   trustListSecretRef: connector-trust-list
   mqttConnectionConfiguration:
