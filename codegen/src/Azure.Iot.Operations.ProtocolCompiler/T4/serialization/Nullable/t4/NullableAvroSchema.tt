@@ -3,5 +3,5 @@
 [
 <# this.PushIndent(new string(' ', this.indent)); #>
   "null",
-  <#=AvroSchemaSupport.GetTypeAndAddenda(this.schema, 2, this.sharedPrefix, nullable: false, this.definedIds)#>
+  <#=AvroSchemaSupport.GetTypeAndAddenda(this.schema, 2, this.sharedPrefix, nullable: false, this.definedIds, this.mqttVersion)#>
 ]<# this.PopIndent(); #>
