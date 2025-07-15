@@ -6,8 +6,8 @@ metadata:
 spec:
   version: "0.0.1"
   deviceInboundEndpointTypes:
-  - endpointType: tcp-thermostat
-    version: "0.0.1"
+  - endpointType: Microsoft.Tcp
+    version: "2"
   runtimeConfiguration:
     runtimeConfigurationType: managedConfiguration
     managedConfigurationSettings:
