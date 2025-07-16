@@ -22,6 +22,7 @@ use azure_iot_operations_connector::{
         },
     },
     data_processor::derived_json,
+    deployment_artifacts::connector::ConnectorArtifacts,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
@@ -40,10 +41,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .filter_module("notify::inotify", log::LevelFilter::Off)
         .init();
 
+    // Create the connector artifacts from the deployment
+    let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
     // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build()?;
-
-    let base_connector = BaseConnector::new(application_context);
+    // Create the BaseConnector
+    let base_connector = BaseConnector::new(application_context, connector_artifacts)?;
 
     let device_creation_observation =
         base_connector.create_device_endpoint_client_create_observation();

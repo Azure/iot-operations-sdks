@@ -4,6 +4,8 @@
 using System.Buffers;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
+using System.Text.Json;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;

@@ -61,12 +61,7 @@ Any AIO Protocol Error is considered a "network error" and retriable. This may n
 |Device endpoint create notification provides a device/endpoint name that returns a device with no inbound endpoint from the service|Y|Unobserve is called, and the create notification is dropped|This is really only possible if the device endpoint gets deleted between the time we receive the notification and the get device call is made, so losing this notification means it was out of date.|
 
 ### Setup
-These errors will retry indefinitely with exponential backoff, hoping new connector artifacts will fix the error
-- errors parsing the Connector Artifacts
-- errors creating the MQTT Session (including creating needed settings)
-- errors creating azure device registry client
-- errors creating state store client
-- note: creating schema registry client doesn't return any errors
+If Connector Artifacts contain invalid or incorrect values, setup of the BaseConnector will return an error indicating the reason.
 
 ### Fatal
 - Creating a new file mount DeviceEndpointCreateObservation is fatal if there's an error. There's no way to recover from this other than restarting the connector. It causes a panic (TODO: we could propogate to the application?)

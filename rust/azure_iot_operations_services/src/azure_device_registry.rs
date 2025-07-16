@@ -88,6 +88,17 @@ impl DeviceUpdateObservation {
 }
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Asset Structs~~~~~~~~~~~~~
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+/// A reference to an asset, which includes the asset name, device name, and inbound endpoint name.
+pub struct AssetRef {
+    /// The name of the asset
+    pub name: String,
+    /// The name of the device
+    pub device_name: String,
+    /// The name of the endpoint
+    pub inbound_endpoint_name: String,
+}
+
 /// A struct to manage receiving notifications for a asset
 #[derive(Debug)]
 pub struct AssetUpdateObservation(Receiver<(Asset, Option<AckToken>)>);
