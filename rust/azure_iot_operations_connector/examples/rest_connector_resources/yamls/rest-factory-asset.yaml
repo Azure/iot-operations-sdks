@@ -1,0 +1,21 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Asset
+metadata:
+  name: rest-factory-asset
+  namespace: azure-iot-operations
+spec:
+  datasets:
+    - name: factory-dataset
+      dataSource: api/factory/location
+      datasetConfiguration: |-
+        {
+          "samplingIntervalInMilliseconds": 20000
+        }
+      destinations:
+        - configuration:
+            key: factory
+          target: BrokerStateStore
+  deviceRef:
+    deviceName: rest-factory
+    endpointName: rest-factory-endpoint
+  version: 1
