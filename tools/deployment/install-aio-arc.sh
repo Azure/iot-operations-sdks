@@ -15,6 +15,10 @@ if [ -z $STORAGE_ACCOUNT ]; then echo "STORAGE_ACCOUNT is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY ]; then echo "SCHEMA_REGISTRY is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY_NAMESPACE ]; then echo "SCHEMA_REGISTRY_NAMESPACE is not set"; exit 1; fi
 
+# create a resource group
+echo ===Creating Resource Group===
+az group create --name $RESOURCE_GROUP --location $LOCATION
+
 # install providers
 az provider register -n "Microsoft.ExtendedLocation"
 az provider register -n "Microsoft.Kubernetes"
