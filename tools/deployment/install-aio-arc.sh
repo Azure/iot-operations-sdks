@@ -20,6 +20,7 @@ echo ===Creating Resource Group===
 az group create --name $RESOURCE_GROUP --location $LOCATION
 
 # install providers
+echo ===Registering Providers===
 az provider register -n "Microsoft.ExtendedLocation"
 az provider register -n "Microsoft.Kubernetes"
 az provider register -n "Microsoft.KubernetesConfiguration"
