@@ -11,7 +11,7 @@
 pub mod dispatcher {
     //! Provides a convenience for dispatching to a receiver based on an ID.
 
-    use std::{collections::HashMap, sync::Mutex};
+    use std::{collections::HashMap, fmt::Debug, hash::Hash, sync::Mutex};
 
     use thiserror::Error;
     use tokio::sync::mpsc::{
@@ -28,23 +28,44 @@ pub mod dispatcher {
     }
 
     /// Error when dispatching a message to a receiver
-    #[derive(Error, Debug)]
-    pub enum DispatchError<T> {
-        /// Error when trying to send a message to a receiver
-        #[error(transparent)]
-        SendError(#[from] SendError<T>),
-        /// Error when trying to find a receiver by ID
-        #[error("receiver with id {:?} not found", 0.0)]
-        NotFound((String, T)),
+    #[derive(PartialEq, Eq, Clone, Error, Debug)]
+    #[error("{kind}")]
+    pub struct DispatchError<T> {
+        /// The message that could not be sent
+        pub data: T,
+        /// The kind of error that occurred
+        pub kind: DispatchErrorKind,
     }
 
+    #[derive(Debug, Eq, PartialEq, Clone, Error)]
+    pub enum DispatchErrorKind {
+        #[error("Failed to send message")]
+        SendError,
+        #[error("Receiver with ID '{0}' not found")]
+        NotFound(String), // receiver ID
+    }
+
+    impl<T> From<SendError<T>> for DispatchError<T> {
+        fn from(err: SendError<T>) -> Self {
+            Self {
+                data: err.0,
+                kind: DispatchErrorKind::SendError,
+            }
+        }
+    }
     /// Dispatches messages to receivers based on ID
     #[derive(Default)]
-    pub struct Dispatcher<T> {
-        tx_map: Mutex<HashMap<String, UnboundedSender<T>>>,
+    pub struct Dispatcher<T, H>
+    where
+        H: Eq + Hash + Debug + Clone,
+    {
+        tx_map: Mutex<HashMap<H, UnboundedSender<T>>>,
     }
 
-    impl<T> Dispatcher<T> {
+    impl<T, H> Dispatcher<T, H>
+    where
+        H: Eq + Hash + Debug + Clone,
+    {
         /// Returns a new instance of Dispatcher
         pub fn new() -> Self {
             Self {
@@ -55,10 +76,10 @@ pub mod dispatcher {
         /// Registers a new receiver with the given ID, returning the new receiver.
         ///
         /// Returns an error if a receiver with the same ID is already registered
-        pub fn register_receiver(&self, receiver_id: String) -> Result<Receiver<T>, RegisterError> {
+        pub fn register_receiver(&self, receiver_id: H) -> Result<Receiver<T>, RegisterError> {
             let mut tx_map = self.tx_map.lock().unwrap();
             if tx_map.get(&receiver_id).is_some() {
-                return Err(RegisterError::AlreadyRegistered(receiver_id));
+                return Err(RegisterError::AlreadyRegistered(format!("{receiver_id:?}")));
             }
             let (tx, rx) = unbounded_channel();
             tx_map.insert(receiver_id, tx);
@@ -70,7 +91,7 @@ pub mod dispatcher {
         ///
         /// Returns true if a receiver was unregistered, returns false if the provided ID
         /// was not associated with a registered receiver.
-        pub fn unregister_receiver(&self, receiver_id: &str) -> bool {
+        pub fn unregister_receiver(&self, receiver_id: &H) -> bool {
             self.tx_map.lock().unwrap().remove(receiver_id).is_some()
         }
 
@@ -81,16 +102,19 @@ pub mod dispatcher {
         }
 
         /// Dispatches a message to the receiver associated with the provided ID.
-        pub fn dispatch(&self, receiver_id: &str, message: T) -> Result<(), DispatchError<T>> {
+        pub fn dispatch(&self, receiver_id: &H, message: T) -> Result<(), DispatchError<T>> {
             if let Some(tx) = self.tx_map.lock().unwrap().get(receiver_id) {
                 Ok(tx.send(message)?)
             } else {
-                Err(DispatchError::NotFound((receiver_id.to_string(), message)))
+                Err(DispatchError {
+                    data: message,
+                    kind: DispatchErrorKind::NotFound(format!("{receiver_id:?}")),
+                })
             }
         }
 
         /// Returns all currently tracked receiver ids
-        pub fn get_all_receiver_ids(&self) -> Vec<String> {
+        pub fn get_all_receiver_ids(&self) -> Vec<H> {
             let tx_map = self.tx_map.lock().unwrap();
             tx_map.keys().cloned().collect()
         }
