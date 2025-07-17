@@ -20,7 +20,7 @@ use tokio_retry2::{Retry, RetryError};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    AdrConfigError, Data, DatasetRef, MessageSchema,
+    AdrConfigError, Data, DatasetRef, MessageSchema, MessageSchemaReference,
     base_connector::ConnectorContext,
     deployment_artifacts::{
         self,
@@ -1485,7 +1485,7 @@ impl DatasetClient {
     pub async fn report_message_schema(
         &mut self,
         message_schema: MessageSchema,
-    ) -> Result<adr_models::MessageSchemaReference, MessageSchemaError> {
+    ) -> Result<MessageSchemaReference, MessageSchemaError> {
         // TODO: save message schema provided with message schema uri so it can be compared
         // send message schema to schema registry service
         let message_schema_reference = Retry::spawn(
@@ -1522,20 +1522,40 @@ impl DatasetClient {
             },
         )
         .await
-        .map(|schema| {
-            adr_models::MessageSchemaReference {
-                name: schema
-                    .name
-                    .expect("schema name will always be present since sent in PUT"),
-                version: schema
-                    .version
-                    .expect("schema version will always be present since sent in PUT"),
-                registry_namespace: schema
-                    .namespace
-                    .expect("schema namespace will always be present."), // waiting on change to service DTDL for this to be guaranteed in code
-            }
+        .map(|schema| MessageSchemaReference {
+            name: schema
+                .name
+                .expect("schema name will always be present since sent in PUT"),
+            version: schema
+                .version
+                .expect("schema version will always be present since sent in PUT"),
+            registry_namespace: schema
+                .namespace
+                .expect("schema namespace will always be present."), // waiting on change to service DTDL for this to be guaranteed in code
         })?;
 
+        self.report_message_schema_reference(&message_schema_reference)
+            .await?;
+
+        Ok(message_schema_reference)
+    }
+
+    /// Used to report the message schema of a dataset as an existing schema reference
+    ///
+    /// # Errors
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
+    pub async fn report_message_schema_reference(
+        &mut self,
+        message_schema_reference: &MessageSchemaReference,
+    ) -> Result<(), MessageSchemaError> {
         // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
         let mut status_write_guard = self.asset_status.write().await;
         let mut new_status = AssetClient::current_status_to_modify(
@@ -1580,7 +1600,7 @@ impl DatasetClient {
         self.forwarder
             .update_message_schema_reference(Some(message_schema_reference.clone()));
 
-        Ok(message_schema_reference)
+        Ok(())
     }
 
     /// Used to send transformed data to the destination
@@ -1683,10 +1703,10 @@ impl DatasetClient {
         DatasetNotification::Updated
     }
 
-    /// Returns a clone of this dataset's [`adr_models::MessageSchemaReference`] from
+    /// Returns a clone of this dataset's [`MessageSchemaReference`] from
     /// the `AssetStatus`, if it exists
     #[must_use]
-    pub async fn message_schema_reference(&self) -> Option<adr_models::MessageSchemaReference> {
+    pub async fn message_schema_reference(&self) -> Option<MessageSchemaReference> {
         // unwrap can't fail unless lock is poisoned
         self.asset_status
             .read()
