@@ -6,6 +6,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 
 ## Index
 
+- [Constants](<#constants>)
 - [func IsTopicFilterMatch\(topicFilter, topicName string\) bool](<#IsTopicFilterMatch>)
 - [func RandomClientID\(\) string](<#RandomClientID>)
 - [type Ack](<#Ack>)
@@ -32,6 +33,8 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(e \*FatalConnackError\) Error\(\) string](<#FatalConnackError.Error>)
 - [type FatalDisconnectError](<#FatalDisconnectError>)
   - [func \(e \*FatalDisconnectError\) Error\(\) string](<#FatalDisconnectError.Error>)
+- [type InvalidAIOBrokerFeature](<#InvalidAIOBrokerFeature>)
+  - [func \(e \*InvalidAIOBrokerFeature\) Error\(\) string](<#InvalidAIOBrokerFeature.Error>)
 - [type InvalidArgumentError](<#InvalidArgumentError>)
   - [func \(e \*InvalidArgumentError\) Error\(\) string](<#InvalidArgumentError.Error>)
   - [func \(e \*InvalidArgumentError\) Unwrap\(\) error](<#InvalidArgumentError.Unwrap>)
@@ -41,6 +44,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func ConstantPassword\(password \[\]byte\) PasswordProvider](<#ConstantPassword>)
   - [func FilePassword\(filename string\) PasswordProvider](<#FilePassword>)
 - [type PublishOption](<#PublishOption>)
+  - [func WithPersist\(\) PublishOption](<#WithPersist>)
 - [type PublishOptions](<#PublishOptions>)
 - [type PublishQueueFullError](<#PublishQueueFullError>)
   - [func \(\*PublishQueueFullError\) Error\(\) string](<#PublishQueueFullError.Error>)
@@ -59,6 +63,7 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
   - [func \(c \*SessionClient\) Unsubscribe\(ctx context.Context, topic string, opts ...UnsubscribeOption\) \(\*Ack, error\)](<#SessionClient.Unsubscribe>)
 - [type SessionClientOption](<#SessionClientOption>)
   - [func WithAuth\(provider auth.Provider\) SessionClientOption](<#WithAuth>)
+  - [func WithConnectPersist\(\) SessionClientOption](<#WithConnectPersist>)
   - [func WithConnectionRetry\(policy retry.Policy\) SessionClientOption](<#WithConnectionRetry>)
   - [func WithLogger\(log \*slog.Logger\) SessionClientOption](<#WithLogger>)
 - [type SessionClientOptions](<#SessionClientOptions>)
@@ -95,6 +100,14 @@ import "github.com/Azure/iot-operations-sdks/go/mqtt"
 - [type WithUserProperties](<#WithUserProperties>)
 - [type WithUsername](<#WithUsername>)
 
+
+## Constants
+
+<a name="AIOPersistence"></a>AIOPersistence is the user\-property used to indicate to the AIO broker that it should persist messages to disk.
+
+```go
+const AIOPersistence = "aio-persistence"
+```
 
 <a name="IsTopicFilterMatch"></a>
 ## func [IsTopicFilterMatch](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/topic_filter.go#L10>)
@@ -363,6 +376,26 @@ func (e *FatalDisconnectError) Error() string
 
 
 
+<a name="InvalidAIOBrokerFeature"></a>
+## type [InvalidAIOBrokerFeature](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L159-L161>)
+
+InvalidAIOBrokerFeature indicates that a feature specific to the AIO Broker was used when AIO Broker features were explicitly disabled.
+
+```go
+type InvalidAIOBrokerFeature struct {
+    // contains filtered or unexported fields
+}
+```
+
+<a name="InvalidAIOBrokerFeature.Error"></a>
+### func \(\*InvalidAIOBrokerFeature\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L163>)
+
+```go
+func (e *InvalidAIOBrokerFeature) Error() string
+```
+
+
+
 <a name="InvalidArgumentError"></a>
 ## type [InvalidArgumentError](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/errors.go#L130-L133>)
 
@@ -446,6 +479,15 @@ PublishOption represents a single publish option.
 type PublishOption = mqtt.PublishOption
 ```
 
+<a name="WithPersist"></a>
+### func [WithPersist](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/features.go#L17>)
+
+```go
+func WithPersist() PublishOption
+```
+
+WithPersist is a convenience option to set the AIO persistence flag on a PUBLISH request.
+
 <a name="PublishOptions"></a>
 ## type [PublishOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/alias.go#L41>)
 
@@ -503,7 +545,7 @@ func NewSessionClientFromEnv(opt ...SessionClientOption) (*SessionClient, error)
 NewSessionClientFromEnv is a shorthand for constructing a session client using SessionClientConfigFromEnv.
 
 <a name="SessionClient.ID"></a>
-### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L128>)
+### func \(\*SessionClient\) [ID](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client.go#L125>)
 
 ```go
 func (c *SessionClient) ID() string
@@ -611,6 +653,15 @@ func WithAuth(provider auth.Provider) SessionClientOption
 ```
 
 WithAuth sets the enhanced authentication provider for the session client.
+
+<a name="WithConnectPersist"></a>
+### func [WithConnectPersist](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/features.go#L11>)
+
+```go
+func WithConnectPersist() SessionClientOption
+```
+
+WithConnectPersist is a convenience option to set the AIO persistence flag on the CONNECT request.
 
 <a name="WithConnectionRetry"></a>
 ### func [WithConnectionRetry](<https://github.com/Azure/iot-operations-sdks/blob/main/go/mqtt/session_client_options.go#L135>)

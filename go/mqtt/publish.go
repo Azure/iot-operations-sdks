@@ -121,7 +121,7 @@ func (c *SessionClient) Publish(
 		return nil, &ClientStateError{State: NotStarted}
 	}
 
-	pub, err := buildPublish(topic, payload, opts...)
+	pub, err := c.buildPublish(topic, payload, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func (c *SessionClient) Publish(
 	}
 }
 
-func buildPublish(
+func (c *SessionClient) buildPublish(
 	topic string,
 	payload []byte,
 	opts ...PublishOption,
@@ -174,6 +174,9 @@ func buildPublish(
 		return nil, &InvalidArgumentError{
 			message: "invalid payload format indicator",
 		}
+	}
+	if err := c.options.checkFeatures(opt.UserProperties); err != nil {
+		return nil, err
 	}
 
 	// Build MQTT publish packet.

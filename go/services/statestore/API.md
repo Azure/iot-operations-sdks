@@ -51,6 +51,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/statestore"
 - [type WithExpiry](<#WithExpiry>)
 - [type WithFencingToken](<#WithFencingToken>)
 - [type WithManualAck](<#WithManualAck>)
+- [type WithPersist](<#WithPersist>)
 - [type WithTimeout](<#WithTimeout>)
 
 
@@ -170,7 +171,7 @@ func (c *Client[K, V]) Notify(key K) (<-chan Notify[K, V], func())
 Notify requests a notification channel for a key. It returns the channel and a function to remove and close that channel. Note that KeyNotify must be called to actually perform the notification request \(though notifications may be received on this channel if KeyNotify had already been called previously\). Also please note that the state store does not queue messages when the client is disconnected, therefore notifications received on this channel are not guaranteed, may be duplicated, and may come out\-of\-order during reconnection.
 
 <a name="Client[K, V].Set"></a>
-### func \(\*Client\[K, V\]\) [Set](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L33-L38>)
+### func \(\*Client\[K, V\]\) [Set](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L34-L39>)
 
 ```go
 func (c *Client[K, V]) Set(ctx context.Context, key K, val V, opt ...SetOption) (res *Response[bool], err error)
@@ -208,7 +209,7 @@ type ClientOption interface {
 ```
 
 <a name="WithLogger"></a>
-### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L62>)
+### func [WithLogger](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L65>)
 
 ```go
 func WithLogger(logger *slog.Logger) ClientOption
@@ -431,7 +432,7 @@ type SetOption interface {
 ```
 
 <a name="SetOptions"></a>
-## type [SetOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L22-L27>)
+## type [SetOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L22-L28>)
 
 SetOptions are the resolved options for the Set method.
 
@@ -441,11 +442,12 @@ type SetOptions struct {
     Condition    Condition
     FencingToken hlc.HybridLogicalClock
     Timeout      time.Duration
+    Persist      bool
 }
 ```
 
 <a name="SetOptions.Apply"></a>
-### func \(\*SetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L67>)
+### func \(\*SetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/set.go#L68>)
 
 ```go
 func (o *SetOptions) Apply(opts []SetOption, rest ...SetOption)
@@ -528,6 +530,15 @@ WithManualAck allows notifications to be manually acknowledged.
 
 ```go
 type WithManualAck bool
+```
+
+<a name="WithPersist"></a>
+## type [WithPersist](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/statestore/options.go#L39>)
+
+WithPersist indicates that the key should be stored to disk.
+
+```go
+type WithPersist bool
 ```
 
 <a name="WithTimeout"></a>
