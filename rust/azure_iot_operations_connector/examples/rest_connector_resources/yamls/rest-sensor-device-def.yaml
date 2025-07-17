@@ -23,4 +23,5 @@ spec:
             usernameSecretName: rest-server-auth-credentials/username
             passwordSecretName: rest-server-auth-credentials/password
         endpointType: rest
+        version: "0.0.1"
   version: 1
