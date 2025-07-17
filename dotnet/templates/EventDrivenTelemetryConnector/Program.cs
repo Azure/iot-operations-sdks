@@ -16,7 +16,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MessageSchemaProvider.Factory);
         services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
         services.AddSingleton(LeaderElectionConfigurationProvider.Factory); // If no leader election is needed, delete this line
-        services.AddHostedService<ConnectorWorker>();
+        services.AddHostedService<TemplateConnectorWorker>();
     })
     .Build();
 
