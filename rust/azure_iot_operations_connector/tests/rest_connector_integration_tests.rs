@@ -70,7 +70,6 @@ async fn test_connector_simple_recv() {
             // let publish = receiver.recv().await.unwrap();
             let publish = tokio::time::timeout(Duration::from_secs(30), receiver.recv())
                 .await
-                .unwrap()
                 .unwrap();
 
             log::warn!(
