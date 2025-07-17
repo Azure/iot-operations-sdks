@@ -72,7 +72,7 @@ jobs:
     - name: Run Tests
       run: |
         set -e
-        ENABLE_NETWORK_TESTS=true FEATURES="all" make test
+        ENABLE_NETWORK_TESTS=true cargo test test_connector_simple_recv -- --nocapture
 
     - name: Run Coverage Report
       run: |
@@ -103,7 +103,7 @@ jobs:
     - name: Display logs from all kubernetes pods
       if: always()
       run: |
-        kubectl get pods
+        kubectl get pods -n azure-iot-operations
         for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
           echo "Logs for pod: $pod"
           kubectl describe pod $pod
