@@ -67,12 +67,18 @@ async fn test_connector_simple_recv() {
                 .unwrap()
                 .await
                 .unwrap();
-            let publish = receiver.recv().await.unwrap();
+            // let publish = receiver.recv().await.unwrap();
+            let publish = tokio::time::timeout(
+                Duration::from_secs(30),
+                receiver.recv()
+            ).await.unwrap().unwrap();
+            
             log::warn!(
                 "The published payload is: {}",
                 String::from_utf8_lossy(&publish.payload)
             );
-            assert_eq!(publish.payload, payload.as_bytes());
+
+           assert_eq!(publish.payload, payload.as_bytes());
             // Indicate completion
             receiver_done.notify_one();
         }
