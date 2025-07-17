@@ -59,6 +59,10 @@ jobs:
     
     - name: Create ADR resources
       run: kubectl apply -f ../eng/test/test-adr-resources
+    
+    - name: Deploy Polling Rest Connector
+      working-directory: rust/azure_iot_operations_connector/examples/rest_connector_resources
+      run: ./deploy-connector-and-device.sh
 
     - name: Run Checks
       run: |
@@ -95,6 +99,17 @@ jobs:
         source ../../rust/ci/build-deps.sh
         cargo clippy --all-features
         cargo fmt --verbose --all
+
+    - name: Display logs from all kubernetes pods
+      if: always()
+      run: |
+        kubectl get pods
+        for pod in $(kubectl get pods -o jsonpath='{.items[*].metadata.name}'); do
+          echo "Logs for pod: $pod"
+          kubectl describe pod $pod
+          kubectl logs $pod
+          echo "-----------------------------------"
+        done
 
     # TODO: Enable and configure these once the codegen is ready
     # - name: CodeGen Rust TestEnvoys
