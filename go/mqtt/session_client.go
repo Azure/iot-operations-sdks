@@ -94,6 +94,10 @@ func NewSessionClient(
 
 	client.options.Apply(opts)
 
+	if err := client.options.initFeatures(); err != nil {
+		return nil, err
+	}
+
 	if client.options.KeepAlive == 0 {
 		client.options.KeepAlive = 60
 	}
@@ -110,13 +114,6 @@ func NewSessionClient(
 		client.options.ConnectionRetry = &retry.ExponentialBackoff{
 			Logger: client.options.Logger,
 		}
-	}
-
-	if !client.options.DisableAIOBrokerFeatures {
-		if client.options.ConnectUserProperties == nil {
-			client.options.ConnectUserProperties = make(map[string]string, 1)
-		}
-		client.options.ConnectUserProperties["metriccategory"] = "aiosdk-go"
 	}
 
 	client.log.Logger = log.Wrap(client.options.Logger)
