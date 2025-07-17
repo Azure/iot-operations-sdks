@@ -44,10 +44,17 @@ helm install adr-crds-namespace oci://azureadr.azurecr.io/helm/adr/common/adr-cr
 
 # Install the AKRI
 helm uninstall akri --ignore-not-found
-helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.8.7 -n azure-iot-operations \
-    --set jobs.preUpgrade="false" \
-    --set jobs.upgradeStatus="false" \
-    --set adrNamespaceRef.resourceId="dev-adr-namespace-res-id"
+helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.8.8 -n azure-iot-operations \
+    --set adrNamespaceRef.resourceId="default" \
+    --set global.azure.extension.resourceId="default"
+
+# helm install akri oci://mcr.microsoft.com/azureiotoperations/helm/microsoft-managed-akri --version 0.8.7 -n azure-iot-operations \
+#     --set jobs.preUpgrade="false" \
+#     --set jobs.upgradeStatus="false" \
+#     --set adrNamespaceRef.resourceId="dev-adr-namespace-res-id" \
+#     --set global.azure.extension.resourceId="default"
+
+
 
 # Wait for the akri CRDs to be installed before proceeding. Fail on timeout
 echo "waiting for akri crds."
