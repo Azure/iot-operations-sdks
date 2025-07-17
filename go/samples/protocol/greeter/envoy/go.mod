@@ -2,7 +2,7 @@ module github.com/Azure/iot-operations-sdks/go/samples/protocol/greeter/envoy
 
 go 1.24.0
 
-require github.com/Azure/iot-operations-sdks/go/protocol v0.4.0
+require github.com/Azure/iot-operations-sdks/go/protocol v0.4.1
 
 require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.3.0 // indirect

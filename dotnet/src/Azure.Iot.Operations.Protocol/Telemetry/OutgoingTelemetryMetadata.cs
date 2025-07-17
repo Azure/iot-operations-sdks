@@ -24,9 +24,21 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </summary>
         public Dictionary<string, string> UserData { get; }
 
-
-
         public CloudEvent? CloudEvent { get; set; }
+
+        /// <summary>
+        /// If true, this telemetry will be persisted by the AIO MQTT broker upon receiving it. This is only applicable
+        /// for retained messages. If this value is set to true, <see cref="Retain"/> must also be set to true.
+        /// </summary>
+        /// <remarks>
+        /// This feature is only applicable with the AIO MQTT broker.
+        /// </remarks>
+        public bool PersistTelemetry { get; set; }
+
+        /// <summary>
+        /// If true, this MQTT message will be retained by the MQTT broker.
+        /// </summary>
+        public bool Retain { get; set; }
 
         /// <summary>
         /// Construct an instance with the default values.

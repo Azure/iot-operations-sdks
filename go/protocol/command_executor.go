@@ -348,7 +348,12 @@ func (ce *CommandExecutor[Req, Res]) build(
 	rpub.CorrelationData = pub.CorrelationData
 	rpub.Topic = pub.ResponseTopic
 	rpub.MessageExpiry = pub.MessageExpiry
-	maps.Copy(rpub.UserProperties, errutil.ToUserProp(resErr))
+
+	// Generate user properties according to the error, but don't overwrite
+	// existing user-specified metadata.
+	userProperties := rpub.UserProperties
+	rpub.UserProperties = errutil.ToUserProp(resErr)
+	maps.Copy(rpub.UserProperties, userProperties)
 
 	return rpub, nil
 }

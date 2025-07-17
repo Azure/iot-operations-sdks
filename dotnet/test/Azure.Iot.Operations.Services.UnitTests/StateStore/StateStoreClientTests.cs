@@ -123,6 +123,66 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
         }
 
         [Fact]
+        public async Task SetAsyncWithPersistenceSuccess()
+        {
+            // arrange
+            ApplicationContext applicationContext = new ApplicationContext();
+            StateStoreKey key = new StateStoreKey("someKey");
+            StateStoreValue value = new StateStoreValue("someValue");
+            byte[] expectedServiceRequestPayload = Encoding.ASCII.GetBytes($"*3\r\n$3\r\nSET\r\n${key.Bytes.Length}\r\n{key.GetString()}\r\n${value.Bytes.Length}\r\n{value.GetString()}\r\n");
+
+            byte[] expectedServiceResponsePayload = Encoding.ASCII.GetBytes("+OK\r\n");
+            string clientId = "someClientId";
+            TimeSpan expectedRequestTimeout = TimeSpan.FromSeconds(1);
+            CancellationToken cancellationToken = new CancellationToken();
+
+            var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
+            var mockMqttClient = GetMockMqttClient(clientId);
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+                {
+                    Timestamp = applicationContext.ApplicationHlc,
+                }
+            };
+
+            RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
+
+            mockStateStoreGeneratedClient
+                .Setup(
+                    mock => mock.InvokeAsync(
+                        It.Is<byte[]>(array => array != null && Enumerable.SequenceEqual(array, expectedServiceRequestPayload)),
+                        It.Is<CommandRequestMetadata>(metadata => metadata.UserData.ContainsKey("aio-persistence")),
+                        It.IsAny<Dictionary<string, string>>(),
+                        expectedRequestTimeout,
+                        cancellationToken))
+                .Returns(expectedResponse);
+
+            StateStoreClient stateStoreClient = new StateStoreClient(mockMqttClient.Object, mockStateStoreGeneratedClient.Object);
+
+            StateStoreSetRequestOptions options = new()
+            {
+                PersistEntry = true,
+            };
+
+            // act
+            await stateStoreClient.SetAsync(key, value, options, expectedRequestTimeout, cancellationToken: cancellationToken);
+
+            // assert
+            mockStateStoreGeneratedClient.Verify(
+                    mock => mock.InvokeAsync(
+                        It.Is<byte[]>(array => array != null && Enumerable.SequenceEqual(array, expectedServiceRequestPayload)),
+                        It.Is<CommandRequestMetadata>(metadata => metadata.UserData.ContainsKey("aio-persistence")),
+                        null,
+                        expectedRequestTimeout,
+                        cancellationToken),
+                    Times.Once());
+
+            await stateStoreClient.DisposeAsync();
+        }
+
+        [Fact]
         public async Task DeleteAsyncSuccess()
         {
             // arrange

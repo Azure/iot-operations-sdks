@@ -4,10 +4,11 @@ package protocol
 
 import (
 	"context"
-	"errors"
+	stderr "errors"
 	"testing"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/stretchr/testify/require"
 )
 
@@ -87,7 +88,7 @@ func TestCommandError(t *testing.T) {
 			context.Context,
 			*protocol.CommandRequest[any],
 		) (*protocol.CommandResponse[string], error) {
-			return nil, errors.New("unknown error")
+			return nil, stderr.New("unknown error")
 		},
 	)
 	require.NoError(t, err)
@@ -106,4 +107,54 @@ func TestCommandError(t *testing.T) {
 	_, err = invoker.Invoke(ctx, nil)
 	require.Error(t, err)
 	require.Equal(t, err.Error(), "unknown error")
+}
+
+func TestCommandManualError(t *testing.T) {
+	ctx := context.Background()
+	client, server, done := sessionClients(t)
+	defer done()
+
+	var listeners protocol.Listeners
+	defer listeners.Close()
+
+	req := protocol.Empty{}
+	res := protocol.JSON[string]{}
+	topic := "topic"
+
+	executor, err := protocol.NewCommandExecutor(
+		app, server, req, res, topic,
+		func(
+			context.Context,
+			*protocol.CommandRequest[any],
+		) (*protocol.CommandResponse[string], error) {
+			return protocol.Respond("", protocol.WithMetadata{
+				"__stat":     "422",
+				"__stMsg":    "application error",
+				"__apErr":    "true",
+				"__propName": "key",
+				"__propVal":  "value",
+			})
+		},
+	)
+	require.NoError(t, err)
+	listeners = append(listeners, executor)
+
+	invoker, err := protocol.NewCommandInvoker(
+		app, client, req, res, topic,
+		protocol.WithResponseTopicSuffix("response"),
+	)
+	require.NoError(t, err)
+	listeners = append(listeners, invoker)
+
+	err = listeners.Start(ctx)
+	require.NoError(t, err)
+
+	_, err = invoker.Invoke(ctx, nil)
+	require.Equal(t, err, &errors.Remote{
+		Message: "application error",
+		Kind: errors.UnknownError{
+			PropertyName:  "key",
+			PropertyValue: "value",
+		},
+	})
 }
