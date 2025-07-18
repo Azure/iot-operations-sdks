@@ -11,11 +11,11 @@ spec:
   endpoints:
     inbound:
       rest-factory-endpoint:
-        address: rest-server-service.azure-iot-operations.svc.cluster.local:80 # Address of the REST server service
-        additionalConfiguration: |-
-          {
-            "tlsEnabled": false
-          }
+        address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80 # Address of the REST server service
+        # additionalConfiguration: |-
+        #   {
+        #     "tlsEnabled": false
+        #   }
         authentication:
           # method: Anonymous
           method: UsernamePassword

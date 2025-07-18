@@ -13,6 +13,12 @@ const users = {
     [USERNAME]: PASSWORD
 };
 
+// Minimal logging middleware - logs every API hit
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+});
+
 // Middleware to check Basic Authentication
 const authenticate = (req, res, next) => {
     const user = basicAuth(req);
@@ -32,7 +38,23 @@ function getRandomTemperature(min, max) {
     return (Math.random() * (max - min) + min).toFixed(2);
 }
 
-let desiredTemperature = getRandomTemperature(68, 77); // Approx 20-25°C in Fahrenheit
+// Function to generate random humidity values (percentage)
+function getRandomHumidity(min, max) {
+    return (Math.random() * (max - min) + min).toFixed(1);
+}
+
+// Function to get random floor number (1-10)
+function getRandomFloor() {
+    return Math.floor(Math.random() * 10) + 1;
+}
+
+// Function to get random factory ID
+function getRandomFactoryId() {
+    const factories = ['FAC001', 'FAC002', 'FAC003', 'FAC004', 'FAC005'];
+    return factories[Math.floor(Math.random() * factories.length)];
+}
+
+let desiredTemperature = getRandomTemperature(68, 77);
 let currentTemperature = getRandomTemperature(68, 77);
 let thermostatPower = "on";
 
@@ -78,6 +100,41 @@ app.post("/api/thermostat/power", express.json(), (req, res) => {
     }
 });
 
+// Factory Location API
+app.get("/api/factory/location", (req, res) => {
+    const floorNumber = getRandomFloor();
+    const factoryId = getRandomFactoryId();
+
+    res.json({
+        floorNumber: floorNumber,
+        factoryId: factoryId,
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Environmental Sensor API
+app.get("/api/sensor/env", (req, res) => {
+    const temperature = parseFloat(getRandomTemperature(68, 77));
+    const humidity = parseFloat(getRandomHumidity(30, 70));
+
+    res.json({
+        temperature: temperature,
+        humidity: humidity,
+        unit: {
+            temperature: "Fahrenheit",
+            humidity: "Percentage"
+        }
+    });
+});
+
 app.listen(port, () => {
-    console.log(`Thermostat API server running on port ${port}`);
+    console.log(`REST API server running on port ${port}`);
+    console.log('Available APIs:');
+    console.log('  GET  /api/thermostat/current - Current temperature');
+    console.log('  GET  /api/thermostat/desired - Desired temperature');
+    console.log('  POST /api/thermostat/desired - Set desired temperature');
+    console.log('  GET  /api/thermostat/status - Thermostat status');
+    console.log('  POST /api/thermostat/power - Toggle thermostat power');
+    console.log('  GET  /api/factory/location - Factory floor and ID');
+    console.log('  GET  /api/sensor/env - Temperature and humidity');
 });
