@@ -680,8 +680,10 @@ pub struct AssetClient {
     asset_update_observation: azure_device_registry::AssetUpdateObservation,
     /// Internal watcher receiver that holds a snapshot of the latest update and whether it has
     /// been fully processed or not
+    #[getter(skip)]
     asset_update_watcher_rx: watch::Receiver<Asset>,
     /// Internal watcher sender that sends the latest update
+    #[getter(skip)]
     asset_update_watcher_tx: watch::Sender<Asset>,
     /// Internal sender for when new datasets are created
     #[getter(skip)]
@@ -1649,6 +1651,7 @@ impl DatasetClient {
 
         // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         if watch_receiver.changed().await.is_err() {
+            self.dataset_update_watcher_rx.mark_unchanged();
             return DatasetNotification::Deleted;
         }
         // create new forwarder, in case destination has changed
@@ -1694,6 +1697,7 @@ impl DatasetClient {
                 });
                 // notify the application to not use this dataset until a new update is received
                 self.dataset_definition = updated_dataset;
+                self.dataset_update_watcher_rx.mark_unchanged();
                 return DatasetNotification::UpdatedInvalid;
             }
         };
