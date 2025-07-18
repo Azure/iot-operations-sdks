@@ -7,7 +7,7 @@
     <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <Authors>Microsoft</Authors>
-    <VersionPrefix>0.11.0</VersionPrefix>
+    <VersionPrefix>0.10.5-akri</VersionPrefix>
     <Nullable>enable</Nullable>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>

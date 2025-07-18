@@ -28,7 +28,7 @@ impl PayloadSerialize for TestPayload {
             } else {
                 Vec::new()
             },
-            content_type: self.out_content_type.unwrap().to_string(),
+            content_type: self.out_content_type.unwrap(),
             format_indicator: if self.indicate_character_data {
                 FormatIndicator::Utf8EncodedCharacterData
             } else {

@@ -1180,17 +1180,11 @@ where
             }
 
             if let Some(name) = response_arguments.invalid_property_name {
-                user_properties.push((
-                    UserProperty::InvalidPropertyName.to_string(),
-                    name.to_string(),
-                ));
+                user_properties.push((UserProperty::InvalidPropertyName.to_string(), name));
             }
 
             if let Some(value) = response_arguments.invalid_property_value {
-                user_properties.push((
-                    UserProperty::InvalidPropertyValue.to_string(),
-                    value.to_string(),
-                ));
+                user_properties.push((UserProperty::InvalidPropertyValue.to_string(), value));
             }
 
             if let Some(supported_protocol_major_versions) =

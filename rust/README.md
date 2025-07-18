@@ -15,6 +15,7 @@ The following Azure IoT Operations crates are available:
 | [**azure_iot_operations_mqtt**](azure_iot_operations_mqtt) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_mqtt/) | MQTTv5 client library for decoupled asynchronous applications |
 | [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_protocol/) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
 | [**azure_iot_operations_services**](azure_iot_operations_services) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_services/) | Clients for using services of Azure IoT Operations |
+<!-- | [**azure_iot_operations_connector**](azure_iot_operations_connector) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_connector/) | Library and Traits for building Azure IoT Operations Connectors | -->
 
 ## Getting started
 
@@ -48,6 +49,7 @@ We recommend using Ubuntu or Debian for developing your applications. The instru
     azure_iot_operations_mqtt = { version = "<version>", registry = "aio-sdks" }
     azure_iot_operations_protocol = { version = "<version>", registry = "aio-sdks" }
     azure_iot_operations_services = { version = "<version>", registry = "aio-sdks" }
+    azure_iot_operations_connector = { version = "<version>", registry = "aio-sdks" }
     ```
 
 ### Unreleased builds
@@ -62,6 +64,7 @@ Take a dependency on the crates you wish to use in your applications `Cargo.toml
    azure_iot_operations_mqtt = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>"}
    azure_iot_operations_protocol = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
    azure_iot_operations_services = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
+   azure_iot_operations_connector = { git = "https://github.com/Azure/iot-operations-sdks.git", rev = "<commit SHA here>" }
    ```
 
 > [!NOTE]

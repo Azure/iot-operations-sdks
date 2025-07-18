@@ -1,72 +1,52 @@
 ﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Services.Assets;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class PollingTelemetryConnectorWorker : TelemetryConnectorWorker
+    public class PollingTelemetryConnectorWorker : ConnectorWorker
     {
         private readonly Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
         private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
-        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<TelemetryConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAssetMonitor assetMonitor, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, assetMonitor, leaderElectionConfigurationProvider)
+        public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAdrClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider)
         {
-            base.OnAssetAvailable += OnAssetSampleableAsync;
-            base.OnAssetUnavailable += OnAssetNotSampleableAsync;
+            base.WhileAssetIsAvailable = WhileAssetAvailableAsync;
             _datasetSamplerFactory = datasetSamplerFactory;
         }
 
-        public void OnAssetNotSampleableAsync(object? sender, AssetUnavailableEventArgs args)
+        public async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
-            if (_assetsSamplingTimers.Remove(args.AssetName, out Dictionary<string, Timer>? datasetTimers) && datasetTimers != null)
-            {
-                foreach (string datasetName in datasetTimers.Keys)
-                {
-                    Timer timer = datasetTimers[datasetName];
-                    _logger.LogInformation("Dataset with name {0} in asset with name {1} will no longer be periodically sampled", datasetName, args.AssetName);
-                    timer.Dispose();
-                }
-            }
-        }
+            cancellationToken.ThrowIfCancellationRequested();
 
-        public void OnAssetSampleableAsync(object? sender, AssetAvailabileEventArgs args)
-        {
             if (args.Asset.Datasets == null)
             {
                 return;
             }
 
-            _assetsSamplingTimers[args.AssetName] = new Dictionary<string, Timer>();
-            foreach (Dataset dataset in args.Asset.Datasets)
+            Dictionary<string, Timer> datasetsTimers = new();
+            _assetsSamplingTimers[args.AssetName] = datasetsTimers;
+            foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
-                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(AssetEndpointProfile!, args.Asset, dataset);
+                EndpointCredentials? credentials = null;
+                if (args.Device.Endpoints != null
+                    && args.Device.Endpoints.Inbound != null
+                    && args.Device.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpoint))
+                {
+                    credentials = _adrClient!.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
+                }
 
-                TimeSpan samplingInterval;
-                if (dataset.DatasetConfiguration != null
-                    && dataset.DatasetConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement datasetSpecificSamplingInterval)
-                    && datasetSpecificSamplingInterval.TryGetInt32(out int datasetSpecificSamplingIntervalMilliseconds))
-                {
-                    samplingInterval = TimeSpan.FromMilliseconds(datasetSpecificSamplingIntervalMilliseconds);
-                }
-                else if (args.Asset.DefaultDatasetsConfiguration != null
-                    && args.Asset.DefaultDatasetsConfiguration.RootElement.TryGetProperty("samplingInterval", out JsonElement defaultDatasetSamplingInterval)
-                    && defaultDatasetSamplingInterval.TryGetInt32(out int defaultSamplingIntervalMilliseconds))
-                {
-                    samplingInterval = TimeSpan.FromMilliseconds(defaultSamplingIntervalMilliseconds);
-                }
-                else
-                {
-                    _logger.LogError($"Dataset with name {dataset.Name} in Asset with name {args.AssetName} has no configured sampling interval. This dataset will not be sampled.");
-                    return;
-                }
+                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.DeviceName, args.Device, args.InboundEndpointName, args.AssetName, args.Asset, dataset, credentials);
+
+                TimeSpan samplingInterval = await datasetSampler.GetSamplingIntervalAsync(dataset);
 
                 _logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
 
-                _assetsSamplingTimers[args.AssetName][dataset.Name] = new Timer(async (state) =>
+                var datasetSamplingTimer = new Timer(async (state) =>
                 {
                     try
                     {
@@ -78,18 +58,21 @@ namespace Azure.Iot.Operations.Connector
                         _logger.LogError(e, "Failed to sample the dataset");
                     }
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
-            }
-        }
 
-        public override void Dispose()
-        {
-            base.Dispose();
-            foreach (var assetName in _assetsSamplingTimers.Keys)
-            {
-                foreach (var datasetName in _assetsSamplingTimers[assetName].Keys)
+                if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimer))
                 {
-                    _assetsSamplingTimers[assetName][datasetName].Dispose();
+                    _logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
                 }
+            }
+
+            // Waits until the asset is no longer available
+            cancellationToken.WaitHandle.WaitOne();
+
+            // Stop sampling all datasets in this asset now that the asset is unavailable
+            foreach (AssetDataset dataset in args.Asset.Datasets!)
+            {
+                _logger.LogInformation("Dataset with name {0} in asset with name {1} will no longer be periodically sampled", dataset.Name, args.AssetName);
+                _assetsSamplingTimers[args.AssetName][dataset.Name].Dispose();
             }
         }
     }

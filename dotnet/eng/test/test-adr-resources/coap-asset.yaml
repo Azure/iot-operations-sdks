@@ -1,0 +1,77 @@
+﻿apiVersion: v1
+kind: List
+items:
+  - apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+    kind: Asset
+    metadata:
+      name: my-coap-thermostat-asset
+      namespace: azure-iot-operations
+    spec:
+      attributes:
+        assetId: my-coap-thermostat-asset
+        assetType: thermostat
+      datasets:
+        - name: thermostat_status
+          dataPoints:
+            - dataSource: coap://device.local/temp
+              name: currentTemperature
+              dataPointConfiguration: |-
+                {
+                   "CoapRequestMethod": "GET",
+                }
+            - dataSource: coap://device.local/target
+              name: desiredTemperature
+              dataPointConfiguration: |-
+                {
+                   "CoapRequestMethod": "PUT",
+                }
+          dataSource: /thermostat
+          destinations:
+            - configuration:
+                topic: /mqtt/machine/status
+              target: Mqtt
+      defaultDatasetsConfiguration: |-
+        {
+           "samplingInterval": 4000,
+        }
+      deviceRef:
+        deviceName: my-thermostat
+        endpointName: my-coap-endpoint
+      version: 6
+  - apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+    kind: Asset
+    metadata:
+      name: my-coap-thermostat-asset
+      namespace: azure-iot-operations
+    spec:
+      attributes:
+        assetId: my-coap-thermostat-asset
+        assetType: thermostat
+      datasets:
+        - name: thermostat_status
+          dataPoints:
+            - dataSource: coap://device.local/temp
+              name: currentTemperature
+              dataPointConfiguration: |-
+                {
+                   "CoapRequestMethod": "GET",
+                }
+            - dataSource: coap://device.local/target
+              name: desiredTemperature
+              dataPointConfiguration: |-
+                {
+                   "CoapRequestMethod": "PUT",
+                }
+          dataSource: /thermostat
+          destinations:
+            - configuration:
+                topic: /mqtt/machine/status
+              target: Mqtt
+      defaultDatasetsConfiguration: |-
+        {
+           "samplingInterval": 4000,
+        }
+      deviceRef:
+        deviceName: test-thermostat
+        endpointName: my-coap-endpoint
+      version: 6

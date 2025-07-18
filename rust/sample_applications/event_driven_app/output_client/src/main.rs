@@ -235,7 +235,7 @@ pub struct WindowData {
 
 impl From<Vec<f64>> for WindowSensorData {
     fn from(sensor_data: Vec<f64>) -> Self {
-        let mut sensor_data: Vec<f64> = sensor_data.clone();
+        let mut sensor_data: Vec<f64> = sensor_data;
 
         sensor_data.sort_by(|a, b| a.partial_cmp(b).expect("f64 comparison should not fail"));
         let count: i64 = sensor_data

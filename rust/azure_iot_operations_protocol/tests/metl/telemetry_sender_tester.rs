@@ -219,7 +219,7 @@ where
                     if let Some(telemetry_value) = default_send_telemetry.telemetry_value.clone() {
                         telemetry_message_builder
                             .payload(TestPayload {
-                                payload: Some(telemetry_value.clone()),
+                                payload: Some(telemetry_value),
                                 out_content_type: tcs.serializer.out_content_type.clone(),
                                 accept_content_types: tcs.serializer.accept_content_types.clone(),
                                 indicate_character_data: tcs.serializer.indicate_character_data,

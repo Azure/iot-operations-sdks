@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+    kind: Device
+    metadata:
+      name: my-thermostat
+      namespace: azure-iot-operations
+    spec:
+      attributes:
+        deviceId: my-thermostat
+        deviceType: thermostat
+      enabled: true
+      endpoints:
+        inbound:
+          my-rest-endpoint:
+            additionalConfiguration: '{"key1": "value1", "nested": {"key2": 2}}'
+            address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80
+            authentication:
+              method: UsernamePassword
+              usernamePasswordCredentials:
+                usernameSecretName: rest-server-auth-creds/username
+                passwordSecretName: rest-server-auth-creds/password
+            endpointType: rest-thermostat
+          my-coap-endpoint:
+            address: coap://thermostat.local/temp
+            authentication:
+              method: UsernamePassword
+              usernamePasswordCredentials:
+                usernameSecretName: coap-auth-creds/username
+                passwordSecretName: coap-auth-creds/password
+            endpointType: coap-thermostat
+      uuid: 1234-5678-9012-3456
+      version: 2
+  - apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+    kind: Device
+    metadata:
+      name: test-thermostat
+      namespace: azure-iot-operations
+    spec:
+      attributes:
+        deviceId: test-thermostat
+        deviceType: thermostat-tester
+      enabled: true
+      endpoints:
+        inbound:
+          my-rest-endpoint:
+            additionalConfiguration: '{"key1": "value1", "nested": {"key2": 2}}'
+            address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80
+            authentication:
+              method: UsernamePassword
+              usernamePasswordCredentials:
+                usernameSecretName: rest-server-auth-creds/username
+                passwordSecretName: rest-server-auth-creds/password
+            endpointType: rest-thermostat
+          my-coap-endpoint:
+            address: coap://thermostat.local/temp
+            authentication:
+              method: UsernamePassword
+              usernamePasswordCredentials:
+                usernameSecretName: coap-auth-creds/username
+                passwordSecretName: coap-auth-creds/password
+            endpointType: coap-thermostat
+      uuid: 5678-1234-9012-3456
+      version: 3

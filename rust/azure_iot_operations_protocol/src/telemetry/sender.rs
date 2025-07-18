@@ -150,10 +150,7 @@ impl CloudEvent {
             ));
         }
         if let Some(data_schema) = self.data_schema {
-            headers.push((
-                CloudEventFields::DataSchema.to_string(),
-                data_schema.to_string(),
-            ));
+            headers.push((CloudEventFields::DataSchema.to_string(), data_schema));
         }
         headers
     }
@@ -189,6 +186,9 @@ pub struct Message<T: PayloadSerialize> {
     /// Cloud event of the telemetry message.
     #[builder(default = "None")]
     cloud_event: Option<CloudEvent>,
+    /// Indicates whether the message should be retained or not.
+    #[builder(default = "false")]
+    retain: bool,
 }
 
 impl<T: PayloadSerialize> MessageBuilder<T> {
@@ -475,7 +475,7 @@ where
             .publish_with_properties(
                 message_topic,
                 message.qos,
-                false,
+                message.retain,
                 message.serialized_payload.payload,
                 publish_properties,
             )
@@ -731,5 +731,39 @@ mod tests {
             .build();
 
         assert!(message_builder_result.is_err());
+    }
+
+    #[test]
+    fn test_message_defaults() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let message_builder_result = MessageBuilder::default()
+            .payload(mock_telemetry_payload)
+            .unwrap()
+            .build();
+
+        assert!(message_builder_result.is_ok());
+        let m = message_builder_result.unwrap();
+
+        assert!(!m.retain);
+        assert_eq!(
+            m.qos,
+            azure_iot_operations_mqtt::control_packet::QoS::AtLeastOnce
+        );
+        assert_eq!(m.message_expiry, Duration::from_secs(10));
+        assert!(m.custom_user_data.is_empty());
+        assert!(m.topic_tokens.is_empty());
+        assert!(m.cloud_event.is_none());
+        assert!(m.serialized_payload.payload.is_empty());
     }
 }

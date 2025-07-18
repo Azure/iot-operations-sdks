@@ -221,7 +221,7 @@ impl AIOProtocolError {
                 AIOProtocolError::new_configuration_invalid_error(
                     Some(Box::new(error)),
                     &token,
-                    Value::String(replacement.to_string()),
+                    Value::String(replacement),
                     Some(err_msg),
                     None,
                 )

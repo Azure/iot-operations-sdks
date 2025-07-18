@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Azure.Iot.Operations.Services.Assets;
 using System.Text.Json;
 using System.Text;
 using System.Data.SqlClient;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+using Azure.Iot.Operations.Connector.Files;
 
 namespace SqlQualityAnalyzerConnectorApp
 {
@@ -14,35 +15,35 @@ namespace SqlQualityAnalyzerConnectorApp
         private readonly string _connectionString;
         private string _fullConnectionString = "";
         private readonly string _assetName;
-        private readonly AssetEndpointProfileCredentials? _credentials;
+        private readonly EndpointCredentials? _credentials;
 
-        public QualityAnalyzerDatasetSampler(string connectionString, string assetName, AssetEndpointProfileCredentials? credentials)
+        public QualityAnalyzerDatasetSampler(string connectionString, string assetName, EndpointCredentials? deviceCredentials)
         {
             _connectionString = connectionString;
             _assetName = assetName;
-            _credentials = credentials;
+            _credentials = deviceCredentials;
         }
 
-        public async Task<byte[]> SampleDatasetAsync(Dataset dataset, CancellationToken cancellationToken = default)
+        public async Task<byte[]> SampleDatasetAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             try
             {
-                DataPoint sqlServerCountryDataPoint = dataset.DataPointsDictionary!["Country"];
+                AssetDatasetDataPointSchemaElement sqlServerCountryDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Country"))!.First();
                 string sqlServerCountryTable = sqlServerCountryDataPoint.DataSource!;
-                DataPoint sqlServerViscosityDataPoint = dataset.DataPointsDictionary!["Viscosity"];
-                DataPoint sqlServerSweetnessDataPoint = dataset.DataPointsDictionary!["Sweetness"];
-                DataPoint sqlServerParticleSizeDataPoint = dataset.DataPointsDictionary!["ParticleSize"];
-                DataPoint sqlServerOverallDataPoint = dataset.DataPointsDictionary!["Overall"];
+                AssetDatasetDataPointSchemaElement sqlServerViscosityDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Viscosity"))!.First();
+                AssetDatasetDataPointSchemaElement sqlServerSweetnessDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Sweetness"))!.First();
+                AssetDatasetDataPointSchemaElement sqlServerParticleSizeDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("ParticleSize"))!.First();
+                AssetDatasetDataPointSchemaElement sqlServerOverallDataPoint = dataset.DataPoints!.Where(x => x.Name!.Equals("Overall"))!.First();
 
                 string query = $"SELECT {sqlServerCountryDataPoint.Name}, {sqlServerViscosityDataPoint.Name}, {sqlServerSweetnessDataPoint.Name}, {sqlServerParticleSizeDataPoint.Name}, {sqlServerOverallDataPoint.Name} from CountryMeasurements";
 
-                if (_credentials != null)
+                if (_credentials != null && _credentials.Username != null && _credentials.Password != null)
                 {
                     // Note that this sample uses username + password for authenticating the connection to the asset. In general,
                     // x509 authentication should be used instead (if available) as it is more secure.
-                    string sqlServerUsername = _credentials.Username!;
-                    byte[] sqlServerPassword = _credentials.Password!;
-                    _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={Encoding.UTF8.GetString(sqlServerPassword)};TrustServerCertificate=true;";
+                    string sqlServerUsername = _credentials.Username;
+                    string sqlServerPassword = _credentials.Password;
+                    _fullConnectionString = _connectionString + $"User Id={sqlServerUsername};Password={sqlServerPassword};TrustServerCertificate=true;";
                 }
 
                 // In this sample, the datapoints have the different datasource, there are 2 options to get the data
@@ -53,6 +54,7 @@ namespace SqlQualityAnalyzerConnectorApp
                 using (SqlConnection connection = new SqlConnection(_fullConnectionString))
                 {
                     await connection.OpenAsync();
+                    
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         using (SqlDataReader reader = await command.ExecuteReaderAsync())
@@ -81,6 +83,11 @@ namespace SqlQualityAnalyzerConnectorApp
             {
                 throw new InvalidOperationException($"Failed to sample dataset with name {dataset.Name} in asset with name {_assetName}", ex);
             }
+        }
+
+        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(TimeSpan.FromSeconds(1));
         }
 
         public ValueTask DisposeAsync()

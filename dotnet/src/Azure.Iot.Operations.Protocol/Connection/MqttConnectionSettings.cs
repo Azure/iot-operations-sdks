@@ -20,39 +20,99 @@ namespace Azure.Iot.Operations.Protocol.Connection
         private static readonly TimeSpan s_defaultKeepAlive = TimeSpan.FromSeconds(60);
         private static readonly TimeSpan s_defaultSessionExpiry = TimeSpan.FromSeconds(3600);
 
+        /// <summary>
+        /// The fully qualified domain name of the MQTT broker.
+        /// </summary>
         public string HostName { get; set; }
 
+        /// <summary>
+        /// The TCP port to use when connecting to the MQTT broker.
+        /// </summary>
         public int TcpPort { get; set; } = DefaultTcpPort;
 
+        /// <summary>
+        /// Enable TLS negotiation (disabling not recommended for production).
+        /// </summary>
         public bool UseTls { get; set; } = DefaultUseTls;
 
+        /// <summary>
+        /// Path to a PEM file to validate server identity.
+        /// </summary>
         public string? CaFile { get; set; }
+
+        /// <summary>
+        /// If true, the client will connect to the MQTT broker without attempting to resume an MQTT session. If false, the client
+        /// will try to resume an MQTT session if one is present.
+        /// </summary>
         public bool CleanStart { get; set; } = DefaultCleanStart;
 
+        /// <summary>
+        /// The MQTT connection-level keep alive period.
+        /// </summary>
+        /// <remarks>
+        /// Higher values cause less network traffic, but lower values lead to faster responses to connection loss.
+        /// </remarks>
         public TimeSpan KeepAlive { get; set; } = s_defaultKeepAlive;
 
+        /// <summary>
+        /// The MQTT client Id that this client will use when connecting.
+        /// </summary>
         public string ClientId { get; set; }
 
+        /// <summary>
+        /// The session expiry period that this client's connections will use.
+        /// </summary>
+        /// <remarks>
+        /// Longer periods allow for the client to reconnect and re-establish the MQTT session after longer delays.
+        /// </remarks>
         public TimeSpan SessionExpiry { get; set; } = s_defaultSessionExpiry;
 
+        /// <summary>
+        /// The MQTT connection username to include in the CONNECT packet.
+        /// </summary>
         public string? Username { get; set; }
 
+        /// <summary>
+        /// The path to the file that contains the MQTT connection password to include in the CONNECT packet.
+        /// </summary>
         public string? PasswordFile { get; set; }
 
+        /// <summary>
+        /// Path to a PEM file to establish X509 client authentication
+        /// </summary>
         public string? CertFile { get; set; }
 
+        /// <summary>
+        /// Path to a KEY file to establish X509 client authentication
+        /// </summary>
         public string? KeyFile { get; set; }
 
+        /// <summary>
+        /// The file containing the password for accessing <see cref="KeyFile"/>.
+        /// </summary>
         public string? KeyPasswordFile { get; set; }
 
+        /// <summary>
+        /// The client certificate for X509 authentication.
+        /// </summary>
         public X509Certificate2? ClientCertificate { get; set; }
 
+        /// <summary>
+        /// The certificate authority to trust.
+        /// </summary>
+        /// <remarks>
+        /// If provided, this field supercedes any value provided in <see cref="CaFile"/>.
+        /// </remarks>
         public X509Certificate2Collection? TrustChain { get; set; }
 
-        public string? ModelId { get; set; }
-
+        /// <summary>
+        /// The file that contains the shared access token used for authentication. Only applicable for applications deployed in kubernetes pods.
+        /// </summary>
         public string? SatAuthFile { get; set; }
 
+        /// <summary>
+        /// The upper bound of concurrent in-flight QoS 1 or QoS 2 messages that the broker will be allowed to send to this client.
+        /// </summary>
         public ushort? ReceiveMaximum { get; set; }
 
         public MqttConnectionSettings(string hostname, string clientId)
@@ -71,7 +131,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
                 KeyPasswordFile = GetStringValue(connectionSettings, nameof(KeyPasswordFile));
                 Username = GetStringValue(connectionSettings, nameof(Username));
                 PasswordFile = GetStringValue(connectionSettings, nameof(PasswordFile));
-                ModelId = GetStringValue(connectionSettings, nameof(ModelId));
                 KeepAlive = GetTimeSpanValue(connectionSettings, nameof(KeepAlive), s_defaultKeepAlive);
                 CleanStart = GetBooleanValue(connectionSettings, nameof(CleanStart), DefaultCleanStart);
                 SessionExpiry = GetTimeSpanValue(connectionSettings, nameof(SessionExpiry), s_defaultSessionExpiry);
@@ -151,99 +210,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
             catch (ArgumentException ex)
             {
                 throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, string.Empty, "Invalid settings in provided Environment Variables: " + ex.Message, ex);
-            }
-        }
-
-        /// <summary>
-        /// Construct an instance from the configuration files mounted by the Akri Operator.
-        /// </summary>
-        /// <remarks>
-        /// This method is only usable for connector applications deployed as a kubernetes pod.
-        /// </remarks>
-        public static MqttConnectionSettings FromFileMount()
-        {
-            string configMapPath = Environment.GetEnvironmentVariable("AEP_CONFIGMAP_MOUNT_PATH")
-                ?? throw new InvalidOperationException("AEP_CONFIGMAP_MOUNT_PATH is not set.");
-
-            string? targetAddress;
-            bool useTls;
-            string? satMountPath = string.Empty;
-            string? tlsCaCertMountPath = string.Empty;
-            int port;
-
-            try
-            {
-                string targetAddressAndPort = File.ReadAllText(configMapPath + "/BROKER_TARGET_ADDRESS");
-                if (string.IsNullOrEmpty(targetAddressAndPort))
-                {
-                    throw new ArgumentException("BROKER_TARGET_ADDRESS is missing.");
-                }
-
-                try
-                {
-                    string[] targetAddressParts = targetAddressAndPort.Split(":");
-                    targetAddress = targetAddressParts[0];
-                    port = int.Parse(targetAddressParts[1], CultureInfo.InvariantCulture);
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException($"BROKER_TARGET_ADDRESS is malformed. Cannot parse MQTT port from BROKER_TARGET_ADDRESS. Expected format <hostname>:<port>. Found: {targetAddressAndPort}", e);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw AkriMqttException.GetConfigurationInvalidException("BROKER_TARGET_ADDRESS", string.Empty, "Missing or malformed target address configuration file", ex);
-            }
-
-            string? useTlsString = File.ReadAllText(configMapPath + "/BROKER_USE_TLS");
-            if (string.IsNullOrWhiteSpace(useTlsString) || !bool.TryParse(useTlsString, out useTls))
-            {
-                throw AkriMqttException.GetConfigurationInvalidException("BROKER_USE_TLS", string.Empty, "BROKER_USE_TLS not set or contains a value that could not be parsed as a boolean.");
-            }
-
-            // Optional field, so no need to validate that this file exists
-            satMountPath = Environment.GetEnvironmentVariable("BROKER_SAT_MOUNT_PATH");
-
-            X509Certificate2Collection chain = [];
-            tlsCaCertMountPath = Environment.GetEnvironmentVariable("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH");
-
-            if (!string.IsNullOrWhiteSpace(tlsCaCertMountPath))
-            {
-                if (!Directory.Exists(tlsCaCertMountPath))
-                {
-                    throw AkriMqttException.GetConfigurationInvalidException("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", string.Empty, "A TLS cert mount path was provided, but the provided path does not exist. Path: " + tlsCaCertMountPath);
-                }
-
-                foreach (string caFilePath in Directory.EnumerateFiles(tlsCaCertMountPath))
-                {
-                    chain.ImportFromPemFile(caFilePath);
-                }
-            }
-
-            string clientId = Guid.NewGuid().ToString();
-
-            try
-            {
-                return new MqttConnectionSettings(targetAddress, clientId)
-                {
-                    UseTls = useTls,
-                    SatAuthFile = satMountPath,
-                    TrustChain = chain,
-                    TcpPort = port
-                };
-            }
-            catch (ArgumentException ex)
-            {
-                string? paramValue = ex.ParamName switch
-                {
-                    nameof(targetAddress) => targetAddress,
-                    nameof(useTls) => useTls.ToString(),
-                    nameof(satMountPath) => satMountPath,
-                    nameof(tlsCaCertMountPath) => tlsCaCertMountPath,
-                    _ => string.Empty
-                };
-
-                throw AkriMqttException.GetConfigurationInvalidException(ex.ParamName!, paramValue ?? string.Empty, "Invalid settings in provided configuration files: " + ex.Message, ex);
             }
         }
 
@@ -400,7 +366,6 @@ namespace Azure.Iot.Operations.Protocol.Connection
             StringBuilder result = new();
             AppendIfNotNullOrEmpty(result, nameof(HostName), HostName);
             AppendIfNotNullOrEmpty(result, nameof(ClientId), ClientId);
-            AppendIfNotNullOrEmpty(result, nameof(ModelId), ModelId);
             AppendIfNotNullOrEmpty(result, nameof(Username), Username);
             AppendIfNotNullOrEmpty(result, nameof(PasswordFile), PasswordFile);
             AppendIfNotNullOrEmpty(result, nameof(CertFile), CertFile);

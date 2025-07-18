@@ -7,7 +7,7 @@ namespace PollingTelemetryConnectorTemplate
 {
     public class LeaderElectionConfigurationProvider : IConnectorLeaderElectionConfigurationProvider
     {
-        public static Func<IServiceProvider, IConnectorLeaderElectionConfigurationProvider> ConnectorLeaderElectionConfigurationProviderFactory = service =>
+        public static Func<IServiceProvider, IConnectorLeaderElectionConfigurationProvider> Factory = service =>
         {
             return new LeaderElectionConfigurationProvider();
         };

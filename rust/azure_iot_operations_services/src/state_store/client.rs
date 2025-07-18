@@ -630,12 +630,12 @@ where
                                         log::debug!("Key Notification dispatched: {key_notification:?}");
                                     }
 
-                                    Err(DispatchError { data, kind: DispatchErrorKind::SendError }) => {
-                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {data:?}");
+                                    Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
+                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {payload:?}");
 
                                     }
-                                    Err(DispatchError { data, kind: DispatchErrorKind::NotFound(receiver_id) }) => {
-                                        log::warn!("Key is not being observed. Received Notification: {data:?} for {receiver_id}");
+                                    Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
+                                        log::warn!("Key is not being observed. Received Notification: {payload:?} for {receiver_id}");
                                     }
                                 }
                             }

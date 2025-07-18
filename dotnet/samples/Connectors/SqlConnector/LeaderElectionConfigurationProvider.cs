@@ -7,14 +7,14 @@ namespace SqlQualityAnalyzerConnectorApp
 {
     public class LeaderElectionConfigurationProvider : IConnectorLeaderElectionConfigurationProvider
     {
-        public static Func<IServiceProvider, IConnectorLeaderElectionConfigurationProvider> ConnectorLeaderElectionConfigurationProviderFactory = service =>
+        public static Func<IServiceProvider, IConnectorLeaderElectionConfigurationProvider> Factory = service =>
         {
             return new LeaderElectionConfigurationProvider();
         };
 
         public ConnectorLeaderElectionConfiguration GetLeaderElectionConfiguration()
         {
-            return new("some-http-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9));
+            return new("some-sql-leadership-position-id", TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(9));
         }
     }
 }
