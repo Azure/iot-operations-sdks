@@ -99,18 +99,23 @@ TODO which existing client works well for long-running commands? Mem mon ("Repor
 
 #### Command invoker side
 
-- The command invoker's request message will include an MQTT user property with name "isStream" and value "true".
+- The command invoker's request message will include an MQTT user property with name "__isStream" and value "true".
   - Otherwise, the request message will look the same as a non-streaming RPC request
-- The command invoker will listen for command responses with the correlation data that matches the invoked method's correlation data until it receives a response with the "isLastResp" flag
+- The command invoker will listen for command responses with the correlation data that matches the invoked method's correlation data until it receives a response with the "__isLastResp" flag
 - The command invoker will acknowledge all messages it receives that match the correlation data of the command request
 
 #### Command executor side
 
 - All command responses will use the same MQTT message correlation data as the request provided so that the invoker can map responses to the appropriate command invocation.
-- The final command response will include an MQTT user property "isLastResp" with value "true" to signal that it is the final response in the stream.
-- A streaming command is allowed to have a single response. If the stream only has one response, it should include both the "isStream" and "isLastResp" flags set.
+- Each streamed response will contain an MQTT user property with name "__streamRespId" and value equal to that response's streaming response Id.
+- The final command response will include an MQTT user property "__isLastResp" with value "true" to signal that it is the final response in the stream.
+- A streaming command is allowed to have a single response. If the stream only has one response, it should include both the "__isStream" and "__isLastResp" flags set.
 - All **completed** streamed command responses will be added to the command response cache
   - If we cache incompleted commands, will the cache hit just wait on cache additions to get the remaining responses?
+  - Cache exists for de-duplication, and we want that even for long-running RPC, right?
+    - Re-sending previous responses would potentially get picked up by the original invoker twice
+      - Enforced unique stream response Ids would help de-dup on the invoker side
+        - Needless traffic here though
   - Separate cache for data structure purposes?
 
 ### Protocol version update
