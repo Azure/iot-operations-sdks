@@ -13,6 +13,6 @@ spec:
       my_tcp_endpoint:
         additionalConfiguration: '{}'
         address: tcp-service.azure-iot-operations.svc.cluster.local:80
-        endpointType: tcp-thermostat
+        endpointType: Microsoft.Tcp
   uuid: 1234-5678-9012-3456
   version: 2

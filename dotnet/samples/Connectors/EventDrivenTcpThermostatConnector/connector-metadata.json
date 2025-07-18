@@ -1,0 +1,24 @@
+{
+  "aioConnectorMetadataSchemaVersion": "2.0-preview",
+  "name": "TcpConnector",
+  "description": "Connector for listening for events from a TCP server.",
+  "version": "1.0.0",
+  "imageConfigurationSettings": {
+    "imageName": "EventDrivenTcpThermostatConnector",
+    "tag": "1.0.0"
+  },
+  "supportedArchitectures": [ "linux/amd64" ],
+  "aioMetadata": {
+    "minVersion": "1.2.0"
+  },
+  "inboundEndpoints": [
+    {
+      "endpointType": "Microsoft.Tcp",
+      "version": "2",
+      "isEndpointTlsEnabled": false,
+      "supportedAssetEventDestinations": [
+        "Mqtt"
+      ]
+    }
+  ]
+}
