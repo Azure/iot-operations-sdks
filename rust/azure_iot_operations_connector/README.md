@@ -18,7 +18,7 @@ To deploy follow these steps (from the root of the crate):
 1. Have an Azure Container Registry instance
 
 To deploy follow these steps (from the root of the crate):
-1. Create a binary release of the connector code: `cargo build --release --target-dir target_base_connector_sample --example base_connector_sample`
+1. Create a binary release of the connector code: `cargo build --release --target-dir target --example base_connector_sample`
 1. Build the docker container: `docker build -t baseconnector:latest -f examples/base_connector_sample_resources/Dockerfile .`
 1. Tag your docker image `docker tag baseconnector <your ACR name>.azurecr.io/baseconnector`
 1. Make sure you're logged into azure cli `az login`

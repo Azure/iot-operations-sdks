@@ -13,11 +13,11 @@
 use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_connector::{
-    AdrConfigError, Data,
+    AdrConfigError, Data, DataOperationKind,
     base_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, ClientNotification, DatasetClient, DatasetNotification,
+            AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation,
         },
     },
@@ -142,15 +142,42 @@ async fn run_asset(mut asset_client: AssetClient) {
                 log::warn!("Asset has been deleted");
                 break;
             }
-            ClientNotification::Created(dataset_client) => {
-                log::info!("Dataset Created: {dataset_client:?}");
-                tokio::task::spawn(run_dataset(dataset_client));
+            ClientNotification::Created(data_operation_client) => {
+                log::info!("Data Operation Created: {data_operation_client:?}");
+                if let DataOperationKind::Dataset = data_operation_client
+                    .data_operation_ref()
+                    .data_operation_kind
+                {
+                    tokio::task::spawn(run_dataset(data_operation_client));
+                } else {
+                    log::warn!(
+                        "Data Operation kind {:?} not supported for this connector",
+                        data_operation_client
+                            .data_operation_ref()
+                            .data_operation_kind
+                    );
+                    // Report invalid definition to adr
+                    if let Err(e) = asset_client
+                        .report_status(Err(AdrConfigError {
+                            message: Some(format!(
+                                "Data Operation kind {:?} not supported for this connector",
+                                data_operation_client
+                                    .data_operation_ref()
+                                    .data_operation_kind
+                            )),
+                            ..Default::default()
+                        }))
+                        .await
+                    {
+                        log::error!("Error reporting asset status: {e}");
+                    }
+                }
             }
         }
     }
 }
 
-async fn run_dataset(mut dataset_client: DatasetClient) {
+async fn run_dataset(mut dataset_client: DataOperationClient) {
     // now we should update the status of the dataset and report the message schema
     if let Err(e) = dataset_client.report_status(Ok(())).await {
         log::error!("Error reporting dataset status: {e}");
@@ -177,7 +204,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
             // Listen for a dataset update notifications
             res = dataset_client.recv_notification() => {
                 match res {
-                    DatasetNotification::Updated => {
+                    DataOperationNotification::Updated => {
                         log::info!("dataset updated: {dataset_client:?}");
                         // now we should update the status of the dataset and report the message schema
                         if let Err(e) = dataset_client.report_status(Ok(())).await {
@@ -198,11 +225,11 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
                         }
                         dataset_valid = true;
                     },
-                    DatasetNotification::UpdatedInvalid => {
+                    DataOperationNotification::UpdatedInvalid => {
                         log::warn!("Dataset has invalid update. Wait for new dataset update.");
                         dataset_valid = false;
                     },
-                    DatasetNotification::Deleted => {
+                    DataOperationNotification::Deleted => {
                         log::warn!("Dataset has been deleted. No more dataset updates will be received");
                         break;
                     }
@@ -214,7 +241,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
                     Ok(()) => {
                         log::info!(
                             "data {count} for {} forwarded",
-                            dataset_client.dataset_ref().dataset_name
+                            dataset_client.data_operation_ref().data_operation_name
                         );
                         count += 1;
                     }
