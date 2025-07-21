@@ -35,6 +35,9 @@ type (
 	// WithManualAck allows notifications to be manually acknowledged.
 	WithManualAck bool
 
+	// WithPersist indicates that the key should be stored to disk.
+	WithPersist bool
+
 	// This option is not used directly; see WithLogger below.
 	withLogger struct{ *slog.Logger }
 

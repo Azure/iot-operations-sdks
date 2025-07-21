@@ -153,3 +153,16 @@ type PublishQueueFullError struct{}
 func (*PublishQueueFullError) Error() string {
 	return "publish queue full"
 }
+
+// InvalidAIOBrokerFeature indicates that a feature specific to the AIO Broker
+// was used when AIO Broker features were explicitly disabled.
+type InvalidAIOBrokerFeature struct {
+	feature string
+}
+
+func (e *InvalidAIOBrokerFeature) Error() string {
+	return fmt.Sprintf(
+		"%s was used with AIO Broker features disabled",
+		e.feature,
+	)
+}
