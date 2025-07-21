@@ -15,6 +15,8 @@ jobs:
       
       - name: Install Protoc
         uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install AvroGen
         run: (pushd /; dotnet tool install --global Apache.Avro.Tools; popd) # need to install from root to avoid using the nuget.config we for build and push
