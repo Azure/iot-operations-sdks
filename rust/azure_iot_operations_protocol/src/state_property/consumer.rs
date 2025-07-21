@@ -161,7 +161,7 @@ where
 {
     /// Creates a new [`WriteRequester`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
     /// # Panics
     /// if the `action_topic_token` value is invalid
@@ -225,7 +225,7 @@ where
 {
     /// Creates a new [`ReadRequester`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
     /// # Panics
     /// if the `action_topic_token` value is invalid
@@ -288,7 +288,7 @@ where
 {
     /// Creates a new [`WatchRequester`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
     /// # Panics
     /// if the `action_topic_token` value is invalid
@@ -351,7 +351,7 @@ where
 {
     /// Creates a new [`UnwatchRequester`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
     /// # Panics
     /// if the `action_topic_token` value is invalid
@@ -465,12 +465,12 @@ where
 {
     /// Creates a new [`Consumer`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create a requester
     pub fn new(
         application_context: &ApplicationContext,
         client: &C,
-        action_topic_token: &String,
+        action_topic_token: &str,
         options: &Options,
     ) -> Result<Self, AIOProtocolError> {
         Ok(Self {

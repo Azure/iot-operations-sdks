@@ -213,7 +213,7 @@ where
 {
     /// Creates a new [`WriteResponder`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped executor
     /// # Panics
     /// if the `action_topic_token` value is invalid
@@ -275,7 +275,7 @@ where
 {
     /// Creates a new [`ReadResponder`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped executor
     /// # Panics
     /// if the `action_topic_token` value is invalid
@@ -336,7 +336,7 @@ where
 {
     /// Creates a new [`WatchResponder`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped executor
     /// # Panics
     /// if the `action_topic_token` value is invalid
@@ -397,7 +397,7 @@ where
 {
     /// Creates a new [`UnwatchResponder`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped executor
     /// # Panics
     /// if the `action_topic_token` value is invalid
@@ -481,7 +481,7 @@ where
 
     /// Sends a [`Message`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure sending the message
     pub async fn send(&self, message: PropertyNotification<TProp>) -> Result<(), AIOProtocolError> {
         self.0.send(message).await
@@ -497,12 +497,12 @@ where
 {
     /// Creates a new [`Maintainer`]
     ///
-    /// # Error
+    /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create a responder
     pub fn new(
         application_context: &ApplicationContext,
         client: &C,
-        action_topic_token: &String,
+        action_topic_token: &str,
         options: &Options,
     ) -> Result<Self, AIOProtocolError> {
         Ok(Self {
