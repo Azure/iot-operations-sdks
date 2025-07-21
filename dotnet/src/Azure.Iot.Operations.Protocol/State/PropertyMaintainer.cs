@@ -110,7 +110,7 @@ namespace Azure.Iot.Operations.Protocol.State
             GC.SuppressFinalize(this);
         }
 
-        public async ValueTask DisposeAsync(bool disposing)
+        protected virtual async ValueTask DisposeAsync(bool disposing)
         {
             await DisposeAsyncCore(disposing).ConfigureAwait(false);
         }
