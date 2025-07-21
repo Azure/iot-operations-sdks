@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#![allow(unused_imports)]
-
 use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 
 use crate::{
-    ProtocolVersion,
     application::ApplicationContext,
     common::{aio_protocol_error::AIOProtocolError, payload_serialize::PayloadSerialize},
     rpc_command::invoker,
@@ -477,25 +474,25 @@ where
             write_requester: WriteRequester::new(
                 application_context.clone(),
                 client.clone(),
-                action_topic_token.clone(),
+                action_topic_token.to_string(),
                 options,
             )?,
             read_requester: ReadRequester::new(
                 application_context.clone(),
                 client.clone(),
-                action_topic_token.clone(),
+                action_topic_token.to_string(),
                 options,
             )?,
             watch_requester: WatchRequester::new(
                 application_context.clone(),
                 client.clone(),
-                action_topic_token.clone(),
+                action_topic_token.to_string(),
                 options,
             )?,
             unwatch_requester: UnwatchRequester::new(
                 application_context.clone(),
                 client.clone(),
-                action_topic_token.clone(),
+                action_topic_token.to_string(),
                 options,
             )?,
         })

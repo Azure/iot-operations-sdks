@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#![allow(unused_imports)]
-
 use std::collections::HashMap;
 use std::time::Duration;
 
@@ -10,7 +8,6 @@ use azure_iot_operations_mqtt::control_packet::QoS;
 use azure_iot_operations_mqtt::interface::ManagedClient;
 
 use crate::{
-    ProtocolVersion,
     application::ApplicationContext,
     common::{aio_protocol_error::AIOProtocolError, payload_serialize::PayloadSerialize},
     rpc_command::executor,
@@ -96,7 +93,7 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
 
-/// Responder for writing Property via Command executor
+/// Responder for unwatching Property via Command executor
 pub struct UnwatchResponder<TBool, C>(executor::Executor<TBool, TBool, C>)
 where
     TBool: PayloadSerialize + Send + Sync + 'static,
@@ -509,25 +506,25 @@ where
             write_responder: WriteResponder::new(
                 application_context.clone(),
                 client.clone(),
-                action_topic_token.clone(),
+                action_topic_token.to_string(),
                 options,
             )?,
             read_responder: ReadResponder::new(
                 application_context.clone(),
                 client.clone(),
-                action_topic_token.clone(),
+                action_topic_token.to_string(),
                 options,
             )?,
             watch_responder: WatchResponder::new(
                 application_context.clone(),
                 client.clone(),
-                action_topic_token.clone(),
+                action_topic_token.to_string(),
                 options,
             )?,
             unwatch_responder: UnwatchResponder::new(
                 application_context.clone(),
                 client.clone(),
-                action_topic_token.clone(),
+                action_topic_token.to_string(),
                 options,
             )?,
         })
