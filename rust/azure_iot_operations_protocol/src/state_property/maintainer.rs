@@ -7,15 +7,12 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{ManagedClient};
+use azure_iot_operations_mqtt::interface::ManagedClient;
 
 use crate::{
     ProtocolVersion,
     application::ApplicationContext,
-    common::{
-        aio_protocol_error::AIOProtocolError,
-        payload_serialize::PayloadSerialize,
-    },
+    common::{aio_protocol_error::AIOProtocolError, payload_serialize::PayloadSerialize},
     rpc_command::executor,
     telemetry::sender,
 };
@@ -237,16 +234,16 @@ where
             .build()
             .unwrap();
 
-        Self(
-            executor::Executor::new(application_context, client, executor_options).unwrap(),
-        )
+        Self(executor::Executor::new(application_context, client, executor_options).unwrap())
     }
 
     /// Receive the next Property write or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Option<Result<PropertyRequest<TProp, TBool>, AIOProtocolError>> {
+    pub async fn recv(
+        &mut self,
+    ) -> Option<Result<PropertyRequest<TProp, TBool>, AIOProtocolError>> {
         self.0.recv().await
     }
 
@@ -290,16 +287,16 @@ where
             .build()
             .unwrap();
 
-        Self(
-            executor::Executor::new(application_context, client, executor_options).unwrap(),
-        )
+        Self(executor::Executor::new(application_context, client, executor_options).unwrap())
     }
 
     /// Receive the next Property read or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Option<Result<PropertyRequest<TBool, TProp>, AIOProtocolError>> {
+    pub async fn recv(
+        &mut self,
+    ) -> Option<Result<PropertyRequest<TBool, TProp>, AIOProtocolError>> {
         self.0.recv().await
     }
 
@@ -342,16 +339,16 @@ where
             .build()
             .unwrap();
 
-        Self(
-            executor::Executor::new(application_context, client, executor_options).unwrap(),
-        )
+        Self(executor::Executor::new(application_context, client, executor_options).unwrap())
     }
 
     /// Receive the next Property watch or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Option<Result<PropertyRequest<TBool, TBool>, AIOProtocolError>> {
+    pub async fn recv(
+        &mut self,
+    ) -> Option<Result<PropertyRequest<TBool, TBool>, AIOProtocolError>> {
         self.0.recv().await
     }
 
@@ -394,16 +391,16 @@ where
             .build()
             .unwrap();
 
-        Self(
-            executor::Executor::new(application_context, client, executor_options).unwrap(),
-        )
+        Self(executor::Executor::new(application_context, client, executor_options).unwrap())
     }
 
     /// Receive the next Property unwatch or [`None`] if there will be no more requests
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure receiving a request
-    pub async fn recv(&mut self) -> Option<Result<PropertyRequest<TBool, TBool>, AIOProtocolError>> {
+    pub async fn recv(
+        &mut self,
+    ) -> Option<Result<PropertyRequest<TBool, TBool>, AIOProtocolError>> {
         self.0.recv().await
     }
 
@@ -443,9 +440,7 @@ where
             .build()
             .unwrap();
 
-        Self(
-            sender::Sender::new(application_context, client, sender_options).unwrap(),
-        )
+        Self(sender::Sender::new(application_context, client, sender_options).unwrap())
     }
 
     /// Sends a [`Message`]
@@ -471,11 +466,31 @@ where
         action_topic_token: String,
         options: &Options,
     ) -> Self {
-        Self{
-            write_responder: WriteResponder::new(application_context.clone(), client.clone(), action_topic_token.clone(), options),
-            read_responder: ReadResponder::new(application_context.clone(), client.clone(), action_topic_token.clone(), options),
-            watch_responder: WatchResponder::new(application_context.clone(), client.clone(), action_topic_token.clone(), options),
-            unwatch_responder: UnwatchResponder::new(application_context.clone(), client.clone(), action_topic_token.clone(), options),
+        Self {
+            write_responder: WriteResponder::new(
+                application_context.clone(),
+                client.clone(),
+                action_topic_token.clone(),
+                options,
+            ),
+            read_responder: ReadResponder::new(
+                application_context.clone(),
+                client.clone(),
+                action_topic_token.clone(),
+                options,
+            ),
+            watch_responder: WatchResponder::new(
+                application_context.clone(),
+                client.clone(),
+                action_topic_token.clone(),
+                options,
+            ),
+            unwatch_responder: UnwatchResponder::new(
+                application_context.clone(),
+                client.clone(),
+                action_topic_token.clone(),
+                options,
+            ),
         }
     }
 

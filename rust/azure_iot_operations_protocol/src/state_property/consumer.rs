@@ -11,10 +11,7 @@ use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
 use crate::{
     ProtocolVersion,
     application::ApplicationContext,
-    common::{
-        aio_protocol_error::AIOProtocolError,
-        payload_serialize::PayloadSerialize,
-    },
+    common::{aio_protocol_error::AIOProtocolError, payload_serialize::PayloadSerialize},
     rpc_command::invoker,
     telemetry::receiver,
 };
@@ -186,16 +183,17 @@ where
             .build()
             .unwrap();
 
-        Self(
-            invoker::Invoker::new(application_context, client, invoker_options).unwrap(),
-        )
+        Self(invoker::Invoker::new(application_context, client, invoker_options).unwrap())
     }
 
     /// Requests a Property write
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn invoke(&self, request: PropertyRequest<TProp>) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
+    pub async fn invoke(
+        &self,
+        request: PropertyRequest<TProp>,
+    ) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
         self.0.invoke(request).await
     }
 
@@ -240,16 +238,17 @@ where
             .build()
             .unwrap();
 
-        Self(
-            invoker::Invoker::new(application_context, client, invoker_options).unwrap(),
-        )
+        Self(invoker::Invoker::new(application_context, client, invoker_options).unwrap())
     }
 
     /// Requests a Property read
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn invoke(&self, request: PropertyRequest<TBool>) -> Result<PropertyResponse<TProp>, AIOProtocolError> {
+    pub async fn invoke(
+        &self,
+        request: PropertyRequest<TBool>,
+    ) -> Result<PropertyResponse<TProp>, AIOProtocolError> {
         self.0.invoke(request).await
     }
 
@@ -293,16 +292,17 @@ where
             .build()
             .unwrap();
 
-        Self(
-            invoker::Invoker::new(application_context, client, invoker_options).unwrap(),
-        )
+        Self(invoker::Invoker::new(application_context, client, invoker_options).unwrap())
     }
 
     /// Requests a Property watch
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn invoke(&self, request: PropertyRequest<TBool>) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
+    pub async fn invoke(
+        &self,
+        request: PropertyRequest<TBool>,
+    ) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
         self.0.invoke(request).await
     }
 
@@ -346,16 +346,17 @@ where
             .build()
             .unwrap();
 
-        Self(
-            invoker::Invoker::new(application_context, client, invoker_options).unwrap(),
-        )
+        Self(invoker::Invoker::new(application_context, client, invoker_options).unwrap())
     }
 
     /// Requests a Property unwatch
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn invoke(&self, request: PropertyRequest<TBool>) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
+    pub async fn invoke(
+        &self,
+        request: PropertyRequest<TBool>,
+    ) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
         self.0.invoke(request).await
     }
 
@@ -397,9 +398,7 @@ where
             .build()
             .unwrap();
 
-        Self(
-            receiver::Receiver::new(application_context, client, receiver_options).unwrap(),
-        )
+        Self(receiver::Receiver::new(application_context, client, receiver_options).unwrap())
     }
 
     /// Receive the next [`PropertyNotification`]
@@ -435,11 +434,31 @@ where
         action_topic_token: String,
         options: &Options,
     ) -> Self {
-        Self{
-            write_requester: WriteRequester::new(application_context.clone(), client.clone(), action_topic_token.clone(), options),
-            read_requester: ReadRequester::new(application_context.clone(), client.clone(), action_topic_token.clone(), options),
-            watch_requester: WatchRequester::new(application_context.clone(), client.clone(), action_topic_token.clone(), options),
-            unwatch_requester: UnwatchRequester::new(application_context.clone(), client.clone(), action_topic_token.clone(), options),
+        Self {
+            write_requester: WriteRequester::new(
+                application_context.clone(),
+                client.clone(),
+                action_topic_token.clone(),
+                options,
+            ),
+            read_requester: ReadRequester::new(
+                application_context.clone(),
+                client.clone(),
+                action_topic_token.clone(),
+                options,
+            ),
+            watch_requester: WatchRequester::new(
+                application_context.clone(),
+                client.clone(),
+                action_topic_token.clone(),
+                options,
+            ),
+            unwatch_requester: UnwatchRequester::new(
+                application_context.clone(),
+                client.clone(),
+                action_topic_token.clone(),
+                options,
+            ),
         }
     }
 
@@ -447,7 +466,10 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn write(&self, request: PropertyRequest<TProp>) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
+    pub async fn write(
+        &self,
+        request: PropertyRequest<TProp>,
+    ) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
         self.write_requester.invoke(request).await
     }
 
@@ -455,7 +477,10 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn read(&self, request: PropertyRequest<TBool>) -> Result<PropertyResponse<TProp>, AIOProtocolError> {
+    pub async fn read(
+        &self,
+        request: PropertyRequest<TBool>,
+    ) -> Result<PropertyResponse<TProp>, AIOProtocolError> {
         self.read_requester.invoke(request).await
     }
 
@@ -463,7 +488,10 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn watch(&self, request: PropertyRequest<TBool>) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
+    pub async fn watch(
+        &self,
+        request: PropertyRequest<TBool>,
+    ) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
         self.watch_requester.invoke(request).await
     }
 
@@ -471,7 +499,10 @@ where
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn unwatch(&self, request: PropertyRequest<TBool>) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
+    pub async fn unwatch(
+        &self,
+        request: PropertyRequest<TBool>,
+    ) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
         self.unwatch_requester.invoke(request).await
     }
 
