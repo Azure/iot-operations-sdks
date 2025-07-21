@@ -410,6 +410,8 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`Listener`]
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,

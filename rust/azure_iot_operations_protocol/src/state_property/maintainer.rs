@@ -453,6 +453,8 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
 {
     /// Creates a new [`Notifier`]
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
