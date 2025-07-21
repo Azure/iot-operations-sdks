@@ -123,7 +123,7 @@ where
 
     /// Topic token keys/values to be replaced into the publish topic of the request message.
     pub fn topic_tokens(&mut self, topic_tokens: HashMap<String, String>) -> &mut Self {
-        self.inner_builder.topic_tokens(topic_tokens.clone());
+        self.inner_builder.topic_tokens(topic_tokens);
         self
     }
 
@@ -160,12 +160,17 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`WriteRequester`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         action_topic_token: String,
         options: &Options,
-    ) -> Self {
+    ) -> Result<Self, AIOProtocolError> {
         let mut invoker_options_builder = invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -183,7 +188,7 @@ where
             .build()
             .unwrap();
 
-        Self(invoker::Invoker::new(application_context, client, invoker_options).unwrap())
+        Ok(Self(invoker::Invoker::new(application_context, client, invoker_options)?))
     }
 
     /// Requests a Property write
@@ -215,12 +220,17 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`ReadRequester`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         action_topic_token: String,
         options: &Options,
-    ) -> Self {
+    ) -> Result<Self, AIOProtocolError> {
         let mut invoker_options_builder = invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -238,7 +248,7 @@ where
             .build()
             .unwrap();
 
-        Self(invoker::Invoker::new(application_context, client, invoker_options).unwrap())
+        Ok(Self(invoker::Invoker::new(application_context, client, invoker_options)?))
     }
 
     /// Requests a Property read
@@ -269,12 +279,17 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`WatchRequester`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         action_topic_token: String,
         options: &Options,
-    ) -> Self {
+    ) -> Result<Self, AIOProtocolError> {
         let mut invoker_options_builder = invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -292,7 +307,7 @@ where
             .build()
             .unwrap();
 
-        Self(invoker::Invoker::new(application_context, client, invoker_options).unwrap())
+        Ok(Self(invoker::Invoker::new(application_context, client, invoker_options)?))
     }
 
     /// Requests a Property watch
@@ -323,12 +338,17 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`UnwatchRequester`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         action_topic_token: String,
         options: &Options,
-    ) -> Self {
+    ) -> Result<Self, AIOProtocolError> {
         let mut invoker_options_builder = invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -346,7 +366,7 @@ where
             .build()
             .unwrap();
 
-        Self(invoker::Invoker::new(application_context, client, invoker_options).unwrap())
+        Ok(Self(invoker::Invoker::new(application_context, client, invoker_options)?))
     }
 
     /// Requests a Property unwatch
@@ -428,38 +448,41 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`Consumer`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create a requester
     pub fn new(
-        application_context: ApplicationContext,
-        client: C,
-        action_topic_token: String,
+        application_context: &ApplicationContext,
+        client: &C,
+        action_topic_token: &String,
         options: &Options,
-    ) -> Self {
-        Self {
+    ) -> Result<Self, AIOProtocolError> {
+        Ok(Self {
             write_requester: WriteRequester::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.clone(),
                 options,
-            ),
+            )?,
             read_requester: ReadRequester::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.clone(),
                 options,
-            ),
+            )?,
             watch_requester: WatchRequester::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.clone(),
                 options,
-            ),
+            )?,
             unwatch_requester: UnwatchRequester::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.clone(),
                 options,
-            ),
-        }
+            )?,
+        })
     }
 
     /// Requests a Property write

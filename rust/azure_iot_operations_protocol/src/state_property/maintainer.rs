@@ -170,7 +170,7 @@ where
 
     /// Topic token keys/values to be replaced into the publish topic of the notification message.
     pub fn topic_tokens(&mut self, topic_tokens: HashMap<String, String>) -> &mut Self {
-        self.inner_builder.topic_tokens(topic_tokens.clone());
+        self.inner_builder.topic_tokens(topic_tokens);
         self
     }
 
@@ -212,12 +212,17 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`WriteResponder`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create the wrapped executor
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         action_topic_token: String,
         options: &Options,
-    ) -> Self {
+    ) -> Result<Self, AIOProtocolError> {
         let mut executor_options_builder = executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
@@ -234,7 +239,7 @@ where
             .build()
             .unwrap();
 
-        Self(executor::Executor::new(application_context, client, executor_options).unwrap())
+        Ok(Self(executor::Executor::new(application_context, client, executor_options)?))
     }
 
     /// Receive the next Property write or [`None`] if there will be no more requests
@@ -265,12 +270,17 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`ReadResponder`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create the wrapped executor
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         action_topic_token: String,
         options: &Options,
-    ) -> Self {
+    ) -> Result<Self, AIOProtocolError> {
         let mut executor_options_builder = executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
@@ -287,7 +297,7 @@ where
             .build()
             .unwrap();
 
-        Self(executor::Executor::new(application_context, client, executor_options).unwrap())
+        Ok(Self(executor::Executor::new(application_context, client, executor_options)?))
     }
 
     /// Receive the next Property read or [`None`] if there will be no more requests
@@ -317,12 +327,17 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`WatchResponder`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create the wrapped executor
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         action_topic_token: String,
         options: &Options,
-    ) -> Self {
+    ) -> Result<Self, AIOProtocolError> {
         let mut executor_options_builder = executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
@@ -339,7 +354,7 @@ where
             .build()
             .unwrap();
 
-        Self(executor::Executor::new(application_context, client, executor_options).unwrap())
+        Ok(Self(executor::Executor::new(application_context, client, executor_options)?))
     }
 
     /// Receive the next Property watch or [`None`] if there will be no more requests
@@ -369,12 +384,17 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`UnwatchResponder`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create the wrapped executor
+    /// # Panics
+    /// if the `action_topic_token` value is invalid
     pub fn new(
         application_context: ApplicationContext,
         client: C,
         action_topic_token: String,
         options: &Options,
-    ) -> Self {
+    ) -> Result<Self, AIOProtocolError> {
         let mut executor_options_builder = executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
@@ -391,7 +411,7 @@ where
             .build()
             .unwrap();
 
-        Self(executor::Executor::new(application_context, client, executor_options).unwrap())
+        Ok(Self(executor::Executor::new(application_context, client, executor_options)?))
     }
 
     /// Receive the next Property unwatch or [`None`] if there will be no more requests
@@ -460,38 +480,41 @@ where
     C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`Maintainer`]
+    ///
+    /// # Error
+    /// [`AIOProtocolError`] if there is a failure to create a responder
     pub fn new(
-        application_context: ApplicationContext,
-        client: C,
-        action_topic_token: String,
+        application_context: &ApplicationContext,
+        client: &C,
+        action_topic_token: &String,
         options: &Options,
-    ) -> Self {
-        Self {
+    ) -> Result<Self, AIOProtocolError> {
+        Ok(Self {
             write_responder: WriteResponder::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.clone(),
                 options,
-            ),
+            )?,
             read_responder: ReadResponder::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.clone(),
                 options,
-            ),
+            )?,
             watch_responder: WatchResponder::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.clone(),
                 options,
-            ),
+            )?,
             unwatch_responder: UnwatchResponder::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.clone(),
                 options,
-            ),
-        }
+            )?,
+        })
     }
 
     /// Receive the next Property request or [`None`] if there will be no more requests
