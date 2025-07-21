@@ -188,7 +188,11 @@ where
             .build()
             .unwrap();
 
-        Ok(Self(invoker::Invoker::new(application_context, client, invoker_options)?))
+        Ok(Self(invoker::Invoker::new(
+            application_context,
+            client,
+            invoker_options,
+        )?))
     }
 
     /// Requests a Property write
@@ -248,7 +252,11 @@ where
             .build()
             .unwrap();
 
-        Ok(Self(invoker::Invoker::new(application_context, client, invoker_options)?))
+        Ok(Self(invoker::Invoker::new(
+            application_context,
+            client,
+            invoker_options,
+        )?))
     }
 
     /// Requests a Property read
@@ -307,7 +315,11 @@ where
             .build()
             .unwrap();
 
-        Ok(Self(invoker::Invoker::new(application_context, client, invoker_options)?))
+        Ok(Self(invoker::Invoker::new(
+            application_context,
+            client,
+            invoker_options,
+        )?))
     }
 
     /// Requests a Property watch
@@ -366,7 +378,11 @@ where
             .build()
             .unwrap();
 
-        Ok(Self(invoker::Invoker::new(application_context, client, invoker_options)?))
+        Ok(Self(invoker::Invoker::new(
+            application_context,
+            client,
+            invoker_options,
+        )?))
     }
 
     /// Requests a Property unwatch

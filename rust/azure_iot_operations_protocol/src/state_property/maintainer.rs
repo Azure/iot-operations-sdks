@@ -239,7 +239,11 @@ where
             .build()
             .unwrap();
 
-        Ok(Self(executor::Executor::new(application_context, client, executor_options)?))
+        Ok(Self(executor::Executor::new(
+            application_context,
+            client,
+            executor_options,
+        )?))
     }
 
     /// Receive the next Property write or [`None`] if there will be no more requests
@@ -297,7 +301,11 @@ where
             .build()
             .unwrap();
 
-        Ok(Self(executor::Executor::new(application_context, client, executor_options)?))
+        Ok(Self(executor::Executor::new(
+            application_context,
+            client,
+            executor_options,
+        )?))
     }
 
     /// Receive the next Property read or [`None`] if there will be no more requests
@@ -354,7 +362,11 @@ where
             .build()
             .unwrap();
 
-        Ok(Self(executor::Executor::new(application_context, client, executor_options)?))
+        Ok(Self(executor::Executor::new(
+            application_context,
+            client,
+            executor_options,
+        )?))
     }
 
     /// Receive the next Property watch or [`None`] if there will be no more requests
@@ -411,7 +423,11 @@ where
             .build()
             .unwrap();
 
-        Ok(Self(executor::Executor::new(application_context, client, executor_options)?))
+        Ok(Self(executor::Executor::new(
+            application_context,
+            client,
+            executor_options,
+        )?))
     }
 
     /// Receive the next Property unwatch or [`None`] if there will be no more requests
