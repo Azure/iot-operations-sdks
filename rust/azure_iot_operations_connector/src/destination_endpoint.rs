@@ -73,36 +73,16 @@ impl Forwarder {
         default_destinations: &[Arc<Destination>],
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
-        // if the dataset has destinations defined, use them, otherwise use the default dataset destinations
-        let destination = match Destination::new_dataset_destinations(
-            dataset_destinations,
-            inbound_endpoint_name,
-            &connector_context,
-        )?
-        // for now, this vec will only ever be length 1
-        .pop()
-        {
-            Some(destination) => ForwarderDestination::DataOperationDestination(destination),
-            None => {
-                if default_destinations.is_empty() {
-                    Err(AdrConfigError {
-                                code: None,
-                                details: None,
-                                // TODO: this may not be true
-                                message: Some("Asset must have default dataset destinations if dataset doesn't have destinations".to_string()),
-                            })?
-                } else {
-                    // for now, this vec will only ever be length 1
-                    ForwarderDestination::DefaultDestination(default_destinations[0].clone())
-                }
-            }
-        };
-
-        Ok(Self {
-            message_schema_reference: None,
-            destination,
+        // Use internal new fn with dataset destinations
+        Self::new_data_operation_forwarder(
+            Destination::new_dataset_destinations(
+                dataset_destinations,
+                inbound_endpoint_name,
+                &connector_context,
+            )?,
+            default_destinations,
             connector_context,
-        })
+        )
     }
 
     /// Creates a new [`Forwarder`] from an event/stream definition's Destinations
@@ -118,15 +98,26 @@ impl Forwarder {
         default_destinations: &[Arc<Destination>],
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
-        // if the event/stream has destinations defined, use them, otherwise use the default event/stream destinations
-        let destination = match Destination::new_event_stream_destinations(
-            event_stream_destinations,
-            inbound_endpoint_name,
-            &connector_context,
-        )?
+        // Use internal new fn with event/stream destinations
+        Self::new_data_operation_forwarder(
+            Destination::new_event_stream_destinations(
+                event_stream_destinations,
+                inbound_endpoint_name,
+                &connector_context,
+            )?,
+            default_destinations,
+            connector_context,
+        )
+    }
+
+    fn new_data_operation_forwarder(
+        mut data_operation_destinations: Vec<Destination>,
+        default_destinations: &[Arc<Destination>],
+        connector_context: Arc<ConnectorContext>,
+    ) -> Result<Self, AdrConfigError> {
+        // if the data operation has destinations defined, use them, otherwise use the default data operation destinations
         // for now, this vec will only ever be length 1
-        .pop()
-        {
+        let destination = match data_operation_destinations.pop() {
             Some(destination) => ForwarderDestination::DataOperationDestination(destination),
             None => {
                 if default_destinations.is_empty() {
@@ -134,7 +125,7 @@ impl Forwarder {
                                 code: None,
                                 details: None,
                                 // TODO: this may not be true
-                                message: Some("Asset must have default event/stream destinations if event/stream doesn't have destinations".to_string()),
+                                message: Some("Asset must have default data operation destinations if data operation doesn't have destinations".to_string()),
                             })?
                 } else {
                     // for now, this vec will only ever be length 1
@@ -300,14 +291,14 @@ pub(crate) enum ForwarderDestination {
     DataOperationDestination(Destination),
 }
 
-pub(crate) enum DataOperationDestinationDefinition {
+enum DataOperationDestinationDefinition {
     /// Dataset destinations
     Dataset(adr_models::DatasetDestination),
     /// Event or Stream destinations
     EventStream(adr_models::EventStreamDestination),
 }
 
-pub(crate) enum DataOperationDestinationDefinitionTarget {
+enum DataOperationDestinationDefinitionTarget {
     /// Dataset destination target
     Dataset(adr_models::DatasetTarget),
     /// Event or Stream destination target
@@ -315,7 +306,7 @@ pub(crate) enum DataOperationDestinationDefinitionTarget {
 }
 
 impl DataOperationDestinationDefinition {
-    pub(crate) fn target(&self) -> DataOperationDestinationDefinitionTarget {
+    fn target(&self) -> DataOperationDestinationDefinitionTarget {
         match self {
             DataOperationDestinationDefinition::Dataset(destination) => {
                 DataOperationDestinationDefinitionTarget::Dataset(destination.target.clone())
@@ -326,7 +317,7 @@ impl DataOperationDestinationDefinition {
         }
     }
 
-    pub(crate) fn configuration(&self) -> &adr_models::DestinationConfiguration {
+    fn configuration(&self) -> &adr_models::DestinationConfiguration {
         match self {
             DataOperationDestinationDefinition::Dataset(destination) => &destination.configuration,
             DataOperationDestinationDefinition::EventStream(destination) => {
@@ -374,7 +365,7 @@ impl Destination {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_destinations[0];
             let destination = Self::new_data_operation_destination(
-                DataOperationDestinationDefinition::Dataset(definition_destination.clone()),
+                &DataOperationDestinationDefinition::Dataset(definition_destination.clone()),
                 inbound_endpoint_name,
                 connector_context,
             )?;
@@ -402,7 +393,7 @@ impl Destination {
             // for now, this vec will only ever be length 1
             let definition_destination = &event_stream_destinations[0];
             let destination = Self::new_data_operation_destination(
-                DataOperationDestinationDefinition::EventStream(definition_destination.clone()),
+                &DataOperationDestinationDefinition::EventStream(definition_destination.clone()),
                 inbound_endpoint_name,
                 connector_context,
             )?;
@@ -410,8 +401,8 @@ impl Destination {
         }
     }
 
-    pub(crate) fn new_data_operation_destination(
-        data_operation_destination_definition: DataOperationDestinationDefinition,
+    fn new_data_operation_destination(
+        data_operation_destination_definition: &DataOperationDestinationDefinition,
         inbound_endpoint_name: &str,
         connector_context: &Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
