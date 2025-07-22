@@ -366,7 +366,7 @@ namespace Azure.Iot.Operations.Connector.Files
         private bool isDeviceFile(string fileName)
         {
             // Ignore any symlink files like "..data" and ignore any files that don't look like {deviceName}_{inboundEndpointName}
-            return !fileName.StartsWith(".") && fileName.Contains("_");
+            return !fileName.StartsWith("..") && fileName.Contains("_");
         }
     }
 }
