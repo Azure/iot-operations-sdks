@@ -51,9 +51,10 @@ pub struct DeviceEndpointClientCreationObservation {
         deployment_artifacts::azure_device_registry::DeviceEndpointCreateObservation,
     /// Flag to track if device creation is in progress
     pending_device_creation: bool,
-    /// Channel for completed device endpoint clients
-    device_completion_rx: mpsc::UnboundedReceiver<DeviceEndpointClient>,
-    device_completion_tx: mpsc::UnboundedSender<DeviceEndpointClient>,
+    /// Channels for sending and receiving completed device endpoint clients
+    /// This is used to ensure that we only process one device creation at a time
+    device_completion_rx: mpsc::UnboundedReceiver<Option<DeviceEndpointClient>>,
+    device_completion_tx: mpsc::UnboundedSender<Option<DeviceEndpointClient>>,
 }
 impl DeviceEndpointClientCreationObservation {
     /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
@@ -87,9 +88,12 @@ impl DeviceEndpointClientCreationObservation {
             tokio::select! {
                 biased;
                 // Check for completed device creation
-                Some(device_client) = self.device_completion_rx.recv() => {
+                Some(device_client_option) = self.device_completion_rx.recv() => {
                     self.pending_device_creation = false;
-                    return device_client;
+                    if let Some(device_client) = device_client_option {
+                        return device_client;
+                    }
+                    // If device_client_option is None, creation failed, continue loop
                 },
                 // Get new device creation notifications only if not already processing one
                 create_notification = self.device_endpoint_create_observation.recv_notification(), if !self.pending_device_creation => {
@@ -109,10 +113,8 @@ impl DeviceEndpointClientCreationObservation {
                             asset_create_observation,
                         ).await;
 
-                        if let Some(client) = device_client {
-                            // Send the completed device client through the completion channel
-                            let _ = device_completion_tx.send(client);
-                        }
+                        // Always send the result (Some or None) to unblock the receiver
+                        let _ = device_completion_tx.send(device_client);
                     });
                     continue; // Continue the loop to wait for task completion
                 }
@@ -280,9 +282,9 @@ pub struct DeviceEndpointClient {
     pending_asset_creation: bool,
     /// Channel for completed asset clients
     #[getter(skip)]
-    asset_completion_rx: mpsc::UnboundedReceiver<AssetClient>,
+    asset_completion_rx: mpsc::UnboundedReceiver<Option<AssetClient>>,
     #[getter(skip)]
-    asset_completion_tx: mpsc::UnboundedSender<AssetClient>,
+    asset_completion_tx: mpsc::UnboundedSender<Option<AssetClient>>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -508,9 +510,12 @@ impl DeviceEndpointClient {
                     return ClientNotification::Updated;
                 },
                 // Check for completed asset creation
-                Some(asset_client) = self.asset_completion_rx.recv() => {
+                Some(asset_client_option) = self.asset_completion_rx.recv() => {
                     self.pending_asset_creation = false;
-                    return ClientNotification::Created(asset_client);
+                    if let Some(asset_client) = asset_client_option {
+                        return ClientNotification::Created(asset_client);
+                    }
+                    // If asset_client_option is None, creation failed, continue loop
                 },
                 create_notification = self.asset_create_observation.recv_notification(), if !self.pending_asset_creation => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
@@ -547,10 +552,8 @@ impl DeviceEndpointClient {
                             status,
                         ).await;
 
-                        if let Some(client) = asset_client {
-                            // Send the completed asset client through the completion channel
-                            let _ = asset_completion_tx.send(client);
-                        }
+                        // Always send the result (Some or None) to unblock the receiver
+                        let _ = asset_completion_tx.send(asset_client);
                     });
                     continue; // Continue the loop to wait for task completion
                 }
