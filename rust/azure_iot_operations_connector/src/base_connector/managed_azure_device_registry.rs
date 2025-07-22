@@ -128,18 +128,20 @@ impl DeviceEndpointClientCreationObservation {
         device_endpoint_ref: DeviceEndpointRef,
         asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
     ) -> Option<DeviceEndpointClient> {
-        // and then get device update observation as well
-        let device_endpoint_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter), async || -> Result<azure_device_registry::DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
-            connector_context
-                .azure_device_registry_client
-                .observe_device_update_notifications(
-                    device_endpoint_ref.device_name.clone(),
-                    device_endpoint_ref.inbound_endpoint_name.clone(),
-                    connector_context.default_timeout,
-                )
-                // retry on network errors, otherwise don't retry on config/dev errors
-                .await
-                .map_err(|e| adr_error_into_retry_error(e, "Observe for Device Updates"))
+        // Obtain the device update observation
+        let device_endpoint_update_observation =  match Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
+            async || -> Result<azure_device_registry::DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+                connector_context
+                    .azure_device_registry_client
+                    .observe_device_update_notifications(
+                        device_endpoint_ref.device_name.clone(),
+                        device_endpoint_ref.inbound_endpoint_name.clone(),
+                        connector_context.default_timeout,
+                    )
+                    // retry on network errors, otherwise don't retry on config/dev errors
+                    .await
+                    .map_err(|e| adr_error_into_retry_error(e, "Observe for Device Updates"))
         }).await {
             Ok(device_update_observation) => device_update_observation,
             Err(e) => {
@@ -148,7 +150,7 @@ impl DeviceEndpointClientCreationObservation {
             },
         };
 
-        // get the device definition
+        // Get the device definition
         let device = match Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<adr_models::Device, RetryError<azure_device_registry::Error>> {
@@ -171,18 +173,8 @@ impl DeviceEndpointClientCreationObservation {
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device definition after retries: {e}"
                 );
                 // unobserve as cleanup
-                // Spawn a new task to prevent a possible cancellation and ensure the unobserve
-                // happens
-                tokio::task::spawn({
-                    let connector_context_clone = connector_context.clone();
-                    async move {
-                        DeviceEndpointClient::unobserve_device(
-                            &connector_context_clone,
-                            &device_endpoint_ref,
-                        )
-                        .await;
-                    }
-                });
+                DeviceEndpointClient::unobserve_device(&connector_context, &device_endpoint_ref)
+                    .await;
                 return None;
             }
         };
@@ -208,19 +200,10 @@ impl DeviceEndpointClientCreationObservation {
             Err(e) => {
                 log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}. Failed to get Device Status after retries: {e}");
                 // unobserve as cleanup
-                // Spawn a new task to prevent a possible cancellation and ensure the unobserve
-                // happens
-                tokio::task::spawn(
-                    {
-                        let connector_context_clone = connector_context.clone();
-                        async move {
-                            DeviceEndpointClient::unobserve_device(
-                                &connector_context_clone,
-                                &device_endpoint_ref)
-                            .await;
-                        }
-                    }
-                );
+                DeviceEndpointClient::unobserve_device(
+                    &connector_context,
+                    &device_endpoint_ref)
+                .await;
                 return None;
             }
         };
@@ -242,18 +225,8 @@ impl DeviceEndpointClientCreationObservation {
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
                 );
                 // unobserve as cleanup
-                // Spawn a new task to prevent a possible cancellation and ensure the unobserve
-                // happens.
-                tokio::task::spawn({
-                    let connector_context_clone = connector_context.clone();
-                    async move {
-                        DeviceEndpointClient::unobserve_device(
-                            &connector_context_clone,
-                            &device_endpoint_ref,
-                        )
-                        .await;
-                    }
-                });
+                DeviceEndpointClient::unobserve_device(&connector_context, &device_endpoint_ref)
+                    .await;
                 None
             }
         }
@@ -612,14 +585,11 @@ impl DeviceEndpointClient {
         {
             Ok(asset) => asset,
             Err(e) => {
-                log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}");
+                log::error!(
+                    "Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}"
+                );
                 // unobserve as cleanup
-                tokio::task::spawn({
-                    let connector_context_clone = connector_context.clone();
-                    async move {
-                        AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
-                    }
-                });
+                AssetClient::unobserve_asset(&connector_context, &asset_ref).await;
                 return None;
             }
         };
@@ -645,28 +615,25 @@ impl DeviceEndpointClient {
             Err(e) => {
                 log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset status after retries: {e}");
                 // unobserve as cleanup
-                tokio::task::spawn({
-                    let connector_context_clone = connector_context.clone();
-                    async move {
-                        AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
-                    }
-                });
+                AssetClient::unobserve_asset(&connector_context, &asset_ref).await;
                 return None;
             },
         };
 
         // Create the AssetClient
-        Some(AssetClient::new(
-            asset,
-            asset_status,
-            asset_ref,
-            specification,
-            status,
-            asset_update_observation,
-            asset_deletion_token,
-            connector_context,
+        Some(
+            AssetClient::new(
+                asset,
+                asset_status,
+                asset_ref,
+                specification,
+                status,
+                asset_update_observation,
+                asset_deletion_token,
+                connector_context,
+            )
+            .await,
         )
-        .await)
     }
 
     // Returns a clone of the current device status
