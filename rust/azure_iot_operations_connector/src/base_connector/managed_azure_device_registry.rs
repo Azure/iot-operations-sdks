@@ -230,6 +230,14 @@ pub struct DeviceEndpointClient {
     device_update_observation: azure_device_registry::DeviceUpdateObservation,
     #[getter(skip)]
     asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
+    /// Flag to track if asset creation is in progress
+    #[getter(skip)]
+    pending_asset_creation: bool,
+    /// Channel for completed asset clients
+    #[getter(skip)]
+    asset_completion_rx: mpsc::UnboundedReceiver<AssetClient>,
+    #[getter(skip)]
+    asset_completion_tx: mpsc::UnboundedSender<AssetClient>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -243,6 +251,7 @@ impl DeviceEndpointClient {
         connector_context: Arc<ConnectorContext>,
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
+        let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
         Ok(DeviceEndpointClient {
             specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
                 device,
@@ -259,6 +268,9 @@ impl DeviceEndpointClient {
             device_endpoint_ref,
             device_update_observation,
             asset_create_observation,
+            pending_asset_creation: false,
+            asset_completion_rx,
+            asset_completion_tx,
             connector_context,
         })
     }
@@ -450,7 +462,12 @@ impl DeviceEndpointClient {
                     ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
                     return ClientNotification::Updated;
                 },
-                create_notification = self.asset_create_observation.recv_notification() => {
+                // Check for completed asset creation
+                Some(asset_client) = self.asset_completion_rx.recv() => {
+                    self.pending_asset_creation = false;
+                    return ClientNotification::Created(asset_client);
+                },
+                create_notification = self.asset_create_observation.recv_notification(), if !self.pending_asset_creation => {
                     let Some((asset_ref, asset_deletion_token)) = create_notification else {
                         // if the create notification is None, then the device endpoint has been deleted
                         log::debug!("Device Endpoint Deletion detected, stopping device update observation for {:?}", self.device_endpoint_ref);
@@ -468,115 +485,145 @@ impl DeviceEndpointClient {
                         );
                         return ClientNotification::Deleted;
                     };
-                    // Get asset update observation as well
-                    let asset_update_observation =  match Retry::spawn(
-                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
-                        async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
-                            self.connector_context
-                                .azure_device_registry_client
-                                .observe_asset_update_notifications(
-                                    asset_ref.device_name.clone(),
-                                    asset_ref.inbound_endpoint_name.clone(),
-                                    asset_ref.name.clone(),
-                                    self.connector_context.default_timeout,
-                                )
-                                // retry on network errors, otherwise don't retry on config/dev errors
-                                .await
-                                .map_err(|e| adr_error_into_retry_error(e, "Observe for Asset Updates"))
-                    }).await {
-                        Ok(asset_update_observation) => asset_update_observation,
-                        Err(e) => {
-                            log::error!("Dropping asset create notification: {asset_ref:?}. Failed to observe for asset update notifications after retries: {e}");
-                            continue;
-                        },
-                    };
 
-                    // get the asset definition
-                    let asset_client = match Retry::spawn(
-                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
-                        async || -> Result<adr_models::Asset, RetryError<azure_device_registry::Error>> {
-                            self.connector_context
-                                .azure_device_registry_client
-                                .get_asset(
-                                    asset_ref.device_name.clone(),
-                                    asset_ref.inbound_endpoint_name.clone(),
-                                    asset_ref.name.clone(),
-                                    self.connector_context.default_timeout,
-                                )
-                                .await
-                                .map_err(|e| adr_error_into_retry_error(e, "Get Asset Definition"))
-                        },
-                    )
-                    .await
-                    {
-                        Ok(asset) => {
-                            // get the asset status
-                            match Retry::spawn(
-                                RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
-                                async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
-                                    self.connector_context
-                                        .azure_device_registry_client
-                                        .get_asset_status(
-                                            asset_ref.device_name.clone(),
-                                            asset_ref.inbound_endpoint_name.clone(),
-                                            asset_ref.name.clone(),
-                                            self.connector_context.default_timeout,
-                                        )
-                                        .await
-                                        .map_err(|e| adr_error_into_retry_error(e, "Get Asset Status"))
-                                },
-                            )
-                            .await {
-                                Ok(asset_status) => {
-                                    AssetClient::new(
-                                        asset,
-                                        asset_status,
-                                        asset_ref,
-                                        self.specification.clone(),
-                                        self.status.clone(),
-                                        asset_update_observation,
-                                        asset_deletion_token,
-                                        self.connector_context.clone(),
-                                    )
-                                    .await
-                                },
-                                Err(e) => {
-                                    log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset status after retries: {e}");
-                                    // unobserve as cleanup
-                                    // Spawn a new task to prevent a possible cancellation and ensure
-                                    // the unobserve happens.
-                                    tokio::task::spawn(
-                                        {
-                                            let connector_context_clone = self.connector_context.clone();
-                                            async move {
-                                                AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
-                                            }
-                                        }
-                                    );
-                                    continue;
-                                },
-                            }
-                        }
-                        Err(e) => {
-                            log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}");
-                            // unobserve as cleanup
-                            // Spawn a new task to prevent a possible cancellation and ensure the
-                            // unobserve happens.
-                            tokio::task::spawn(
-                                {
-                                    let connector_context_clone = self.connector_context.clone();
-                                    async move {
-                                        AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
-                                    }
-                                }
-                            );
-                            continue;
-                        }
-                    };
-                    return ClientNotification::Created(asset_client);
+                    // Start asset creation task
+                    self.pending_asset_creation = true;
+                    self.start_asset_creation_task(asset_ref, asset_deletion_token);
+                    continue; // Continue the loop to wait for task completion
                 }
             }
         }
+    }
+
+    /// Internal helper to start an asset creation task
+    fn start_asset_creation_task(&self, asset_ref: AssetRef, asset_deletion_token: CancellationToken) {
+        let connector_context = self.connector_context.clone();
+        let specification = self.specification.clone();
+        let status = self.status.clone();
+        let asset_completion_tx = self.asset_completion_tx.clone();
+
+        tokio::task::spawn(async move {
+            let asset_client = Self::create_asset_client(
+                connector_context,
+                asset_ref,
+                asset_deletion_token,
+                specification,
+                status,
+            ).await;
+
+            if let Some(client) = asset_client {
+                // Send the completed asset client through the completion channel
+                let _ = asset_completion_tx.send(client);
+            }
+        });
+    }
+
+    /// Internal helper to create an [`AssetClient`]
+    async fn create_asset_client(
+        connector_context: Arc<ConnectorContext>,
+        asset_ref: AssetRef,
+        asset_deletion_token: CancellationToken,
+        specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+        status: Arc<std::sync::RwLock<DeviceEndpointStatus>>,
+    ) -> Option<AssetClient> {
+        // Get asset update observation as well
+        let asset_update_observation = match Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
+            async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
+                connector_context
+                    .azure_device_registry_client
+                    .observe_asset_update_notifications(
+                        asset_ref.device_name.clone(),
+                        asset_ref.inbound_endpoint_name.clone(),
+                        asset_ref.name.clone(),
+                        connector_context.default_timeout,
+                    )
+                    // retry on network errors, otherwise don't retry on config/dev errors
+                    .await
+                    .map_err(|e| adr_error_into_retry_error(e, "Observe for Asset Updates"))
+        }).await {
+            Ok(asset_update_observation) => asset_update_observation,
+            Err(e) => {
+                log::error!("Dropping asset create notification: {asset_ref:?}. Failed to observe for asset update notifications after retries: {e}");
+                return None;
+            },
+        };
+
+        // get the asset definition
+        let asset = match Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
+            async || -> Result<adr_models::Asset, RetryError<azure_device_registry::Error>> {
+                connector_context
+                    .azure_device_registry_client
+                    .get_asset(
+                        asset_ref.device_name.clone(),
+                        asset_ref.inbound_endpoint_name.clone(),
+                        asset_ref.name.clone(),
+                        connector_context.default_timeout,
+                    )
+                    .await
+                    .map_err(|e| adr_error_into_retry_error(e, "Get Asset Definition"))
+            },
+        )
+        .await
+        {
+            Ok(asset) => asset,
+            Err(e) => {
+                log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset definition after retries: {e}");
+                // unobserve as cleanup
+                tokio::task::spawn({
+                    let connector_context_clone = connector_context.clone();
+                    async move {
+                        AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
+                    }
+                });
+                return None;
+            }
+        };
+
+        // get the asset status
+        let asset_status = match Retry::spawn(
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
+            async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
+                connector_context
+                    .azure_device_registry_client
+                    .get_asset_status(
+                        asset_ref.device_name.clone(),
+                        asset_ref.inbound_endpoint_name.clone(),
+                        asset_ref.name.clone(),
+                        connector_context.default_timeout,
+                    )
+                    .await
+                    .map_err(|e| adr_error_into_retry_error(e, "Get Asset Status"))
+            },
+        )
+        .await {
+            Ok(asset_status) => asset_status,
+            Err(e) => {
+                log::error!("Dropping asset create notification: {asset_ref:?}. Failed to get Asset status after retries: {e}");
+                // unobserve as cleanup
+                tokio::task::spawn({
+                    let connector_context_clone = connector_context.clone();
+                    async move {
+                        AssetClient::unobserve_asset(&connector_context_clone, &asset_ref).await;
+                    }
+                });
+                return None;
+            },
+        };
+
+        // Create the AssetClient
+        Some(AssetClient::new(
+            asset,
+            asset_status,
+            asset_ref,
+            specification,
+            status,
+            asset_update_observation,
+            asset_deletion_token,
+            connector_context,
+        )
+        .await)
     }
 
     // Returns a clone of the current device status
