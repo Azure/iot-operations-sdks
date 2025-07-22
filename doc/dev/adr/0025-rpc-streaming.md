@@ -117,9 +117,6 @@ TODO which existing client works well for long-running commands? Mem mon ("Repor
 - All **completed** streamed command responses will be added to the command response cache
   - If we cache incompleted commands, will the cache hit just wait on cache additions to get the remaining responses?
   - Cache exists for de-duplication, and we want that even for long-running RPC, right?
-    - Re-sending previous responses would potentially get picked up by the original invoker twice
-      - Enforced unique stream response Ids would help de-dup on the invoker side
-        - Needless traffic here though
   - Separate cache for data structure purposes?
 
 ### Protocol version update
