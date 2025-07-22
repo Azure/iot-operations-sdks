@@ -179,7 +179,7 @@ impl DeviceEndpointClientCreationObservation {
             }
         };
 
-        // get the device status
+        // Get the device status
         let device_status = match Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error>> {
@@ -253,7 +253,8 @@ pub struct DeviceEndpointClient {
     /// Flag to track if asset creation is in progress
     #[getter(skip)]
     pending_asset_creation: bool,
-    /// Channel for completed asset clients
+    /// Channels for sending and receiving completed asset clients.
+    /// This is used to ensure that we only process one device creation at a time
     #[getter(skip)]
     asset_completion_rx: mpsc::UnboundedReceiver<Option<AssetClient>>,
     #[getter(skip)]
@@ -272,6 +273,7 @@ impl DeviceEndpointClient {
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
+
         Ok(DeviceEndpointClient {
             specification: Arc::new(std::sync::RwLock::new(DeviceSpecification::new(
                 device,
@@ -542,7 +544,7 @@ impl DeviceEndpointClient {
         specification: Arc<std::sync::RwLock<DeviceSpecification>>,
         status: Arc<std::sync::RwLock<DeviceEndpointStatus>>,
     ) -> Option<AssetClient> {
-        // Get asset update observation as well
+        // Get asset update observation
         let asset_update_observation = match Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
@@ -565,7 +567,7 @@ impl DeviceEndpointClient {
             },
         };
 
-        // get the asset definition
+        // Get the asset definition
         let asset = match Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<adr_models::Asset, RetryError<azure_device_registry::Error>> {
@@ -594,7 +596,7 @@ impl DeviceEndpointClient {
             }
         };
 
-        // get the asset status
+        // Get the asset status
         let asset_status = match Retry::spawn(
             RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
