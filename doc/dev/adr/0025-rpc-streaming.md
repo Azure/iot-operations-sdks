@@ -17,6 +17,10 @@ Users have expressed a desire to allow more than one response per RPC invocation
 ## Non-requirements
  - Different payload shapes per command response 
 
+## State of the art
+
+What does gRPC do?
+
 ## Decision
 
 Our command invoker base class will now include a new method ```InvokeCommandWithStreaming``` to go with the existing ```InvokeCommand``` method. 
