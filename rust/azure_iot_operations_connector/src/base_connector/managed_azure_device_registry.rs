@@ -99,34 +99,25 @@ impl DeviceEndpointClientCreationObservation {
 
                     // Start device creation task
                     self.pending_device_creation = true;
-                    self.start_device_creation_task(device_endpoint_ref, asset_create_observation);
+                    let connector_context = self.connector_context.clone();
+                    let device_completion_tx = self.device_completion_tx.clone();
+
+                    tokio::task::spawn(async move {
+                        let device_client = Self::create_device_endpoint_client(
+                            connector_context,
+                            device_endpoint_ref,
+                            asset_create_observation,
+                        ).await;
+
+                        if let Some(client) = device_client {
+                            // Send the completed device client through the completion channel
+                            let _ = device_completion_tx.send(client);
+                        }
+                    });
                     continue; // Continue the loop to wait for task completion
                 }
             }
         }
-    }
-
-    /// Internal helper to start a device creation task
-    fn start_device_creation_task(
-        &self,
-        device_endpoint_ref: DeviceEndpointRef,
-        asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
-    ) {
-        let connector_context = self.connector_context.clone();
-        let device_completion_tx = self.device_completion_tx.clone();
-
-        tokio::task::spawn(async move {
-            let device_client = Self::create_device_endpoint_client(
-                connector_context,
-                device_endpoint_ref,
-                asset_create_observation,
-            ).await;
-
-            if let Some(client) = device_client {
-                // Send the completed device client through the completion channel
-                let _ = device_completion_tx.send(client);
-            }
-        });
     }
 
     /// Internal helper to create a [`DeviceEndpointClient`]
@@ -542,34 +533,29 @@ impl DeviceEndpointClient {
 
                     // Start asset creation task
                     self.pending_asset_creation = true;
-                    self.start_asset_creation_task(asset_ref, asset_deletion_token);
+                    let connector_context = self.connector_context.clone();
+                    let specification = self.specification.clone();
+                    let status = self.status.clone();
+                    let asset_completion_tx = self.asset_completion_tx.clone();
+
+                    tokio::task::spawn(async move {
+                        let asset_client = Self::create_asset_client(
+                            connector_context,
+                            asset_ref,
+                            asset_deletion_token,
+                            specification,
+                            status,
+                        ).await;
+
+                        if let Some(client) = asset_client {
+                            // Send the completed asset client through the completion channel
+                            let _ = asset_completion_tx.send(client);
+                        }
+                    });
                     continue; // Continue the loop to wait for task completion
                 }
             }
         }
-    }
-
-    /// Internal helper to start an asset creation task
-    fn start_asset_creation_task(&self, asset_ref: AssetRef, asset_deletion_token: CancellationToken) {
-        let connector_context = self.connector_context.clone();
-        let specification = self.specification.clone();
-        let status = self.status.clone();
-        let asset_completion_tx = self.asset_completion_tx.clone();
-
-        tokio::task::spawn(async move {
-            let asset_client = Self::create_asset_client(
-                connector_context,
-                asset_ref,
-                asset_deletion_token,
-                specification,
-                status,
-            ).await;
-
-            if let Some(client) = asset_client {
-                // Send the completed asset client through the completion channel
-                let _ = asset_completion_tx.send(client);
-            }
-        });
     }
 
     /// Internal helper to create an [`AssetClient`]
