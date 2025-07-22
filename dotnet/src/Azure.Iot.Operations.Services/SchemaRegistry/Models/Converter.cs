@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Services.SchemaRegistry.Models
 {
+    /// <summary>
+    /// Class for converting from generated types to wrapped types
+    /// </summary>
     internal class Converter
     {
         internal static Models.SchemaRegistryErrorCode toModel(Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaRegistryErrorCode generated)
