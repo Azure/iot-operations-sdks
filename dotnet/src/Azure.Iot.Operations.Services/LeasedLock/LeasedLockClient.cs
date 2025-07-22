@@ -169,6 +169,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// </summary>
         /// <param name="leaseDuration">The duration for which the lock will be held. This value only has millisecond-level precision.</param>
         /// <param name="options">The lock request options.</param>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>AcquireLockResponse object with result (and fencing token if the lock was successfully acquired.)</returns>
         /// <remarks>
@@ -184,12 +185,12 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// each attempt to acquire a lock.
         /// </para>
         /// </remarks>
-        public virtual async Task<AcquireLockResponse> TryAcquireLockAsync(TimeSpan leaseDuration, AcquireLockRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task<AcquireLockResponse> TryAcquireLockAsync(TimeSpan leaseDuration, AcquireLockRequestOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            AcquireLockResponse acquireLockResponse = await TryAcquireLockWithoutEnablingAutoRenewalAsync(leaseDuration, options, cancellationToken);
+            AcquireLockResponse acquireLockResponse = await TryAcquireLockWithoutEnablingAutoRenewalAsync(leaseDuration, options, timeout, cancellationToken);
 
             if (acquireLockResponse.Success
                 && AutomaticRenewalOptions != null
@@ -201,7 +202,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             return acquireLockResponse;
         }
 
-        private async Task<AcquireLockResponse> TryAcquireLockWithoutEnablingAutoRenewalAsync(TimeSpan leaseDuration, AcquireLockRequestOptions? options = null, CancellationToken cancellationToken = default)
+        private async Task<AcquireLockResponse> TryAcquireLockWithoutEnablingAutoRenewalAsync(TimeSpan leaseDuration, AcquireLockRequestOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -225,7 +226,8 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                         Condition = SetCondition.OnlyIfEqualOrNotSet,
                         ExpiryTime = leaseDuration,
                     },
-                    cancellationToken: cancellationToken).ConfigureAwait(false);
+                    timeout,
+                    cancellationToken).ConfigureAwait(false);
 
             MostRecentAcquireLockResponse = new AcquireLockResponse(
                 setResponse.Version,
@@ -250,6 +252,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                         await TryAcquireLockWithoutEnablingAutoRenewalAsync(
                             AutomaticRenewalOptions.LeaseTermLength,
                             options,
+                            null,
                             _renewalTimerCancellationToken.Token);
 
                     if (!MostRecentAcquireLockResponse.Success)
@@ -290,6 +293,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// </summary>
         /// <param name="leaseDuration">The duration for which the lock will be held if the lock is acquired This value only has millisecond-level precision.</param>
         /// <param name="options">The lock request options.</param>
+        /// <param name="timeoutPerRequest">The maximum amount of time to wait for a service response to each request made by this method. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The service response object containing the fencing token if the lock was successfully acquired.</returns>
         /// <para>
@@ -305,7 +309,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// notifications about when it is possible to acquire this lock. Since it is possible
         /// that a lock may never be acquired, it is highly recommended to provided a cancellation token.
         /// </para>
-        public virtual async Task<AcquireLockResponse> AcquireLockAsync(TimeSpan leaseDuration, AcquireLockRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task<AcquireLockResponse> AcquireLockAsync(TimeSpan leaseDuration, AcquireLockRequestOptions? options = null, TimeSpan? timeoutPerRequest = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -328,7 +332,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                 AcquireLockResponse response;
                 do
                 {
-                    response = await TryAcquireLockAsync(leaseDuration, options, cancellationToken).ConfigureAwait(false);
+                    response = await TryAcquireLockAsync(leaseDuration, options, timeoutPerRequest, cancellationToken).ConfigureAwait(false);
 
                     // The initial set call failed to acquire the lock. Now this process will wait to be notified when
                     // the key's state has changed to deleted before attempting to acquire it again.
@@ -382,12 +386,16 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// this client is interrupted or encounters a fatal exception. By setting a low value for this field, you limit
         /// how long the lock can be acquired for before it is released automatically by the service.
         /// </param>
+        /// <param name="timeoutPerRequest">
+        /// How long to wait (per request made to service) before timing out. This method makes several calls to the service when
+        /// acquiring the lock, editing the resource, and then releasing the lock and each of these requests can time out. By default, this is 10 seconds.
+        /// </param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// This function will always release the lock if it was acquired. Even if cancellation is requested
         /// when the lock is acquired, this function will release the lock.
         /// </remarks>
-        public async Task AcquireLockAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumLeaseDuration = null, CancellationToken cancellationToken = default)
+        public async Task AcquireLockAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumLeaseDuration = null, TimeSpan? timeoutPerRequest = null, CancellationToken cancellationToken = default)
         {
             TimeSpan leaseDurationVerified = maximumLeaseDuration ?? _maximumDefaultLeaseDuration;
 
@@ -396,7 +404,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             while (!valueChanged)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                AcquireLockResponse acquireLockResponse = await AcquireLockAsync(leaseDurationVerified, cancellationToken: cancellationToken);
+                AcquireLockResponse acquireLockResponse = await AcquireLockAsync(leaseDurationVerified, null, timeoutPerRequest, cancellationToken);
 
                 if (!acquireLockResponse.Success)
                 {
@@ -405,7 +413,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
                 try
                 {
-                    StateStoreGetResponse getResponse = await _stateStoreClient.GetAsync(key, cancellationToken: cancellationToken);
+                    StateStoreGetResponse getResponse = await _stateStoreClient.GetAsync(key, timeoutPerRequest, cancellationToken: cancellationToken);
 
                     StateStoreValue? newValue = updateValueFunc.Invoke(getResponse.Value);
 
@@ -416,7 +424,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                             FencingToken = acquireLockResponse.FencingToken,
                         };
 
-                        StateStoreDeleteResponse deleteResponse = await _stateStoreClient.DeleteAsync(key, deleteOptions, cancellationToken: cancellationToken);
+                        StateStoreDeleteResponse deleteResponse = await _stateStoreClient.DeleteAsync(key, deleteOptions, timeoutPerRequest, cancellationToken);
                         valueChanged = deleteResponse.DeletedItemsCount == 1;
                     }
                     else
@@ -426,7 +434,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                             FencingToken = acquireLockResponse.FencingToken,
                         };
 
-                        StateStoreSetResponse setResponse = await _stateStoreClient.SetAsync(key, newValue, setOptions, cancellationToken: cancellationToken);
+                        StateStoreSetResponse setResponse = await _stateStoreClient.SetAsync(key, newValue, setOptions, timeoutPerRequest, cancellationToken: cancellationToken);
                         valueChanged = setResponse.Success;
                     }
                 }
@@ -439,7 +447,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                     // Also note that this request may fail if this process no longer owns the lock,
                     // but that case isn't a problem because that is the desired state. Because of that,
                     // there is no need to check the return value here.
-                    await ReleaseLockAsync(cancellationToken: CancellationToken.None);
+                    await ReleaseLockAsync(null, timeoutPerRequest, CancellationToken.None);
                 }
             }
         }
@@ -447,6 +455,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// Get the current holder of the lock.
         /// </summary>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The details about the current holder of the lock.</returns>
         /// <remarks>
@@ -454,7 +463,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// This function will return this value so that the owner of the lock can be identified by one or both
         /// of these fields.
         /// </remarks>
-        public virtual async Task<GetLockHolderResponse> GetLockHolderAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<GetLockHolderResponse> GetLockHolderAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -462,7 +471,8 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             Debug.Assert(_lockKey != null);
             StateStoreGetResponse getResponse = await _stateStoreClient.GetAsync(
                 _lockKey,
-                cancellationToken: cancellationToken).ConfigureAwait(false);
+                timeout,
+                cancellationToken).ConfigureAwait(false);
 
             if (getResponse.Value == null)
             {
@@ -475,8 +485,11 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// Attempt to release a lock with the provided name.
         /// </summary>
+        /// <param name="options">The optional parameters for this request.</param>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The response to the request.</returns>
-        public virtual async Task<ReleaseLockResponse> ReleaseLockAsync(ReleaseLockRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task<ReleaseLockResponse> ReleaseLockAsync(ReleaseLockRequestOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -494,7 +507,8 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                     {
                         OnlyDeleteIfValueEquals = value,
                     },
-                    cancellationToken: cancellationToken).ConfigureAwait(false);
+                    timeout,
+                    cancellationToken).ConfigureAwait(false);
 
             if (options.CancelAutomaticRenewal)
             {
@@ -507,6 +521,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// Start receiving notifications when the lock holder changes for this leased lock.
         /// </summary>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// Users who want to watch lock holder change events must first set one or more handlers on
@@ -514,7 +529,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// To stop watching lock holder change events, call <see cref="UnobserveLockAsync(CancellationToken)"/>
         /// and then remove any handlers from <see cref="LockChangeEventReceivedAsync"/>.
         /// </remarks>
-        public virtual async Task ObserveLockAsync(CancellationToken cancellationToken = default)
+        public virtual async Task ObserveLockAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -522,7 +537,8 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             Debug.Assert(_lockKey != null);
             await _stateStoreClient.ObserveAsync(
                 _lockKey,
-                cancellationToken: cancellationToken).ConfigureAwait(false);
+                timeout,
+                cancellationToken).ConfigureAwait(false);
 
             _isObservingLock = true;
         }
@@ -530,6 +546,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// <summary>
         /// Stop receiving notifications when the lock holder changes.
         /// </summary>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// Users who want to watch lock holder change events must first set one or more handlers on
@@ -537,13 +554,13 @@ namespace Azure.Iot.Operations.Services.LeasedLock
         /// To stop watching lock holder change events, call this function
         /// and then remove any handlers from <see cref="LockChangeEventReceivedAsync"/>.
         /// </remarks>
-        public virtual async Task UnobserveLockAsync(CancellationToken cancellationToken = default)
+        public virtual async Task UnobserveLockAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
             Debug.Assert(_lockKey != null);
-            await _stateStoreClient.UnobserveAsync(_lockKey, cancellationToken: cancellationToken).ConfigureAwait(false);
+            await _stateStoreClient.UnobserveAsync(_lockKey, timeout, cancellationToken).ConfigureAwait(false);
             _isObservingLock = false;
         }
 
