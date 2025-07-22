@@ -4,8 +4,8 @@ package schemaregistry
 type GetRequestSchema struct {
 
 	// Schema name.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name"`
 
 	// Version of the schema. Allowed between 0-9.
-	Version *string `json:"version,omitempty"`
+	Version string `json:"version"`
 }
