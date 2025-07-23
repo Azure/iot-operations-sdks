@@ -26,6 +26,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                 mock => mock.TryAcquireLockAsync(
                     expectedDuration,
                     It.IsAny<AcquireLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token))
                 .Returns(Task.FromResult(acquireLockResponse));
 
@@ -37,6 +38,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                 mock.TryAcquireLockAsync(
                     expectedDuration,
                     It.IsAny<AcquireLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token),
                 Times.Once());
             Assert.True(response.IsLeader);
@@ -59,6 +61,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                 mock => mock.TryAcquireLockAsync(
                     expectedDuration,
                     It.IsAny<AcquireLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token))
                 .Returns(Task.FromResult(acquireLockResponse));
 
@@ -70,6 +73,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                 mock.TryAcquireLockAsync(
                     expectedDuration,
                     It.IsAny<AcquireLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token),
                 Times.Once());
 
@@ -93,6 +97,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                 mock => mock.AcquireLockAsync(
                     expectedDuration,
                     It.IsAny<AcquireLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token))
                 .Returns(Task.FromResult(acquireLockResponse));
 
@@ -104,6 +109,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                 mock.AcquireLockAsync(
                     expectedDuration,
                     It.IsAny<AcquireLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token),
                 Times.Once());
             Assert.True(response.IsLeader);
@@ -126,6 +132,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                 mock => mock.AcquireLockAsync(
                     expectedDuration,
                     It.IsAny<AcquireLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token))
                 .Returns(Task.FromResult(acquireLockResponse));
 
@@ -137,6 +144,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
                 mock.AcquireLockAsync(
                     expectedDuration,
                     It.IsAny<AcquireLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token),
                 Times.Once());
 
@@ -157,16 +165,16 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
 
             mockedLeasedLockClient.Setup(
                 mock => mock.GetLockHolderAsync(
-                    tokenSource.Token))
+                    null, tokenSource.Token))
                 .Returns(Task.FromResult(getLockHolderResponse));
 
 
             // act
-            GetCurrentLeaderResponse response = await leaderElectionClient.GetCurrentLeaderAsync(tokenSource.Token);
+            GetCurrentLeaderResponse response = await leaderElectionClient.GetCurrentLeaderAsync(null, tokenSource.Token);
 
             // assert
             mockedLeasedLockClient.Verify(mock =>
-                mock.GetLockHolderAsync(tokenSource.Token),
+                mock.GetLockHolderAsync(null, tokenSource.Token),
                 Times.Once());
             Assert.NotNull(response.CurrentLeader);
             Assert.Equal("somePreviousValue", response.CurrentLeader.GetString());
@@ -187,6 +195,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             mockedLeasedLockClient.Setup(
                 mock => mock.ReleaseLockAsync(
                     It.IsAny<ReleaseLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token))
                 .Returns(Task.FromResult(releaseLockHolderResponse));
 
@@ -196,12 +205,13 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             };
 
             // act
-            ResignationResponse response = await leaderElectionClient.ResignAsync(options, tokenSource.Token);
+            ResignationResponse response = await leaderElectionClient.ResignAsync(options, null, tokenSource.Token);
 
             // assert
             mockedLeasedLockClient.Verify(mock =>
                 mock.ReleaseLockAsync(
                     It.IsAny<ReleaseLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token),
                 Times.Once());
 
@@ -223,6 +233,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             mockedLeasedLockClient.Setup(
                 mock => mock.ReleaseLockAsync(
                     It.IsAny<ReleaseLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token))
                 .Returns(Task.FromResult(releaseLockHolderResponse));
 
@@ -232,12 +243,13 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             };
 
             // act
-            ResignationResponse response = await leaderElectionClient.ResignAsync(options, tokenSource.Token);
+            ResignationResponse response = await leaderElectionClient.ResignAsync(options, null, tokenSource.Token);
 
             // assert
             mockedLeasedLockClient.Verify(mock =>
                 mock.ReleaseLockAsync(
                     It.IsAny<ReleaseLockRequestOptions>(),
+                    It.IsAny<TimeSpan?>(),
                     tokenSource.Token),
                 Times.Once());
 
@@ -349,7 +361,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
 
             // act, assert
             await Assert.ThrowsAsync<ObjectDisposedException>(
-                async () => await leaderElectionClient.GetCurrentLeaderAsync(tokenSource.Token));
+                async () => await leaderElectionClient.GetCurrentLeaderAsync(null, tokenSource.Token));
         }
 
         [Fact]
@@ -376,14 +388,15 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
 
             mockedLeasedLockClient.Setup(
                 mock => mock.ObserveLockAsync(
-                    tokenSource.Token));
+                    null, tokenSource.Token));
 
             // act
-            await leaderElectionClient.ObserveLeadershipChangesAsync(tokenSource.Token);
+            await leaderElectionClient.ObserveLeadershipChangesAsync(null, tokenSource.Token);
 
             // assert
             mockedLeasedLockClient.Verify(mock =>
                 mock.ObserveLockAsync(
+                    null,
                     tokenSource.Token),
                 Times.Once());
 
@@ -399,14 +412,14 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeaderElection
             var leaderElectionClient = new LeaderElectionClient(mockedLeasedLockClient.Object);
 
             mockedLeasedLockClient.Setup(
-                mock => mock.UnobserveLockAsync(tokenSource.Token));
+                mock => mock.UnobserveLockAsync(null, tokenSource.Token));
 
             // act
-            await leaderElectionClient.UnobserveLeadershipChangesAsync(tokenSource.Token);
+            await leaderElectionClient.UnobserveLeadershipChangesAsync(null, tokenSource.Token);
 
             // assert
             mockedLeasedLockClient.Verify(mock =>
-                mock.UnobserveLockAsync(tokenSource.Token),
+                mock.UnobserveLockAsync(null, tokenSource.Token),
                 Times.Once());
 
             await leaderElectionClient.DisposeAsync();

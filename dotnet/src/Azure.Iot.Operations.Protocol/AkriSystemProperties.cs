@@ -71,6 +71,9 @@ namespace Azure.Iot.Operations.Protocol
         /// <summary>
         /// User property indicating what client sent this request.
         /// </summary>
+        /// <remarks>
+        /// This field is included in command requests, command responses, and telemetry sent, but it is optional and for informational purposes only.
+        /// </remarks>
         internal const string SourceId = ReservedPrefix + "srcId";
 
         // TODO remove this once akri service is code gen'd to expect srcId instead of invId

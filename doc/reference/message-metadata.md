@@ -58,6 +58,7 @@ We will use the next properties
 |`CorrelationData`|yes|system||As byteArray. The server will apply the value from the request message|
 |`MessageExpiry`|no|system||The publish message can include an expiry time.|
 |`Timestamp`|no|user|`__ts`|A hybrid clock (HLC) value that can be used to identify the time when the message was produced.|
+|`SourceId`|no|user|`__srcId`|String representing an identifier of the command executor.|
 |`Status`|yes|user|`__stat`|String with an HTTP status code, `200` means success, higher values are used for errors.|
 |`StatusMessage`|no|user|`__stMsg`|String with the error message.|
 |`IsApplicationError`|no|user|`__apErr`|String with value `true` if an error is at the application level.|

@@ -24,6 +24,7 @@ type (
 		Condition    Condition
 		FencingToken hlc.HybridLogicalClock
 		Timeout      time.Duration
+		Persist      bool
 	}
 )
 
@@ -97,14 +98,25 @@ func (o WithTimeout) set(opt *SetOptions) {
 	opt.Timeout = time.Duration(o)
 }
 
+func (o WithPersist) set(opt *SetOptions) {
+	opt.Persist = bool(o)
+}
+
 func (o *SetOptions) invoke() *protocol.InvokeOptions {
 	inv := &protocol.InvokeOptions{
 		Timeout: o.Timeout,
 	}
 	if !o.FencingToken.IsZero() {
-		inv.Metadata = map[string]string{
-			fencingToken: o.FencingToken.String(),
+		if inv.Metadata == nil {
+			inv.Metadata = make(map[string]string, 1)
 		}
+		inv.Metadata[fencingToken] = o.FencingToken.String()
+	}
+	if o.Persist {
+		if inv.Metadata == nil {
+			inv.Metadata = make(map[string]string, 1)
+		}
+		inv.Metadata["aio-persistence"] = "true"
 	}
 	return inv
 }

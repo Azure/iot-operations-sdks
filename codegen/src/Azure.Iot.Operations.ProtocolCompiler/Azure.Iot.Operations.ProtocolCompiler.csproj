@@ -34,8 +34,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DTDLParser" Version="1.2.4-preview-gabdbed4a7e" />
 		<PackageReference Include="Azure.IoT.ModelsRepository" Version="1.0.0-preview.6" />
+		<PackageReference Include="DTDLParser" Version="1.2.12-preview-g83dc10aafd" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
 		<PackageReference Include="NuGet.Versioning" Version="6.13.2" />
 		<PackageReference Include="System.CodeDom" Version="9.0.3" />
@@ -67,6 +67,11 @@
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>DotNetCommandExecutor.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\dotnet\Command\t4\DotNetResponseExtension.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>DotNetResponseExtension.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
 		<None Update="T4\communication\dotnet\Error\t4\DotNetError.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -193,10 +198,20 @@
 			<LastGenOutput>RustCommandExecutor.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
+		<None Update="T4\communication\rust\Command\t4\RustCommandExecutorHeaders.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>RustCommandExecutorHeaders.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
 		<None Update="T4\communication\rust\Command\t4\RustCommandInvoker.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>RustCommandInvoker.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\rust\Command\t4\RustCommandInvokerHeaders.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>RustCommandInvokerHeaders.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompiler</CustomToolNamespace>
 		</None>
 		<None Update="T4\communication\rust\Error\t4\RustError.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -450,6 +465,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>DotNetCommandExecutor.tt</DependentUpon>
 		</Compile>
+		<Compile Update="T4\communication\dotnet\Command\t4\DotNetResponseExtension.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>DotNetResponseExtension.tt</DependentUpon>
+		</Compile>
 		<Compile Update="T4\communication\dotnet\Error\t4\DotNetError.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
@@ -575,10 +595,20 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>RustCommandExecutor.tt</DependentUpon>
 		</Compile>
+		<Compile Update="T4\communication\rust\Command\t4\RustCommandExecutorHeaders.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RustCommandExecutorHeaders.tt</DependentUpon>
+		</Compile>
 		<Compile Update="T4\communication\rust\Command\t4\RustCommandInvoker.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>RustCommandInvoker.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\rust\Command\t4\RustCommandInvokerHeaders.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RustCommandInvokerHeaders.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\communication\rust\Error\t4\RustError.cs">
 		  <DesignTime>True</DesignTime>

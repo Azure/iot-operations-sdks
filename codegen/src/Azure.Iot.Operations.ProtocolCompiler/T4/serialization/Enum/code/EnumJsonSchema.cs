@@ -12,13 +12,13 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string valueSchema;
         private readonly List<(string, string, int)> nameValueIndices;
 
-        public EnumJsonSchema(CodeName genNamespace, string schemaId, string description, CodeName schema, Dtmi valueSchemaId, List<(string, string, int)> nameValueIndices)
+        public EnumJsonSchema(CodeName genNamespace, string schemaId, string description, CodeName schema, string valueSchema, List<(string, string, int)> nameValueIndices)
         {
             this.genNamespace = genNamespace;
             this.schemaId = schemaId;
             this.description = description;
             this.schema = schema;
-            this.valueSchema = JsonSchemaSupport.GetPrimitiveType(valueSchemaId);
+            this.valueSchema = valueSchema;
             this.nameValueIndices = nameValueIndices;
         }
 
