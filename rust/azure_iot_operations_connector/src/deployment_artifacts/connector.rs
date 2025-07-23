@@ -207,7 +207,7 @@ impl ConnectorArtifacts {
         })
     }
 
-    /// Creates an [`azure_iot_operations_mqtt::MqttConnectionSettings`] struct given a suffix for,
+    /// Creates an [`azure_iot_operations_mqtt::MqttConnectionSettings`] struct given a suffix for
     /// the client ID.
     ///
     /// # Errors
