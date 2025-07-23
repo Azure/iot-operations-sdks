@@ -96,9 +96,8 @@ impl DeviceEndpointClientCreationObservation {
                 },
                 // Get new device creation notifications only if not already processing one
                 create_notification = self.device_endpoint_create_observation.recv_notification(), if !self.pending_device_creation => {
-                    let Some((device_endpoint_ref, asset_create_observation)) = create_notification else {
-                        panic!("Device Endpoint Create Observation should never return None because the device_endpoint_create_observation struct holds the sending side of the channel");
-                    };
+                    let (device_endpoint_ref, asset_create_observation) = 
+                        create_notification.expect("Device Endpoint Create Observation should never return None because the device_endpoint_create_observation struct holds the sending side of the channel");
 
                     // Start device creation task
                     self.pending_device_creation = true;
