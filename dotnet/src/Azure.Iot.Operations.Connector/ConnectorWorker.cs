@@ -156,7 +156,7 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation("This pod is waiting to be elected leader.");
                         // Waits until elected leader
-                        await _leaderElectionClient.CampaignAsync(_leaderElectionConfiguration.LeadershipPositionTermLength, null, cancellationToken);
+                        await _leaderElectionClient.CampaignAsync(_leaderElectionConfiguration.LeadershipPositionTermLength, null, null, cancellationToken);
 
                         isLeader = true;
                         _logger.LogInformation("This pod was elected leader.");
