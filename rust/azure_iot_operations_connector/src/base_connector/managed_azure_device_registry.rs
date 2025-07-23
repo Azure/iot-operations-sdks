@@ -86,7 +86,6 @@ impl DeviceEndpointClientCreationObservation {
     pub async fn recv_notification(&mut self) -> DeviceEndpointClient {
         loop {
             tokio::select! {
-                biased;
                 // Check for completed device creation
                 Some(device_client_option) = self.device_completion_rx.recv() => {
                     self.pending_device_creation = false;
