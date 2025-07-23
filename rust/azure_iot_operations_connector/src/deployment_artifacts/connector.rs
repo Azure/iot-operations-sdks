@@ -314,6 +314,7 @@ impl ConnectorArtifacts {
 
     /// Creates an [`azure_iot_operations_otel::config::Config`] struct from the values in the
     /// artifacts, given an OTEL tag and default log level.
+    #[must_use]
     pub fn to_otel_config(&self, otel_tag: &str, default_log_level: &str) -> aio_otel::config::Config {
 
         let mut log_targets = vec![];
@@ -1411,10 +1412,10 @@ mod tests {
         let otel_config = connector_artifacts
             .to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
         assert_eq!(otel_config.service_name, OTEL_TAG);
-        assert_eq!(otel_config.emit_metrics_to_stdout, false);
-        assert_eq!(otel_config.emit_logs_to_stderr, true);
-        assert!(otel_config.metrics_export_targets.is_some_and(|targets| targets.len() == 0));
-        assert!(otel_config.log_export_targets.is_some_and(|targets| targets.len() == 0));
+        assert!(!otel_config.emit_metrics_to_stdout);
+        assert!(otel_config.emit_logs_to_stderr);
+        assert!(otel_config.metrics_export_targets.is_some_and(|targets| targets.is_empty()));
+        assert!(otel_config.log_export_targets.is_some_and(|targets| targets.is_empty()));
         assert!(otel_config.resource_attributes.is_some_and(|attrs| {
             attrs.len() == 1 &&
                 attrs[0].key == OTEL_RESOURCE_ID_KEY &&
@@ -1475,8 +1476,8 @@ mod tests {
         let otel_config = connector_artifacts
             .to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
         assert_eq!(otel_config.service_name, OTEL_TAG);
-        assert_eq!(otel_config.emit_metrics_to_stdout, false);
-        assert_eq!(otel_config.emit_logs_to_stderr, true);
+        assert!(!otel_config.emit_metrics_to_stdout);
+        assert!(otel_config.emit_logs_to_stderr);
         assert!(otel_config.metrics_export_targets.is_some_and(|targets| {
             targets.len() == 1 &&
                 targets[0].url == GRPC_METRIC_ENDPOINT &&
