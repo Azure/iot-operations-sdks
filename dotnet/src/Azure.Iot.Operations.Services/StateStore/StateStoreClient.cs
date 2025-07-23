@@ -186,6 +186,11 @@ namespace Azure.Iot.Operations.Services.StateStore
             Trace.TraceInformation($"SET {Encoding.ASCII.GetString(key.Bytes)}");
 
             CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
+            if (options.PersistEntry)
+            {
+                requestMetadata.UserData.TryAdd("aio-persistence", "true");
+            }
+
             if (options.FencingToken != null)
             {
                 requestMetadata.UserData.TryAdd(FencingTokenUserPropertyKey, options.FencingToken.EncodeToString());

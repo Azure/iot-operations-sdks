@@ -234,7 +234,7 @@ pub struct EventStreamDestination {
 // }
 
 /// A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct DeviceRef {
     /// Name of the device resource.
     pub device_name: String,
