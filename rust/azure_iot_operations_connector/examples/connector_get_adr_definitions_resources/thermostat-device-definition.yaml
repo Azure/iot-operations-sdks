@@ -16,6 +16,7 @@ spec:
         authentication:
           method: Anonymous
         endpointType: rest-thermostat
+        version: "0.0.1"
       my-coap-endpoint:
         address: coap://thermostat.local/temp
         authentication:
