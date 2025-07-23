@@ -28,7 +28,8 @@ use azure_iot_operations_services::azure_device_registry;
 const DEBOUNCE_DURATION: Duration = Duration::from_secs(5);
 
 const OTEL_TAG: &str = "aio_sample_connector_logs";
-const DEFAULT_LOG_LEVEL: &str = "warn,azure_iot_operations_rest_connector=info,azure_iot_operations_connector=info";
+const DEFAULT_LOG_LEVEL: &str =
+    "warn,azure_iot_operations_rest_connector=info,azure_iot_operations_connector=info";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
