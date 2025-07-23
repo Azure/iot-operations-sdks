@@ -53,8 +53,8 @@ pub struct DeviceEndpointClientCreationObservation {
     pending_device_creation: bool,
     /// Channels for sending and receiving completed device endpoint clients
     /// This is used to ensure that we only process one device creation at a time
-    device_completion_rx: mpsc::UnboundedReceiver<Option<DeviceEndpointClient>>,
-    device_completion_tx: mpsc::UnboundedSender<Option<DeviceEndpointClient>>,
+    device_completion_rx: mpsc::Receiver<Option<DeviceEndpointClient>>,
+    device_completion_tx: mpsc::Sender<Option<DeviceEndpointClient>>,
 }
 impl DeviceEndpointClientCreationObservation {
     /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
@@ -66,7 +66,7 @@ impl DeviceEndpointClientCreationObservation {
             )
             .unwrap();
 
-        let (device_completion_tx, device_completion_rx) = mpsc::unbounded_channel();
+        let (device_completion_tx, device_completion_rx) = mpsc::channel(1);
 
         Self {
             connector_context,
@@ -114,9 +114,8 @@ impl DeviceEndpointClientCreationObservation {
                         ).await;
 
                         // Always send the result (Some or None) to unblock the receiver
-                        let _ = device_completion_tx.send(device_client);
+                        let _ = device_completion_tx.send(device_client).await;
                     });
-                    continue; // Continue the loop to wait for task completion
                 }
             }
         }
@@ -254,7 +253,7 @@ pub struct DeviceEndpointClient {
     #[getter(skip)]
     pending_asset_creation: bool,
     /// Channels for sending and receiving completed asset clients.
-    /// This is used to ensure that we only process one device creation at a time
+    /// This is used to ensure that we only process one asset creation at a time
     #[getter(skip)]
     asset_completion_rx: mpsc::UnboundedReceiver<Option<AssetClient>>,
     #[getter(skip)]
