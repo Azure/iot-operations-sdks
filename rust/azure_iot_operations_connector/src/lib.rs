@@ -22,6 +22,8 @@ extern crate derive_getters;
 
 /// Message Schema to send to the Schema Registry Service
 pub type MessageSchema = PutRequest;
+/// Reference of an existing Message Schema in the Schema Registry Service
+pub use azure_device_registry::models::MessageSchemaReference;
 /// Config Error type used with the Azure Device Registry Service
 pub type AdrConfigError = azure_device_registry::ConfigError;
 /// Builder for [`MessageSchema`]

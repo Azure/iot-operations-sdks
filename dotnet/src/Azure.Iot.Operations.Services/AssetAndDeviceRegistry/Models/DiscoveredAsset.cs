@@ -86,7 +86,7 @@ public class DiscoveredAssetManagementGroup
 
 public class DiscoveredAssetManagementGroupAction
 {
-    public JsonDocument? ActionConfiguration { get; set; } = default;
+    public string? ActionConfiguration { get; set; } = default;
 
     public AssetManagementGroupActionType ActionType { get; set; } = default!;
 

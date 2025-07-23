@@ -53,7 +53,7 @@ namespace EventDrivenTelemetryConnector
         {
             // This will run the connector application which connects you to the MQTT broker, optionally performs leader election, and
             // monitors for assets. As assets become available, WhileAssetAvailable events will execute for each particular asset.
-            await _connector.StartAsync(cancellationToken);
+            await _connector.RunConnectorAsync(cancellationToken);
         }
 
         public override void Dispose()
