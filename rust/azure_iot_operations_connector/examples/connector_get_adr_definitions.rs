@@ -20,24 +20,26 @@ use azure_iot_operations_connector::deployment_artifacts::{
     azure_device_registry::DeviceEndpointCreateObservation, connector::ConnectorArtifacts,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
-use env_logger::Builder;
 
 // This example uses a 5-second debounce duration for the file mount observation.
 const DEBOUNCE_DURATION: Duration = Duration::from_secs(5);
 
+const OTEL_TAG: &str = "get_adr_definitions_sample_logs";
+const DEFAULT_LOG_LEVEL: &str =
+    "warn,connector_get_adr_definitions=info,azure_iot_operations_connector=info";
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    Builder::new()
-        .filter_level(log::LevelFilter::max())
-        .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_protocol", log::LevelFilter::Warn)
-        .filter_module("notify_debouncer_full", log::LevelFilter::Off)
-        .filter_module("notify::inotify", log::LevelFilter::Off)
-        .init();
+    // Create the connector artifacts from the deployment
+    let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
+
+    // Initialize the OTEL logger / exporter
+    let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
+    let mut otel_exporter = Otel::new(otel_config);
+    let otel_task = otel_exporter.run();
 
     // Get Connector Configuration
     let connector_config = ConnectorArtifacts::new_from_deployment()?;
@@ -64,12 +66,38 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         DeviceEndpointCreateObservation::new(DEBOUNCE_DURATION).unwrap();
 
     // Run the Session and the Azure Device Registry operations concurrently
-    let r = tokio::join!(
-        run_program(device_creation_observation, azure_device_registry_client),
-        session.run(),
-    );
-    r.1?;
-    Ok(())
+    let res = tokio::select! {
+        () = run_program(device_creation_observation, azure_device_registry_client) => {
+            log::warn!("run_program unexpectedly finished");
+            Err("run_program finished unexpectedly")?
+        },
+        r = session.run() => {
+            match r {
+                Ok(()) => {
+                    log::info!("Session exited gracefully");
+                    Ok(())
+                }
+                Err(e) => {
+                    log::error!("Session run failed: {e}");
+                    Err(Box::new(e))?
+                }
+            }
+        },
+        r = otel_task => {
+            match r {
+                Ok(()) => {
+                    log::info!("OTEL task finished successfully");
+                    Ok(())
+                }
+                Err(e) => {
+                    log::error!("OTEL task failed: {e}");
+                    Err(Box::new(e))?
+                }
+            }
+        }
+    };
+
+    res
 }
 
 // This function runs in a loop, waiting for device creation notifications.

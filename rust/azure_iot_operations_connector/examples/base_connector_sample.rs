@@ -24,44 +24,84 @@ use azure_iot_operations_connector::{
     data_processor::derived_json,
     deployment_artifacts::connector::ConnectorArtifacts,
 };
+use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
 
+const OTEL_TAG: &str = "base_connector_sample_logs";
+const DEFAULT_LOG_LEVEL: &str =
+    "warn,base_connector_sample=info,azure_iot_operations_connector=info";
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    env_logger::Builder::new()
-        .filter_level(log::LevelFilter::max())
-        .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_protocol", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_services", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
-        .filter_module("notify_debouncer_full", log::LevelFilter::Off)
-        .filter_module("notify::inotify", log::LevelFilter::Off)
-        .init();
-
     // Create the connector artifacts from the deployment
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
+
+    // Initialize the OTEL logger / exporter
+    let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
+    let mut otel_exporter = Otel::new(otel_config);
+    let otel_task = otel_exporter.run();
+
     // Create an ApplicationContext
     let application_context = ApplicationContextBuilder::default().build()?;
+
     // Create the BaseConnector
     let base_connector = BaseConnector::new(application_context, connector_artifacts)?;
 
+    // Create a device endpoint client creation observation
     let device_creation_observation =
         base_connector.create_device_endpoint_client_create_observation();
 
+    // Create a discovery client
     let adr_discovery_client = base_connector.discovery_client();
 
     // Run the Session and the Azure Device Registry operations concurrently
-    let r = tokio::join!(
-        run_program(device_creation_observation),
-        run_discovery(adr_discovery_client),
-        base_connector.run(),
-    );
-    r.1?;
-    r.2?;
-    Ok(())
+    let res = tokio::select! {
+
+        (r1, r2) = async {
+            tokio::join!(
+                run_program(device_creation_observation),
+                run_discovery(adr_discovery_client),
+            )
+        } => {
+            match r2 {
+                Ok(()) => log::info!("Discovery finished successfully"),
+                Err(e) => {
+                    log::error!("Discovery failed: {e}");
+                    Err(e)?;
+                },
+            }
+            Ok(r1)
+        }
+        r = base_connector.run() => {
+            match r {
+                Ok(()) => {
+                    log::info!("Base connector finished successfully");
+                    Ok(())
+                }
+                Err(e) => {
+                    log::error!("Base connector failed: {e}");
+                    Err(Box::new(e))?
+                }
+            }
+        },
+        r = otel_task => {
+            match r {
+                Ok(()) => {
+                    log::info!("OTEL task finished successfully");
+                    Ok(())
+                }
+                Err(e) => {
+                    log::error!("OTEL task failed: {e}");
+                    Err(Box::new(e))?
+                }
+            }
+        },
+    };
+
+    otel_exporter.shutdown().await;
+
+    res
 }
 
 // This function runs in a loop, waiting for device creation notifications.
