@@ -654,6 +654,19 @@ impl DeviceEndpointClient {
     }
 }
 
+/// Struct used to hold the updates for an Asset's data operations
+/// until all data operation kinds have been processed and the function
+/// is cancel safe
+struct AssetDataOperationUpdates {
+    new_status: adr_models::AssetStatus,
+    status_updated: bool,
+    data_operation_updates: Vec<(
+        watch::Sender<DataOperationUpdateNotification>,
+        DataOperationUpdateNotification,
+    )>,
+    new_data_operation_clients: Vec<DataOperationClient>,
+}
+
 /// Azure Device Registry Asset that includes additional functionality
 /// to report status and receive Asset updates
 #[derive(Debug, Getters)]
@@ -736,11 +749,8 @@ impl AssetClient {
         asset_deletion_token: CancellationToken,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
-        let dataset_definitions = asset.datasets.clone();
-        let event_definitions = asset.events.clone();
-        let stream_definitions = asset.streams.clone();
         let (asset_update_watcher_tx, asset_update_watcher_rx) = watch::channel(asset.clone());
-        let specification = AssetSpecification::from(asset);
+        let specification = AssetSpecification::from(asset.clone());
         let specification_version = specification.version;
         let (data_operation_creation_tx, data_operation_creation_rx) = mpsc::unbounded_channel();
 
@@ -769,252 +779,50 @@ impl AssetClient {
             // (not possible in new, but allows use of Self:: helper fns)
             let mut status_write_guard = asset_client.status.write().await;
             // if there are any config errors when parsing the asset, collect them all so we can report them at once
-            let mut new_status: adr_models::AssetStatus =
-                Self::current_status_to_modify(&status_write_guard, specification_version);
-            let mut status_updated = false;
-
-            // Create the default dataset destinations from the asset definition
-            let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
-                match destination_endpoint::Destination::new_dataset_destinations(
-                    &asset_client
-                        .specification
-                        .read()
-                        .unwrap()
-                        .default_datasets_destinations,
-                    &asset_client.asset_ref.inbound_endpoint_name,
-                    &asset_client.connector_context,
-                ) {
-                    Ok(res) => res.into_iter().map(Arc::new).collect(),
-                    Err(e) => {
-                        log::error!(
-                            "Invalid default dataset destination for Asset {:?}: {e:?}",
-                            asset_client.asset_ref
-                        );
-                        // Add this to the status to be reported to ADR
-                        new_status.config = Some(azure_device_registry::ConfigStatus {
-                            version: specification_version,
-                            error: Some(e),
-                            last_transition_time: Some(chrono::Utc::now()),
-                        });
-                        status_updated = true;
-                        // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
-                        vec![]
-                    }
-                };
-
-            // Create the default event destinations from the asset definition
-            let default_event_destinations: Vec<Arc<destination_endpoint::Destination>> =
-                match destination_endpoint::Destination::new_event_stream_destinations(
-                    &asset_client
-                        .specification
-                        .read()
-                        .unwrap()
-                        .default_events_destinations,
-                    &asset_client.asset_ref.inbound_endpoint_name,
-                    &asset_client.connector_context,
-                ) {
-                    Ok(res) => res.into_iter().map(Arc::new).collect(),
-                    Err(e) => {
-                        log::error!(
-                            "Invalid default event destination for Asset {:?}: {e:?}",
-                            asset_client.asset_ref
-                        );
-                        // Add this to the status to be reported to ADR
-                        new_status.config = Some(azure_device_registry::ConfigStatus {
-                            version: specification_version,
-                            error: Some(e),
-                            last_transition_time: Some(chrono::Utc::now()),
-                        });
-                        status_updated = true;
-                        // set this to None because if all events have a destination specified, this might not cause the asset to be unusable
-                        vec![]
-                    }
-                };
-
-            // Create the default stream destinations from the asset definition
-            let default_stream_destinations: Vec<Arc<destination_endpoint::Destination>> =
-                match destination_endpoint::Destination::new_event_stream_destinations(
-                    &asset_client
-                        .specification
-                        .read()
-                        .unwrap()
-                        .default_streams_destinations,
-                    &asset_client.asset_ref.inbound_endpoint_name,
-                    &asset_client.connector_context,
-                ) {
-                    Ok(res) => res.into_iter().map(Arc::new).collect(),
-                    Err(e) => {
-                        log::error!(
-                            "Invalid default stream destination for Asset {:?}: {e:?}",
-                            asset_client.asset_ref
-                        );
-                        // Add this to the status to be reported to ADR
-                        new_status.config = Some(azure_device_registry::ConfigStatus {
-                            version: specification_version,
-                            error: Some(e),
-                            last_transition_time: Some(chrono::Utc::now()),
-                        });
-                        status_updated = true;
-                        // set this to None because if all streams have a destination specified, this might not cause the asset to be unusable
-                        vec![]
-                    }
-                };
-
-            // create the DataOperationClients for each dataset in the definition, add them
-            // to our tracking for handling updates, and send the create notification
-            // to the dataset creation observation
-            for dataset_definition in dataset_definitions {
-                let (dataset_update_watcher_tx, dataset_update_watcher_rx) = watch::channel((
-                    DataOperationDefinition::Dataset(dataset_definition.clone()),
-                    default_dataset_destinations.clone(),
-                    asset_client
-                        .release_data_operation_notifications_tx
-                        .subscribe(),
-                ));
-                match DataOperationClient::new(
-                    DataOperationDefinition::Dataset(dataset_definition.clone()),
-                    dataset_update_watcher_rx,
-                    &default_dataset_destinations,
-                    asset_client.asset_ref.clone(),
-                    asset_client.status.clone(),
-                    asset_client.specification.clone(),
-                    asset_client.device_specification.clone(),
-                    asset_client.device_status.clone(),
-                    asset_client.connector_context.clone(),
-                ) {
-                    Ok(new_dataset_client) => {
-                        // insert the dataset client into the hashmap so we can handle updates
-                        asset_client.dataset_hashmap.insert(
-                            dataset_definition.name.clone(),
-                            (dataset_definition, dataset_update_watcher_tx),
-                        );
-
-                        // error is not possible since the receiving side of the channel is owned by the AssetClient
-                        let _ = asset_client
-                            .data_operation_creation_tx
-                            .send(new_dataset_client);
-                    }
-                    Err(e) => {
-                        // Add the error to the status to be reported to ADR, and then continue to process
-                        // other datasets even if one isn't valid. Don't give this one to
-                        // the application since we can't forward data on it. If there's an update to the
-                        // definition, they'll get the create notification for it at that point if it's valid
-                        DataOperationClient::update_dataset_status(
-                            &mut new_status,
-                            &dataset_definition.name,
-                            Err(e),
-                        );
-                        status_updated = true;
-                    }
-                };
-            }
-
-            // create the DataOperationClients for each event in the definition, add them
-            // to our tracking for handling updates, and send the create notification
-            // to the event creation observation
-            for event_definition in event_definitions {
-                let (event_update_watcher_tx, event_update_watcher_rx) = watch::channel((
-                    DataOperationDefinition::Event(event_definition.clone()),
-                    default_event_destinations.clone(),
-                    asset_client
-                        .release_data_operation_notifications_tx
-                        .subscribe(),
-                ));
-                match DataOperationClient::new(
-                    DataOperationDefinition::Event(event_definition.clone()),
-                    event_update_watcher_rx,
-                    &default_event_destinations,
-                    asset_client.asset_ref.clone(),
-                    asset_client.status.clone(),
-                    asset_client.specification.clone(),
-                    asset_client.device_specification.clone(),
-                    asset_client.device_status.clone(),
-                    asset_client.connector_context.clone(),
-                ) {
-                    Ok(new_event_client) => {
-                        // insert the event client into the hashmap so we can handle updates
-                        asset_client.event_hashmap.insert(
-                            event_definition.name.clone(),
-                            (event_definition, event_update_watcher_tx),
-                        );
-
-                        // error is not possible since the receiving side of the channel is owned by the AssetClient
-                        let _ = asset_client
-                            .data_operation_creation_tx
-                            .send(new_event_client);
-                    }
-                    Err(e) => {
-                        // Add the error to the status to be reported to ADR, and then continue to process
-                        // other events even if one isn't valid. Don't give this one to
-                        // the application since we can't forward data on it. If there's an update to the
-                        // definition, they'll get the create notification for it at that point if it's valid
-                        DataOperationClient::update_event_status(
-                            &mut new_status,
-                            &event_definition.name,
-                            Err(e),
-                        );
-                        status_updated = true;
-                    }
-                };
-            }
-
-            // create the DataOperationClients for each stream in the definition, add them
-            // to our tracking for handling updates, and send the create notification
-            // to the stream creation observation
-            for stream_definition in stream_definitions {
-                let (stream_update_watcher_tx, stream_update_watcher_rx) = watch::channel((
-                    DataOperationDefinition::Stream(stream_definition.clone()),
-                    default_stream_destinations.clone(),
-                    asset_client
-                        .release_data_operation_notifications_tx
-                        .subscribe(),
-                ));
-                match DataOperationClient::new(
-                    DataOperationDefinition::Stream(stream_definition.clone()),
-                    stream_update_watcher_rx,
-                    &default_stream_destinations,
-                    asset_client.asset_ref.clone(),
-                    asset_client.status.clone(),
-                    asset_client.specification.clone(),
-                    asset_client.device_specification.clone(),
-                    asset_client.device_status.clone(),
-                    asset_client.connector_context.clone(),
-                ) {
-                    Ok(new_stream_client) => {
-                        // insert the stream client into the hashmap so we can handle updates
-                        asset_client.stream_hashmap.insert(
-                            stream_definition.name.clone(),
-                            (stream_definition, stream_update_watcher_tx),
-                        );
-
-                        // error is not possible since the receiving side of the channel is owned by the AssetClient
-                        let _ = asset_client
-                            .data_operation_creation_tx
-                            .send(new_stream_client);
-                    }
-                    Err(e) => {
-                        // Add the error to the status to be reported to ADR, and then continue to process
-                        // other streams even if one isn't valid. Don't give this one to
-                        // the application since we can't forward data on it. If there's an update to the
-                        // definition, they'll get the create notification for it at that point if it's valid
-                        DataOperationClient::update_stream_status(
-                            &mut new_status,
-                            &stream_definition.name,
-                            Err(e),
-                        );
-                        status_updated = true;
-                    }
-                };
-            }
+            let mut updates = AssetDataOperationUpdates {
+                new_status: Self::current_status_to_modify(
+                    &status_write_guard,
+                    specification_version,
+                ),
+                status_updated: false,
+                data_operation_updates: Vec::new(),
+                new_data_operation_clients: Vec::new(),
+            };
+            // Handle "updates" for each type of data operation. Since we don't currently have any data
+            // operations tracked yet, everything in the definition will be treated as a new data operation
+            (updates, asset_client.dataset_hashmap) = asset_client
+                .handle_data_operation_kind_updates(
+                    DataOperationKind::Dataset,
+                    asset_client.dataset_hashmap.clone(), // empty, so everything is treated as new (as it should be)
+                    &asset,
+                    &asset.datasets,
+                    updates,
+                );
+            (updates, asset_client.event_hashmap) = asset_client
+                .handle_data_operation_kind_updates(
+                    DataOperationKind::Event,
+                    asset_client.event_hashmap.clone(),
+                    &asset,
+                    &asset.events,
+                    updates,
+                );
+            (updates, asset_client.stream_hashmap) = asset_client
+                .handle_data_operation_kind_updates(
+                    DataOperationKind::Stream,
+                    asset_client.stream_hashmap.clone(),
+                    &asset,
+                    &asset.streams,
+                    updates,
+                );
 
             // if there were any config errors, report them to the ADR service together
-            if status_updated {
+            if updates.status_updated {
                 log::debug!(
                     "Reporting error asset status on new for {:?}",
                     asset_client.asset_ref
                 );
                 if let Err(e) = Self::internal_report_status(
-                    new_status,
+                    updates.new_status,
                     &asset_client.connector_context,
                     &asset_client.asset_ref,
                     &mut status_write_guard,
@@ -1028,6 +836,15 @@ impl AssetClient {
                     );
                 }
             }
+
+            // Send all new data operation create notifications
+            for new_data_operation_client in updates.new_data_operation_clients {
+                // error is not possible since the receiving side of the channel is owned by the AssetClient
+                let _ = asset_client
+                    .data_operation_creation_tx
+                    .send(new_data_operation_client);
+            }
+            // Note, updates.data_operation_updates is not used because there will be no updates on new
         }
 
         asset_client
@@ -1073,6 +890,210 @@ impl AssetClient {
         .await
     }
 
+    /// Helper function to handle updates for all of a type of data operations on an Asset
+    /// This reduces duplicate code for each data operation kind - instead this function is called once for each
+    ///
+    /// Parses and validates all Asset updates pertaining to this data operation kind
+    ///     Detects any deleted, updated, and new data operations
+    ///     Parses the default destination for that data operation
+    /// Modifies an Asset status with any validation errors found
+    /// Adds any Data Operation updates to a Vec that can be sent after the update task can't be cancelled
+    /// Adds any new Data Operation Clients to a Vec that can be sent after the update task can't be cancelled
+    /// Removes any deleted Data Operations from a copy of the data operation hashmap that can be applied after the update task can't be cancelled
+    ///
+    /// # Returns
+    /// modified `updates` struct
+    /// modified `data_operation_hashmap`
+    fn handle_data_operation_kind_updates<T: Clone + DataOperation + PartialEq>(
+        &self,
+        data_operation_kind: DataOperationKind,
+        mut data_operation_hashmap: HashMap<
+            String,
+            (T, watch::Sender<DataOperationUpdateNotification>),
+        >,
+        updated_asset: &Asset,
+        updated_asset_data_operations: &[T],
+        mut updates: AssetDataOperationUpdates,
+    ) -> (
+        AssetDataOperationUpdates,
+        HashMap<String, (T, watch::Sender<DataOperationUpdateNotification>)>,
+    ) {
+        // remove the data operations that are no longer present in the new asset definition.
+        // This triggers deletion notification since this drops the update sender.
+        data_operation_hashmap.retain(|data_operation_name, _| {
+            updated_asset_data_operations
+                .iter()
+                .any(|data_operation| data_operation.name() == *data_operation_name)
+        });
+        // Get the new default data operation destinations and track whether they're different or not from the current one
+        let default_data_operation_destination_updated = match data_operation_kind {
+            DataOperationKind::Dataset => {
+                updated_asset.default_datasets_destinations
+                    != self
+                        .specification
+                        .read()
+                        .unwrap()
+                        .default_datasets_destinations
+            }
+            DataOperationKind::Event => {
+                updated_asset.default_events_destinations
+                    != self
+                        .specification
+                        .read()
+                        .unwrap()
+                        .default_events_destinations
+            }
+            DataOperationKind::Stream => {
+                updated_asset.default_streams_destinations
+                    != self
+                        .specification
+                        .read()
+                        .unwrap()
+                        .default_streams_destinations
+            }
+        };
+
+        let default_data_operation_destinations = match match data_operation_kind {
+            DataOperationKind::Dataset => {
+                destination_endpoint::Destination::new_dataset_destinations(
+                    &updated_asset.default_datasets_destinations,
+                    &self.asset_ref.inbound_endpoint_name,
+                    &self.connector_context,
+                )
+            }
+            DataOperationKind::Event => {
+                destination_endpoint::Destination::new_event_stream_destinations(
+                    &updated_asset.default_events_destinations,
+                    &self.asset_ref.inbound_endpoint_name,
+                    &self.connector_context,
+                )
+            }
+            DataOperationKind::Stream => {
+                destination_endpoint::Destination::new_event_stream_destinations(
+                    &updated_asset.default_streams_destinations,
+                    &self.asset_ref.inbound_endpoint_name,
+                    &self.connector_context,
+                )
+            }
+        } {
+            Ok(res) => res.into_iter().map(Arc::new).collect(),
+            Err(e) => {
+                log::error!(
+                    "Invalid default data operation destination for Asset {:?}: {e:?}",
+                    self.asset_ref
+                );
+                // Add this to the status to be reported to ADR
+                updates.new_status.config = Some(azure_device_registry::ConfigStatus {
+                    version: updated_asset.version,
+                    error: Some(e),
+                    last_transition_time: Some(chrono::Utc::now()),
+                });
+                updates.status_updated = true;
+                // set this to None because if all data operations have a destination specified, this might not cause the asset to be unusable
+                vec![]
+            }
+        };
+
+        // For all received data operations, check if the existing data operation needs an update or if a new one needs to be created
+        for received_data_operation in updated_asset_data_operations {
+            let data_operation_definition = received_data_operation
+                .clone()
+                .into_data_operation_definition();
+            // it already exists
+            if let Some((data_operation, data_operation_update_tx)) =
+                data_operation_hashmap.get_mut(received_data_operation.name())
+            {
+                // if the default destination has changed, update all data operations. TODO: might be able to track whether a data operation uses a default to reduce updates needed here
+                // otherwise, only send an update if the data operation definition has changed
+                if default_data_operation_destination_updated
+                    || received_data_operation != data_operation
+                {
+                    // we need to make sure we have the updated definition for comparing next time
+                    *data_operation = received_data_operation.clone();
+
+                    // save update to send to the data operation after the task can't get cancelled
+                    updates.data_operation_updates.push((
+                        data_operation_update_tx.clone(),
+                        (
+                            data_operation_definition,
+                            default_data_operation_destinations.clone(),
+                            self.release_data_operation_notifications_tx.subscribe(),
+                        ),
+                    ));
+                } else {
+                    // TODO: copy over the existing data operation status for a new status report? (other bug)
+                }
+            }
+            // it needs to be created
+            else {
+                let (data_operation_update_watcher_tx, data_operation_update_watcher_rx) =
+                    watch::channel((
+                        data_operation_definition.clone(),
+                        default_data_operation_destinations.clone(),
+                        self.release_data_operation_notifications_tx.subscribe(),
+                    ));
+                match DataOperationClient::new(
+                    data_operation_definition,
+                    data_operation_update_watcher_rx,
+                    &default_data_operation_destinations,
+                    self.asset_ref.clone(),
+                    self.status.clone(),
+                    self.specification.clone(),
+                    self.device_specification.clone(),
+                    self.device_status.clone(),
+                    self.connector_context.clone(),
+                ) {
+                    Ok(new_data_operation_client) => {
+                        // insert the data operation client into the hashmap so we can handle updates
+                        data_operation_hashmap.insert(
+                            received_data_operation.name().to_string(),
+                            (
+                                received_data_operation.clone(),
+                                data_operation_update_watcher_tx,
+                            ),
+                        );
+
+                        // save new data operation client to be sent on self.data_operation_creation_tx after the task can't get cancelled
+                        updates
+                            .new_data_operation_clients
+                            .push(new_data_operation_client);
+                    }
+                    Err(e) => {
+                        // Add the error to the status to be reported to ADR, and then continue to process
+                        // other data operations even if one isn't valid. Don't give this one to
+                        // the application since we can't forward data on it. If there's an update to the
+                        // definition, they'll get the create notification for it at that point if it's valid
+                        match data_operation_kind {
+                            DataOperationKind::Dataset => {
+                                DataOperationClient::update_dataset_status(
+                                    &mut updates.new_status,
+                                    received_data_operation.name(),
+                                    Err(e),
+                                );
+                            }
+                            DataOperationKind::Event => {
+                                DataOperationClient::update_event_status(
+                                    &mut updates.new_status,
+                                    received_data_operation.name(),
+                                    Err(e),
+                                );
+                            }
+                            DataOperationKind::Stream => {
+                                DataOperationClient::update_stream_status(
+                                    &mut updates.new_status,
+                                    received_data_operation.name(),
+                                    Err(e),
+                                );
+                            }
+                        }
+                        updates.status_updated = true;
+                    }
+                };
+            }
+        }
+        (updates, data_operation_hashmap)
+    }
+
     /// Helper function to handle an asset update
     async fn handle_update(
         &mut self,
@@ -1081,354 +1102,49 @@ impl AssetClient {
         // lock the status write guard so that no other threads can modify the status while we update it
         let mut status_write_guard = self.status.write().await;
         // if there are any config errors when parsing the asset, collect them all so we can report them at once
-        let mut new_status: adr_models::AssetStatus =
-            Self::current_status_to_modify(&status_write_guard, updated_asset.version);
-        let mut status_updated = false;
+        // track all data_operations to update and save notifications for once the task can't be cancelled
+        let mut updates = AssetDataOperationUpdates {
+            new_status: Self::current_status_to_modify(&status_write_guard, updated_asset.version),
+            status_updated: false,
+            data_operation_updates: Vec::new(),
+            new_data_operation_clients: Vec::new(),
+        };
 
+        // Handle updates for each type of data operation
         // make changes to copies of the data operation hashmaps so that this function is cancel safe
         let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
+        (updates, temp_dataset_hashmap) = self.handle_data_operation_kind_updates(
+            DataOperationKind::Dataset,
+            temp_dataset_hashmap,
+            &updated_asset,
+            &updated_asset.datasets,
+            updates,
+        );
         let mut temp_event_hashmap = self.event_hashmap.clone();
+        (updates, temp_event_hashmap) = self.handle_data_operation_kind_updates(
+            DataOperationKind::Event,
+            temp_event_hashmap,
+            &updated_asset,
+            &updated_asset.events,
+            updates,
+        );
         let mut temp_stream_hashmap = self.stream_hashmap.clone();
-
-        // remove the data operations that are no longer present in the new asset definition.
-        // This triggers deletion notification since this drops the update sender.
-        temp_dataset_hashmap.retain(|dataset_name, _| {
-            updated_asset
-                .datasets
-                .iter()
-                .any(|dataset| dataset.name == *dataset_name)
-        });
-        temp_event_hashmap.retain(|event_name, _| {
-            updated_asset
-                .events
-                .iter()
-                .any(|event| event.name == *event_name)
-        });
-        temp_stream_hashmap.retain(|stream_name, _| {
-            updated_asset
-                .streams
-                .iter()
-                .any(|stream| stream.name == *stream_name)
-        });
-
-        // Get the new default data operation destinations and track whether they're different or not from the current one
-        let default_dataset_destination_updated = updated_asset.default_datasets_destinations
-            != self
-                .specification
-                .read()
-                .unwrap()
-                .default_datasets_destinations;
-        let default_event_destination_updated = updated_asset.default_events_destinations
-            != self
-                .specification
-                .read()
-                .unwrap()
-                .default_events_destinations;
-        let default_stream_destination_updated = updated_asset.default_streams_destinations
-            != self
-                .specification
-                .read()
-                .unwrap()
-                .default_streams_destinations;
-
-        let default_dataset_destinations =
-            match destination_endpoint::Destination::new_dataset_destinations(
-                &updated_asset.default_datasets_destinations,
-                &self.asset_ref.inbound_endpoint_name,
-                &self.connector_context,
-            ) {
-                Ok(res) => res.into_iter().map(Arc::new).collect(),
-                Err(e) => {
-                    log::error!(
-                        "Invalid default dataset destination for Asset {:?}: {e:?}",
-                        self.asset_ref
-                    );
-                    // Add this to the status to be reported to ADR
-                    new_status.config = Some(azure_device_registry::ConfigStatus {
-                        version: updated_asset.version,
-                        error: Some(e),
-                        last_transition_time: Some(chrono::Utc::now()),
-                    });
-                    status_updated = true;
-                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
-                    vec![]
-                }
-            };
-        let default_event_destinations =
-            match destination_endpoint::Destination::new_event_stream_destinations(
-                &updated_asset.default_events_destinations,
-                &self.asset_ref.inbound_endpoint_name,
-                &self.connector_context,
-            ) {
-                Ok(res) => res.into_iter().map(Arc::new).collect(),
-                Err(e) => {
-                    log::error!(
-                        "Invalid default event destination for Asset {:?}: {e:?}",
-                        self.asset_ref
-                    );
-                    // Add this to the status to be reported to ADR
-                    new_status.config = Some(azure_device_registry::ConfigStatus {
-                        version: updated_asset.version,
-                        error: Some(e),
-                        last_transition_time: Some(chrono::Utc::now()),
-                    });
-                    status_updated = true;
-                    // set this to None because if all events have a destination specified, this might not cause the asset to be unusable
-                    vec![]
-                }
-            };
-        let default_stream_destinations =
-            match destination_endpoint::Destination::new_event_stream_destinations(
-                &updated_asset.default_streams_destinations,
-                &self.asset_ref.inbound_endpoint_name,
-                &self.connector_context,
-            ) {
-                Ok(res) => res.into_iter().map(Arc::new).collect(),
-                Err(e) => {
-                    log::error!(
-                        "Invalid default stream destination for Asset {:?}: {e:?}",
-                        self.asset_ref
-                    );
-                    // Add this to the status to be reported to ADR
-                    new_status.config = Some(azure_device_registry::ConfigStatus {
-                        version: updated_asset.version,
-                        error: Some(e),
-                        last_transition_time: Some(chrono::Utc::now()),
-                    });
-                    status_updated = true;
-                    // set this to None because if all streams have a destination specified, this might not cause the asset to be unusable
-                    vec![]
-                }
-            };
-
-        // track all data_operations to update and save notifications for once the task can't be cancelled
-        let mut data_operation_updates: Vec<(
-            watch::Sender<DataOperationUpdateNotification>,
-            DataOperationUpdateNotification,
-        )> = Vec::new();
-        let mut new_data_operation_clients: Vec<DataOperationClient> = Vec::new();
-
-        // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
-        for received_dataset_definition in &updated_asset.datasets {
-            // it already exists
-            if let Some((dataset_definition, dataset_update_tx)) =
-                temp_dataset_hashmap.get_mut(&received_dataset_definition.name)
-            {
-                // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
-                // otherwise, only send an update if the dataset definition has changed
-                if default_dataset_destination_updated
-                    || received_dataset_definition != dataset_definition
-                {
-                    // we need to make sure we have the updated definition for comparing next time
-                    *dataset_definition = received_dataset_definition.clone();
-                    // save update to send to the dataset after the task can't get cancelled
-                    data_operation_updates.push((
-                        dataset_update_tx.clone(),
-                        (
-                            DataOperationDefinition::Dataset(received_dataset_definition.clone()),
-                            default_dataset_destinations.clone(),
-                            self.release_data_operation_notifications_tx.subscribe(),
-                        ),
-                    ));
-                } else {
-                    // TODO: copy over the existing dataset status for a new status report? (other bug)
-                }
-            }
-            // it needs to be created
-            else {
-                let (dataset_update_watcher_tx, dataset_update_watcher_rx) = watch::channel((
-                    DataOperationDefinition::Dataset(received_dataset_definition.clone()),
-                    default_dataset_destinations.clone(),
-                    self.release_data_operation_notifications_tx.subscribe(),
-                ));
-                match DataOperationClient::new(
-                    DataOperationDefinition::Dataset(received_dataset_definition.clone()),
-                    dataset_update_watcher_rx,
-                    &default_dataset_destinations,
-                    self.asset_ref.clone(),
-                    self.status.clone(),
-                    self.specification.clone(),
-                    self.device_specification.clone(),
-                    self.device_status.clone(),
-                    self.connector_context.clone(),
-                ) {
-                    Ok(new_dataset_client) => {
-                        // insert the dataset client into the hashmap so we can handle updates
-                        temp_dataset_hashmap.insert(
-                            received_dataset_definition.name.clone(),
-                            (
-                                received_dataset_definition.clone(),
-                                dataset_update_watcher_tx,
-                            ),
-                        );
-
-                        // save new dataset client to be sent on self.data_operation_creation_tx after the task can't get cancelled
-                        new_data_operation_clients.push(new_dataset_client);
-                    }
-                    Err(e) => {
-                        // Add the error to the status to be reported to ADR, and then continue to process
-                        // other datasets even if one isn't valid. Don't give this one to
-                        // the application since we can't forward data on it. If there's an update to the
-                        // definition, they'll get the create notification for it at that point if it's valid
-                        DataOperationClient::update_dataset_status(
-                            &mut new_status,
-                            &received_dataset_definition.name,
-                            Err(e),
-                        );
-                        status_updated = true;
-                    }
-                };
-            }
-        }
-
-        // For all received events, check if the existing event needs an update or if a new one needs to be created
-        for received_event_definition in &updated_asset.events {
-            // it already exists
-            if let Some((event_definition, event_update_tx)) =
-                temp_event_hashmap.get_mut(&received_event_definition.name)
-            {
-                // if the default destination has changed, update all events. TODO: might be able to track whether an event uses a default to reduce updates needed here
-                // otherwise, only send an update if the event definition has changed
-                if default_event_destination_updated
-                    || received_event_definition != event_definition
-                {
-                    // we need to make sure we have the updated definition for comparing next time
-                    *event_definition = received_event_definition.clone();
-                    // save update to send to the event after the task can't get cancelled
-                    data_operation_updates.push((
-                        event_update_tx.clone(),
-                        (
-                            DataOperationDefinition::Event(received_event_definition.clone()),
-                            default_event_destinations.clone(),
-                            self.release_data_operation_notifications_tx.subscribe(),
-                        ),
-                    ));
-                } else {
-                    // TODO: copy over the existing event status for a new status report? (other bug)
-                }
-            }
-            // it needs to be created
-            else {
-                let (event_update_watcher_tx, event_update_watcher_rx) = watch::channel((
-                    DataOperationDefinition::Event(received_event_definition.clone()),
-                    default_event_destinations.clone(),
-                    self.release_data_operation_notifications_tx.subscribe(),
-                ));
-                match DataOperationClient::new(
-                    DataOperationDefinition::Event(received_event_definition.clone()),
-                    event_update_watcher_rx,
-                    &default_event_destinations,
-                    self.asset_ref.clone(),
-                    self.status.clone(),
-                    self.specification.clone(),
-                    self.device_specification.clone(),
-                    self.device_status.clone(),
-                    self.connector_context.clone(),
-                ) {
-                    Ok(new_event_client) => {
-                        // insert the event client into the hashmap so we can handle updates
-                        temp_event_hashmap.insert(
-                            received_event_definition.name.clone(),
-                            (received_event_definition.clone(), event_update_watcher_tx),
-                        );
-
-                        // save new event client to be sent on self.data_operation_creation_tx after the task can't get cancelled
-                        new_data_operation_clients.push(new_event_client);
-                    }
-                    Err(e) => {
-                        // Add the error to the status to be reported to ADR, and then continue to process
-                        // other events even if one isn't valid. Don't give this one to
-                        // the application since we can't forward data on it. If there's an update to the
-                        // definition, they'll get the create notification for it at that point if it's valid
-                        DataOperationClient::update_event_status(
-                            &mut new_status,
-                            &received_event_definition.name,
-                            Err(e),
-                        );
-                        status_updated = true;
-                    }
-                };
-            }
-        }
-
-        // For all received streams, check if the existing stream needs an update or if a new one needs to be created
-        for received_stream_definition in &updated_asset.streams {
-            // it already exists
-            if let Some((stream_definition, stream_update_tx)) =
-                temp_stream_hashmap.get_mut(&received_stream_definition.name)
-            {
-                // if the default destination has changed, update all streams. TODO: might be able to track whether a stream uses a default to reduce updates needed here
-                // otherwise, only send an update if the stream definition has changed
-                if default_stream_destination_updated
-                    || received_stream_definition != stream_definition
-                {
-                    // we need to make sure we have the updated definition for comparing next time
-                    *stream_definition = received_stream_definition.clone();
-                    // save update to send to the stream after the task can't get cancelled
-                    data_operation_updates.push((
-                        stream_update_tx.clone(),
-                        (
-                            DataOperationDefinition::Stream(received_stream_definition.clone()),
-                            default_stream_destinations.clone(),
-                            self.release_data_operation_notifications_tx.subscribe(),
-                        ),
-                    ));
-                } else {
-                    // TODO: copy over the existing stream status for a new status report? (other bug)
-                }
-            }
-            // it needs to be created
-            else {
-                let (stream_update_watcher_tx, stream_update_watcher_rx) = watch::channel((
-                    DataOperationDefinition::Stream(received_stream_definition.clone()),
-                    default_stream_destinations.clone(),
-                    self.release_data_operation_notifications_tx.subscribe(),
-                ));
-                match DataOperationClient::new(
-                    DataOperationDefinition::Stream(received_stream_definition.clone()),
-                    stream_update_watcher_rx,
-                    &default_stream_destinations,
-                    self.asset_ref.clone(),
-                    self.status.clone(),
-                    self.specification.clone(),
-                    self.device_specification.clone(),
-                    self.device_status.clone(),
-                    self.connector_context.clone(),
-                ) {
-                    Ok(new_stream_client) => {
-                        // insert the stream client into the hashmap so we can handle updates
-                        temp_stream_hashmap.insert(
-                            received_stream_definition.name.clone(),
-                            (received_stream_definition.clone(), stream_update_watcher_tx),
-                        );
-
-                        // save new stream client to be sent on self.data_operation_creation_tx after the task can't get cancelled
-                        new_data_operation_clients.push(new_stream_client);
-                    }
-                    Err(e) => {
-                        // Add the error to the status to be reported to ADR, and then continue to process
-                        // other streams even if one isn't valid. Don't give this one to
-                        // the application since we can't forward data on it. If there's an update to the
-                        // definition, they'll get the create notification for it at that point if it's valid
-                        DataOperationClient::update_stream_status(
-                            &mut new_status,
-                            &received_stream_definition.name,
-                            Err(e),
-                        );
-                        status_updated = true;
-                    }
-                };
-            }
-        }
+        (updates, temp_stream_hashmap) = self.handle_data_operation_kind_updates(
+            DataOperationKind::Stream,
+            temp_stream_hashmap,
+            &updated_asset,
+            &updated_asset.streams,
+            updates,
+        );
 
         // if there were any config errors, report them to the ADR service together
-        if status_updated {
+        if updates.status_updated {
             log::debug!(
                 "Reporting error asset status on recv_notification for {:?}",
                 self.asset_ref
             );
             if let Err(e) = Self::internal_report_status(
-                new_status,
+                updates.new_status,
                 &self.connector_context,
                 &self.asset_ref,
                 &mut status_write_guard,
@@ -1453,7 +1169,8 @@ impl AssetClient {
         self.stream_hashmap = temp_stream_hashmap;
 
         // send all notifications associated with this asset update
-        for (data_operation_update_tx, data_operation_update_notification) in data_operation_updates
+        for (data_operation_update_tx, data_operation_update_notification) in
+            updates.data_operation_updates
         {
             // send update to the data operation
             let _ = data_operation_update_tx.send(data_operation_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_data_operation_definition, _,_))| {
@@ -1465,7 +1182,7 @@ impl AssetClient {
                 );
             });
         }
-        for new_data_operation_client in new_data_operation_clients {
+        for new_data_operation_client in updates.new_data_operation_clients {
             // error is not possible since the receiving side of the channel is owned by the AssetClient
             let _ = self
                 .data_operation_creation_tx
@@ -1724,29 +1441,6 @@ pub enum DataOperationNotification {
     /// there is a new update, otherwise the out of date definition will be used for
     /// sending data to the destination.
     UpdatedInvalid,
-}
-
-/// Holds the `DataOperation`'s definition, regardless of the type
-#[derive(Debug, Clone)]
-pub enum DataOperationDefinition {
-    /// Dataset definition
-    Dataset(adr_models::Dataset),
-    /// Event definition
-    Event(adr_models::Event),
-    /// Stream definition
-    Stream(adr_models::Stream),
-}
-
-impl DataOperationDefinition {
-    /// Returns the name of the data operation
-    #[must_use]
-    pub fn name(&self) -> &str {
-        match self {
-            DataOperationDefinition::Dataset(dataset) => &dataset.name,
-            DataOperationDefinition::Event(event) => &event.name,
-            DataOperationDefinition::Stream(stream) => &stream.name,
-        }
-    }
 }
 
 /// Azure Device Registry Data Operation Client represents either a Dataset, Event,
@@ -2700,6 +2394,60 @@ impl From<adr_models::Asset> for AssetSpecification {
             uuid: value.uuid,
             version: value.version,
         }
+    }
+}
+
+/// Holds the `DataOperation`'s definition, regardless of the type
+#[derive(Debug, Clone)]
+pub enum DataOperationDefinition {
+    /// Dataset definition
+    Dataset(adr_models::Dataset),
+    /// Event definition
+    Event(adr_models::Event),
+    /// Stream definition
+    Stream(adr_models::Stream),
+}
+
+impl DataOperationDefinition {
+    /// Returns the name of the data operation
+    #[must_use]
+    pub fn name(&self) -> &str {
+        match self {
+            DataOperationDefinition::Dataset(dataset) => &dataset.name,
+            DataOperationDefinition::Event(event) => &event.name,
+            DataOperationDefinition::Stream(stream) => &stream.name,
+        }
+    }
+}
+
+/// Implementation to be able to handle different data operations without needing
+/// to know which kind it is
+trait DataOperation {
+    fn name(&self) -> &str;
+    fn into_data_operation_definition(self) -> DataOperationDefinition;
+}
+impl DataOperation for adr_models::Dataset {
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn into_data_operation_definition(self) -> DataOperationDefinition {
+        DataOperationDefinition::Dataset(self)
+    }
+}
+impl DataOperation for adr_models::Event {
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn into_data_operation_definition(self) -> DataOperationDefinition {
+        DataOperationDefinition::Event(self)
+    }
+}
+impl DataOperation for adr_models::Stream {
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn into_data_operation_definition(self) -> DataOperationDefinition {
+        DataOperationDefinition::Stream(self)
     }
 }
 
