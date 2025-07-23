@@ -150,12 +150,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
                 string executorId = ExecutorId ?? clientId;
                 bool isExecutorSpecific = args.ApplicationMessage.Topic.Contains(executorId);
-                string sourceId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value ?? string.Empty;
 
                 Task<MqttApplicationMessage>? cachedResponse =
                     await _commandResponseCache.RetrieveAsync(
                         _commandName,
-                        sourceId,
                         args.ApplicationMessage.ResponseTopic,
                         args.ApplicationMessage.CorrelationData,
                         args.ApplicationMessage.Payload,
@@ -238,7 +236,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         MqttApplicationMessage? responseMessage = await GenerateResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, !serializedPayloadContext.SerializedPayload.IsEmpty ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
                         await _commandResponseCache.StoreAsync(
                             _commandName,
-                            sourceId,
                             args.ApplicationMessage.ResponseTopic,
                             args.ApplicationMessage.CorrelationData,
                             args.ApplicationMessage.Payload,

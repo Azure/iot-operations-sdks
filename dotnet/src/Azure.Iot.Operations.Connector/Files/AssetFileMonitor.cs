@@ -156,7 +156,7 @@ namespace Azure.Iot.Operations.Connector.Files
                 _deviceDirectoryMonitor = _filesMonitorFactory.Create();
                 _deviceDirectoryMonitor.OnFileChanged += (sender, args) =>
                 {
-                    if (args.FileName.Contains("_"))
+                    if (isDeviceFile(args.FileName))
                     {
                         splitCompositeName(Path.GetFileName(args.FileName), out string foundDeviceName, out string foundInboundEndpointName);
 
@@ -220,7 +220,7 @@ namespace Azure.Iot.Operations.Connector.Files
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_"))
+                    if (isDeviceFile(fileName))
                     {
                         splitCompositeName(Path.GetFileName(fileNameWithPath), out string foundDeviceName, out string foundInboundEndpointName);
                         if (foundDeviceName.Equals(deviceName))
@@ -245,7 +245,7 @@ namespace Azure.Iot.Operations.Connector.Files
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_"))
+                    if (isDeviceFile(fileName))
                     {
                         splitCompositeName(Path.GetFileName(fileNameWithPath), out string foundDeviceName, out string foundInboundEndpointName);
                         deviceNames.Add(foundDeviceName);
@@ -266,7 +266,7 @@ namespace Azure.Iot.Operations.Connector.Files
                 foreach (string fileNameWithPath in files)
                 {
                     string fileName = Path.GetFileName(fileNameWithPath);
-                    if (fileName.Contains("_"))
+                    if (isDeviceFile(fileName))
                     {
                         compositeDeviceNames.Add(fileName);
                     }
@@ -361,6 +361,12 @@ namespace Azure.Iot.Operations.Connector.Files
 
             deviceName = compositeName.Substring(0, indexOfFirstUnderscore);
             inboundEndpointName = compositeName.Substring(indexOfFirstUnderscore + 1);
+        }
+
+        private bool isDeviceFile(string fileName)
+        {
+            // Ignore any symlink files like "..data" and ignore any files that don't look like {deviceName}_{inboundEndpointName}
+            return !fileName.StartsWith("..") && fileName.Contains("_");
         }
     }
 }

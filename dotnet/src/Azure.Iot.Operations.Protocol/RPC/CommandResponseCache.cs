@@ -71,7 +71,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return executionBypassBenefit / storageCost;
         }
 
-        public async Task StoreAsync(string commandName, string invokerId, string responseTopic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration)
+        public async Task StoreAsync(string commandName, string responseTopic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration)
         {
             if (!_isMaintenanceActive)
             {
@@ -133,13 +133,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
             _expireEvent.Set();
         }
 
-        public async Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string responseTopic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, bool isCacheable, bool canReuseAcrossInvokers)
+        public async Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string responseTopic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, bool isCacheable, bool canReuseAcrossInvokers)
         {
             Task<MqttApplicationMessage>? responseTask = null;
             await _semaphore.WaitAsync().ConfigureAwait(false);
 
             FullCorrelationId fullCorrelationId = new(responseTopic, correlationData);
-            FullRequest? fullRequest = isCacheable ? new FullRequest(commandName, canReuseAcrossInvokers ? string.Empty : invokerId, requestPayload) : null;
+            FullRequest? fullRequest = isCacheable ? new FullRequest(commandName, requestPayload) : null;
 
             if (_requestResponseCache.TryGetValue(fullCorrelationId, out RequestResponse? dedupRequestResponse))
             {
@@ -281,11 +281,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
         }
 
-        private sealed class FullRequest(string commandName, string invokerId, ReadOnlySequence<byte> payload)
+        private sealed class FullRequest(string commandName, ReadOnlySequence<byte> payload)
         {
             public string CommandName = commandName;
-
-            public string InvokerId = invokerId;
 
             public ReadOnlySequence<byte> Payload = payload;
 
@@ -293,7 +291,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             {
                 return obj != null
                     && obj is FullRequest other
-                    && CommandName == other.CommandName && InvokerId == other.InvokerId && Payload.ToArray().SequenceEqual(other.Payload.ToArray());
+                    && CommandName == other.CommandName && Payload.ToArray().SequenceEqual(other.Payload.ToArray());
             }
 
             public override int GetHashCode()
@@ -302,13 +300,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     int hash = 0;
                     hash = 131 * hash + CommandName.GetHashCode();
-                    hash = 131 * hash + InvokerId.GetHashCode();
                     hash = 131 * hash + ((IStructuralEquatable)Payload.ToArray()).GetHashCode(EqualityComparer<byte>.Default);
                     return hash;
                 }
             }
 
-            public long Size => CommandName.Length + InvokerId.Length + Payload.Length;
+            public long Size => CommandName.Length + Payload.Length;
         }
 
         private sealed record RequestResponse

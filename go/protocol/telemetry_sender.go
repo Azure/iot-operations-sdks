@@ -40,6 +40,7 @@ type (
 	SendOptions struct {
 		CloudEvent *CloudEvent
 		Retain     bool
+		Persist    bool
 
 		Timeout     time.Duration
 		TopicTokens map[string]string
@@ -49,6 +50,11 @@ type (
 	// WithRetain indicates that the telemetry event should be retained by the
 	// broker.
 	WithRetain bool
+
+	// WithPersist indicates that the telemetry event should be retained by the
+	// broker and stored to disk. Note that this is only useable with the AIO
+	// Broker and implies the Retain option if enabled.
+	WithPersist bool
 
 	// This option is not used directly; see WithCloudEvent below.
 	withCloudEvent struct{ *CloudEvent }
@@ -139,7 +145,10 @@ func (ts *TelemetrySender[T]) Send(
 	if err := opts.CloudEvent.toMessage(pub); err != nil {
 		return err
 	}
-	pub.Retain = opts.Retain
+	pub.Retain = opts.Retain || opts.Persist
+	if opts.Persist {
+		pub.UserProperties["aio-persistence"] = "true"
+	}
 
 	shallow = false
 	if err := ts.publisher.publish(ctx, pub); err != nil {
@@ -193,6 +202,10 @@ func (o *SendOptions) send(opt *SendOptions) {
 
 func (o WithRetain) send(opt *SendOptions) {
 	opt.Retain = bool(o)
+}
+
+func (o WithPersist) send(opt *SendOptions) {
+	opt.Persist = bool(o)
 }
 
 // WithCloudEvent adds a cloud event payload to the telemetry message.
