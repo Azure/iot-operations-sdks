@@ -43,6 +43,9 @@ use super::super::common_types::<#=this.serializerEmptyType.GetFileName(TargetLa
 
 pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#> = rpc_command::invoker::Request<<#=this.RequestType()#>>;
 pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#> = rpc_command::invoker::Response<<#=this.InternalResponseType()#>>;
+<# if (this.errorResultSchema != null) { #>
+pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "error")#> = rpc_command::invoker::Response<<#=this.errorResultSchema.GetTypeName(TargetLanguage.Rust)#>>;
+<# } #>
 pub type <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request", "builder", "error")#> = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
@@ -183,12 +186,18 @@ where
         &self,
         request: <#=this.commandName.GetTypeName(TargetLanguage.Rust, "request")#>,
 <# if (this.errorResultName != null) { #>
-    ) -> Result<Result<<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#>, <#=this.errorResultSchema.GetTypeName(TargetLanguage.Rust)#>>, AIOProtocolError> {
+    ) -> Result<Result<<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#>, <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "error")#>>, AIOProtocolError> {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(<#=this.errorResultName.GetVariableName(TargetLanguage.Rust)#>) = response.payload.<#=this.errorResultName.GetFieldName(TargetLanguage.Rust)#> {
-                    Ok(Err(<#=this.errorResultName.GetVariableName(TargetLanguage.Rust)#>))
+                    Ok(Err(<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "error")#> {
+                        payload: <#=this.errorResultName.GetVariableName(TargetLanguage.Rust)#>,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                    }))
 <# if (this.isRespNullable) { #>
                 } else {
 <# } else { #>
