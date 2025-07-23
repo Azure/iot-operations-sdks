@@ -315,8 +315,11 @@ impl ConnectorArtifacts {
     /// Creates an [`azure_iot_operations_otel::config::Config`] struct from the values in the
     /// artifacts, given an OTEL tag and default log level.
     #[must_use]
-    pub fn to_otel_config(&self, otel_tag: &str, default_log_level: &str) -> aio_otel::config::Config {
-
+    pub fn to_otel_config(
+        &self,
+        otel_tag: &str,
+        default_log_level: &str,
+    ) -> aio_otel::config::Config {
         let mut log_targets = vec![];
         let mut metric_targets = vec![];
 
@@ -357,13 +360,11 @@ impl ConnectorArtifacts {
             None => default_log_level.to_string(),
         };
 
-        let resource_attributes = vec![
-            aio_otel::config::Attribute {
-                key: OTEL_RESOURCE_ID_KEY.to_string(),
-                value: self.azure_extension_resource_id.clone(),
-            },
-        ];
-        
+        let resource_attributes = vec![aio_otel::config::Attribute {
+            key: OTEL_RESOURCE_ID_KEY.to_string(),
+            value: self.azure_extension_resource_id.clone(),
+        }];
+
         aio_otel::config::Config {
             service_name: otel_tag.to_string(),
             emit_metrics_to_stdout: false,
@@ -655,7 +656,8 @@ mod tests {
     const HOST: &str = "someHostName:1234";
     const OTEL_TAG: &str = "otel_tag";
     const LOG_LEVEL: &str = "debug";
-    const DEFAULT_LOG_LEVEL: &str = "warn,azure_iot_operations_rest_connector=info,azure_iot_operations_connector=info";
+    const DEFAULT_LOG_LEVEL: &str =
+        "warn,azure_iot_operations_rest_connector=info,azure_iot_operations_connector=info";
 
     // Stopgap env var constants
     const GRPC_METRIC_ENDPOINT: &str = "grpcs://metric.endpoint";
@@ -1409,21 +1411,32 @@ mod tests {
         };
 
         // Convert to Otel config
-        let otel_config = connector_artifacts
-            .to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
+        let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
         assert_eq!(otel_config.service_name, OTEL_TAG);
         assert!(!otel_config.emit_metrics_to_stdout);
         assert!(otel_config.emit_logs_to_stderr);
-        assert!(otel_config.metrics_export_targets.is_some_and(|targets| targets.is_empty()));
-        assert!(otel_config.log_export_targets.is_some_and(|targets| targets.is_empty()));
+        assert!(
+            otel_config
+                .metrics_export_targets
+                .is_some_and(|targets| targets.is_empty())
+        );
+        assert!(
+            otel_config
+                .log_export_targets
+                .is_some_and(|targets| targets.is_empty())
+        );
         assert!(otel_config.resource_attributes.is_some_and(|attrs| {
-            attrs.len() == 1 &&
-                attrs[0].key == OTEL_RESOURCE_ID_KEY &&
-                attrs[0].value == AZURE_EXTENSION_RESOURCE_ID
+            attrs.len() == 1
+                && attrs[0].key == OTEL_RESOURCE_ID_KEY
+                && attrs[0].value == AZURE_EXTENSION_RESOURCE_ID
         }));
         assert_eq!(otel_config.level, DEFAULT_LOG_LEVEL);
         assert!(otel_config.prometheus_config.is_none());
-        assert!(otel_config.enterprise_number.is_some_and(|v| v == MICROSOFT_ENTERPRISE_NUMBER));
+        assert!(
+            otel_config
+                .enterprise_number
+                .is_some_and(|v| v == MICROSOFT_ENTERPRISE_NUMBER)
+        );
     }
 
     #[test]
@@ -1449,8 +1462,8 @@ mod tests {
                 },
                 diagnostics: Some(Diagnostics {
                     logs: Logs {
-                        level: LOG_LEVEL.to_string()
-                    }
+                        level: LOG_LEVEL.to_string(),
+                    },
                 }),
                 persistent_volumes: vec![],
                 additional_configuration: None,
@@ -1464,49 +1477,69 @@ mod tests {
             // stopgaps
             grpc_metric_endpoint: Some(GRPC_METRIC_ENDPOINT.to_string()),
             grpc_log_endpoint: Some(GRPC_LOG_ENDPOINT.to_string()),
-            grpc_trace_endpoint: Some(GRPC_TRACE_ENDPOINT.to_string()),     // Unused
-            grpc_metric_collector_1p_ca_mount: Some(grpc_metric_collector_1p_ca_mount.path().to_path_buf()),
-            grpc_log_collector_1p_ca_mount: Some(grpc_log_collector_1p_ca_mount.path().to_path_buf()),
-            http_metric_endpoint: Some(HTTP_METRIC_ENDPOINT.to_string()),   // Unused
-            http_log_endpoint: Some(HTTP_LOG_ENDPOINT.to_string()),         // Unused
-            http_trace_endpoint: Some(HTTP_TRACE_ENDPOINT.to_string()),     // Unused
+            grpc_trace_endpoint: Some(GRPC_TRACE_ENDPOINT.to_string()), // Unused
+            grpc_metric_collector_1p_ca_mount: Some(
+                grpc_metric_collector_1p_ca_mount.path().to_path_buf(),
+            ),
+            grpc_log_collector_1p_ca_mount: Some(
+                grpc_log_collector_1p_ca_mount.path().to_path_buf(),
+            ),
+            http_metric_endpoint: Some(HTTP_METRIC_ENDPOINT.to_string()), // Unused
+            http_log_endpoint: Some(HTTP_LOG_ENDPOINT.to_string()),       // Unused
+            http_trace_endpoint: Some(HTTP_TRACE_ENDPOINT.to_string()),   // Unused
         };
 
         // Convert to Otel config
-        let otel_config = connector_artifacts
-            .to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
+        let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
         assert_eq!(otel_config.service_name, OTEL_TAG);
         assert!(!otel_config.emit_metrics_to_stdout);
         assert!(otel_config.emit_logs_to_stderr);
         assert!(otel_config.metrics_export_targets.is_some_and(|targets| {
-            targets.len() == 1 &&
-                targets[0].url == GRPC_METRIC_ENDPOINT &&
-                targets[0].interval_secs == 30 &&
-                targets[0].timeout == 5 &&
-                targets[0].temporality == Some(Temporality::Delta) &&
-                targets[0].ca_cert_path == Some(grpc_metric_collector_1p_ca_mount.path().to_str().unwrap().to_string()) &&
-                targets[0].bearer_token_provider_fn.is_none()
+            targets.len() == 1
+                && targets[0].url == GRPC_METRIC_ENDPOINT
+                && targets[0].interval_secs == 30
+                && targets[0].timeout == 5
+                && targets[0].temporality == Some(Temporality::Delta)
+                && targets[0].ca_cert_path
+                    == Some(
+                        grpc_metric_collector_1p_ca_mount
+                            .path()
+                            .to_str()
+                            .unwrap()
+                            .to_string(),
+                    )
+                && targets[0].bearer_token_provider_fn.is_none()
         }));
         assert!(otel_config.log_export_targets.is_some_and(|targets| {
-            targets.len() == 1 &&
-                targets[0].url == GRPC_LOG_ENDPOINT &&
-                targets[0].interval_secs == 1 &&
-                targets[0].timeout == 5 &&
-                targets[0].export_severity == Some(Severity::Error) &&
-                targets[0].ca_cert_path == Some(grpc_log_collector_1p_ca_mount.path().to_str().unwrap().to_string()) &&
-                targets[0].bearer_token_provider_fn.is_none()
+            targets.len() == 1
+                && targets[0].url == GRPC_LOG_ENDPOINT
+                && targets[0].interval_secs == 1
+                && targets[0].timeout == 5
+                && targets[0].export_severity == Some(Severity::Error)
+                && targets[0].ca_cert_path
+                    == Some(
+                        grpc_log_collector_1p_ca_mount
+                            .path()
+                            .to_str()
+                            .unwrap()
+                            .to_string(),
+                    )
+                && targets[0].bearer_token_provider_fn.is_none()
         }));
         assert!(otel_config.resource_attributes.is_some_and(|attrs| {
-            attrs.len() == 1 &&
-                attrs[0].key == OTEL_RESOURCE_ID_KEY &&
-                attrs[0].value == AZURE_EXTENSION_RESOURCE_ID
+            attrs.len() == 1
+                && attrs[0].key == OTEL_RESOURCE_ID_KEY
+                && attrs[0].value == AZURE_EXTENSION_RESOURCE_ID
         }));
         assert_eq!(otel_config.level, LOG_LEVEL);
         assert_ne!(otel_config.level, DEFAULT_LOG_LEVEL);
         assert!(otel_config.prometheus_config.is_none());
-        assert!(otel_config.enterprise_number.is_some_and(|v| v == MICROSOFT_ENTERPRISE_NUMBER));
+        assert!(
+            otel_config
+                .enterprise_number
+                .is_some_and(|v| v == MICROSOFT_ENTERPRISE_NUMBER)
+        );
     }
-
 
     // TODO: Simulate permissions issues in mounts
 }
