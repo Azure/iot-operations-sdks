@@ -2,10 +2,31 @@
 
 set -o errexit # fail if any command fails
 
-# login if needed
-if ! az account show; then
-    az login
-fi
+# Usage info
+# LOCATION: An Azure region close to you. For the list of currently Azure IoT Operations supported regions, see https://learn.microsoft.com/azure/iot-operations/overview-iot-operations#supported-regions.
+# RESOURCE_GROUP: A name for a new Azure resource group where your cluster will be created.
+# CLUSTER_NAME: A name for your Kubernetes cluster.
+# STORAGE_ACCOUNT: A name for your storage account. Must be between 3 and 24 characters, and only contain numbers and lowercase letters.
+# SCHEMA_REGISTRY: A name for your schema registry. Can only contain numbers, lowercase letters, and hyphens.
+# SCHEMA_REGISTRY_NAMESPACE: A name for your schema registry namespace. Uniquely identifies a schema registry within a tenant. Can only contain numbers, lowercase letters, and hyphens.
+
+usage() {
+    echo "Usage: $0 [-l location] [-g resource_group] [-c cluster_name] [-s storage_account] [-r schema_registry] [-n schema_registry_namespace]"
+    exit 1
+}
+
+# Parse arguments
+while getopts "l:g:c:s:r:n:" opt; do
+  case $opt in
+    l) LOCATION="$OPTARG" ;;
+    g) RESOURCE_GROUP="$OPTARG" ;;
+    c) CLUSTER_NAME="$OPTARG" ;;
+    s) STORAGE_ACCOUNT="$OPTARG" ;;
+    r) SCHEMA_REGISTRY="$OPTARG" ;;
+    n) SCHEMA_REGISTRY_NAMESPACE="$OPTARG" ;;
+    *) usage ;;
+  esac
+done
 
 # check if the required environment variables are set
 if [ -z $LOCATION ]; then echo "LOCATION is not set"; exit 1; fi
@@ -15,7 +36,17 @@ if [ -z $STORAGE_ACCOUNT ]; then echo "STORAGE_ACCOUNT is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY ]; then echo "SCHEMA_REGISTRY is not set"; exit 1; fi
 if [ -z $SCHEMA_REGISTRY_NAMESPACE ]; then echo "SCHEMA_REGISTRY_NAMESPACE is not set"; exit 1; fi
 
+# login if needed
+if ! az account show; then
+    az login
+fi
+
+# create a resource group
+echo ===Creating Resource Group===
+az group create --name $RESOURCE_GROUP --location $LOCATION
+
 # install providers
+echo ===Registering Providers===
 az provider register -n "Microsoft.ExtendedLocation"
 az provider register -n "Microsoft.Kubernetes"
 az provider register -n "Microsoft.KubernetesConfiguration"

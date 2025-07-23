@@ -24,7 +24,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Store an <see cref="MqttApplicationMessage"/> for future retrieval, if the caching policy determines that storage is appropriate.
         /// </summary>
         /// <param name="commandName">The name of the command.</param>
-        /// <param name="invokerId">The MQTT client ID of the command invoker if it is discernable, or string.Empty if the ID is not discernable.</param>
         /// <param name="topic">Topic associated with the request; used to secure duplicate requests.</param>
         /// <param name="correlationData">Correlation data associated with the request; used to identify duplicate requests.</param>
         /// <param name="requestPayload">The payload of the request whose response is to be stored, used to identify matching requests.</param>
@@ -32,20 +31,19 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="isIdempotent">True if the command is designated as idempotent.</param>
         /// <param name="commandExpirationTime">Time prior to which the command instance (identfied by <paramref name="correlationData"/>) remains valid\.</param>
         /// <param name="executionDuration">Time taken to execute the command and serialize the response into a message.</param>
-        Task StoreAsync(string commandName, string invokerId, string topic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration);
+        Task StoreAsync(string commandName, string topic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, MqttApplicationMessage responseMessage, bool isIdempotent, DateTime commandExpirationTime, TimeSpan executionDuration);
 
         /// <summary>
         /// Retrieve a promise (Task) of an <see cref="MqttApplicationMessage"/> if present in the cache.
         /// </summary>
         /// <param name="commandName">The name of the command.</param>
-        /// <param name="invokerId">The MQTT client ID of the command invoker if it is discernable, or string.Empty if the ID is not discernable.</param>
         /// <param name="topic">The topic provided when the message was stored.</param>
         /// <param name="correlationData">The correlation data provided when the message was stored.</param>
         /// <param name="requestPayload">The payload of the request whose corresponding response was stored.</param>
         /// <param name="isCacheable">True if the command is cacheable for responding to a request with different <paramref name="correlationData"/>.</param>
         /// <param name="canReuseAcrossInvokers">True if the <paramref name="invokerId"/> can be ignored when caching for reuse.</param>
         /// <returns>A <c>Task</c> that promises the retrieved message, or null if the response message is neither present nor expected.</returns>
-        Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string invokerId, string topic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, bool isCacheable, bool canReuseAcrossInvokers);
+        Task<Task<MqttApplicationMessage>?> RetrieveAsync(string commandName, string topic, byte[] correlationData, ReadOnlySequence<byte> requestPayload, bool isCacheable, bool canReuseAcrossInvokers);
 
         /// <summary>
         /// Start background maintenance threads.

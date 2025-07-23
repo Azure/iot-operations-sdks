@@ -42,9 +42,10 @@
             schemaGenerator.GenerateCommandSchemas(schemaWriter.Accept, mqttVersion, sharedPrefix);
             schemaGenerator.GenerateObjects(schemaWriter.Accept, mqttVersion, sharedPrefix);
             schemaGenerator.GenerateEnums(schemaWriter.Accept, mqttVersion, sharedPrefix);
+            schemaGenerator.GenerateJsonErrorFields(schemaWriter.Accept, mqttVersion, sharedPrefix);
             schemaGenerator.GenerateArrays(schemaWriter.Accept);
             schemaGenerator.GenerateMaps(schemaWriter.Accept);
-            schemaGenerator.CopyIncludedSchemas(schemaWriter.Accept);
+            schemaGenerator.CopyIncludedSchemas(schemaWriter.Accept, mqttVersion);
 
             if (schemaCounts.Any(kv => kv.Value > 1))
             {
@@ -153,7 +154,7 @@
                     foreach (KeyValuePair<string, DTTelemetryInfo> dtTelemetry in dtInterface.Telemetries)
                     {
                         var nameDescSchemaRequiredIndices = new List<(string, string, DTSchemaInfo, bool, int)> { (dtTelemetry.Key, dtTelemetry.Value.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{dtTelemetry.Key}' Telemetry.", dtTelemetry.Value.Schema, true, 1) };
-                        WriteTelemetrySchema(GetTelemSchema(dtTelemetry.Value), nameDescSchemaRequiredIndices, acceptor, sharedPrefix, isSeparate: true);
+                        WriteTelemetrySchema(GetTelemSchema(dtTelemetry.Value), nameDescSchemaRequiredIndices, acceptor, sharedPrefix, mqttVersion, isSeparate: true);
                     }
                 }
                 else
@@ -162,7 +163,7 @@
                     nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
                     int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
                     nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
-                    WriteTelemetrySchema(GetAggregateTelemSchema(), nameDescSchemaRequiredIndices, acceptor, sharedPrefix, isSeparate: false);
+                    WriteTelemetrySchema(GetAggregateTelemSchema(), nameDescSchemaRequiredIndices, acceptor, sharedPrefix, mqttVersion, isSeparate: false);
                 }
             }
         }
@@ -176,7 +177,7 @@
                     ITypeName reqSchema = GetRequestSchema(dtCommand.Value, mqttVersion)!;
 
                     foreach (ITemplateTransform reqSchemaTransform in SchemaTransformFactory.GetCommandSchemaTransforms(
-                        payloadFormat, projectName, genNamespace, dtInterface.Id, reqSchema, dtCommand.Key, "request", dtCommand.Value.Request.Name, dtCommand.Value.Request.Schema, sharedPrefix, dtCommand.Value.Request.Nullable))
+                        payloadFormat, projectName, genNamespace, dtInterface.Id, reqSchema, dtCommand.Key, "request", dtCommand.Value.Request.Name, dtCommand.Value.Request.Schema, sharedPrefix, mqttVersion, dtCommand.Value.Request.Nullable))
                     {
                         acceptor(reqSchemaTransform.TransformText(), reqSchemaTransform.FileName, reqSchemaTransform.FolderPath);
                     }
@@ -198,7 +199,7 @@
                     if (paramSchema != null)
                     {
                         foreach (ITemplateTransform respSchemaTransform in SchemaTransformFactory.GetCommandSchemaTransforms(
-                            payloadFormat, projectName, genNamespace, dtInterface.Id, respSchema, dtCommand.Key, "response", paramName, paramSchema, sharedPrefix, dtCommand.Value.Response.Nullable))
+                            payloadFormat, projectName, genNamespace, dtInterface.Id, respSchema, dtCommand.Key, "response", paramName, paramSchema, sharedPrefix, mqttVersion, dtCommand.Value.Response.Nullable))
                         {
                             acceptor(respSchemaTransform.TransformText(), respSchemaTransform.FileName, respSchemaTransform.FolderPath);
                         }
@@ -211,19 +212,7 @@
         {
             foreach (DTObjectInfo dtObject in modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Object).Select(e => (DTObjectInfo)e))
             {
-                CodeName schemaName = new(dtObject.Id);
-                string? description = dtObject.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value;
-                bool isResult = IsSchemaResult(dtObject, mqttVersion);
-
-                List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices = dtObject.Fields.Select(f => (f.Name, f.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{f.Name}' Field.", f.Schema, IsRequired(f), GetFieldIndex(f, mqttVersion))).ToList();
-                nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
-                int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
-                nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
-
-                foreach (ITemplateTransform objectSchemaTransform in SchemaTransformFactory.GetObjectSchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, dtObject.Id, description, schemaName, nameDescSchemaRequiredIndices, sharedPrefix, isResult))
-                {
-                    acceptor(objectSchemaTransform.TransformText(), objectSchemaTransform.FileName, objectSchemaTransform.FolderPath);
-                }
+                GenerateObject(dtObject, acceptor, mqttVersion, sharedPrefix, payloadFormat, projectName, genNamespace, dtInterface.Id);
             }
         }
 
@@ -231,18 +220,8 @@
         {
             foreach (DTEnumInfo dtEnum in modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Enum).Select(e => (DTEnumInfo)e))
             {
-                CodeName schemaName = new(dtEnum.Id);
-                string? description = dtEnum.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value;
-
                 List<(string, string, int)> nameValueIndices = dtEnum.EnumValues.Select(e => (e.Name, e.EnumValue.ToString()!, GetFieldIndex(e, mqttVersion))).ToList();
-                nameValueIndices.Sort((x, y) => x.Item3 == 0 && y.Item3 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item3.CompareTo(x.Item3));
-                int ix = nameValueIndices.FirstOrDefault().Item3;
-                nameValueIndices = nameValueIndices.Select(x => (x.Item1, x.Item2, x.Item3 == 0 ? ++ix : x.Item3)).ToList();
-
-                foreach (ITemplateTransform enumSchemaTransform in SchemaTransformFactory.GetEnumSchemaTransforms(payloadFormat, projectName, genNamespace, dtEnum.Id, description, schemaName, dtEnum.ValueSchema.Id, nameValueIndices, sharedPrefix))
-                {
-                    acceptor(enumSchemaTransform.TransformText(), enumSchemaTransform.FileName, enumSchemaTransform.FolderPath);
-                }
+                GenerateEnum(dtEnum, JsonSchemaSupport.GetPrimitiveType(dtEnum.ValueSchema.Id), nameValueIndices, acceptor, mqttVersion, sharedPrefix, payloadFormat, projectName, genNamespace);
             }
         }
 
@@ -274,37 +253,90 @@
             }
         }
 
-        public void CopyIncludedSchemas(Action<string, string, string> acceptor)
+        public void GenerateJsonErrorFields(Action<string, string, string> acceptor, int mqttVersion, CodeName? sharedPrefix)
+        {
+            if (payloadFormat == PayloadFormat.Json)
+            {
+                return;
+            }
+
+            HashSet<Dtmi> generatedErrorCodeIds = new ();
+            HashSet<Dtmi> generatedErrorInfoIds = new ();
+
+            foreach (DTObjectInfo dtObject in modelDict.Values.Where(e => e.EntityKind == DTEntityKind.Object).Select(e => (DTObjectInfo)e))
+            {
+                foreach (DTFieldInfo dtField in dtObject.Fields)
+                {
+                    if (IsFieldErrorCode(dtField, mqttVersion) && generatedErrorCodeIds.Add(dtField.Schema.Id))
+                    {
+                        List<(string, string, int)> nameValueIndices = ((DTEnumInfo)dtField.Schema).EnumValues.Select((e, i) => (e.Name, i.ToString(), GetFieldIndex(e, mqttVersion))).ToList();
+                        GenerateEnum((DTEnumInfo)dtField.Schema, "integer", nameValueIndices, acceptor, mqttVersion, sharedPrefix, PayloadFormat.Json, projectName, genNamespace);
+                    }
+                    else if (IsFieldErrorInfo(dtField, mqttVersion) && generatedErrorInfoIds.Add(dtField.Schema.Id))
+                    {
+                        GenerateObject((DTObjectInfo)dtField.Schema, acceptor, mqttVersion, sharedPrefix, PayloadFormat.Json, projectName, genNamespace, dtInterface.Id);
+                    }
+                }
+            }
+        }
+
+        public void CopyIncludedSchemas(Action<string, string, string> acceptor, int mqttVersion)
         {
             foreach (ITemplateTransform schemaTransform in SchemaTransformFactory.GetSchemaTransforms(payloadFormat))
             {
                 acceptor(schemaTransform.TransformText(), schemaTransform.FileName, schemaTransform.FolderPath);
             }
+
+            if (payloadFormat != PayloadFormat.Json && modelDict.Values.Any(e => e.EntityKind == DTEntityKind.Field && (IsFieldErrorCode((DTFieldInfo)e, mqttVersion) || IsFieldErrorInfo((DTFieldInfo)e, mqttVersion))))
+            {
+                foreach (ITemplateTransform schemaTransform in SchemaTransformFactory.GetSchemaTransforms(PayloadFormat.Json))
+                {
+                    acceptor(schemaTransform.TransformText(), schemaTransform.FileName, schemaTransform.FolderPath);
+                }
+            }
         }
 
-        private void WriteTelemetrySchema(ITypeName telemSchema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, Action<string, string, string> acceptor, CodeName? sharedPrefix, bool isSeparate)
+        private void WriteTelemetrySchema(ITypeName telemSchema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, Action<string, string, string> acceptor, CodeName? sharedPrefix, int mqttVersion, bool isSeparate)
         {
-            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaRequiredIndices, sharedPrefix, isSeparate))
+            foreach (ITemplateTransform templateTransform in SchemaTransformFactory.GetTelemetrySchemaTransforms(payloadFormat, projectName, genNamespace, dtInterface.Id, telemSchema, nameDescSchemaRequiredIndices, sharedPrefix, isSeparate, mqttVersion))
             {
                 acceptor(templateTransform.TransformText(), templateTransform.FileName, templateTransform.FolderPath);
             }
         }
 
-        private int GetFieldIndex(DTEntityInfo dtEntity, int mqttVersion)
+        private (CodeName?, bool, CodeName?, CodeName?, CodeName?, CodeName?) GetErrorMessageSchema(DTObjectInfo dtObject, int mqttVersion)
         {
-            return dtEntity.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.IndexedAdjunctTypeFormat, mqttVersion))) ? (int)dtEntity.SupplementalProperties[string.Format(DtdlMqttExtensionValues.IndexPropertyFormat, mqttVersion)] : 0;
-        }
+            CodeName? messageFieldName = null;
+            bool messageIsNullable = false;
+            CodeName? errorCodeName = null;
+            CodeName? errorCodeSchema = null;
+            CodeName? errorInfoName = null;
+            CodeName? errorInfoSchema = null;
 
-        private bool IsRequired(DTFieldInfo dtField)
-        {
-            return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
-        }
-
-        private (CodeName?, bool) GetErrorMessageSchema(DTObjectInfo dtObject, int mqttVersion)
-        {
             Dtmi errorMessageAdjunctTypeId = new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorMessageAdjunctTypeFormat, mqttVersion));
             DTFieldInfo? messageField = dtObject.Fields.FirstOrDefault(f => f.SupplementalTypes.Contains(errorMessageAdjunctTypeId));
-            return messageField != null ? (new CodeName(messageField.Id), !IsRequired(messageField)) : (null, false);
+            if (messageField != null)
+            {
+                messageFieldName = new CodeName(messageField.Id);
+                messageIsNullable = !IsRequired(messageField);
+            }
+
+            DTFieldInfo? errorCodeField = dtObject.Fields.FirstOrDefault(f => IsFieldErrorCode(f, mqttVersion));
+            DTFieldInfo? errorInfoField = dtObject.Fields.FirstOrDefault(f => IsFieldErrorInfo(f, mqttVersion));
+
+            if (errorCodeField != null)
+            {
+                errorCodeName = new CodeName(errorCodeField.Name);
+                errorCodeSchema = new CodeName(errorCodeField.Schema.Id);
+            }
+
+            if (errorInfoField != null)
+            {
+                errorInfoName = new CodeName(errorInfoField.Name);
+                errorInfoSchema = new CodeName(errorInfoField.Schema.Id);
+            }
+
+            return (messageFieldName, messageIsNullable, errorCodeName, errorCodeSchema, errorInfoName, errorInfoSchema);
         }
 
         private ITypeName GetTelemSchema(DTTelemetryInfo dtTelem)
@@ -334,27 +366,52 @@
             CodeName? normalResultSchema = null;
             CodeName? errorResultName = null;
             CodeName? errorResultSchema = null;
+            CodeName? errorCodeName = null;
+            CodeName? errorCodeSchema = null;
+            Dictionary<string, string> errorCodeEnumeration = new ();
+            CodeName? errorInfoName = null;
+            CodeName? errorInfoSchema = null;
 
             if (IsSchemaResult(dtCommand.Response?.Schema, mqttVersion))
             {
                 DTFieldInfo? normalField = ((DTObjectInfo)dtCommand.Response!.Schema).Fields.FirstOrDefault(f => IsFieldNormalResult(f, mqttVersion));
                 DTFieldInfo? errorField = ((DTObjectInfo)dtCommand.Response!.Schema).Fields.FirstOrDefault(f => IsFieldErrorResult(f, mqttVersion));
 
+                DTObjectInfo? errorObject = errorField != null ? (DTObjectInfo)errorField.Schema : (DTObjectInfo)dtCommand.Response!.Schema;
+
+                DTFieldInfo? errorCodeField = errorObject.Fields.FirstOrDefault(f => IsFieldErrorCode(f, mqttVersion));
+                DTFieldInfo? errorInfoField = errorObject.Fields.FirstOrDefault(f => IsFieldErrorInfo(f, mqttVersion));
+
                 if (normalField == null)
                 {
                     throw new Exception($"Object co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.ResultAdjunctTypeFormat)} requires a Field co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.NormalResultAdjunctTypeFormat)}");
                 }
 
-                if (errorField == null)
+                if (errorField != null)
                 {
-                    throw new Exception($"Object co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.ResultAdjunctTypeFormat)} requires a Field co-typed {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.ErrorResultAdjunctTypeFormat)}");
+                    responseSchema = new CodeName(dtCommand.Response.Schema.Id);
+                    normalResultName = new CodeName(normalField.Name);
+                    normalResultSchema = SchemaNames.GetCmdRespSchema(dtCommand.Name);
+                    errorResultName = new CodeName(errorField.Name);
+                    errorResultSchema = new CodeName(errorField.Schema.Id);
+                }
+                else
+                {
+                    responseSchema = GetResponseSchema(dtCommand, mqttVersion);
                 }
 
-                responseSchema = new CodeName(dtCommand.Response.Schema.Id);
-                normalResultName = new CodeName(normalField.Name);
-                normalResultSchema = SchemaNames.GetCmdRespSchema(dtCommand.Name);
-                errorResultName = new CodeName(errorField.Name);
-                errorResultSchema = new CodeName(errorField.Schema.Id);
+                if (errorCodeField != null)
+                {
+                    errorCodeName = new CodeName(errorCodeField.Name);
+                    errorCodeSchema = new CodeName(errorCodeField.Schema.Id);
+                    errorCodeEnumeration = ((DTEnumInfo)errorCodeField.Schema).EnumValues.ToDictionary(v => v.Name, v => v.EnumValue.ToString()!);
+                }
+
+                if (errorInfoField != null)
+                {
+                    errorInfoName = new CodeName(errorInfoField.Name);
+                    errorInfoSchema = new CodeName(errorInfoField.Schema.Id);
+                }
             }
             else
             {
@@ -369,6 +426,11 @@
                 normalResultSchema,
                 errorResultName,
                 errorResultSchema,
+                errorCodeName,
+                errorCodeSchema,
+                errorCodeEnumeration,
+                errorInfoName,
+                errorInfoSchema,
                 dtCommand.Request?.Nullable ?? false,
                 dtCommand.Response?.Nullable ?? false,
                 IsCommandIdempotent(dtCommand, mqttVersion),
@@ -404,6 +466,53 @@
                 && !IsSchemaResult(dtCommandPayload.Schema, mqttVersion);
         }
 
+        private static void GenerateObject(DTObjectInfo dtObject, Action<string, string, string> acceptor, int mqttVersion, CodeName? sharedPrefix, string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId)
+        {
+            CodeName schemaName = new(dtObject.Id);
+            string? description = dtObject.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value;
+            bool isResult = IsSchemaResult(dtObject, mqttVersion);
+
+            if (isResult && !dtObject.Fields.Any(f => IsFieldErrorResult(f, mqttVersion)))
+            {
+                return;
+            }
+
+            List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices = dtObject.Fields.Where(f => !IsFieldErrorCode(f, mqttVersion) && !IsFieldErrorInfo(f, mqttVersion)).Select(f => (f.Name, f.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{f.Name}' Field.", f.Schema, IsRequired(f), GetFieldIndex(f, mqttVersion))).ToList();
+            nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
+            int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
+            nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
+
+            foreach (ITemplateTransform objectSchemaTransform in SchemaTransformFactory.GetObjectSchemaTransforms(payloadFormat, projectName, genNamespace, interfaceId, dtObject.Id, description, schemaName, nameDescSchemaRequiredIndices, sharedPrefix, mqttVersion, isResult))
+            {
+                acceptor(objectSchemaTransform.TransformText(), objectSchemaTransform.FileName, objectSchemaTransform.FolderPath);
+            }
+        }
+
+        private static void GenerateEnum(DTEnumInfo dtEnum, string valueSchema, List<(string, string, int)> nameValueIndices, Action<string, string, string> acceptor, int mqttVersion, CodeName? sharedPrefix, string payloadFormat, string projectName, CodeName genNamespace)
+        {
+            CodeName schemaName = new(dtEnum.Id);
+            string? description = dtEnum.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value;
+
+            nameValueIndices.Sort((x, y) => x.Item3 == 0 && y.Item3 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item3.CompareTo(x.Item3));
+            int ix = nameValueIndices.FirstOrDefault().Item3;
+            nameValueIndices = nameValueIndices.Select(x => (x.Item1, x.Item2, x.Item3 == 0 ? ++ix : x.Item3)).ToList();
+
+            foreach (ITemplateTransform enumSchemaTransform in SchemaTransformFactory.GetEnumSchemaTransforms(payloadFormat, projectName, genNamespace, dtEnum.Id, description, schemaName, valueSchema, nameValueIndices, sharedPrefix))
+            {
+                acceptor(enumSchemaTransform.TransformText(), enumSchemaTransform.FileName, enumSchemaTransform.FolderPath);
+            }
+        }
+
+        private static int GetFieldIndex(DTEntityInfo dtEntity, int mqttVersion)
+        {
+            return dtEntity.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.IndexedAdjunctTypeFormat, mqttVersion))) ? (int)dtEntity.SupplementalProperties[string.Format(DtdlMqttExtensionValues.IndexPropertyFormat, mqttVersion)] : 0;
+        }
+
+        private static bool IsRequired(DTFieldInfo dtField)
+        {
+            return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+        }
+
         private static bool IsCommandIdempotent(DTCommandInfo dtCommand, int mqttVersion)
         {
             return dtCommand.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.IdempotentAdjunctTypeFormat, mqttVersion)));
@@ -427,6 +536,16 @@
         private static bool IsFieldErrorResult(DTFieldInfo dtField, int mqttVersion)
         {
             return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorResultAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private static bool IsFieldErrorCode(DTFieldInfo dtField, int mqttVersion)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorCodeAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private static bool IsFieldErrorInfo(DTFieldInfo dtField, int mqttVersion)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorInfoAdjunctTypeFormat, mqttVersion)));
         }
 
         private static string? GetTtl(DTCommandInfo dtCommand, int mqttVersion)

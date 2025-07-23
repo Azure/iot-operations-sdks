@@ -11,7 +11,7 @@ use azure_iot_operations_mqtt::session::{
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use counters::counter_collection::client::{
-    ConditionSchema, GetLocationCommandInvoker, GetLocationRequestBuilder, GetLocationRequestPayloadBuilder,
+    ErrorCondition, GetLocationCommandInvoker, GetLocationRequestBuilder, GetLocationRequestPayloadBuilder,
     IncrementCommandInvoker, IncrementRequestBuilder, IncrementRequestPayloadBuilder,
 };
 
@@ -102,23 +102,27 @@ async fn send_increment_command(
     let response = increment_invoker.invoke(increment_request).await;
 
     match response {
-        Ok(Ok(response)) => {
-            println!(
-                "New value = {}",
-                response.payload.counter_value
-            );
-        }
-        Ok(Err(counter_error)) => {
-            println!("Request failed with error: '{}'", counter_error);
-            match counter_error.condition {
-                Some(ConditionSchema::CounterNotFound) => {
+        Ok(response) => {
+            let (error_condition, extant_counters) = IncrementCommandInvoker::<SessionManagedClient>::application_error_headers(&response.custom_user_data);
+            match error_condition {
+                Some(ErrorCondition::CounterNotFound) => {
                     println!("Counter '{counter_name}' was not found");
                 },
-                Some(ConditionSchema::CounterOverflow) => {
+                Some(ErrorCondition::CounterOverflow) => {
                     println!("Counter '{counter_name}' has overflowed");
                 },
                 None => {},
             };
+            if let Some(extant_counters) = extant_counters {
+                if let Some(counter_names) = extant_counters.counter_names {
+                    println!("Available counters are {counter_names:?}")
+                }
+            }
+
+            println!(
+                "New value = {}",
+                response.payload.counter_value
+            );
         }
         Err(err) => {
             println!("Protocol error = {err:?}");
@@ -171,16 +175,22 @@ async fn send_get_location_command(
             }
         }
         Ok(Err(counter_error)) => {
-            println!("Request failed with error: '{}'", counter_error);
-            match counter_error.condition {
-                Some(ConditionSchema::CounterNotFound) => {
+            println!("Request failed with error: '{}'", counter_error.payload);
+            let (condition, available_counters) = GetLocationCommandInvoker::<SessionManagedClient>::application_error_headers(&counter_error.custom_user_data);
+            match condition {
+                Some(ErrorCondition::CounterNotFound) => {
                     println!("Counter '{counter_name}' was not found");
                 },
-                Some(ConditionSchema::CounterOverflow) => {
+                Some(ErrorCondition::CounterOverflow) => {
                     println!("Counter '{counter_name}' has overflowed");
                 },
                 None => {},
             };
+            if let Some(available_counters) = available_counters {
+                if let Some(counter_names) = available_counters.counter_names {
+                    println!("Available counters are {counter_names:?}")
+                }
+            }
         }
         Err(err) => {
             println!("Protocol error = {err:?}");

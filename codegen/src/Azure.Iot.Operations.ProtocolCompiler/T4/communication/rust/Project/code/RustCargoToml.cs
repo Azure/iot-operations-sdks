@@ -21,13 +21,18 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private readonly string? sdkPath;
         private readonly List<(string, string)> packageVersions;
 
-        public RustCargoToml(string projectName, string genFormat, string? sdkPath, bool generateProject)
+        public RustCargoToml(string projectName, string genFormat, string? sdkPath, bool generateProject, bool needJsonSerialization)
         {
             this.generateProject = generateProject;
             this.projectName = projectName;
             this.sdkPath = sdkPath?.Replace('\\', '/');
 
             packageVersions = serializerPackageVersions[genFormat];
+
+            if (needJsonSerialization && genFormat != PayloadFormat.Json)
+            {
+                packageVersions = packageVersions.Append(serializerPackageVersions[PayloadFormat.Json].First()).ToList();
+            }
         }
 
         public string FileName { get => generateProject ? "Cargo.toml" : "dependencies.md"; }

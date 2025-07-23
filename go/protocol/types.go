@@ -37,16 +37,20 @@ type (
 		// The message payload.
 		Payload T
 
-		// The ID of the calling MQTT client.
+		// The ID of the calling MQTT client. This field is optional and should
+		// be treated as purely informational; a required client ID (especially
+		// for auth purposes) should be included in the topic.
 		ClientID string
 
-		// The data that identifies a single unique request.
+		// The data that identifies a single unique request. This field is
+		// optional for telemetry.
 		CorrelationData string
 
-		// The timestamp of when the message was sent.
+		// The timestamp of when the message was sent. This field is optional
+		// and will be set to the zero value if unsent.
 		Timestamp hlc.HybridLogicalClock
 
-		// All topic tokens resolved from the incoming topic.
+		// Any topic tokens resolved from the incoming topic.
 		TopicTokens map[string]string
 
 		// Any user-provided metadata values.

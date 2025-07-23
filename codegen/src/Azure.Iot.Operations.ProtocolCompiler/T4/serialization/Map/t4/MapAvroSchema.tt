@@ -6,6 +6,6 @@
   "name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
 <# } #>
   "type": "map",
-  "values": <#=AvroSchemaSupport.GetTypeAndAddenda(this.valueSchema, 2, this.sharedPrefix, nullable: false, this.definedIds)#>,
+  "values": <#=AvroSchemaSupport.GetTypeAndAddenda(this.valueSchema, 2, this.sharedPrefix, nullable: false, this.definedIds, this.mqttVersion)#>,
   "default": {}
 }<# this.PopIndent(); #>
