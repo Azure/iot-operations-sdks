@@ -28,9 +28,9 @@ use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
 
-const OTEL_TAG: &str = "aio_sample_connector_logs";
+const OTEL_TAG: &str = "base_connector_sample_logs";
 const DEFAULT_LOG_LEVEL: &str =
-    "warn,azure_iot_operations_rest_connector=info,azure_iot_operations_connector=info";
+    "warn,base_connector_sample=info,azure_iot_operations_connector=info";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

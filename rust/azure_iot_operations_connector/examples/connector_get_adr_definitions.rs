@@ -27,9 +27,9 @@ use azure_iot_operations_services::azure_device_registry;
 // This example uses a 5-second debounce duration for the file mount observation.
 const DEBOUNCE_DURATION: Duration = Duration::from_secs(5);
 
-const OTEL_TAG: &str = "aio_sample_connector_logs";
+const OTEL_TAG: &str = "get_adr_definitions_sample_logs";
 const DEFAULT_LOG_LEVEL: &str =
-    "warn,azure_iot_operations_rest_connector=info,azure_iot_operations_connector=info";
+    "warn,connector_get_adr_definitions=info,azure_iot_operations_connector=info";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
