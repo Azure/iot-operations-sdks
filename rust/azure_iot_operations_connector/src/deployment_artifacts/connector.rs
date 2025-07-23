@@ -361,11 +361,6 @@ impl ConnectorArtifacts {
                 key: OTEL_RESOURCE_ID_KEY.to_string(),
                 value: self.azure_extension_resource_id.clone(),
             },
-            // TODO: enable this
-            // aio_otel::config::Attribute {
-            //     key: CONNECTOR_ID_KEY.to_string(),
-            //     value: self.connector_id.clone(),
-            // },
         ];
         
         aio_otel::config::Config {
