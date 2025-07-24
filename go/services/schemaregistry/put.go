@@ -39,22 +39,19 @@ func (c *Client) Put(
 		opts.Version = "1.0.0"
 	}
 
-	req := schemaregistry.PutRequestSchema{
-		SchemaContent: &content,
-		SchemaType:    &opts.SchemaType,
-		Format:        &format,
-		Tags:          opts.Tags,
-		Version:       &opts.Version,
-	}
-
 	res, err := c.client.Put(
 		ctx,
-		schemaregistry.PutRequestPayload{PutSchemaRequest: req},
+		schemaregistry.PutRequestSchema{
+			SchemaContent: content,
+			SchemaType:    opts.SchemaType,
+			Format:        format,
+			Tags:          opts.Tags,
+			Version:       opts.Version,
+		},
 		opts.invoke(),
-		protocol.WithMetadata{"__invId": c.invID},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return nil, err
 	}
 	return &res.Payload.Schema, nil
 }

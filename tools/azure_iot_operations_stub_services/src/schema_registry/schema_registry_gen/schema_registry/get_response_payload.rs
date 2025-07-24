@@ -15,7 +15,5 @@ use super::schema::Schema;
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GetResponsePayload {
     /// The Command response argument.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub schema: Option<Schema>,
+    pub schema: Schema,
 }

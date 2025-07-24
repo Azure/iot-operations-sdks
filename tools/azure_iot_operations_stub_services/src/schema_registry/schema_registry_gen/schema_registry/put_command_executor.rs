@@ -9,19 +9,22 @@ use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
 use super::super::common_types::options::CommandExecutorOptions;
+use super::COMMAND_SERVICE_GROUP_ID;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::put_request_payload::PutRequestPayload;
+use super::put_request_schema::PutRequestSchema;
 use super::put_response_payload::PutResponsePayload;
+use super::put_response_schema::PutResponseSchema;
+use super::schema_registry_error::SchemaRegistryError;
 
-pub type PutRequest = rpc_command::executor::Request<PutRequestPayload, PutResponsePayload>;
-pub type PutResponse = rpc_command::executor::Response<PutResponsePayload>;
+pub type PutRequest = rpc_command::executor::Request<PutRequestSchema, PutResponseSchema>;
+pub type PutResponse = rpc_command::executor::Response<PutResponseSchema>;
 pub type PutResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
 /// Builder for [`PutResponse`]
 #[derive(Default)]
 pub struct PutResponseBuilder {
-    inner_builder: rpc_command::executor::ResponseBuilder<PutResponsePayload>,
+    inner_builder: rpc_command::executor::ResponseBuilder<PutResponseSchema>,
 }
 
 impl PutResponseBuilder {
@@ -36,7 +39,18 @@ impl PutResponseBuilder {
     /// # Errors
     /// If the payload cannot be serialized
     pub fn payload(&mut self, payload: PutResponsePayload) -> Result<&mut Self, AIOProtocolError> {
-        self.inner_builder.payload(payload)?;
+        self.inner_builder.payload(PutResponseSchema {
+            schema: Some(payload.schema),
+            error: None,
+        })?;
+        Ok(self)
+    }
+
+    pub fn error(&mut self, error: SchemaRegistryError) -> Result<&mut Self, AIOProtocolError> {
+        self.inner_builder.payload(PutResponseSchema {
+            schema: None,
+            error: Some(error),
+        })?;
         Ok(self)
     }
 
@@ -51,7 +65,7 @@ impl PutResponseBuilder {
 }
 
 /// Command Executor for `put`
-pub struct PutCommandExecutor<C>(rpc_command::Executor<PutRequestPayload, PutResponsePayload, C>)
+pub struct PutCommandExecutor<C>(rpc_command::Executor<PutRequestSchema, PutResponseSchema, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -91,6 +105,7 @@ where
             .command_name("put")
             .is_idempotent(false)
             .topic_token_map(topic_token_map)
+            .service_group_id(COMMAND_SERVICE_GROUP_ID.to_string())
             .build()
             .expect("DTDL schema generated invalid arguments");
 

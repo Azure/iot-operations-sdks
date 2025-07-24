@@ -19,6 +19,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public static partial class SchemaRegistry
     {
+        [ServiceGroupId("schema-registry-edge")]
         public abstract partial class Service : IAsyncDisposable
         {
             private ApplicationContext applicationContext;
@@ -67,9 +68,9 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
             public GetCommandExecutor GetCommandExecutor { get => this.getCommandExecutor; }
 
-            public abstract Task<ExtendedResponse<PutResponsePayload>> PutAsync(PutRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<PutResponsePayload>> PutAsync(PutRequestSchema request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<GetResponsePayload>> GetAsync(GetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<GetResponsePayload>> GetAsync(GetRequestSchema request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             /// <summary>
             /// Begin accepting command invocations for all command executors.
@@ -96,16 +97,40 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                     this.getCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
-            private async Task<ExtendedResponse<PutResponsePayload>> PutInt(ExtendedRequest<PutRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<PutResponseSchema>> PutInt(ExtendedRequest<PutRequestSchema> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<PutResponsePayload> extended = await this.PutAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<PutResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<PutResponsePayload> extended = await this.PutAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<PutResponseSchema>
+                    {
+                        Response = new PutResponseSchema { Schema = extended.Response.Schema },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (SchemaRegistryErrorException intEx)
+                {
+                    return ExtendedResponse<PutResponseSchema>.CreateFromResponse(new PutResponseSchema { Error = intEx.SchemaRegistryError });
+                }
             }
 
-            private async Task<ExtendedResponse<GetResponsePayload>> GetInt(ExtendedRequest<GetRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<GetResponseSchema>> GetInt(ExtendedRequest<GetRequestSchema> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<GetResponsePayload> extended = await this.GetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<GetResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<GetResponsePayload> extended = await this.GetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<GetResponseSchema>
+                    {
+                        Response = new GetResponseSchema { Schema = extended.Response.Schema },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (SchemaRegistryErrorException intEx)
+                {
+                    return ExtendedResponse<GetResponseSchema>.CreateFromResponse(new GetResponseSchema { Error = intEx.SchemaRegistryError });
+                }
             }
 
             public async ValueTask DisposeAsync()
@@ -176,7 +201,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<PutResponsePayload> PutAsync(PutRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<PutResponsePayload> PutAsync(PutRequestSchema request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -195,7 +220,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<PutResponsePayload>(this.putCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<PutResponsePayload>(this.PutInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -210,7 +235,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<GetResponsePayload> GetAsync(GetRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<GetResponsePayload> GetAsync(GetRequestSchema request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -229,7 +254,59 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<GetResponsePayload>(this.getCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetResponsePayload>(this.GetInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+            }
+
+            private async Task<ExtendedResponse<PutResponsePayload>> PutInt(PutRequestSchema request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<PutResponseSchema> extended = await this.putCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.Error != null)
+                {
+                    throw new SchemaRegistryErrorException(extended.Response.Error);
+                }
+                else if (extended.Response.Schema == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<PutResponsePayload>
+                    {
+                        Response = new PutResponsePayload { Schema = extended.Response.Schema.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
+            private async Task<ExtendedResponse<GetResponsePayload>> GetInt(GetRequestSchema request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<GetResponseSchema> extended = await this.getCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.Error != null)
+                {
+                    throw new SchemaRegistryErrorException(extended.Response.Error);
+                }
+                else if (extended.Response.Schema == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<GetResponsePayload>
+                    {
+                        Response = new GetResponsePayload { Schema = extended.Response.Schema.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
             }
 
             public async ValueTask DisposeAsync()

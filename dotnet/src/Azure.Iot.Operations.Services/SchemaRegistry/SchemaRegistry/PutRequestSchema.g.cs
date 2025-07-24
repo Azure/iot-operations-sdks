@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     using Azure.Iot.Operations.Services.SchemaRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class PutRequestSchema
+    public partial class PutRequestSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// Human-readable description of the schema.
@@ -30,22 +30,25 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// Format of the schema.
         /// </summary>
         [JsonPropertyName("format")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Format? Format { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public Format Format { get; set; } = default!;
 
         /// <summary>
         /// Content stored in the schema.
         /// </summary>
         [JsonPropertyName("schemaContent")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? SchemaContent { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string SchemaContent { get; set; } = default!;
 
         /// <summary>
         /// Type of the schema.
         /// </summary>
         [JsonPropertyName("schemaType")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public SchemaType? SchemaType { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public SchemaType SchemaType { get; set; } = default!;
 
         /// <summary>
         /// Schema tags.
@@ -58,8 +61,32 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// Version of the schema. Allowed between 0-9.
         /// </summary>
         [JsonPropertyName("version")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Version { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Version { get; set; } = default!;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (SchemaContent is null)
+            {
+                throw new ArgumentNullException("schemaContent field cannot be null");
+            }
+            if (Version is null)
+            {
+                throw new ArgumentNullException("version field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (SchemaContent is null)
+            {
+                throw new ArgumentNullException("schemaContent field cannot be null");
+            }
+            if (Version is null)
+            {
+                throw new ArgumentNullException("version field cannot be null");
+            }
+        }
     }
 }

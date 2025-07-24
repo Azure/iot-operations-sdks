@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'get'.
         /// </summary>
-        public class GetCommandInvoker : CommandInvoker<GetRequestPayload, GetResponsePayload>
+        public class GetCommandInvoker : CommandInvoker<GetRequestSchema, GetResponseSchema>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCommandInvoker"/> class.
@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
+                TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;2";
                 if (mqttClient.ClientId != null)
                 {
                     TopicTokenMap["invokerClientId"] = mqttClient.ClientId;

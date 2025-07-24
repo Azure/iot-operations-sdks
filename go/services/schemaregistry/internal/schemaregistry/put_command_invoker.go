@@ -5,10 +5,11 @@ import (
 	"context"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 type PutCommandInvoker struct {
-	*protocol.CommandInvoker[PutRequestPayload, PutResponsePayload]
+	*protocol.CommandInvoker[PutRequestSchema, PutResponseSchema]
 }
 
 func NewPutCommandInvoker(
@@ -31,8 +32,8 @@ func NewPutCommandInvoker(
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
 		app,
 		client,
-		protocol.JSON[PutRequestPayload]{},
-		protocol.JSON[PutResponsePayload]{},
+		protocol.JSON[PutRequestSchema]{},
+		protocol.JSON[PutResponseSchema]{},
 		requestTopic,
 		&opts,
 	)
@@ -42,7 +43,7 @@ func NewPutCommandInvoker(
 
 func (invoker PutCommandInvoker) Put(
 	ctx context.Context,
-	request PutRequestPayload,
+	request PutRequestSchema,
 	opt ...protocol.InvokeOption,
 ) (*protocol.CommandResponse[PutResponsePayload], error) {
 	invokerOpts := []protocol.InvokeOption{
@@ -58,5 +59,34 @@ func (invoker PutCommandInvoker) Put(
 		&invokeOpts,
 	)
 
-	return response, err
+	if err != nil {
+		return nil, err
+	}
+
+	if response.Payload.Error != nil {
+		return nil, response.Payload.Error
+	}
+
+	if response.Payload.Schema == nil {
+		return nil, &errors.Client{
+			Message: "Command response has neither normal nor error payload content",
+			Kind:    errors.PayloadInvalid{},
+			Shallow: false,
+		}
+	}
+
+	mappedResponse := protocol.CommandResponse[PutResponsePayload]{
+		protocol.Message[PutResponsePayload]{
+			Payload: PutResponsePayload{
+				Schema: *response.Payload.Schema,
+			},
+			ClientID:        response.ClientID,
+			CorrelationData: response.CorrelationData,
+			Timestamp:       response.Timestamp,
+			TopicTokens:     response.TopicTokens,
+			Metadata:        response.Metadata,
+		},
+	}
+
+	return &mappedResponse, nil
 }

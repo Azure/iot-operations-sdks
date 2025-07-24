@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'put'.
         /// </summary>
-        public class PutCommandInvoker : CommandInvoker<PutRequestPayload, PutResponsePayload>
+        public class PutCommandInvoker : CommandInvoker<PutRequestSchema, PutResponseSchema>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="PutCommandInvoker"/> class.
@@ -26,7 +26,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
-                TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
+                TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;2";
                 if (mqttClient.ClientId != null)
                 {
                     TopicTokenMap["invokerClientId"] = mqttClient.ClientId;

@@ -46,13 +46,13 @@ func main() {
 	check(client.Start(ctx))
 
 	schema := must(client.Put(ctx, jsonSchema, schemaregistry.JSONSchemaDraft07))
-	resolved := must(client.Get(ctx, *schema.Name))
+	resolved := must(client.Get(ctx, schema.Name))
 	if resolved == nil {
 		panic("schema not found")
 	}
 
-	fmt.Printf("%s %s", *resolved.Name, *resolved.Version)
-	fmt.Println(*resolved.SchemaContent)
+	fmt.Printf("%s %s", resolved.Name, resolved.Version)
+	fmt.Println(resolved.SchemaContent)
 
 	notfound := must(client.Get(ctx, "not found"))
 	if notfound != nil {

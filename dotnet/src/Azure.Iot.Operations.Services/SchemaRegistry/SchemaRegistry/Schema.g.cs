@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     /// Schema object
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class Schema
+    public partial class Schema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// Human-readable description of the schema.
@@ -33,8 +33,9 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// Format of the schema.
         /// </summary>
         [JsonPropertyName("format")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Format? Format { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public Format Format { get; set; } = default!;
 
         /// <summary>
         /// Hash of the schema content.
@@ -47,29 +48,33 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// Schema name.
         /// </summary>
         [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Name { get; set; } = default!;
 
         /// <summary>
         /// Schema registry namespace. Uniquely identifies a schema registry within a tenant.
         /// </summary>
         [JsonPropertyName("namespace")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Namespace { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Namespace { get; set; } = default!;
 
         /// <summary>
         /// Content stored in the schema.
         /// </summary>
         [JsonPropertyName("schemaContent")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? SchemaContent { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string SchemaContent { get; set; } = default!;
 
         /// <summary>
         /// Type of the schema.
         /// </summary>
         [JsonPropertyName("schemaType")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public SchemaType? SchemaType { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public SchemaType SchemaType { get; set; } = default!;
 
         /// <summary>
         /// Schema tags.
@@ -82,8 +87,48 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// Version of the schema. Allowed between 0-9.
         /// </summary>
         [JsonPropertyName("version")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Version { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Version { get; set; } = default!;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+            if (Namespace is null)
+            {
+                throw new ArgumentNullException("namespace field cannot be null");
+            }
+            if (SchemaContent is null)
+            {
+                throw new ArgumentNullException("schemaContent field cannot be null");
+            }
+            if (Version is null)
+            {
+                throw new ArgumentNullException("version field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+            if (Namespace is null)
+            {
+                throw new ArgumentNullException("namespace field cannot be null");
+            }
+            if (SchemaContent is null)
+            {
+                throw new ArgumentNullException("schemaContent field cannot be null");
+            }
+            if (Version is null)
+            {
+                throw new ArgumentNullException("version field cannot be null");
+            }
+        }
     }
 }
