@@ -2362,8 +2362,6 @@ pub struct AssetSpecification {
     pub asset_type_refs: Vec<String>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// A set of key-value pairs that contain custom attributes
     pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
-    /// Array of datasets that are part of the asset.
-    // pub datasets: Vec<DatasetClient>, // if None, we can represent as empty vec. Different from adr
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
     /// Default destinations for datasets.
@@ -2390,8 +2388,6 @@ pub struct AssetSpecification {
     pub documentation_uri: Option<String>,
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
-    // ///  Array of events that are part of the asset. TODO: `EventClient`
-    // pub events: Vec<adr_models::Event>, // if None, we can represent as empty vec
     /// Asset id provided by the customer.
     pub external_asset_id: Option<String>,
     /// Revision number of the hardware.
@@ -2412,8 +2408,6 @@ pub struct AssetSpecification {
     pub serial_number: Option<String>,
     /// The revision number of the software.
     pub software_revision: Option<String>,
-    // /// Array of streams that are part of the asset. TODO: `StreamClient`
-    // pub streams: Vec<adr_models::Stream>, // if None, we can represent as empty vec
     ///  Globally unique, immutable, non-reusable id.
     pub uuid: Option<String>,
     /// The version of the asset.
@@ -2425,7 +2419,6 @@ impl From<adr_models::Asset> for AssetSpecification {
         AssetSpecification {
             asset_type_refs: value.asset_type_refs,
             attributes: value.attributes,
-            // datasets,
             default_datasets_configuration: value.default_datasets_configuration,
             default_datasets_destinations: value.default_datasets_destinations,
             default_events_configuration: value.default_events_configuration,
@@ -2439,7 +2432,6 @@ impl From<adr_models::Asset> for AssetSpecification {
             display_name: value.display_name,
             documentation_uri: value.documentation_uri,
             enabled: value.enabled,
-            // events: value.events,
             external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             last_transition_time: value.last_transition_time,
@@ -2450,7 +2442,6 @@ impl From<adr_models::Asset> for AssetSpecification {
             product_code: value.product_code,
             serial_number: value.serial_number,
             software_revision: value.software_revision,
-            // streams: value.streams,
             uuid: value.uuid,
             version: value.version,
         }
