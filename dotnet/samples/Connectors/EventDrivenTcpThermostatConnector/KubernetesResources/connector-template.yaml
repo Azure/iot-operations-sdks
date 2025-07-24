@@ -1,0 +1,30 @@
+apiVersion: akri.microsoft.com/v1beta1
+kind: ConnectorTemplate
+metadata:
+  name: tcp-ctemplate
+  namespace: azure-iot-operations
+spec:
+  version: "0.0.1"
+  deviceInboundEndpointTypes:
+  - endpointType: Microsoft.Tcp
+    version: "2"
+  runtimeConfiguration:
+    runtimeConfigurationType: managedConfiguration
+    managedConfigurationSettings:
+      managedConfigurationType: imageConfiguration
+      imageConfigurationSettings:
+        imageName: "eventdriventcpthermostatconnector"
+        imagePullPolicy: Never # This sample image is built locally, so no need to pull
+        replicas: 1
+        tagDigestSettings:
+          tagDigestType: tag
+          tag: "latest"
+  mqttConnectionConfiguration:
+    host: "aio-broker:18883"
+    authentication:
+      method: ServiceAccountToken
+      serviceAccountTokenSettings:
+        audience: aio-internal
+    tls:
+      mode: Enabled
+      trustedCaCertificateConfigMapRef: azure-iot-operations-aio-ca-trust-bundle

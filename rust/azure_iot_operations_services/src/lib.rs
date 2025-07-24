@@ -22,6 +22,8 @@
 #![warn(missing_docs)]
 #![allow(clippy::result_large_err)]
 
+#[cfg(feature = "azure_device_registry")]
+pub mod azure_device_registry;
 #[cfg(feature = "leased_lock")]
 pub mod leased_lock;
 #[cfg(feature = "schema_registry")]

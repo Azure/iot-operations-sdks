@@ -672,7 +672,7 @@ func (ls Listeners) Start(ctx context.Context) error
 Start listening to all underlying MQTT topics.
 
 <a name="Message"></a>
-## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L36-L57>)
+## type [Message](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L36-L61>)
 
 Message contains common message data that is exposed to message handlers.
 
@@ -681,16 +681,20 @@ type Message[T any] struct {
     // The message payload.
     Payload T
 
-    // The ID of the calling MQTT client.
+    // The ID of the calling MQTT client. This field is optional and should
+    // be treated as purely informational; a required client ID (especially
+    // for auth purposes) should be included in the topic.
     ClientID string
 
-    // The data that identifies a single unique request.
+    // The data that identifies a single unique request. This field is
+    // optional for telemetry.
     CorrelationData string
 
-    // The timestamp of when the message was sent.
+    // The timestamp of when the message was sent. This field is optional
+    // and will be set to the zero value if unsent.
     Timestamp hlc.HybridLogicalClock
 
-    // All topic tokens resolved from the incoming topic.
+    // Any topic tokens resolved from the incoming topic.
     TopicTokens map[string]string
 
     // Any user-provided metadata values.
@@ -730,7 +734,7 @@ type MqttClient interface {
 ```
 
 <a name="Option"></a>
-## type [Option](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L61>)
+## type [Option](<https://github.com/Azure/iot-operations-sdks/blob/main/go/protocol/types.go#L65>)
 
 Option represents any of the option types, and can be filtered and applied by the ApplyOptions methods on the option structs.
 
