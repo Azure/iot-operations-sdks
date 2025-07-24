@@ -32,7 +32,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
                 new GetRequestSchema()
                 {
                     Name = schemaId,
-                    Version = version
+                    Version = version,
                 }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
         }
         catch (Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaRegistryErrorException srEx)
@@ -67,6 +67,8 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         SchemaType schemaType = SchemaType.MessageSchema,
         string version = "1",
         Dictionary<string, string>? tags = null,
+        string? displayName = null,
+        string? description = null,
         TimeSpan? timeout = null,
         CancellationToken cancellationToken = default)
     {
@@ -82,7 +84,9 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
                     SchemaContent = schemaContent,
                     Version = version,
                     Tags = tags,
-                    SchemaType = schemaType
+                    SchemaType = schemaType,
+                    Description = description,
+                    DisplayName = displayName
                 }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
         }
         catch (Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaRegistryErrorException srEx)
