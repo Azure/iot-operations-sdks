@@ -151,6 +151,7 @@ public enum AkriMqttErrorKind
     ExecutionException,
     MqttError,
     UnsupportedVersion,
+    StreamingRequired
 }
 ```
 
@@ -263,6 +264,7 @@ public enum AkriMqttErrorKind {
     EXECUTION_EXCEPTION,
     MQTT_ERROR,
     UNSUPPORTED_VERSION,
+    STREAMING_REQUIRED,
 }
 ```
 
@@ -327,6 +329,7 @@ pub enum AIOProtocolErrorKind {
     ExecutionException,
     MqttError,
     UnsupportedVersion,
+    StreamingRequired,
 }
 ```
 
@@ -400,6 +403,7 @@ const {
     ExecutionError
     MqttError
     UnsupportedVersion
+    StreamingRequired
 }
 ```
 
@@ -455,6 +459,7 @@ class AkriMqttErrorKind(Enum):
     EXECUTION_EXCEPTION = 10
     MQTT_ERROR = 11
     UNSUPPORTED_VERSION = 12
+    STREAMING_REQUIRED = 13
 ```
 
 The Akri.Mqtt error type is defined as follows:
@@ -570,6 +575,7 @@ The following table lists the HTTP status codes, conditions on other fields in t
 | 400 | Bad Request | false | no | | invalid payload |
 | 408 | Request Timeout | false | yes | yes | timeout |
 | 415 | Unsupported Media Type | false | yes | yes | invalid header |
+| 452 | Streaming Required | false | no | no | streaming required |
 | 500 | Internal Server Error | false | no | | unknown error |
 | 500 | Internal Server Error | false | yes | | internal logic error |
 | 500 | Internal Server Error | true | maybe | | execution error |

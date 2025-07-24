@@ -103,21 +103,27 @@ TODO which existing client works well for long-running commands? Mem mon ("Repor
 
 #### Command invoker side
 
-- The command invoker's request message will include an MQTT user property with name "__isStream" and value "true".
-  - Otherwise, the request message will look the same as a non-streaming RPC request
-- The command invoker will listen for command responses with the correlation data that matches the invoked method's correlation data until it receives a response with the "__isLastResp" flag
+- The command invoker's request message will include an MQTT user property with name "__streamResp" and value "true".
+  - Executor needs to know if it can stream the response, and this is the flag that tells it that
+- The command invoker will listen for command responses with the correlation data that matches the invoked method's correlation data until it receives a response with the "__isLastResp" flag set to "true"
 - The command invoker will acknowledge all messages it receives that match the correlation data of the command request
 
 #### Command executor side
 
-- All command responses will use the same MQTT message correlation data as the request provided so that the invoker can map responses to the appropriate command invocation.
-- Each streamed response will contain an MQTT user property with name "__streamRespId" and value equal to that response's streaming response Id.
-- The final command response will include an MQTT user property "__isLastResp" with value "true" to signal that it is the final response in the stream.
-- A streaming command is allowed to have a single response. If the stream only has one response, it should include both the "__isStream" and "__isLastResp" flags set.
-- All **completed** streamed command responses will be added to the command response cache
-  - If we cache incompleted commands, will the cache hit just wait on cache additions to get the remaining responses?
-  - Cache exists for de-duplication, and we want that even for long-running RPC, right?
-  - Separate cache for data structure purposes?
+- The command executor receives a command with "__streamResp" flag set to "true"
+  - The command is given to the application layer in a way that allows the application to return at least one response
+  - All command responses will use the same MQTT message correlation data as the request provided so that the invoker can map responses to the appropriate command invocation.
+  - Each streamed response must contain an MQTT user property with name "__streamIndex" and value equal to the index of this response relative to the other responses (0 for the first response, 1 for the second response, etc.)
+  - Each streamed response may contain an MQTT user property with name "__streamRespId" and value equal to that response's streaming response Id. This is an optional and user-provided value.
+  - The final command response will include an MQTT user property "__isLastResp" with value "true" to signal that it is the final response in the stream.
+    - A streaming command is allowed to have a single response. It must include the "__isLastResp" flag in that first/final response
+  - All **completed** streamed command responses will be added to the command response cache
+    - If we cache incompleted commands, will the cache hit just wait on cache additions to get the remaining responses?
+    - Cache exists for de-duplication, and we want that even for long-running RPC, right?
+    - Separate cache for data structure purposes?
+
+- The command executor receives a command **without** "__streamResp" flag set to "true"
+  - The command must be responded to without streaming
 
 ### Protocol version update
 
@@ -127,7 +133,7 @@ TODO: Start defining a doc in our repo that defines what features are present in
 
 ## Alternative designs considered
 
- - Allow the command executor to decide at run time of each command if it will stream responses
+ - Allow the command executor to decide at run time of each command if it will stream responses independent of the command invoker's request
    - This would force users to call the ```InvokeCommandWithStreaming``` API on the command invoker side and that returned object isn't as easy to use for single responses
  - Treat streaming RPC as a separate protocol from RPC, give it its own client like ```CommandInvoker``` and ```TelemetrySender```
    - There is a lot of code re-use between RPC and streaming RPC so this would make implementation very inconvenient
@@ -135,10 +141,16 @@ TODO: Start defining a doc in our repo that defines what features are present in
 
 ## Error cases
 
- - RPC executor dies after sending X out of Y responses. Just time out waiting on X+1'th reply?
- - RPC executor doesn't support streaming but receives a streaming request
-   - RPC executor responds with "NotSupportedVersion" error code
- - RPC invoker tries to invoke a command that the executor requires streaming on
+ - RPC executor dies before sending the final stream response. 
+   - Command invoker throws time out exception waiting on the next response
+ - RPC executor receives command request with "__streamResp", but that executor doesn't understand streaming requests because it uses an older protocol version
+   - Command executor responds with "not supported protocol" error code
+ - RPC executor receives command request with "__streamResp", and the executor understands that it is a streaming request (protocol versions align) but that particular command doesn't support streaming
+   - RPC executor treats it like a non-streaming command, but adds the "__isLastResp" flag to the one and only response
+ - RPC invoker tries to invoke a non-streaming command that the executor requires streaming on
+   - Atypical case since codegen will prevent this
+   - But, for the sake of non-codegen users, a new error code "StreamingRequired" would be returned by the executor
+     - Or should this just be "invalid header" error since the executor expects the "__streamResp" header?
  - timeout per response vs overall?
  
  ## Open Questions
