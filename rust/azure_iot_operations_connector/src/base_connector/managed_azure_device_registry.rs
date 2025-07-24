@@ -1047,7 +1047,8 @@ impl AssetClient {
                     last_transition_time: Some(chrono::Utc::now()),
                 });
                 updates.status_updated = true;
-                // set this to None because if all data operations have a destination specified, this might not cause the asset to be unusable
+                // set this to an empty vec instead of skipping parsing the rest of the asset because if all
+                // data operations have a destination specified, this might not cause the asset to be unusable
                 vec![]
             }
         };
