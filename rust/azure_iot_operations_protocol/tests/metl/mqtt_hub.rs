@@ -205,7 +205,7 @@ impl MqttHub {
                     _properties: _,
                     ack_tx,
                 } => {
-                    self.subscribed_topics.insert(topic.clone());
+                    self.subscribed_topics.insert(topic);
                     if let Some(ack_kind) = self.suback_queue.pop_front() {
                         ack_tx.send(ack_kind).unwrap();
                     } else {

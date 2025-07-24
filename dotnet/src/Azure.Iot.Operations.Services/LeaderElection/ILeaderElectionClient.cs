@@ -65,6 +65,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// </summary>
         /// <param name="electionTerm">How long the client will be leader if elected. This value only has millisecond-level precision.</param>
         /// <param name="options">The optional parameters for this request.</param>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The result of the campaign.</returns>
         /// <remarks>
@@ -73,13 +74,14 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// with <see cref="AutomaticRenewalOptions"/>, though.
         /// </para>
         /// </remarks>
-        Task<CampaignResponse> TryCampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, CancellationToken cancellationToken = default);
+        Task<CampaignResponse> TryCampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Await until this client is elected leader or cancellation is requested.
         /// </summary>
         /// <param name="electionTerm">How long the client will be leader if elected. This value only has millisecond-level precision.</param>
         /// <param name="options">The optional parameters for this request.</param>
+        /// <param name="timeoutPerRequest">The maximum amount of time to wait for a service response to each request sent during this method. The default value is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The result of the campaign.</returns>
         /// <remarks>
@@ -88,7 +90,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// with <see cref="AutomaticRenewalOptions"/>, though.
         /// </para>
         /// </remarks>
-        Task<CampaignResponse> CampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, CancellationToken cancellationToken = default);
+        Task<CampaignResponse> CampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, TimeSpan? timeoutPerRequest = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Block until elected leader, update the value of the state store resource based on
@@ -106,31 +108,35 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// it is possible that this client is interrupted or encounters a fatal exception. By setting a low value for this field,
         /// you limit how long the leadership position can be acquired for before it is released automatically by the service.
         /// </param>
+        /// <param name="timeoutPerRequest">The maximum amount of time to wait for a service response to each request sent during this method. The default value is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// This function will always resign from the leadership position if it was elected. Even if cancellation is requested
         /// after being elected leader, this function will resign from that position.
         /// </remarks>
-        Task CampaignAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumTermLength = null, CancellationToken cancellationToken = default);
+        Task CampaignAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumTermLength = null, TimeSpan? timeoutPerRequest = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get the name of the current leader.
         /// </summary>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The details about the current leader.</returns>
-        Task<GetCurrentLeaderResponse> GetCurrentLeaderAsync(CancellationToken cancellationToken = default);
+        Task<GetCurrentLeaderResponse> GetCurrentLeaderAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Resign from being the leader.
         /// </summary>
         /// <param name="options">The optional parameters for this request.</param>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The result of the attempted resignation.</returns>
-        Task<ResignationResponse> ResignAsync(ResignationRequestOptions? options = null, CancellationToken cancellationToken = default);
+        Task<ResignationResponse> ResignAsync(ResignationRequestOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Start receiving notifications when the leader changes.
         /// </summary>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// Users who want to watch lock holder change events must first set one or more handlers on
@@ -138,11 +144,12 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// To stop watching lock holder change events, call <see cref="UnobserveLeadershipChangesAsync(CancellationToken)"/>
         /// and then remove any handlers from <see cref="LeadershipChangeEventReceivedAsync"/>.
         /// </remarks>
-        Task ObserveLeadershipChangesAsync(CancellationToken cancellationToken = default);
+        Task ObserveLeadershipChangesAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Stop receiving notifications when the leader changes.
         /// </summary>
+        /// <param name="timeout">The maximum amount of time to wait for a service response to this request. By default, this is 10 seconds.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <remarks>
         /// Users who want to watch lock holder change events must first set one or more handlers on
@@ -150,6 +157,6 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         /// To stop watching lock holder change events, call this function
         /// and then remove any handlers from <see cref="LeadershipChangeEventReceivedAsync"/>.
         /// </remarks>
-        Task UnobserveLeadershipChangesAsync(CancellationToken cancellationToken = default);
+        Task UnobserveLeadershipChangesAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default);
     }
 }

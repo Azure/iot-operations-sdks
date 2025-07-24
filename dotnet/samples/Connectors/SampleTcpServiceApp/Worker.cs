@@ -44,8 +44,8 @@ namespace SampleTcpServiceApp
 
                             ThermostatStatus thermostatStatus = new()
                             {
-                                DesiredTemperature = new Random().NextDouble() * 30 + 50,
-                                CurrentTemperature = new Random().NextDouble() * 30 + 50
+                                DesiredTemperature = new Random().NextDouble() * 9  + 67,
+                                CurrentTemperature = new Random().NextDouble() * 9 + 67,
                             };
 
                             string payload = JsonSerializer.Serialize(thermostatStatus);
