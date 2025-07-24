@@ -86,40 +86,41 @@ where
         get_request: GetRequest,
         timeout: Duration,
     ) -> Result<Option<Schema>, Error> {
-        let get_request_payload = GetRequestPayloadBuilder::default()
-            .get_schema_request(
-                GetRequestSchemaBuilder::default()
-                    .name(Some(get_request.id))
-                    .version(Some(get_request.version))
-                    .build()
-                    .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?,
-            )
+        let get_request_schema = GetRequestSchemaBuilder::default()
+            .name(get_request.id)
+            .version(get_request.version)
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
-            .payload(get_request_payload)
+            .payload(get_request_schema)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        let get_result = self.get_command_invoker.invoke(command_request).await;
+        let response = self
+            .get_command_invoker
+            .invoke(command_request)
+            .await
+            .map_err(|e| Error(ErrorKind::from(e)))?;
 
-        match get_result {
-            Ok(response) => Ok(response.payload.schema),
+        match response {
+            Ok(response) => Ok(Some(response.payload.schema)),
             Err(e) => {
-                if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
-                    if let Some(nested_error) = &e.nested_error {
-                        if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
-                            if json_error.is_eof() && json_error.column() == 0 && json_error.line() == 1 {
-                                return Ok(None);
-                            }
-                        }
-                    }
-                }
-                Err(Error(ErrorKind::from(e)))
+                todo!()
+                // if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
+                //     if let Some(nested_error) = &e.nested_error {
+                //         if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
+                //             if json_error.is_eof() && json_error.column() == 0 && json_error.line() == 1 {
+                //                 return Ok(None);
+                //             }
+                //         }
+                //     }
+                // }
+                // Err(Error(ErrorKind::from(e)))
+                // FIN: handle error here
             }
         }
     }
@@ -145,35 +146,34 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn put(&self, put_request: PutRequest, timeout: Duration) -> Result<Schema, Error> {
-        let put_request_payload = PutRequestPayloadBuilder::default()
-            .put_schema_request(
-                PutRequestSchemaBuilder::default()
-                    .format(Some(put_request.format.into()))
-                    .schema_content(Some(put_request.content))
-                    .version(Some(put_request.version))
-                    .tags(Some(put_request.tags))
-                    .schema_type(Some(put_request.schema_type.into()))
-                    .build()
-                    .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?,
-            )
+        let put_request_schema = PutRequestSchemaBuilder::default()
+            .format(put_request.format.into())
+            .schema_content(put_request.content)
+            .version(put_request.version)
+            .tags(Some(put_request.tags))
+            .schema_type(put_request.schema_type.into())
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
             .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
-            .payload(put_request_payload)
+            .payload(put_request_schema)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
-        Ok(self
+        let response = self
             .put_command_invoker
             .invoke(command_request)
             .await
-            .map_err(ErrorKind::from)?
-            .payload
-            .schema)
+            .map_err(|e| Error(ErrorKind::from(e)))?;
+
+        let response = response.map_err(|service_error| {
+            Error(ErrorKind::InvalidArgument(format!("{:?}", service_error))) // FIN: Change this
+        })?;
+
+        Ok(response.payload.schema)
     }
 
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.

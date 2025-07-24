@@ -79,7 +79,7 @@ impl From<AIOProtocolError> for ErrorKind {
 /// Supported schema formats
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Format {
-    /// Delta1
+    /// Delta/1.0
     Delta1,
     /// JsonSchema/draft-07
     JsonSchemaDraft07,
