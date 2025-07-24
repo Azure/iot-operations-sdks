@@ -16,7 +16,7 @@ Because the semantics of Property are decomposable into semantics of RPC and Tel
 
 The ProtocolCompiler will be enhanced to support the DTDL Property content type.
 Generated code will target the new Property envoy classes in the SDKs.
-This requires a minimal change to the DTDL Mqtt extension, and since version 4 of this extension has not officially shipped, this additive change will be rolled into the pending Mqtt extension version 4.
+This requires an additive change to the DTDL Mqtt extension, and since version 4 of this extension has not officially shipped, this change will be rolled into the pending Mqtt extension version 4.
 
 ## Property roles and semantics
 
@@ -39,53 +39,109 @@ There are five specific actions that are relevant to Properties:
   * The Consumer sends a `read` request to the Maintainer, specifying which Properties it wishes to read.
   * The Maintainer attempts to read values for the designated Properties and responds with a collation of Property values.
   * The Consumer receives the response from the Maintainer.
-* Action *watch*:
-  * The Consumer sends a `watch` request to the Maintainer, indicating Properties to add to the notification list.
-  * The Maintainer attempts to apply the `watch` and responds with an indication of which Properties are now on the notification list.
+* Action *observe*:
+  * The Consumer sends a `observe` request to the Maintainer, indicating Properties to add to the notification list.
+  * The Maintainer attempts to apply the `observe` and responds with an indication of which Properties are now on the notification list.
   * The Consumer receives the response from the Maintainer.
-* Action *unwatch*:
-  * The Consumer sends an `unwatch` request to the Maintainer, indicating Properties to remove from the notification list.
-  * The Maintainer attempts to apply the `unwatch` and responds with an indication of which Properties remain on the notification list.
+* Action *unobserve*:
+  * The Consumer sends an `unobserve` request to the Maintainer, indicating Properties to remove from the notification list.
+  * The Maintainer attempts to apply the `unobserve` and responds with an indication of which Properties remain on the notification list.
   * The Consumer receives the response from the Maintainer.
 * Action *notify*:
   * Values of one or more Properties held by the Maintainer are modified, either by the application of a *write* action, or by an internal state change, or by some other mechanism.
   * The Maintainer broadcasts a change notification containing the current Property values.
   * The notification is received by all Consumers that are listening for notifications about the Properties.
 
-The *write*, *read*, *watch*, and *unwatch* actions have behaviors that align with the RPC communication pattern.
+The *write*, *read*, *observe*, and *unobserve* actions have behaviors that align with the RPC communication pattern.
 The *notify* action has a behavior that aligns with the Telemetry communication pattern.
 
 ## Property envoy
 
 A Property envoy is an assemblage of four Command envoys and one Telemetry envoy.
-It is parameterized by two types:
+It is parameterized by three types: `TProp`, `TCtrl`, and `TStat`.
+These types must satisfy exactly one of the following two sets of constraints.
+
+Constraints for statically itemized properties:
 
 * `TProp` &mdash; A structure type (class/struct/object) that collates related Properties
   * There is one field in the `TProp` structure per Property in the collation.
   * Each field may have an arbitrary type.
-  * In a `TProp` instance, the value of one or more fields may be omitted.
-* `TBool` &mdash; a structure type whose field names match those in `TProp`
+  * Each field has a value that is optional/nullable.
+* `TCtrl` &mdash; a structure type whose field names match those in `TProp`
   * Each field has type Boolean.
+* `TStat` &mdash; a structure type whose field names match those in `TProp`
+  * Each field has type `TStatVal`, which is &mdash; consistently across all fields &mdash; one of Boolean, integer, string, or an enumeration that is convertable to/from integer or string.
+  * Each field has a value that is optional/nullable.
 
-As an example, consider the following types.
+Constraints for dynamically itemized properties:
+
+* `TProp` &mdash; A map/dictionary type, or a structure with a single field that is a map/dictionary type
+  * The key type is string.
+  * The value type may be an arbitrary type.
+  * Each value may be optional/nullable so as to enable a 'write' to clear a value from the map.
+* `TCtrl` &mdash; an array/vector type, or a structure with a single field that is an array/vector type
+  * The element type is string.
+* `TStat` &mdash; a map/dictionary type, or a structure with a single field that is a map/dictionary type
+  * The key type is string.
+  * The value type is `TStatVal`, which is one of Boolean, integer, string, or an enumeration that is convertable to/from integer or string.
+
+As an example, consider the following types for statically itemized properties.
 These illustrations use C#, but analogous types can be defined in all supported languages.
-Class `AggregateProp` is a concrete type for `TProp`:
+Class `PropObj` is a concrete type for `TProp`:
 
 ```csharp
-public partial class AggregateProp
+public partial class PropObj
 {
     public int? Foo { get; set; } = default;
     public string? Bar { get; set; } = default;
 }
 ```
 
-Class `ControlProp` is a concrete type for `TBool` that aligns with `AggregateProp`:
+Class `CtrlObj` is a concrete type for `TCtrl` that aligns with `PropObj`:
 
 ```csharp
-public partial class ControlProp
+public partial class CtrlObj
 {
     public bool Foo { get; set; } = default;
     public bool Bar { get; set; } = default;
+}
+```
+
+Class `StatObj` is a concrete type for `TStat` that aligns with `PropObj` and has `TStatVal` of integer:
+
+```csharp
+public partial class StatObj
+{
+    public int? Foo { get; set; } = default;
+    public int? Bar { get; set; } = default;
+}
+```
+
+As a second example, consider the following types for dynamically itemized properties.
+Class `PropMap` is a concrete type for `TProp`:
+
+```csharp
+public partial class PropMap
+{
+    public Dictionary<string, int?> Props { get; set; } = default;
+}
+```
+
+Class `CtrlList` is a concrete type for `TCtrl`:
+
+```csharp
+public partial class CtrlList
+{
+    public List<string> Ctrls { get; set; } = default;
+}
+```
+
+Class `StatMap` is a concrete type for `TSTat` that has `TStatVal` of integer:
+
+```csharp
+public partial class StatMap
+{
+    public List<int> Stats { get; set; } = default;
 }
 ```
 
@@ -96,13 +152,13 @@ The above types are used in the RPC and Telemetry realizations of Property actio
 Continuing to illustrate in C#, the client-side `PropertyConsumer` is implemented as follows:
 
 ```csharp
-public class PropertyWriteRequester<TProp, TBool> : CommandInvoker<TProp, TBool>;
+public class PropertyWriteRequester<TProp, TStat> : CommandInvoker<TProp, TStat>;
 
-public class PropertyReadRequester<TProp, TBool> : CommandInvoker<TBool, TProp>;
+public class PropertyReadRequester<TCtrl, TProp> : CommandInvoker<TCtrl, TProp>;
 
-public class PropertyWatchRequester<TBool> : CommandInvoker<TBool, TBool>;
+public class PropertyObserveRequester<TCtrl, TStat> : CommandInvoker<TCtrl, TStat>;
 
-public class PropertyUnwatchRequester<TBool> : CommandInvoker<TBool, TBool>;
+public class PropertyUnobserveRequester<TCtrl, TStat> : CommandInvoker<TCtrl, TStat>;
 
 public class PropertyListener<TProp> : TelemetryReceiver<TProp>;
 ```
@@ -110,35 +166,64 @@ public class PropertyListener<TProp> : TelemetryReceiver<TProp>;
 The service-side `PropertyMaintainer` is implemented as follows:
 
 ```csharp
-public class PropertyWriteResponder<TProp, TBool> : CommandExecutor<TProp, TBool>;
+public class PropertyWriteResponder<TProp, TStat> : CommandExecutor<TProp, TStat>;
 
-public class PropertyReadResponder<TProp, TBool> : CommandExecutor<TBool, TProp>;
+public class PropertyReadResponder<TCtrl, TProp> : CommandExecutor<TCtrl, TProp>;
 
-public class PropertyWatchResponder<TBool> : CommandExecutor<TBool, TBool>;
+public class PropertyObserveResponder<TCtrl, TStat> : CommandExecutor<TCtrl, TStat>;
 
-public class PropertyUnwatchResponder<TBool> : CommandExecutor<TBool, TBool>;
+public class PropertyUnobserveResponder<TCtrl, TStat> : CommandExecutor<TCtrl, TStat>;
 
 public class PropertyNotifier<TProp> : TelemetrySender<TProp>;
 ```
 
 The *write* action is performed by issuing a 'write' Command request.
-The payload is an instance of `TProp`, whose optional fields contain values for any Properties that are to be written.
-The response payload is an instance of `TBool`, which has a value of `true` for each field whose Property was updated.
+
+* The request payload is an instance of `TProp`.
+  * For statically itemized properties, the optional fields in the `TProp` request object contain values for any Properties that are to be written.
+  * For dynamically itemized properties, the keys in the `TProp` request map indicate which Properties to write, and the corresponding values are what is to be written.
+* The response payload is an instance of `TStat`.
+  * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the write operation for the Property named by the field.
+  * For dynamically itemized properties, each value in the `TStat` response map indicates the status of the write operation for the Property named by the key.
+  * The semantics of `TStatVal` values are determined by the service that implements the property.
 
 The *read* action is performed by issuing a 'read' Command request.
-The `TBool` payload has a value of `true` for each field whose Property is to be read.
-The `TProp` response payload contains values in fields for any Properties that are read.
 
-The *watch* action is performed by issuing a 'watch' Command request.
-The `TBool` payload has a value of `true` for each field whose Property is to be added to the notify list.
-The `TBool` response payload conveys the updated notify list; each field has a value of `true` if its corresponding Property was added to the list by this action or if it was already in the notify list.
+* The request payload is an instance of `TCtrl`.
+  * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be read.
+  * For dynamically itemized properties, the elements in the `TCtrl` request array indicate the names of the Properties to read.
+* The response payload is an instance of `TProp`.
+  * For statically itemized properties, the optional fields in the `TProp` response object contain values for any Properties that have been read.
+  * For dynamically itemized properties, the keys in the `TProp` response map indicate which Properties have been read, and the corresponding values are what was read.
 
-The *unwatch* action is performed by issuing an 'unwatch' Command request.
-The `TBool` payload has a value of `true` for each field whose Property is to be removed from the notify list.
-The `TBool` response payload conveys the updated notify list; each field has a value of `true` if the corresponding Property was previously in the notify list and was not removed by this action.
+The *observe* action is performed by issuing an 'observe' Command request.
 
-The *notify* action is performed by sending a Telemetry.
-The `TProp` payload contains values in fields for any Properties that are in the notify list.
+* The request payload is an instance of `TCtrl`.
+  * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be added to the notify list.
+  * For dynamically itemized properties, the elements in the `TCtrl` request array indicate the names of the Properties to add to the notify list.
+  * The maintainer may keep a single notify list across all consumers, or it may keep a separate notify list for each consumer; in the latter case, the maintainer must be provided with a way to identify the consumer that requested the observation.
+* The response payload is an instance of `TStat`.
+  * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the observe operation for the Property named by the field.
+  * For dynamically itemized properties, each value in the `TStat` response map indicates the status of the observe operation for the Property named by the key.
+  * The semantics of `TStatVal` values are determined by the service that implements the property.
+  * The maintainer's response may additionally provide status values for the observation state of properties other than those named in the 'observe' request.
+
+The *unobserve* action is performed by issuing an 'unobserve' Command request.
+
+* The request payload is an instance of `TCtrl`.
+  * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be removed from the notify list.
+  * For dynamically itemized properties, the elements in the `TCtrl` request array indicate the names of the Properties to remove from the notify list.
+  * The maintainer may keep a single notify list across all consumers, or it may keep a separate notify list for each consumer; in the latter case, the maintainer must be provided with a way to identify the consumer that requested the observation.
+* The response payload is an instance of `TStat`.
+  * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the unobserve operation for the Property named by the field.
+  * For dynamically itemized properties, each value in the `TStat` response map indicates the status of the unobserve operation for the Property named by the key.
+  * The semantics of `TStatVal` values are determined by the service that implements the property.
+  * The maintainer's response may additionally provide status values for the observation state of properties other than those named in the 'unobserve' request.
+
+The *notify* action is performed by sending a Telemetry with a payload that is an instance of `TProp`.
+
+* For statically itemized properties, the optional fields in the `TProp` response object contain values for any Properties that are in the notify list.
+* For dynamically itemized properties, the key/value pairs in the `TProp` response map indicate which Properties are in the notify list and their corresponding values.
 
 ## Additive change to DTDL Mqtt extension
 
@@ -159,13 +244,14 @@ The sets of tokens differ between RPC and Telemetry, and the following set of to
 | `{modelId}` | The identifier of the service model, which is the full DTMI of the Interface, might include the version | optional |
 | `{maintainerId}` | Identifier of the maintainer, by default the MQTT client ID | optional |
 | `{sourceId}` | Identifier of the source of the request or notification, by default the MQTT client ID | optional |
-| `{action}` | One of "read", "write", "watch", "unwatch", or "notify" | optional |
+| `{action}` | One of "read", "write", "observe", "unobserve", or "notify" | optional |
 
 An example Property topic pattern is illustrated in the sample model below.
 
 ## Sample model
 
-The following DTDL model defines two Properties, which correspond to the example types [defined above](#property-envoy).
+The following DTDL model defines three Properties, two of which ("Foo" and "Bar") are statically itemized, and one of which ("Props") is dynamically itemized.
+These Properties correspond to the example types [defined above](#property-envoy).
 
 ```json
 {
@@ -184,28 +270,43 @@ The following DTDL model defines two Properties, which correspond to the example
       "@type": "Property",
       "name": "Bar",
       "schema": "string"
+    },
+    {
+      "@type": [ "Property", "Fragmented" ],
+      "name": "Props",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "propKey",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "propValue",
+          "schema": "integer"
+        }
+      }
     }
   ]
 }
 ```
 
-Recall that the `AggregateProp` class has fields for Foo and Bar.
-The ProtocolCompiler will generate an analogous class from the two Properties named "Foo" and "Bar" in the above model:
+The ProtocolCompiler will aggregate all statically itemized Properties into a single set of classes.
+For Properties "Foo" and "Bar" in the model above, these classes will be analogous to the definitions of `PropObj`, `CtrlObj`, and `StatObj` defined above, each having fields for Foo and Bar, as in this example:
 
 ```csharp
-public partial class AggregateProp
+public partial class PropObj
 {
     public int? Foo { get; set; } = default;
     public string? Bar { get; set; } = default;
 }
 ```
 
-The ProtocolCompiler will also generate a class analogous to `ControlProp`:
+The ProtocolCompiler will generate a separate set of classes for each dynamically itemized Property in the model.
+For Property "Props" in the above model, these classes will be analogous to the definitions of `PropMap`, `CtrlList`, and `StatMap` defined above, such as this example:
 
 ```csharp
-public partial class ControlProp
+public partial class PropMap
 {
-    public bool Foo { get; set; } = default;
-    public bool Bar { get; set; } = default;
+    public Dictionary<string, int?> Props { get; set; } = default;
 }
 ```
