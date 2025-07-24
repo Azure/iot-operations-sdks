@@ -21,9 +21,9 @@ namespace Azure.Iot.Operations.Protocol.State
 
         public PropertyReadRequester<TProp, TBool> PropertyReadRequester { get; }
 
-        public PropertyWatchRequester<TBool> PropertyWatchRequester { get; }
+        public PropertyObserveRequester<TBool> PropertyObserveRequester { get; }
 
-        public PropertyUnwatchRequester<TBool> PropertyUnwatchRequester { get; }
+        public PropertyUnobserveRequester<TBool> PropertyUnobserveRequester { get; }
 
         public PropertyListener<TProp> PropertyListener { get; }
 
@@ -37,8 +37,8 @@ namespace Azure.Iot.Operations.Protocol.State
             {
                 PropertyWriteRequester.TopicNamespace = value;
                 PropertyReadRequester.TopicNamespace = value;
-                PropertyWatchRequester.TopicNamespace = value;
-                PropertyUnwatchRequester.TopicNamespace = value;
+                PropertyObserveRequester.TopicNamespace = value;
+                PropertyUnobserveRequester.TopicNamespace = value;
                 PropertyListener.TopicNamespace = value;
             }
         }
@@ -51,8 +51,8 @@ namespace Azure.Iot.Operations.Protocol.State
             {
                 PropertyWriteRequester.ResponseTopicPrefix = value;
                 PropertyReadRequester.ResponseTopicPrefix = value;
-                PropertyWatchRequester.ResponseTopicPrefix = value;
-                PropertyUnwatchRequester.ResponseTopicPrefix = value;
+                PropertyObserveRequester.ResponseTopicPrefix = value;
+                PropertyUnobserveRequester.ResponseTopicPrefix = value;
             }
         }
 
@@ -64,8 +64,8 @@ namespace Azure.Iot.Operations.Protocol.State
             {
                 PropertyWriteRequester.ResponseTopicSuffix = value;
                 PropertyReadRequester.ResponseTopicSuffix = value;
-                PropertyWatchRequester.ResponseTopicSuffix = value;
-                PropertyUnwatchRequester.ResponseTopicSuffix = value;
+                PropertyObserveRequester.ResponseTopicSuffix = value;
+                PropertyUnobserveRequester.ResponseTopicSuffix = value;
             }
         }
 
@@ -77,8 +77,8 @@ namespace Azure.Iot.Operations.Protocol.State
             {
                 PropertyWriteRequester.ResponseTopicPattern = value;
                 PropertyReadRequester.ResponseTopicPattern = value;
-                PropertyWatchRequester.ResponseTopicPattern = value;
-                PropertyUnwatchRequester.ResponseTopicPattern = value;
+                PropertyObserveRequester.ResponseTopicPattern = value;
+                PropertyUnobserveRequester.ResponseTopicPattern = value;
             }
         }
 
@@ -89,8 +89,8 @@ namespace Azure.Iot.Operations.Protocol.State
 
             PropertyWriteRequester = new PropertyWriteRequester<TProp, TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern };
             PropertyReadRequester = new PropertyReadRequester<TProp, TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern };
-            PropertyWatchRequester = new PropertyWatchRequester<TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern };
-            PropertyUnwatchRequester = new PropertyUnwatchRequester<TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern };
+            PropertyObserveRequester = new PropertyObserveRequester<TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern };
+            PropertyUnobserveRequester = new PropertyUnobserveRequester<TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern };
             PropertyListener = new PropertyListener<TProp>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { TopicPattern = topicPattern, OnTelemetryReceived = ReceiveNotificationInt };
         }
 
@@ -104,14 +104,14 @@ namespace Azure.Iot.Operations.Protocol.State
             return PropertyReadRequester.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, readTimeout, cancellationToken);
         }
 
-        public Task<ExtendedResponse<TBool>> WatchAsync(TBool request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? watchTimeout = default, CancellationToken cancellationToken = default)
+        public Task<ExtendedResponse<TBool>> ObserveAsync(TBool request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? observeTimeout = default, CancellationToken cancellationToken = default)
         {
-            return PropertyWatchRequester.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, watchTimeout, cancellationToken);
+            return PropertyObserveRequester.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, observeTimeout, cancellationToken);
         }
 
-        public Task<ExtendedResponse<TBool>> UnwatchAsync(TBool request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? unwatchTimeout = default, CancellationToken cancellationToken = default)
+        public Task<ExtendedResponse<TBool>> UnobserveAsync(TBool request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? unobserveTimeout = default, CancellationToken cancellationToken = default)
         {
-            return PropertyUnwatchRequester.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, unwatchTimeout, cancellationToken);
+            return PropertyUnobserveRequester.InvokeCommandAsync(request, metadata, additionalTopicTokenMap, unobserveTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -152,8 +152,8 @@ namespace Azure.Iot.Operations.Protocol.State
                 {
                     await PropertyWriteRequester.DisposeAsync(disposing).ConfigureAwait(false);
                     await PropertyReadRequester.DisposeAsync(disposing).ConfigureAwait(false);
-                    await PropertyWatchRequester.DisposeAsync(disposing).ConfigureAwait(false);
-                    await PropertyUnwatchRequester.DisposeAsync(disposing).ConfigureAwait(false);
+                    await PropertyObserveRequester.DisposeAsync(disposing).ConfigureAwait(false);
+                    await PropertyUnobserveRequester.DisposeAsync(disposing).ConfigureAwait(false);
                     await PropertyListener.DisposeAsync(disposing).ConfigureAwait(false);
                 }
 

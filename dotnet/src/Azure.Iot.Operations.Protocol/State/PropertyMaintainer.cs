@@ -21,9 +21,9 @@ namespace Azure.Iot.Operations.Protocol.State
 
         public PropertyReadResponder<TProp, TBool> PropertyReadResponder { get; }
 
-        public PropertyWatchResponder<TBool> PropertyWatchResponder { get; }
+        public PropertyObserveResponder<TBool> PropertyObserveResponder { get; }
 
-        public PropertyUnwatchResponder<TBool> PropertyUnwatchResponder { get; }
+        public PropertyUnobserveResponder<TBool> PropertyUnobserveResponder { get; }
 
         public PropertyNotifier<TProp> PropertyNotifier { get; }
 
@@ -31,9 +31,9 @@ namespace Azure.Iot.Operations.Protocol.State
 
         public required Func<ExtendedRequest<TBool>, CancellationToken, Task<ExtendedResponse<TProp>>> OnReadReceived { get; set; }
 
-        public required Func<ExtendedRequest<TBool>, CancellationToken, Task<ExtendedResponse<TBool>>> OnWatchReceived { get; set; }
+        public required Func<ExtendedRequest<TBool>, CancellationToken, Task<ExtendedResponse<TBool>>> OnObserveReceived { get; set; }
 
-        public required Func<ExtendedRequest<TBool>, CancellationToken, Task<ExtendedResponse<TBool>>> OnUnwatchReceived { get; set; }
+        public required Func<ExtendedRequest<TBool>, CancellationToken, Task<ExtendedResponse<TBool>>> OnUnobserveReceived { get; set; }
 
         public string? TopicNamespace
         {
@@ -43,8 +43,8 @@ namespace Azure.Iot.Operations.Protocol.State
             {
                 PropertyWriteResponder.TopicNamespace = value;
                 PropertyReadResponder.TopicNamespace = value;
-                PropertyWatchResponder.TopicNamespace = value;
-                PropertyUnwatchResponder.TopicNamespace = value;
+                PropertyObserveResponder.TopicNamespace = value;
+                PropertyUnobserveResponder.TopicNamespace = value;
                 PropertyNotifier.TopicNamespace = value;
             }
         }
@@ -56,8 +56,8 @@ namespace Azure.Iot.Operations.Protocol.State
 
             PropertyWriteResponder = new PropertyWriteResponder<TProp, TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern, OnCommandReceived = WriteInt, IsIdempotent = false };
             PropertyReadResponder = new PropertyReadResponder<TProp, TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern, OnCommandReceived = ReadInt, IsIdempotent = true };
-            PropertyWatchResponder = new PropertyWatchResponder<TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern, OnCommandReceived = WatchInt, IsIdempotent = true };
-            PropertyUnwatchResponder = new PropertyUnwatchResponder<TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern, OnCommandReceived = UnwatchInt, IsIdempotent = true };
+            PropertyObserveResponder = new PropertyObserveResponder<TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern, OnCommandReceived = ObserveInt, IsIdempotent = true };
+            PropertyUnobserveResponder = new PropertyUnobserveResponder<TBool>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { RequestTopicPattern = topicPattern, OnCommandReceived = UnobserveInt, IsIdempotent = true };
             PropertyNotifier = new PropertyNotifier<TProp>(applicationContext, mqttClient, serializer, actionTopicToken, topicTokenMap) { TopicPattern = topicPattern };
         }
 
@@ -71,8 +71,8 @@ namespace Azure.Iot.Operations.Protocol.State
             await Task.WhenAll(
                 PropertyWriteResponder.StartAsync(preferredDispatchConcurrency, cancellationToken),
                 PropertyReadResponder.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                PropertyWatchResponder.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                PropertyUnwatchResponder.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                PropertyObserveResponder.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                PropertyUnobserveResponder.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
         }
 
         public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -80,8 +80,8 @@ namespace Azure.Iot.Operations.Protocol.State
             await Task.WhenAll(
                 PropertyWriteResponder.StopAsync(cancellationToken),
                 PropertyReadResponder.StopAsync(cancellationToken),
-                PropertyWatchResponder.StopAsync(cancellationToken),
-                PropertyUnwatchResponder.StopAsync(cancellationToken)).ConfigureAwait(false);
+                PropertyObserveResponder.StopAsync(cancellationToken),
+                PropertyUnobserveResponder.StopAsync(cancellationToken)).ConfigureAwait(false);
         }
 
         private Task<ExtendedResponse<TBool>> WriteInt(ExtendedRequest<TProp> request, CancellationToken cancellationToken)
@@ -94,14 +94,14 @@ namespace Azure.Iot.Operations.Protocol.State
             return OnReadReceived(request, cancellationToken);
         }
 
-        private Task<ExtendedResponse<TBool>> WatchInt(ExtendedRequest<TBool> request, CancellationToken cancellationToken)
+        private Task<ExtendedResponse<TBool>> ObserveInt(ExtendedRequest<TBool> request, CancellationToken cancellationToken)
         {
-            return OnWatchReceived(request, cancellationToken);
+            return OnObserveReceived(request, cancellationToken);
         }
 
-        private Task<ExtendedResponse<TBool>> UnwatchInt(ExtendedRequest<TBool> request, CancellationToken cancellationToken)
+        private Task<ExtendedResponse<TBool>> UnobserveInt(ExtendedRequest<TBool> request, CancellationToken cancellationToken)
         {
-            return OnUnwatchReceived(request, cancellationToken);
+            return OnUnobserveReceived(request, cancellationToken);
         }
 
         public async ValueTask DisposeAsync()
@@ -123,8 +123,8 @@ namespace Azure.Iot.Operations.Protocol.State
                 {
                     await PropertyWriteResponder.DisposeAsync(disposing).ConfigureAwait(false);
                     await PropertyReadResponder.DisposeAsync(disposing).ConfigureAwait(false);
-                    await PropertyWatchResponder.DisposeAsync(disposing).ConfigureAwait(false);
-                    await PropertyUnwatchResponder.DisposeAsync(disposing).ConfigureAwait(false);
+                    await PropertyObserveResponder.DisposeAsync(disposing).ConfigureAwait(false);
+                    await PropertyUnobserveResponder.DisposeAsync(disposing).ConfigureAwait(false);
                     await PropertyNotifier.DisposeAsync(disposing).ConfigureAwait(false);
                 }
 
