@@ -73,15 +73,15 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
 
-/// Requester for watching Property via Command invocation
-pub struct WatchRequester<TBool, C>(invoker::Invoker<TBool, TBool, C>)
+/// Requester for observeing Property via Command invocation
+pub struct ObserveRequester<TBool, C>(invoker::Invoker<TBool, TBool, C>)
 where
     TBool: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
 
-/// Requester for unwatching Property via Command invocation
-pub struct UnwatchRequester<TBool, C>(invoker::Invoker<TBool, TBool, C>)
+/// Requester for unobserveing Property via Command invocation
+pub struct UnobserveRequester<TBool, C>(invoker::Invoker<TBool, TBool, C>)
 where
     TBool: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -104,8 +104,8 @@ where
 {
     write_requester: WriteRequester<TProp, TBool, C>,
     read_requester: ReadRequester<TProp, TBool, C>,
-    watch_requester: WatchRequester<TBool, C>,
-    unwatch_requester: UnwatchRequester<TBool, C>,
+    observe_requester: ObserveRequester<TBool, C>,
+    unobserve_requester: UnobserveRequester<TBool, C>,
 }
 
 impl<T> PropertyRequestBuilder<T>
@@ -277,13 +277,13 @@ where
     }
 }
 
-impl<TBool, C> WatchRequester<TBool, C>
+impl<TBool, C> ObserveRequester<TBool, C>
 where
     TBool: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Creates a new [`WatchRequester`]
+    /// Creates a new [`ObserveRequester`]
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
@@ -301,11 +301,11 @@ where
         }
 
         let mut topic_token_map: HashMap<String, String> = options.topic_token_map.clone();
-        topic_token_map.insert(action_topic_token, "watch".to_string());
+        topic_token_map.insert(action_topic_token, "observe".to_string());
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern(options.topic_pattern.clone())
-            .command_name("watch")
+            .command_name("observe")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())
             .response_topic_suffix(options.response_topic_suffix.clone())
@@ -319,7 +319,7 @@ where
         )?))
     }
 
-    /// Requests a Property watch
+    /// Requests a Property observe
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
@@ -330,7 +330,7 @@ where
         self.0.invoke(request).await
     }
 
-    /// Shutdown the [`WatchRequester`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    /// Shutdown the [`ObserveRequester`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
@@ -340,13 +340,13 @@ where
     }
 }
 
-impl<TBool, C> UnwatchRequester<TBool, C>
+impl<TBool, C> UnobserveRequester<TBool, C>
 where
     TBool: PayloadSerialize + Send + Sync + 'static,
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static,
 {
-    /// Creates a new [`UnwatchRequester`]
+    /// Creates a new [`UnobserveRequester`]
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure to create the wrapped invoker
@@ -364,11 +364,11 @@ where
         }
 
         let mut topic_token_map: HashMap<String, String> = options.topic_token_map.clone();
-        topic_token_map.insert(action_topic_token, "unwatch".to_string());
+        topic_token_map.insert(action_topic_token, "unobserve".to_string());
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern(options.topic_pattern.clone())
-            .command_name("unwatch")
+            .command_name("unobserve")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())
             .response_topic_suffix(options.response_topic_suffix.clone())
@@ -382,7 +382,7 @@ where
         )?))
     }
 
-    /// Requests a Property unwatch
+    /// Requests a Property unobserve
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
@@ -393,7 +393,7 @@ where
         self.0.invoke(request).await
     }
 
-    /// Shutdown the [`UnwatchRequester`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
+    /// Shutdown the [`UnobserveRequester`]. Unsubscribes from the response topic and cancels the receiver loop to drop the receiver and to prevent the task from looping indefinitely.
     ///
     /// Returns Ok(()) on success, otherwise returns [`AIOProtocolError`].
     /// # Errors
@@ -485,13 +485,13 @@ where
                 action_topic_token.to_string(),
                 options,
             )?,
-            watch_requester: WatchRequester::new(
+            observe_requester: ObserveRequester::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.to_string(),
                 options,
             )?,
-            unwatch_requester: UnwatchRequester::new(
+            unobserve_requester: UnobserveRequester::new(
                 application_context.clone(),
                 client.clone(),
                 action_topic_token.to_string(),
@@ -522,26 +522,26 @@ where
         self.read_requester.invoke(request).await
     }
 
-    /// Requests a Property watch
+    /// Requests a Property observe
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn watch(
+    pub async fn observe(
         &self,
         request: PropertyRequest<TBool>,
     ) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
-        self.watch_requester.invoke(request).await
+        self.observe_requester.invoke(request).await
     }
 
-    /// Requests a Property unwatch
+    /// Requests a Property unobserve
     ///
     /// # Errors
     /// [`AIOProtocolError`] if there is a failure invoking the request
-    pub async fn unwatch(
+    pub async fn unobserve(
         &self,
         request: PropertyRequest<TBool>,
     ) -> Result<PropertyResponse<TBool>, AIOProtocolError> {
-        self.unwatch_requester.invoke(request).await
+        self.unobserve_requester.invoke(request).await
     }
 
     /// Shut down the [`Consumer`]
@@ -551,8 +551,8 @@ where
     pub async fn shutdown(&mut self) -> Result<(), AIOProtocolError> {
         self.write_requester.shutdown().await?;
         self.read_requester.shutdown().await?;
-        self.watch_requester.shutdown().await?;
-        self.unwatch_requester.shutdown().await?;
+        self.observe_requester.shutdown().await?;
+        self.unobserve_requester.shutdown().await?;
         Ok(())
     }
 }
