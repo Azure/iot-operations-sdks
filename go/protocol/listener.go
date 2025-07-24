@@ -161,7 +161,7 @@ func (l *listener[T]) handle(ctx context.Context, msg *message[T]) {
 		msg.Timestamp, err = l.app.hlc.Parse(constants.Timestamp, ts)
 		if err != nil {
 			l.error(ctx, msg.Mqtt, &errors.Remote{
-				Message: "timestamp is not a valid RFC3339 timestamp",
+				Message: err.Error(),
 				Kind: errors.HeaderInvalid{
 					HeaderName:  constants.Timestamp,
 					HeaderValue: ts,

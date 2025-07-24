@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
+using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Protocol;
-using Microsoft.Extensions.DependencyInjection;
 using SqlQualityAnalyzerConnectorApp;
 
 IHost host = Host.CreateDefaultBuilder(args)
@@ -11,11 +11,11 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddSingleton<ApplicationContext>();
-        services.AddSingleton(MqttSessionClientFactoryProvider.MqttSessionClientFactory);
-        services.AddSingleton(SqlQualityAnalyzerDatasetSamplerFactory.DatasetSamplerFactoryProvider);
-        services.AddSingleton(NoMessageSchemaProvider.NoMessageSchemaProviderFactory);
-        services.AddSingleton(AssetMonitorFactoryProvider.AssetMonitorFactory);
-        services.AddSingleton(LeaderElectionConfigurationProvider.ConnectorLeaderElectionConfigurationProviderFactory);
+        services.AddSingleton(MqttSessionClientProvider.Factory);
+        services.AddSingleton(SqlQualityAnalyzerDatasetSamplerProvider.Factory);
+        services.AddSingleton(NoMessageSchemaProvider.Factory);
+        services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
+        services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
         services.AddHostedService<PollingTelemetryConnectorWorker>();
     })
     .Build();

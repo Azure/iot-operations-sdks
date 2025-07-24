@@ -1,24 +1,25 @@
-apiVersion: deviceregistry.microsoft.com/v1
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
 kind: Asset
 metadata:
   name: my-tcp-thermostat-asset
   namespace: azure-iot-operations
 spec:
-  displayName: My TCP Thermostat Asset
-  description: A sample for an Asset modeling a device with TCP endpoint
-  assetEndpointProfileRef: azure-iot-operations/my-tcp-thermostat-profile # <namespace>/<assetEndpointProfile.metadata.name>
-  defaultEventsConfiguration: |-
-    {
-    }
-  defaultTopic:
-    path: /mqtt/machine/status
-    retain: Keep
+  attributes:
+    assetId: my-tcp-thermostat-asset
+    assetType: thermostat
   events:
     - name: thermostat_status_changed
-      eventConfiguration: |-
-        {
-        }
-      eventNotifier: "80" # The port that the TCP server asset uses
-      topic:
-        path: /mqtt/machine/status/change_event
-        retain: Keep
+      dataPoints:
+        - dataSource: /api/thermostat/current
+          name: currentTemperature
+          dataPointConfiguration: '{}'
+      destinations:
+        - configuration:
+            topic: /mqtt/machine/status/change_event
+          target: Mqtt
+      eventNotifier: "80"
+  defaultDatasetsConfiguration: '{}'
+  deviceRef:
+    deviceName: my-tcp-thermostat
+    endpointName: my_tcp_endpoint
+  version: 1
