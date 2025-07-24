@@ -53,6 +53,7 @@ internal sealed class Program
                 await leasedLockClient.AcquireLockAsync(
                     leaseDuration,
                     null,
+                    null,
                     cancellationToken).ConfigureAwait(false);
 
             HybridLogicalClock fencingToken = response.FencingToken!;
@@ -87,6 +88,6 @@ internal sealed class Program
         }
 
         // nothing more to do while owning the lock, so release it
-        await leasedLockClient.ReleaseLockAsync(null, cancellationToken).ConfigureAwait(false);
+        await leasedLockClient.ReleaseLockAsync(null, null, cancellationToken).ConfigureAwait(false);
     }
 }

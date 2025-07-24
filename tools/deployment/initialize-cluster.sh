@@ -23,6 +23,12 @@ install-prerequisites()
     echo "==========================="
     echo
 
+    # install mosquitto
+    if ! which mosquitto; then
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends mosquitto-clients
+    fi
+
     # install docker
     SYSTEM_NAME=$(uname -r)
     if ! [[ "$SYSTEM_NAME" == *"microsoft"* && "$SYSTEM_NAME" == *"WSL"* ]]; then

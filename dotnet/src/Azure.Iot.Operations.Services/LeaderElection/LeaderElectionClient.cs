@@ -144,7 +144,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         }
 
         /// <inheritdoc/>
-        public virtual async Task<CampaignResponse> TryCampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task<CampaignResponse> TryCampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -165,6 +165,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                 await _leasedLockClient.TryAcquireLockAsync(
                     electionTerm,
                     acquireLockOptions,
+                    timeout,
                     cancellationToken).ConfigureAwait(false);
 
             return new CampaignResponse(
@@ -173,7 +174,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         }
 
         /// <inheritdoc/>
-        public virtual async Task<CampaignResponse> CampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task<CampaignResponse> CampaignAsync(TimeSpan electionTerm, CampaignRequestOptions? options = null, TimeSpan? timeoutPerRequest = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -195,6 +196,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
                 await _leasedLockClient.AcquireLockAsync(
                     electionTerm,
                     acquireLockOptions,
+                    timeoutPerRequest,
                     cancellationToken).ConfigureAwait(false);
 
             return new CampaignResponse(
@@ -203,19 +205,19 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         }
 
         /// <inheritdoc/>
-        public async Task CampaignAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumTermLength = null, CancellationToken cancellationToken = default)
+        public async Task CampaignAndUpdateValueAsync(StateStoreKey key, Func<StateStoreValue?, StateStoreValue?> updateValueFunc, TimeSpan? maximumTermLength = null, TimeSpan? timeoutPerRequest = null, CancellationToken cancellationToken = default)
         {
-            await _leasedLockClient.AcquireLockAndUpdateValueAsync(key, updateValueFunc, maximumTermLength, cancellationToken);
+            await _leasedLockClient.AcquireLockAndUpdateValueAsync(key, updateValueFunc, maximumTermLength, timeoutPerRequest, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual async Task<GetCurrentLeaderResponse> GetCurrentLeaderAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<GetCurrentLeaderResponse> GetCurrentLeaderAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
             GetLockHolderResponse getLockHolderResponse =
-                await _leasedLockClient.GetLockHolderAsync(cancellationToken).ConfigureAwait(false);
+                await _leasedLockClient.GetLockHolderAsync(timeout, cancellationToken).ConfigureAwait(false);
 
             if (getLockHolderResponse.LockHolder == null)
             {
@@ -226,7 +228,7 @@ namespace Azure.Iot.Operations.Services.LeaderElection
         }
 
         /// <inheritdoc/>
-        public virtual async Task<ResignationResponse> ResignAsync(ResignationRequestOptions? options = null, CancellationToken cancellationToken = default)
+        public virtual async Task<ResignationResponse> ResignAsync(ResignationRequestOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
@@ -240,27 +242,27 @@ namespace Azure.Iot.Operations.Services.LeaderElection
             };
 
             ReleaseLockResponse releaseLockResponse =
-                await _leasedLockClient.ReleaseLockAsync(releaseLockOptions, cancellationToken).ConfigureAwait(false);
+                await _leasedLockClient.ReleaseLockAsync(releaseLockOptions, timeout, cancellationToken).ConfigureAwait(false);
 
             return new ResignationResponse(releaseLockResponse.Success);
         }
 
         /// <inheritdoc/>
-        public virtual async Task ObserveLeadershipChangesAsync(CancellationToken cancellationToken = default)
+        public virtual async Task ObserveLeadershipChangesAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            await _leasedLockClient.ObserveLockAsync(cancellationToken).ConfigureAwait(false);
+            await _leasedLockClient.ObserveLockAsync(timeout, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        public virtual async Task UnobserveLeadershipChangesAsync(CancellationToken cancellationToken = default)
+        public virtual async Task UnobserveLeadershipChangesAsync(TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            await _leasedLockClient.UnobserveLockAsync(cancellationToken).ConfigureAwait(false);
+            await _leasedLockClient.UnobserveLockAsync(timeout, cancellationToken).ConfigureAwait(false);
         }
 
         public async ValueTask DisposeAsync()

@@ -175,7 +175,7 @@ internal static class ProtocolConverter
     return new AdrBaseService.DiscoveredAssetManagementGroupAction
     {
         Name = source.Name,
-        ActionConfiguration = source.ActionConfiguration?.RootElement.ToString(),
+        ActionConfiguration = source.ActionConfiguration,
         ActionType = source.ActionType.ToProtocol(),
         LastUpdatedOn = source.LastUpdatedOn,
         TypeRef = source.TypeRef,
