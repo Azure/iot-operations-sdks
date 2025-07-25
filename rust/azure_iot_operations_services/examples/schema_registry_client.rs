@@ -108,7 +108,7 @@ async fn schema_registry_put(
         Ok(schema) => {
             log::info!("Put request succeeded: {schema:?}");
             // Send the schema ID to the other task
-            schema_id_tx.send(schema.name.unwrap()).unwrap();
+            schema_id_tx.send(schema.name).unwrap();
         }
         Err(e) => {
             log::error!("Put request failed: {e}");
@@ -125,7 +125,10 @@ async fn schema_registry_get(
         Ok(schema_id) => {
             match client
                 .get(
-                    GetRequestBuilder::default().id(schema_id).build().unwrap(),
+                    GetRequestBuilder::default()
+                        .name(schema_id)
+                        .build()
+                        .unwrap(),
                     Duration::from_secs(10),
                 )
                 .await
@@ -133,9 +136,17 @@ async fn schema_registry_get(
                 Ok(schema) => {
                     log::info!("Got schema: {schema:?}");
                 }
-                Err(e) => {
-                    log::error!("Failed to get schema: {e}");
-                }
+                Err(e) => match e.kind() {
+                    schema_registry::ErrorKind::ServiceError(service_error) => {
+                        match service_error.code {
+                            schema_registry::ErrorCode::NotFound => {
+                                log::error!("Schema not found");
+                            }
+                            _ => log::error!("Failed to get schema: {e}"),
+                        }
+                    }
+                    _ => log::error!("Failed to get schema: {e}"),
+                },
             }
         }
         Err(_) => {

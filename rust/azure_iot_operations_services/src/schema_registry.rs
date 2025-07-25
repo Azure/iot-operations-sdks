@@ -4,9 +4,9 @@
 //! Types for Schema Registry operations.
 
 use core::fmt::Debug;
-use std::collections::HashMap;
+use std::{collections::HashMap, fmt};
 
-use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
 use derive_builder::Builder;
 use thiserror::Error;
 
@@ -44,15 +44,157 @@ pub enum ErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
     AIOProtocolError(#[from] AIOProtocolError),
-    /// An error occurred during serialization of a request.
-    #[error("{0}")]
-    SerializationError(String),
     /// An argument provided for a request was invalid.
-    #[error("{0}")]
-    InvalidArgument(String),
+    #[error(transparent)]
+    InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
     /// An error was returned by the Schema Registry Service.
     #[error("{0:?}")]
-    ServiceError(#[from] sr_client_gen::SchemaRegistryError),
+    ServiceError(#[from] ServiceError),
+}
+
+// ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Error~~~~~~~
+
+/// Error codes for schema operations.
+#[derive(Debug, Clone)]
+#[repr(i32)]
+pub enum ErrorCode {
+    /// Bad request error.
+    BadRequest = 400,
+    /// Internal server error.
+    InternalError = 500,
+    /// Not found error.
+    NotFound = 404,
+}
+
+/// Additional details about the error.
+#[derive(Debug, Clone, Builder)]
+pub struct ErrorDetails {
+    /// Multi-part error code for classification and root causing of errors (e.g., '400.200').
+    pub code: Option<String>,
+    /// Correlation ID for tracing the error across systems.
+    pub correlation_id: Option<String>,
+    /// Human-readable helpful error message to provide additional context for the error
+    pub message: Option<String>,
+}
+
+/// Target of the error
+#[derive(Debug, Clone)]
+pub enum ErrorTarget {
+    /// Schema description
+    DescriptionProperty,
+    /// Schema display name
+    DisplayNameProperty,
+    /// Schema format
+    FormatProperty,
+    /// Schema name
+    NameProperty,
+    /// Schema ARM resource
+    SchemaArmResource,
+    /// Content of the schema
+    SchemaContentProperty,
+    /// Schema registry ARM resource
+    SchemaRegistryArmResource,
+    /// Schema type
+    SchemaTypeProperty,
+    /// Schema version ARM resource
+    SchemaVersionArmResource,
+    /// Tags of the schema
+    TagsProperty,
+    /// Version of the schema
+    VersionProperty,
+}
+
+/// Error object for schema operations
+#[derive(Debug, Clone)]
+pub struct ServiceError {
+    /// Error code for classification of errors (ex: '400', '404', '500', etc.).
+    pub code: ErrorCode,
+    /// Additional details about the error, if available.
+    pub details: Option<ErrorDetails>,
+    /// Inner error object for nested errors, if applicable.
+    pub inner_error: Option<ErrorDetails>,
+    /// Human-readable error message.
+    pub message: String,
+    /// Target of the error, if applicable (e.g., 'schemaType').
+    pub target: Option<ErrorTarget>,
+}
+
+impl From<sr_client_gen::SchemaRegistryErrorCode> for ErrorCode {
+    fn from(code: sr_client_gen::SchemaRegistryErrorCode) -> Self {
+        match code {
+            sr_client_gen::SchemaRegistryErrorCode::BadRequest => ErrorCode::BadRequest,
+            sr_client_gen::SchemaRegistryErrorCode::InternalError => ErrorCode::InternalError,
+            sr_client_gen::SchemaRegistryErrorCode::NotFound => ErrorCode::NotFound,
+        }
+    }
+}
+
+impl From<sr_client_gen::SchemaRegistryErrorDetails> for ErrorDetails {
+    fn from(details: sr_client_gen::SchemaRegistryErrorDetails) -> Self {
+        ErrorDetails {
+            code: details.code,
+            correlation_id: details.correlation_id,
+            message: details.message,
+        }
+    }
+}
+
+impl From<sr_client_gen::SchemaRegistryErrorTarget> for ErrorTarget {
+    fn from(target: sr_client_gen::SchemaRegistryErrorTarget) -> Self {
+        match target {
+            sr_client_gen::SchemaRegistryErrorTarget::DescriptionProperty => {
+                ErrorTarget::DescriptionProperty
+            }
+            sr_client_gen::SchemaRegistryErrorTarget::DisplayNameProperty => {
+                ErrorTarget::DisplayNameProperty
+            }
+            sr_client_gen::SchemaRegistryErrorTarget::FormatProperty => ErrorTarget::FormatProperty,
+            sr_client_gen::SchemaRegistryErrorTarget::NameProperty => ErrorTarget::NameProperty,
+            sr_client_gen::SchemaRegistryErrorTarget::SchemaArmResource => {
+                ErrorTarget::SchemaArmResource
+            }
+            sr_client_gen::SchemaRegistryErrorTarget::SchemaContentProperty => {
+                ErrorTarget::SchemaContentProperty
+            }
+            sr_client_gen::SchemaRegistryErrorTarget::SchemaRegistryArmResource => {
+                ErrorTarget::SchemaRegistryArmResource
+            }
+            sr_client_gen::SchemaRegistryErrorTarget::SchemaTypeProperty => {
+                ErrorTarget::SchemaTypeProperty
+            }
+            sr_client_gen::SchemaRegistryErrorTarget::SchemaVersionArmResource => {
+                ErrorTarget::SchemaVersionArmResource
+            }
+            sr_client_gen::SchemaRegistryErrorTarget::TagsProperty => ErrorTarget::TagsProperty,
+            sr_client_gen::SchemaRegistryErrorTarget::VersionProperty => {
+                ErrorTarget::VersionProperty
+            }
+        }
+    }
+}
+
+impl From<sr_client_gen::SchemaRegistryError> for ServiceError {
+    fn from(error: sr_client_gen::SchemaRegistryError) -> Self {
+        ServiceError {
+            code: error.code.into(),
+            details: error.details.map(Into::into),
+            inner_error: error.inner_error.map(Into::into),
+            message: error.message,
+            target: error.target.map(Into::into),
+        }
+    }
+}
+
+impl fmt::Display for ServiceError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.message)
+    }
+}
+
+impl std::error::Error for ServiceError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        None
+    }
 }
 
 // ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Structs and Enums~~~~~~~

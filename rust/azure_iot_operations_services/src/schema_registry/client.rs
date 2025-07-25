@@ -14,9 +14,9 @@ use azure_iot_operations_protocol::rpc_command;
 
 use crate::schema_registry::schemaregistry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
-    GetCommandInvoker, GetRequestSchemaBuilder, PutCommandInvoker, PutRequestSchemaBuilder,
+    GetCommandInvoker, GetRequestSchema, PutCommandInvoker, PutRequestSchema,
 };
-use crate::schema_registry::{Error, ErrorKind, GetRequest, PutRequest, Schema};
+use crate::schema_registry::{Error, ErrorKind, GetRequest, PutRequest, Schema, ServiceError};
 
 /// Schema registry client implementation.
 #[derive(Clone)]
@@ -54,7 +54,7 @@ where
                 application_context,
                 client.clone(),
                 &options,
-            ))
+            )),
         }
     }
 
@@ -67,11 +67,8 @@ where
     /// Returns a [`Schema`] if the schema was found, otherwise returns an error of type [`Error`].
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
-    /// if the `timeout` is zero or > `u32::max`, or there is an error building the request.
-    ///
-    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
-    /// if there is an error serializing the request.
+    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
+    /// if the `timeout` is zero or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
     /// if there is an error returned by the Schema Registry Service.
@@ -79,25 +76,24 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn get(&self, get_request: GetRequest, timeout: Duration) -> Result<Schema, Error> {
-        let get_request_schema = GetRequestSchemaBuilder::default()
-            .name(get_request.name)
-            .version(get_request.version)
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+        let payload = GetRequestSchema {
+            name: get_request.name,
+            version: get_request.version,
+        };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .payload(get_request_schema)
-            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
+            .payload(payload)
+            .map_err(ErrorKind::from)?
             .timeout(timeout)
             .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(ErrorKind::from)?;
 
         let response = self
             .get_command_invoker
             .invoke(command_request)
             .await
-            .map_err(|e| Error(ErrorKind::from(e)))?
-            .map_err(|e| Error(ErrorKind::from(e.payload)))?;
+            .map_err(ErrorKind::from)?
+            .map_err(|e| Error(ErrorKind::from(ServiceError::from(e.payload))))?; // FIN: Maybe can change
 
         Ok(response.payload.schema.into())
     }
@@ -111,11 +107,8 @@ where
     /// Returns the [`Schema`] that was put if the request was successful.
     ///
     /// # Errors
-    /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
-    /// if the `content` is empty, the `timeout` is zero or > `u32::max`, or there is an error building the request.
-    ///
-    /// [`struct@Error`] of kind [`SerializationError`](ErrorKind::SerializationError)
-    /// if there is an error serializing the request.
+    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
+    /// if the `timeout` is zero or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError)
     /// if there is an error returned by the Schema Registry Service.
@@ -123,28 +116,29 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
     pub async fn put(&self, put_request: PutRequest, timeout: Duration) -> Result<Schema, Error> {
-        let put_request_schema = PutRequestSchemaBuilder::default()
-            .format(put_request.format.into())
-            .schema_content(put_request.schema_content)
-            .version(put_request.version)
-            .tags(Some(put_request.tags))
-            .schema_type(put_request.schema_type.into())
-            .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+        let payload = PutRequestSchema {
+            description: put_request.description,
+            display_name: put_request.display_name,
+            format: put_request.format.into(),
+            schema_content: put_request.schema_content,
+            schema_type: put_request.schema_type.into(),
+            tags: Some(put_request.tags),
+            version: put_request.version,
+        };
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .payload(put_request_schema)
-            .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
+            .payload(payload)
+            .map_err(ErrorKind::from)?
             .timeout(timeout)
             .build()
-            .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
+            .map_err(ErrorKind::from)?;
 
         let response = self
             .put_command_invoker
             .invoke(command_request)
             .await
             .map_err(ErrorKind::from)?
-            .map_err(|e| ErrorKind::from(e.payload))?;
+            .map_err(|e| ErrorKind::from(ServiceError::from(e.payload)))?;
 
         Ok(response.payload.schema.into())
     }
@@ -281,7 +275,7 @@ mod tests {
 
         assert!(matches!(
             get_result.unwrap_err(),
-            Error(ErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidRequestArgument(_))
         ));
 
         let get_result = client
@@ -296,7 +290,7 @@ mod tests {
 
         assert!(matches!(
             get_result.unwrap_err(),
-            Error(ErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidRequestArgument(_))
         ));
     }
 
@@ -321,7 +315,7 @@ mod tests {
 
         assert!(matches!(
             put_result.unwrap_err(),
-            Error(ErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidRequestArgument(_))
         ));
 
         let put_result = client
@@ -337,7 +331,7 @@ mod tests {
 
         assert!(matches!(
             put_result.unwrap_err(),
-            Error(ErrorKind::InvalidArgument(_))
+            Error(ErrorKind::InvalidRequestArgument(_))
         ));
     }
 }
