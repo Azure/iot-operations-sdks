@@ -17,10 +17,10 @@ use crate::{OutputDirectoryManager, schema_registry::service_gen};
 use crate::{
     ServiceStateOutputManager,
     schema_registry::{
-        SERVICE_NAME, Schema,
+        ErrorCode, SERVICE_NAME, Schema, ServiceError,
         schema_registry_gen::{
-            common_types::common_options::CommandOptionsBuilder,
-            schema_registry::service::{GetResponsePayload, PutResponsePayload},
+            common_types::options::CommandExecutorOptionsBuilder,
+            schema_registry::service::{GetResponseSchema, PutResponseSchema},
         },
     },
 };
@@ -55,16 +55,16 @@ where
             get_command_executor: service_gen::GetCommandExecutor::new(
                 application_context.clone(),
                 client.clone(),
-                &CommandOptionsBuilder::default()
+                &CommandExecutorOptionsBuilder::default()
                     .build()
-                    .expect("Default command options should be valid"),
+                    .expect("Default command executor options should be valid"),
             ),
             put_command_executor: service_gen::PutCommandExecutor::new(
                 application_context,
                 client,
-                &CommandOptionsBuilder::default()
+                &CommandExecutorOptionsBuilder::default()
                     .build()
-                    .expect("Default command options should be valid"),
+                    .expect("Default command executor options should be valid"),
             ),
             service_output_manager: output_directory_manager
                 .create_new_service_output_manager(SERVICE_NAME),
@@ -110,28 +110,12 @@ where
             match get_command_executor.recv().await {
                 Some(incoming_request) => match incoming_request {
                     Ok(get_request) => {
-                        log::debug!(
-                            "Get request received: {:?}",
-                            get_request.payload.get_schema_request
-                        );
+                        log::debug!("Get request received: {:?}", get_request.payload);
 
                         // Extract the schema name
-                        let schema_name = get_request
-                            .payload
-                            .get_schema_request
-                            .name
-                            .as_ref()
-                            .expect("Schema name is required")
-                            .clone();
+                        let schema_name = get_request.payload.name.clone();
                         // Extract the schema version
-                        let schema_version: u32 = match get_request
-                            .payload
-                            .get_schema_request
-                            .version
-                            .as_ref()
-                            .expect("Schema version is required")
-                            .parse()
-                        {
+                        let schema_version: u32 = match get_request.payload.version.parse() {
                             Ok(version) => version,
                             Err(_) => {
                                 // TODO: Implement error handling for incorrect version number
@@ -141,7 +125,7 @@ where
                         };
 
                         // Retrieve the schema from the request
-                        let schema = {
+                        let result = {
                             let schemas = schemas.lock().expect("Mutex management should be safe");
 
                             match schemas.get(&schema_name) {
@@ -157,7 +141,7 @@ where
                                                 schema_name,
                                                 schema_version
                                             );
-                                            Some(schema.clone())
+                                            Ok(schema.clone())
                                         }
                                         None => {
                                             // We found the schema but not the version
@@ -166,26 +150,52 @@ where
                                                 schema_name,
                                                 schema_version
                                             );
-                                            None
+                                            Err(ServiceError {
+                                                code: ErrorCode::NotFound,
+                                                details: None,
+                                                inner_error: None,
+                                                message: format!(
+                                                    "Schema '{}' version '{}' not found",
+                                                    schema_name, schema_version
+                                                ),
+                                                target: None,
+                                            })
                                         }
                                     }
                                 }
                                 None => {
                                     // Schema not found
                                     log::debug!("Schema {:?} not found", schema_name);
-                                    None
+                                    Err(ServiceError {
+                                        code: ErrorCode::NotFound,
+                                        details: None,
+                                        inner_error: None,
+                                        message: format!("Schema '{}' not found", schema_name),
+                                        target: None,
+                                    })
                                 }
                             }
                         };
 
                         // Send the response
-                        let response = rpc_command::executor::ResponseBuilder::default()
-                            .payload(GetResponsePayload {
-                                schema: schema.map(|s| s.into()),
-                            })
-                            .expect("Get response payload should be valid")
-                            .build()
-                            .expect("Get response should not fail to build");
+                        let response = match result {
+                            Ok(schema) => rpc_command::executor::ResponseBuilder::default()
+                                .payload(GetResponseSchema {
+                                    error: None,
+                                    schema: Some(schema.into()),
+                                })
+                                .expect("Get response payload should be valid")
+                                .build()
+                                .expect("Get response should not fail to build"),
+                            Err(service_error) => rpc_command::executor::ResponseBuilder::default()
+                                .payload(GetResponseSchema {
+                                    error: Some(service_error.into()),
+                                    schema: None,
+                                })
+                                .expect("Error response payload should be valid")
+                                .build()
+                                .expect("Error response should not fail to build"),
+                        };
 
                         match get_request.complete(response).await {
                             Ok(_) => {
@@ -223,20 +233,16 @@ where
             match put_command_executor.recv().await {
                 Some(incoming_request) => match incoming_request {
                     Ok(put_request) => {
-                        log::debug!(
-                            "Put request received: {:?}",
-                            put_request.payload.put_schema_request
-                        );
+                        log::debug!("Put request received: {:?}", put_request.payload);
 
                         // Extract the schema from the request
-                        let schema: Schema =
-                            match put_request.payload.put_schema_request.clone().try_into() {
-                                Ok(schema) => schema,
-                                Err(e) => {
-                                    log::error!("{e}"); // TODO: Implement error handling for incorrect schema
-                                    continue;
-                                }
-                            };
+                        let schema: Schema = match put_request.payload.clone().try_into() {
+                            Ok(schema) => schema,
+                            Err(e) => {
+                                log::error!("{e}"); // TODO: Implement error handling for incorrect schema
+                                continue;
+                            }
+                        };
 
                         // TODO: Add verification of schema
 
@@ -305,8 +311,9 @@ where
 
                         // Send the response
                         let response = rpc_command::executor::ResponseBuilder::default()
-                            .payload(PutResponsePayload {
-                                schema: schema.into(),
+                            .payload(PutResponseSchema {
+                                error: None,
+                                schema: Some(schema.clone().into()),
                             })
                             .expect("Put response payload should be valid")
                             .build()
