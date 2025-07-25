@@ -14,8 +14,7 @@ use azure_iot_operations_protocol::rpc_command;
 
 use crate::schema_registry::schemaregistry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
-    GetCommandInvoker, GetRequestPayloadBuilder, GetRequestSchemaBuilder, PutCommandInvoker,
-    PutRequestPayloadBuilder, PutRequestSchemaBuilder,
+    GetCommandInvoker, GetRequestSchemaBuilder, PutCommandInvoker, PutRequestSchemaBuilder,
 };
 use crate::schema_registry::{Error, ErrorKind, GetRequest, PutRequest, Schema};
 
@@ -28,7 +27,6 @@ where
 {
     get_command_invoker: Arc<GetCommandInvoker<C>>,
     put_command_invoker: Arc<PutCommandInvoker<C>>,
-    client_id: String, // TODO: Temporary until the schema registry service updates their executor
 }
 
 impl<C> Client<C>
@@ -56,8 +54,7 @@ where
                 application_context,
                 client.clone(),
                 &options,
-            )),
-            client_id: client.client_id().to_string(), // TODO: Temporary until the schema registry service updates their executor
+            ))
         }
     }
 
@@ -67,7 +64,7 @@ where
     /// * `get_request` - The request to get a schema from the schema registry.
     /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns a [`Schema`] if the schema was found, otherwise returns `None`.
+    /// Returns a [`Schema`] if the schema was found, otherwise returns an error of type [`Error`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidArgument`](ErrorKind::InvalidArgument)
@@ -81,19 +78,14 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn get(
-        &self,
-        get_request: GetRequest,
-        timeout: Duration,
-    ) -> Result<Option<Schema>, Error> {
+    pub async fn get(&self, get_request: GetRequest, timeout: Duration) -> Result<Schema, Error> {
         let get_request_schema = GetRequestSchemaBuilder::default()
-            .name(get_request.id)
+            .name(get_request.name)
             .version(get_request.version)
             .build()
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(get_request_schema)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -104,25 +96,10 @@ where
             .get_command_invoker
             .invoke(command_request)
             .await
-            .map_err(|e| Error(ErrorKind::from(e)))?;
+            .map_err(|e| Error(ErrorKind::from(e)))?
+            .map_err(|e| Error(ErrorKind::from(e.payload)))?;
 
-        match response {
-            Ok(response) => Ok(Some(response.payload.schema)),
-            Err(e) => {
-                todo!()
-                // if let azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::PayloadInvalid = e.kind {
-                //     if let Some(nested_error) = &e.nested_error {
-                //         if let Some(json_error) = nested_error.downcast_ref::<serde_json::Error>() {
-                //             if json_error.is_eof() && json_error.column() == 0 && json_error.line() == 1 {
-                //                 return Ok(None);
-                //             }
-                //         }
-                //     }
-                // }
-                // Err(Error(ErrorKind::from(e)))
-                // FIN: handle error here
-            }
-        }
+        Ok(response.payload.schema.into())
     }
 
     /// Adds or updates a schema in the schema registry service.
@@ -156,7 +133,6 @@ where
             .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?;
 
         let command_request = rpc_command::invoker::RequestBuilder::default()
-            .custom_user_data(vec![("__invId".to_string(), self.client_id.clone())]) // TODO: Temporary until the schema registry service updates their executor
             .payload(put_request_schema)
             .map_err(|e| Error(ErrorKind::SerializationError(e.to_string())))?
             .timeout(timeout)
@@ -167,13 +143,10 @@ where
             .put_command_invoker
             .invoke(command_request)
             .await
-            .map_err(|e| Error(ErrorKind::from(e)))?;
+            .map_err(ErrorKind::from)?
+            .map_err(|e| ErrorKind::from(e.payload))?;
 
-        let response = response.map_err(|service_error| {
-            Error(ErrorKind::InvalidArgument(format!("{:?}", service_error))) // FIN: Change this
-        })?;
-
-        Ok(response.payload.schema)
+        Ok(response.payload.schema.into())
     }
 
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
@@ -232,7 +205,7 @@ mod tests {
         Session::new(session_options).unwrap()
     }
 
-    const TEST_SCHEMA_ID: &str = "test_schema_id";
+    const TEST_SCHEMA_NAME: &str = "test_schema_name";
     const TEST_SCHEMA_CONTENT: &str = r#"
     {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -248,16 +221,16 @@ mod tests {
     #[tokio::test]
     async fn test_get_request_valid() {
         let get_request = GetRequestBuilder::default()
-            .id(TEST_SCHEMA_ID.to_string())
+            .name(TEST_SCHEMA_NAME.to_string())
             .build()
             .unwrap();
 
-        assert_eq!(get_request.id, TEST_SCHEMA_ID);
+        assert_eq!(get_request.name, TEST_SCHEMA_NAME);
         assert_eq!(get_request.version, DEFAULT_SCHEMA_VERSION.to_string());
     }
 
     #[tokio::test]
-    async fn test_get_request_invalid_id() {
+    async fn test_get_request_invalid_name() {
         let get_request = GetRequestBuilder::default().build();
 
         assert!(matches!(
@@ -265,7 +238,7 @@ mod tests {
             GetRequestBuilderError::UninitializedField(_)
         ));
 
-        let get_request = GetRequestBuilder::default().id(String::new()).build();
+        let get_request = GetRequestBuilder::default().name(String::new()).build();
 
         assert!(matches!(
             get_request.unwrap_err(),
@@ -299,7 +272,7 @@ mod tests {
         let get_result = client
             .get(
                 GetRequestBuilder::default()
-                    .id(TEST_SCHEMA_ID.to_string())
+                    .name(TEST_SCHEMA_NAME.to_string())
                     .build()
                     .unwrap(),
                 std::time::Duration::from_millis(0),
@@ -314,7 +287,7 @@ mod tests {
         let get_result = client
             .get(
                 GetRequestBuilder::default()
-                    .id(TEST_SCHEMA_ID.to_string())
+                    .name(TEST_SCHEMA_NAME.to_string())
                     .build()
                     .unwrap(),
                 std::time::Duration::from_secs(u64::from(u32::MAX) + 1),

@@ -6,14 +6,11 @@
 use core::fmt::Debug;
 use std::collections::HashMap;
 
-use azure_iot_operations_protocol::common::aio_protocol_error::{
-    AIOProtocolError, AIOProtocolErrorKind,
-};
+use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use derive_builder::Builder;
 use thiserror::Error;
 
 use schemaregistry_gen::schema_registry::client as sr_client_gen;
-pub use schemaregistry_gen::schema_registry::client::Schema; // TODO: wrap
 
 /// Schema Registry Client implementation wrapper
 mod client;
@@ -24,6 +21,8 @@ pub use client::Client;
 
 /// The default schema version to use if not provided.
 const DEFAULT_SCHEMA_VERSION: &str = "1";
+
+// ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
 
 /// Represents an error that occurred in the Azure IoT Operations Schema Registry Client implementation.
 #[derive(Debug, Error)]
@@ -44,7 +43,7 @@ impl Error {
 pub enum ErrorKind {
     /// An error occurred in the AIO Protocol. See [`AIOProtocolError`] for more information.
     #[error(transparent)]
-    AIOProtocolError(AIOProtocolError),
+    AIOProtocolError(#[from] AIOProtocolError),
     /// An error occurred during serialization of a request.
     #[error("{0}")]
     SerializationError(String),
@@ -53,28 +52,10 @@ pub enum ErrorKind {
     InvalidArgument(String),
     /// An error was returned by the Schema Registry Service.
     #[error("{0:?}")]
-    ServiceError(ServiceError),
+    ServiceError(#[from] sr_client_gen::SchemaRegistryError),
 }
 
-impl From<AIOProtocolError> for ErrorKind {
-    fn from(error: AIOProtocolError) -> Self {
-        match error.kind {
-            AIOProtocolErrorKind::UnknownError => ErrorKind::ServiceError(ServiceError {
-                message: error.message.unwrap_or_else(|| "Unknown error".to_string()),
-                property_name: error.header_name,
-                property_value: error.header_value,
-            }),
-            AIOProtocolErrorKind::ExecutionException => ErrorKind::ServiceError(ServiceError {
-                message: error
-                    .message
-                    .unwrap_or_else(|| "Execution Exception".to_string()),
-                property_name: None,
-                property_value: None,
-            }),
-            _ => ErrorKind::AIOProtocolError(error),
-        }
-    }
-}
+// ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Structs and Enums~~~~~~~
 
 /// Supported schema formats
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -83,6 +64,90 @@ pub enum Format {
     Delta1,
     /// JsonSchema/draft-07
     JsonSchemaDraft07,
+}
+
+/// Supported schema types.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum SchemaType {
+    /// Message Schema
+    MessageSchema,
+}
+
+/// Schema object
+#[derive(Debug, Clone)]
+pub struct Schema {
+    /// Human-readable description of the schema.
+    pub description: Option<String>,
+    /// Human-readable display name.
+    pub display_name: Option<String>,
+    /// Format of the schema.
+    pub format: Format,
+    /// Hash of the schema content.
+    pub hash: Option<String>,
+    /// Schema name.
+    pub name: String,
+    /// Schema registry namespace. Uniquely identifies a schema registry within a tenant.
+    pub namespace: String,
+    /// Content stored in the schema.
+    pub schema_content: String,
+    /// Type of the schema.
+    pub schema_type: SchemaType,
+    /// Schema tags.
+    pub tags: HashMap<String, String>,
+    /// Version of the schema. Allowed between 0-9.
+    pub version: String,
+}
+
+/// Request to put a schema in the schema registry.
+#[derive(Builder, Clone, Debug, PartialEq, Eq)]
+#[builder(setter(into))]
+pub struct PutRequest {
+    /// Human-readable description of the schema.\
+    #[builder(default)]
+    pub description: Option<String>,
+    /// Human-readable display name.
+    #[builder(default)]
+    pub display_name: Option<String>,
+    /// The format of the schema.
+    pub format: Format,
+    /// Content stored in the schema.
+    pub content: String,
+    /// Type of the schema.
+    #[builder(default = "SchemaType::MessageSchema")]
+    pub schema_type: SchemaType,
+    /// Schema tags.
+    #[builder(default)]
+    pub tags: HashMap<String, String>,
+    /// Version of the schema. Allowed between 0-9.
+    #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
+    pub version: String,
+}
+
+/// Request to get a schema from the schema registry.
+#[derive(Builder, Clone, Debug, PartialEq, Eq)]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
+pub struct GetRequest {
+    /// Schema name.
+    name: String,
+    /// Version of the schema. Allowed between 0-9.
+    #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
+    version: String,
+}
+
+impl GetRequestBuilder {
+    /// Validate the [`GetRequest`].
+    ///
+    /// # Errors
+    /// Returns a `String` describing the errors if `name` is empty or not provided.
+    fn validate(&self) -> Result<(), String> {
+        if let Some(name) = &self.name {
+            if name.is_empty() {
+                return Err("name cannot be empty".to_string());
+            }
+        }
+
+        Ok(())
+    }
 }
 
 impl From<Format> for sr_client_gen::Format {
@@ -94,11 +159,13 @@ impl From<Format> for sr_client_gen::Format {
     }
 }
 
-/// Supported schema types.
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum SchemaType {
-    /// Message Schema
-    MessageSchema,
+impl From<sr_client_gen::Format> for Format {
+    fn from(format: sr_client_gen::Format) -> Self {
+        match format {
+            sr_client_gen::Format::Delta1 => Format::Delta1,
+            sr_client_gen::Format::JsonSchemaDraft07 => Format::JsonSchemaDraft07,
+        }
+    }
 }
 
 impl From<SchemaType> for sr_client_gen::SchemaType {
@@ -109,60 +176,67 @@ impl From<SchemaType> for sr_client_gen::SchemaType {
     }
 }
 
-/// An error returned by the Schema Registry Service.
-#[derive(Debug)]
-pub struct ServiceError {
-    /// The error message.
-    pub message: String,
-    /// The name of the property associated with the error, if present.
-    pub property_name: Option<String>,
-    /// The value of the property associated with the error, if present.
-    pub property_value: Option<String>,
-}
-
-// TODO: should these fields be exposed? How?
-/// Request to get a schema from the schema registry.
-#[derive(Builder, Clone, Debug, PartialEq, Eq)]
-#[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct GetRequest {
-    /// The unique identifier of the schema to retrieve. Required to locate the schema in the registry.
-    id: String,
-    /// The version of the schema to fetch. If not specified, defaults to "1".
-    #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
-    version: String,
-}
-
-impl GetRequestBuilder {
-    /// Validate the [`GetRequest`].
-    ///
-    /// # Errors
-    /// Returns a `String` describing the errors if `id` is empty or not provided.
-    fn validate(&self) -> Result<(), String> {
-        if let Some(id) = &self.id {
-            if id.is_empty() {
-                return Err("id cannot be empty".to_string());
-            }
+impl From<sr_client_gen::SchemaType> for SchemaType {
+    fn from(schema_type: sr_client_gen::SchemaType) -> Self {
+        match schema_type {
+            sr_client_gen::SchemaType::MessageSchema => SchemaType::MessageSchema,
         }
-
-        Ok(())
     }
 }
 
-/// Request to put a schema in the schema registry.
-#[derive(Builder, Clone, Debug, PartialEq, Eq)]
-#[builder(setter(into))]
-pub struct PutRequest {
-    /// The content of the schema to be added or updated in the registry.
-    pub content: String,
-    /// The format of the schema. Specifies how the schema content should be interpreted.
-    pub format: Format,
-    /// The type of the schema, such as message schema or data schema.
-    #[builder(default = "SchemaType::MessageSchema")]
-    pub schema_type: SchemaType,
-    /// Optional metadata tags to associate with the schema. These tags can be used to store additional information about the schema in key-value format.
-    #[builder(default)]
-    pub tags: HashMap<String, String>,
-    /// The version of the schema to add or update. If not specified, defaults to "1".
-    #[builder(default = "DEFAULT_SCHEMA_VERSION.to_string()")]
-    pub version: String,
+impl From<Schema> for sr_client_gen::Schema {
+    fn from(schema: Schema) -> Self {
+        sr_client_gen::Schema {
+            description: schema.description,
+            display_name: schema.display_name,
+            format: schema.format.into(),
+            hash: schema.hash,
+            name: schema.name,
+            namespace: schema.namespace,
+            schema_content: schema.schema_content,
+            schema_type: schema.schema_type.into(),
+            tags: Some(schema.tags),
+            version: schema.version,
+        }
+    }
+}
+
+impl From<sr_client_gen::Schema> for Schema {
+    fn from(schema: sr_client_gen::Schema) -> Self {
+        Schema {
+            description: schema.description,
+            display_name: schema.display_name,
+            format: schema.format.into(),
+            hash: schema.hash,
+            name: schema.name,
+            namespace: schema.namespace,
+            schema_content: schema.schema_content,
+            schema_type: schema.schema_type.into(),
+            tags: schema.tags.unwrap_or_default(),
+            version: schema.version,
+        }
+    }
+}
+
+impl From<PutRequest> for sr_client_gen::PutRequestSchema {
+    fn from(request: PutRequest) -> Self {
+        sr_client_gen::PutRequestSchema {
+            description: request.description,
+            display_name: request.display_name,
+            format: request.format.into(),
+            schema_content: request.content,
+            schema_type: request.schema_type.into(),
+            tags: Some(request.tags),
+            version: request.version,
+        }
+    }
+}
+
+impl From<GetRequest> for sr_client_gen::GetRequestSchema {
+    fn from(request: GetRequest) -> Self {
+        sr_client_gen::GetRequestSchema {
+            name: request.name,
+            version: request.version,
+        }
+    }
 }
