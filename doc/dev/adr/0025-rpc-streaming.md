@@ -23,10 +23,10 @@ Users have expressed a desire to allow more than one response per RPC invocation
 ## State of the art
 
 gRPC supports these patterns for RPC:
-- Unary RPC (1 request message, 1 response message)
-- Server streaming RPC (1 request message, many response messages)
-- Client streaming RPC (many request messages, one response message)
-- Bi-directional streaming RPC (many request messages, many response messages)
+- (Unary RPC)[https://grpc.io/docs/what-is-grpc/core-concepts/#unary-rpc] (1 request message, 1 response message)
+- (Server streaming RPC)[https://grpc.io/docs/what-is-grpc/core-concepts/#server-streaming-rpc] (1 request message, many response messages)
+- (Client streaming RPC)[https://grpc.io/docs/what-is-grpc/core-concepts/#server-streaming-rpc] (many request messages, one response message)
+- (Bi-directional streaming RPC)[https://grpc.io/docs/what-is-grpc/core-concepts/#bidirectional-streaming-rpc] (many request messages, many response messages)
 
 gRPC relies on the HTTP streaming protocol to delineate each message in the stream and to indicate the end of the stream.
 
@@ -161,7 +161,6 @@ TODO: Start defining a doc in our repo that defines what features are present in
  
  ## Open Questions
 
-- Command timeout/cancellation tokens in single vs streaming?
 - When to ack the streaming request?
   - In normal RPC, request is Ack'd only after the method finishes invocation. Waiting until a streamed RPC finishes could clog up Acks since streaming requests can take a while.
     - Ack after first response is generated?
