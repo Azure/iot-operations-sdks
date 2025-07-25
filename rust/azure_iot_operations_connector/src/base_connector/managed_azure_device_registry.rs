@@ -1568,12 +1568,8 @@ impl DatasetClient {
                             }
                             // indicates an error in the provided message schema, return to caller so they can fix
                             schema_registry::ErrorKind::ServiceError(_)
-                            | schema_registry::ErrorKind::InvalidArgument(_) => {
+                            | schema_registry::ErrorKind::InvalidRequestArgument(_) => {
                                 RetryError::permanent(e)
-                            }
-                            // SerializationError shouldn't be possible since any [`MessageSchema`] should be serializable
-                            schema_registry::ErrorKind::SerializationError(_) => {
-                                unreachable!()
                             }
                         }
                     })
@@ -1581,15 +1577,9 @@ impl DatasetClient {
         )
         .await
         .map(|schema| MessageSchemaReference {
-            name: schema
-                .name
-                .expect("schema name will always be present since sent in PUT"),
-            version: schema
-                .version
-                .expect("schema version will always be present since sent in PUT"),
-            registry_namespace: schema
-                .namespace
-                .expect("schema namespace will always be present."), // waiting on change to service DTDL for this to be guaranteed in code
+            name: schema.name,
+            version: schema.version,
+            registry_namespace: schema.namespace,
         })?;
 
         self.report_message_schema_reference(&message_schema_reference)
