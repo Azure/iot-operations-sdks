@@ -10,38 +10,23 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::format::Format;
-use super::schema_type::SchemaType;
 
+/// Additional details about an error
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct PutRequestSchema {
-    /// Human-readable description of the schema.
+pub struct SchemaRegistryErrorDetails {
+    /// Multi-part error code for classification and root causing of errors (e.g., '400.200').
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub description: Option<String>,
+    pub code: Option<String>,
 
-    /// Human-readable display name.
-    #[serde(rename = "displayName")]
+    /// Correlation ID for tracing the error across systems.
+    #[serde(rename = "correlationId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub display_name: Option<String>,
+    pub correlation_id: Option<String>,
 
-    /// Format of the schema.
-    pub format: Format,
-
-    /// Content stored in the schema.
-    #[serde(rename = "schemaContent")]
-    pub schema_content: String,
-
-    /// Type of the schema.
-    #[serde(rename = "schemaType")]
-    pub schema_type: SchemaType,
-
-    /// Schema tags.
+    /// Human-readable helpful error message to provide additional context for the error
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub tags: Option<HashMap<String, String>>,
-
-    /// Version of the schema. Allowed between 0-9.
-    pub version: String,
+    pub message: Option<String>,
 }

@@ -11,9 +11,17 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::schema::Schema;
+use super::schema_registry_error::SchemaRegistryError;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct GetResponsePayload {
-    /// The Command response argument.
-    pub schema: Schema,
+pub struct PutResponseSchema {
+    /// Error object in case of failure.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub error: Option<SchemaRegistryError>,
+
+    /// Schema object that was created.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub schema: Option<Schema>,
 }
