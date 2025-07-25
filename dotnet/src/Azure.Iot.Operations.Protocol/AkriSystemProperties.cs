@@ -79,6 +79,16 @@ namespace Azure.Iot.Operations.Protocol
         // TODO remove this once akri service is code gen'd to expect srcId instead of invId
         internal const string CommandInvokerId = ReservedPrefix + "invId";
 
+        /// <summary>
+        /// Inidicates that an RPC request expects the executor to stream one or many responses.
+        /// </summary>
+        internal const string IsStreamingCommand = ReservedPrefix + "streamResp";
+
+        /// <summary>
+        /// Inidicates that an RPC request should be cancelled if it is still executing
+        /// </summary>
+        internal const string CancelCommand = ReservedPrefix + "cancelRpc";
+
         internal static bool IsReservedUserProperty(string name)
         { 
             return name.Equals(Timestamp, StringComparison.Ordinal) 
@@ -91,7 +101,8 @@ namespace Azure.Iot.Operations.Protocol
                 || name.Equals(SupportedMajorProtocolVersions, StringComparison.Ordinal) 
                 || name.Equals(RequestedProtocolVersion, StringComparison.Ordinal) 
                 || name.Equals(SourceId, StringComparison.Ordinal) 
-                || name.Equals(CommandInvokerId, StringComparison.Ordinal);
+                || name.Equals(CommandInvokerId, StringComparison.Ordinal)
+                || name.Equals(IsStreamingCommand, StringComparison.Ordinal);
         }
     }
 }
