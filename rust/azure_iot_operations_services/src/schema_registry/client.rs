@@ -125,7 +125,7 @@ where
     pub async fn put(&self, put_request: PutRequest, timeout: Duration) -> Result<Schema, Error> {
         let put_request_schema = PutRequestSchemaBuilder::default()
             .format(put_request.format.into())
-            .schema_content(put_request.content)
+            .schema_content(put_request.schema_content)
             .version(put_request.version)
             .tags(Some(put_request.tags))
             .schema_type(put_request.schema_type.into())
@@ -249,12 +249,12 @@ mod tests {
     #[tokio::test]
     async fn test_put_request_valid() {
         let put_request = PutRequestBuilder::default()
-            .content(TEST_SCHEMA_CONTENT.to_string())
+            .schema_content(TEST_SCHEMA_CONTENT.to_string())
             .format(Format::JsonSchemaDraft07)
             .build()
             .unwrap();
 
-        assert_eq!(put_request.content, TEST_SCHEMA_CONTENT);
+        assert_eq!(put_request.schema_content, TEST_SCHEMA_CONTENT);
         assert!(matches!(put_request.format, Format::JsonSchemaDraft07));
         assert!(matches!(put_request.schema_type, SchemaType::MessageSchema));
         assert_eq!(put_request.tags, HashMap::new());
@@ -311,7 +311,7 @@ mod tests {
         let put_result = client
             .put(
                 PutRequestBuilder::default()
-                    .content(TEST_SCHEMA_CONTENT.to_string())
+                    .schema_content(TEST_SCHEMA_CONTENT.to_string())
                     .format(Format::JsonSchemaDraft07)
                     .build()
                     .unwrap(),
@@ -327,7 +327,7 @@ mod tests {
         let put_result = client
             .put(
                 PutRequestBuilder::default()
-                    .content(TEST_SCHEMA_CONTENT.to_string())
+                    .schema_content(TEST_SCHEMA_CONTENT.to_string())
                     .format(Format::JsonSchemaDraft07)
                     .build()
                     .unwrap(),

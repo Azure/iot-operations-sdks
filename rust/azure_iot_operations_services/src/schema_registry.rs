@@ -111,7 +111,7 @@ pub struct PutRequest {
     /// The format of the schema.
     pub format: Format,
     /// Content stored in the schema.
-    pub content: String,
+    pub schema_content: String,
     /// Type of the schema.
     #[builder(default = "SchemaType::MessageSchema")]
     pub schema_type: SchemaType,
@@ -224,7 +224,7 @@ impl From<PutRequest> for sr_client_gen::PutRequestSchema {
             description: request.description,
             display_name: request.display_name,
             format: request.format.into(),
-            schema_content: request.content,
+            schema_content: request.schema_content,
             schema_type: request.schema_type.into(),
             tags: Some(request.tags),
             version: request.version,

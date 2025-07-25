@@ -96,7 +96,7 @@ async fn schema_registry_put(
     match client
         .put(
             PutRequestBuilder::default()
-                .content(JSON_SCHEMA.to_string())
+                .schema_content(JSON_SCHEMA.to_string())
                 .format(Format::JsonSchemaDraft07)
                 .schema_type(SchemaType::MessageSchema)
                 .build()
