@@ -30,7 +30,7 @@ func (h *Handlers) Increment(
 ) (*protocol.CommandResponse[countercollection.IncrementResponsePayload], error) {
 	currentValue, ok := h.counterValues[req.Payload.CounterName]
 	if !ok {
-		condition := countercollection.CounterNotFound
+		condition := countercollection.ConditionSchemaCounterNotFound
 		explanation := fmt.Sprintf("Go counter '%s' not found in counter collection", req.Payload.CounterName)
 		return nil, &countercollection.CounterError{
 			Condition: &condition,
@@ -39,7 +39,7 @@ func (h *Handlers) Increment(
 	}
 
 	if currentValue == math.MaxInt32 {
-		condition := countercollection.CounterOverflow
+		condition := countercollection.ConditionSchemaCounterOverflow
 		explanation := fmt.Sprintf("Go counter '%s' has saturated; no further increment is possible", req.Payload.CounterName)
 		return nil, &countercollection.CounterError{
 			Condition: &condition,
@@ -61,7 +61,7 @@ func (h *Handlers) GetLocation(
 ) (*protocol.CommandResponse[countercollection.GetLocationResponsePayload], error) {
 	_, ok := h.counterValues[req.Payload.CounterName]
 	if !ok {
-		condition := countercollection.CounterNotFound
+		condition := countercollection.ConditionSchemaCounterNotFound
 		explanation := fmt.Sprintf("Go counter '%s' not found in counter collection", req.Payload.CounterName)
 		return nil, &countercollection.CounterError{
 			Condition: &condition,

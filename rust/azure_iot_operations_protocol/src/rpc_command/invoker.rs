@@ -15,6 +15,7 @@ use tokio::{
     task::{self, JoinHandle},
     time,
 };
+use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
 use crate::common::user_properties::{PARTITION_KEY, validate_invoker_user_properties};
@@ -926,6 +927,9 @@ where
         &self,
         mut request: Request<TReq>,
     ) -> Result<Response<TResp>, AIOProtocolError> {
+        // cancellation token to clean up spawned tasks if the invoke times out
+        let cancellation_token = CancellationToken::new();
+        let _drop_guard = cancellation_token.clone().drop_guard();
         // Validate parameters. Custom user data, timeout, and payload serialization have already been validated in RequestBuilder
         // Validate message expiry interval
         let message_expiry_interval: u32 = match request.timeout.as_secs().try_into() {
@@ -1037,20 +1041,37 @@ where
         // TODO: this could be fixed more elegantly by using a dispatcher instead of a broadcast channel for the response_tx/rx
         let pub_task = tokio::task::spawn({
             let command_name = self.command_name.clone();
+            let ct = cancellation_token.clone();
             async move {
                 match publish_result {
                     Ok(publish_completion_token) => {
                         // Wait for and handle the puback
-                        match publish_completion_token.await {
-                            // if puback is Ok, continue and wait for the response
-                            Ok(()) => Ok(()),
-                            Err(e) => {
-                                log::error!("[ERROR] puback error: {e}");
-                                Err(AIOProtocolError::new_mqtt_error(
-                                    Some("MQTT Error on command invoke puback".to_string()),
-                                    Box::new(e),
-                                    Some(command_name),
+                        tokio::select! {
+                            () = ct.cancelled() => {
+                                // This error won't actually be returned as this only happens if the invoke has already returned a timeout error
+                                // This branch is just here to make sure this task ends
+                                Err(AIOProtocolError::new_timeout_error(
+                                    false,
+                                    None,
+                                    &command_name,
+                                    request.timeout,
+                                    None,
+                                    Some(command_name.clone()),
                                 ))
+                            },
+                            puback = publish_completion_token => {
+                                match puback {
+                                    // if puback is Ok, continue and wait for the response
+                                    Ok(()) => Ok(()),
+                                    Err(e) => {
+                                        log::error!("[ERROR] puback error: {e}");
+                                        Err(AIOProtocolError::new_mqtt_error(
+                                            Some("MQTT Error on command invoke puback".to_string()),
+                                            Box::new(e),
+                                            Some(command_name),
+                                        ))
+                                    }
+                                }
                             }
                         }
                     }
@@ -1068,60 +1089,77 @@ where
         // task to receive incoming responses and check for the one that is for this request
         let response_task = tokio::task::spawn({
             let command_name = self.command_name.clone();
+            let ct = cancellation_token.clone();
             async move {
                 loop {
                     // wait for incoming pub
-                    match response_rx.recv().await {
-                        Ok(rsp_pub) => {
-                            if let Some(rsp_pub) = rsp_pub {
-                                // check correlation id for match, otherwise loop again
-                                if let Some(ref rsp_properties) = rsp_pub.properties {
-                                    if let Some(ref response_correlation_data) =
-                                        rsp_properties.correlation_data
-                                    {
-                                        if *response_correlation_data == correlation_data {
-                                            // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                            // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
-                                            return Ok(rsp_pub);
-                                        }
-                                    }
-                                }
-                            } else {
-                                log::error!(
-                                    "Command Invoker has been shutdown and will no longer receive a response"
-                                );
-                                return Err(AIOProtocolError::new_cancellation_error(
-                                    false,
-                                    None,
-                                    Some(
-                                        "Command Invoker has been shutdown and will no longer receive a response"
-                                            .to_string(),
-                                    ),
-                                    Some(command_name),
-                                ));
-                            }
-                            // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
-                        }
-                        Err(RecvError::Lagged(e)) => {
-                            log::error!(
-                                "[ERROR] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
-                            );
-                            // Keep waiting for response even though it may have gotten overwritten.
-                            continue;
-                        }
-                        Err(RecvError::Closed) => {
-                            log::error!(
-                                "[ERROR] MQTT Receiver has been cleaned up and will no longer send a response"
-                            );
-                            return Err(AIOProtocolError::new_cancellation_error(
+                    tokio::select! {
+                        () = ct.cancelled() => {
+                            // This error won't be returned as this only happens if the invoke has already returned a timeout error
+                            // This branch is just here to make sure this task ends
+                            return Err(AIOProtocolError::new_timeout_error(
                                 false,
                                 None,
-                                Some(
-                                    "MQTT Receiver has been cleaned up and will no longer send a response"
-                                        .to_string(),
-                                ),
-                                Some(command_name),
+                                &command_name,
+                                request.timeout,
+                                None,
+                                Some(command_name.clone()),
                             ));
+                        },
+                        res = response_rx.recv() => {
+                            match res {
+                                Ok(rsp_pub) => {
+                                    if let Some(rsp_pub) = rsp_pub {
+                                        // check correlation id for match, otherwise loop again
+                                        if let Some(ref rsp_properties) = rsp_pub.properties {
+                                            if let Some(ref response_correlation_data) =
+                                                rsp_properties.correlation_data
+                                            {
+                                                if *response_correlation_data == correlation_data {
+                                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                                    // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
+                                                    return Ok(rsp_pub);
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        log::error!(
+                                            "Command Invoker has been shutdown and will no longer receive a response"
+                                        );
+                                        return Err(AIOProtocolError::new_cancellation_error(
+                                            false,
+                                            None,
+                                            Some(
+                                                "Command Invoker has been shutdown and will no longer receive a response"
+                                                    .to_string(),
+                                            ),
+                                            Some(command_name),
+                                        ));
+                                    }
+                                    // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
+                                }
+                                Err(RecvError::Lagged(e)) => {
+                                    log::error!(
+                                        "[ERROR] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
+                                    );
+                                    // Keep waiting for response even though it may have gotten overwritten.
+                                    continue;
+                                }
+                                Err(RecvError::Closed) => {
+                                    log::error!(
+                                        "[ERROR] MQTT Receiver has been cleaned up and will no longer send a response"
+                                    );
+                                    return Err(AIOProtocolError::new_cancellation_error(
+                                        false,
+                                        None,
+                                        Some(
+                                            "MQTT Receiver has been cleaned up and will no longer send a response"
+                                                .to_string(),
+                                        ),
+                                        Some(command_name),
+                                    ));
+                                }
+                            }
                         }
                     }
                 }
@@ -1199,12 +1237,18 @@ where
                         }
                         // Manually ack
                         if let Some(ack_token) = ack_token {
-                            match ack_token.ack().await {
-                                Ok(_) => { },
-                                Err(e) => {
-                                    log::error!("[{command_name}] Error acking message: {e}");
+                            // Ack in separate task to avoid blocking the receiver loop
+                            tokio::task::spawn({
+                                let command_name_clone = command_name.clone();
+                                async move {
+                                    match ack_token.ack().await {
+                                        Ok(_) => { },
+                                        Err(e) => {
+                                            log::error!("[{command_name_clone}] Error acking message: {e}");
+                                        }
+                                    }
                                 }
-                            }
+                            });
                         }
                     } else {
                         // if this fails, it's just because there are no more pending commands, which is fine

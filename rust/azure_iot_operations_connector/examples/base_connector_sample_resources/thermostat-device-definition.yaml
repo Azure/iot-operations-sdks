@@ -1,0 +1,26 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Device
+metadata:
+  name: my-thermostat
+  namespace: azure-iot-operations
+spec:
+  attributes:
+    deviceId: my-thermostat
+    deviceType: thermostat
+  enabled: true
+  endpoints:
+    inbound:
+      my-rest-endpoint:
+        additionalConfiguration: '{"key1": "value1", "nested": {"key2": 2}}'
+        address: http://some.address:80
+        authentication:
+          method: Anonymous
+        endpointType: rest-thermostat
+        version: "0.0.1"
+      my-coap-endpoint:
+        address: coap://some.address/temp
+        authentication:
+          method: Anonymous
+        endpointType: coap-thermostat
+  uuid: 1234-5678-9012-3456
+  version: 2

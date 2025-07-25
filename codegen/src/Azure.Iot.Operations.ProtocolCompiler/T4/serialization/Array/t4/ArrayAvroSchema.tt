@@ -6,6 +6,6 @@
   "name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
 <# } #>
   "type": "array",
-  "items": <#=AvroSchemaSupport.GetTypeAndAddenda(this.elementSchema, 2, this.sharedPrefix, nullable: false, this.definedIds)#>,
+  "items": <#=AvroSchemaSupport.GetTypeAndAddenda(this.elementSchema, 2, this.sharedPrefix, nullable: false, this.definedIds, this.mqttVersion)#>,
   "default": []
 }<# this.PopIndent(); #>

@@ -1,0 +1,345 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;3",
+    "dtmi:dtdl:extension:requirement;1"
+  ],
+  "@id": "dtmi:com:microsoft:akri:DeviceDiscoveryService;1",
+  "@type": [
+    "Interface",
+    "Mqtt"
+  ],
+  "commandTopic": "akri/discovery/resources/{ex:discoveryClientId}/{ex:inboundEndpointType}/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "createOrUpdateDiscoveredDevice",
+      "description": "Create or update a discovered device resource.",
+      "request": {
+        "name": "discoveredDeviceRequest",
+        "description": "The request to create or update a discovered device.",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "@type": [
+                "Field",
+                "Required"
+              ],
+              "name": "discoveredDeviceName",
+              "description": "The name of the discovered device to create or update. This field is used to perform deduplication of discovered devices.",
+              "schema": "string"
+            },
+            {
+              "@type": [
+                "Field",
+                "Required"
+              ],
+              "name": "discoveredDevice",
+              "description": "The discovered device resource to create or update. Fields omitted in the request will be removed. The specified inbound endpoint will be added or updated in the inbound endpoints map.",
+              "schema": "dtmi:com:microsoft:akri:DiscoveredDevice;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "name": "createOrUpdateDiscoveredDeviceResponse",
+        "description": "Response containing the discovered device response or error details if the operation failed.",
+        "schema": {
+          "@type": [
+            "Object",
+            "Result"
+          ],
+          "fields": [
+            {
+              "@type": [
+                "Field",
+                "NormalResult"
+              ],
+              "name": "discoveredDeviceResponse",
+              "description": "The discovered device response.",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "discoveryId",
+                    "description": "The unique identifier for the discovered device.",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "version",
+                    "description": "The version of the discovered device resource.",
+                    "schema": "unsignedLong"
+                  }
+                ]
+              }
+            },
+            {
+              "@type": [
+                "Field",
+                "ErrorResult"
+              ],
+              "name": "createOrUpdateDiscoveredDeviceError",
+              "description": "Error details, if the discovered device creation or update failed.",
+              "schema": "dtmi:com:microsoft:akri:AkriServiceError;1"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "schemas": [
+    {
+      "@id": "dtmi:com:microsoft:akri:DiscoveredDevice;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "attributes",
+          "description": "A set of key-value pairs that contain custom attributes set by the customer.",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "attributeKey",
+              "schema": "string"
+            },
+            "mapValue": {
+              "name": "attributeValue",
+              "schema": "string"
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "name": "endpoints",
+          "description": "Connection endpoint URL a device can use to connect to a service.",
+          "schema": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoints;1"
+        },
+        {
+          "@type": "Field",
+          "name": "externalDeviceId",
+          "description": "The unique identifier of the device.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "manufacturer",
+          "description": "Device manufacturer.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "model",
+          "description": "Device model.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "operatingSystem",
+          "description": "Device operating system name.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "operatingSystemVersion",
+          "description": "Device operating system version.",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoints;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceInboundEndpoints;1",
+          "name": "inbound",
+          "description": "Set of endpoints to connect to the device.",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "endpointName",
+              "schema": "string"
+            },
+            "mapValue": {
+              "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceInboundEndpoint;1",
+              "name": "inboundEndpoint",
+              "description": "An endpoint to connect to the device.",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": "Field",
+                    "name": "additionalConfiguration",
+                    "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "address",
+                    "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [
+                      "Field",
+                      "Required"
+                    ],
+                    "name": "endpointType",
+                    "description": "Type of connection endpoint.",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": "Field",
+                    "name": "lastUpdatedOn",
+                    "description": "The timestamp (in UTC) when the endpoint was discovered.",
+                    "schema": "dateTime"
+                  },
+                  {
+                    "@type": "Field",
+                    "name": "supportedAuthenticationMethods",
+                    "description": "List of supported authentication methods supported by device for Inbound connections.",
+                    "schema": {
+                      "@type": "Array",
+                      "elementSchema": "string"
+                    }
+                  },
+                  {
+                    "@type": "Field",
+                    "name": "version",
+                    "description": "Version associated with the device endpoint.",
+                    "schema": "string"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "@type": "Field",
+          "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceOutboundEndpoints;1",
+          "name": "outbound",
+          "description": "Property bag contains the device's outbound endpoints",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [
+                  "Field",
+                  "Required"
+                ],
+                "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceAssignedOutboundEndpoints;1",
+                "name": "assigned",
+                "description": "Endpoints the device can connect to.",
+                "schema": {
+                  "@type": "Map",
+                  "mapKey": {
+                    "name": "assignedOutboundEndpointName",
+                    "schema": "string"
+                  },
+                  "mapValue": {
+                    "name": "assignedOutboundEndpoint",
+                    "description": "Endpoints the device can connect to.",
+                    "schema": "dtmi:com:microsoft:akri:DeviceOutboundEndpoint;1"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:DeviceOutboundEndpoint;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "address",
+          "description": "The endpoint address to connect to.",
+          "schema": "string"
+        },
+        {
+          "@type": "Field",
+          "name": "endpointType",
+          "description": "Type of connection used for the messaging endpoint.",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:com:microsoft:akri:AkriServiceError;1",
+      "@type": [
+        "Object",
+        "Error"
+      ],
+      "fields": [
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "code",
+          "description": "The error code that identifies the error.",
+          "schema": {
+            "@type": "Enum",
+            "valueSchema": "string",
+            "enumValues": [
+              {
+                "name": "BadRequest",
+                "enumValue": "BadRequest"
+              },
+              {
+                "name": "KubeError",
+                "enumValue": "KubeError"
+              },
+              {
+                "name": "InternalError",
+                "enumValue": "InternalError"
+              },
+              {
+                "name": "SerializationError",
+                "enumValue": "SerializationError"
+              }
+            ]
+          }
+        },
+        {
+          "@type": [
+            "Field",
+            "Required",
+            "ErrorMessage"
+          ],
+          "name": "message",
+          "description": "A human-readable description of the error.",
+          "schema": "string"
+        },
+        {
+          "@type": [
+            "Field",
+            "Required"
+          ],
+          "name": "timestamp",
+          "description": "The timestamp (in UTC) when the error occurred.",
+          "schema": "dateTime"
+        }
+      ]
+    }
+  ]
+}

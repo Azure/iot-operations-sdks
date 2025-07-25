@@ -8,7 +8,7 @@
 <# foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { #>
     {
       "name": "<#=nameDescSchemaRequiredIndex.Item1#>",
-      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, indent: 6, this.sharedPrefix, nullable: !nameDescSchemaRequiredIndex.Item4, this.definedIds)#>
+      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, indent: 6, this.sharedPrefix, nullable: !nameDescSchemaRequiredIndex.Item4, this.definedIds, this.mqttVersion)#>
     }<#=this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","#>
 <# } #>
   ]

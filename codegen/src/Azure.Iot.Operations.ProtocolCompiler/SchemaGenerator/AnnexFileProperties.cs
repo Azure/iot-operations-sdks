@@ -52,6 +52,20 @@
 
         public const string ErrorResultNamespace = "errorResultNamespace";
 
+        public const string ErrorCodeName = "errorCodeName";
+
+        public const string ErrorCodeSchema = "errorCodeSchema";
+
+        public const string ErrorCodeNamespace = "errorCodeNamespace";
+
+        public const string ErrorCodeEnumeration = "errorCodeEnumeration";
+
+        public const string ErrorInfoName = "errorInfoName";
+
+        public const string ErrorInfoSchema = "errorInfoSchema";
+
+        public const string ErrorInfoNamespace = "errorInfoNamespace";
+
         public const string RequestIsNullable = "requestNullable";
 
         public const string ResponseIsNullable = "responseNullable";

@@ -13,7 +13,7 @@
 <# foreach (var nameSchemaRequired in this.nameSchemaRequireds) { #>
     {
       "name": "<#=nameSchemaRequired.Item1#>",
-      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, 6, this.sharedPrefix, nullable: !nameSchemaRequired.Item3, this.definedIds)#>
+      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, 6, this.sharedPrefix, nullable: !nameSchemaRequired.Item3, this.definedIds, this.mqttVersion)#>
     }<#=this.IsLast(nameSchemaRequired) ? "" : ","#>
 <# } #>
   ]
