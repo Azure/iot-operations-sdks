@@ -847,31 +847,38 @@ impl AssetClient {
                 new_data_operation_clients: Vec::new(),
             };
             // Handle "updates" for each type of data operation. Since we don't currently have any data
-            // operations tracked yet, everything in the definition will be treated as a new data operation
-            (updates, asset_client.dataset_hashmap) = asset_client
-                .handle_data_operation_kind_updates(
-                    DataOperationKind::Dataset,
-                    asset_client.dataset_hashmap.clone(), // empty, so everything is treated as new (as it should be)
-                    &asset,
-                    &asset.datasets,
-                    updates,
-                );
-            (updates, asset_client.event_hashmap) = asset_client
-                .handle_data_operation_kind_updates(
-                    DataOperationKind::Event,
-                    asset_client.event_hashmap.clone(),
-                    &asset,
-                    &asset.events,
-                    updates,
-                );
-            (updates, asset_client.stream_hashmap) = asset_client
-                .handle_data_operation_kind_updates(
-                    DataOperationKind::Stream,
-                    asset_client.stream_hashmap.clone(),
-                    &asset,
-                    &asset.streams,
-                    updates,
-                );
+            // operations tracked yet, everything in the definition will be treated as a new data operation.
+            let mut temp_dataset_hashmap = asset_client.dataset_hashmap.clone();
+            // asset_client.dataset_hashmap will be empty, so all datasets will be treated as new (as it should be).
+            // Note that I could use vec::new() for temp_dataset_hashmap, but for extra safety, I'll clone the asset's dataset hashmap instead
+            asset_client.handle_data_operation_kind_updates(
+                DataOperationKind::Dataset,
+                &mut temp_dataset_hashmap,
+                &asset,
+                &asset.datasets,
+                &mut updates,
+            );
+            asset_client.dataset_hashmap = temp_dataset_hashmap;
+
+            let mut temp_event_hashmap = asset_client.event_hashmap.clone();
+            asset_client.handle_data_operation_kind_updates(
+                DataOperationKind::Event,
+                &mut temp_event_hashmap,
+                &asset,
+                &asset.events,
+                &mut updates,
+            );
+            asset_client.event_hashmap = temp_event_hashmap;
+
+            let mut temp_stream_hashmap = asset_client.stream_hashmap.clone();
+            asset_client.handle_data_operation_kind_updates(
+                DataOperationKind::Stream,
+                &mut temp_stream_hashmap,
+                &asset,
+                &asset.streams,
+                &mut updates,
+            );
+            asset_client.stream_hashmap = temp_stream_hashmap;
 
             // if there were any config errors, report them to the ADR service together
             if updates.status_updated {
@@ -954,27 +961,21 @@ impl AssetClient {
     /// Parses and validates all Asset updates pertaining to this data operation kind
     ///     Detects any deleted, updated, and new data operations
     ///     Parses the default destination for that data operation
-    /// Modifies an Asset status with any validation errors found
-    /// Adds any Data Operation updates to a Vec that can be sent after the update task can't be cancelled
-    /// Adds any new Data Operation Clients to a Vec that can be sent after the update task can't be cancelled
-    /// Removes any deleted Data Operations from a copy of the data operation hashmap that can be applied after the update task can't be cancelled
-    ///
-    /// # Returns
-    /// modified `updates` struct
-    /// modified `data_operation_hashmap`
+    /// Modifies `updates` and `data_operation_hashmap` in place:
+    /// Modifies `updates.new_status` with any validation errors found
+    /// Adds any Data Operation updates to `updates.data_operation_updates` that can be sent after the update task can't be cancelled
+    /// Adds any new Data Operation Clients to `updates.new_data_operation_clients` that can be sent after the update task can't be cancelled
+    /// Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
     fn handle_data_operation_kind_updates<T: Clone + DataOperation + PartialEq>(
         &self,
         data_operation_kind: DataOperationKind,
-        mut data_operation_hashmap: HashMap<
+        data_operation_hashmap: &mut HashMap<
             String,
             (T, watch::Sender<DataOperationUpdateNotification>),
         >,
         updated_asset: &Asset,
         updated_asset_data_operations: &[T],
-        mut updates: AssetDataOperationUpdates,
-    ) -> (
-        AssetDataOperationUpdates,
-        HashMap<String, (T, watch::Sender<DataOperationUpdateNotification>)>,
+        updates: &mut AssetDataOperationUpdates,
     ) {
         // remove the data operations that are no longer present in the new asset definition.
         // This triggers deletion notification since this drops the update sender.
@@ -1011,7 +1012,7 @@ impl AssetClient {
             }
         };
 
-        let default_data_operation_destinations = match match data_operation_kind {
+        let default_destinations_result = match data_operation_kind {
             DataOperationKind::Dataset => {
                 destination_endpoint::Destination::new_dataset_destinations(
                     &updated_asset.default_datasets_destinations,
@@ -1033,7 +1034,8 @@ impl AssetClient {
                     &self.connector_context,
                 )
             }
-        } {
+        };
+        let default_data_operation_destinations = match default_destinations_result {
             Ok(res) => res.into_iter().map(Arc::new).collect(),
             Err(e) => {
                 log::error!(
@@ -1150,7 +1152,6 @@ impl AssetClient {
                 };
             }
         }
-        (updates, data_operation_hashmap)
     }
 
     /// Helper function to handle an asset update
@@ -1172,28 +1173,28 @@ impl AssetClient {
         // Handle updates for each type of data operation
         // make changes to copies of the data operation hashmaps so that this function is cancel safe
         let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
-        (updates, temp_dataset_hashmap) = self.handle_data_operation_kind_updates(
+        self.handle_data_operation_kind_updates(
             DataOperationKind::Dataset,
-            temp_dataset_hashmap,
+            &mut temp_dataset_hashmap,
             &updated_asset,
             &updated_asset.datasets,
-            updates,
+            &mut updates,
         );
         let mut temp_event_hashmap = self.event_hashmap.clone();
-        (updates, temp_event_hashmap) = self.handle_data_operation_kind_updates(
+        self.handle_data_operation_kind_updates(
             DataOperationKind::Event,
-            temp_event_hashmap,
+            &mut temp_event_hashmap,
             &updated_asset,
             &updated_asset.events,
-            updates,
+            &mut updates,
         );
         let mut temp_stream_hashmap = self.stream_hashmap.clone();
-        (updates, temp_stream_hashmap) = self.handle_data_operation_kind_updates(
+        self.handle_data_operation_kind_updates(
             DataOperationKind::Stream,
-            temp_stream_hashmap,
+            &mut temp_stream_hashmap,
             &updated_asset,
             &updated_asset.streams,
-            updates,
+            &mut updates,
         );
 
         // if there were any config errors, report them to the ADR service together
@@ -1928,7 +1929,7 @@ impl DataOperationClient {
             return DataOperationNotification::Deleted;
         }
         // create new forwarder, in case destination has changed
-        self.forwarder = match match updated_data_operation {
+        let forwarder_result = match updated_data_operation {
             DataOperationDefinition::Dataset(ref updated_dataset) => {
                 destination_endpoint::Forwarder::new_dataset_forwarder(
                     &updated_dataset.destinations,
@@ -1953,7 +1954,8 @@ impl DataOperationClient {
                     self.connector_context.clone(),
                 )
             }
-        } {
+        };
+        self.forwarder = match forwarder_result {
             Ok(forwarder) => forwarder,
             Err(e) => {
                 log::error!(
