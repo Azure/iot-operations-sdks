@@ -104,13 +104,6 @@ where
         let executor_options = executor_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name("get")
-            .cacheable_duration(
-                "P1D"
-                    .parse::<iso8601_duration::Duration>()
-                    .unwrap()
-                    .to_std()
-                    .expect("TTL defined in DTDL schema exceeded maximum value"),
-            )
             .is_idempotent(true)
             .topic_token_map(topic_token_map)
             .service_group_id(COMMAND_SERVICE_GROUP_ID.to_string())

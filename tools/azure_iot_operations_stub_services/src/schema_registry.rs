@@ -342,9 +342,7 @@ impl From<ErrorTarget> for service_gen::SchemaRegistryErrorTarget {
                 service_gen::SchemaRegistryErrorTarget::SchemaVersionArmResource
             }
             ErrorTarget::TagsProperty => service_gen::SchemaRegistryErrorTarget::TagsProperty,
-            ErrorTarget::VersionProperty => {
-                service_gen::SchemaRegistryErrorTarget::VersionProperty
-            }
+            ErrorTarget::VersionProperty => service_gen::SchemaRegistryErrorTarget::VersionProperty,
         }
     }
 }
