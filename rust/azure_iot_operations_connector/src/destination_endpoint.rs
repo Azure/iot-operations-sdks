@@ -52,7 +52,7 @@ pub enum ErrorKind {
     ValidationError(String),
 }
 
-/// A [`Forwarder`] forwards [`Data`] to a destination defined in a dataset or asset
+/// A [`Forwarder`] forwards [`Data`] to a destination defined in a data operation or asset
 #[derive(Debug)]
 pub(crate) struct Forwarder {
     message_schema_reference: Option<adr_models::MessageSchemaReference>,
@@ -73,23 +73,59 @@ impl Forwarder {
         default_destinations: &[Arc<Destination>],
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
-        // if the dataset has destinations defined, use them, otherwise use the default dataset destinations
-        let destination = match Destination::new_dataset_destinations(
-            dataset_destinations,
-            inbound_endpoint_name,
-            &connector_context,
-        )?
+        // Use internal new fn with dataset destinations
+        Self::new_data_operation_forwarder(
+            Destination::new_dataset_destinations(
+                dataset_destinations,
+                inbound_endpoint_name,
+                &connector_context,
+            )?,
+            default_destinations,
+            connector_context,
+        )
+    }
+
+    /// Creates a new [`Forwarder`] from an event/stream definition's Destinations
+    /// and default destinations, if present on the asset
+    ///
+    /// # Errors
+    /// [`AdrConfigError`] if there are any issues processing
+    /// the destination from the definitions. This can be used to report the error
+    /// to the ADR service on the event/stream's status
+    pub(crate) fn new_event_stream_forwarder(
+        event_stream_destinations: &[adr_models::EventStreamDestination],
+        inbound_endpoint_name: &str,
+        default_destinations: &[Arc<Destination>],
+        connector_context: Arc<ConnectorContext>,
+    ) -> Result<Self, AdrConfigError> {
+        // Use internal new fn with event/stream destinations
+        Self::new_data_operation_forwarder(
+            Destination::new_event_stream_destinations(
+                event_stream_destinations,
+                inbound_endpoint_name,
+                &connector_context,
+            )?,
+            default_destinations,
+            connector_context,
+        )
+    }
+
+    fn new_data_operation_forwarder(
+        mut data_operation_destinations: Vec<Destination>,
+        default_destinations: &[Arc<Destination>],
+        connector_context: Arc<ConnectorContext>,
+    ) -> Result<Self, AdrConfigError> {
+        // if the data operation has destinations defined, use them, otherwise use the default data operation destinations
         // for now, this vec will only ever be length 1
-        .pop()
-        {
-            Some(destination) => ForwarderDestination::DatasetDestination(destination),
+        let destination = match data_operation_destinations.pop() {
+            Some(destination) => ForwarderDestination::DataOperationDestination(destination),
             None => {
                 if default_destinations.is_empty() {
                     Err(AdrConfigError {
                                 code: None,
                                 details: None,
                                 // TODO: this may not be true
-                                message: Some("Asset must have default dataset destinations if dataset doesn't have destinations".to_string()),
+                                message: Some("Asset must have default data operation destinations if data operation doesn't have destinations".to_string()),
                             })?
                 } else {
                     // for now, this vec will only ever be length 1
@@ -124,7 +160,7 @@ impl Forwarder {
         // Forward the data to the destination
         let destination = match &self.destination {
             ForwarderDestination::DefaultDestination(destination) => destination.as_ref(),
-            ForwarderDestination::DatasetDestination(destination) => destination,
+            ForwarderDestination::DataOperationDestination(destination) => destination,
         };
         match destination {
             Destination::BrokerStateStore { key } => {
@@ -252,7 +288,43 @@ impl Forwarder {
 #[derive(Debug)]
 pub(crate) enum ForwarderDestination {
     DefaultDestination(Arc<Destination>),
-    DatasetDestination(Destination),
+    DataOperationDestination(Destination),
+}
+
+enum DataOperationDestinationDefinition {
+    /// Dataset destinations
+    Dataset(adr_models::DatasetDestination),
+    /// Event or Stream destinations
+    EventStream(adr_models::EventStreamDestination),
+}
+
+enum DataOperationDestinationDefinitionTarget {
+    /// Dataset destination target
+    Dataset(adr_models::DatasetTarget),
+    /// Event or Stream destination target
+    EventStream(adr_models::EventStreamTarget),
+}
+
+impl DataOperationDestinationDefinition {
+    fn target(&self) -> DataOperationDestinationDefinitionTarget {
+        match self {
+            DataOperationDestinationDefinition::Dataset(destination) => {
+                DataOperationDestinationDefinitionTarget::Dataset(destination.target.clone())
+            }
+            DataOperationDestinationDefinition::EventStream(destination) => {
+                DataOperationDestinationDefinitionTarget::EventStream(destination.target.clone())
+            }
+        }
+    }
+
+    fn configuration(&self) -> &adr_models::DestinationConfiguration {
+        match self {
+            DataOperationDestinationDefinition::Dataset(destination) => &destination.configuration,
+            DataOperationDestinationDefinition::EventStream(destination) => {
+                &destination.configuration
+            }
+        }
+    }
 }
 
 #[allow(dead_code)]
@@ -261,7 +333,7 @@ pub(crate) enum Destination {
         key: String,
     },
     Mqtt {
-        qos: Option<QoS>, // these are optional so that we use the defaults from the telemetry::sender if they aren't specified on the dataset/asset definition
+        qos: Option<QoS>, // these are optional so that we use the defaults from the telemetry::sender if they aren't specified on the data_operation/asset definition
         retain: Option<bool>,
         ttl: Option<u64>,
         inbound_endpoint_name: String,
@@ -273,7 +345,7 @@ pub(crate) enum Destination {
 }
 
 impl Destination {
-    /// Creates a list of new [`Destination`]s from a list of [`azure_device_registry::models::DatasetDestination`]s.
+    /// Creates a list of new [`Destination`]s from a list of [`adr_models::DatasetDestination`]s.
     /// At this time, this list cannot have more than one element. If there are no items in the list,
     /// this function will return an empty Vec. This isn't an error, since a default destination may or
     /// may not exist in the definition.
@@ -292,74 +364,126 @@ impl Destination {
         } else {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_destinations[0];
-            let destination = match definition_destination.target {
-                adr_models::DatasetTarget::BrokerStateStore => {
-                    Destination::BrokerStateStore {
-                        // TODO: validate key not empty?
-                        key: definition_destination
-                            .configuration
-                            .key
-                            .clone()
-                            .expect("Key must be present if Target is BrokerStateStore"),
-                    }
+            let destination = Self::new_data_operation_destination(
+                &DataOperationDestinationDefinition::Dataset(definition_destination.clone()),
+                inbound_endpoint_name,
+                connector_context,
+            )?;
+            Ok(vec![destination])
+        }
+    }
+
+    /// Creates a list of new [`Destination`]s from a list of [`adr_models::EventStreamDestination`]s.
+    /// At this time, this list cannot have more than one element. If there are no items in the list,
+    /// this function will return an empty Vec. This isn't an error, since a default destination may or
+    /// may not exist in the definition.
+    ///
+    /// # Errors
+    /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
+    /// This can be used to report the error to the ADR service on the status
+    pub(crate) fn new_event_stream_destinations(
+        event_stream_destinations: &[adr_models::EventStreamDestination],
+        inbound_endpoint_name: &str,
+        connector_context: &Arc<ConnectorContext>,
+    ) -> Result<Vec<Self>, AdrConfigError> {
+        // Create a new forwarder
+        if event_stream_destinations.is_empty() {
+            Ok(vec![])
+        } else {
+            // for now, this vec will only ever be length 1
+            let definition_destination = &event_stream_destinations[0];
+            let destination = Self::new_data_operation_destination(
+                &DataOperationDestinationDefinition::EventStream(definition_destination.clone()),
+                inbound_endpoint_name,
+                connector_context,
+            )?;
+            Ok(vec![destination])
+        }
+    }
+
+    fn new_data_operation_destination(
+        data_operation_destination_definition: &DataOperationDestinationDefinition,
+        inbound_endpoint_name: &str,
+        connector_context: &Arc<ConnectorContext>,
+    ) -> Result<Self, AdrConfigError> {
+        Ok(match data_operation_destination_definition.target() {
+            DataOperationDestinationDefinitionTarget::Dataset(
+                adr_models::DatasetTarget::BrokerStateStore,
+            ) => {
+                Destination::BrokerStateStore {
+                    // TODO: validate key not empty?
+                    key: data_operation_destination_definition
+                        .configuration()
+                        .key
+                        .clone()
+                        .expect("Key must be present if Target is BrokerStateStore"),
                 }
-                adr_models::DatasetTarget::Mqtt => {
-                    let telemetry_sender_options = telemetry::sender::OptionsBuilder::default()
-                        .topic_pattern(
-                            definition_destination
-                                .configuration
-                                .topic
-                                .clone()
-                                .expect("Topic must be present if Target is Mqtt"),
-                        )
-                        .build()
-                        // TODO: check if this can fail, or just the next one
-                        .map_err(|e| AdrConfigError {
-                            code: None,
-                            details: None,
-                            message: Some(e.to_string()),
-                        })?; // can fail if topic isn't valid in config
-                    let telemetry_sender = telemetry::Sender::new(
-                        connector_context.application_context.clone(),
-                        connector_context.managed_client.clone(),
-                        telemetry_sender_options,
+            }
+            DataOperationDestinationDefinitionTarget::EventStream(
+                adr_models::EventStreamTarget::Mqtt,
+            )
+            | DataOperationDestinationDefinitionTarget::Dataset(adr_models::DatasetTarget::Mqtt) => {
+                let telemetry_sender_options = telemetry::sender::OptionsBuilder::default()
+                    .topic_pattern(
+                        data_operation_destination_definition
+                            .configuration()
+                            .topic
+                            .clone()
+                            .expect("Topic must be present if Target is Mqtt"),
                     )
+                    .build()
+                    // TODO: check if this can fail, or just the next one
                     .map_err(|e| AdrConfigError {
                         code: None,
                         details: None,
                         message: Some(e.to_string()),
-                    })?;
-                    Destination::Mqtt {
-                        qos: definition_destination.configuration.qos.map(Into::into),
-                        retain: definition_destination
-                            .configuration
-                            .retain
-                            .as_ref()
-                            .map(|r| matches!(r, adr_models::Retain::Keep)),
-                        ttl: definition_destination.configuration.ttl,
-                        inbound_endpoint_name: inbound_endpoint_name.to_string(),
-                        telemetry_sender,
-                    }
+                    })?; // can fail if topic isn't valid in config
+                let telemetry_sender = telemetry::Sender::new(
+                    connector_context.application_context.clone(),
+                    connector_context.managed_client.clone(),
+                    telemetry_sender_options,
+                )
+                .map_err(|e| AdrConfigError {
+                    code: None,
+                    details: None,
+                    message: Some(e.to_string()),
+                })?;
+                Destination::Mqtt {
+                    qos: data_operation_destination_definition
+                        .configuration()
+                        .qos
+                        .map(Into::into),
+                    retain: data_operation_destination_definition
+                        .configuration()
+                        .retain
+                        .as_ref()
+                        .map(|r| matches!(r, adr_models::Retain::Keep)),
+                    ttl: data_operation_destination_definition.configuration().ttl,
+                    inbound_endpoint_name: inbound_endpoint_name.to_string(),
+                    telemetry_sender,
                 }
-                adr_models::DatasetTarget::Storage => {
-                    Err(AdrConfigError {
-                        code: None,
-                        details: None,
-                        message: Some(
-                            "Storage destination not supported for this connector".to_string(),
-                        ),
-                    })?
-                    // Destination::Storage {
-                    //     path: definition_destination
-                    //         .configuration
-                    //         .path
-                    //         .clone()
-                    //         .expect("Path must be present if Target is Storage"),
-                    // }
-                }
-            };
-            Ok(vec![destination])
-        }
+            }
+            DataOperationDestinationDefinitionTarget::EventStream(
+                adr_models::EventStreamTarget::Storage,
+            )
+            | DataOperationDestinationDefinitionTarget::Dataset(
+                adr_models::DatasetTarget::Storage,
+            ) => {
+                Err(AdrConfigError {
+                    code: None,
+                    details: None,
+                    message: Some(
+                        "Storage destination not supported for this connector".to_string(),
+                    ),
+                })?
+                // Destination::Storage {
+                //     path: definition_destination
+                //         .configuration
+                //         .path
+                //         .expect("Path must be present if Target is Storage"),
+                // }
+            }
+        })
     }
 }
 
