@@ -138,15 +138,6 @@ where
         let executor_options = executor_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name("<#=this.commandName.AsGiven#>")
-<# if (this.ttl != null) { #>
-            .cacheable_duration(
-                "<#=this.ttl#>"
-                    .parse::<iso8601_duration::Duration>()
-                    .unwrap()
-                    .to_std()
-                    .expect("TTL defined in DTDL schema exceeded maximum value"),
-            )
-<# } #>
             .is_idempotent(<#=this.isIdempotent ? "true" : "false"#>)
             .topic_token_map(topic_token_map)
 <# if (this.useSharedSubscription) { #>
