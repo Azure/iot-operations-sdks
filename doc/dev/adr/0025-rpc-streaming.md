@@ -163,5 +163,5 @@ TODO: Start defining a doc in our repo that defines what features are present in
 
 - Command timeout/cancellation tokens in single vs streaming?
 - When to ack the streaming request?
-  - In normal RPC, request is Ack'd only after the method finishes invocation, but this would likely clog up Acks since streaming requests can take a while.
+  - In normal RPC, request is Ack'd only after the method finishes invocation. Waiting until a streamed RPC finishes could clog up Acks since streaming requests can take a while.
     - Ack after first response is generated?
