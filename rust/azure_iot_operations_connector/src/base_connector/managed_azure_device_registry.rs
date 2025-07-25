@@ -712,7 +712,8 @@ impl DeviceEndpointClient {
 
 /// Struct used to hold the updates for an Asset's data operations
 /// until all data operation kinds have been processed and the function
-/// is cancel safe
+/// using this struct is beyond the point where it needs to worry about
+/// cancel safety.
 struct AssetDataOperationUpdates {
     new_status: adr_models::AssetStatus,
     status_updated: bool,
@@ -2474,8 +2475,16 @@ impl DataOperationDefinition {
     }
 }
 
-/// Implementation to be able to handle different data operations without needing
-/// to know which kind it is
+/// A trait for handling different types of data operations generically.
+///
+/// The `DataOperation` trait provides a way to interact with data operations
+/// (datasets, events, and streams) without needing to know their specific type.
+/// This abstraction is useful for scenarios where operations need to be performed
+/// uniformly across different data operation types.
+///
+/// Unlike directly implementing methods on the `DataOperationDefinition` enum,
+/// this trait allows individual data operation types (e.g., `Dataset`, `Event`, `Stream`)
+/// to define their own behavior while still conforming to a common interface.
 trait DataOperation {
     fn name(&self) -> &str;
     fn into_data_operation_definition(self) -> DataOperationDefinition;
