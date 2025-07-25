@@ -117,12 +117,6 @@ With this design, commands that use streaming are defined at codegen time. Codeg
   - Executor needs to know if it can stream the response, and this is the flag that tells it that
 - The command invoker will listen for command responses with the correlation data that matches the invoked method's correlation data until it receives a response with the "__isLastResp" flag set to "true"
 - The command invoker will acknowledge all messages it receives that match the correlation data of the command request
-- The command invoker may cancel a normal or streaming RPC call at an arbitrary time by sending an MQTT message with: 
-  - The same MQTT topic as the invoked method
-  - The same correlation data as the invoked method 
-  - The user property "__cancelRpc" set to "true".
-  - No payload
-  - TODO what would API look like? gRPC uses cancellation token
 
 #### Command executor side
 
@@ -138,11 +132,31 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 - The command executor receives a command **without** "__streamResp" flag set to "true"
   - The command must be responded to without streaming
 
-regardless of if an RPC is streaming or not, upon receiving an MQTT message with the "__cancelRpc" flag set to "true", the command executor should notify the application layer that that RPC has been canceled if it is still running. The executor should then send an MQTT message to the appropriate response topic with error code "canceled" to notify the invoker that the RPC has stopped and no further responses will be sent.
+### Cancellation support
+
+To avoid scenarios where long-running streaming responses are no longer wanted, we will want to support cancelling RPC calls. This feature is moreso applicable for RPC streaming, but the design allows for it to work for non-streaming RPC as well.
+
+#### Invoker side
+
+- The command invoker may cancel a normal or streaming RPC call at an arbitrary time by sending an MQTT message with: 
+  - The same MQTT topic as the invoked method
+  - The same correlation data as the invoked method 
+  - The user property "__cancelRpc" set to "true".
+  - No payload
+  - TODO what would API look like? gRPC uses cancellation token
+- The command invoker should still listen on the response topic for a response from the executor which may still contain a successful response (if cancellation was received after the command completed successfully)
+
+#### Executor side
+
+Regardless of if an RPC is streaming or not, upon receiving an MQTT message with the "__cancelRpc" flag set to "true", the command executor should:
+ - Notify the application layer that that RPC has been canceled if it is still running
+ - Send an MQTT message to the appropriate response topic with error code "canceled" to notify the invoker that the RPC has stopped and no further responses will be sent.
+
+If the executor receives a cancellation request for a command that has already completed, then the cancellation request should be ignored.
 
 ### Protocol version update
 
-This feature is not backwards compatible (new invoker can't initiate what it believes is a streaming RPC call on an old executor), so it requires a bump in our RPC protocol version from "1.0" to "2.0".
+This RPC streaming feature is not backwards compatible (new invoker can't initiate what it believes is a streaming RPC call on an old executor), so it requires a bump in our RPC protocol version from "1.0" to "2.0".
 
 TODO: Start defining a doc in our repo that defines what features are present in what protocol version.
 
@@ -153,7 +167,7 @@ TODO which existing client works well for long-running commands? Mem mon ("Repor
 ## Alternative designs considered
 
  - Allow the command executor to decide at run time of each command if it will stream responses independent of the command invoker's request
-   - This would force users to call the ```InvokeCommandWithStreaming``` API on the command invoker side and that returned object isn't as easy to use for single responses
+   - This would force users to always call the ```InvokeCommandWithStreaming``` API on the command invoker side and that returned object isn't as easy to use for single responses
  - Treat streaming RPC as a separate protocol from RPC, give it its own client like ```CommandInvoker``` and ```TelemetrySender```
    - There is a lot of code re-use between RPC and streaming RPC so this would make implementation very inconvenient
    - This would introduce another protocol to version. Future RPC changes would likely be relevant to RPC streaming anyways, so this feels redundant.
