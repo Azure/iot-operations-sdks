@@ -16,10 +16,19 @@ Users have expressed a desire to allow more than one response per RPC invocation
 
 ## Non-requirements
  - Different payload shapes per command response 
+ - "Client Streaming" RPC (multiples requests -> One command response)
+ - Bi-directional streaming RPC (multiples requests -> multiple responses)
+ - Allow for invoker to cancel streamed responses mid-stream
 
 ## State of the art
 
-What does gRPC do?
+gRPC supports these patterns for RPC:
+- Unary RPC (1 request message, 1 response message)
+- Server streaming RPC (1 request message, many response messages)
+- Client streaming RPC (many request messages, one response message)
+- Bi-directional streaming RPC (many request messages, many response messages)
+
+gRPC relies on the HTTP streaming protocol to delineate each message in the stream and to indicate the end of the stream.
 
 ## Decision
 
@@ -117,17 +126,14 @@ TODO which existing client works well for long-running commands? Mem mon ("Repor
   - Each streamed response may contain an MQTT user property with name "__streamRespId" and value equal to that response's streaming response Id. This is an optional and user-provided value.
   - The final command response will include an MQTT user property "__isLastResp" with value "true" to signal that it is the final response in the stream.
     - A streaming command is allowed to have a single response. It must include the "__isLastResp" flag in that first/final response
-  - All **completed** streamed command responses will be added to the command response cache
-    - If we cache incompleted commands, will the cache hit just wait on cache additions to get the remaining responses?
-    - Cache exists for de-duplication, and we want that even for long-running RPC, right?
-    - Separate cache for data structure purposes?
+  - Cache is only updated once the stream has completed and it is updated to include all of the responses (in order) for the command so they can be re-played if the streaming command is invoked again by the same client
 
 - The command executor receives a command **without** "__streamResp" flag set to "true"
   - The command must be responded to without streaming
 
 ### Protocol version update
 
-This feature is not backwards compatible (old invoker can't communicate with new executor that may try to stream a response), so it requires a bump in our RPC protocol version from "1.0" to "2.0".
+This feature is not backwards compatible (new invoker can't initiate what it believes is a streaming RPC call on an old executor), so it requires a bump in our RPC protocol version from "1.0" to "2.0".
 
 TODO: Start defining a doc in our repo that defines what features are present in what protocol version.
 
@@ -149,9 +155,9 @@ TODO: Start defining a doc in our repo that defines what features are present in
    - RPC executor treats it like a non-streaming command, but adds the "__isLastResp" flag to the one and only response
  - RPC invoker tries to invoke a non-streaming command that the executor requires streaming on
    - Atypical case since codegen will prevent this
-   - But, for the sake of non-codegen users, a new error code "StreamingRequired" would be returned by the executor
-     - Or should this just be "invalid header" error since the executor expects the "__streamResp" header?
- - timeout per response vs overall?
+   - But, for the sake of non-codegen users, executor returns "invalid header" error pointing to the "__streamResp" header
+     - Invoker understands that, if the "invalid header" value is "__streamResp", it attempted a invoke a streaming method
+ - timeout per response vs overall? Both?
  
  ## Open Questions
 
