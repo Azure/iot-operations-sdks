@@ -59,33 +59,24 @@ The *notify* action has a behavior that aligns with the Telemetry communication 
 
 A Property envoy is an assemblage of four Command envoys and one Telemetry envoy.
 It is parameterized by three types: `TProp`, `TCtrl`, and `TStat`.
-These types must satisfy exactly one of the following two sets of constraints.
+These types must satisfy the following constraints.
 
-Constraints for statically itemized properties:
-
-* `TProp` &mdash; A structure type (class/struct/object) that collates related Properties
-  * There is one field in the `TProp` structure per Property in the collation.
-  * Each field may have an arbitrary type.
-  * Each field has a value that is optional/nullable.
+* `TProp` &mdash; a structure type (class/struct/object) that collates related Properties
+  * There is one field for each static Property, which may have an arbitrary type
+  * There is one field for each dynamically itemized Property, with a map/dictionary type
+    * The dictionary key type is string
+    * The dictionary value type may be an arbitrary type
 * `TCtrl` &mdash; a structure type whose field names match those in `TProp`
-  * Each field has type Boolean.
+  * Each static Property field has type Boolean
+  * Each dynamically itemized Property field is an array/vector/list type with element type string
 * `TStat` &mdash; a structure type whose field names match those in `TProp`
-  * Each field has type `TStatVal`, which is &mdash; consistently across all fields &mdash; one of Boolean, integer, string, or an enumeration that is convertable to/from integer or string.
-  * Each field has a value that is optional/nullable.
+  * There is some type `TStatVal` for all fields that is Boolean, integer, string, or an enum
+  * Each static Property field has type `TStatVal`
+  * Each dynamically itemized Property field is a map/dictionary type
+    * The dictionary key type is string
+    * The dictionary value type is `TStatVal`
 
-Constraints for dynamically itemized properties:
-
-* `TProp` &mdash; A map/dictionary type, or a structure with a single field that is a map/dictionary type
-  * The key type is string.
-  * The value type may be an arbitrary type.
-  * Each value may be optional/nullable so as to enable a 'write' to clear a value from the map.
-* `TCtrl` &mdash; an array/vector type, or a structure with a single field that is an array/vector type
-  * The element type is string.
-* `TStat` &mdash; a map/dictionary type, or a structure with a single field that is a map/dictionary type
-  * The key type is string.
-  * The value type is `TStatVal`, which is one of Boolean, integer, string, or an enumeration that is convertable to/from integer or string.
-
-As an example, consider the following types for statically itemized properties.
+As an example, consider the following types.
 These illustrations use C#, but analogous types can be defined in all supported languages.
 Class `PropObj` is a concrete type for `TProp`:
 
@@ -94,6 +85,7 @@ public partial class PropObj
 {
     public int? Foo { get; set; } = default;
     public string? Bar { get; set; } = default;
+    public Dictionary<string, int?> Baz { get; set; } = new();
 }
 ```
 
@@ -104,6 +96,7 @@ public partial class CtrlObj
 {
     public bool Foo { get; set; } = default;
     public bool Bar { get; set; } = default;
+    public List<string> Baz { get; set; } = new();
 }
 ```
 
@@ -114,34 +107,7 @@ public partial class StatObj
 {
     public int? Foo { get; set; } = default;
     public int? Bar { get; set; } = default;
-}
-```
-
-As a second example, consider the following types for dynamically itemized properties.
-Class `PropMap` is a concrete type for `TProp`:
-
-```csharp
-public partial class PropMap
-{
-    public Dictionary<string, int?> Props { get; set; } = default;
-}
-```
-
-Class `CtrlList` is a concrete type for `TCtrl`:
-
-```csharp
-public partial class CtrlList
-{
-    public List<string> Ctrls { get; set; } = default;
-}
-```
-
-Class `StatMap` is a concrete type for `TSTat` that has `TStatVal` of integer:
-
-```csharp
-public partial class StatMap
-{
-    public List<int> Stats { get; set; } = default;
+    public Dictionary<string, int> Baz { get; set; } = new();
 }
 ```
 
@@ -181,30 +147,30 @@ The *write* action is performed by issuing a 'write' Command request.
 
 * The request payload is an instance of `TProp`.
   * For statically itemized properties, the optional fields in the `TProp` request object contain values for any Properties that are to be written.
-  * For dynamically itemized properties, the keys in the `TProp` request map indicate which Properties to write, and the corresponding values are what is to be written.
+  * For dynamically itemized properties, the keys in the request map indicate which Properties to write, and the corresponding values are what is to be written.
 * The response payload is an instance of `TStat`.
   * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the write operation for the Property named by the field.
-  * For dynamically itemized properties, each value in the `TStat` response map indicates the status of the write operation for the Property named by the key.
+  * For dynamically itemized properties, each value in the response map indicates the status of the write operation for the Property named by the key.
   * The semantics of `TStatVal` values are determined by the service that implements the property.
 
 The *read* action is performed by issuing a 'read' Command request.
 
 * The request payload is an instance of `TCtrl`.
   * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be read.
-  * For dynamically itemized properties, the elements in the `TCtrl` request array indicate the names of the Properties to read.
+  * For dynamically itemized properties, the elements in the request array indicate the names of the Properties to read.
 * The response payload is an instance of `TProp`.
   * For statically itemized properties, the optional fields in the `TProp` response object contain values for any Properties that have been read.
-  * For dynamically itemized properties, the keys in the `TProp` response map indicate which Properties have been read, and the corresponding values are what was read.
+  * For dynamically itemized properties, the keys in the response map indicate which Properties have been read, and the corresponding values are what was read.
 
 The *observe* action is performed by issuing an 'observe' Command request.
 
 * The request payload is an instance of `TCtrl`.
   * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be added to the notify list.
-  * For dynamically itemized properties, the elements in the `TCtrl` request array indicate the names of the Properties to add to the notify list.
+  * For dynamically itemized properties, the elements in the request array indicate the names of the Properties to add to the notify list.
   * The maintainer may keep a single notify list across all consumers, or it may keep a separate notify list for each consumer; in the latter case, the maintainer must be provided with a way to identify the consumer that requested the observation.
 * The response payload is an instance of `TStat`.
   * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the observe operation for the Property named by the field.
-  * For dynamically itemized properties, each value in the `TStat` response map indicates the status of the observe operation for the Property named by the key.
+  * For dynamically itemized properties, each value in the response map indicates the status of the observe operation for the Property named by the key.
   * The semantics of `TStatVal` values are determined by the service that implements the property.
   * The maintainer's response may additionally provide status values for the observation state of properties other than those named in the 'observe' request.
 
@@ -212,18 +178,18 @@ The *unobserve* action is performed by issuing an 'unobserve' Command request.
 
 * The request payload is an instance of `TCtrl`.
   * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be removed from the notify list.
-  * For dynamically itemized properties, the elements in the `TCtrl` request array indicate the names of the Properties to remove from the notify list.
+  * For dynamically itemized properties, the elements in the request array indicate the names of the Properties to remove from the notify list.
   * The maintainer may keep a single notify list across all consumers, or it may keep a separate notify list for each consumer; in the latter case, the maintainer must be provided with a way to identify the consumer that requested the observation.
 * The response payload is an instance of `TStat`.
   * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the unobserve operation for the Property named by the field.
-  * For dynamically itemized properties, each value in the `TStat` response map indicates the status of the unobserve operation for the Property named by the key.
+  * For dynamically itemized properties, each value in the response map indicates the status of the unobserve operation for the Property named by the key.
   * The semantics of `TStatVal` values are determined by the service that implements the property.
   * The maintainer's response may additionally provide status values for the observation state of properties other than those named in the 'unobserve' request.
 
 The *notify* action is performed by sending a Telemetry with a payload that is an instance of `TProp`.
 
-* For statically itemized properties, the optional fields in the `TProp` response object contain values for any Properties that are in the notify list.
-* For dynamically itemized properties, the key/value pairs in the `TProp` response map indicate which Properties are in the notify list and their corresponding values.
+* For statically itemized properties, the optional fields in the `TProp` notify object contain values for any Properties that are in the notify list.
+* For dynamically itemized properties, the key/value pairs in the notify map indicate which Properties are in the notify list and their corresponding values.
 
 ## Additive change to DTDL Mqtt extension
 
@@ -273,7 +239,7 @@ These Properties correspond to the example types [defined above](#property-envoy
     },
     {
       "@type": [ "Property", "Fragmented" ],
-      "name": "Props",
+      "name": "Baz",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -291,22 +257,13 @@ These Properties correspond to the example types [defined above](#property-envoy
 ```
 
 The ProtocolCompiler will aggregate all statically itemized Properties into a single set of classes.
-For Properties "Foo" and "Bar" in the model above, these classes will be analogous to the definitions of `PropObj`, `CtrlObj`, and `StatObj` defined above, each having fields for Foo and Bar, as in this example:
+These classes will be analogous to the definitions of `PropObj`, `CtrlObj`, and `StatObj` defined above, each having fields for Foo, Bar, and Baz, as in this example:
 
 ```csharp
 public partial class PropObj
 {
     public int? Foo { get; set; } = default;
     public string? Bar { get; set; } = default;
-}
-```
-
-The ProtocolCompiler will generate a separate set of classes for each dynamically itemized Property in the model.
-For Property "Props" in the above model, these classes will be analogous to the definitions of `PropMap`, `CtrlList`, and `StatMap` defined above, such as this example:
-
-```csharp
-public partial class PropMap
-{
-    public Dictionary<string, int?> Props { get; set; } = default;
+    public Dictionary<string, int?> Baz { get; set; } = new();
 }
 ```
