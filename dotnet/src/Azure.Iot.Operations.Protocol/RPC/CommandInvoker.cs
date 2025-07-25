@@ -1,15 +1,17 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Protocol.Events;
+using Azure.Iot.Operations.Protocol.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using Azure.Iot.Operations.Protocol.Events;
-using Azure.Iot.Operations.Protocol.Models;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -216,7 +218,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Trace.TraceInformation($"Subscribed to topic filter '{responseTopicFilter}' for command invoker '{_commandName}'");
         }
 
-        private Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
+        private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
             if (args.ApplicationMessage.CorrelationData != null && GuidExtensions.TryParseBytes(args.ApplicationMessage.CorrelationData, out Guid? requestGuid))
             {
@@ -226,18 +228,154 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 {
                     if (!_requestIdMap.TryGetValue(requestGuidString, out responsePromise))
                     {
-                        return Task.CompletedTask;
+                        return;
                     }
                 }
 
                 args.AutoAcknowledge = true;
                 if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, responsePromise.ResponseTopic))
                 {
-                    responsePromise.Responses.Enqueue(args.ApplicationMessage);
+                    // Assume a protocol version of 1.0 if no protocol version was specified
+                    string? responseProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
+                    if (!ProtocolVersion.TryParseProtocolVersion(responseProtocolVersion, out ProtocolVersion? protocolVersion))
+                    {
+                        AkriMqttException akriException = new($"Received a response with an unparsable protocol version number: {responseProtocolVersion}")
+                        {
+                            Kind = AkriMqttErrorKind.UnsupportedVersion,
+                            IsShallow = false,
+                            IsRemote = false,
+                            CommandName = _commandName,
+                            CorrelationId = requestGuid,
+                            SupportedMajorProtocolVersions = _supportedMajorProtocolVersions,
+                            ProtocolVersion = responseProtocolVersion,
+                        };
+
+                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
+                        return;
+                    }
+
+                    if (!_supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
+                    {
+                        AkriMqttException akriException = new($"Received a response with an unsupported protocol version number: {responseProtocolVersion}")
+                        {
+                            Kind = AkriMqttErrorKind.UnsupportedVersion,
+                            IsShallow = false,
+                            IsRemote = false,
+                            CommandName = _commandName,
+                            CorrelationId = requestGuid,
+                            SupportedMajorProtocolVersions = _supportedMajorProtocolVersions,
+                            ProtocolVersion = responseProtocolVersion,
+                        };
+
+                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
+                        return;
+                    }
+
+                    MqttUserProperty? statusProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.Status);
+
+                    if (!TryValidateResponseHeaders(statusProperty, requestGuidString, out AkriMqttErrorKind errorKind, out string message, out string? headerName, out string? headerValue))
+                    {
+                        AkriMqttException akriException = new(message)
+                        {
+                            Kind = errorKind,
+                            IsShallow = false,
+                            IsRemote = false,
+                            HeaderName = headerName,
+                            HeaderValue = headerValue,
+                            CommandName = _commandName,
+                            CorrelationId = requestGuid,
+                        };
+
+                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
+                        return;
+                    }
+
+                    int statusCode = int.Parse(statusProperty!.Value, CultureInfo.InvariantCulture);
+
+                    if (statusCode is not ((int)CommandStatusCode.OK) and not ((int)CommandStatusCode.NoContent))
+                    {
+                        MqttUserProperty? invalidNameProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.InvalidPropertyName);
+                        MqttUserProperty? invalidValueProperty = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.InvalidPropertyValue);
+                        bool isApplicationError = (args.ApplicationMessage.UserProperties?.TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) ?? false) && isAppError?.ToLower(CultureInfo.InvariantCulture) != "false";
+                        string? statusMessage = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.StatusMessage)?.Value;
+
+                        errorKind = StatusCodeToErrorKind((CommandStatusCode)statusCode, isApplicationError, invalidNameProperty != null, invalidValueProperty != null);
+                        AkriMqttException akriException = new(statusMessage ?? "Error condition identified by remote service")
+                        {
+                            Kind = errorKind,
+                            IsShallow = false,
+                            IsRemote = true,
+                            HeaderName = UseHeaderFields(errorKind) ? invalidNameProperty?.Value : null,
+                            HeaderValue = UseHeaderFields(errorKind) ? invalidValueProperty?.Value : null,
+                            PropertyName = UsePropertyFields(errorKind) ? invalidNameProperty?.Value : null,
+                            PropertyValue = UsePropertyFields(errorKind) ? invalidValueProperty?.Value : null,
+                            TimeoutName = UseTimeoutFields(errorKind) ? invalidNameProperty?.Value : null,
+                            TimeoutValue = UseTimeoutFields(errorKind) ? GetAsTimeSpan(invalidValueProperty?.Value) : null,
+                            CommandName = _commandName,
+                            CorrelationId = requestGuid,
+                        };
+
+                        if (errorKind == AkriMqttErrorKind.UnsupportedVersion)
+                        {
+                            MqttUserProperty? supportedMajorVersions = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SupportedMajorProtocolVersions);
+                            MqttUserProperty? requestProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.RequestedProtocolVersion);
+
+                            if (requestProtocolVersion != null)
+                            {
+                                akriException.ProtocolVersion = requestProtocolVersion.Value;
+                            }
+                            else
+                            {
+                                Trace.TraceWarning("Command executor failed to provide the request's protocol version");
+                            }
+
+                            if (supportedMajorVersions != null
+                                && ProtocolVersion.TryParseFromString(supportedMajorVersions!.Value, out int[]? versions))
+                            {
+                                akriException.SupportedMajorProtocolVersions = versions;
+                            }
+                            else
+                            {
+                                Trace.TraceWarning("Command executor failed to provide the supported major protocol versions");
+                            }
+                        }
+
+                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
+                        return;
+                    }
+
+                    TResp response;
+                    CommandResponseMetadata responseMetadata;
+                    try
+                    {
+                        response = _serializer.FromBytes<TResp>(args.ApplicationMessage.Payload, args.ApplicationMessage.ContentType, args.ApplicationMessage.PayloadFormatIndicator);
+                        responseMetadata = new CommandResponseMetadata(args.ApplicationMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        SetExceptionSafe(responsePromise.CompletionSource, ex);
+                        return;
+                    }
+
+                    if (responseMetadata.Timestamp != null)
+                    {
+                        await _applicationContext.ApplicationHlc.UpdateWithOtherAsync(responseMetadata.Timestamp);
+                    }
+                    else
+                    {
+                        Trace.TraceInformation($"No timestamp present in command response metadata.");
+                    }
+
+                    ExtendedResponse<TResp> extendedResponse = new() { Response = response, ResponseMetadata = responseMetadata };
+
+                    if (!responsePromise.CompletionSource.TrySetResult(extendedResponse))
+                    {
+                        Trace.TraceWarning("Failed to complete the command response promise. This may be because the operation was cancelled or finished with exception.");
+                    }
                 }
             }
 
-            return Task.CompletedTask;
+            return;
         }
 
         private static bool TryValidateResponseHeaders(
@@ -336,20 +474,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <returns>The command response including the command response metadata</returns>
         public async Task<ExtendedResponse<TResp>> InvokeCommandAsync(TReq request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
         {
-            IAsyncEnumerable<StreamingExtendedResponse<TResp>> response = InvokeCommandAsync(false, request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken);
-            var enumerator = response.GetAsyncEnumerator(cancellationToken);
-            await enumerator.MoveNextAsync();
-            return enumerator.Current;
-        }
-
-        public IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(TReq request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
-        {
-            // user shouldn't have to do the stitching. We do it. Ordering concerns, though?
-            return InvokeCommandAsync(true, request, metadata, additionalTopicTokenMap, commandTimeout, cancellationToken);
-        }
-
-        private async IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeCommandAsync(bool isStreaming, TReq request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
-        {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -433,11 +557,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 requestMessage.AddUserProperty("$partition", clientId);
                 requestMessage.AddUserProperty(AkriSystemProperties.SourceId, clientId);
 
-                if (isStreaming)
-                {
-                    requestMessage.AddUserProperty(AkriSystemProperties.IsStreamingCommand, "true");
-                }
-
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
@@ -496,158 +615,65 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     };
                 }
 
-                //TODO operationCancelled and timeout exceptions were deleted to accomodate IAsyncEnumerable. Catch them elsewhere?
-                // https://github.com/dotnet/roslyn/issues/39583#issuecomment-728097630 workaround?
-                StreamingExtendedResponse<TResp> extendedResponse;
-
-                // "do while" since every command should have at least one intended response, but streaming commands may have more
-                do
+                ExtendedResponse<TResp> extendedResponse;
+                try
                 {
-                    MqttApplicationMessage mqttMessage = await WallClock.WaitAsync<MqttApplicationMessage>(responsePromise.Responses.DequeueAsync(cancellationToken), reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
-
-                    //TODO mqtt message to command response
-
-                    // Assume a protocol version of 1.0 if no protocol version was specified
-                    string? responseProtocolVersion = mqttMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
-                    if (!ProtocolVersion.TryParseProtocolVersion(responseProtocolVersion, out ProtocolVersion? protocolVersion))
+                    extendedResponse = await WallClock.WaitAsync(responsePromise.CompletionSource.Task, reifiedCommandTimeout, cancellationToken).ConfigureAwait(false);
+                    if (responsePromise.CompletionSource.Task.IsFaulted)
                     {
-                        AkriMqttException akriException = new($"Received a response with an unparsable protocol version number: {responseProtocolVersion}")
-                        {
-                            Kind = AkriMqttErrorKind.UnsupportedVersion,
-                            IsShallow = false,
-                            IsRemote = false,
-                            CommandName = _commandName,
-                            CorrelationId = requestGuid,
-                            SupportedMajorProtocolVersions = _supportedMajorProtocolVersions,
-                            ProtocolVersion = responseProtocolVersion,
-                        };
-
-                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                        return;
-                    }
-
-                    if (!_supportedMajorProtocolVersions.Contains(protocolVersion!.MajorVersion))
-                    {
-                        AkriMqttException akriException = new($"Received a response with an unsupported protocol version number: {responseProtocolVersion}")
-                        {
-                            Kind = AkriMqttErrorKind.UnsupportedVersion,
-                            IsShallow = false,
-                            IsRemote = false,
-                            CommandName = _commandName,
-                            CorrelationId = requestGuid,
-                            SupportedMajorProtocolVersions = _supportedMajorProtocolVersions,
-                            ProtocolVersion = responseProtocolVersion,
-                        };
-
-                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                        return;
-                    }
-
-                    MqttUserProperty? statusProperty = mqttMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.Status);
-
-                    if (!TryValidateResponseHeaders(statusProperty, requestGuidString, out AkriMqttErrorKind errorKind, out string message, out string? headerName, out string? headerValue))
-                    {
-                        AkriMqttException akriException = new(message)
-                        {
-                            Kind = errorKind,
-                            IsShallow = false,
-                            IsRemote = false,
-                            HeaderName = headerName,
-                            HeaderValue = headerValue,
-                            CommandName = _commandName,
-                            CorrelationId = requestGuid,
-                        };
-
-                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                        return;
-                    }
-
-                    int statusCode = int.Parse(statusProperty!.Value, CultureInfo.InvariantCulture);
-
-                    if (statusCode is not ((int)CommandStatusCode.OK) and not ((int)CommandStatusCode.NoContent))
-                    {
-                        MqttUserProperty? invalidNameProperty = mqttMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.InvalidPropertyName);
-                        MqttUserProperty? invalidValueProperty = mqttMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.InvalidPropertyValue);
-                        bool isApplicationError = (mqttMessage.UserProperties?.TryGetProperty(AkriSystemProperties.IsApplicationError, out string? isAppError) ?? false) && isAppError?.ToLower(CultureInfo.InvariantCulture) != "false";
-                        string? statusMessage = mqttMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.StatusMessage)?.Value;
-
-                        errorKind = StatusCodeToErrorKind((CommandStatusCode)statusCode, isApplicationError, invalidNameProperty != null, invalidValueProperty != null);
-                        AkriMqttException akriException = new(statusMessage ?? "Error condition identified by remote service")
-                        {
-                            Kind = errorKind,
-                            IsShallow = false,
-                            IsRemote = true,
-                            HeaderName = UseHeaderFields(errorKind) ? invalidNameProperty?.Value : null,
-                            HeaderValue = UseHeaderFields(errorKind) ? invalidValueProperty?.Value : null,
-                            PropertyName = UsePropertyFields(errorKind) ? invalidNameProperty?.Value : null,
-                            PropertyValue = UsePropertyFields(errorKind) ? invalidValueProperty?.Value : null,
-                            TimeoutName = UseTimeoutFields(errorKind) ? invalidNameProperty?.Value : null,
-                            TimeoutValue = UseTimeoutFields(errorKind) ? GetAsTimeSpan(invalidValueProperty?.Value) : null,
-                            CommandName = _commandName,
-                            CorrelationId = requestGuid,
-                        };
-
-                        if (errorKind == AkriMqttErrorKind.UnsupportedVersion)
-                        {
-                            MqttUserProperty? supportedMajorVersions = mqttMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SupportedMajorProtocolVersions);
-                            MqttUserProperty? requestProtocolVersion = mqttMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.RequestedProtocolVersion);
-
-                            if (requestProtocolVersion != null)
+                        throw responsePromise.CompletionSource.Task.Exception?.InnerException
+                            ?? new AkriMqttException($"Command '{_commandName}' failed with unknown exception")
                             {
-                                akriException.ProtocolVersion = requestProtocolVersion.Value;
-                            }
-                            else
-                            {
-                                Trace.TraceWarning("Command executor failed to provide the request's protocol version");
-                            }
-
-                            if (supportedMajorVersions != null
-                                && ProtocolVersion.TryParseFromString(supportedMajorVersions!.Value, out int[]? versions))
-                            {
-                                akriException.SupportedMajorProtocolVersions = versions;
-                            }
-                            else
-                            {
-                                Trace.TraceWarning("Command executor failed to provide the supported major protocol versions");
-                            }
-                        }
-
-                        SetExceptionSafe(responsePromise.CompletionSource, akriException);
-                        return;
+                                Kind = AkriMqttErrorKind.UnknownError,
+                                IsShallow = false,
+                                IsRemote = false,
+                                CommandName = _commandName,
+                                CorrelationId = requestGuid,
+                            };
                     }
+                }
+                catch (TimeoutException e)
+                {
+                    SetCanceledSafe(responsePromise.CompletionSource);
 
-                    TResp response;
-                    CommandResponseMetadata responseMetadata;
-                    try
+                    throw new AkriMqttException($"Command '{_commandName}' timed out while waiting for a response", e)
                     {
-                        response = _serializer.FromBytes<TResp>(mqttMessage.Payload, mqttMessage.ContentType, .PayloadFormatIndicator);
-                        responseMetadata = new CommandResponseMetadata(mqttMessage);
-                    }
-                    catch (Exception ex)
+                        Kind = AkriMqttErrorKind.Timeout,
+                        IsShallow = false,
+                        IsRemote = false,
+                        TimeoutName = nameof(commandTimeout),
+                        TimeoutValue = reifiedCommandTimeout,
+                        CommandName = _commandName,
+                        CorrelationId = requestGuid,
+                    };
+                }
+                catch (OperationCanceledException e)
+                {
+                    SetCanceledSafe(responsePromise.CompletionSource);
+
+                    throw new AkriMqttException($"Command '{_commandName}' was cancelled while waiting for a response", e)
                     {
-                        SetExceptionSafe(responsePromise.CompletionSource, ex);
-                        return;
-                    }
+                        Kind = AkriMqttErrorKind.Cancellation,
+                        IsShallow = false,
+                        IsRemote = false,
+                        CommandName = _commandName,
+                        CorrelationId = requestGuid,
+                    };
+                }
 
-                    if (responseMetadata.Timestamp != null)
-                    {
-                        await _applicationContext.ApplicationHlc.UpdateWithOtherAsync(responseMetadata.Timestamp, cancellationToken: cancellationToken);
-                    }
-                    else
-                    {
-                        Trace.TraceInformation($"No timestamp present in command response metadata.");
-                    }
-
-                    extendedResponse = new() { Response = response, ResponseMetadata = responseMetadata };
-
-                    if (!responsePromise.CompletionSource.TrySetResult(extendedResponse))
-                    {
-                        Trace.TraceWarning("Failed to complete the command response promise. This may be because the operation was cancelled or finished with exception.");
-                    }
-
-                    yield return extendedResponse;
-                } while (extendedResponse.StreamingResponseId != null && !extendedResponse.IsLastResponse);
-
+                return extendedResponse;
+            }
+            catch (ArgumentException ex)
+            {
+                throw new AkriMqttException(ex.Message)
+                {
+                    Kind = AkriMqttErrorKind.ConfigurationInvalid,
+                    IsShallow = true,
+                    IsRemote = false,
+                    PropertyName = ex.ParamName,
+                    CommandName = _commandName,
+                    CorrelationId = requestGuid,
+                };
             }
             finally
             {
@@ -658,6 +684,23 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     _requestIdMap.Remove(requestGuid.ToString());
                 }
             }
+        }
+
+        /// <summary>
+        /// Invoke a command and receive a stream of responses.
+        /// </summary>
+        /// <param name="request">The payload of command request.</param>
+        /// <param name="metadata">The metadata of the command request.</param>
+        /// <param name="additionalTopicTokenMap">
+        /// The topic token replacement map to use in addition to <see cref="TopicTokenMap"/>. If this map
+        /// contains any keys that <see cref="TopicTokenMap"/> also has, then values specified in this map will take precedence.
+        /// </param>
+        /// <param name="commandTimeout">How long to wait for a command response. Note that each command executor also has a configurable timeout value that may be shorter than this value. <see cref="CommandExecutor{TReq, TResp}.ExecutionTimeout"/></param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The asynchronously stream of responses and their respective metadata.</returns>
+        public IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(TReq request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -693,6 +736,18 @@ namespace Azure.Iot.Operations.Protocol.RPC
             }
 
             _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
+
+            lock (_requestIdMapLock)
+            {
+                foreach (KeyValuePair<string, ResponsePromise> responsePromise in _requestIdMap)
+                {
+                    if (responsePromise.Value != null && responsePromise.Value.CompletionSource != null)
+                    {
+                        SetCanceledSafe(responsePromise.Value.CompletionSource);
+                    }
+                }
+                _requestIdMap.Clear();
+            }
 
             try
             {
@@ -753,7 +808,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             public string ResponseTopic { get; } = responseTopic;
 
-            public BlockingConcurrentQueue<MqttApplicationMessage> Responses { get; } = new();
+            public TaskCompletionSource<ExtendedResponse<TResp>> CompletionSource { get; } = new TaskCompletionSource<ExtendedResponse<TResp>>();
         }
     }
 }
