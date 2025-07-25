@@ -161,8 +161,6 @@ TODO: Start defining a doc in our repo that defines what features are present in
  
  ## Open Questions
 
-- Do we need to include response index user property on each streamed response?
-  - MQTT message ordering suggests this information can just be inferred by the command invoker
 - Command timeout/cancellation tokens in single vs streaming?
 - When to ack the streaming request?
   - In normal RPC, request is Ack'd only after the method finishes invocation, but this would likely clog up Acks since streaming requests can take a while.
