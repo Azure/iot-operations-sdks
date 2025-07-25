@@ -721,7 +721,7 @@ struct AssetDataOperationUpdates {
         watch::Sender<DataOperationUpdateNotification>,
         DataOperationUpdateNotification,
     )>,
-    new_data_operation_clients: Vec<DataOperationClient>,
+    new_data_operation_clients: Vec<Box<DataOperationClient<dyn DataOperation>>>,
 }
 
 /// Azure Device Registry Asset that includes additional functionality
@@ -758,10 +758,10 @@ pub struct AssetClient {
     asset_update_watcher_tx: watch::Sender<Asset>,
     /// Internal sender for when new data operations are created
     #[getter(skip)]
-    data_operation_creation_tx: UnboundedSender<DataOperationClient>,
+    data_operation_creation_tx: UnboundedSender<Box<DataOperationClient<dyn DataOperation>>>,
     /// Internal channel for receiving notifications about data operation creation events.
     #[getter(skip)]
-    data_operation_creation_rx: UnboundedReceiver<DataOperationClient>,
+    data_operation_creation_rx: UnboundedReceiver<Box<DataOperationClient<dyn DataOperation>>>,
     /// Internal watch sender for releasing data operation create/update notifications
     #[getter(skip)]
     release_data_operation_notifications_tx: watch::Sender<()>,
@@ -908,7 +908,7 @@ impl AssetClient {
                 // error is not possible since the receiving side of the channel is owned by the AssetClient
                 let _ = asset_client
                     .data_operation_creation_tx
-                    .send(new_data_operation_client);
+                    .send(Box::new(new_data_operation_client));
             }
             // Note, updates.data_operation_updates is not used because there will be no updates on new
         }
@@ -967,7 +967,7 @@ impl AssetClient {
     /// Adds any Data Operation updates to `updates.data_operation_updates` that can be sent after the update task can't be cancelled
     /// Adds any new Data Operation Clients to `updates.new_data_operation_clients` that can be sent after the update task can't be cancelled
     /// Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
-    fn handle_data_operation_kind_updates<T: Clone + DataOperation + PartialEq>(
+    fn handle_data_operation_kind_updates<T: DataOperation + Clone + PartialEq>(
         &self,
         data_operation_kind: DataOperationKind,
         data_operation_hashmap: &mut HashMap<
@@ -1095,7 +1095,8 @@ impl AssetClient {
                         self.release_data_operation_notifications_tx.subscribe(),
                     ));
                 match DataOperationClient::new(
-                    data_operation_definition,
+                    received_data_operation.clone(),
+                    data_operation_kind,
                     data_operation_update_watcher_rx,
                     &default_data_operation_destinations,
                     self.asset_ref.clone(),
@@ -1118,7 +1119,7 @@ impl AssetClient {
                         // save new data operation client to be sent on self.data_operation_creation_tx after the task can't get cancelled
                         updates
                             .new_data_operation_clients
-                            .push(new_data_operation_client);
+                            .push(Box::new(new_data_operation_client as DataOperationClient<dyn DataOperation>));
                     }
                     Err(e) => {
                         // Add the error to the status to be reported to ADR, and then continue to process
@@ -1159,7 +1160,7 @@ impl AssetClient {
     async fn handle_update(
         &mut self,
         updated_asset: Asset,
-    ) -> ClientNotification<DataOperationClient> {
+    ) {
         // lock the status write guard so that no other threads can modify the status while we update it
         let mut status_write_guard = self.status.write().await;
         // if there are any config errors when parsing the asset, collect them all so we can report them at once
@@ -1252,7 +1253,6 @@ impl AssetClient {
 
         // Asset update has been fully processed, mark as seen.
         self.asset_update_watcher_rx.mark_unchanged();
-        ClientNotification::Updated
     }
 
     /// Used to receive notifications related to the Asset from the Azure Device
@@ -1280,7 +1280,7 @@ impl AssetClient {
     ///
     /// # Panics
     /// If the specification mutex has been poisoned, which should not be possible
-    pub async fn recv_notification(&mut self) -> ClientNotification<DataOperationClient> {
+    pub async fn recv_notification(&mut self) -> ClientNotification<Box<DataOperationClient<dyn DataOperation>>> {
         // release any pending data_operation create/update notifications
         self.release_data_operation_notifications_tx
             .send_modify(|()| ());
@@ -1311,7 +1311,8 @@ impl AssetClient {
                     // we are saving the updated asset in the watcher in case `handle_update` is
                     // cancelled
                     let _ = self.asset_update_watcher_tx.send(updated_asset.clone());
-                    self.handle_update(updated_asset).await
+                    self.handle_update(updated_asset).await;
+                    ClientNotification::Updated
                 } else {
                     // unobserve as cleanup
                     // Spawn a new task to prevent a possible cancellation and ensure the deleted
@@ -1337,7 +1338,8 @@ impl AssetClient {
                 self.asset_update_watcher_rx.mark_changed();
                 let updated_asset = self.asset_update_watcher_rx.borrow().clone();
 
-                self.handle_update(updated_asset).await
+                self.handle_update(updated_asset).await;
+                ClientNotification::Updated
             }
             create_notification = self.data_operation_creation_rx.recv() => {
                 let Some(data_operation_client) = create_notification else {
@@ -1509,11 +1511,11 @@ pub enum DataOperationNotification {
 /// to report status, report message schema, receive updates,
 /// and send data to the destination
 #[derive(Debug, Getters)]
-pub struct DataOperationClient {
+pub struct DataOperationClient<T: DataOperation + Send> {
     /// Data operation kind and data operation, asset, device, and inbound endpoint names
     data_operation_ref: DataOperationRef,
     // Data operation Definition
-    definition: DataOperationDefinition,
+    definition: T,
     /// Current status for the Asset
     #[getter(skip)]
     asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
@@ -1541,10 +1543,11 @@ pub struct DataOperationClient {
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
 }
 
-impl DataOperationClient {
+impl<T: DataOperation + Send> DataOperationClient<T> {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
-        definition: DataOperationDefinition,
+        definition: T,
+        data_operation_kind: DataOperationKind,
         data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
@@ -1556,11 +1559,11 @@ impl DataOperationClient {
     ) -> Result<Self, AdrConfigError> {
         // Create a new data_operation
         let kind;
-        let forwarder = match definition {
-            DataOperationDefinition::Dataset(ref dataset) => {
-                kind = DataOperationKind::Dataset;
+        let forwarder = match data_operation_kind {
+            DataOperationKind::Dataset => {
+                // kind = DataOperationKind::Dataset;
                 destination_endpoint::Forwarder::new_dataset_forwarder(
-                    &dataset.destinations,
+                    &definition.destinations,
                     &asset_ref.inbound_endpoint_name,
                     default_destinations,
                     connector_context.clone(),
@@ -2486,6 +2489,7 @@ impl DataOperationDefinition {
 /// this trait allows individual data operation types (e.g., `Dataset`, `Event`, `Stream`)
 /// to define their own behavior while still conforming to a common interface.
 trait DataOperation {
+    // trait DataOperation: Clone + PartialEq {
     fn name(&self) -> &str;
     fn into_data_operation_definition(self) -> DataOperationDefinition;
 }
