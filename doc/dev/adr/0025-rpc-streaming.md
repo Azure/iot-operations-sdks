@@ -13,12 +13,13 @@ Users have expressed a desire to allow more than one response per RPC invocation
  - When exposed to the user, each response includes an index of where it was in the stream
  - Allow for multiple separate commands to be streamed simultaneously
    - Even the same command can be executed in parallel to itself?
+ - Allow for invoker to cancel streamed responses mid-stream
 
 ## Non-requirements
  - Different payload shapes per command response 
  - "Client Streaming" RPC (multiples requests -> One command response)
  - Bi-directional streaming RPC (multiples requests -> multiple responses)
- - Allow for invoker to cancel streamed responses mid-stream
+ - Allow for executor to cancel streamed responses mid-stream
 
 ## State of the art
 
@@ -30,7 +31,11 @@ gRPC supports these patterns for RPC:
 
 gRPC relies on the HTTP streaming protocol to delineate each message in the stream and to indicate the end of the stream.
 
+[gRPC also allows for either the client or server to cancel an RPC at any time](https://grpc.io/docs/what-is-grpc/core-concepts/#cancelling-an-rpc)
+
 ## Decision
+
+### API design, .NET
 
 Our command invoker base class will now include a new method ```InvokeCommandWithStreaming``` to go with the existing ```InvokeCommand``` method. 
 
@@ -104,11 +109,7 @@ public abstract class CommandExecutor<TReq, TResp> : IAsyncDisposable
 
 With this design, commands that use streaming are defined at codegen time. Codegen layer changes will be defined in a separate ADR, though.
 
-## Example with code gen
-
-TODO which existing client works well for long-running commands? Mem mon ("Report usage for 10 seconds at 1 second intervals")?
-
-### MQTT layer implementation
+### MQTT layer protocol
 
 #### Command invoker side
 
@@ -116,6 +117,12 @@ TODO which existing client works well for long-running commands? Mem mon ("Repor
   - Executor needs to know if it can stream the response, and this is the flag that tells it that
 - The command invoker will listen for command responses with the correlation data that matches the invoked method's correlation data until it receives a response with the "__isLastResp" flag set to "true"
 - The command invoker will acknowledge all messages it receives that match the correlation data of the command request
+- The command invoker may cancel a normal or streaming RPC call at an arbitrary time by sending an MQTT message with: 
+  - The same MQTT topic as the invoked method
+  - The same correlation data as the invoked method 
+  - The user property "__cancelRpc" set to "true".
+  - No payload
+  - TODO what would API look like? gRPC uses cancellation token
 
 #### Command executor side
 
@@ -131,11 +138,17 @@ TODO which existing client works well for long-running commands? Mem mon ("Repor
 - The command executor receives a command **without** "__streamResp" flag set to "true"
   - The command must be responded to without streaming
 
+regardless of if an RPC is streaming or not, upon receiving an MQTT message with the "__cancelRpc" flag set to "true", the command executor should notify the application layer that that RPC has been canceled if it is still running. The executor should then send an MQTT message to the appropriate response topic with error code "canceled" to notify the invoker that the RPC has stopped and no further responses will be sent.
+
 ### Protocol version update
 
 This feature is not backwards compatible (new invoker can't initiate what it believes is a streaming RPC call on an old executor), so it requires a bump in our RPC protocol version from "1.0" to "2.0".
 
 TODO: Start defining a doc in our repo that defines what features are present in what protocol version.
+
+## Example with code gen
+
+TODO which existing client works well for long-running commands? Mem mon ("Report usage for 10 seconds at 1 second intervals")?
 
 ## Alternative designs considered
 
