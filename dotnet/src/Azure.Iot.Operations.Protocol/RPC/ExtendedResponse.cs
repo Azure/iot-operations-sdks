@@ -14,20 +14,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public const string ApplicationErrorCodeUserDataKey = "AppErrCode";
         public const string ApplicationErrorPayloadUserDataKey = "AppErrPayload";
 
-        public TResp Response { get; set; }
+        public TResp? Response { get; set; }
 
         public CommandResponseMetadata? ResponseMetadata { get; set; }
-
-        public ExtendedResponse(TResp response)
-        {
-            Response = response;
-        }
-
-        public ExtendedResponse(TResp response, CommandResponseMetadata? responseMetadata)
-        {
-            Response = response;
-            ResponseMetadata = responseMetadata;
-        }
 
         public ExtendedResponse<TResp> WithApplicationError(string errorCode)
         {

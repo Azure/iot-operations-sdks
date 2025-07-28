@@ -203,7 +203,7 @@ namespace TestEnvoys.Memmon
             private async Task<ExtendedResponse<EmptyAvro>> StopTelemetryInt(ExtendedRequest<EmptyAvro> req, CancellationToken cancellationToken)
             {
                 CommandResponseMetadata? responseMetadata = await this.StopTelemetryAsync(req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<EmptyAvro> { responseMetadata};
+                return new ExtendedResponse<EmptyAvro>(new EmptyAvro()) { ResponseMetadata = responseMetadata};
             }
 
             private async Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsInt(ExtendedRequest<GetRuntimeStatsRequestPayload> req, CancellationToken cancellationToken)
