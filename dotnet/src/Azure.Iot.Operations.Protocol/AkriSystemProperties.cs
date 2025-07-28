@@ -87,7 +87,7 @@ namespace Azure.Iot.Operations.Protocol
         /// <summary>
         /// Inidicates that an RPC request should be cancelled if it is still executing
         /// </summary>
-        internal const string CancelCommand = ReservedPrefix + "cancelRpc";
+        internal const string CancelCommand = ReservedPrefix + "stopRpc";
 
         internal static bool IsReservedUserProperty(string name)
         { 

@@ -5,17 +5,18 @@
 Users have expressed a desire to allow more than one response per RPC invocation. This would enable scenarios like:
 
 - Execute long-running commands while still being responsive
-- 
+- Allow users to report status over time for a long-running command
 
 ## Requirements
+
  - Allow for an arbitrary number of command responses for a single command invocation
    - The total number of responses does not need to be known before the first response is sent 
- - When exposed to the user, each response includes an index of where it was in the stream
+ - When exposed to the user, each response includes an index of where it was in the stream and an optional response Id
  - Allow for multiple separate commands to be streamed simultaneously
-   - Even the same command can be executed in parallel to itself?
  - Allow for invoker to cancel streamed responses mid-stream
 
 ## Non-requirements
+
  - Different payload shapes per command response 
  - "Client Streaming" RPC (multiples requests -> One command response)
  - Bi-directional streaming RPC (multiples requests -> multiple responses)
@@ -29,13 +30,13 @@ gRPC supports these patterns for RPC:
 - [Client streaming RPC](https://grpc.io/docs/what-is-grpc/core-concepts/#server-streaming-rpc) (many request messages, one response message)
 - [Bi-directional streaming RPC](https://grpc.io/docs/what-is-grpc/core-concepts/#bidirectional-streaming-rpc) (many request messages, many response messages)
 
-gRPC relies on the HTTP streaming protocol to delineate each message in the stream and to indicate the end of the stream.
-
 [gRPC also allows for either the client or server to cancel an RPC at any time](https://grpc.io/docs/what-is-grpc/core-concepts/#cancelling-an-rpc)
 
 ## Decision
 
 ### API design, .NET
+
+#### Invoker side
 
 Our command invoker base class will now include a new method ```InvokeCommandWithStreaming``` to go with the existing ```InvokeCommand``` method. 
 
@@ -80,6 +81,8 @@ public class StreamingExtendedResponse<TResp> : ExtendedResponse<TResp>
 }
 ```
 
+#### Executor side
+
 On the executor side, we will define a separate callback that executes whenever a streaming command is invoked. Instead of returning the single response, this callback will return the asynchronously iterable list of responses. Importantly, this iterable may still be added to by the user after this callback has finished. 
 
 ```csharp
@@ -114,14 +117,13 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 #### Command invoker side
 
 - The command invoker's request message will include an MQTT user property with name "__streamResp" and value "true".
-  - Executor needs to know if it can stream the response, and this is the flag that tells it that
+  - Executor needs to know if it can stream the response, and this is the flag that affirms it
 - The command invoker will listen for command responses with the correlation data that matches the invoked method's correlation data until it receives a response with the "__isLastResp" flag set to "true"
 - The command invoker will acknowledge all messages it receives that match the correlation data of the command request
 
 #### Command executor side
 
 - The command executor receives a command with "__streamResp" flag set to "true"
-  - The command is given to the application layer in a way that allows the application to return at least one response
   - All command responses will use the same MQTT message correlation data as the request provided so that the invoker can map responses to the appropriate command invocation.
   - Each streamed response must contain an MQTT user property with name "__streamIndex" and value equal to the index of this response relative to the other responses (0 for the first response, 1 for the second response, etc.)
   - Each streamed response may contain an MQTT user property with name "__streamRespId" and value equal to that response's streaming response Id. This is an optional and user-provided value.
@@ -141,14 +143,13 @@ To avoid scenarios where long-running streaming responses are no longer wanted, 
 - The command invoker may cancel a normal or streaming RPC call at an arbitrary time by sending an MQTT message with: 
   - The same MQTT topic as the invoked method
   - The same correlation data as the invoked method 
-  - The user property "__cancelRpc" set to "true".
+  - The user property "__stopRpc" set to "true".
   - No payload
-  - TODO what would API look like? gRPC uses cancellation token
-- The command invoker should still listen on the response topic for a response from the executor which may still contain a successful response (if cancellation was received after the command completed successfully)
+- The command invoker should still listen on the response topic for a response from the executor which may still contain a successful response (if cancellation was received after the command completed successfully) or a response signalling that cancellation succeeded
 
 #### Executor side
 
-Regardless of if an RPC is streaming or not, upon receiving an MQTT message with the "__cancelRpc" flag set to "true", the command executor should:
+Regardless of if an RPC is streaming or not, upon receiving an MQTT message with the "__stopRpc" flag set to "true", the command executor should:
  - Notify the application layer that that RPC has been canceled if it is still running
  - Send an MQTT message to the appropriate response topic with error code "canceled" to notify the invoker that the RPC has stopped and no further responses will be sent.
 
@@ -157,12 +158,6 @@ If the executor receives a cancellation request for a command that has already c
 ### Protocol version update
 
 This RPC streaming feature is not backwards compatible (new invoker can't initiate what it believes is a streaming RPC call on an old executor), so it requires a bump in our RPC protocol version from "1.0" to "2.0".
-
-TODO: Start defining a doc in our repo that defines what features are present in what protocol version.
-
-## Example with code gen
-
-TODO which existing client works well for long-running commands? Mem mon ("Report usage for 10 seconds at 1 second intervals")?
 
 ## Alternative designs considered
 
@@ -177,14 +172,13 @@ TODO which existing client works well for long-running commands? Mem mon ("Repor
  - RPC executor dies before sending the final stream response. 
    - Command invoker throws time out exception waiting on the next response
  - RPC executor receives command request with "__streamResp", but that executor doesn't understand streaming requests because it uses an older protocol version
-   - Command executor responds with "not supported protocol" error code
+   - Command executor responds with "not supported protocol" error code since the request carried protocol version 2.0
  - RPC executor receives command request with "__streamResp", and the executor understands that it is a streaming request (protocol versions align) but that particular command doesn't support streaming
    - RPC executor treats it like a non-streaming command, but adds the "__isLastResp" flag to the one and only response
  - RPC invoker tries to invoke a non-streaming command that the executor requires streaming on
    - Atypical case since codegen will prevent this
    - But, for the sake of non-codegen users, executor returns "invalid header" error pointing to the "__streamResp" header
      - Invoker understands that, if the "invalid header" value is "__streamResp", it attempted a invoke a streaming method
- - timeout per response vs overall? Both?
  
  ## Open Questions
 
