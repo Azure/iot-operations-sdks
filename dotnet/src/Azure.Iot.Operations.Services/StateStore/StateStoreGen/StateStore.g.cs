@@ -89,7 +89,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
             private async Task<ExtendedResponse<byte[]>> InvokeInt(ExtendedRequest<byte[]> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<byte[]> extended = await this.InvokeAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<byte[]>(Response = extended.Response, ResponseMetadata = extended.ResponseMetadata );
+                return new ExtendedResponse<byte[]>(Response = extended.Response, extended.ResponseMetadata );
             }
 
             public async ValueTask DisposeAsync()

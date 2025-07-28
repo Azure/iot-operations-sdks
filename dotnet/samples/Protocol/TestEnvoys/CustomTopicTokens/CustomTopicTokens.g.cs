@@ -119,7 +119,7 @@ namespace TestEnvoys.CustomTopicTokens
             private async Task<ExtendedResponse<ReadCustomTopicTokenResponsePayload>> ReadCustomTopicTokenInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<ReadCustomTopicTokenResponsePayload> extended = await this.ReadCustomTopicTokenAsync(req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<ReadCustomTopicTokenResponsePayload>(Response = extended.Response, ResponseMetadata = extended.ResponseMetadata );
+                return new ExtendedResponse<ReadCustomTopicTokenResponsePayload>(Response = extended.Response, extended.ResponseMetadata );
             }
 
             public async ValueTask DisposeAsync()
