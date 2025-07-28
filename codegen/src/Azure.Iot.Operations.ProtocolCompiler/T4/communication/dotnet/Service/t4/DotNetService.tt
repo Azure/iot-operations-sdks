@@ -421,7 +421,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <#+
     private string IntLValue(CommandEnvoyInfo cmdEnvoyInfo) => (cmdEnvoyInfo.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}> extended = " : $"CommandResponseMetadata? responseMetadata = ");
 
-    private string IntRValue(CommandEnvoyInfo cmdEnvoyInfo) => (cmdEnvoyInfo.ResponseSchema != null ? "Response = extended.Response, ResponseMetadata = extended.ResponseMetadata " : "ResponseMetadata = responseMetadata ");
+    private string IntRValue(CommandEnvoyInfo cmdEnvoyInfo) => (cmdEnvoyInfo.ResponseSchema != null ? "Response = extended.Response, extended.ResponseMetadata " : "responseMetadata ");
 
     private string ExtRespType(CommandEnvoyInfo cmdEnvoyInfo) => this.CondWrap(cmdEnvoyInfo.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}>" : "CommandResponseMetadata?");
 
