@@ -16,7 +16,7 @@ use crate::schema_registry::schemaregistry_gen::common_types::options::CommandIn
 use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
     GetCommandInvoker, GetRequestSchema, PutCommandInvoker, PutRequestSchema,
 };
-use crate::schema_registry::{Error, ErrorKind, GetRequest, PutRequest, Schema, ServiceError};
+use crate::schema_registry::{Error, ErrorKind, GetSchemaRequest, PutSchemaRequest, Schema, ServiceError};
 
 /// Schema registry client implementation.
 #[derive(Clone)]
@@ -75,7 +75,7 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn get(&self, get_request: GetRequest, timeout: Duration) -> Result<Schema, Error> {
+    pub async fn get(&self, get_request: GetSchemaRequest, timeout: Duration) -> Result<Schema, Error> {
         let payload = GetRequestSchema {
             name: get_request.name,
             version: get_request.version,
@@ -115,7 +115,7 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn put(&self, put_request: PutRequest, timeout: Duration) -> Result<Schema, Error> {
+    pub async fn put(&self, put_request: PutSchemaRequest, timeout: Duration) -> Result<Schema, Error> {
         let payload = PutRequestSchema {
             description: put_request.description,
             display_name: put_request.display_name,
@@ -178,8 +178,8 @@ mod tests {
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
     use crate::schema_registry::{
-        Client, DEFAULT_SCHEMA_VERSION, Error, ErrorKind, Format, GetRequestBuilder,
-        GetRequestBuilderError, PutRequestBuilder, SchemaType,
+        Client, DEFAULT_SCHEMA_VERSION, Error, ErrorKind, Format, GetSchemaRequestBuilder,
+        GetSchemaRequestBuilderError, PutSchemaRequestBuilder, SchemaType,
     };
 
     // TODO: This should return a mock ManagedClient instead.
@@ -214,7 +214,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_get_request_valid() {
-        let get_request = GetRequestBuilder::default()
+        let get_request = GetSchemaRequestBuilder::default()
             .name(TEST_SCHEMA_NAME.to_string())
             .build()
             .unwrap();
@@ -225,24 +225,24 @@ mod tests {
 
     #[tokio::test]
     async fn test_get_request_invalid_name() {
-        let get_request = GetRequestBuilder::default().build();
+        let get_request = GetSchemaRequestBuilder::default().build();
 
         assert!(matches!(
             get_request.unwrap_err(),
-            GetRequestBuilderError::UninitializedField(_)
+            GetSchemaRequestBuilderError::UninitializedField(_)
         ));
 
-        let get_request = GetRequestBuilder::default().name(String::new()).build();
+        let get_request = GetSchemaRequestBuilder::default().name(String::new()).build();
 
         assert!(matches!(
             get_request.unwrap_err(),
-            GetRequestBuilderError::ValidationError(_)
+            GetSchemaRequestBuilderError::ValidationError(_)
         ));
     }
 
     #[tokio::test]
     async fn test_put_request_valid() {
-        let put_request = PutRequestBuilder::default()
+        let put_request = PutSchemaRequestBuilder::default()
             .schema_content(TEST_SCHEMA_CONTENT.to_string())
             .format(Format::JsonSchemaDraft07)
             .build()
@@ -265,7 +265,7 @@ mod tests {
 
         let get_result = client
             .get(
-                GetRequestBuilder::default()
+                GetSchemaRequestBuilder::default()
                     .name(TEST_SCHEMA_NAME.to_string())
                     .build()
                     .unwrap(),
@@ -280,7 +280,7 @@ mod tests {
 
         let get_result = client
             .get(
-                GetRequestBuilder::default()
+                GetSchemaRequestBuilder::default()
                     .name(TEST_SCHEMA_NAME.to_string())
                     .build()
                     .unwrap(),
@@ -304,7 +304,7 @@ mod tests {
 
         let put_result = client
             .put(
-                PutRequestBuilder::default()
+                PutSchemaRequestBuilder::default()
                     .schema_content(TEST_SCHEMA_CONTENT.to_string())
                     .format(Format::JsonSchemaDraft07)
                     .build()
@@ -320,7 +320,7 @@ mod tests {
 
         let put_result = client
             .put(
-                PutRequestBuilder::default()
+                PutSchemaRequestBuilder::default()
                     .schema_content(TEST_SCHEMA_CONTENT.to_string())
                     .format(Format::JsonSchemaDraft07)
                     .build()

@@ -9,7 +9,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::schema_registry::{
-    self, Format, GetRequestBuilder, PutRequestBuilder, SchemaType,
+    self, Format, GetSchemaRequestBuilder, PutSchemaRequestBuilder, SchemaType,
 };
 use env_logger::Builder;
 use tokio::sync::oneshot;
@@ -95,7 +95,7 @@ async fn schema_registry_put(
 ) {
     match client
         .put(
-            PutRequestBuilder::default()
+            PutSchemaRequestBuilder::default()
                 .schema_content(JSON_SCHEMA.to_string())
                 .format(Format::JsonSchemaDraft07)
                 .schema_type(SchemaType::MessageSchema)
@@ -125,7 +125,7 @@ async fn schema_registry_get(
         Ok(schema_id) => {
             match client
                 .get(
-                    GetRequestBuilder::default()
+                    GetSchemaRequestBuilder::default()
                         .name(schema_id)
                         .build()
                         .unwrap(),

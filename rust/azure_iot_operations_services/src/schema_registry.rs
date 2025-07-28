@@ -243,7 +243,7 @@ pub struct Schema {
 /// Request to put a schema in the schema registry.
 #[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into))]
-pub struct PutRequest {
+pub struct PutSchemaRequest {
     /// Human-readable description of the schema.\
     #[builder(default)]
     pub description: Option<String>,
@@ -268,7 +268,7 @@ pub struct PutRequest {
 /// Request to get a schema from the schema registry.
 #[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
-pub struct GetRequest {
+pub struct GetSchemaRequest {
     /// Schema name.
     name: String,
     /// Version of the schema. Allowed between 0-9.
@@ -276,7 +276,7 @@ pub struct GetRequest {
     version: String,
 }
 
-impl GetRequestBuilder {
+impl GetSchemaRequestBuilder {
     /// Validate the [`GetRequest`].
     ///
     /// # Errors
@@ -360,8 +360,8 @@ impl From<sr_client_gen::Schema> for Schema {
     }
 }
 
-impl From<PutRequest> for sr_client_gen::PutRequestSchema {
-    fn from(request: PutRequest) -> Self {
+impl From<PutSchemaRequest> for sr_client_gen::PutRequestSchema {
+    fn from(request: PutSchemaRequest) -> Self {
         sr_client_gen::PutRequestSchema {
             description: request.description,
             display_name: request.display_name,
@@ -374,8 +374,8 @@ impl From<PutRequest> for sr_client_gen::PutRequestSchema {
     }
 }
 
-impl From<GetRequest> for sr_client_gen::GetRequestSchema {
-    fn from(request: GetRequest) -> Self {
+impl From<GetSchemaRequest> for sr_client_gen::GetRequestSchema {
+    fn from(request: GetSchemaRequest) -> Self {
         sr_client_gen::GetRequestSchema {
             name: request.name,
             version: request.version,
