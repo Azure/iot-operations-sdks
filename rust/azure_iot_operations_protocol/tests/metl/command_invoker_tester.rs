@@ -245,7 +245,7 @@ where
                     if let Some(request_value) = default_invoke_command.request_value.clone() {
                         command_request_builder
                             .payload(TestPayload {
-                                payload: Some(request_value.clone()),
+                                payload: Some(request_value),
                                 out_content_type: tci.serializer.out_content_type.clone(),
                                 accept_content_types: tci.serializer.accept_content_types.clone(),
                                 indicate_character_data: tci.serializer.indicate_character_data,
@@ -580,7 +580,7 @@ where
                 .await
                 .expect("test timeout in await_publish");
             if let Some(correlation_index) = correlation_index {
-                correlation_ids.insert(*correlation_index, correlation_id.clone());
+                correlation_ids.insert(*correlation_index, correlation_id);
             }
         } else {
             panic!("internal logic error");

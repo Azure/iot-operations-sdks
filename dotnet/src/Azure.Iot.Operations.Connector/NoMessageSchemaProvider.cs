@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Azure.Iot.Operations.Services.Assets;
+﻿using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -12,17 +7,17 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     public class NoMessageSchemaProvider : IMessageSchemaProvider
     {
-        public static Func<IServiceProvider, IMessageSchemaProvider> NoMessageSchemaProviderFactory = service =>
+        public static Func<IServiceProvider, IMessageSchemaProvider> Factory = service =>
         {
             return new NoMessageSchemaProvider();
         };
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string datasetName, Dataset dataset, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string datasetName, AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             return Task.FromResult((ConnectorMessageSchema?)null);
         }
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string eventName, Event assetEvent, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string eventName, AssetEvent assetEvent, CancellationToken cancellationToken = default)
         {
             return Task.FromResult((ConnectorMessageSchema?)null);
         }

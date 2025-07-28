@@ -6,7 +6,8 @@
 // NOTE: submodules should be behind the feature flags of the clients that use them to ensure they
 // are only compiled when necessary.
 
-#[cfg(feature = "state_store")]
+#[cfg(any(feature = "state_store", feature = "azure_device_registry"))]
+#[allow(dead_code)]
 pub mod dispatcher {
     //! Provides a convenience for dispatching to a receiver based on an ID.
 
@@ -56,14 +57,14 @@ pub mod dispatcher {
     #[derive(Default)]
     pub struct Dispatcher<T, H>
     where
-        H: Eq + Hash + Debug,
+        H: Eq + Hash + Debug + Clone,
     {
         tx_map: Mutex<HashMap<H, UnboundedSender<T>>>,
     }
 
     impl<T, H> Dispatcher<T, H>
     where
-        H: Eq + Hash + Debug,
+        H: Eq + Hash + Debug + Clone,
     {
         /// Returns a new instance of Dispatcher
         pub fn new() -> Self {
@@ -110,6 +111,12 @@ pub mod dispatcher {
                     kind: DispatchErrorKind::NotFound(format!("{receiver_id:?}")),
                 })
             }
+        }
+
+        /// Returns all currently tracked receiver ids
+        pub fn get_all_receiver_ids(&self) -> Vec<H> {
+            let tx_map = self.tx_map.lock().unwrap();
+            tx_map.keys().cloned().collect()
         }
     }
 }
