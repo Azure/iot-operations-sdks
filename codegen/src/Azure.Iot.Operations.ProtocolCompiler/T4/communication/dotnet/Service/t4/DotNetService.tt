@@ -171,7 +171,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
 
-                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>(new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> }, extended.ResponseMetadata);
+                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>(new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>(extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#>, extended.ResponseMetadata);
                 }
                 catch (<#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> intEx)
                 {
@@ -188,7 +188,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 }
 <# } else { #>
                 <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
-                return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>> { <#=this.IntRValue(cmdEnvoyInfo)#>};
+                return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>(<#=this.IntRValue(cmdEnvoyInfo)#>);
 <# } #>
             }
 <# } #>
@@ -425,7 +425,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
     private string ExtRespType(CommandEnvoyInfo cmdEnvoyInfo) => this.CondWrap(cmdEnvoyInfo.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}>" : "CommandResponseMetadata?");
 
-    private string EmptyResp(CommandEnvoyInfo cmdEnvoyInfo) => this.CondFrom(cmdEnvoyInfo.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}> {{ Response = new {this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
+    private string EmptyResp(CommandEnvoyInfo cmdEnvoyInfo) => this.CondFrom(cmdEnvoyInfo.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}>({this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}()" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
 
     private string CondWrap(string type) => $"Task<{type}>";
 
