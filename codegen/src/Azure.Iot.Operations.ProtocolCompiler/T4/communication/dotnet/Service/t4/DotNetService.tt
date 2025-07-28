@@ -188,7 +188,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 }
 <# } else { #>
                 <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
-                return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>(<#=this.IntRValue(cmdEnvoyInfo)#>);
+                return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>> { <#=this.IntRValue(cmdEnvoyInfo)#>};
 <# } #>
             }
 <# } #>
