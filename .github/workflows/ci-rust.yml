@@ -93,6 +93,8 @@ jobs:
       working-directory: tools/azure_iot_operations_stub_services
       run:
         source ../../rust/ci/build-deps.sh
+        cargo check 
+        cargo check --no-default-features
         cargo clippy --all-features
         cargo fmt --verbose --all
 
