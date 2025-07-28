@@ -367,7 +367,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             {
                 ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>> extended = await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response.<#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#> != null)
+                if (extended.Response != null && extended.Response.<#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#> != null)
                 {
                     <#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> <#=cmdEnvoyInfo.ErrorResultSchema.GetVariableName(TargetLanguage.CSharp, "exception")#> = new <#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#>(extended.Response.<#=cmdEnvoyInfo.ErrorResultName.GetFieldName(TargetLanguage.CSharp)#>);
 <# if (cmdEnvoyInfo.ErrorCodeName != null) { #>
@@ -381,7 +381,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                     throw <#=cmdEnvoyInfo.ErrorResultSchema.GetVariableName(TargetLanguage.CSharp, "exception")#>;
                 }
 <# if (!cmdEnvoyInfo.ResponseNullable) { #>
-                else if (extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> == null)
+                else if (extended.Response != null && extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -395,7 +395,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#>>
                     {
-                        Response = new <#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response?.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#><#=cmdEnvoyInfo.ResponseNullable ? "" : ".Value()"#> },
+                        Response = new <#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response?.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
