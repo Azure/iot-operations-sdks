@@ -16,7 +16,9 @@ use crate::schema_registry::schemaregistry_gen::common_types::options::CommandIn
 use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
     GetCommandInvoker, GetRequestSchema, PutCommandInvoker, PutRequestSchema,
 };
-use crate::schema_registry::{Error, ErrorKind, GetSchemaRequest, PutSchemaRequest, Schema, ServiceError};
+use crate::schema_registry::{
+    Error, ErrorKind, GetSchemaRequest, PutSchemaRequest, Schema, ServiceError,
+};
 
 /// Schema registry client implementation.
 #[derive(Clone)]
@@ -75,7 +77,11 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn get(&self, get_request: GetSchemaRequest, timeout: Duration) -> Result<Schema, Error> {
+    pub async fn get(
+        &self,
+        get_request: GetSchemaRequest,
+        timeout: Duration,
+    ) -> Result<Schema, Error> {
         let payload = GetRequestSchema {
             name: get_request.name,
             version: get_request.version,
@@ -115,7 +121,11 @@ where
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError)
     /// if there are any underlying errors from the AIO RPC protocol.
-    pub async fn put(&self, put_request: PutSchemaRequest, timeout: Duration) -> Result<Schema, Error> {
+    pub async fn put(
+        &self,
+        put_request: PutSchemaRequest,
+        timeout: Duration,
+    ) -> Result<Schema, Error> {
         let payload = PutRequestSchema {
             description: put_request.description,
             display_name: put_request.display_name,
@@ -232,7 +242,9 @@ mod tests {
             GetSchemaRequestBuilderError::UninitializedField(_)
         ));
 
-        let get_request = GetSchemaRequestBuilder::default().name(String::new()).build();
+        let get_request = GetSchemaRequestBuilder::default()
+            .name(String::new())
+            .build();
 
         assert!(matches!(
             get_request.unwrap_err(),
