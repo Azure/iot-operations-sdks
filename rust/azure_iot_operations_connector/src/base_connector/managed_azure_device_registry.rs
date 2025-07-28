@@ -908,7 +908,7 @@ impl AssetClient {
                 // error is not possible since the receiving side of the channel is owned by the AssetClient
                 let _ = asset_client
                     .data_operation_creation_tx
-                    .send(Box::new(new_data_operation_client));
+                    .send(new_data_operation_client);
             }
             // Note, updates.data_operation_updates is not used because there will be no updates on new
         }
@@ -1095,7 +1095,7 @@ impl AssetClient {
                         self.release_data_operation_notifications_tx.subscribe(),
                     ));
                 match DataOperationClient::new(
-                    received_data_operation.clone(),
+                    received_data_operation.clone().from_self(),
                     data_operation_kind,
                     data_operation_update_watcher_rx,
                     &default_data_operation_destinations,
@@ -1119,7 +1119,7 @@ impl AssetClient {
                         // save new data operation client to be sent on self.data_operation_creation_tx after the task can't get cancelled
                         updates
                             .new_data_operation_clients
-                            .push(Box::new(new_data_operation_client as DataOperationClient<dyn DataOperation>));
+                            .push(Box::new(new_data_operation_client));
                     }
                     Err(e) => {
                         // Add the error to the status to be reported to ADR, and then continue to process
@@ -1511,7 +1511,7 @@ pub enum DataOperationNotification {
 /// to report status, report message schema, receive updates,
 /// and send data to the destination
 #[derive(Debug, Getters)]
-pub struct DataOperationClient<T: DataOperation + Send> {
+pub struct DataOperationClient<T: DataOperation + Send + ?Sized> {
     /// Data operation kind and data operation, asset, device, and inbound endpoint names
     data_operation_ref: DataOperationRef,
     // Data operation Definition
@@ -1543,7 +1543,7 @@ pub struct DataOperationClient<T: DataOperation + Send> {
     data_operation_update_watcher_rx: watch::Receiver<DataOperationUpdateNotification>,
 }
 
-impl<T: DataOperation + Send> DataOperationClient<T> {
+impl<T: DataOperation> DataOperationClient<T> {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         definition: T,
@@ -2488,10 +2488,11 @@ impl DataOperationDefinition {
 /// Unlike directly implementing methods on the `DataOperationDefinition` enum,
 /// this trait allows individual data operation types (e.g., `Dataset`, `Event`, `Stream`)
 /// to define their own behavior while still conforming to a common interface.
-trait DataOperation {
+trait DataOperation: Send {
     // trait DataOperation: Clone + PartialEq {
     fn name(&self) -> &str;
     fn into_data_operation_definition(self) -> DataOperationDefinition;
+    fn from_self(self) -> impl DataOperation;
 }
 impl DataOperation for adr_models::Dataset {
     fn name(&self) -> &str {
@@ -2499,6 +2500,9 @@ impl DataOperation for adr_models::Dataset {
     }
     fn into_data_operation_definition(self) -> DataOperationDefinition {
         DataOperationDefinition::Dataset(self)
+    }
+    fn from_self(self) -> impl DataOperation {
+        self
     }
 }
 impl DataOperation for adr_models::Event {
@@ -2508,6 +2512,9 @@ impl DataOperation for adr_models::Event {
     fn into_data_operation_definition(self) -> DataOperationDefinition {
         DataOperationDefinition::Event(self)
     }
+    fn from_self(self) -> impl DataOperation {
+        self
+    }
 }
 impl DataOperation for adr_models::Stream {
     fn name(&self) -> &str {
@@ -2515,6 +2522,9 @@ impl DataOperation for adr_models::Stream {
     }
     fn into_data_operation_definition(self) -> DataOperationDefinition {
         DataOperationDefinition::Stream(self)
+    }
+    fn from_self(self) -> impl DataOperation {
+        self
     }
 }
 
