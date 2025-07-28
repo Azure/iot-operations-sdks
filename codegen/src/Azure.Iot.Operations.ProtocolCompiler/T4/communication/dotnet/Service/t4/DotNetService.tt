@@ -173,7 +173,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
                     return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>
                     {
-                        Response = new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> },
+                        Response = new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response?.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -395,7 +395,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#>>
                     {
-                        Response = new <#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#><#=cmdEnvoyInfo.ResponseNullable ? "" : ".Value()"#> },
+                        Response = new <#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response?.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#><#=cmdEnvoyInfo.ResponseNullable ? "" : ".Value()"#> },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
