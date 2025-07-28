@@ -2,6 +2,7 @@
 
 mod akri_service_error;
 mod akri_service_error_error;
+mod akri_service_error_serialization;
 mod asset;
 mod asset_config_status_schema;
 mod asset_dataset_data_point_schema_element_schema;
