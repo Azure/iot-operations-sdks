@@ -96,7 +96,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 }
                 catch (AkriServiceErrorException intEx)
                 {
-                    ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extendedResponse = ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>.CreateFromResponse(new CreateOrUpdateDiscoveredDeviceResponseSchema { CreateOrUpdateDiscoveredDeviceError = intEx.AkriServiceError });
+                    ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extendedResponse = new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>(new CreateOrUpdateDiscoveredDeviceResponseSchema { CreateOrUpdateDiscoveredDeviceError = intEx.AkriServiceError });
                     return extendedResponse;
                 }
             }
