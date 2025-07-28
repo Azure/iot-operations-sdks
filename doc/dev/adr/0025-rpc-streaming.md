@@ -136,11 +136,11 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 
 ### Cancellation support
 
-To avoid scenarios where long-running streaming responses are no longer wanted, we will want to support cancelling RPC calls. This feature is moreso applicable for RPC streaming, but the design allows for it to work for non-streaming RPC as well.
+To avoid scenarios where long-running streaming responses are no longer wanted, we will want to support cancelling streaming RPC calls.
 
 #### Invoker side
 
-- The command invoker may cancel a normal or streaming RPC call at an arbitrary time by sending an MQTT message with: 
+- The command invoker may cancel a streaming RPC call at an arbitrary time by sending an MQTT message with: 
   - The same MQTT topic as the invoked method
   - The same correlation data as the invoked method 
   - The user property "__stopRpc" set to "true".
@@ -149,11 +149,11 @@ To avoid scenarios where long-running streaming responses are no longer wanted, 
 
 #### Executor side
 
-Regardless of if an RPC is streaming or not, upon receiving an MQTT message with the "__stopRpc" flag set to "true", the command executor should:
+Upon receiving an MQTT message with the "__stopRpc" flag set to "true" that correlates to an actively executing streaming command, the command executor should:
  - Notify the application layer that that RPC has been canceled if it is still running
  - Send an MQTT message to the appropriate response topic with error code "canceled" to notify the invoker that the RPC has stopped and no further responses will be sent.
 
-If the executor receives a cancellation request for a command that has already completed, then the cancellation request should be ignored.
+If the executor receives a cancellation request for a streaming command that has already completed, then the cancellation request should be ignored.
 
 ### Protocol version update
 
