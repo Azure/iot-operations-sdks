@@ -231,7 +231,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<GetDeviceResponsePayload> extended = await this.GetDeviceAsync(req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<GetDeviceResponseSchema>(new GetDeviceResponseSchema(extended.Response.Device, extended.ResponseMetadata);
+                    return new ExtendedResponse<GetDeviceResponseSchema>(new GetDeviceResponseSchema(extended.Response.Device, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {
@@ -246,7 +246,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<GetDeviceStatusResponsePayload> extended = await this.GetDeviceStatusAsync(req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<GetDeviceStatusResponseSchema>(new GetDeviceStatusResponseSchema(extended.Response.DeviceStatus, extended.ResponseMetadata);
+                    return new ExtendedResponse<GetDeviceStatusResponseSchema>(new GetDeviceStatusResponseSchema(extended.Response.DeviceStatus, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {
@@ -261,7 +261,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<GetAssetResponsePayload> extended = await this.GetAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<GetAssetResponseSchema>(new GetAssetResponseSchema(extended.Response.Asset, extended.ResponseMetadata);
+                    return new ExtendedResponse<GetAssetResponseSchema>(new GetAssetResponseSchema(extended.Response.Asset, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {
@@ -276,7 +276,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<GetAssetStatusResponsePayload> extended = await this.GetAssetStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<GetAssetStatusResponseSchema>(new GetAssetStatusResponseSchema(extended.Response.AssetStatus, extended.ResponseMetadata);
+                    return new ExtendedResponse<GetAssetStatusResponseSchema>(new GetAssetStatusResponseSchema(extended.Response.AssetStatus, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {
@@ -291,7 +291,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<UpdateDeviceStatusResponsePayload> extended = await this.UpdateDeviceStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<UpdateDeviceStatusResponseSchema>(new UpdateDeviceStatusResponseSchema(extended.Response.UpdatedDeviceStatus, extended.ResponseMetadata);
+                    return new ExtendedResponse<UpdateDeviceStatusResponseSchema>(new UpdateDeviceStatusResponseSchema(extended.Response.UpdatedDeviceStatus, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {
@@ -306,7 +306,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<UpdateAssetStatusResponsePayload> extended = await this.UpdateAssetStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<UpdateAssetStatusResponseSchema>(new UpdateAssetStatusResponseSchema(extended.Response.UpdatedAssetStatus, extended.ResponseMetadata);
+                    return new ExtendedResponse<UpdateAssetStatusResponseSchema>(new UpdateAssetStatusResponseSchema(extended.Response.UpdatedAssetStatus, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {
@@ -321,7 +321,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload> extended = await this.SetNotificationPreferenceForDeviceUpdatesAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema>(new SetNotificationPreferenceForDeviceUpdatesResponseSchema(extended.Response.ResponsePayload, extended.ResponseMetadata);
+                    return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema>(new SetNotificationPreferenceForDeviceUpdatesResponseSchema(extended.Response.ResponsePayload, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {
@@ -336,7 +336,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload> extended = await this.SetNotificationPreferenceForAssetUpdatesAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema>(new SetNotificationPreferenceForAssetUpdatesResponseSchema(extended.Response.ResponsePayload, extended.ResponseMetadata);
+                    return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema>(new SetNotificationPreferenceForAssetUpdatesResponseSchema(extended.Response.ResponsePayload, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {
@@ -351,7 +351,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     ExtendedResponse<CreateOrUpdateDiscoveredAssetResponsePayload> extended = await this.CreateOrUpdateDiscoveredAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>(new CreateOrUpdateDiscoveredAssetResponseSchema(extended.Response.DiscoveredAssetResponse, extended.ResponseMetadata);
+                    return new ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>(new CreateOrUpdateDiscoveredAssetResponseSchema(extended.Response.DiscoveredAssetResponse, extended.ResponseMetadata));
                 }
                 catch (AkriServiceErrorException intEx)
                 {

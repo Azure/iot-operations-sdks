@@ -109,19 +109,19 @@ namespace TestEnvoys.Math
             private async Task<ExtendedResponse<IsPrimeResponsePayload>> IsPrimeInt(ExtendedRequest<IsPrimeRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<IsPrimeResponsePayload> extended = await this.IsPrimeAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<IsPrimeResponsePayload>(extended.Response, extended.ResponseMetadata );
+                return new ExtendedResponse<IsPrimeResponsePayload>(extended.Response, extended.ResponseMetadata);
             }
 
             private async Task<ExtendedResponse<FibResponsePayload>> FibInt(ExtendedRequest<FibRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<FibResponsePayload> extended = await this.FibAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<FibResponsePayload>(extended.Response, extended.ResponseMetadata );
+                return new ExtendedResponse<FibResponsePayload>(extended.Response, extended.ResponseMetadata);
             }
 
             private async Task<ExtendedResponse<GetRandomResponsePayload>> GetRandomInt(ExtendedRequest<Google.Protobuf.WellKnownTypes.Empty> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetRandomResponsePayload> extended = await this.GetRandomAsync(req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<GetRandomResponsePayload>(extended.Response, extended.ResponseMetadata );
+                return new ExtendedResponse<GetRandomResponsePayload>(extended.Response, extended.ResponseMetadata);
             }
 
             public async ValueTask DisposeAsync()
