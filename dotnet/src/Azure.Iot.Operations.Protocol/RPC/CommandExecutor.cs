@@ -49,12 +49,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public TimeSpan ExecutionTimeout { get; set; }
 
-        /// <summary>
-        /// The callback to execute each time a non-streaming command request is received.
-        /// </summary>
-        /// <remarks>
-        /// This callback may be null if this command executor only supports commands that stream responses.
-        /// </remarks>
         public required Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>> OnCommandReceived { get; set; }
 
         public string? ExecutorId { get; init; }

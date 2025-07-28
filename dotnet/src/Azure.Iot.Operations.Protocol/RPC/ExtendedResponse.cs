@@ -18,11 +18,16 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public CommandResponseMetadata? ResponseMetadata { get; set; }
 
-        public ExtendedResponse(TResp response, CommandResponseMetadata? responseMetadata)
+#pragma warning disable CA1000 // Do not declare static members on generic types
+        public static ExtendedResponse<TResp> CreateFromResponse(TResp response)
         {
-            Response = response;
-            ResponseMetadata = responseMetadata;
+            return new()
+            {
+                Response = response,
+                ResponseMetadata = null,
+            };
         }
+#pragma warning restore CA1000 // Do not declare static members on generic types
 
         public ExtendedResponse<TResp> WithApplicationError(string errorCode)
         {
@@ -32,7 +37,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         }
 
         public ExtendedResponse<TResp> WithApplicationError(string errorCode, string? errorPayload)
-        {           
+        {
             ResponseMetadata ??= new();
             SetApplicationError(errorCode, errorPayload);
             return this;
