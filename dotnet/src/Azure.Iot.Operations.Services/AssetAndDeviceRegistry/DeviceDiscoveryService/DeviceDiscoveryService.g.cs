@@ -92,7 +92,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 {
                     ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload> extended = await this.CreateOrUpdateDiscoveredDeviceAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>(new CreateOrUpdateDiscoveredDeviceResponseSchema(extended.Response.DiscoveredDeviceResponse, extended.ResponseMetadata));
+                    return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>(new CreateOrUpdateDiscoveredDeviceResponseSchema { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse }, extended.ResponseMetadata);
                 }
                 catch (AkriServiceErrorException intEx)
                 {
