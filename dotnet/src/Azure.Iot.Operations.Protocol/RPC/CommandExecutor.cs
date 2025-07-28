@@ -244,6 +244,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                     try
                     {
+                        if (OnCommandReceived == null)
+                        {
+                            //TODO exceptions for not setting the appropriate callbacks
+                            return;
+                        }
                         ExtendedResponse<TResp> extended = await Task.Run(() => OnCommandReceived(extendedRequest, commandCts.Token)).WaitAsync(ExecutionTimeout).ConfigureAwait(false);
 
                         var serializedPayloadContext = _serializer.ToBytes(extended.Response);

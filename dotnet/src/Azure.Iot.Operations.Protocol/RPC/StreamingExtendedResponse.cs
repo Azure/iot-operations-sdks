@@ -10,6 +10,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
     public class StreamingExtendedResponse<TResp> : ExtendedResponse<TResp>
         where TResp : class
     {
+        public StreamingExtendedResponse(TResp response, CommandResponseMetadata? responseMetadata, int index) : base(response, responseMetadata)
+        {
+            StreamingResponseIndex = index;
+        }
+
         /// <summary>
         /// An optional Id for this response (relative to the other responses in this response stream)
         /// </summary>

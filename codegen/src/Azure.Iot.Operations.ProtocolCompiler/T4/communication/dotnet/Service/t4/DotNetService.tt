@@ -171,11 +171,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
 
-                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>
-                    {
-                        Response = new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
+                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>(new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> }, extended.ResponseMetadata);
                 }
                 catch (<#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> intEx)
                 {
@@ -393,11 +389,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
                 else
                 {
-                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#>>
-                    {
-                        Response = new <#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#><#=cmdEnvoyInfo.ResponseNullable ? "" : ".Value()"#> },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
+                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#>>(new <#=this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#><#=cmdEnvoyInfo.ResponseNullable ? "" : ".Value()"#> }, extended.ResponseMetadata);
                 }
             }
 <# } #>
