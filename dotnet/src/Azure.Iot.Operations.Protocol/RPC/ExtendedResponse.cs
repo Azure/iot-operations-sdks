@@ -7,7 +7,7 @@ using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
-    public class ExtendedResponse<TResp>
+    public struct ExtendedResponse<TResp>
         where TResp : class
     {
         // These two user properties are used to communicate application level errors in an RPC response message. Code is mandatory, but data is optional.
@@ -18,16 +18,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public CommandResponseMetadata? ResponseMetadata { get; set; }
 
-#pragma warning disable CA1000 // Do not declare static members on generic types
-        public static ExtendedResponse<TResp> CreateFromResponse(TResp response)
+        public ExtendedResponse(TResp response, CommandResponseMetadata? responseMetadata)
         {
-            return new()
-            {
-                Response = response,
-                ResponseMetadata = null,
-            };
+            Response = response;
+            ResponseMetadata = responseMetadata;
         }
-#pragma warning restore CA1000 // Do not declare static members on generic types
 
         public ExtendedResponse<TResp> WithApplicationError(string errorCode)
         {
