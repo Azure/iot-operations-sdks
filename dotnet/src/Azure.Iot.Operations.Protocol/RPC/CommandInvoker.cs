@@ -366,7 +366,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         Trace.TraceInformation($"No timestamp present in command response metadata.");
                     }
 
-                    ExtendedResponse<TResp> extendedResponse = new() { Response = response, ResponseMetadata = responseMetadata };
+                    ExtendedResponse<TResp> extendedResponse = new(response, responseMetadata);
 
                     if (!responsePromise.CompletionSource.TrySetResult(extendedResponse))
                     {
