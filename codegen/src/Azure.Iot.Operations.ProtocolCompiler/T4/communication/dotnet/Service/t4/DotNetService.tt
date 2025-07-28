@@ -171,7 +171,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 {
                     <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
 
-                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>(new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>(extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#>, extended.ResponseMetadata));
+                    return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>(new <#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#> { <#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=cmdEnvoyInfo.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> }, extended.ResponseMetadata);
                 }
                 catch (<#=cmdEnvoyInfo.ErrorResultSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> intEx)
                 {
