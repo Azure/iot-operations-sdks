@@ -108,7 +108,7 @@ where
     ) -> rpc_command::executor::Response<GetResponseSchema> {
         // Extract the schema name
         let schema_name = &payload.name;
-        
+
         // Extract and validate the schema version
         let schema_version: u32 = match payload.version.parse() {
             Ok(version) => {
@@ -119,7 +119,9 @@ where
                         code: ErrorCode::BadRequest,
                         details: None,
                         inner_error: None,
-                        message: format!("Schema version '{version}' is invalid. Version must be between 0-9."),
+                        message: format!(
+                            "Schema version '{version}' is invalid. Version must be between 0-9."
+                        ),
                         target: Some(ErrorTarget::VersionProperty),
                     };
                     return rpc_command::executor::ResponseBuilder::default()
@@ -139,7 +141,10 @@ where
                     code: ErrorCode::BadRequest,
                     details: None,
                     inner_error: None,
-                    message: format!("Schema version '{}' has invalid format. Version must be a number between 0-9.", payload.version),
+                    message: format!(
+                        "Schema version '{}' has invalid format. Version must be a number between 0-9.",
+                        payload.version
+                    ),
                     target: Some(ErrorTarget::VersionProperty),
                 };
                 return rpc_command::executor::ResponseBuilder::default()
@@ -163,7 +168,8 @@ where
                         code: ErrorCode::InternalError,
                         details: None,
                         inner_error: None,
-                        message: "Internal server error occurred while accessing schemas.".to_string(),
+                        message: "Internal server error occurred while accessing schemas."
+                            .to_string(),
                         target: None,
                     };
                     return rpc_command::executor::ResponseBuilder::default()
@@ -184,9 +190,7 @@ where
                     match find_res {
                         Some(schema) => {
                             // We found the schema with the correct version
-                            log::debug!(
-                                "Schema {schema_name:?} version {schema_version:?} found"
-                            );
+                            log::debug!("Schema {schema_name:?} version {schema_version:?} found");
                             Ok(schema.clone())
                         }
                         None => {
@@ -252,12 +256,18 @@ where
             Ok(schema) => {
                 // Additional validation for version range (0-9)
                 if schema.version > 9 {
-                    log::error!("Invalid schema version {}, must be between 0-9", schema.version);
+                    log::error!(
+                        "Invalid schema version {}, must be between 0-9",
+                        schema.version
+                    );
                     let service_error = ServiceError {
                         code: ErrorCode::BadRequest,
                         details: None,
                         inner_error: None,
-                        message: format!("Schema version '{}' is invalid. Version must be between 0-9.", schema.version),
+                        message: format!(
+                            "Schema version '{}' is invalid. Version must be between 0-9.",
+                            schema.version
+                        ),
                         target: Some(ErrorTarget::VersionProperty),
                     };
                     return rpc_command::executor::ResponseBuilder::default()
@@ -326,7 +336,8 @@ where
                         code: ErrorCode::InternalError,
                         details: None,
                         inner_error: None,
-                        message: "Internal server error occurred while accessing schemas.".to_string(),
+                        message: "Internal server error occurred while accessing schemas."
+                            .to_string(),
                         target: None,
                     };
                     return rpc_command::executor::ResponseBuilder::default()
@@ -350,24 +361,18 @@ where
                     match old_schema {
                         Some(old_schema) => {
                             // Version of the schema already existed and was replaced
-                            log::debug!(
-                                "Schema {schema_name} version {schema_version} updated",
-                            );
+                            log::debug!("Schema {schema_name} version {schema_version} updated",);
                             log::debug!("Previous schema: {old_schema:?}");
                         }
                         None => {
                             // This version of the schema didn't exist and was added
-                            log::debug!(
-                                "Schema {schema_name} version {schema_version} added"
-                            );
+                            log::debug!("Schema {schema_name} version {schema_version} added");
                         }
                     }
                 })
                 .or_insert(BTreeSet::from([{
                     // Case in which the schema doesn't exist
-                    log::debug!(
-                        "New Schema {schema_name} created, version {schema_version} added"
-                    );
+                    log::debug!("New Schema {schema_name} created, version {schema_version} added");
 
                     // Create a new schema set with the new schema
                     schema.clone()
@@ -391,7 +396,8 @@ where
                     code: ErrorCode::InternalError,
                     details: None,
                     inner_error: None,
-                    message: "Internal server error occurred while saving schema state.".to_string(),
+                    message: "Internal server error occurred while saving schema state."
+                        .to_string(),
                     target: None,
                 };
                 return rpc_command::executor::ResponseBuilder::default()
@@ -467,7 +473,11 @@ where
                     Ok(put_request) => {
                         log::debug!("Put request received: {:?}", put_request.payload);
 
-                        let response = Self::process_put_request(&put_request.payload, &schemas, &service_state_manager);
+                        let response = Self::process_put_request(
+                            &put_request.payload,
+                            &schemas,
+                            &service_state_manager,
+                        );
 
                         match put_request.complete(response).await {
                             Ok(_) => {

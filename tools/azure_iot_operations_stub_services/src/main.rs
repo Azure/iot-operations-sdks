@@ -49,7 +49,10 @@ fn initialize_logger(output_directory_manager: &OutputDirectoryManager) {
             Logger::builder()
                 .appender(schema_registry::SERVICE_NAME)
                 .additive(true)
-                .build("azure_iot_operations_stub_services::schema_registry", log::LevelFilter::Debug),
+                .build(
+                    "azure_iot_operations_stub_services::schema_registry",
+                    log::LevelFilter::Debug,
+                ),
         )
         .logger(Logger::builder().build("azure_iot_operations_mqtt", LevelFilter::Error))
         .logger(Logger::builder().build("azure_iot_operations_protocol", LevelFilter::Error))
