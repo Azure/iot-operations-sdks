@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             Response = response;
         }
 
-        public ExtendedResponse(TResp response, CommandResponseMetadata responseMetadata)
+        public ExtendedResponse(TResp response, CommandResponseMetadata? responseMetadata)
         {
             Response = response;
             ResponseMetadata = responseMetadata;
