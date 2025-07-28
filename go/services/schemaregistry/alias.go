@@ -22,3 +22,36 @@ type SchemaType = schemaregistry.SchemaType
 const (
 	MessageSchema = schemaregistry.SchemaTypeMessageSchema
 )
+
+// Error object for schema operations.
+type Error = schemaregistry.SchemaRegistryError
+
+// ErrorCode for classification of errors (ex: '400', '404', '500', etc.).
+type ErrorCode = schemaregistry.SchemaRegistryErrorCode
+
+const (
+	ErrorCodeBadRequest    = schemaregistry.SchemaRegistryErrorCodeBadRequest
+	ErrorCodeInternalError = schemaregistry.SchemaRegistryErrorCodeInternalError
+	ErrorCodeNotFound      = schemaregistry.SchemaRegistryErrorCodeNotFound
+)
+
+// ErrorDetails represents additional details about an error, if available.
+type ErrorDetails = schemaregistry.SchemaRegistryErrorDetails
+
+// ErrorTarget represents the target of the error, if applicable (e.g.,
+// 'schemaType').
+type ErrorTarget = schemaregistry.SchemaRegistryErrorTarget
+
+const (
+	ErrorTargetDescriptionProperty       = schemaregistry.SchemaRegistryErrorTargetDescriptionProperty
+	ErrorTargetDisplayNameProperty       = schemaregistry.SchemaRegistryErrorTargetDisplayNameProperty
+	ErrorTargetFormatProperty            = schemaregistry.SchemaRegistryErrorTargetFormatProperty
+	ErrorTargetNameProperty              = schemaregistry.SchemaRegistryErrorTargetNameProperty
+	ErrorTargetSchemaArmResource         = schemaregistry.SchemaRegistryErrorTargetSchemaArmResource
+	ErrorTargetSchemaContentProperty     = schemaregistry.SchemaRegistryErrorTargetSchemaContentProperty
+	ErrorTargetSchemaRegistryArmResource = schemaregistry.SchemaRegistryErrorTargetSchemaRegistryArmResource
+	ErrorTargetSchemaTypeProperty        = schemaregistry.SchemaRegistryErrorTargetSchemaTypeProperty
+	ErrorTargetSchemaVersionArmResource  = schemaregistry.SchemaRegistryErrorTargetSchemaVersionArmResource
+	ErrorTargetTagsProperty              = schemaregistry.SchemaRegistryErrorTargetTagsProperty
+	ErrorTargetVersionProperty           = schemaregistry.SchemaRegistryErrorTargetVersionProperty
+)

@@ -4,12 +4,10 @@ package schemaregistry
 
 import (
 	"context"
-	"encoding/json"
 	"log/slog"
 
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
-	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/internal/schemaregistry"
 )
 
@@ -28,13 +26,6 @@ type (
 	// ClientOptions are the resolved options for the client.
 	ClientOptions struct {
 		Logger *slog.Logger
-	}
-
-	// Error represents an error returned by the schema registry.
-	Error struct {
-		Message       string
-		PropertyName  string
-		PropertyValue any
 	}
 )
 
@@ -66,35 +57,6 @@ func (c *Client) Start(ctx context.Context) error {
 // Close all underlying MQTT topics and free resources.
 func (c *Client) Close() {
 	c.client.Close()
-}
-
-// Error returns the error message.
-func (e *Error) Error() string {
-	return e.Message
-}
-
-//nolint:staticcheck // schemaregistry compat.
-func translateError(err error) error {
-	switch e := err.(type) {
-	case *errors.Remote:
-		if k, ok := e.Kind.(errors.UnknownError); ok && k.PropertyName != "" {
-			return &Error{
-				Message:       err.Error(),
-				PropertyName:  k.PropertyName,
-				PropertyValue: k.PropertyValue,
-			}
-		}
-
-	case *errors.Client:
-		if _, ok := e.Kind.(errors.PayloadInvalid); ok {
-			if j, ok := e.Nested.(*json.SyntaxError); ok && j.Offset == 0 {
-				// We're already returning a nil schema (because of the error),
-				// so just treat the 404 case as not an error.
-				return nil
-			}
-		}
-	}
-	return err
 }
 
 // Apply resolves the provided list of options.

@@ -10,17 +10,17 @@ type PutRequestSchema struct {
 	DisplayName *string `json:"displayName,omitempty"`
 
 	// Format of the schema.
-	Format *Format `json:"format,omitempty"`
+	Format Format `json:"format"`
 
 	// Content stored in the schema.
-	SchemaContent *string `json:"schemaContent,omitempty"`
+	SchemaContent string `json:"schemaContent"`
 
 	// Type of the schema.
-	SchemaType *SchemaType `json:"schemaType,omitempty"`
+	SchemaType SchemaType `json:"schemaType"`
 
 	// Schema tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Version of the schema. Allowed between 0-9.
-	Version *string `json:"version,omitempty"`
+	Version string `json:"version"`
 }

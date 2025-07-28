@@ -35,21 +35,18 @@ func (c *Client) Get(
 		opts.Version = "1.0.0"
 	}
 
-	req := schemaregistry.GetRequestSchema{
-		Name:    &name,
-		Version: &opts.Version,
-	}
-
 	res, err := c.client.Get(
 		ctx,
-		schemaregistry.GetRequestPayload{GetSchemaRequest: req},
+		schemaregistry.GetRequestSchema{
+			Name:    name,
+			Version: opts.Version,
+		},
 		opts.invoke(),
-		protocol.WithMetadata{"__invId": c.invID},
 	)
 	if err != nil {
-		return nil, translateError(err)
+		return nil, err
 	}
-	return res.Payload.Schema, nil
+	return &res.Payload.Schema, nil
 }
 
 // Apply resolves the provided list of options.
