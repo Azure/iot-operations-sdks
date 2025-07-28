@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DeviceUpdateEventSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'device' Field.
+        /// The updated device resource, containing the specific inbound endpoint details as specified in the topic.
         /// </summary>
         [JsonPropertyName("device")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public Device Device { get; set; } = default!;
 
         /// <summary>
-        /// The 'deviceName' Field.
+        /// The name of the device that was updated.
         /// </summary>
         [JsonPropertyName("deviceName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

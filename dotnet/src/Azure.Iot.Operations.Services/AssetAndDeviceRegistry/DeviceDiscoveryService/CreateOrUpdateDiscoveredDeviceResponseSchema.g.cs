@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class CreateOrUpdateDiscoveredDeviceResponseSchema
     {
         /// <summary>
-        /// The 'createOrUpdateDiscoveredDeviceError' Field.
+        /// Error details, if the discovered device creation or update failed.
         /// </summary>
         [JsonPropertyName("createOrUpdateDiscoveredDeviceError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public AkriServiceError? CreateOrUpdateDiscoveredDeviceError { get; set; } = default;
 
         /// <summary>
-        /// The 'discoveredDeviceResponse' Field.
+        /// The discovered device response.
         /// </summary>
         [JsonPropertyName("discoveredDeviceResponse")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

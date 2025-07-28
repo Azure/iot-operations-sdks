@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetDatasetEventStreamStatus : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The configuration error
+        /// The last error that occurred while processing the dataset/event/stream.
         /// </summary>
         [JsonPropertyName("error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public MessageSchemaReference? MessageSchemaReference { get; set; } = default;
 
         /// <summary>
-        /// The 'name' Field.
+        /// The name of the dataset/event/stream. Must be unique within the status.datasets[i]/events[i]/streams[i] array. This name is used to correlate between the spec and status dataset/event/stream information.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetManagementGroupActionStatusSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'error' Field.
+        /// The last error that occurred while processing the action.
         /// </summary>
         [JsonPropertyName("error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

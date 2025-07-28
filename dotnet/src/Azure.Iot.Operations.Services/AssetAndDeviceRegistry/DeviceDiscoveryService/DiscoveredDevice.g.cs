@@ -13,49 +13,49 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class DiscoveredDevice
     {
         /// <summary>
-        /// The 'attributes' Field.
+        /// A set of key-value pairs that contain custom attributes set by the customer.
         /// </summary>
         [JsonPropertyName("attributes")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, string>? Attributes { get; set; } = default;
 
         /// <summary>
-        /// The 'endpoints' Field.
+        /// Connection endpoint URL a device can use to connect to a service.
         /// </summary>
         [JsonPropertyName("endpoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DiscoveredDeviceEndpoints? Endpoints { get; set; } = default;
 
         /// <summary>
-        /// The 'externalDeviceId' Field.
+        /// The unique identifier of the device.
         /// </summary>
         [JsonPropertyName("externalDeviceId")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ExternalDeviceId { get; set; } = default;
 
         /// <summary>
-        /// The 'manufacturer' Field.
+        /// Device manufacturer.
         /// </summary>
         [JsonPropertyName("manufacturer")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Manufacturer { get; set; } = default;
 
         /// <summary>
-        /// The 'model' Field.
+        /// Device model.
         /// </summary>
         [JsonPropertyName("model")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Model { get; set; } = default;
 
         /// <summary>
-        /// The 'operatingSystem' Field.
+        /// Device operating system name.
         /// </summary>
         [JsonPropertyName("operatingSystem")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? OperatingSystem { get; set; } = default;
 
         /// <summary>
-        /// The 'operatingSystemVersion' Field.
+        /// Device operating system version.
         /// </summary>
         [JsonPropertyName("operatingSystemVersion")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

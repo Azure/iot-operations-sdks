@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class DiscoveredDeviceEndpoints
     {
         /// <summary>
-        /// The 'inbound' Field.
+        /// Set of endpoints to connect to the device.
         /// </summary>
         [JsonPropertyName("inbound")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, DiscoveredDeviceInboundEndpointSchema>? Inbound { get; set; } = default;
 
         /// <summary>
-        /// The 'outbound' Field.
+        /// Property bag contains the device's outbound endpoints
         /// </summary>
         [JsonPropertyName("outbound")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

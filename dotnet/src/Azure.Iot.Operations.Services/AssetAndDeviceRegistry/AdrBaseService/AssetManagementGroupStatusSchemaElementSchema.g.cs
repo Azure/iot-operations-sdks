@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetManagementGroupStatusSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'actions' Field.
+        /// Array of action statuses that describe the status of each action.
         /// </summary>
         [JsonPropertyName("actions")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

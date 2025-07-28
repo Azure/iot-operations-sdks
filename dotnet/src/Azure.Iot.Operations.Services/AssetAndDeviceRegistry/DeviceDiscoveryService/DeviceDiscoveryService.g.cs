@@ -92,15 +92,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 {
                     ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload> extended = await this.CreateOrUpdateDiscoveredDeviceAsync(req.Request!, req.RequestMetadata!, cancellationToken);
 
-                    return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>
-                    {
-                        Response = new CreateOrUpdateDiscoveredDeviceResponseSchema { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
+                    return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>(new CreateOrUpdateDiscoveredDeviceResponseSchema { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse }, extended.ResponseMetadata);
                 }
                 catch (AkriServiceErrorException intEx)
                 {
-                    return ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>.CreateFromResponse(new CreateOrUpdateDiscoveredDeviceResponseSchema { CreateOrUpdateDiscoveredDeviceError = intEx.AkriServiceError });
+                    ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extendedResponse = ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>.CreateFromResponse(new CreateOrUpdateDiscoveredDeviceResponseSchema { CreateOrUpdateDiscoveredDeviceError = intEx.AkriServiceError });
+                    return extendedResponse;
                 }
             }
 
@@ -184,9 +181,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
             private async Task<ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>> CreateOrUpdateDiscoveredDeviceInt(CreateOrUpdateDiscoveredDeviceRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extended = await this.createOrUpdateDiscoveredDeviceCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+
                 if (extended.Response.CreateOrUpdateDiscoveredDeviceError != null)
                 {
-                    throw new AkriServiceErrorException(extended.Response.CreateOrUpdateDiscoveredDeviceError);
+                    AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.CreateOrUpdateDiscoveredDeviceError);
+                    throw akriServiceErrorException;
                 }
                 else if (extended.Response.DiscoveredDeviceResponse == null)
                 {
@@ -199,11 +198,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 }
                 else
                 {
-                    return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>
-                    {
-                        Response = new CreateOrUpdateDiscoveredDeviceResponsePayload { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse.Value() },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
+                    return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>(new CreateOrUpdateDiscoveredDeviceResponsePayload { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse.Value() }, extended.ResponseMetadata);
                 }
             }
 

@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DeviceStatus
     {
         /// <summary>
-        /// The 'config' Field.
+        /// The configuration status of the device.
         /// </summary>
         [JsonPropertyName("config")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

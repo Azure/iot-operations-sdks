@@ -24,6 +24,8 @@ pub type SetNotificationPreferenceForAssetUpdatesRequest =
     rpc_command::invoker::Request<SetNotificationPreferenceForAssetUpdatesRequestPayload>;
 pub type SetNotificationPreferenceForAssetUpdatesResponse =
     rpc_command::invoker::Response<SetNotificationPreferenceForAssetUpdatesResponsePayload>;
+pub type SetNotificationPreferenceForAssetUpdatesResponseError =
+    rpc_command::invoker::Response<AkriServiceError>;
 pub type SetNotificationPreferenceForAssetUpdatesRequestBuilderError =
     rpc_command::invoker::RequestBuilderError;
 
@@ -159,7 +161,10 @@ where
         &self,
         request: SetNotificationPreferenceForAssetUpdatesRequest,
     ) -> Result<
-        Result<SetNotificationPreferenceForAssetUpdatesResponse, AkriServiceError>,
+        Result<
+            SetNotificationPreferenceForAssetUpdatesResponse,
+            SetNotificationPreferenceForAssetUpdatesResponseError,
+        >,
         AIOProtocolError,
     > {
         let response = self.0.invoke(request).await;
@@ -169,7 +174,13 @@ where
                     .payload
                     .set_notification_preference_for_asset_updates_error
                 {
-                    Ok(Err(set_notification_preference_for_asset_updates_error))
+                    Ok(Err(SetNotificationPreferenceForAssetUpdatesResponseError {
+                        payload: set_notification_preference_for_asset_updates_error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                    }))
                 } else if let Some(response_payload) = response.payload.response_payload {
                     Ok(Ok(SetNotificationPreferenceForAssetUpdatesResponse {
                         payload: SetNotificationPreferenceForAssetUpdatesResponsePayload {

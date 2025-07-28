@@ -13,21 +13,21 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DiscoveredAssetStream : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'destinations' Field.
+        /// Destinations for a stream.
         /// </summary>
         [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<EventStreamDestination>? Destinations { get; set; } = default;
 
         /// <summary>
-        /// The 'lastUpdatedOn' Field.
+        /// Timestamp (in UTC) indicating when the stream was added or modified.
         /// </summary>
         [JsonPropertyName("lastUpdatedOn")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime? LastUpdatedOn { get; set; } = default;
 
         /// <summary>
-        /// The 'name' Field.
+        /// Name of the stream definition.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -35,14 +35,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// The 'streamConfiguration' Field.
+        /// Stringified JSON that contains connector-specific configuration that describes configuration for the specific stream.
         /// </summary>
         [JsonPropertyName("streamConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? StreamConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The 'typeRef' Field.
+        /// URI or type definition ID.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

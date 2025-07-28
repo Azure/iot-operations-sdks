@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class CreateOrUpdateDiscoveredAssetRequestSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'discoveredAsset' Field.
+        /// The discovered asset resource to create or update. Fields omitted in the request will be removed.
         /// </summary>
         [JsonPropertyName("discoveredAsset")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public DiscoveredAsset DiscoveredAsset { get; set; } = default!;
 
         /// <summary>
-        /// The 'discoveredAssetName' Field.
+        /// The name of the discovered asset to create or update. This field is used to perform deduplication of discovered assets.
         /// </summary>
         [JsonPropertyName("discoveredAssetName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
