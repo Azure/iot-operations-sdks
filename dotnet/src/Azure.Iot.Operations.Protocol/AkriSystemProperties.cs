@@ -80,12 +80,12 @@ namespace Azure.Iot.Operations.Protocol
         internal const string CommandInvokerId = ReservedPrefix + "invId";
 
         /// <summary>
-        /// Inidicates that an RPC request expects the executor to stream one or many responses.
+        /// Indicates that an RPC request expects the executor to stream one or many responses.
         /// </summary>
         internal const string IsStreamingCommand = ReservedPrefix + "streamResp";
 
         /// <summary>
-        /// Inidicates that an RPC request should be cancelled if it is still executing
+        /// Indicates that an RPC request should be cancelled if it is still executing
         /// </summary>
         internal const string CancelCommand = ReservedPrefix + "stopRpc";
 
