@@ -139,13 +139,13 @@ namespace TestEnvoys.Counter
             private async Task<ExtendedResponse<ReadCounterResponsePayload>> ReadCounterInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<ReadCounterResponsePayload> extended = await this.ReadCounterAsync(req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<ReadCounterResponsePayload>(Response = extended.Response, extended.ResponseMetadata );
+                return new ExtendedResponse<ReadCounterResponsePayload>(extended.Response, extended.ResponseMetadata );
             }
 
             private async Task<ExtendedResponse<IncrementResponsePayload>> IncrementInt(ExtendedRequest<IncrementRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<IncrementResponsePayload> extended = await this.IncrementAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<IncrementResponsePayload>(Response = extended.Response, extended.ResponseMetadata );
+                return new ExtendedResponse<IncrementResponsePayload>(extended.Response, extended.ResponseMetadata );
             }
 
             private async Task<ExtendedResponse<EmptyJson>> ResetInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)

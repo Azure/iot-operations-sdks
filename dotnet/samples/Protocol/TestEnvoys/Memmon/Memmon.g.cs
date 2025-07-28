@@ -209,7 +209,7 @@ namespace TestEnvoys.Memmon
             private async Task<ExtendedResponse<GetRuntimeStatsResponsePayload>> GetRuntimeStatsInt(ExtendedRequest<GetRuntimeStatsRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetRuntimeStatsResponsePayload> extended = await this.GetRuntimeStatsAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<GetRuntimeStatsResponsePayload>(Response = extended.Response, extended.ResponseMetadata );
+                return new ExtendedResponse<GetRuntimeStatsResponsePayload>(extended.Response, extended.ResponseMetadata );
             }
 
             public async ValueTask DisposeAsync()

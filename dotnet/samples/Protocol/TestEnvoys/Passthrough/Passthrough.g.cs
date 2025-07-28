@@ -89,7 +89,7 @@ namespace TestEnvoys.Passthrough
             private async Task<ExtendedResponse<byte[]>> PassInt(ExtendedRequest<byte[]> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<byte[]> extended = await this.PassAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<byte[]>(Response = extended.Response, extended.ResponseMetadata );
+                return new ExtendedResponse<byte[]>(extended.Response, extended.ResponseMetadata );
             }
 
             public async ValueTask DisposeAsync()
