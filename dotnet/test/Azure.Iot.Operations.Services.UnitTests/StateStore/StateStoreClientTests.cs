@@ -23,7 +23,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             byte[] expectedServiceRequestPayload = Encoding.ASCII.GetBytes($"*2\r\n$3\r\nGET\r\n${key.Bytes.Length}\r\n{key.GetString()}\r\n");
 
             byte[] expectedServiceResponsePayload = Encoding.ASCII.GetBytes($"${value.Bytes.Length}\r\n{value.GetString()}\r\n");
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceResponsePayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
             TimeSpan expectedRequestTimeout = TimeSpan.FromSeconds(1);
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
@@ -79,12 +83,14 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
 
             var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
-            ExtendedResponse<byte[]> expectedServiceResponse = new(
-                expectedServiceResponsePayload,
-                new()
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
                 {
                     Timestamp = applicationContext.ApplicationHlc,
-                });
+                }
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
@@ -132,12 +138,14 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
 
             var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
-            ExtendedResponse<byte[]> expectedServiceResponse = new(
-                expectedServiceResponsePayload,
-                new()
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
                 {
                     Timestamp = applicationContext.ApplicationHlc,
-                });
+                }
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
@@ -190,7 +198,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceRequestPayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
@@ -370,7 +382,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceRequestPayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
@@ -410,7 +426,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceRequestPayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
@@ -451,7 +471,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
             var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
 
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceRequestPayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
@@ -595,7 +619,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
 
             var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceRequestPayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
 
             mockMqttClient
                 .Setup(
@@ -658,7 +686,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
 
             var mockStateStoreGeneratedClient = new Mock<IStateStoreClientStub>();
             var mockMqttClient = GetMockMqttClient(clientId);
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceRequestPayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
@@ -795,7 +827,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
                         "ok",
                         new List<MqttUserProperty>())));
 
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceRequestPayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
@@ -924,7 +960,11 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore
                         "ok",
                         new List<MqttUserProperty>())));
 
-            ExtendedResponse<byte[]> expectedServiceResponse = new(expectedServiceRequestPayload, new());
+            ExtendedResponse<byte[]> expectedServiceResponse = new()
+            {
+                Response = expectedServiceResponsePayload,
+                ResponseMetadata = new()
+            };
 
             RpcCallAsync<byte[]> expectedResponse = new(Task.FromResult(expectedServiceResponse), Guid.NewGuid());
 
