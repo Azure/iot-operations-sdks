@@ -55,16 +55,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <remarks>
         /// This callback may be null if this command executor only supports commands that stream responses.
         /// </remarks>
-        public Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>>? OnCommandReceived { get; set; }
-
-        /// <summary>
-        /// The callback to execute each time a command request that expects streamed responses is received.
-        /// </summary>
-        /// <remarks>
-        /// The callback provides the request itself and requires the user to return one to many responses. This callback may be null
-        /// if this command executors doesn't have any streaming commands.
-        /// </remarks>
-        public Func<ExtendedRequest<TReq>, CancellationToken, Task<IAsyncEnumerable<StreamingExtendedResponse<TResp>>>>? OnStreamingCommandReceived { get; set; }
+        public required Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>> OnCommandReceived { get; set; }
 
         public string? ExecutorId { get; init; }
 

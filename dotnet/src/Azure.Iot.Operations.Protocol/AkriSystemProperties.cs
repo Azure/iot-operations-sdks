@@ -79,30 +79,19 @@ namespace Azure.Iot.Operations.Protocol
         // TODO remove this once akri service is code gen'd to expect srcId instead of invId
         internal const string CommandInvokerId = ReservedPrefix + "invId";
 
-        /// <summary>
-        /// Indicates that an RPC request expects the executor to stream one or many responses.
-        /// </summary>
-        internal const string IsStreamingCommand = ReservedPrefix + "streamResp";
-
-        /// <summary>
-        /// Indicates that an RPC request should be cancelled if it is still executing
-        /// </summary>
-        internal const string CancelCommand = ReservedPrefix + "stopRpc";
-
         internal static bool IsReservedUserProperty(string name)
-        { 
-            return name.Equals(Timestamp, StringComparison.Ordinal) 
-                || name.Equals(Status, StringComparison.Ordinal) 
-                || name.Equals(StatusMessage, StringComparison.Ordinal) 
-                || name.Equals(IsApplicationError, StringComparison.Ordinal) 
-                || name.Equals(InvalidPropertyName, StringComparison.Ordinal) 
-                || name.Equals(InvalidPropertyValue, StringComparison.Ordinal) 
-                || name.Equals(ProtocolVersion, StringComparison.Ordinal) 
-                || name.Equals(SupportedMajorProtocolVersions, StringComparison.Ordinal) 
-                || name.Equals(RequestedProtocolVersion, StringComparison.Ordinal) 
-                || name.Equals(SourceId, StringComparison.Ordinal) 
-                || name.Equals(CommandInvokerId, StringComparison.Ordinal)
-                || name.Equals(IsStreamingCommand, StringComparison.Ordinal);
+        {
+            return name.Equals(Timestamp, StringComparison.Ordinal)
+                || name.Equals(Status, StringComparison.Ordinal)
+                || name.Equals(StatusMessage, StringComparison.Ordinal)
+                || name.Equals(IsApplicationError, StringComparison.Ordinal)
+                || name.Equals(InvalidPropertyName, StringComparison.Ordinal)
+                || name.Equals(InvalidPropertyValue, StringComparison.Ordinal)
+                || name.Equals(ProtocolVersion, StringComparison.Ordinal)
+                || name.Equals(SupportedMajorProtocolVersions, StringComparison.Ordinal)
+                || name.Equals(RequestedProtocolVersion, StringComparison.Ordinal)
+                || name.Equals(SourceId, StringComparison.Ordinal)
+                || name.Equals(CommandInvokerId, StringComparison.Ordinal);
         }
     }
 }
