@@ -99,13 +99,13 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             private async Task<ExtendedResponse<PutResponsePayload>> PutInt(ExtendedRequest<PutRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<PutResponsePayload> extended = await this.PutAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<PutResponsePayload> { extended.Response, extended.ResponseMetadata};
+                return new ExtendedResponse<PutResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
             private async Task<ExtendedResponse<GetResponsePayload>> GetInt(ExtendedRequest<GetRequestPayload> req, CancellationToken cancellationToken)
             {
                 ExtendedResponse<GetResponsePayload> extended = await this.GetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<GetResponsePayload> { extended.Response, extended.ResponseMetadata};
+                return new ExtendedResponse<GetResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
             public async ValueTask DisposeAsync()
