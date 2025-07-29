@@ -13,16 +13,13 @@ use azure_iot_operations_protocol::{
     application::ApplicationContext, common::aio_protocol_error::AIOProtocolError, rpc_command,
 };
 
-use crate::{OutputDirectoryManager, schema_registry::service_gen};
+use crate::{
+    OutputDirectoryManager,
+    schema_registry::schema_registry_gen::common_types::options::CommandExecutorOptionsBuilder,
+};
 use crate::{
     ServiceStateOutputManager,
-    schema_registry::{
-        ErrorCode, ErrorTarget, SERVICE_NAME, Schema, ServiceError,
-        schema_registry_gen::{
-            common_types::options::CommandExecutorOptionsBuilder,
-            schema_registry::service::{GetResponseSchema, PutResponseSchema},
-        },
-    },
+    schema_registry::{SERVICE_NAME, Schema, service_gen},
 };
 
 /// Schema Registry service implementation.
@@ -105,7 +102,7 @@ where
     fn process_get_request(
         payload: &service_gen::GetRequestSchema,
         schemas: &Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
-    ) -> rpc_command::executor::Response<GetResponseSchema> {
+    ) -> rpc_command::executor::Response<service_gen::GetResponseSchema> {
         // Extract the schema name
         let schema_name = &payload.name;
 
@@ -115,18 +112,18 @@ where
                 // Validate version is between 0-9
                 if version > 9 {
                     log::error!("Invalid schema version {version}, must be between 0-9");
-                    let service_error = ServiceError {
-                        code: ErrorCode::BadRequest,
+                    let service_error = service_gen::SchemaRegistryError {
+                        code: service_gen::SchemaRegistryErrorCode::BadRequest,
                         details: None,
                         inner_error: None,
                         message: format!(
                             "Schema version '{version}' is invalid. Version must be between 0-9."
                         ),
-                        target: Some(ErrorTarget::VersionProperty),
+                        target: Some(service_gen::SchemaRegistryErrorTarget::VersionProperty),
                     };
                     return rpc_command::executor::ResponseBuilder::default()
-                        .payload(GetResponseSchema {
-                            error: Some(service_error.into()),
+                        .payload(service_gen::GetResponseSchema {
+                            error: Some(service_error),
                             schema: None,
                         })
                         .expect("Error response payload should be valid")
@@ -137,19 +134,19 @@ where
             }
             Err(_) => {
                 log::error!("Invalid schema version format: '{}'", payload.version);
-                let service_error = ServiceError {
-                    code: ErrorCode::BadRequest,
+                let service_error = service_gen::SchemaRegistryError {
+                    code: service_gen::SchemaRegistryErrorCode::BadRequest,
                     details: None,
                     inner_error: None,
                     message: format!(
                         "Schema version '{}' has invalid format. Version must be a number between 0-9.",
                         payload.version
                     ),
-                    target: Some(ErrorTarget::VersionProperty),
+                    target: Some(service_gen::SchemaRegistryErrorTarget::VersionProperty),
                 };
                 return rpc_command::executor::ResponseBuilder::default()
-                    .payload(GetResponseSchema {
-                        error: Some(service_error.into()),
+                    .payload(service_gen::GetResponseSchema {
+                        error: Some(service_error),
                         schema: None,
                     })
                     .expect("Error response payload should be valid")
@@ -164,8 +161,8 @@ where
                 Ok(schemas) => schemas,
                 Err(_) => {
                     log::error!("Failed to acquire mutex lock on schemas");
-                    let service_error = ServiceError {
-                        code: ErrorCode::InternalError,
+                    let service_error = service_gen::SchemaRegistryError {
+                        code: service_gen::SchemaRegistryErrorCode::InternalError,
                         details: None,
                         inner_error: None,
                         message: "Internal server error occurred while accessing schemas."
@@ -173,8 +170,8 @@ where
                         target: None,
                     };
                     return rpc_command::executor::ResponseBuilder::default()
-                        .payload(GetResponseSchema {
-                            error: Some(service_error.into()),
+                        .payload(service_gen::GetResponseSchema {
+                            error: Some(service_error),
                             schema: None,
                         })
                         .expect("Error response payload should be valid")
@@ -198,14 +195,16 @@ where
                             log::debug!(
                                 "Schema {schema_name:?} found but version {schema_version:?} not found"
                             );
-                            Err(ServiceError {
-                                code: ErrorCode::NotFound,
+                            Err(service_gen::SchemaRegistryError {
+                                code: service_gen::SchemaRegistryErrorCode::NotFound,
                                 details: None,
                                 inner_error: None,
                                 message: format!(
                                     "Schema '{schema_name}' version '{schema_version}' not found"
                                 ),
-                                target: Some(ErrorTarget::VersionProperty),
+                                target: Some(
+                                    service_gen::SchemaRegistryErrorTarget::VersionProperty,
+                                ),
                             })
                         }
                     }
@@ -213,12 +212,12 @@ where
                 None => {
                     // Schema not found
                     log::debug!("Schema {schema_name:?} not found");
-                    Err(ServiceError {
-                        code: ErrorCode::NotFound,
+                    Err(service_gen::SchemaRegistryError {
+                        code: service_gen::SchemaRegistryErrorCode::NotFound,
                         details: None,
                         inner_error: None,
                         message: format!("Schema '{schema_name}' not found"),
-                        target: Some(ErrorTarget::SchemaArmResource),
+                        target: Some(service_gen::SchemaRegistryErrorTarget::SchemaArmResource),
                     })
                 }
             }
@@ -227,7 +226,7 @@ where
         // Create the response
         match result {
             Ok(schema) => rpc_command::executor::ResponseBuilder::default()
-                .payload(GetResponseSchema {
+                .payload(service_gen::GetResponseSchema {
                     error: None,
                     schema: Some(schema.into()),
                 })
@@ -235,8 +234,8 @@ where
                 .build()
                 .expect("Get response should not fail to build"),
             Err(service_error) => rpc_command::executor::ResponseBuilder::default()
-                .payload(GetResponseSchema {
-                    error: Some(service_error.into()),
+                .payload(service_gen::GetResponseSchema {
+                    error: Some(service_error),
                     schema: None,
                 })
                 .expect("Error response payload should be valid")
@@ -250,7 +249,7 @@ where
         payload: &service_gen::PutRequestSchema,
         schemas: &Arc<Mutex<HashMap<String, BTreeSet<Schema>>>>,
         service_state_manager: &ServiceStateOutputManager,
-    ) -> rpc_command::executor::Response<PutResponseSchema> {
+    ) -> rpc_command::executor::Response<service_gen::PutResponseSchema> {
         // Validate and convert the PUT request schema to internal Schema
         let schema: Schema = match Schema::try_from(payload.clone()) {
             Ok(schema) => {
@@ -260,19 +259,19 @@ where
                         "Invalid schema version {}, must be between 0-9",
                         schema.version
                     );
-                    let service_error = ServiceError {
-                        code: ErrorCode::BadRequest,
+                    let service_error = service_gen::SchemaRegistryError {
+                        code: service_gen::SchemaRegistryErrorCode::BadRequest,
                         details: None,
                         inner_error: None,
                         message: format!(
                             "Schema version '{}' is invalid. Version must be between 0-9.",
                             schema.version
                         ),
-                        target: Some(ErrorTarget::VersionProperty),
+                        target: Some(service_gen::SchemaRegistryErrorTarget::VersionProperty),
                     };
                     return rpc_command::executor::ResponseBuilder::default()
-                        .payload(PutResponseSchema {
-                            error: Some(service_error.into()),
+                        .payload(service_gen::PutResponseSchema {
+                            error: Some(service_error),
                             schema: None,
                         })
                         .expect("Error response payload should be valid")
@@ -283,16 +282,16 @@ where
                 // Additional validation for schema content
                 if payload.schema_content.trim().is_empty() {
                     log::error!("Schema content cannot be empty");
-                    let service_error = ServiceError {
-                        code: ErrorCode::BadRequest,
+                    let service_error = service_gen::SchemaRegistryError {
+                        code: service_gen::SchemaRegistryErrorCode::BadRequest,
                         details: None,
                         inner_error: None,
                         message: "Schema content cannot be empty.".to_string(),
-                        target: Some(ErrorTarget::SchemaContentProperty),
+                        target: Some(service_gen::SchemaRegistryErrorTarget::SchemaContentProperty),
                     };
                     return rpc_command::executor::ResponseBuilder::default()
-                        .payload(PutResponseSchema {
-                            error: Some(service_error.into()),
+                        .payload(service_gen::PutResponseSchema {
+                            error: Some(service_error),
                             schema: None,
                         })
                         .expect("Error response payload should be valid")
@@ -304,16 +303,16 @@ where
             }
             Err(e) => {
                 log::error!("Failed to convert PUT request schema: {e}");
-                let service_error = ServiceError {
-                    code: ErrorCode::BadRequest,
+                let service_error = service_gen::SchemaRegistryError {
+                    code: service_gen::SchemaRegistryErrorCode::BadRequest,
                     details: None,
                     inner_error: None,
                     message: format!("Invalid schema format: {e}"),
-                    target: Some(ErrorTarget::VersionProperty), // Most likely version parsing error
+                    target: Some(service_gen::SchemaRegistryErrorTarget::VersionProperty), // Most likely version parsing error
                 };
                 return rpc_command::executor::ResponseBuilder::default()
-                    .payload(PutResponseSchema {
-                        error: Some(service_error.into()),
+                    .payload(service_gen::PutResponseSchema {
+                        error: Some(service_error),
                         schema: None,
                     })
                     .expect("Error response payload should be valid")
@@ -332,8 +331,8 @@ where
                 Ok(schemas) => schemas,
                 Err(_) => {
                     log::error!("Failed to acquire mutex lock on schemas");
-                    let service_error = ServiceError {
-                        code: ErrorCode::InternalError,
+                    let service_error = service_gen::SchemaRegistryError {
+                        code: service_gen::SchemaRegistryErrorCode::InternalError,
                         details: None,
                         inner_error: None,
                         message: "Internal server error occurred while accessing schemas."
@@ -341,8 +340,8 @@ where
                         target: None,
                     };
                     return rpc_command::executor::ResponseBuilder::default()
-                        .payload(PutResponseSchema {
-                            error: Some(service_error.into()),
+                        .payload(service_gen::PutResponseSchema {
+                            error: Some(service_error),
                             schema: None,
                         })
                         .expect("Error response payload should be valid")
@@ -392,8 +391,8 @@ where
             }
             Err(e) => {
                 log::error!("Failed to serialize schemas for state output: {e}");
-                let service_error = ServiceError {
-                    code: ErrorCode::InternalError,
+                let service_error = service_gen::SchemaRegistryError {
+                    code: service_gen::SchemaRegistryErrorCode::InternalError,
                     details: None,
                     inner_error: None,
                     message: "Internal server error occurred while saving schema state."
@@ -401,8 +400,8 @@ where
                     target: None,
                 };
                 return rpc_command::executor::ResponseBuilder::default()
-                    .payload(PutResponseSchema {
-                        error: Some(service_error.into()),
+                    .payload(service_gen::PutResponseSchema {
+                        error: Some(service_error),
                         schema: None,
                     })
                     .expect("Error response payload should be valid")
@@ -413,7 +412,7 @@ where
 
         // Create successful response
         rpc_command::executor::ResponseBuilder::default()
-            .payload(PutResponseSchema {
+            .payload(service_gen::PutResponseSchema {
                 error: None,
                 schema: Some(schema.into()),
             })

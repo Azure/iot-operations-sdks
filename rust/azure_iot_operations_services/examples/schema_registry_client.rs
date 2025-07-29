@@ -96,6 +96,8 @@ async fn schema_registry_put(
     match client
         .put(
             PutSchemaRequestBuilder::default()
+                .display_name("SampleSchema".to_string())
+                .description("A sample schema for temperature and humidity data".to_string())
                 .schema_content(JSON_SCHEMA.to_string())
                 .format(Format::JsonSchemaDraft07)
                 .schema_type(SchemaType::MessageSchema)

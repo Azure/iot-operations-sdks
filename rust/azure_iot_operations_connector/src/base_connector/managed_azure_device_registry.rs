@@ -1522,22 +1522,17 @@ impl DatasetClient {
     /// Used to report the message schema of a dataset
     ///
     /// # Errors
-    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::InvalidArgument`](schema_registry::ErrorKind::InvalidArgument)
+    /// [`MessageSchemaError`] of kind [`SchemaRegistryError::InvalidRequestArgument`](schema_registry::ErrorKind::InvalidRequestArgument)
     /// if the content of the [`MessageSchema`] is empty or there is an error building the request
     ///
     /// [`MessageSchemaError`] of kind [`SchemaRegistryError::ServiceError`](schema_registry::ErrorKind::ServiceError)
-    /// if there is an error returned by the Schema Registry Service.
+    /// if there is an error returned by the Schema Registry or the Azure Device Registry Service. This
+    /// error will be retried 10 times with exponential backoff and jitter if it is an internal error and
+    /// only returned if it still is failing.
     ///
     /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
     /// there are any underlying errors from the AIO RPC protocol. This error will be retried
     /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// If the Schema Registry Service returns a schema without required values. This should get updated
-    /// to be validated by the Schema Registry API surface in the future
     ///
     /// If the asset specification mutex has been poisoned, which should not be possible
     pub async fn report_message_schema(
@@ -1566,9 +1561,25 @@ impl DatasetClient {
                                 );
                                 RetryError::transient(e)
                             }
+                            schema_registry::ErrorKind::ServiceError(service_error) => {
+                                if let schema_registry::ErrorCode::InternalError =
+                                    service_error.code
+                                {
+                                    log::warn!(
+                                        "Reporting message schema failed for {:?}. Retrying: {e}",
+                                        self.dataset_ref
+                                    );
+                                    RetryError::transient(e)
+                                } else {
+                                    log::error!(
+                                        "Reporting message schema failed for {:?}: {e}",
+                                        self.dataset_ref
+                                    );
+                                    RetryError::permanent(e)
+                                }
+                            }
                             // indicates an error in the provided message schema, return to caller so they can fix
-                            schema_registry::ErrorKind::ServiceError(_)
-                            | schema_registry::ErrorKind::InvalidRequestArgument(_) => {
+                            schema_registry::ErrorKind::InvalidRequestArgument(_) => {
                                 RetryError::permanent(e)
                             }
                         }

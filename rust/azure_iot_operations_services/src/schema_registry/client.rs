@@ -13,9 +13,7 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
 
 use crate::schema_registry::schemaregistry_gen::common_types::options::CommandInvokerOptionsBuilder;
-use crate::schema_registry::schemaregistry_gen::schema_registry::client::{
-    GetCommandInvoker, GetRequestSchema, PutCommandInvoker, PutRequestSchema,
-};
+use crate::schema_registry::schemaregistry_gen::schema_registry::client as sr_client_gen;
 use crate::schema_registry::{
     Error, ErrorKind, GetSchemaRequest, PutSchemaRequest, Schema, ServiceError,
 };
@@ -27,8 +25,8 @@ where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync,
 {
-    get_command_invoker: Arc<GetCommandInvoker<C>>,
-    put_command_invoker: Arc<PutCommandInvoker<C>>,
+    get_command_invoker: Arc<sr_client_gen::GetCommandInvoker<C>>,
+    put_command_invoker: Arc<sr_client_gen::PutCommandInvoker<C>>,
 }
 
 impl<C> Client<C>
@@ -47,12 +45,12 @@ where
             .expect("Statically generated options should not fail.");
 
         Self {
-            get_command_invoker: Arc::new(GetCommandInvoker::new(
+            get_command_invoker: Arc::new(sr_client_gen::GetCommandInvoker::new(
                 application_context.clone(),
                 client.clone(),
                 &options,
             )),
-            put_command_invoker: Arc::new(PutCommandInvoker::new(
+            put_command_invoker: Arc::new(sr_client_gen::PutCommandInvoker::new(
                 application_context,
                 client.clone(),
                 &options,
@@ -82,7 +80,7 @@ where
         get_request: GetSchemaRequest,
         timeout: Duration,
     ) -> Result<Schema, Error> {
-        let payload = GetRequestSchema {
+        let payload = sr_client_gen::GetRequestSchema {
             name: get_request.name,
             version: get_request.version,
         };
@@ -126,13 +124,17 @@ where
         put_request: PutSchemaRequest,
         timeout: Duration,
     ) -> Result<Schema, Error> {
-        let payload = PutRequestSchema {
+        let payload = sr_client_gen::PutRequestSchema {
             description: put_request.description,
             display_name: put_request.display_name,
             format: put_request.format.into(),
             schema_content: put_request.schema_content,
             schema_type: put_request.schema_type.into(),
-            tags: Some(put_request.tags),
+            tags: if put_request.tags.is_empty() {
+                None
+            } else {
+                Some(put_request.tags)
+            },
             version: put_request.version,
         };
 

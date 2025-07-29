@@ -67,7 +67,7 @@ pub enum ErrorCode {
 }
 
 /// Additional details about the error.
-#[derive(Debug, Clone, Builder)]
+#[derive(Debug, Clone)]
 pub struct ErrorDetails {
     /// Multi-part error code for classification and root causing of errors (e.g., '400.200').
     pub code: Option<String>,
@@ -242,9 +242,9 @@ pub struct Schema {
 
 /// Request to put a schema in the schema registry.
 #[derive(Builder, Clone, Debug, PartialEq, Eq)]
-#[builder(setter(into))]
+#[builder(setter(into), build_fn(validate = "Self::validate"))]
 pub struct PutSchemaRequest {
-    /// Human-readable description of the schema.\
+    /// Human-readable description of the schema.
     #[builder(default)]
     pub description: Option<String>,
     /// Human-readable display name.
@@ -265,6 +265,34 @@ pub struct PutSchemaRequest {
     pub version: String,
 }
 
+impl PutSchemaRequestBuilder {
+    /// Validate the [`PutSchemaRequest`].
+    ///
+    /// # Errors
+    /// Returns a `String` describing the error if `display_name`, `schema_content`, or `version` is empty.
+    fn validate(&self) -> Result<(), String> {
+        if let Some(Some(display_name)) = &self.display_name {
+            if display_name.is_empty() {
+                return Err("display_name cannot be empty".to_string());
+            }
+        }
+
+        if let Some(version) = &self.version {
+            if version.is_empty() {
+                return Err("version cannot be empty".to_string());
+            }
+        }
+
+        if let Some(schema_content) = &self.schema_content {
+            if schema_content.is_empty() {
+                return Err("schema_content cannot be empty".to_string());
+            }
+        }
+
+        Ok(())
+    }
+}
+
 /// Request to get a schema from the schema registry.
 #[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
@@ -280,11 +308,17 @@ impl GetSchemaRequestBuilder {
     /// Validate the [`GetRequest`].
     ///
     /// # Errors
-    /// Returns a `String` describing the errors if `name` is empty or not provided.
+    /// Returns a `String` describing the error if `name` or `version` is empty.
     fn validate(&self) -> Result<(), String> {
         if let Some(name) = &self.name {
             if name.is_empty() {
                 return Err("name cannot be empty".to_string());
+            }
+        }
+
+        if let Some(version) = &self.version {
+            if version.is_empty() {
+                return Err("version cannot be empty".to_string());
             }
         }
 
@@ -325,24 +359,6 @@ impl From<sr_client_gen::SchemaType> for SchemaType {
         }
     }
 }
-
-impl From<Schema> for sr_client_gen::Schema {
-    fn from(schema: Schema) -> Self {
-        sr_client_gen::Schema {
-            description: schema.description,
-            display_name: schema.display_name,
-            format: schema.format.into(),
-            hash: schema.hash,
-            name: schema.name,
-            namespace: schema.namespace,
-            schema_content: schema.schema_content,
-            schema_type: schema.schema_type.into(),
-            tags: Some(schema.tags),
-            version: schema.version,
-        }
-    }
-}
-
 impl From<sr_client_gen::Schema> for Schema {
     fn from(schema: sr_client_gen::Schema) -> Self {
         Schema {
@@ -356,29 +372,6 @@ impl From<sr_client_gen::Schema> for Schema {
             schema_type: schema.schema_type.into(),
             tags: schema.tags.unwrap_or_default(),
             version: schema.version,
-        }
-    }
-}
-
-impl From<PutSchemaRequest> for sr_client_gen::PutRequestSchema {
-    fn from(request: PutSchemaRequest) -> Self {
-        sr_client_gen::PutRequestSchema {
-            description: request.description,
-            display_name: request.display_name,
-            format: request.format.into(),
-            schema_content: request.schema_content,
-            schema_type: request.schema_type.into(),
-            tags: Some(request.tags),
-            version: request.version,
-        }
-    }
-}
-
-impl From<GetSchemaRequest> for sr_client_gen::GetRequestSchema {
-    fn from(request: GetSchemaRequest) -> Self {
-        sr_client_gen::GetRequestSchema {
-            name: request.name,
-            version: request.version,
         }
     }
 }
