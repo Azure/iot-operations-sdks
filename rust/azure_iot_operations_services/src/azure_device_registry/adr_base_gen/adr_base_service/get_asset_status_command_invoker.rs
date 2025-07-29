@@ -22,6 +22,7 @@ use super::get_asset_status_response_schema::GetAssetStatusResponseSchema;
 
 pub type GetAssetStatusRequest = rpc_command::invoker::Request<GetAssetStatusRequestPayload>;
 pub type GetAssetStatusResponse = rpc_command::invoker::Response<GetAssetStatusResponsePayload>;
+pub type GetAssetStatusResponseError = rpc_command::invoker::Response<AkriServiceError>;
 pub type GetAssetStatusRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
@@ -141,12 +142,19 @@ where
     pub async fn invoke(
         &self,
         request: GetAssetStatusRequest,
-    ) -> Result<Result<GetAssetStatusResponse, AkriServiceError>, AIOProtocolError> {
+    ) -> Result<Result<GetAssetStatusResponse, GetAssetStatusResponseError>, AIOProtocolError> {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(get_asset_status_error) = response.payload.get_asset_status_error {
-                    Ok(Err(get_asset_status_error))
+                    Ok(Err(GetAssetStatusResponseError {
+                        payload: get_asset_status_error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                        executor_id: response.executor_id,
+                    }))
                 } else if let Some(asset_status) = response.payload.asset_status {
                     Ok(Ok(GetAssetStatusResponse {
                         payload: GetAssetStatusResponsePayload { asset_status },
@@ -154,6 +162,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

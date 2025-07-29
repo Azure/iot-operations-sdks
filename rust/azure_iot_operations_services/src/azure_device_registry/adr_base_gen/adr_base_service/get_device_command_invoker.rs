@@ -21,6 +21,7 @@ use super::get_device_response_schema::GetDeviceResponseSchema;
 
 pub type GetDeviceRequest = rpc_command::invoker::Request<EmptyJson>;
 pub type GetDeviceResponse = rpc_command::invoker::Response<GetDeviceResponsePayload>;
+pub type GetDeviceResponseError = rpc_command::invoker::Response<AkriServiceError>;
 pub type GetDeviceRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
@@ -128,12 +129,19 @@ where
     pub async fn invoke(
         &self,
         request: GetDeviceRequest,
-    ) -> Result<Result<GetDeviceResponse, AkriServiceError>, AIOProtocolError> {
+    ) -> Result<Result<GetDeviceResponse, GetDeviceResponseError>, AIOProtocolError> {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(get_device_error) = response.payload.get_device_error {
-                    Ok(Err(get_device_error))
+                    Ok(Err(GetDeviceResponseError {
+                        payload: get_device_error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                        executor_id: response.executor_id,
+                    }))
                 } else if let Some(device) = response.payload.device {
                     Ok(Ok(GetDeviceResponse {
                         payload: GetDeviceResponsePayload { device },
@@ -141,6 +149,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

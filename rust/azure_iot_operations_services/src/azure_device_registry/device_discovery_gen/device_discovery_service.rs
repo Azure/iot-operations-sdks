@@ -2,6 +2,7 @@
 
 mod akri_service_error;
 mod akri_service_error_error;
+mod akri_service_error_serialization;
 mod code_schema;
 mod create_or_update_discovered_device_command_invoker;
 mod create_or_update_discovered_device_request_payload;
