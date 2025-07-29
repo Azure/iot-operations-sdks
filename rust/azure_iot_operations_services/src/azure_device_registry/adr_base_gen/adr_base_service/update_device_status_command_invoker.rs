@@ -24,6 +24,7 @@ pub type UpdateDeviceStatusRequest =
     rpc_command::invoker::Request<UpdateDeviceStatusRequestPayload>;
 pub type UpdateDeviceStatusResponse =
     rpc_command::invoker::Response<UpdateDeviceStatusResponsePayload>;
+pub type UpdateDeviceStatusResponseError = rpc_command::invoker::Response<AkriServiceError>;
 pub type UpdateDeviceStatusRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
@@ -145,14 +146,22 @@ where
     pub async fn invoke(
         &self,
         request: UpdateDeviceStatusRequest,
-    ) -> Result<Result<UpdateDeviceStatusResponse, AkriServiceError>, AIOProtocolError> {
+    ) -> Result<Result<UpdateDeviceStatusResponse, UpdateDeviceStatusResponseError>, AIOProtocolError>
+    {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(update_device_status_error) =
                     response.payload.update_device_status_error
                 {
-                    Ok(Err(update_device_status_error))
+                    Ok(Err(UpdateDeviceStatusResponseError {
+                        payload: update_device_status_error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                        executor_id: response.executor_id,
+                    }))
                 } else if let Some(updated_device_status) = response.payload.updated_device_status {
                     Ok(Ok(UpdateDeviceStatusResponse {
                         payload: UpdateDeviceStatusResponsePayload {
@@ -162,6 +171,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

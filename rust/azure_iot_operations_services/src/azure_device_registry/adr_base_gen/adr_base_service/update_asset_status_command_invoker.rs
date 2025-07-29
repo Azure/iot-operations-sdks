@@ -23,6 +23,7 @@ use super::update_asset_status_response_schema::UpdateAssetStatusResponseSchema;
 pub type UpdateAssetStatusRequest = rpc_command::invoker::Request<UpdateAssetStatusRequestPayload>;
 pub type UpdateAssetStatusResponse =
     rpc_command::invoker::Response<UpdateAssetStatusResponsePayload>;
+pub type UpdateAssetStatusResponseError = rpc_command::invoker::Response<AkriServiceError>;
 pub type UpdateAssetStatusRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
@@ -144,13 +145,21 @@ where
     pub async fn invoke(
         &self,
         request: UpdateAssetStatusRequest,
-    ) -> Result<Result<UpdateAssetStatusResponse, AkriServiceError>, AIOProtocolError> {
+    ) -> Result<Result<UpdateAssetStatusResponse, UpdateAssetStatusResponseError>, AIOProtocolError>
+    {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(update_asset_status_error) = response.payload.update_asset_status_error
                 {
-                    Ok(Err(update_asset_status_error))
+                    Ok(Err(UpdateAssetStatusResponseError {
+                        payload: update_asset_status_error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                        executor_id: response.executor_id,
+                    }))
                 } else if let Some(updated_asset_status) = response.payload.updated_asset_status {
                     Ok(Ok(UpdateAssetStatusResponse {
                         payload: UpdateAssetStatusResponsePayload {
@@ -160,6 +169,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

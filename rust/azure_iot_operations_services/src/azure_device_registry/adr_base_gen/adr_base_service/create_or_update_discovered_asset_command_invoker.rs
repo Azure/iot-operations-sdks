@@ -24,6 +24,8 @@ pub type CreateOrUpdateDiscoveredAssetRequest =
     rpc_command::invoker::Request<CreateOrUpdateDiscoveredAssetRequestPayload>;
 pub type CreateOrUpdateDiscoveredAssetResponse =
     rpc_command::invoker::Response<CreateOrUpdateDiscoveredAssetResponsePayload>;
+pub type CreateOrUpdateDiscoveredAssetResponseError =
+    rpc_command::invoker::Response<AkriServiceError>;
 pub type CreateOrUpdateDiscoveredAssetRequestBuilderError =
     rpc_command::invoker::RequestBuilderError;
 
@@ -157,15 +159,24 @@ where
     pub async fn invoke(
         &self,
         request: CreateOrUpdateDiscoveredAssetRequest,
-    ) -> Result<Result<CreateOrUpdateDiscoveredAssetResponse, AkriServiceError>, AIOProtocolError>
-    {
+    ) -> Result<
+        Result<CreateOrUpdateDiscoveredAssetResponse, CreateOrUpdateDiscoveredAssetResponseError>,
+        AIOProtocolError,
+    > {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(create_or_update_discovered_asset_error) =
                     response.payload.create_or_update_discovered_asset_error
                 {
-                    Ok(Err(create_or_update_discovered_asset_error))
+                    Ok(Err(CreateOrUpdateDiscoveredAssetResponseError {
+                        payload: create_or_update_discovered_asset_error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                        executor_id: response.executor_id,
+                    }))
                 } else if let Some(discovered_asset_response) =
                     response.payload.discovered_asset_response
                 {
@@ -177,6 +188,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {
