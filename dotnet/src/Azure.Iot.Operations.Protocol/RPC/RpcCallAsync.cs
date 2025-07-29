@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         public Guid RequestCorrelationData { get; } = requestCorrelationData;
 
-        public TaskAwaiter<TResp?> GetAwaiter()
+        public TaskAwaiter<TResp> GetAwaiter()
         {
             return ExtendedAsync
             .ContinueWith(

@@ -78,7 +78,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
                         Tags = tags,
                         SchemaType = schemaType
                     }
-                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken))!.Schema;
+                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
         }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {

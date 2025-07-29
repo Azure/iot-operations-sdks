@@ -14,7 +14,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
         public const string ApplicationErrorCodeUserDataKey = "AppErrCode";
         public const string ApplicationErrorPayloadUserDataKey = "AppErrPayload";
 
-        public TResp? Response { get; set; }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        public TResp Response { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
         public CommandResponseMetadata? ResponseMetadata { get; set; }
 

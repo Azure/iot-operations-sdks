@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>("")),
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
@@ -76,7 +76,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>("")),
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
@@ -94,7 +94,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>("")),
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
@@ -112,7 +112,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/{improper/token}/echo",
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>("")),
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = false,
                 CacheTtl = TimeSpan.FromSeconds(-1),
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>("")),
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
@@ -152,7 +152,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "mock/echo",
                 IsIdempotent = true,
                 CacheTtl = TimeSpan.FromSeconds(-1),
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>("")),
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
             var exception = await Assert.ThrowsAsync<AkriMqttException>(() => echoCommand.StartAsync());
@@ -174,7 +174,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 OnCommandReceived = async (reqMd, ct) =>
                 {
                     tcs.SetResult();
-                    return await Task.FromResult(new ExtendedResponse<string>("")
+                    return await Task.FromResult(new ExtendedResponse<string>()
                     {
                         Response = reqMd.Request + reqMd.Request
                     });
@@ -203,7 +203,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 OnCommandReceived = async (reqMd, ct) =>
                 {
                     int executionIndex = Interlocked.Increment(ref timesCmdExecuted);
-                    return await Task.FromResult(new ExtendedResponse<string>("")
+                    return await Task.FromResult(new ExtendedResponse<string>()
                     {
                         Response = reqMd.Request + reqMd.Request + executionIndex,
                     });
@@ -253,7 +253,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 OnCommandReceived = async (reqMd, ct) =>
                 {
                     int executionIndex = Interlocked.Increment(ref timesCmdExecuted);
-                    return await Task.FromResult(new ExtendedResponse<string>("")
+                    return await Task.FromResult(new ExtendedResponse<string>()
                     {
                         Response = reqMd.Request + reqMd.Request + executionIndex,
                     });
@@ -301,7 +301,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 OnCommandReceived = async (reqMd, ct) =>
                 {
                     int executionIndex = Interlocked.Increment(ref timesCmdExecuted);
-                    return await Task.FromResult(new ExtendedResponse<string>("")
+                    return await Task.FromResult(new ExtendedResponse<string>()
                     {
                         Response = reqMd.Request + reqMd.Request + executionIndex,
                     });
@@ -372,7 +372,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 OnCommandReceived = async (reqMd, ct) =>
                 {
                     int executionIndex = Interlocked.Increment(ref timesCmdExecuted);
-                    return await Task.FromResult(new ExtendedResponse<string>("")
+                    return await Task.FromResult(new ExtendedResponse<string>()
                     {
                         Response = reqMd.Request + reqMd.Request + executionIndex,
                     });
@@ -443,7 +443,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 OnCommandReceived = async (reqMd, ct) =>
                 {
                     int executionIndex = Interlocked.Increment(ref timesCmdExecuted);
-                    return await Task.FromResult(new ExtendedResponse<string>("")
+                    return await Task.FromResult(new ExtendedResponse<string>()
                     {
                         Response = reqMd.Request + reqMd.Request + executionIndex,
                     });
@@ -513,7 +513,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     currentParallelism--;
                     semaphore.Release();
 
-                    return new ExtendedResponse<IntegerClass>(new IntegerClass { Integer = 200 });
+                    return new ExtendedResponse<IntegerClass>() { Response = new IntegerClass { Integer = 200 } };
                 },
                 IsIdempotent = false,
             };
@@ -589,7 +589,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     Interlocked.Increment(ref timesCmdExecuted);
                     await Task.Delay(2 * timeout, ct);
 
-                    return await Task.FromResult(new ExtendedResponse<string>("")
+                    return await Task.FromResult(new ExtendedResponse<string>()
                     {
                         Response = reqMd.Request + reqMd.Request,
                     });
@@ -646,7 +646,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     Interlocked.Increment(ref timesCmdExecuted);
                     CommandResponseMetadata responseMetadata = new();
                     responseMetadata.UserData["_dropPubAck"] = "true";
-                    return await Task.FromResult(new ExtendedResponse<string>("")
+                    return await Task.FromResult(new ExtendedResponse<string>()
                     {
                         Response = reqMd.Request + reqMd.Request,
                         ResponseMetadata = responseMetadata,
@@ -693,7 +693,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(applicationContext, mock)
             {
                 RequestTopicPattern = topic,
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>("")),
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
             echoCommand.TopicTokenMap["modelId"] = "MyModel";
@@ -711,7 +711,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
             await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "irrelevant",
-                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>("")),
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>()),
             };
 
             echoCommand.TopicTokenMap["modelId"] = "MyModel";
