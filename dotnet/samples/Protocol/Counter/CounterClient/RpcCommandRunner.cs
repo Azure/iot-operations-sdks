@@ -59,7 +59,7 @@ public class RpcCommandRunner(MqttSessionClient mqttClient, CounterClient counte
         for (int i = 0; i < tasks.Length; i++)
         {
             Task<ExtendedResponse<IncrementResponsePayload>>? t = (Task<ExtendedResponse<IncrementResponsePayload>>?)tasks[i];
-            logger.LogInformation("called counter.incr {c} with id {id}", t!.Result.Response.CounterResponse, t.Result.ResponseMetadata!.CorrelationId);
+            logger.LogInformation("called counter.incr {c} with id {id}", t!.Result.Response!.CounterResponse, t.Result.ResponseMetadata!.CorrelationId);
         }
 
 
