@@ -94,7 +94,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
 
                     return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>
                     {
-                        Response = new CreateOrUpdateDiscoveredDeviceResponseSchema { DiscoveredDeviceResponse = extended.Response!.DiscoveredDeviceResponse },
+                        Response = new CreateOrUpdateDiscoveredDeviceResponseSchema { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -186,12 +186,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
             {
                 ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extended = await this.createOrUpdateDiscoveredDeviceCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.CreateOrUpdateDiscoveredDeviceError != null)
+                if (extended.Response.CreateOrUpdateDiscoveredDeviceError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.CreateOrUpdateDiscoveredDeviceError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.DiscoveredDeviceResponse == null)
+                else if (extended.Response.DiscoveredDeviceResponse == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -204,7 +204,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 {
                     return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>
                     {
-                        Response = new CreateOrUpdateDiscoveredDeviceResponsePayload { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse },
+                        Response = new CreateOrUpdateDiscoveredDeviceResponsePayload { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }

@@ -233,7 +233,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<GetDeviceResponseSchema>
                     {
-                        Response = new GetDeviceResponseSchema { Device = extended.Response!.Device },
+                        Response = new GetDeviceResponseSchema { Device = extended.Response.Device },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -252,7 +252,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<GetDeviceStatusResponseSchema>
                     {
-                        Response = new GetDeviceStatusResponseSchema { DeviceStatus = extended.Response!.DeviceStatus },
+                        Response = new GetDeviceStatusResponseSchema { DeviceStatus = extended.Response.DeviceStatus },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -271,7 +271,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<GetAssetResponseSchema>
                     {
-                        Response = new GetAssetResponseSchema { Asset = extended.Response!.Asset },
+                        Response = new GetAssetResponseSchema { Asset = extended.Response.Asset },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -290,7 +290,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<GetAssetStatusResponseSchema>
                     {
-                        Response = new GetAssetStatusResponseSchema { AssetStatus = extended.Response!.AssetStatus },
+                        Response = new GetAssetStatusResponseSchema { AssetStatus = extended.Response.AssetStatus },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -309,7 +309,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<UpdateDeviceStatusResponseSchema>
                     {
-                        Response = new UpdateDeviceStatusResponseSchema { UpdatedDeviceStatus = extended.Response!.UpdatedDeviceStatus },
+                        Response = new UpdateDeviceStatusResponseSchema { UpdatedDeviceStatus = extended.Response.UpdatedDeviceStatus },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -328,7 +328,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<UpdateAssetStatusResponseSchema>
                     {
-                        Response = new UpdateAssetStatusResponseSchema { UpdatedAssetStatus = extended.Response!.UpdatedAssetStatus },
+                        Response = new UpdateAssetStatusResponseSchema { UpdatedAssetStatus = extended.Response.UpdatedAssetStatus },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -347,7 +347,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema>
                     {
-                        Response = new SetNotificationPreferenceForDeviceUpdatesResponseSchema { ResponsePayload = extended.Response!.ResponsePayload },
+                        Response = new SetNotificationPreferenceForDeviceUpdatesResponseSchema { ResponsePayload = extended.Response.ResponsePayload },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -366,7 +366,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema>
                     {
-                        Response = new SetNotificationPreferenceForAssetUpdatesResponseSchema { ResponsePayload = extended.Response!.ResponsePayload },
+                        Response = new SetNotificationPreferenceForAssetUpdatesResponseSchema { ResponsePayload = extended.Response.ResponsePayload },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -385,7 +385,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                     return new ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>
                     {
-                        Response = new CreateOrUpdateDiscoveredAssetResponseSchema { DiscoveredAssetResponse = extended.Response!.DiscoveredAssetResponse },
+                        Response = new CreateOrUpdateDiscoveredAssetResponseSchema { DiscoveredAssetResponse = extended.Response.DiscoveredAssetResponse },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -903,12 +903,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<GetDeviceResponseSchema> extended = await this.getDeviceCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.GetDeviceError != null)
+                if (extended.Response.GetDeviceError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.GetDeviceError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.Device == null)
+                else if (extended.Response.Device == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -921,7 +921,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<GetDeviceResponsePayload>
                     {
-                        Response = new GetDeviceResponsePayload { Device = extended.Response.Device },
+                        Response = new GetDeviceResponsePayload { Device = extended.Response.Device.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -931,12 +931,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<GetDeviceStatusResponseSchema> extended = await this.getDeviceStatusCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.GetDeviceStatusError != null)
+                if (extended.Response.GetDeviceStatusError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.GetDeviceStatusError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.DeviceStatus == null)
+                else if (extended.Response.DeviceStatus == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -949,7 +949,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<GetDeviceStatusResponsePayload>
                     {
-                        Response = new GetDeviceStatusResponsePayload { DeviceStatus = extended.Response.DeviceStatus },
+                        Response = new GetDeviceStatusResponsePayload { DeviceStatus = extended.Response.DeviceStatus.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -959,12 +959,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<GetAssetResponseSchema> extended = await this.getAssetCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.GetAssetError != null)
+                if (extended.Response.GetAssetError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.GetAssetError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.Asset == null)
+                else if (extended.Response.Asset == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -977,7 +977,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<GetAssetResponsePayload>
                     {
-                        Response = new GetAssetResponsePayload { Asset = extended.Response.Asset },
+                        Response = new GetAssetResponsePayload { Asset = extended.Response.Asset.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -987,12 +987,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<GetAssetStatusResponseSchema> extended = await this.getAssetStatusCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.GetAssetStatusError != null)
+                if (extended.Response.GetAssetStatusError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.GetAssetStatusError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.AssetStatus == null)
+                else if (extended.Response.AssetStatus == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -1005,7 +1005,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<GetAssetStatusResponsePayload>
                     {
-                        Response = new GetAssetStatusResponsePayload { AssetStatus = extended.Response.AssetStatus },
+                        Response = new GetAssetStatusResponsePayload { AssetStatus = extended.Response.AssetStatus.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -1015,12 +1015,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<UpdateDeviceStatusResponseSchema> extended = await this.updateDeviceStatusCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.UpdateDeviceStatusError != null)
+                if (extended.Response.UpdateDeviceStatusError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.UpdateDeviceStatusError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.UpdatedDeviceStatus == null)
+                else if (extended.Response.UpdatedDeviceStatus == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -1033,7 +1033,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<UpdateDeviceStatusResponsePayload>
                     {
-                        Response = new UpdateDeviceStatusResponsePayload { UpdatedDeviceStatus = extended.Response.UpdatedDeviceStatus },
+                        Response = new UpdateDeviceStatusResponsePayload { UpdatedDeviceStatus = extended.Response.UpdatedDeviceStatus.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -1043,12 +1043,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<UpdateAssetStatusResponseSchema> extended = await this.updateAssetStatusCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.UpdateAssetStatusError != null)
+                if (extended.Response.UpdateAssetStatusError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.UpdateAssetStatusError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.UpdatedAssetStatus == null)
+                else if (extended.Response.UpdatedAssetStatus == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -1061,7 +1061,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<UpdateAssetStatusResponsePayload>
                     {
-                        Response = new UpdateAssetStatusResponsePayload { UpdatedAssetStatus = extended.Response.UpdatedAssetStatus },
+                        Response = new UpdateAssetStatusResponsePayload { UpdatedAssetStatus = extended.Response.UpdatedAssetStatus.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -1071,12 +1071,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema> extended = await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.SetNotificationPreferenceForDeviceUpdatesError != null)
+                if (extended.Response.SetNotificationPreferenceForDeviceUpdatesError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.SetNotificationPreferenceForDeviceUpdatesError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.ResponsePayload == null)
+                else if (extended.Response.ResponsePayload == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -1089,7 +1089,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload>
                     {
-                        Response = new SetNotificationPreferenceForDeviceUpdatesResponsePayload { ResponsePayload = extended.Response.ResponsePayload },
+                        Response = new SetNotificationPreferenceForDeviceUpdatesResponsePayload { ResponsePayload = extended.Response.ResponsePayload.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -1099,12 +1099,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema> extended = await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.SetNotificationPreferenceForAssetUpdatesError != null)
+                if (extended.Response.SetNotificationPreferenceForAssetUpdatesError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.SetNotificationPreferenceForAssetUpdatesError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.ResponsePayload == null)
+                else if (extended.Response.ResponsePayload == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -1117,7 +1117,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload>
                     {
-                        Response = new SetNotificationPreferenceForAssetUpdatesResponsePayload { ResponsePayload = extended.Response.ResponsePayload },
+                        Response = new SetNotificationPreferenceForAssetUpdatesResponsePayload { ResponsePayload = extended.Response.ResponsePayload.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
@@ -1127,12 +1127,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema> extended = await this.createOrUpdateDiscoveredAssetCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
-                if (extended.Response != null && extended.Response.CreateOrUpdateDiscoveredAssetError != null)
+                if (extended.Response.CreateOrUpdateDiscoveredAssetError != null)
                 {
                     AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.CreateOrUpdateDiscoveredAssetError);
                     throw akriServiceErrorException;
                 }
-                else if (extended.Response == null || extended.Response.DiscoveredAssetResponse == null)
+                else if (extended.Response.DiscoveredAssetResponse == null)
                 {
                     throw new AkriMqttException("Command response has neither normal nor error payload content")
                     {
@@ -1145,7 +1145,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     return new ExtendedResponse<CreateOrUpdateDiscoveredAssetResponsePayload>
                     {
-                        Response = new CreateOrUpdateDiscoveredAssetResponsePayload { DiscoveredAssetResponse = extended.Response.DiscoveredAssetResponse },
+                        Response = new CreateOrUpdateDiscoveredAssetResponsePayload { DiscoveredAssetResponse = extended.Response.DiscoveredAssetResponse.Value() },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
