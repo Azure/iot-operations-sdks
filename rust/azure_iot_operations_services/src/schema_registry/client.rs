@@ -191,7 +191,7 @@ mod tests {
 
     use crate::schema_registry::{
         Client, DEFAULT_SCHEMA_VERSION, Error, ErrorKind, Format, GetSchemaRequestBuilder,
-        GetSchemaRequestBuilderError, PutSchemaRequestBuilder, SchemaType,
+        GetSchemaRequestBuilderError, PutSchemaRequestBuilder, PutSchemaRequestBuilderError, SchemaType,
     };
 
     // TODO: This should return a mock ManagedClient instead.
@@ -251,6 +251,60 @@ mod tests {
         assert!(matches!(
             get_request.unwrap_err(),
             GetSchemaRequestBuilderError::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_get_request_invalid_version() {
+        let get_request = GetSchemaRequestBuilder::default()
+            .name(TEST_SCHEMA_NAME.to_string())
+            .version(String::new())
+            .build();
+
+        assert!(matches!(
+            get_request.unwrap_err(),
+            GetSchemaRequestBuilderError::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_put_request_invalid_display_name() {
+        let put_request = PutSchemaRequestBuilder::default()
+            .schema_content(TEST_SCHEMA_CONTENT.to_string())
+            .format(Format::JsonSchemaDraft07)
+            .display_name(String::new())
+            .build();
+
+        assert!(matches!(
+            put_request.unwrap_err(),
+            PutSchemaRequestBuilderError::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_put_request_invalid_version() {
+        let put_request = PutSchemaRequestBuilder::default()
+            .schema_content(TEST_SCHEMA_CONTENT.to_string())
+            .format(Format::JsonSchemaDraft07)
+            .version(String::new())
+            .build();
+
+        assert!(matches!(
+            put_request.unwrap_err(),
+            PutSchemaRequestBuilderError::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_put_request_invalid_schema_content() {
+        let put_request = PutSchemaRequestBuilder::default()
+            .schema_content(String::new())
+            .format(Format::JsonSchemaDraft07)
+            .build();
+
+        assert!(matches!(
+            put_request.unwrap_err(),
+            PutSchemaRequestBuilderError::ValidationError(_)
         ));
     }
 
