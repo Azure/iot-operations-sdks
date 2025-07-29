@@ -24,6 +24,7 @@ mod schema_registry_error;
 mod schema_registry_error_code;
 mod schema_registry_error_details;
 mod schema_registry_error_error;
+mod schema_registry_error_serialization;
 mod schema_registry_error_target;
 mod schema_type;
 

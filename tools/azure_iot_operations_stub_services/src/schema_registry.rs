@@ -19,13 +19,59 @@ pub const SERVICE_NAME: &str = "schema_registry";
 pub const CLIENT_ID: &str = "schema_registry_service_stub";
 const NAMESPACE: &str = "aio-sr-ns-stub";
 
+// ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Structs and Enums~~~~~~~
+
 /// Supported schema formats
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Format {
+    /// Delta/1.0
     #[serde(rename = "Delta/1.0")]
     Delta1,
+    /// JsonSchema/draft-07
     #[serde(rename = "JsonSchema/draft-07")]
     JsonSchemaDraft07,
+}
+
+/// Supported schema types.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum SchemaType {
+    /// Message Schema
+    #[serde(rename = "MessageSchema")]
+    MessageSchema,
+}
+
+/// Schema object
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Schema {
+    /// Human-readable description of the schema.
+    pub description: Option<String>,
+    /// Human-readable display name.
+    pub display_name: Option<String>,
+    /// Format of the schema.
+    pub format: Format,
+    /// Hash of the schema content.
+    pub hash: Option<String>,
+    /// Schema name.
+    pub name: String,
+    /// Schema registry namespace. Uniquely identifies a schema registry within a tenant.
+    pub namespace: String,
+    /// Content stored in the schema.
+    pub schema_content: String,
+    /// Type of the schema.
+    pub schema_type: SchemaType,
+    /// Schema tags.
+    pub tags: HashMap<String, String>,
+    /// Version of the schema. Allowed between 0-9.
+    pub version: u32,
+}
+
+/// Request to get a schema from the schema registry.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct GetRequest {
+    /// Schema name.
+    name: String,
+    /// Version of the schema. Allowed between 0-9.
+    version: String,
 }
 
 impl From<service_gen::Format> for Format {
@@ -48,12 +94,6 @@ impl From<Format> for service_gen::Format {
     }
 }
 
-/// Supported schema types
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
-pub enum SchemaType {
-    MessageSchema,
-}
-
 impl From<service_gen::SchemaType> for SchemaType {
     fn from(schema_type: service_gen::SchemaType) -> Self {
         match schema_type {
@@ -68,42 +108,6 @@ impl From<SchemaType> for service_gen::SchemaType {
             SchemaType::MessageSchema => service_gen::SchemaType::MessageSchema,
         }
     }
-}
-/// Schema object
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct Schema {
-    /// Human-readable description of the schema.
-    description: Option<String>,
-
-    /// Human-readable display name.
-    #[serde(rename = "displayName")]
-    display_name: Option<String>,
-
-    /// Format of the schema.
-    format: Format,
-
-    /// Hash of the schema content.
-    hash: String,
-
-    /// Schema name.
-    name: String,
-
-    /// Schema registry namespace. Uniquely identifies a schema registry within a tenant.
-    namespace: String,
-
-    /// Content stored in the schema.
-    #[serde(rename = "schemaContent")]
-    schema_content: String,
-
-    /// Type of the schema.
-    #[serde(rename = "schemaType")]
-    schema_type: SchemaType,
-
-    /// Schema tags.
-    tags: HashMap<String, String>,
-
-    /// Version of the schema. Allowed between 0-9.
-    version: u32,
 }
 
 impl Ord for Schema {
@@ -132,14 +136,18 @@ impl From<Schema> for service_gen::Schema {
         Self {
             description: schema.description,
             display_name: schema.display_name,
-            format: Some(schema.format.into()),
-            hash: Some(schema.hash),
-            name: Some(schema.name),
-            namespace: Some(schema.namespace),
-            schema_content: Some(schema.schema_content),
-            schema_type: Some(schema.schema_type.into()),
-            tags: Some(schema.tags),
-            version: Some(schema.version.to_string()),
+            format: schema.format.into(),
+            hash: schema.hash,
+            name: schema.name,
+            namespace: schema.namespace,
+            schema_content: schema.schema_content,
+            schema_type: schema.schema_type.into(),
+            tags: if schema.tags.is_empty() {
+                None
+            } else {
+                Some(schema.tags)
+            },
+            version: schema.version.to_string(),
         }
     }
 }
@@ -151,38 +159,26 @@ impl TryFrom<service_gen::PutRequestSchema> for Schema {
         // Create the hash of the schema content
         let schema_hash = {
             let mut hasher = DefaultHasher::new();
-            let content = put_request_schema
-                .schema_content
-                .clone()
-                .expect("Schema content is required");
+            let content = put_request_schema.schema_content.clone();
             content.hash(&mut hasher);
             hasher.finish().to_string()
         };
 
-        // Transfrom the put request schema into a Schema
+        // Transform the put request schema into a Schema
         Ok(Self {
             description: put_request_schema.description,
             display_name: put_request_schema.display_name,
-            format: put_request_schema
-                .format
-                .expect("Format is required")
-                .into(),
-            hash: schema_hash.clone(),
+            format: put_request_schema.format.into(),
+            hash: Some(schema_hash.clone()),
             name: schema_hash,
             namespace: NAMESPACE.to_string(),
-            schema_content: put_request_schema
-                .schema_content
-                .expect("Schema content is required"),
-            schema_type: put_request_schema
-                .schema_type
-                .expect("Schema type is required")
-                .into(),
+            schema_content: put_request_schema.schema_content,
+            schema_type: put_request_schema.schema_type.into(),
             tags: put_request_schema.tags.unwrap_or_default(),
             version: put_request_schema
                 .version
-                .expect("Schema version is required")
                 .parse()
-                .map_err(|_| "Invalid schema version, skipping request".to_string())?, // TODO: Implement error handling for incorrect version number
+                .map_err(|_| "Invalid schema version, skipping request".to_string())?,
         })
     }
 }

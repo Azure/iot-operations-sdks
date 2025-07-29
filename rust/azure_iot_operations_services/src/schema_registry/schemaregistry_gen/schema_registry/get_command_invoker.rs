@@ -22,6 +22,7 @@ use super::schema_registry_error::SchemaRegistryError;
 
 pub type GetRequest = rpc_command::invoker::Request<GetRequestSchema>;
 pub type GetResponse = rpc_command::invoker::Response<GetResponsePayload>;
+pub type GetResponseError = rpc_command::invoker::Response<SchemaRegistryError>;
 pub type GetRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
@@ -136,12 +137,18 @@ where
     pub async fn invoke(
         &self,
         request: GetRequest,
-    ) -> Result<Result<GetResponse, SchemaRegistryError>, AIOProtocolError> {
+    ) -> Result<Result<GetResponse, GetResponseError>, AIOProtocolError> {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(error) = response.payload.error {
-                    Ok(Err(error))
+                    Ok(Err(GetResponseError {
+                        payload: error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                    }))
                 } else if let Some(schema) = response.payload.schema {
                     Ok(Ok(GetResponse {
                         payload: GetResponsePayload { schema },
