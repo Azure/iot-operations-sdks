@@ -94,7 +94,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
 
                     return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>
                     {
-                        Response = new CreateOrUpdateDiscoveredDeviceResponseSchema { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse },
+                        Response = new CreateOrUpdateDiscoveredDeviceResponseSchema { DiscoveredDeviceResponse = extended.Response!.DiscoveredDeviceResponse },
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
