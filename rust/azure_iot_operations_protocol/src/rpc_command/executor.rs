@@ -1162,6 +1162,11 @@ where
                 RPC_COMMAND_PROTOCOL_VERSION.to_string(),
             ));
 
+            user_properties.push((
+                UserProperty::SourceId.to_string(),
+                client.client_id().to_string(),
+            ));
+
             // Update HLC and use as the timestamp.
             // If there are errors updating the HLC (unlikely when updating against now),
             // the timestamp will not be added.

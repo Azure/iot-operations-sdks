@@ -21,17 +21,17 @@ pub struct DiscoveredAssetDataset {
     #[builder(default = "None")]
     pub data_points: Option<Vec<DiscoveredAssetDatasetDataPoint>>,
 
-    /// Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset.
-    #[serde(rename = "datasetConfiguration")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub dataset_configuration: Option<String>,
-
     /// Name of the data source within a dataset.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_source: Option<String>,
+
+    /// Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset.
+    #[serde(rename = "datasetConfiguration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub dataset_configuration: Option<String>,
 
     /// Destinations for a dataset.
     #[serde(skip_serializing_if = "Option::is_none")]

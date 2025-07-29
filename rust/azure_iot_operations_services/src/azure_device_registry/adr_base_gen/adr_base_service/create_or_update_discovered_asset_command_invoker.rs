@@ -175,6 +175,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else if let Some(discovered_asset_response) =
                     response.payload.discovered_asset_response
@@ -187,6 +188,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

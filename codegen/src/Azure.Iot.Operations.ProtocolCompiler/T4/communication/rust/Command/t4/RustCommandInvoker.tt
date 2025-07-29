@@ -197,6 +197,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
 <# if (this.isRespNullable) { #>
                 } else {
@@ -213,6 +214,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
 <# if (!this.isRespNullable) { #>
                 } else {

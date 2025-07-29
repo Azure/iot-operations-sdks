@@ -143,6 +143,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else if let Some(device_status) = response.payload.device_status {
                     Ok(Ok(GetDeviceStatusResponse {
@@ -151,6 +152,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

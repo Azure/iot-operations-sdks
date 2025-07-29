@@ -153,6 +153,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else if let Some(asset) = response.payload.asset {
                     Ok(Ok(GetAssetResponse {
@@ -161,6 +162,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

@@ -180,6 +180,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else if let Some(response_payload) = response.payload.response_payload {
                     Ok(Ok(SetNotificationPreferenceForAssetUpdatesResponse {
@@ -190,6 +191,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

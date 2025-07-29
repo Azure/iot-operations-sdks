@@ -872,7 +872,6 @@ where
             .invoke(request)
             .await
             .map_err(ErrorKind::from)?
-            .map_err(base_client_gen::AkriServiceError::from)
             .map_err(ErrorKind::from)?;
 
         let discovery_id = response.payload.discovered_device_response.discovery_id;

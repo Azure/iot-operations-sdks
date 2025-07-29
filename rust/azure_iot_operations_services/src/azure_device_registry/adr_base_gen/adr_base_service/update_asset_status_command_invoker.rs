@@ -158,6 +158,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else if let Some(updated_asset_status) = response.payload.updated_asset_status {
                     Ok(Ok(UpdateAssetStatusResponse {
@@ -168,6 +169,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {
