@@ -10,14 +10,30 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
     using Azure.Iot.Operations.Services.SchemaRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class GetResponsePayload
+    public partial class GetResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The Command response argument.
         /// </summary>
         [JsonPropertyName("schema")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Schema? Schema { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public Schema Schema { get; set; } = default!;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (Schema is null)
+            {
+                throw new ArgumentNullException("schema field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (Schema is null)
+            {
+                throw new ArgumentNullException("schema field cannot be null");
+            }
+        }
     }
 }

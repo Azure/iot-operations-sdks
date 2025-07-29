@@ -15,15 +15,15 @@ use super::device_status::DeviceStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateDeviceStatusResponseSchema {
-    /// Error details, if the device status update failed.
-    #[serde(rename = "updateDeviceStatusError")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub update_device_status_error: Option<AkriServiceError>,
-
     /// The updated device status containing the specific inbound endpoint status as specified by the request.
     #[serde(rename = "updatedDeviceStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub updated_device_status: Option<DeviceStatus>,
+
+    /// Error details, if the device status update failed.
+    #[serde(rename = "updateDeviceStatusError")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub update_device_status_error: Option<AkriServiceError>,
 }
