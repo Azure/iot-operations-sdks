@@ -97,7 +97,7 @@ where
             .invoke(command_request)
             .await
             .map_err(ErrorKind::from)?
-            .map_err(|e| Error(ErrorKind::from(ServiceError::from(e.payload))))?; // FIN: Maybe can change
+            .map_err(|e| Error(ErrorKind::from(ServiceError::from(e.payload))))?;
 
         Ok(response.payload.schema.into())
     }
