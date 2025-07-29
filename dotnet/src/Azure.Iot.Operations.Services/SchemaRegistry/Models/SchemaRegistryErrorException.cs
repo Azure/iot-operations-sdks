@@ -14,6 +14,6 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Models
             SchemaRegistryError = schemaRegistryError;
         }
 
-        public SchemaRegistryError SchemaRegistryError { get; set;  }
+        public SchemaRegistryError SchemaRegistryError { get; set; }
     }
 }
