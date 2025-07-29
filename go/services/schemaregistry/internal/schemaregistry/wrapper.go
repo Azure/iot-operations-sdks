@@ -12,7 +12,7 @@ type SchemaRegistryClient struct {
 }
 
 const (
-	ModelID = "dtmi:ms:adr:SchemaRegistry;1"
+	ModelID = "dtmi:ms:adr:SchemaRegistry;2"
 	CommandTopic = "adr/{modelId}/{commandName}"
 )
 

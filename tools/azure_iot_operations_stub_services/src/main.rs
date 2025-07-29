@@ -18,6 +18,7 @@ use log4rs::{
 
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 1883;
+#[cfg(feature = "enable-output")]
 const LOGGING_FILE_SIZE: u64 = 1024 * 1024 * 10; // 10 MB
 const LOGGING_PATTERN: &str = "[{h({l})} {M}] {m}{n}"; // Pattern for log messages, ex: [ERROR stub_service::schema_registry] message
 
@@ -48,7 +49,10 @@ fn initialize_logger(output_directory_manager: &OutputDirectoryManager) {
             Logger::builder()
                 .appender(schema_registry::SERVICE_NAME)
                 .additive(true)
-                .build("stub_service::schema_registry", log::LevelFilter::Debug),
+                .build(
+                    "azure_iot_operations_stub_services::schema_registry",
+                    log::LevelFilter::Debug,
+                ),
         )
         .logger(Logger::builder().build("azure_iot_operations_mqtt", LevelFilter::Error))
         .logger(Logger::builder().build("azure_iot_operations_protocol", LevelFilter::Error))
@@ -95,7 +99,7 @@ fn initialize_logger(_output_directory_manager: &OutputDirectoryManager) {
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize the output directory manager
-    let output_directory_manager = OutputDirectoryManager::new();
+    let output_directory_manager = OutputDirectoryManager::default();
 
     // Initialize the logger
     initialize_logger(&output_directory_manager);

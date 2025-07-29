@@ -5,10 +5,11 @@ import (
 	"context"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol"
+	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 )
 
 type GetCommandInvoker struct {
-	*protocol.CommandInvoker[GetRequestPayload, GetResponsePayload]
+	*protocol.CommandInvoker[GetRequestSchema, GetResponseSchema]
 }
 
 func NewGetCommandInvoker(
@@ -31,8 +32,8 @@ func NewGetCommandInvoker(
 	invoker.CommandInvoker, err = protocol.NewCommandInvoker(
 		app,
 		client,
-		protocol.JSON[GetRequestPayload]{},
-		protocol.JSON[GetResponsePayload]{},
+		protocol.JSON[GetRequestSchema]{},
+		protocol.JSON[GetResponseSchema]{},
 		requestTopic,
 		&opts,
 	)
@@ -42,7 +43,7 @@ func NewGetCommandInvoker(
 
 func (invoker GetCommandInvoker) Get(
 	ctx context.Context,
-	request GetRequestPayload,
+	request GetRequestSchema,
 	opt ...protocol.InvokeOption,
 ) (*protocol.CommandResponse[GetResponsePayload], error) {
 	invokerOpts := []protocol.InvokeOption{
@@ -58,5 +59,34 @@ func (invoker GetCommandInvoker) Get(
 		&invokeOpts,
 	)
 
-	return response, err
+	if err != nil {
+		return nil, err
+	}
+
+	if response.Payload.Error != nil {
+		return nil, response.Payload.Error
+	}
+
+	if response.Payload.Schema == nil {
+		return nil, &errors.Client{
+			Message: "Command response has neither normal nor error payload content",
+			Kind:    errors.PayloadInvalid{},
+			Shallow: false,
+		}
+	}
+
+	mappedResponse := protocol.CommandResponse[GetResponsePayload]{
+		protocol.Message[GetResponsePayload]{
+			Payload: GetResponsePayload{
+				Schema: *response.Payload.Schema,
+			},
+			ClientID:        response.ClientID,
+			CorrelationData: response.CorrelationData,
+			Timestamp:       response.Timestamp,
+			TopicTokens:     response.TopicTokens,
+			Metadata:        response.Metadata,
+		},
+	}
+
+	return &mappedResponse, nil
 }

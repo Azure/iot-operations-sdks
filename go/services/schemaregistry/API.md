@@ -18,7 +18,9 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry"
 - [type ClientOptions](<#ClientOptions>)
   - [func \(o \*ClientOptions\) Apply\(opts \[\]ClientOption, rest ...ClientOption\)](<#ClientOptions.Apply>)
 - [type Error](<#Error>)
-  - [func \(e \*Error\) Error\(\) string](<#Error.Error>)
+- [type ErrorCode](<#ErrorCode>)
+- [type ErrorDetails](<#ErrorDetails>)
+- [type ErrorTarget](<#ErrorTarget>)
 - [type Format](<#Format>)
 - [type GetOption](<#GetOption>)
 - [type GetOptions](<#GetOptions>)
@@ -45,6 +47,34 @@ const (
 )
 ```
 
+<a name="ErrorCodeBadRequest"></a>
+
+```go
+const (
+    ErrorCodeBadRequest    = schemaregistry.SchemaRegistryErrorCodeBadRequest
+    ErrorCodeInternalError = schemaregistry.SchemaRegistryErrorCodeInternalError
+    ErrorCodeNotFound      = schemaregistry.SchemaRegistryErrorCodeNotFound
+)
+```
+
+<a name="ErrorTargetDescriptionProperty"></a>
+
+```go
+const (
+    ErrorTargetDescriptionProperty       = schemaregistry.SchemaRegistryErrorTargetDescriptionProperty
+    ErrorTargetDisplayNameProperty       = schemaregistry.SchemaRegistryErrorTargetDisplayNameProperty
+    ErrorTargetFormatProperty            = schemaregistry.SchemaRegistryErrorTargetFormatProperty
+    ErrorTargetNameProperty              = schemaregistry.SchemaRegistryErrorTargetNameProperty
+    ErrorTargetSchemaArmResource         = schemaregistry.SchemaRegistryErrorTargetSchemaArmResource
+    ErrorTargetSchemaContentProperty     = schemaregistry.SchemaRegistryErrorTargetSchemaContentProperty
+    ErrorTargetSchemaRegistryArmResource = schemaregistry.SchemaRegistryErrorTargetSchemaRegistryArmResource
+    ErrorTargetSchemaTypeProperty        = schemaregistry.SchemaRegistryErrorTargetSchemaTypeProperty
+    ErrorTargetSchemaVersionArmResource  = schemaregistry.SchemaRegistryErrorTargetSchemaVersionArmResource
+    ErrorTargetTagsProperty              = schemaregistry.SchemaRegistryErrorTargetTagsProperty
+    ErrorTargetVersionProperty           = schemaregistry.SchemaRegistryErrorTargetVersionProperty
+)
+```
+
 <a name="MessageSchema"></a>
 
 ```go
@@ -54,7 +84,7 @@ const (
 ```
 
 <a name="Client"></a>
-## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L18-L23>)
+## type [Client](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L16-L18>)
 
 Client represents a client of the schema registry.
 
@@ -65,7 +95,7 @@ type Client struct {
 ```
 
 <a name="New"></a>
-### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L42-L46>)
+### func [New](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L30-L34>)
 
 ```go
 func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOption) (*Client, error)
@@ -74,7 +104,7 @@ func New(app *protocol.Application, client protocol.MqttClient, opt ...ClientOpt
 New creates a new schema registry client.
 
 <a name="Client.Close"></a>
-### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L67>)
+### func \(\*Client\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L55>)
 
 ```go
 func (c *Client) Close()
@@ -101,7 +131,7 @@ func (c *Client) Put(ctx context.Context, content string, format Format, opt ...
 Put adds or updates a schema in the schema registry.
 
 <a name="Client.Start"></a>
-### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L62>)
+### func \(\*Client\) [Start](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L50>)
 
 ```go
 func (c *Client) Start(ctx context.Context) error
@@ -110,7 +140,7 @@ func (c *Client) Start(ctx context.Context) error
 Start listening to all underlying MQTT topics.
 
 <a name="ClientOption"></a>
-## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L26>)
+## type [ClientOption](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L21>)
 
 ClientOption represents a single option for the client.
 
@@ -130,7 +160,7 @@ func WithLogger(logger *slog.Logger) ClientOption
 WithLogger enables logging with the provided slog logger.
 
 <a name="ClientOptions"></a>
-## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L29-L31>)
+## type [ClientOptions](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L24-L26>)
 
 ClientOptions are the resolved options for the client.
 
@@ -141,7 +171,7 @@ type ClientOptions struct {
 ```
 
 <a name="ClientOptions.Apply"></a>
-### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L101-L104>)
+### func \(\*ClientOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L60-L63>)
 
 ```go
 func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
@@ -150,26 +180,40 @@ func (o *ClientOptions) Apply(opts []ClientOption, rest ...ClientOption)
 Apply resolves the provided list of options.
 
 <a name="Error"></a>
-## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L34-L38>)
+## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/alias.go#L27>)
 
-Error represents an error returned by the schema registry.
-
-```go
-type Error struct {
-    Message       string
-    PropertyName  string
-    PropertyValue any
-}
-```
-
-<a name="Error.Error"></a>
-### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/client.go#L72>)
+Error object for schema operations.
 
 ```go
-func (e *Error) Error() string
+type Error = schemaregistry.SchemaRegistryError
 ```
 
-Error returns the error message.
+<a name="ErrorCode"></a>
+## type [ErrorCode](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/alias.go#L30>)
+
+ErrorCode for classification of errors \(ex: '400', '404', '500', etc.\).
+
+```go
+type ErrorCode = schemaregistry.SchemaRegistryErrorCode
+```
+
+<a name="ErrorDetails"></a>
+## type [ErrorDetails](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/alias.go#L39>)
+
+ErrorDetails represents additional details about an error, if available.
+
+```go
+type ErrorDetails = schemaregistry.SchemaRegistryErrorDetails
+```
+
+<a name="ErrorTarget"></a>
+## type [ErrorTarget](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/alias.go#L43>)
+
+ErrorTarget represents the target of the error, if applicable \(e.g., 'schemaType'\).
+
+```go
+type ErrorTarget = schemaregistry.SchemaRegistryErrorTarget
+```
 
 <a name="Format"></a>
 ## type [Format](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/alias.go#L12>)
@@ -204,7 +248,7 @@ type GetOptions struct {
 ```
 
 <a name="GetOptions.Apply"></a>
-### func \(\*GetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/get.go#L56>)
+### func \(\*GetOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/get.go#L53>)
 
 ```go
 func (o *GetOptions) Apply(opts []GetOption, rest ...GetOption)
@@ -238,7 +282,7 @@ type PutOptions struct {
 ```
 
 <a name="PutOptions.Apply"></a>
-### func \(\*PutOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L63>)
+### func \(\*PutOptions\) [Apply](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/schemaregistry/put.go#L60>)
 
 ```go
 func (o *PutOptions) Apply(opts []PutOption, rest ...PutOption)

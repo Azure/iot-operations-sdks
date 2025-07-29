@@ -27,21 +27,15 @@ pub struct PutRequestSchema {
     pub display_name: Option<String>,
 
     /// Format of the schema.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub format: Option<Format>,
+    pub format: Format,
 
     /// Content stored in the schema.
     #[serde(rename = "schemaContent")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub schema_content: Option<String>,
+    pub schema_content: String,
 
     /// Type of the schema.
     #[serde(rename = "schemaType")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub schema_type: Option<SchemaType>,
+    pub schema_type: SchemaType,
 
     /// Schema tags.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -49,7 +43,5 @@ pub struct PutRequestSchema {
     pub tags: Option<HashMap<String, String>>,
 
     /// Version of the schema. Allowed between 0-9.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub version: Option<String>,
+    pub version: String,
 }

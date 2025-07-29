@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
         /// Specializes a <c>CommandExecutor</c> class for Command 'get'.
         /// </summary>
         [CommandBehavior(idempotent: true, cacheTtl: "P1D")]
-        public class GetCommandExecutor : CommandExecutor<GetRequestPayload, GetResponsePayload>
+        public class GetCommandExecutor : CommandExecutor<GetRequestSchema, GetResponseSchema>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCommandExecutor"/> class.
@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
             public GetCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, "get", new Utf8JsonSerializer())
             {
-                TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;1";
+                TopicTokenMap["modelId"] = "dtmi:ms:adr:SchemaRegistry;2";
                 if (mqttClient.ClientId != null)
                 {
                     TopicTokenMap["executorId"] = mqttClient.ClientId;

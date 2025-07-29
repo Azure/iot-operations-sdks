@@ -10,19 +10,22 @@ use azure_iot_operations_protocol::rpc_command;
 use iso8601_duration;
 
 use super::super::common_types::options::CommandExecutorOptions;
+use super::COMMAND_SERVICE_GROUP_ID;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::get_request_payload::GetRequestPayload;
+use super::get_request_schema::GetRequestSchema;
 use super::get_response_payload::GetResponsePayload;
+use super::get_response_schema::GetResponseSchema;
+use super::schema_registry_error::SchemaRegistryError;
 
-pub type GetRequest = rpc_command::executor::Request<GetRequestPayload, GetResponsePayload>;
-pub type GetResponse = rpc_command::executor::Response<GetResponsePayload>;
+pub type GetRequest = rpc_command::executor::Request<GetRequestSchema, GetResponseSchema>;
+pub type GetResponse = rpc_command::executor::Response<GetResponseSchema>;
 pub type GetResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
 /// Builder for [`GetResponse`]
 #[derive(Default)]
 pub struct GetResponseBuilder {
-    inner_builder: rpc_command::executor::ResponseBuilder<GetResponsePayload>,
+    inner_builder: rpc_command::executor::ResponseBuilder<GetResponseSchema>,
 }
 
 impl GetResponseBuilder {
@@ -37,7 +40,18 @@ impl GetResponseBuilder {
     /// # Errors
     /// If the payload cannot be serialized
     pub fn payload(&mut self, payload: GetResponsePayload) -> Result<&mut Self, AIOProtocolError> {
-        self.inner_builder.payload(payload)?;
+        self.inner_builder.payload(GetResponseSchema {
+            schema: Some(payload.schema),
+            error: None,
+        })?;
+        Ok(self)
+    }
+
+    pub fn error(&mut self, error: SchemaRegistryError) -> Result<&mut Self, AIOProtocolError> {
+        self.inner_builder.payload(GetResponseSchema {
+            schema: None,
+            error: Some(error),
+        })?;
         Ok(self)
     }
 
@@ -52,7 +66,7 @@ impl GetResponseBuilder {
 }
 
 /// Command Executor for `get`
-pub struct GetCommandExecutor<C>(rpc_command::Executor<GetRequestPayload, GetResponsePayload, C>)
+pub struct GetCommandExecutor<C>(rpc_command::Executor<GetRequestSchema, GetResponseSchema, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -90,15 +104,9 @@ where
         let executor_options = executor_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name("get")
-            .cacheable_duration(
-                "P1D"
-                    .parse::<iso8601_duration::Duration>()
-                    .unwrap()
-                    .to_std()
-                    .expect("TTL defined in DTDL schema exceeded maximum value"),
-            )
             .is_idempotent(true)
             .topic_token_map(topic_token_map)
+            .service_group_id(COMMAND_SERVICE_GROUP_ID.to_string())
             .build()
             .expect("DTDL schema generated invalid arguments");
 
