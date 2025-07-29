@@ -142,7 +142,11 @@ impl From<Schema> for service_gen::Schema {
             namespace: schema.namespace,
             schema_content: schema.schema_content,
             schema_type: schema.schema_type.into(),
-            tags: Some(schema.tags),
+            tags: if schema.tags.is_empty() {
+                None
+            } else {
+                Some(schema.tags)
+            },
             version: schema.version.to_string(),
         }
     }

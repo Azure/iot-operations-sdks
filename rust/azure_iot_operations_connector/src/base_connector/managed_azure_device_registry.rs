@@ -1526,13 +1526,18 @@ impl DatasetClient {
     /// if the content of the [`MessageSchema`] is empty or there is an error building the request
     ///
     /// [`MessageSchemaError`] of kind [`SchemaRegistryError::ServiceError`](schema_registry::ErrorKind::ServiceError)
-    /// if there is an error returned by the Schema Registry or the Azure Device Registry Service. This
-    /// error will be retried 10 times with exponential backoff and jitter if it is an internal error and
-    /// only returned if it still is failing.
+    /// if there is an error returned by the Schema Registry Service. This error will be retried 10 
+    /// times with exponential backoff and jitter if it is an internal error and only returned if 
+    /// it still is failing.
     ///
     /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
     /// there are any underlying errors from the AIO RPC protocol. This error will be retried
     /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
+    /// an error is returned by the Azure Device Registry service.
+    /// 
+    /// # Panics
     ///
     /// If the asset specification mutex has been poisoned, which should not be possible
     pub async fn report_message_schema(
@@ -1571,10 +1576,6 @@ impl DatasetClient {
                                     );
                                     RetryError::transient(e)
                                 } else {
-                                    log::error!(
-                                        "Reporting message schema failed for {:?}: {e}",
-                                        self.dataset_ref
-                                    );
                                     RetryError::permanent(e)
                                 }
                             }

@@ -215,8 +215,9 @@ pub enum SchemaType {
     MessageSchema,
 }
 
+// TODO: Implement proper Equality for schema_content. At this point, it is just a string comparison.
 /// Schema object
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Schema {
     /// Human-readable description of the schema.
     pub description: Option<String>,
@@ -240,6 +241,7 @@ pub struct Schema {
     pub version: String,
 }
 
+// TODO: Implement proper Equality for schema_content. At this point, it is just a string comparison.
 /// Request to put a schema in the schema registry.
 #[derive(Builder, Clone, Debug, PartialEq, Eq)]
 #[builder(setter(into), build_fn(validate = "Self::validate"))]
