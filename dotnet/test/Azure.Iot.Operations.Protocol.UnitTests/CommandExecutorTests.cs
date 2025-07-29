@@ -513,7 +513,10 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                     currentParallelism--;
                     semaphore.Release();
 
-                    return new ExtendedResponse<IntegerClass>() { Response = new IntegerClass { Integer = 200 } };
+                    return new ExtendedResponse<IntegerClass>()
+                    {
+                        Response = new IntegerClass { Integer = 200 }
+                    };
                 },
                 IsIdempotent = false,
             };

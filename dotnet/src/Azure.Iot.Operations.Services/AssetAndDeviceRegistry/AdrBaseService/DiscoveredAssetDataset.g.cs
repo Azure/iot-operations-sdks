@@ -13,42 +13,42 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DiscoveredAssetDataset : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Array of data points that are part of the dataset. Each data point can have per-data-point configuration.
+        /// The 'dataPoints' Field.
         /// </summary>
         [JsonPropertyName("dataPoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DiscoveredAssetDatasetDataPoint>? DataPoints { get; set; } = default;
 
         /// <summary>
-        /// Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset.
+        /// The 'datasetConfiguration' Field.
         /// </summary>
         [JsonPropertyName("datasetConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DatasetConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Name of the data source within a dataset.
+        /// The 'dataSource' Field.
         /// </summary>
         [JsonPropertyName("dataSource")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DataSource { get; set; } = default;
 
         /// <summary>
-        /// Destinations for a dataset.
+        /// The 'destinations' Field.
         /// </summary>
         [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DatasetDestination>? Destinations { get; set; } = default;
 
         /// <summary>
-        /// Timestamp (in UTC) indicating when the dataset was added or modified.
+        /// The 'lastUpdatedOn' Field.
         /// </summary>
         [JsonPropertyName("lastUpdatedOn")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime? LastUpdatedOn { get; set; } = default;
 
         /// <summary>
-        /// Name of the dataset.
+        /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -56,7 +56,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// URI or type definition ID.
+        /// The 'typeRef' Field.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

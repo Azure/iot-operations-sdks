@@ -13,42 +13,42 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DiscoveredAssetManagementGroup : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Array of actions that are part of the management group. Each action can have an individual configuration.
+        /// The 'actions' Field.
         /// </summary>
         [JsonPropertyName("actions")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DiscoveredAssetManagementGroupAction>? Actions { get; set; } = default;
 
         /// <summary>
-        /// Default response timeout for all actions that are part of the management group.
+        /// The 'defaultTimeOutInSeconds' Field.
         /// </summary>
         [JsonPropertyName("defaultTimeOutInSeconds")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public uint? DefaultTimeOutInSeconds { get; set; } = default;
 
         /// <summary>
-        /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
+        /// The 'defaultTopic' Field.
         /// </summary>
         [JsonPropertyName("defaultTopic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DefaultTopic { get; set; } = default;
 
         /// <summary>
-        /// Timestamp (in UTC) indicating when the management group was added or modified.
+        /// The 'lastUpdatedOn' Field.
         /// </summary>
         [JsonPropertyName("lastUpdatedOn")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime? LastUpdatedOn { get; set; } = default;
 
         /// <summary>
-        /// Stringified JSON that contains connector-specific configuration for the management group.
+        /// The 'managementGroupConfiguration' Field.
         /// </summary>
         [JsonPropertyName("managementGroupConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ManagementGroupConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Name of the management group.
+        /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -56,7 +56,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// URI or type definition ID.
+        /// The 'typeRef' Field.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

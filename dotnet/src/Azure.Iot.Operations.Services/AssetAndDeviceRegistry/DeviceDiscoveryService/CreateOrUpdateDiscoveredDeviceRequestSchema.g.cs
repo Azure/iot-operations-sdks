@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class CreateOrUpdateDiscoveredDeviceRequestSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The discovered device resource to create or update. Fields omitted in the request will be removed. The specified inbound endpoint will be added or updated in the inbound endpoints map.
+        /// The 'discoveredDevice' Field.
         /// </summary>
         [JsonPropertyName("discoveredDevice")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         public DiscoveredDevice DiscoveredDevice { get; set; } = default!;
 
         /// <summary>
-        /// The name of the discovered device to create or update. This field is used to perform deduplication of discovered devices.
+        /// The 'discoveredDeviceName' Field.
         /// </summary>
         [JsonPropertyName("discoveredDeviceName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

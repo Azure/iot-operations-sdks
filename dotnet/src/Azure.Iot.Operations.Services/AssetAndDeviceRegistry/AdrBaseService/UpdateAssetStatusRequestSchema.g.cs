@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class UpdateAssetStatusRequestSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The name of the asset to update the status for.
+        /// The 'assetName' Field.
         /// </summary>
         [JsonPropertyName("assetName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string AssetName { get; set; } = default!;
 
         /// <summary>
-        /// The asset status to update. Fields omitted in the request will be removed.
+        /// The 'assetStatus' Field.
         /// </summary>
         [JsonPropertyName("assetStatus")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

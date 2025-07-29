@@ -100,8 +100,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 }
                 catch (AkriServiceErrorException intEx)
                 {
-                    ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extendedResponse = ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>.CreateFromResponse(new CreateOrUpdateDiscoveredDeviceResponseSchema { CreateOrUpdateDiscoveredDeviceError = intEx.AkriServiceError });
-                    return extendedResponse;
+                    return ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>.CreateFromResponse(new CreateOrUpdateDiscoveredDeviceResponseSchema { CreateOrUpdateDiscoveredDeviceError = intEx.AkriServiceError });
                 }
             }
 
@@ -185,11 +184,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
             private async Task<ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>> CreateOrUpdateDiscoveredDeviceInt(CreateOrUpdateDiscoveredDeviceRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extended = await this.createOrUpdateDiscoveredDeviceCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
-
                 if (extended.Response.CreateOrUpdateDiscoveredDeviceError != null)
                 {
-                    AkriServiceErrorException akriServiceErrorException = new AkriServiceErrorException(extended.Response.CreateOrUpdateDiscoveredDeviceError);
-                    throw akriServiceErrorException;
+                    throw new AkriServiceErrorException(extended.Response.CreateOrUpdateDiscoveredDeviceError);
                 }
                 else if (extended.Response.DiscoveredDeviceResponse == null)
                 {

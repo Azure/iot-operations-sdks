@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class SetNotificationPreferenceForAssetUpdatesRequestSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The name of the asset to set the notification preference for.
+        /// The 'assetName' Field.
         /// </summary>
         [JsonPropertyName("assetName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string AssetName { get; set; } = default!;
 
         /// <summary>
-        /// The notification preference to set for the asset updates.
+        /// The 'notificationPreference' Field.
         /// </summary>
         [JsonPropertyName("notificationPreference")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

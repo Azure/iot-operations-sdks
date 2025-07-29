@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class GetAssetResponseSchema
     {
         /// <summary>
-        /// The asset resource
+        /// The 'asset' Field.
         /// </summary>
         [JsonPropertyName("asset")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Asset? Asset { get; set; } = default;
 
         /// <summary>
-        /// Error details, if the asset could not be retrieved.
+        /// The 'getAssetError' Field.
         /// </summary>
         [JsonPropertyName("getAssetError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

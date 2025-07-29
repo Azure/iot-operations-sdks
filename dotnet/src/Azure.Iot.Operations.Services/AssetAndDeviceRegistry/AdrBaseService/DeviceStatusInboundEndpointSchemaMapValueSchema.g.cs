@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DeviceStatusInboundEndpointSchemaMapValueSchema
     {
         /// <summary>
-        /// The last error that occurred while processing the endpoint.
+        /// The 'error' Field.
         /// </summary>
         [JsonPropertyName("error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

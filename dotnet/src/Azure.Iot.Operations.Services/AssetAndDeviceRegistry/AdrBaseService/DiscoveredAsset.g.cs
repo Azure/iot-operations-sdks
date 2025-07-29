@@ -13,77 +13,77 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DiscoveredAsset : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// URIs or type definition IDs for the asset type.
+        /// The 'assetTypeRefs' Field.
         /// </summary>
         [JsonPropertyName("assetTypeRefs")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<string>? AssetTypeRefs { get; set; } = default;
 
         /// <summary>
-        /// A set of key-value pairs that contain custom attributes.
+        /// The 'attributes' Field.
         /// </summary>
         [JsonPropertyName("attributes")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, string>? Attributes { get; set; } = default;
 
         /// <summary>
-        /// Array of datasets that are part of the asset. Each data set spec describes the data points that make up the set.
+        /// The 'datasets' Field.
         /// </summary>
         [JsonPropertyName("datasets")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DiscoveredAssetDataset>? Datasets { get; set; } = default;
 
         /// <summary>
-        /// Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.
+        /// The 'defaultDatasetsConfiguration' Field.
         /// </summary>
         [JsonPropertyName("defaultDatasetsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DefaultDatasetsConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Default destinations for a dataset.
+        /// The 'defaultDatasetsDestinations' Field.
         /// </summary>
         [JsonPropertyName("defaultDatasetsDestinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DatasetDestination>? DefaultDatasetsDestinations { get; set; } = default;
 
         /// <summary>
-        /// Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.
+        /// The 'defaultEventsConfiguration' Field.
         /// </summary>
         [JsonPropertyName("defaultEventsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DefaultEventsConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Default destinations for an event.
+        /// The 'defaultEventsDestinations' Field.
         /// </summary>
         [JsonPropertyName("defaultEventsDestinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<EventStreamDestination>? DefaultEventsDestinations { get; set; } = default;
 
         /// <summary>
-        /// Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here.
+        /// The 'defaultManagementGroupsConfiguration' Field.
         /// </summary>
         [JsonPropertyName("defaultManagementGroupsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DefaultManagementGroupsConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.
+        /// The 'defaultStreamsConfiguration' Field.
         /// </summary>
         [JsonPropertyName("defaultStreamsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DefaultStreamsConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Default destinations for a stream.
+        /// The 'defaultStreamsDestinations' Field.
         /// </summary>
         [JsonPropertyName("defaultStreamsDestinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<EventStreamDestination>? DefaultStreamsDestinations { get; set; } = default;
 
         /// <summary>
-        /// Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.
+        /// The 'deviceRef' Field.
         /// </summary>
         [JsonPropertyName("deviceRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -91,49 +91,49 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public AssetDeviceRef DeviceRef { get; set; } = default!;
 
         /// <summary>
-        /// Asset documentation reference.
+        /// The 'documentationUri' Field.
         /// </summary>
         [JsonPropertyName("documentationUri")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DocumentationUri { get; set; } = default;
 
         /// <summary>
-        /// Array of events that are part of the asset. Each event can have per-event configuration.
+        /// The 'events' Field.
         /// </summary>
         [JsonPropertyName("events")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DiscoveredAssetEvent>? Events { get; set; } = default;
 
         /// <summary>
-        /// Asset hardware revision number.
+        /// The 'hardwareRevision' Field.
         /// </summary>
         [JsonPropertyName("hardwareRevision")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? HardwareRevision { get; set; } = default;
 
         /// <summary>
-        /// Array of management groups that are part of the asset. Each management group can have a per-group configuration.
+        /// The 'managementGroups' Field.
         /// </summary>
         [JsonPropertyName("managementGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DiscoveredAssetManagementGroup>? ManagementGroups { get; set; } = default;
 
         /// <summary>
-        /// Asset manufacturer.
+        /// Asset manufacturer name.
         /// </summary>
         [JsonPropertyName("manufacturer")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Manufacturer { get; set; } = default;
 
         /// <summary>
-        /// Asset manufacturer URI.
+        /// URI to the manufacturer of the asset.
         /// </summary>
         [JsonPropertyName("manufacturerUri")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ManufacturerUri { get; set; } = default;
 
         /// <summary>
-        /// Asset model.
+        /// Asset model name.
         /// </summary>
         [JsonPropertyName("model")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -154,14 +154,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string? SerialNumber { get; set; } = default;
 
         /// <summary>
-        /// Asset software revision number.
+        /// Revision number of the software.
         /// </summary>
         [JsonPropertyName("softwareRevision")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? SoftwareRevision { get; set; } = default;
 
         /// <summary>
-        /// Array of streams that are part of the asset. Each stream can have per-stream configuration.
+        /// The 'streams' Field.
         /// </summary>
         [JsonPropertyName("streams")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetUpdateEventSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The updated asset resource.
+        /// The 'asset' Field.
         /// </summary>
         [JsonPropertyName("asset")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public Asset Asset { get; set; } = default!;
 
         /// <summary>
-        /// The name of the asset that was updated.
+        /// The 'assetName' Field.
         /// </summary>
         [JsonPropertyName("assetName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

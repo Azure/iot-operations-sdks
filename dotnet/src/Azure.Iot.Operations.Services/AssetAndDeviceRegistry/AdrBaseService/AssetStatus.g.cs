@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetStatus
     {
         /// <summary>
-        /// The configuration status of the asset.
+        /// Defines the asset status config properties.
         /// </summary>
         [JsonPropertyName("config")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

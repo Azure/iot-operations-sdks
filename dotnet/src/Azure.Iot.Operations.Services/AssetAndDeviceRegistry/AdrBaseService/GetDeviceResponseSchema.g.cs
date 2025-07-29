@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class GetDeviceResponseSchema
     {
         /// <summary>
-        /// The device resource, containing the specific inbound endpoint details as specified by the request.
+        /// The 'device' Field.
         /// </summary>
         [JsonPropertyName("device")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Device? Device { get; set; } = default;
 
         /// <summary>
-        /// Error details, if the device could not be retrieved.
+        /// The 'getDeviceError' Field.
         /// </summary>
         [JsonPropertyName("getDeviceError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

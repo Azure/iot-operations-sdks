@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class CreateOrUpdateDiscoveredAssetResponseSchema
     {
         /// <summary>
-        /// Error details, if the discovered asset creation or update failed.
+        /// The 'createOrUpdateDiscoveredAssetError' Field.
         /// </summary>
         [JsonPropertyName("createOrUpdateDiscoveredAssetError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public AkriServiceError? CreateOrUpdateDiscoveredAssetError { get; set; } = default;
 
         /// <summary>
-        /// The discovered asset response.
+        /// The 'discoveredAssetResponse' Field.
         /// </summary>
         [JsonPropertyName("discoveredAssetResponse")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

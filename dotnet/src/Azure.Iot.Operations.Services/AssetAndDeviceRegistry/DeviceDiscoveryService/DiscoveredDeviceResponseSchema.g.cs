@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class DiscoveredDeviceResponseSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The unique identifier for the discovered device.
+        /// The 'discoveryId' Field.
         /// </summary>
         [JsonPropertyName("discoveryId")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         public string DiscoveryId { get; set; } = default!;
 
         /// <summary>
-        /// The version of the discovered device resource.
+        /// The 'version' Field.
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

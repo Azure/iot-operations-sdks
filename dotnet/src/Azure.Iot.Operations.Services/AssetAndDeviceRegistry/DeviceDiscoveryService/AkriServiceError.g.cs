@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class AkriServiceError : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The error code that identifies the error.
+        /// The 'code' Field.
         /// </summary>
         [JsonPropertyName("code")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         public CodeSchema Code { get; set; } = default!;
 
         /// <summary>
-        /// A human-readable description of the error.
+        /// The 'message' Field.
         /// </summary>
         [JsonPropertyName("message")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         public string Message { get; set; } = default!;
 
         /// <summary>
-        /// The timestamp (in UTC) when the error occurred.
+        /// The 'timestamp' Field.
         /// </summary>
         [JsonPropertyName("timestamp")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

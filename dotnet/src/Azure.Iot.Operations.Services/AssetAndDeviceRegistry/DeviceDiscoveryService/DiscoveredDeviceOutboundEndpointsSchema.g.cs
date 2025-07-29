@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class DiscoveredDeviceOutboundEndpointsSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Endpoints the device can connect to.
+        /// The 'assigned' Field.
         /// </summary>
         [JsonPropertyName("assigned")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

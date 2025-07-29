@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class DiscoveredDeviceInboundEndpointSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).
+        /// The 'additionalConfiguration' Field.
         /// </summary>
         [JsonPropertyName("additionalConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? AdditionalConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
+        /// The 'address' Field.
         /// </summary>
         [JsonPropertyName("address")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         public string Address { get; set; } = default!;
 
         /// <summary>
-        /// Type of connection endpoint.
+        /// The 'endpointType' Field.
         /// </summary>
         [JsonPropertyName("endpointType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -36,21 +36,21 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         public string EndpointType { get; set; } = default!;
 
         /// <summary>
-        /// The timestamp (in UTC) when the endpoint was discovered.
+        /// The 'lastUpdatedOn' Field.
         /// </summary>
         [JsonPropertyName("lastUpdatedOn")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime? LastUpdatedOn { get; set; } = default;
 
         /// <summary>
-        /// List of supported authentication methods supported by device for Inbound connections.
+        /// The 'supportedAuthenticationMethods' Field.
         /// </summary>
         [JsonPropertyName("supportedAuthenticationMethods")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<string>? SupportedAuthenticationMethods { get; set; } = default;
 
         /// <summary>
-        /// Version associated with the device endpoint.
+        /// The 'version' Field.
         /// </summary>
         [JsonPropertyName("version")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

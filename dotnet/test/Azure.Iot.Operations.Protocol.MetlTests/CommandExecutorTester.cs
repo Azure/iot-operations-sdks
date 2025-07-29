@@ -384,7 +384,11 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                             }
                         }
 
-                        return new ExtendedResponse<string>() { Response = response };
+                        return new ExtendedResponse<string>()
+                        {
+                            Response = response,
+                            ResponseMetadata = responseMetadata,
+                        };
                     })
                     : (async (extReq, ct) =>
                     {

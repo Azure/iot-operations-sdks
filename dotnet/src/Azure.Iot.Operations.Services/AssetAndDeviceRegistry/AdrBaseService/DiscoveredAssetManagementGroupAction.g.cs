@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DiscoveredAssetManagementGroupAction : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Configuration for the action.
+        /// The 'actionConfiguration' Field.
         /// </summary>
         [JsonPropertyName("actionConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ActionConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Type of the action.
+        /// The 'actionType' Field.
         /// </summary>
         [JsonPropertyName("actionType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -28,14 +28,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public AssetManagementGroupActionType ActionType { get; set; } = default!;
 
         /// <summary>
-        /// Timestamp (in UTC) indicating when the management action was added or modified.
+        /// The 'lastUpdatedOn' Field.
         /// </summary>
         [JsonPropertyName("lastUpdatedOn")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime? LastUpdatedOn { get; set; } = default;
 
         /// <summary>
-        /// Name of the action.
+        /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -43,7 +43,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// The target URI on which a client can invoke the specific action.
+        /// The 'targetUri' Field.
         /// </summary>
         [JsonPropertyName("targetUri")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -51,21 +51,21 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string TargetUri { get; set; } = default!;
 
         /// <summary>
-        /// Response timeout for the action.
+        /// The 'timeOutInSeconds' Field.
         /// </summary>
         [JsonPropertyName("timeOutInSeconds")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public uint? TimeOutInSeconds { get; set; } = default;
 
         /// <summary>
-        /// The MQTT topic path on which a client will receive the request for the action.
+        /// The 'topic' Field.
         /// </summary>
         [JsonPropertyName("topic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Topic { get; set; } = default;
 
         /// <summary>
-        /// URI or type definition ID.
+        /// The 'typeRef' Field.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class SetNotificationPreferenceForAssetUpdatesResponseSchema
     {
         /// <summary>
-        /// The response payload indicating that the operation was successful.
+        /// The 'responsePayload' Field.
         /// </summary>
         [JsonPropertyName("responsePayload")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ResponsePayload { get; set; } = default;
 
         /// <summary>
-        /// Error details, if setting the notification preference for asset updates failed.
+        /// The 'setNotificationPreferenceForAssetUpdatesError' Field.
         /// </summary>
         [JsonPropertyName("setNotificationPreferenceForAssetUpdatesError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

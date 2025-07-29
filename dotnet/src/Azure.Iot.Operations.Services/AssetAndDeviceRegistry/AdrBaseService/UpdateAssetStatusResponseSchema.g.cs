@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class UpdateAssetStatusResponseSchema
     {
         /// <summary>
-        /// Error details, if the asset status update failed.
+        /// The 'updateAssetStatusError' Field.
         /// </summary>
         [JsonPropertyName("updateAssetStatusError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public AkriServiceError? UpdateAssetStatusError { get; set; } = default;
 
         /// <summary>
-        /// The updated asset status.
+        /// The 'updatedAssetStatus' Field.
         /// </summary>
         [JsonPropertyName("updatedAssetStatus")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

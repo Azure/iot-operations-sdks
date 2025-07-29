@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     public partial class DeviceOutboundEndpoint : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The endpoint address to connect to.
+        /// The 'address' Field.
         /// </summary>
         [JsonPropertyName("address")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         public string Address { get; set; } = default!;
 
         /// <summary>
-        /// Type of connection used for the messaging endpoint.
+        /// The 'endpointType' Field.
         /// </summary>
         [JsonPropertyName("endpointType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

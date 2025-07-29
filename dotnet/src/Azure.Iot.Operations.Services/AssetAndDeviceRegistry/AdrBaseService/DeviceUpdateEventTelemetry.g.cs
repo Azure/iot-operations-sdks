@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DeviceUpdateEventTelemetry : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Telemetry event emitted when a device is updated, containing the relevant inbound endpoint details as specified in the topic.
+        /// The 'deviceUpdateEvent' Telemetry.
         /// </summary>
         [JsonPropertyName("deviceUpdateEvent")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
