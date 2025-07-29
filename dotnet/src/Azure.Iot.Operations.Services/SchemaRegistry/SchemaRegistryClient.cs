@@ -36,7 +36,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
                         Name = schemaId,
                         Version = version
                     }
-                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken))!.Schema;
+                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
         }
         catch (AkriMqttException ex) when (ex.Kind == AkriMqttErrorKind.PayloadInvalid)
         {
