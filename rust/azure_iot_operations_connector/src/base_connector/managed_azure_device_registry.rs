@@ -1743,7 +1743,7 @@ impl DataOperationClient {
                                 {
                                     log::warn!(
                                         "Reporting message schema failed for {:?}. Retrying: {e}",
-                                        self.dataset_ref
+                                        self.data_operation_ref
                                     );
                                     RetryError::transient(e)
                                 } else {
