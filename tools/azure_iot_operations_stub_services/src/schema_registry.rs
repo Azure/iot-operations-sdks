@@ -87,16 +87,6 @@ pub struct ServiceError {
     pub target: Option<ErrorTarget>,
 }
 
-impl From<service_gen::SchemaRegistryErrorCode> for ErrorCode {
-    fn from(code: service_gen::SchemaRegistryErrorCode) -> Self {
-        match code {
-            service_gen::SchemaRegistryErrorCode::BadRequest => ErrorCode::BadRequest,
-            service_gen::SchemaRegistryErrorCode::InternalError => ErrorCode::InternalError,
-            service_gen::SchemaRegistryErrorCode::NotFound => ErrorCode::NotFound,
-        }
-    }
-}
-
 impl From<ErrorCode> for service_gen::SchemaRegistryErrorCode {
     fn from(code: ErrorCode) -> Self {
         match code {
@@ -107,54 +97,12 @@ impl From<ErrorCode> for service_gen::SchemaRegistryErrorCode {
     }
 }
 
-impl From<service_gen::SchemaRegistryErrorDetails> for ErrorDetails {
-    fn from(details: service_gen::SchemaRegistryErrorDetails) -> Self {
-        ErrorDetails {
-            code: details.code,
-            correlation_id: details.correlation_id,
-            message: details.message,
-        }
-    }
-}
-
 impl From<ErrorDetails> for service_gen::SchemaRegistryErrorDetails {
     fn from(details: ErrorDetails) -> Self {
         service_gen::SchemaRegistryErrorDetails {
             code: details.code,
             correlation_id: details.correlation_id,
             message: details.message,
-        }
-    }
-}
-
-impl From<service_gen::SchemaRegistryErrorTarget> for ErrorTarget {
-    fn from(target: service_gen::SchemaRegistryErrorTarget) -> Self {
-        match target {
-            service_gen::SchemaRegistryErrorTarget::DescriptionProperty => {
-                ErrorTarget::DescriptionProperty
-            }
-            service_gen::SchemaRegistryErrorTarget::DisplayNameProperty => {
-                ErrorTarget::DisplayNameProperty
-            }
-            service_gen::SchemaRegistryErrorTarget::FormatProperty => ErrorTarget::FormatProperty,
-            service_gen::SchemaRegistryErrorTarget::NameProperty => ErrorTarget::NameProperty,
-            service_gen::SchemaRegistryErrorTarget::SchemaArmResource => {
-                ErrorTarget::SchemaArmResource
-            }
-            service_gen::SchemaRegistryErrorTarget::SchemaContentProperty => {
-                ErrorTarget::SchemaContentProperty
-            }
-            service_gen::SchemaRegistryErrorTarget::SchemaRegistryArmResource => {
-                ErrorTarget::SchemaRegistryArmResource
-            }
-            service_gen::SchemaRegistryErrorTarget::SchemaTypeProperty => {
-                ErrorTarget::SchemaTypeProperty
-            }
-            service_gen::SchemaRegistryErrorTarget::SchemaVersionArmResource => {
-                ErrorTarget::SchemaVersionArmResource
-            }
-            service_gen::SchemaRegistryErrorTarget::TagsProperty => ErrorTarget::TagsProperty,
-            service_gen::SchemaRegistryErrorTarget::VersionProperty => ErrorTarget::VersionProperty,
         }
     }
 }
@@ -187,18 +135,6 @@ impl From<ErrorTarget> for service_gen::SchemaRegistryErrorTarget {
             }
             ErrorTarget::TagsProperty => service_gen::SchemaRegistryErrorTarget::TagsProperty,
             ErrorTarget::VersionProperty => service_gen::SchemaRegistryErrorTarget::VersionProperty,
-        }
-    }
-}
-
-impl From<service_gen::SchemaRegistryError> for ServiceError {
-    fn from(error: service_gen::SchemaRegistryError) -> Self {
-        ServiceError {
-            code: error.code.into(),
-            details: error.details.map(Into::into),
-            inner_error: error.inner_error.map(Into::into),
-            message: error.message,
-            target: error.target.map(Into::into),
         }
     }
 }
