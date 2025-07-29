@@ -1526,8 +1526,8 @@ impl DatasetClient {
     /// if the content of the [`MessageSchema`] is empty or there is an error building the request
     ///
     /// [`MessageSchemaError`] of kind [`SchemaRegistryError::ServiceError`](schema_registry::ErrorKind::ServiceError)
-    /// if there is an error returned by the Schema Registry Service. This error will be retried 10 
-    /// times with exponential backoff and jitter if it is an internal error and only returned if 
+    /// if there is an error returned by the Schema Registry Service. This error will be retried 10
+    /// times with exponential backoff and jitter if it is an internal error and only returned if
     /// it still is failing.
     ///
     /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
@@ -1536,7 +1536,7 @@ impl DatasetClient {
     ///
     /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::ServiceError`](azure_device_registry::ErrorKind::ServiceError) if
     /// an error is returned by the Azure Device Registry service.
-    /// 
+    ///
     /// # Panics
     ///
     /// If the asset specification mutex has been poisoned, which should not be possible

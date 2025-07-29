@@ -191,7 +191,8 @@ mod tests {
 
     use crate::schema_registry::{
         Client, DEFAULT_SCHEMA_VERSION, Error, ErrorKind, Format, GetSchemaRequestBuilder,
-        GetSchemaRequestBuilderError, PutSchemaRequestBuilder, PutSchemaRequestBuilderError, SchemaType,
+        GetSchemaRequestBuilderError, PutSchemaRequestBuilder, PutSchemaRequestBuilderError,
+        SchemaType,
     };
 
     // TODO: This should return a mock ManagedClient instead.
