@@ -15538,7 +15538,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified", "Required" ],
+        "@type": [ "Property", "Qualified" ],
         "name": "ExtensionFieldName",
         "displayName": "<ExtensionFieldName>",
         "namespace": "http://opcfoundation.org/UA/",

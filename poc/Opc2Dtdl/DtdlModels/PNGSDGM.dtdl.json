@@ -532,7 +532,7 @@
     ],
     "contents": [
       {
-        "@type": [ "Property", "Qualified", "Required" ],
+        "@type": [ "Property", "Qualified" ],
         "name": "ValueProperty",
         "displayName": "<ValueProperty>",
         "namespace": "http://opcfoundation.org/UA/PNGSDGM/",

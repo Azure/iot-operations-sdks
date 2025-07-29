@@ -65,8 +65,9 @@ namespace Yaml2Dtdl
         private List<OpcUaDefinedType> GetSubVars() => definedType.Contents
             .Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAVariable").Select(c => c.DefinedType).ToList();
 
-        private bool IsOptional(OpcUaDefinedType definedType) =>
-            definedType.Contents.Any(c => c.Relationship == "HasModellingRule" && c.DefinedType.NodeId == TypeConverter.ModelingRuleOptionalNodeId);
+        private bool HasModellingRule(OpcUaDefinedType definedType, string modellingRuleNodeId) => definedType.Contents.Any(c => c.Relationship == "HasModellingRule" && c.DefinedType.NodeId == modellingRuleNodeId);
+
+        private bool IsOptional(OpcUaDefinedType definedType) => HasModellingRule(definedType, TypeConverter.ModelingRuleOptionalNodeId) || HasModellingRule(definedType, TypeConverter.ModelingRuleOptionalPlaceholderNodeId);
 
         private string GetCotypes(string materialType, OpcUaDefinedType? definedType)
         {

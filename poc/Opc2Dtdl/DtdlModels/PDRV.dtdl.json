@@ -912,7 +912,7 @@
         "writable": false
       },
       {
-        "@type": [ "Property", "Qualified", "Required" ],
+        "@type": [ "Property", "Qualified" ],
         "name": "FeedbackSensor13Temperature",
         "displayName": "<FeedbackSensor1..3Temperature>",
         "namespace": "http://opcfoundation.org/UA/PDRV/",

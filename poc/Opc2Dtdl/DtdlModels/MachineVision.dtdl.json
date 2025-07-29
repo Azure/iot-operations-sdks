@@ -2138,7 +2138,7 @@
           "@type": [ "Object", "Detail" ],
           "fields": [
             {
-              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "@type": [ "Field", "Subject", "Qualified" ],
               "name": "ResultVariable",
               "displayName": "<ResultVariable>",
               "namespace": "http://opcfoundation.org/UA/MachineVision",
