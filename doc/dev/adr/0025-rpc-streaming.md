@@ -13,7 +13,7 @@ Users have expressed a desire to allow more than one response per RPC invocation
    - The total number of responses does not need to be known before the first response is sent 
  - When exposed to the user, each response includes an index of where it was in the stream and an optional response Id
  - Allow for multiple separate commands to be streamed simultaneously
- - Allow for invoker to cancel streamed responses mid-stream
+ - Allow for invoker to cancel streamed responses mid-stream (from client side)
 
 ## Non-requirements
 
