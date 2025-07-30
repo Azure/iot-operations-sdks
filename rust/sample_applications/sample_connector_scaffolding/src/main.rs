@@ -48,6 +48,7 @@ use azure_iot_operations_connector::{
         },
     },
     data_processor::derived_json,
+    deployment_artifacts::connector::ConnectorArtifacts,
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder, common::hybrid_logical_clock::HybridLogicalClock,
@@ -75,14 +76,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     log::info!("Starting connector");
 
+    // Create the connector artifacts from the deployment, IMPLEMENT: Use them as needed
+    let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
+
     // Create the appplication context used by the AIO SDK
     let application_context = ApplicationContextBuilder::default().build()?;
 
     // Create the Base Connector to handle device endpoints, assets, and datasets creation, update and deletion notifications plus status reporting.
-    let base_connector = BaseConnector::new(application_context);
-
-    // Get the connector artifacts from the base connector, IMPLEMENT: Use them as needed
-    let _connector_artifacts = base_connector.connector_artifacts();
+    let base_connector = BaseConnector::new(application_context, connector_artifacts)?;
 
     // Create a device endpoint client creation observation
     let device_endpoint_client_creation_observation =
