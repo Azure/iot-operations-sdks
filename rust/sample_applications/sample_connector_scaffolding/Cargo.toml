@@ -21,4 +21,5 @@ rust_2018_idioms = "deny"
 
 [lints.clippy]
 all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
 too_many_lines = "allow"
