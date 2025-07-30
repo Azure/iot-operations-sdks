@@ -50,12 +50,16 @@ use azure_iot_operations_connector::{
     data_processor::derived_json,
     deployment_artifacts::connector::ConnectorArtifacts,
 };
+use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder, common::hybrid_logical_clock::HybridLogicalClock,
 };
 use tokio::sync::watch;
 
 const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Default sampling interval in milliseconds
+const OTEL_TAG: &str = "connector_scaffolding_template"; // IMPLEMENT: Change this to a unique tag for your connector
+const DEFAULT_LOG_LEVEL: &str =
+    "warn,sample_connector_scaffolding=info,azure_iot_operations_connector=info"; // IMPLEMENT: Change this to a unique log level for your connector and change the tag to match the crate name
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -78,6 +82,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create the connector artifacts from the deployment, IMPLEMENT: Use them as needed
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
+
+    // Initialize the OTEL logger / exporter
+    let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
+    let mut otel_exporter = Otel::new(otel_config);
+    let otel_task = otel_exporter.run();
 
     // Create the appplication context used by the AIO SDK
     let application_context = ApplicationContextBuilder::default().build()?;
@@ -103,6 +112,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
                 Err(e) => {
                     log::error!("Base connector run failed: {e}");
+                    Err(Box::new(e))?
+                }
+            }
+        }
+        res = otel_task => {
+            match res {
+                Ok(()) => {
+                    log::info!("OTEL run finished successfully");
+                    Ok(())
+                }
+                Err(e) => {
+                    log::error!("OTEL run failed: {e}");
                     Err(Box::new(e))?
                 }
             }
