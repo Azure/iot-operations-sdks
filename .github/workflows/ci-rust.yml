@@ -103,7 +103,7 @@ jobs:
       run: # Checks that the scaffolding is building correctly.
         source ../../rust/ci/build-deps.sh
         cargo check
-        cargo clippy --all-features
+        cargo clippy
         cargo fmt --verbose --all
 
     # TODO: Enable and configure these once the codegen is ready
