@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_connector"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 license = "MIT"
 description = "Azure IoT Operations Connector"
@@ -13,7 +13,7 @@ publish = true
 
 [dependencies]
 azure_iot_operations_protocol = { version = "0.10.0", path = "../azure_iot_operations_protocol", registry = "aio-sdks"  }
-azure_iot_operations_services = { version = "0.9.0", path = "../azure_iot_operations_services", registry = "aio-sdks", features = ["state_store", "schema_registry", "azure_device_registry"]  }
+azure_iot_operations_services = { version = "0.10.0", path = "../azure_iot_operations_services", registry = "aio-sdks", features = ["state_store", "schema_registry", "azure_device_registry"]  }
 azure_iot_operations_mqtt = { version = "0.10.0", path = "../azure_iot_operations_mqtt", registry = "aio-sdks"  }
 azure_iot_operations_otel = { version = "0.2.1", registry = "aio-sdks" }
 chrono.workspace = true
