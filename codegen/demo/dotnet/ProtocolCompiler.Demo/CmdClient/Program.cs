@@ -61,34 +61,64 @@ namespace Client
 
             Console.WriteLine("Sending request");
 
-            try
+            switch (command)
             {
-                switch (command)
-                {
-                    case CounterCommand.Increment:
-                        IncrementResponsePayload incResponse = await client.IncrementAsync(new IncrementRequestPayload { CounterName = counterName });
-                        Console.WriteLine($"New value = {incResponse.CounterValue}");
-                        break;
-                    case CounterCommand.GetLocation:
+                case CounterCommand.Increment:
+                    ExtendedResponse<IncrementResponsePayload> incResponse = await client.IncrementAsync(new IncrementRequestPayload { CounterName = counterName }).WithMetadata();
+                    if (incResponse.TryGetApplicationError(out ErrorCondition? errorCondition, out CounterList? extantCounters))
+                    {
+                        Console.WriteLine($"Request failed with application error");
+
+                        switch (errorCondition)
+                        {
+                            case ErrorCondition.CounterNotFound:
+                                Console.WriteLine($"Counter '{counterName}' was not found");
+                                if (extantCounters?.CounterNames != null)
+                                {
+                                    Console.WriteLine($"Available counters are {string.Join(", ", extantCounters.CounterNames)}");
+                                }
+                                break;
+                            case ErrorCondition.CounterOverflow:
+                                Console.WriteLine($"Counter '{counterName}' has overflowed");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"New value = {incResponse.Response.CounterValue}");
+                    }
+
+                    break;
+                case CounterCommand.GetLocation:
+                    try
+                    {
                         GetLocationResponsePayload getResponse = await client.GetLocationAsync(new GetLocationRequestPayload { CounterName = counterName });
                         Console.WriteLine(getResponse.CounterLocation == null ? "counter is not deployed in the field" :
                             $"Location = ({getResponse.CounterLocation.Latitude}, {getResponse.CounterLocation.Longitude})");
-                        break;
-                }
-            }
-            catch (CounterErrorException counterException)
-            {
-                Console.WriteLine($"Request failed with exception: '{counterException.Message}'");
+                    }
+                    catch (CounterErrorException counterException)
+                    {
+                        Console.WriteLine($"Request failed with exception: '{counterException.Message}'");
 
-                switch (counterException.CounterError.Condition)
-                {
-                    case ConditionSchema.CounterNotFound:
-                        Console.WriteLine($"Counter '{counterName}' was not found");
-                        break;
-                    case ConditionSchema.CounterOverflow:
-                        Console.WriteLine($"Counter '{counterName}' has overflowed");
-                        break;
-                }
+                        if (counterException.TryGetApplicationError(out ErrorCondition? condition, out CounterList? availableCounters))
+                        {
+                            switch (condition)
+                            {
+                                case ErrorCondition.CounterNotFound:
+                                    Console.WriteLine($"Counter '{counterName}' was not found");
+                                    if (availableCounters?.CounterNames != null)
+                                    {
+                                        Console.WriteLine($"Available counters are {string.Join(", ", availableCounters.CounterNames)}");
+                                    }
+                                    break;
+                                case ErrorCondition.CounterOverflow:
+                                    Console.WriteLine($"Counter '{counterName}' has overflowed");
+                                    break;
+                            }
+                        }
+                    }
+
+                    break;
             }
         }
     }

@@ -1,0 +1,41 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4"
+    ],
+    "@id": "dtmi:jsonTest:TelemetryNativeSchemas;1",
+    "@type": "Interface",
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "flipflop",
+        "schema": "boolean"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "absoluteDistance",
+        "schema": "double"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "relativeDistance",
+        "schema": "float"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "count",
+        "schema": "integer"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "totalCount",
+        "schema": "long"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "notes",
+        "schema": "string"
+      }
+    ]
+  }
+]

@@ -12,6 +12,8 @@ namespace Azure.Iot.Operations.Protocol.Models
 {
     public sealed class MqttClientOptions
     {
+        private const string AioPersistenceFlag = "aio-persistence";
+
         public MqttClientOptions(MqttClientTcpOptions tcpOptions)
         {
             ChannelOptions = tcpOptions;
@@ -330,6 +332,31 @@ namespace Azure.Iot.Operations.Protocol.Models
         ///     Do not change this value when no memory issues are experienced.
         /// </summary>
         public int WriterBufferSizeMax { get; set; } = 65535;
+
+        /// <summary>
+        /// If true, the session used in this connection will be persisted by the AIO MQTT broker.
+        /// </summary>
+        /// <remarks>
+        /// This feature is only applicable with the AIO MQTT broker.
+        /// </remarks>
+        public bool AioPersistence
+        {
+            get
+            {
+                if (UserProperties != null
+                    && UserProperties.TryGetProperty(AioPersistenceFlag, out string? value))
+                {
+                    return value!.Equals("true", StringComparison.Ordinal);
+                }
+
+                return false;
+            }
+            set
+            {
+                UserProperties ??= new();
+                UserProperties.Add(new(AioPersistenceFlag, value ? "true" : "false"));
+            }
+        }
 
         public void AddUserProperty(string name, string value)
         {

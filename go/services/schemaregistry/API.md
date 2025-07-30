@@ -40,8 +40,8 @@ import "github.com/Azure/iot-operations-sdks/go/services/schemaregistry"
 
 ```go
 const (
-    Delta1            = schemaregistry.Delta1
-    JSONSchemaDraft07 = schemaregistry.JsonSchemaDraft07
+    Delta1            = schemaregistry.FormatDelta1
+    JSONSchemaDraft07 = schemaregistry.FormatJsonSchemaDraft07
 )
 ```
 
@@ -49,7 +49,7 @@ const (
 
 ```go
 const (
-    MessageSchema = schemaregistry.MessageSchema
+    MessageSchema = schemaregistry.SchemaTypeMessageSchema
 )
 ```
 

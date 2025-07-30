@@ -106,9 +106,9 @@ func sendJson(ctx context.Context, app *protocol.Application, iterations int, in
 
 		var proximity jsonmodel.ProximitySchema
 		if i%3 == 0 {
-			proximity = jsonmodel.Far
+			proximity = jsonmodel.ProximitySchemaFar
 		} else {
-			proximity = jsonmodel.Near
+			proximity = jsonmodel.ProximitySchemaNear
 		}
 
 		telemetry := jsonmodel.TelemetryCollection{

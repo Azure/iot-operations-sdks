@@ -40,6 +40,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
         private bool _isDisposed;
 
+        /// <summary>
+        /// The timeout for all commands received by this executor.
+        /// </summary>
+        /// <remarks>
+        /// Note that a command invoker may also send a per-invocation timeout. When this happens, a command will timeout if it exceeds either
+        /// of these timeout values.
+        /// </remarks>
         public TimeSpan ExecutionTimeout { get; set; }
 
         public required Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>> OnCommandReceived { get; set; }
@@ -143,12 +150,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 Debug.Assert(!string.IsNullOrEmpty(clientId));
                 string executorId = ExecutorId ?? clientId;
                 bool isExecutorSpecific = args.ApplicationMessage.Topic.Contains(executorId);
-                string sourceId = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.SourceId)?.Value ?? string.Empty;
 
                 Task<MqttApplicationMessage>? cachedResponse =
                     await _commandResponseCache.RetrieveAsync(
                         _commandName,
-                        sourceId,
                         args.ApplicationMessage.ResponseTopic,
                         args.ApplicationMessage.CorrelationData,
                         args.ApplicationMessage.Payload,
@@ -231,7 +236,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         MqttApplicationMessage? responseMessage = await GenerateResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic, args.ApplicationMessage.CorrelationData, !serializedPayloadContext.SerializedPayload.IsEmpty ? CommandStatusCode.OK : CommandStatusCode.NoContent, null, serializedPayloadContext, extended.ResponseMetadata);
                         await _commandResponseCache.StoreAsync(
                             _commandName,
-                            sourceId,
                             args.ApplicationMessage.ResponseTopic,
                             args.ApplicationMessage.CorrelationData,
                             args.ApplicationMessage.Payload,

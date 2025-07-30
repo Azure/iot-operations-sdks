@@ -19,7 +19,7 @@ use data_encoding::HEXUPPER;
 use derive_builder::Builder;
 use tokio::{sync::Notify, task};
 
-use crate::common::dispatcher::{DispatchError, Dispatcher, Receiver};
+use crate::common::dispatcher::{DispatchError, DispatchErrorKind, Dispatcher, Receiver};
 use crate::state_store::{self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, SetOptions};
 
 const REQUEST_TOPIC_PATTERN: &str =
@@ -72,7 +72,8 @@ where
     C::PubReceiver: Send + Sync,
 {
     invoker: rpc_command::Invoker<state_store::resp3::Request, state_store::resp3::Response, C>,
-    notification_dispatcher: Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>)>>,
+    notification_dispatcher:
+        Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>>,
     shutdown_notifier: Arc<Notify>,
 }
 
@@ -574,7 +575,9 @@ where
     async fn receive_key_notification_loop(
         shutdown_notifier: Arc<Notify>,
         mut receiver: telemetry::Receiver<state_store::resp3::Operation, C>,
-        notification_dispatcher: Arc<Dispatcher<(state_store::KeyNotification, Option<AckToken>)>>,
+        notification_dispatcher: Arc<
+            Dispatcher<(state_store::KeyNotification, Option<AckToken>), String>,
+        >,
         connection_monitor: SessionConnectionMonitor,
     ) {
         let mut shutdown_attempt_count = 0;
@@ -626,11 +629,13 @@ where
                                     Ok(()) => {
                                         log::debug!("Key Notification dispatched: {key_notification:?}");
                                     }
-                                    Err(DispatchError::SendError(_)) => {
-                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {key_notification:?}",);
+
+                                    Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::SendError }) => {
+                                        log::warn!("Key Notification Receiver has been dropped. Received Notification: {payload:?}");
+
                                     }
-                                    Err(DispatchError::NotFound(_)) => {
-                                        log::warn!("Key is not being observed. Received Notification: {key_notification:?}",);
+                                    Err(DispatchError { data: (payload, _), kind: DispatchErrorKind::NotFound(receiver_id) }) => {
+                                        log::warn!("Key is not being observed. Received Notification: {payload:?} for {receiver_id}");
                                     }
                                 }
                             }

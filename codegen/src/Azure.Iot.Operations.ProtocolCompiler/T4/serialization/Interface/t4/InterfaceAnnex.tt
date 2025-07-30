@@ -66,6 +66,31 @@
 <# string errResNamespace = this.GetNamespace(cmdSchemaInfo.ErrorResultSchema); if (errResNamespace != null) { #>
       "<#=InterfaceAnnex.ErrorResultNamespace#>": "<#=errResNamespace#>",
 <# } #>
+<# if (cmdSchemaInfo.ErrorCodeName != null) { #>
+      "<#=InterfaceAnnex.ErrorCodeName#>": "<#=cmdSchemaInfo.ErrorCodeName.GetFieldName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (cmdSchemaInfo.ErrorCodeSchema != null) { #>
+      "<#=InterfaceAnnex.ErrorCodeSchema#>": "<#=cmdSchemaInfo.ErrorCodeSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# string errCodeNamespace = this.GetNamespace(cmdSchemaInfo.ErrorCodeSchema); if (errCodeNamespace != null) { #>
+      "<#=InterfaceAnnex.ErrorCodeNamespace#>": "<#=errCodeNamespace#>",
+<# } #>
+<# if (cmdSchemaInfo.ErrorInfoName != null) { #>
+      "<#=InterfaceAnnex.ErrorInfoName#>": "<#=cmdSchemaInfo.ErrorInfoName.GetFieldName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (cmdSchemaInfo.ErrorInfoSchema != null) { #>
+      "<#=InterfaceAnnex.ErrorInfoSchema#>": "<#=cmdSchemaInfo.ErrorInfoSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# string errInfoNamespace = this.GetNamespace(cmdSchemaInfo.ErrorInfoSchema); if (errInfoNamespace != null) { #>
+      "<#=InterfaceAnnex.ErrorInfoNamespace#>": "<#=errInfoNamespace#>",
+<# } #>
+<# if (cmdSchemaInfo.ErrorCodeEnumeration.Count > 0) { #>
+      "<#=InterfaceAnnex.ErrorCodeEnumeration#>": {
+<# int ix = 1; foreach (KeyValuePair<string, string> kvp in cmdSchemaInfo.ErrorCodeEnumeration) { #>
+        "<#=kvp.Key#>": "<#=kvp.Value#>"<#=ix < cmdSchemaInfo.ErrorCodeEnumeration.Count ? "," : ""#>
+<# ix++; } #>
+      },
+<# } #>
 <# } #>
       "<#=InterfaceAnnex.CmdIsIdempotent#>": <#=cmdSchemaInfo.Idempotent ? "true" : "false"#>,
       "<#=InterfaceAnnex.CmdCacheability#>": <#=this.QuoteOrNull(cmdSchemaInfo.Ttl)#>
@@ -84,6 +109,18 @@
 <# if (errSchemaInfo.MessageField != null) { #>
       "<#=InterfaceAnnex.ErrorMessageField#>": "<#=errSchemaInfo.MessageField.GetTypeName(TargetLanguage.Independent)#>",
       "<#=InterfaceAnnex.ErrorMessageIsNullable#>": <#=errSchemaInfo.IsNullable ? "true" : "false"#>,
+<# } #>
+<# if (errSchemaInfo.CodeName != null) { #>
+      "<#=InterfaceAnnex.ErrorCodeName#>": "<#=errSchemaInfo.CodeName.GetFieldName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (errSchemaInfo.CodeSchema != null) { #>
+      "<#=InterfaceAnnex.ErrorCodeSchema#>": "<#=errSchemaInfo.CodeSchema.GetTypeName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (errSchemaInfo.InfoName != null) { #>
+      "<#=InterfaceAnnex.ErrorInfoName#>": "<#=errSchemaInfo.InfoName.GetFieldName(TargetLanguage.Independent)#>",
+<# } #>
+<# if (errSchemaInfo.InfoSchema != null) { #>
+      "<#=InterfaceAnnex.ErrorInfoSchema#>": "<#=errSchemaInfo.InfoSchema.GetTypeName(TargetLanguage.Independent)#>",
 <# } #>
       "<#=InterfaceAnnex.ErrorSchema#>": "<#=errSchemaInfo.Schema.GetTypeName(TargetLanguage.Independent)#>"
     }<#=this.IsLastErr(errSchemaInfo) ? "" : ","#>

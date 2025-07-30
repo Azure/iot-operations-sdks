@@ -450,3 +450,172 @@ async fn telemetry_complex_send_receive_network_tests() {
         .is_ok()
     );
 }
+
+fn setup_session_and_handle(client_id: &str) -> (Session, SessionExitHandle) {
+    let _ = Builder::new()
+        .filter_level(log::LevelFilter::max())
+        .format_timestamp(None)
+        .filter_module("rumqttc", log::LevelFilter::Info)
+        .filter_module("azure_iot_operations", log::LevelFilter::Info)
+        .try_init();
+
+    let connection_settings = MqttConnectionSettingsBuilder::default()
+        .client_id(client_id)
+        .hostname("localhost")
+        .tcp_port(1883u16)
+        .keep_alive(Duration::from_secs(5))
+        .clean_start(true)
+        .use_tls(false)
+        .build()
+        .unwrap();
+    let session_options = SessionOptionsBuilder::default()
+        .connection_settings(connection_settings)
+        .build()
+        .unwrap();
+    let session = Session::new(session_options).unwrap();
+
+    let exit_handle: SessionExitHandle = session.create_exit_handle();
+    (session, exit_handle)
+}
+
+/// Tests telemetry retained message scenario
+/// Publisher sends a retained message in 1 session.
+/// Subscriber receives the retained message in another session.
+/// If retain is set to true, the message should be received even if the publisher is not connected
+#[tokio::test]
+async fn telemetry_retained_message_test() {
+    // Skip if network tests are disabled
+    if env::var("ENABLE_NETWORK_TESTS").is_err() {
+        log::warn!("This test is skipped. Set ENABLE_NETWORK_TESTS to run.");
+        return;
+    }
+
+    let application_context = ApplicationContextBuilder::default().build().unwrap();
+
+    let _ = Builder::new()
+        .filter_level(log::LevelFilter::max())
+        .format_timestamp(None)
+        .filter_module("rumqttc", log::LevelFilter::Info)
+        .filter_module("azure_iot_operations", log::LevelFilter::Info)
+        .try_init();
+
+    let retained_topic = "protocol/tests/retained/telemetry";
+    let publisher_id = "telemetry_retained_publisher-rust";
+    let subscriber_id = "telemetry_retained_subscriber-rust";
+
+    let retained_payload = DataPayload {
+        external_temperature: 25.5,
+        internal_temperature: 21.0,
+    };
+
+    let sender_options = telemetry::sender::OptionsBuilder::default()
+        .topic_pattern(retained_topic)
+        .build()
+        .unwrap();
+
+    let receiver_options = telemetry::receiver::OptionsBuilder::default()
+        .topic_pattern(retained_topic)
+        .auto_ack(false) // Manual ack for testing
+        .build()
+        .unwrap();
+
+    // === 1: Publisher sending a retained message ===
+    let (publisher_session, pub_session_exit_handle) = setup_session_and_handle(publisher_id);
+    let publisher_monitor = publisher_session.create_connection_monitor();
+
+    let publisher: telemetry::Sender<DataPayload, _> = telemetry::Sender::new(
+        application_context.clone(),
+        publisher_session.create_managed_client(),
+        sender_options.clone(),
+    )
+    .unwrap();
+
+    // Run the publisher session and test in parallel
+    let publisher_test = tokio::task::spawn(async move {
+        publisher_monitor.connected().await;
+        log::info!("Publisher connected");
+
+        let retained_message = telemetry::sender::MessageBuilder::default()
+            .payload(retained_payload)
+            .unwrap()
+            .qos(QoS::AtLeastOnce)
+            .retain(true) // Set the retain flag
+            .build()
+            .unwrap();
+
+        assert!(publisher.send(retained_message).await.is_ok());
+        log::info!("Published retained message");
+
+        // Give the broker time to store the retained message
+        tokio::time::sleep(Duration::from_secs(2)).await;
+
+        pub_session_exit_handle.try_exit().await.unwrap();
+    });
+
+    // Run publisher test and session
+    assert!(
+        tokio::try_join!(
+            async move { publisher_test.await.map_err(|e| { e.to_string() }) },
+            async move { publisher_session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+
+    // === 2. Subscriber receives the retained message ===
+    let (subscriber_session, sub_session_exit_handle) = setup_session_and_handle(subscriber_id);
+
+    let mut subscriber: telemetry::Receiver<DataPayload, _> = telemetry::Receiver::new(
+        application_context.clone(),
+        subscriber_session.create_managed_client(),
+        receiver_options.clone(),
+    )
+    .unwrap();
+
+    let subscriber_test = tokio::task::spawn(async move {
+        // Test was hanging and Panic or any assert after this task was not working when retain = false
+        // Had to include a time out because of that
+        let receive_telemetry_task = tokio::task::spawn({
+            async move {
+                let mut count = 0;
+                if let Some(Ok((message, ack_token))) =
+                    tokio::time::timeout(Duration::from_secs(5), subscriber.recv())
+                        .await
+                        .unwrap()
+                {
+                    log::info!("Received retained message");
+                    count += 1;
+                    // if auto-ack is true and QoS is 1, this should be Some
+                    assert!(ack_token.is_some());
+
+                    // Verify the message content matches what was published
+                    assert_eq!(
+                        message.payload, retained_payload,
+                        "Payload mismatch in retained message"
+                    );
+
+                    // Acknowledge message since QoS 1
+                    ack_token.unwrap().ack().await.unwrap().await.unwrap();
+                    log::info!("Acknowledged message");
+                }
+                // only the 1 expected messages should occur (checks that recv() didn't return None when it shouldn't have)
+                assert_eq!(count, 1);
+                // cleanup should be successful
+                assert!(subscriber.shutdown().await.is_ok());
+            }
+        });
+
+        assert!(receive_telemetry_task.await.is_ok());
+
+        sub_session_exit_handle.try_exit().await.unwrap();
+    });
+
+    assert!(
+        tokio::try_join!(
+            async move { subscriber_test.await.map_err(|e| { e.to_string() }) },
+            async move { subscriber_session.run().await.map_err(|e| e.to_string()) }
+        )
+        .is_ok()
+    );
+
+    log::info!("Retained message test completed successfully");
+}

@@ -31,6 +31,10 @@
 
         public static readonly string ErrorResultAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ErrorResult";
 
+        public static readonly string ErrorCodeAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ErrorCode";
+
+        public static readonly string ErrorInfoAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:ErrorInfo";
+
         public static readonly string TelemTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:telemetryTopic";
 
         public static readonly string CmdReqTopicPropertyFormat = "dtmi:dtdl:extension:mqtt:v{0}:Mqtt:commandTopic";

@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
     public static class AvroSchemaSupport
     {
-        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, CodeName? sharedPrefix, bool nullable, HashSet<Dtmi> definedIds)
+        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, CodeName? sharedPrefix, bool nullable, HashSet<Dtmi> definedIds, int mqttVersion)
         {
             CodeName schemaId = new CodeName(dtSchema.Id);
 
@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
 
             if (nullable)
             {
-                var templateTransform = new NullableAvroSchema(dtSchema, indent, sharedPrefix, definedIds);
+                var templateTransform = new NullableAvroSchema(dtSchema, indent, sharedPrefix, definedIds, mqttVersion);
                 return templateTransform.TransformText();
             }
 
@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             if (dtSchema.EntityKind == DTEntityKind.Object)
             {
                 definedIds.Add(dtSchema.Id);
-                var templateTransform = new ObjectAvroSchema(schemaId, sharedNamespace, ((DTObjectInfo)dtSchema).Fields.Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), indent, sharedPrefix, definedIds);
+                var templateTransform = new ObjectAvroSchema(schemaId, sharedNamespace, ((DTObjectInfo)dtSchema).Fields.Where(f => !IsFieldErrorCode(f, mqttVersion) && !IsFieldErrorInfo(f, mqttVersion)).Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), indent, sharedPrefix, definedIds, mqttVersion);
                 return templateTransform.TransformText();
             }
 
@@ -39,14 +39,14 @@ namespace Azure.Iot.Operations.ProtocolCompiler
             if (dtSchema.EntityKind == DTEntityKind.Array)
             {
                 definedIds.Add(dtSchema.Id);
-                var templateTransform = new ArrayAvroSchema(schemaId, ((DTArrayInfo)dtSchema).ElementSchema, indent, sharedPrefix, definedIds);
+                var templateTransform = new ArrayAvroSchema(schemaId, ((DTArrayInfo)dtSchema).ElementSchema, indent, sharedPrefix, definedIds, mqttVersion);
                 return templateTransform.TransformText();
             }
 
             if (dtSchema.EntityKind == DTEntityKind.Map)
             {
                 definedIds.Add(dtSchema.Id);
-                var templateTransform = new MapAvroSchema(schemaId, ((DTMapInfo)dtSchema).MapValue.Schema, indent, sharedPrefix, definedIds);
+                var templateTransform = new MapAvroSchema(schemaId, ((DTMapInfo)dtSchema).MapValue.Schema, indent, sharedPrefix, definedIds, mqttVersion);
                 return templateTransform.TransformText();
             }
 
@@ -80,6 +80,16 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private static bool IsRequired(DTFieldInfo dtField)
         {
             return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+        }
+
+        private static bool IsFieldErrorCode(DTFieldInfo dtField, int mqttVersion)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorCodeAdjunctTypeFormat, mqttVersion)));
+        }
+
+        private static bool IsFieldErrorInfo(DTFieldInfo dtField, int mqttVersion)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.ErrorInfoAdjunctTypeFormat, mqttVersion)));
         }
     }
 }

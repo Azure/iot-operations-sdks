@@ -219,7 +219,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                     tokenSource.Token))
                         .Returns(Task.FromResult(getResponse));
 
-            GetLockHolderResponse response = await leasedLockClient.GetLockHolderAsync(tokenSource.Token);
+            GetLockHolderResponse response = await leasedLockClient.GetLockHolderAsync(null, tokenSource.Token);
             Assert.NotNull(response.LockHolder);
             Assert.Equal(expectedValue.GetString(), response.LockHolder.GetString());
 
@@ -250,7 +250,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                 SessionId = "someSessionId"
             };
 
-            ReleaseLockResponse response = await leasedLockClient.ReleaseLockAsync(options, tokenSource.Token);
+            ReleaseLockResponse response = await leasedLockClient.ReleaseLockAsync(options, null, tokenSource.Token);
 
             Assert.True(response.Success);
 
@@ -281,7 +281,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                 SessionId = "someSessionId"
             };
 
-            ReleaseLockResponse response = await leasedLockClient.ReleaseLockAsync(options, tokenSource.Token);
+            ReleaseLockResponse response = await leasedLockClient.ReleaseLockAsync(options, null, tokenSource.Token);
 
             Assert.False(response.Success);
 
@@ -311,7 +311,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                 CancelAutomaticRenewal = false,
             };
 
-            ReleaseLockResponse response = await leasedLockClient.ReleaseLockAsync(options, tokenSource.Token);
+            ReleaseLockResponse response = await leasedLockClient.ReleaseLockAsync(options, null, tokenSource.Token);
 
             Assert.True(response.Success);
 
@@ -341,7 +341,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                 CancelAutomaticRenewal = false,
             };
 
-            ReleaseLockResponse response = await leasedLockClient.ReleaseLockAsync(options, tokenSource.Token);
+            ReleaseLockResponse response = await leasedLockClient.ReleaseLockAsync(options, null, tokenSource.Token);
 
             Assert.False(response.Success);
 
@@ -451,7 +451,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
 
             // act, assert
             await Assert.ThrowsAsync<ObjectDisposedException>(
-                async () => await leasedLockClient.GetLockHolderAsync(tokenSource.Token));
+                async () => await leasedLockClient.GetLockHolderAsync(null, tokenSource.Token));
         }
 
         [Fact]
@@ -484,7 +484,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                 .Returns(Task.CompletedTask);
 
             // act
-            await leasedLockClient.ObserveLockAsync(tokenSource.Token);
+            await leasedLockClient.ObserveLockAsync(null, tokenSource.Token);
 
             // assert
             mockStateStoreClient.Verify(
@@ -513,7 +513,7 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                 .Returns(Task.CompletedTask);
 
             // act
-            await leasedLockClient.UnobserveLockAsync(tokenSource.Token);
+            await leasedLockClient.UnobserveLockAsync(null, tokenSource.Token);
 
             // assert
             mockStateStoreClient.Verify(
@@ -524,6 +524,25 @@ namespace Azure.Iot.Operations.Services.Test.Unit.StateStore.LeasedLock
                         Times.Once());
 
             await leasedLockClient.DisposeAsync();
+        }
+
+        [Fact]
+        public async Task AcquireLockWithTooShortLeaseDurationThrows()
+        {
+            // arrange
+            TimeSpan leaseDuration = TimeSpan.FromMicroseconds(1);
+            Mock<StateStoreClient> mockStateStoreClient = GetMockStateStoreClient();
+            using CancellationTokenSource tokenSource = new CancellationTokenSource();
+            var leasedLockClient = new LeasedLockClient(mockStateStoreClient.Object, "someLockName", "someValue");
+
+            // act/assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await leasedLockClient.TryAcquireLockAsync(
+                leaseDuration,
+                cancellationToken: tokenSource.Token));
+
+            await Assert.ThrowsAsync<ArgumentException>(async () => await leasedLockClient.AcquireLockAsync(
+                leaseDuration,
+                cancellationToken: tokenSource.Token));
         }
 
         private static Mock<StateStoreClient> GetMockStateStoreClient()
