@@ -98,6 +98,14 @@ jobs:
         cargo clippy --all-features
         cargo fmt --verbose --all
 
+    - name: Verify Scaffolding
+      working-directory: rust/sample_applications/sample_connector_scaffolding
+      run: # Checks that the scaffolding is building correctly.
+        source ../../../rust/ci/build-deps.sh
+        cargo check
+        cargo clippy
+        cargo fmt --verbose --all
+
     # TODO: Enable and configure these once the codegen is ready
     # - name: CodeGen Rust TestEnvoys
     #   run: |

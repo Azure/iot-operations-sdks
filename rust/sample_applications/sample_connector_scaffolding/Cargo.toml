@@ -7,8 +7,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-azure_iot_operations_connector = { version = "0.1.0-alpha.4", registry = "aio-sdks"  }
-azure_iot_operations_protocol = { version = "0.10.0-alpha.2", registry = "aio-sdks"  }
+azure_iot_operations_connector = { version = "0.1.0", registry = "aio-sdks"  }
+azure_iot_operations_otel = { version = "0.2.1", registry = "aio-sdks" }
+azure_iot_operations_protocol = { version = "0.10.0", registry = "aio-sdks"  }
 env_logger = "0.11.3"
 log = "0.4.21"
 serde = { version = "1.0", features = ["derive"] }
@@ -20,6 +21,6 @@ tokio-util = "0.7.11"
 rust_2018_idioms = "deny"
 
 [lints.clippy]
-all = "warn"
-pedantic = "warn"
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
 too_many_lines = "allow"
