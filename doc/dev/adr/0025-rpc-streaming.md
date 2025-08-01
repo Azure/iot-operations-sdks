@@ -180,7 +180,7 @@ TODO
 Invoker side:
  - delivery timeout (assigned per request message in stream (extended streaming request assigned?))
  - execution timeout (noted in header of each request (for redundancy in case first message is lost))
- - Client waits for ?????? Can't assume just execution timeout
+ - overall timeout (not sent over the wire, just the amount of time the invoker should wait from API call to final response before giving up)
 
  Executor side:
   - At constructor time, user assigns 
