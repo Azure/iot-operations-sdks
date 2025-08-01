@@ -11,7 +11,7 @@ Users have expressed a desire to allow more than one response per RPC invocation
 
  - Allow for an arbitrary number of command responses for a single command invocation
    - The total number of responses does not need to be known before the first response is sent 
- - When exposed to the user, each response includes an index of where it was in the stream and an optional response Id
+ - When exposed to the user, each response includes an index of where it was in the stream
  - Allow for multiple separate commands to be streamed simultaneously
  - Allow for invoker to cancel streamed responses mid-stream (from client side)
 
@@ -61,14 +61,6 @@ Additionally, this new method will return an extended version of the ```Extended
 public class StreamingExtendedResponse<TResp> : ExtendedResponse<TResp>
     where TResp : class
 {
-    /// <summary>
-    /// An optional Id for this response (relative to the other responses in this response stream)
-    /// </summary>
-    /// <remarks>
-    /// Users are allowed to provide Ids for each response, only for specific responses, or for none of the responses.
-    /// </remarks>
-    public string? StreamingResponseId { get; set; }
-
     /// <summary>
     /// The index of this response relative to the other responses in this response stream. Starts at 0.
     /// </summary>
@@ -126,7 +118,6 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 - The command executor receives a command with "__streamResp" flag set to "true"
   - All command responses will use the same MQTT message correlation data as the request provided so that the invoker can map responses to the appropriate command invocation.
   - Each streamed response must contain an MQTT user property with name "__streamIndex" and value equal to the index of this response relative to the other responses (0 for the first response, 1 for the second response, etc.)
-  - Each streamed response may contain an MQTT user property with name "__streamRespId" and value equal to that response's streaming response Id. This is an optional and user-provided value.
   - The final command response will include an MQTT user property "__isLastResp" with value "true" to signal that it is the final response in the stream.
     - A streaming command is allowed to have a single response. It must include the "__isLastResp" flag in that first/final response
   - Cache is only updated once the stream has completed and it is updated to include all of the responses (in order) for the command so they can be re-played if the streaming command is invoked again by the same client
