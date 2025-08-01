@@ -116,7 +116,7 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 
 To convey streaming context in a request/response stream, we will put this information in the "__stream" MQTT user property with a value that looks like:
 
-```<index>_<isLast>_<cancelRequest>_<requestCanceledSuccessfully>_<execution timeout>``` TODO examples
+```<index>_<isLast>_<cancelRequest>_<requestCanceledSuccessfully>```
 
 with data types
 
@@ -177,6 +177,8 @@ We need to provide timeout support for our streaming APIs to avoid scenarios suc
 
 #### Decision
 
+TODO
+
 Invoker side:
  - delivery timeout (assigned per request message in stream (extended streaming request assigned?))
  - execution timeout (noted in header of each request (for redundancy in case first message is lost))
@@ -191,9 +193,9 @@ Invoker side:
 - Include in the initial request user properties a total number of milliseconds that the command response can take to be delivered.
   - This is the approach that gRPC takes, but... 
     - It doesn't account well for delays in message delivery from broker. 
-    - It doesn't account for scenarios where the invoker dies unexpectedly since gRPC relies on a direct connection between invoker and executor
+    - It doesn't account for scenarios where the invoker/executor dies unexpectedly (since gRPC relies on a direct connection between invoker and executor)
 - Allow users to specify timeouts for delivery and a separate timeout for execution
-  - a bit complex on API surface. Also different from how our normal RPC does timeouts 
+  - a bit complex on API surface. Also subtly different enough from how our normal RPC does timeouts that it would cause confusion
 
 ### Cancellation support
 
