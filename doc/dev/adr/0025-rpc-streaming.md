@@ -38,25 +38,9 @@ gRPC supports these patterns for RPC:
 
 ### API design, .NET
 
-While RPC streaming shares a lot of similarities to normal RPC, we will define a new communication pattern to handle this scenario with two corresponding base classes: ```StreamingCommandInvoker``` and ```StreamingCommandExecutor```.
+While RPC streaming shares a lot of similarities to normal RPC, we will define a new communication pattern to handle this scenario with two corresponding base classes: ```StreamingCommandInvoker``` and ```StreamingCommandExecutor```. 
 
-#### Invoker side
-
-The new ```StreamingCommandInvoker``` will largely look like the existing ```CommandInvoker```, but will have an API for ```InvokeCommandWithStreaming```.
-
-This new method will take the same parameters as ```InvokeCommand``` but will accept a stream of requests and return a stream of command responses. 
-
-```csharp
-public abstract class StreamingCommandInvoker<TReq, TResp>
-    where TReq : class
-    where TResp : class
-{
-    // Many requests, many responses.
-    public IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, ...) {...}
-}
-```
-
-Additionally, these new methods will use extended versions of the ```ExtendedRequest``` and ```ExtendedResponse``` classes that will include the streaming-specific information about each request and response:
+These new base classes will use extended versions of the ```ExtendedRequest``` and ```ExtendedResponse``` classes to include the streaming-specific information about each request and response:
 
 ```csharp
 public class StreamingExtendedRequest<TResp> : ExtendedRequest<TResp>
@@ -88,6 +72,22 @@ public class StreamingExtendedResponse<TResp> : ExtendedResponse<TResp>
 }
 ```
 
+#### Invoker side
+
+The new ```StreamingCommandInvoker``` will largely look like the existing ```CommandInvoker```, but will instead have an API for ```InvokeCommandWithStreaming```.
+
+This new method will take the same parameters as ```InvokeCommand``` but will accept a stream of requests and return a stream of command responses. 
+
+```csharp
+public abstract class StreamingCommandInvoker<TReq, TResp>
+    where TReq : class
+    where TResp : class
+{
+    // Many requests, many responses.
+    public IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, ...) {...}
+}
+```
+
 #### Executor side
 
 The new ```StreamingCommandExecutor``` will largely look like the existing ```CommandExecutor```, but the callback to notify users that a command was received will include a stream of requests and return a stream of responses.
@@ -116,23 +116,21 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 
 To convey streaming context in a request/response stream, we will put this information in the "__stream" MQTT user property with a value that looks like:
 
-```<index>_<isLast>_<cancelRequest>_<requestCanceledSuccessfully>```
+```<index>_<isLast>_<cancelRequest>```
 
 with data types
 
-```<uint>_<boolean>_<boolean>_<boolean>```
+```<uint>_<boolean>_<boolean>```
 
 examples:
 
-```0_false_false_false```: The first (and not last) message in a stream
+```0_false_false```: The first (and not last) message in a stream
 
-```3_true_false_false```: The third and final message in a stream
+```3_true_false```: The third and final message in a stream
 
-```0_true_false_false```: The first and final message in a stream
+```0_true_false```: The first and final message in a stream
 
-```0_true_true_false```: This stream should be canceled. Note that the values for ```index```, ```isLast``` and ```requestCanceledSuccessfully``` are irrelevant here.
-
-```0_false_false_true```: This stream was successfully canceled. Note that the values for ```index```, ```isLast```, and ```cancelRequest``` are irrelevant here.
+```0_true_true```: This stream should be canceled. Note that the values for ```index```, and ```isLast``` are ignored here.
 
 [see cancellation support for more details on cancellation scenarios](#cancellation-support)
 
@@ -223,7 +221,7 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
 
 ```
 
-where the user gets the correlationId from the ```CommandRequestMetadata``` they provide to the command invoker or the ```CommandResponseMetadata``` that the executor gives them upon receiving a streaming command.
+where the user gets the correlationId from the ```CommandRequestMetadata``` they provide to the command invoker when invoking a command or the ```CommandResponseMetadata``` that the executor gives them upon receiving a streaming command.
 
 #### Invoker side
 
@@ -237,7 +235,7 @@ where the user gets the correlationId from the ```CommandRequestMetadata``` they
 As detailed below, the executor may also cancel the stream at any time. In response to receiving a cancellation request from the executor, the invoker should send an MQTT message with:
  - The same topic as the command itself
  - The same correlation data as the command itself
- - Streaming metadata with the ["stream successfully canceled" flag set](#streaming-user-property)
+ - The "Canceled" error code
 
 Any received MQTT messages pertaining to a command that was already canceled should still be acknowledged. They should not be given to the user, though.
 
