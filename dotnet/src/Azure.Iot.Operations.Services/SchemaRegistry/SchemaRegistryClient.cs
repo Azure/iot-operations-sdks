@@ -17,7 +17,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
     private bool _disposed;
 
     /// <inheritdoc/>
-    public async Task<SchemaInfo?> GetAsync(
+    public async Task<SchemaInfo> GetAsync(
         string schemaId,
         string version = "1",
         TimeSpan? timeout = null,
@@ -39,12 +39,6 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         {
             throw Converter.toModel(srEx);
         }
-        catch (AkriMqttException ex) when (ex.Kind == AkriMqttErrorKind.PayloadInvalid)
-        {
-            // This is likely because the user received a "not found" response payload from the service, but the service is an
-            // older version that sends an empty payload instead of the expected "{}" payload.
-            return null;
-        }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {
             // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
@@ -61,7 +55,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
     }
 
     /// <inheritdoc/>
-    public async Task<SchemaInfo?> PutAsync(
+    public async Task<SchemaInfo> PutAsync(
         string schemaContent,
         SchemaFormat schemaFormat,
         SchemaType schemaType = SchemaType.MessageSchema,
