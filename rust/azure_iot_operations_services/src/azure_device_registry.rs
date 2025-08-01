@@ -57,7 +57,7 @@ pub enum ErrorKind {
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
-    ServiceError(#[from] base_client_gen::AkriServiceError),
+    ServiceError(base_client_gen::AkriServiceError),
     /// A Device or an asset may only have one observation at a time.
     #[error("Device or asset may only be observed once at a time")]
     DuplicateObserve(#[from] dispatcher::RegisterError),
@@ -67,6 +67,18 @@ pub enum ErrorKind {
     /// An error occurred while validating the inputs.
     #[error("{0}")]
     ValidationError(String),
+}
+
+impl From<rpc_command::invoker::Response<base_client_gen::AkriServiceError>> for ErrorKind {
+    fn from(value: rpc_command::invoker::Response<base_client_gen::AkriServiceError>) -> Self {
+        Self::ServiceError(value.payload)
+    }
+}
+
+impl From<rpc_command::invoker::Response<discovery_client_gen::AkriServiceError>> for ErrorKind {
+    fn from(value: rpc_command::invoker::Response<discovery_client_gen::AkriServiceError>) -> Self {
+        Self::ServiceError(value.payload.into())
+    }
 }
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~

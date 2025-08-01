@@ -61,7 +61,7 @@ fn create_output_schema(data: &Data) -> Result<MessageSchema, SchemaGenerationEr
 
     // Create a MessageSchema from the output JSON schema
     let output_message_schema = MessageSchemaBuilder::default()
-        .content(serde_json::to_string(&output_root_schema)?)
+        .schema_content(serde_json::to_string(&output_root_schema)?)
         .format(Format::JsonSchemaDraft07)
         .schema_type(SchemaType::MessageSchema)
         .build()?;
@@ -87,17 +87,17 @@ mod test {
         // Make new structs with the content set to empty strings to normalize our MessageSchema
         // under comparison since we can't directly compare the content accurately.
         let schema1_no_content = MessageSchema {
-            content: String::new(),
+            schema_content: String::new(),
             ..schema1.clone()
         };
         let schema2_no_content = MessageSchema {
-            content: String::new(),
+            schema_content: String::new(),
             ..schema2.clone()
         };
 
         // Compare the content of the schemas
-        let schema1_json_content: Value = serde_json::from_str(&schema1.content).unwrap();
-        let schema2_json_content: Value = serde_json::from_str(&schema2.content).unwrap();
+        let schema1_json_content: Value = serde_json::from_str(&schema1.schema_content).unwrap();
+        let schema2_json_content: Value = serde_json::from_str(&schema2.schema_content).unwrap();
 
         schema1_no_content == schema2_no_content && schema1_json_content == schema2_json_content
     }
@@ -240,7 +240,7 @@ mod test {
         // We expect the output message schema to contain the expected output JSON schema
         // and have the correct format and schema type
         let expected_output_message_schema = MessageSchemaBuilder::default()
-            .content(serde_json::to_string(&test_case.expected_output_json_schema).unwrap())
+            .schema_content(serde_json::to_string(&test_case.expected_output_json_schema).unwrap())
             .format(Format::JsonSchemaDraft07)
             .schema_type(SchemaType::MessageSchema)
             .build()
