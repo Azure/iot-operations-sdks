@@ -50,11 +50,6 @@ public class StreamingExtendedRequest<TResp> : ExtendedRequest<TResp>
     /// The index of this request relative to the other requests in this request stream. Starts at 0.
     /// </summary>
     public int StreamingRequestIndex { get; set; }
-
-    /// <summary>
-    /// If true, this request is the final request in this request stream.
-    /// </summary>
-    public bool IsLastRequest { get; set; }
 }
 
 public class StreamingExtendedResponse<TResp> : ExtendedResponse<TResp>
@@ -64,11 +59,6 @@ public class StreamingExtendedResponse<TResp> : ExtendedResponse<TResp>
     /// The index of this response relative to the other responses in this response stream. Starts at 0.
     /// </summary>
     public int StreamingResponseIndex { get; set; }
-
-    /// <summary>
-    /// If true, this response is the final response in this response stream.
-    /// </summary>
-    public bool IsLastResponse { get; set; }
 }
 ```
 
