@@ -7,16 +7,18 @@ using System.Text.Json.Nodes;
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
-    public struct ExtendedResponse<TResp>
+    public class ExtendedResponse<TResp>
         where TResp : class
     {
         // These two user properties are used to communicate application level errors in an RPC response message. Code is mandatory, but data is optional.
         public const string ApplicationErrorCodeUserDataKey = "AppErrCode";
         public const string ApplicationErrorPayloadUserDataKey = "AppErrPayload";
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
         public TResp Response { get; set; }
 
         public CommandResponseMetadata? ResponseMetadata { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 #pragma warning disable CA1000 // Do not declare static members on generic types
         public static ExtendedResponse<TResp> CreateFromResponse(TResp response)
