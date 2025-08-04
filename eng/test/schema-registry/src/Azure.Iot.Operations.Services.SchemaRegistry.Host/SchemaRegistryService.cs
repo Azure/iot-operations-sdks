@@ -25,18 +25,23 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
         logger.LogInformation("Get request {req}", request.Name);
         StateStoreGetResponse resp = await _stateStoreClient.GetAsync(request.Name!, cancellationToken: cancellationToken);
         logger.LogInformation("Schema found {found}", resp.Value != null);
-        SchemaInfo sdoc = null!;
         if (resp.Value != null)
         {
-            sdoc = _jsonSerializer.FromBytes<SchemaInfo>(new(resp.Value?.Bytes), Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator);
-        }
-        return new ExtendedResponse<GetResponsePayload>
-        {
-            Response = new()
+            SchemaInfo sdoc = _jsonSerializer.FromBytes<SchemaInfo>(new(resp.Value.Bytes), Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator);
+
+            return new ExtendedResponse<GetResponsePayload>
             {
-                Schema = sdoc
-            }
-        };
+                Response = new()
+                {
+                    Schema = sdoc
+                }
+            };
+        }
+
+        throw new SchemaRegistryErrorException(new SchemaRegistryError()
+        {
+            Code = SchemaRegistryErrorCode.NotFound,
+        });
     }
 
     public override async Task<ExtendedResponse<PutResponsePayload>> PutAsync(PutRequestSchema request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
