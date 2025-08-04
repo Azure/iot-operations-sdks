@@ -33,7 +33,13 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </remarks>
         public TimeSpan ExecutionTimeout { get; set; }
 
-        public required Func<ExtendedRequest<TReq>, CancellationToken, Task<ExtendedResponse<TResp>>> OnCommandReceived { get; set; }
+        /// <summary>
+        /// A streaming command was invoked
+        /// </summary>
+        /// <remarks>
+        /// The callback provides the stream of requests and requires the user to return one to many responses.
+        /// </remarks>
+        public required Func<ICancelableAsyncEnumerable<StreamingExtendedRequest<TReq>>, CancellationToken, Task<IAsyncEnumerable<StreamingExtendedResponse<TResp>>>> OnStreamingCommandReceived { get; set; }
 
         public string? ExecutorId { get; init; }
 

@@ -16,10 +16,5 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// The index of this request relative to the other requests in this request stream. Starts at 0.
         /// </summary>
         public int StreamingRequestIndex { get; set; }
-
-        /// <summary>
-        /// If true, this request is the final request in this request stream.
-        /// </summary>
-        public bool IsLastRequest { get; set; }
     }
 }
