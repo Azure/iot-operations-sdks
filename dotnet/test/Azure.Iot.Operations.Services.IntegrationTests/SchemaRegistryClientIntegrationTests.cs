@@ -48,7 +48,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
-        await Assert.ThrowsAsync<SchemaRegistryServiceException>(async () => await client.GetAsync("NotFound"));
+        await Assert.ThrowsAsync<SchemaRegistryErrorException>(async () => await client.GetAsync("NotFound"));
     }
 
     [Fact]
