@@ -188,7 +188,7 @@ Invoker side:
 
 #### Alternative timeout designs considered
 
-- Include in the initial request user properties a total number of milliseconds that the command response can take to be delivered.
+- Include in the initial request user properties the number of milliseconds allowed between receiving the final command request and delivering the final command response.
   - This is the approach that gRPC takes, but... 
     - It doesn't account well for delays in message delivery from broker. 
     - It doesn't account for scenarios where the invoker/executor dies unexpectedly (since gRPC relies on a direct connection between invoker and executor)
