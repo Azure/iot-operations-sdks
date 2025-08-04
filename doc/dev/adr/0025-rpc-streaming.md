@@ -84,7 +84,7 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     where TResp : class
 {
     // Many requests, many responses.
-    public IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, ...) {...}
+    public IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<TReq> requests, ...) {...}
 }
 ```
 
