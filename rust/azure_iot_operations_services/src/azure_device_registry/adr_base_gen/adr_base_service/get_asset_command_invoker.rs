@@ -22,6 +22,7 @@ use super::get_asset_response_schema::GetAssetResponseSchema;
 
 pub type GetAssetRequest = rpc_command::invoker::Request<GetAssetRequestPayload>;
 pub type GetAssetResponse = rpc_command::invoker::Response<GetAssetResponsePayload>;
+pub type GetAssetResponseError = rpc_command::invoker::Response<AkriServiceError>;
 pub type GetAssetRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
@@ -141,12 +142,19 @@ where
     pub async fn invoke(
         &self,
         request: GetAssetRequest,
-    ) -> Result<Result<GetAssetResponse, AkriServiceError>, AIOProtocolError> {
+    ) -> Result<Result<GetAssetResponse, GetAssetResponseError>, AIOProtocolError> {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(get_asset_error) = response.payload.get_asset_error {
-                    Ok(Err(get_asset_error))
+                    Ok(Err(GetAssetResponseError {
+                        payload: get_asset_error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                        executor_id: response.executor_id,
+                    }))
                 } else if let Some(asset) = response.payload.asset {
                     Ok(Ok(GetAssetResponse {
                         payload: GetAssetResponsePayload { asset },
@@ -154,6 +162,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

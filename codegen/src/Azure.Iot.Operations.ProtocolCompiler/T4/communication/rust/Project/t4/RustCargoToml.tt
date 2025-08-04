@@ -33,7 +33,7 @@ azure_iot_operations_mqtt = { <#=this.IfLocal("path", "git")#> = "<#=this.sdkPat
 azure_iot_operations_protocol = { <#=this.IfLocal("path", "git")#> = "<#=this.sdkPath#><#=this.IfLocal("/azure_iot_operations_protocol")#>" }
 <# } else { #>
 azure_iot_operations_mqtt = { version = "0.10.0", registry = "aio-sdks" }
-azure_iot_operations_protocol = { version = "0.10.0", registry = "aio-sdks" }
+azure_iot_operations_protocol = { version = "0.11.0", registry = "aio-sdks" }
 <# } #>
 <# if (!this.generateProject) { #>
 ```

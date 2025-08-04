@@ -24,6 +24,8 @@ pub type CreateOrUpdateDiscoveredDeviceRequest =
     rpc_command::invoker::Request<CreateOrUpdateDiscoveredDeviceRequestPayload>;
 pub type CreateOrUpdateDiscoveredDeviceResponse =
     rpc_command::invoker::Response<CreateOrUpdateDiscoveredDeviceResponsePayload>;
+pub type CreateOrUpdateDiscoveredDeviceResponseError =
+    rpc_command::invoker::Response<AkriServiceError>;
 pub type CreateOrUpdateDiscoveredDeviceRequestBuilderError =
     rpc_command::invoker::RequestBuilderError;
 
@@ -157,15 +159,24 @@ where
     pub async fn invoke(
         &self,
         request: CreateOrUpdateDiscoveredDeviceRequest,
-    ) -> Result<Result<CreateOrUpdateDiscoveredDeviceResponse, AkriServiceError>, AIOProtocolError>
-    {
+    ) -> Result<
+        Result<CreateOrUpdateDiscoveredDeviceResponse, CreateOrUpdateDiscoveredDeviceResponseError>,
+        AIOProtocolError,
+    > {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
                 if let Some(create_or_update_discovered_device_error) =
                     response.payload.create_or_update_discovered_device_error
                 {
-                    Ok(Err(create_or_update_discovered_device_error))
+                    Ok(Err(CreateOrUpdateDiscoveredDeviceResponseError {
+                        payload: create_or_update_discovered_device_error,
+                        content_type: response.content_type,
+                        format_indicator: response.format_indicator,
+                        custom_user_data: response.custom_user_data,
+                        timestamp: response.timestamp,
+                        executor_id: response.executor_id,
+                    }))
                 } else if let Some(discovered_device_response) =
                     response.payload.discovered_device_response
                 {
@@ -177,6 +188,7 @@ where
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,
+                        executor_id: response.executor_id,
                     }))
                 } else {
                     Err(AIOProtocolError {

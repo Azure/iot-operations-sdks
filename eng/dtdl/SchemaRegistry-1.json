@@ -1,14 +1,16 @@
 {
   "@context": [
     "dtmi:dtdl:context;4",
-    "dtmi:dtdl:extension:mqtt;2"
+    "dtmi:dtdl:extension:mqtt;3",
+    "dtmi:dtdl:extension:requirement;1"
   ],
-  "@id": "dtmi:ms:adr:SchemaRegistry;1",
+  "@id": "dtmi:ms:adr:SchemaRegistry;2",
   "@type": [
     "Interface",
     "Mqtt"
   ],
   "commandTopic": "adr/{modelId}/{commandName}",
+  "cmdServiceGroupId": "schema-registry-edge",
   "description": "Defines MQTT-based contract for Schema Registry component in AIO",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
@@ -62,26 +64,31 @@
       "description": "Schema object",
       "fields": [
         {
+          "@type": ["Field", "Required"],
           "name": "name",
           "schema": "string",
           "description": "Schema name."
         },
         {
+          "@type": ["Field", "Required"],
           "name": "format",
           "schema": "dtmi:ms:adr:SchemaRegistry:Format;1",
           "description": "Format of the schema."
         },
         {
+          "@type": ["Field", "Required"],
           "name": "schemaType",
           "schema": "dtmi:ms:adr:SchemaRegistry:SchemaType;1",
           "description": "Type of the schema."
         },
         {
+          "@type": ["Field", "Required"],
           "name": "version",
           "schema": "string",
           "description": "Version of the schema. Allowed between 0-9."
         },
         {
+          "@type": ["Field", "Required"],
           "name": "schemaContent",
           "schema": "string",
           "description": "Content stored in the schema."
@@ -107,9 +114,148 @@
           "description": "Hash of the schema content."
         },
         {
+          "@type": ["Field", "Required"],
           "name": "namespace",
           "schema": "string",
           "description": "Schema registry namespace. Uniquely identifies a schema registry within a tenant."
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryError;1",
+      "@type": ["Object", "Error"],
+      "description": "Error object for schema operations",
+      "fields": [
+        {
+          "@type": [ "Field", "Required" ],
+          "name": "code",
+          "description": "Error code for classification of errors (ex: '400', '404', '500', etc.).",
+          "schema": {
+            "@id": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryErrorCode;1",
+            "@type": "Enum",
+            "valueSchema": "integer",
+            "enumValues": [
+              {
+                "name": "BadRequest",
+                "enumValue": 400,
+                "description": "The request is invalid or malformed."
+              },
+              {
+                "name": "NotFound",
+                "enumValue": 404,
+                "description": "The target resource was not found."
+              },
+              {
+                "name": "InternalError",
+                "enumValue": 500,
+                "description": "An internal server error occurred."
+              }
+            ]
+          }
+        },
+        {
+          "@type": [ "Field", "ErrorMessage", "Required" ],
+          "name": "message",
+          "schema": "string",
+          "description": "Human-readable error message."
+        },
+        {
+          "name": "target",
+          "description": "Target of the error, if applicable (e.g., 'schemaType').",
+          "schema": {
+            "@id": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryErrorTarget;1",
+            "@type": "Enum",
+            "valueSchema": "string",
+            "enumValues": [
+              {
+                "name": "schemaTypeProperty",
+                "enumValue": "SchemaType",
+                "description": "Indicates the error is related to the schema type."
+              },
+              {
+                "name": "formatProperty",
+                "enumValue": "Format",
+                "description": "Indicates the error is related to the schema format."
+              },
+              {
+                "name": "versionProperty",
+                "enumValue": "Version",
+                "description": "Indicates the error is related to the schema version."
+              },
+              {
+                "name": "nameProperty",
+                "enumValue": "Name",
+                "description": "Indicates the error is related to the schema name."
+              },
+              {
+                "name": "tagsProperty",
+                "enumValue": "Tags",
+                "description": "Indicates the error is related to schema tags."
+              },
+              {
+                "name": "descriptionProperty",
+                "enumValue": "Description",
+                "description": "Indicates the error is related to the schema description."
+              },
+              {
+                "name": "displayNameProperty",
+                "enumValue": "DisplayName",
+                "description": "Indicates the error is related to the schema display name."
+              },
+              {
+                "name": "schemaContentProperty",
+                "enumValue": "SchemaContent",
+                "description": "Indicates the error is related to the schema content."
+              },
+              {
+                "name": "schemaArmResource",
+                "enumValue": "SchemaArmResource",
+                "description": "Indicates the error is related to the schema ARM resource."
+              },
+              {
+                "name": "schemaVersionArmResource",
+                "enumValue": "SchemaVersionArmResource",
+                "description": "Indicates the error is related to the schema version ARM resource."
+              },
+              {
+                "name": "SchemaRegistryArmResource",
+                "enumValue": "SchemaRegistryResource",
+                "description": "Indicates the error is related to the schema registry ARM resource."
+              }
+            ]
+          }
+        },
+        {
+          "name": "details",
+          "schema": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryErrorDetails;1",
+          "description": "Additional details about the error, if available."
+        },
+        {
+          "name": "innerError",
+          "schema": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryErrorDetails;1",
+          "description": "Inner error object for nested errors, if applicable."
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryErrorDetails;1",
+      "@type": "Object",
+      "description": "Additional details about an error",
+      "fields": [
+        {
+          "name": "code",
+          "schema": "string",
+          "description": "Multi-part error code for classification and root causing of errors (e.g., '400.200')."
+        },
+        {
+          "name": "message",
+          "schema": "string",
+          "description": "Human-readable helpful error message to provide additional context for the error"
+        },
+        {
+          "name": "correlationId",
+          "schema": "string",
+          "description": "Correlation ID for tracing the error across systems."
         }
       ]
     }
@@ -120,29 +266,34 @@
       "name": "put",
       "description": "PUT Schema Command",
       "request": {
+        "@type": ["CommandRequest", "Transparent"],
         "name": "putSchemaRequest",
         "description": "PUT Schema request object",
         "schema": {
           "@type": "Object",
           "fields": [
             {
+              "@type": ["Field", "Required"],
               "name": "format",
               "schema": "dtmi:ms:adr:SchemaRegistry:Format;1",
               "description": "Format of the schema."
             },
             {
+              "@type": ["Field", "Required"],
               "name": "schemaType",
               "schema": "dtmi:ms:adr:SchemaRegistry:SchemaType;1",
               "description": "Type of the schema."
             },
             {
+              "@type": ["Field", "Required"],
               "name": "schemaContent",
               "schema": "string",
               "description": "Content stored in the schema."
             },
             {
+              "@type": ["Field", "Required"],
               "name": "version",
-              "schema": "string",
+              "schema" :  "string",
               "description": "Version of the schema. Allowed between 0-9."
             },
             {
@@ -164,32 +315,48 @@
         }
       },
       "response": {
-        "name": "schema",
-        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
-        "description": "PUT Schema response object"
+        "@type": ["CommandResponse"],
+        "name": "putResponse",
+        "description": "PUT Schema response object",
+        "schema": {
+          "@type": ["Object", "Result"],
+          "fields": [
+            {
+              "@type": ["Field", "NormalResult"],
+              "name": "schema",
+              "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
+              "description": "Schema object that was created."
+            },
+            {
+              "@type": ["Field", "ErrorResult"],
+              "name": "error",
+              "schema": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryError;1",
+              "description": "Error object in case of failure."
+            }
+          ]
+        }
       }
     },
     {
-      "@type": [
-        "Command",
-        "Idempotent",
-        "Cacheable"
-      ],
+      "@type": [ "Command", "Idempotent", "Cacheable" ],
       "ttl": "P1D",
       "name": "get",
       "description": "GET Schema Command",
       "request": {
+        "@type": ["CommandRequest", "Transparent"],
         "name": "getSchemaRequest",
         "description": "GET Schema request object",
         "schema": {
           "@type": "Object",
           "fields": [
             {
+              "@type": ["Field", "Required"],
               "name": "name",
               "schema": "string",
               "description": "Schema name."
             },
             {
+              "@type": ["Field", "Required"],
               "name": "version",
               "schema": "string",
               "description": "Version of the schema. Allowed between 0-9."
@@ -198,10 +365,26 @@
         }
       },
       "response": {
-        "name": "schema",
-        "nullable": true,
-        "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
-        "description": "GET Schema response object"
+        "@type": ["CommandResponse"],
+        "name": "getResponse",
+        "description": "GET Schema response object",
+        "schema": {
+          "@type": ["Object", "Result"],
+          "fields": [
+            {
+              "@type": ["Field", "NormalResult"],
+              "name": "schema",
+              "schema": "dtmi:ms:adr:SchemaRegistry:Schema;1",
+              "description": "The requested schema object."
+            },
+            {
+              "@type": ["Field", "ErrorResult"],
+              "name": "error",
+              "schema": "dtmi:ms:adr:SchemaRegistry:SchemaRegistryError;1",
+              "description": "Error object in case of failure."
+            }
+          ]
+        }
       }
     }
   ]
