@@ -39,7 +39,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <remarks>
         /// The callback provides the stream of requests and requires the user to return one to many responses.
         /// </remarks>
-        public required Func<IAsyncEnumerable<StreamingExtendedRequest<TReq>>, Guid, CancellationToken, Task<IAsyncEnumerable<StreamingExtendedResponse<TResp>>>> OnStreamingCommandReceived { get; set; }
+        public required Func<ICancelableAsyncEnumerable<StreamingExtendedRequest<TReq>>, CancellationToken, Task<IAsyncEnumerable<StreamingExtendedResponse<TResp>>>> OnStreamingCommandReceived { get; set; }
 
         public string? ExecutorId { get; init; }
 

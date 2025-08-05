@@ -27,26 +27,21 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task MqttProtocolVersionUnknownThrowsException()
         {
             MockMqttPubSubClient mock = new(protocolVersion: MqttProtocolVersion.Unknown);
-            TaskCompletionSource<Guid> executingCorrelationIdTcs = new();
             await using EchoStringStreamingCommandExecutor echoCommand = new(new ApplicationContext(), mock)
             {
                 RequestTopicPattern = "mock/echo",
-                OnStreamingCommandReceived = async (requestStream, correlationId, ct) =>
+                OnStreamingCommandReceived = async (cancelableRequestStream, ct) =>
                 {
-                    executingCorrelationIdTcs.TrySetResult(correlationId);
                     List<string> requestStreamStrings = new();
-                    CancellationTokenSource cts = new CancellationTokenSource();
-                    await foreach (ExtendedRequest<string> requestStreamEntry in requestStream)
+                    await foreach (ExtendedRequest<string> requestStreamEntry in cancelableRequestStream)
                     {
                         requestStreamStrings.Add(requestStreamEntry.Request);
-
                     }
 
                     return StringStream(requestStreamStrings);
                 },
             };
 
-            await echoCommand.CancelStreamingCommandAsync(await executingCorrelationIdTcs.Task);
         }
 
         private async IAsyncEnumerable<StreamingExtendedResponse<string>> StringStream(List<string> stringsToStream)

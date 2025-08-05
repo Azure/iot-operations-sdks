@@ -1,6 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
@@ -17,34 +22,23 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task Test()
         {
             MockMqttPubSubClient mockClient = new("clientId", MqttProtocolVersion.V500);
+
             StringStreamingCommandInvoker testInvoker = new(new(), mockClient);
 
-            CommandRequestMetadata requestMetadata = new CommandRequestMetadata();
-            IAsyncEnumerable<StreamingExtendedResponse<string>> responseStream = testInvoker.InvokeStreamingCommandAsync(StringStream(testInvoker, requestMetadata.CorrelationId), requestMetadata, new(), null, default);
+            ICancelableAsyncEnumerable<StreamingExtendedResponse<string>> responseStream = testInvoker.InvokeStreamingCommandAsync(StringStream(), new(), new());
 
             await foreach (StreamingExtendedResponse<string> response in responseStream)
             {
                 int index = response.StreamingResponseIndex;
                 string payloadString = response.Response;
-
-                // Can cancel while streaming response
-                await testInvoker.CancelStreamingCommandAsync(requestMetadata.CorrelationId);
+                await responseStream.CancelAsync(); // can cancel mid-stream
             }
         }
 
-        private async IAsyncEnumerable<string> StringStream(StreamingCommandInvoker<string, string> invoker, Guid correlationId)
+        private async IAsyncEnumerable<string> StringStream()
         {
             for (int i = 1; i <= 10; i++)
             {
-                if (i == 5)
-                {
-                    // Can cancel while streaming response
-                    await invoker.CancelStreamingCommandAsync(correlationId);
-
-                    //Allow users to cancel their own stream this way?
-                    throw new OperationCanceledException();
-                }
-
                 await Task.Delay(TimeSpan.FromMilliseconds(1)); // Simulate asynchronous work
                 yield return $"Message {i}";
             }
