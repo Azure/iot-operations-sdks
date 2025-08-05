@@ -39,6 +39,15 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         {
             throw Converter.toModel(srEx);
         }
+        catch (AkriMqttException ex) when (ex.Kind == AkriMqttErrorKind.PayloadInvalid)
+        {
+            // This is likely because the user received a "not found" response payload from the service, but the service is an
+            // older version that sends an empty payload instead of the expected "{}" payload.
+            throw new Models.SchemaRegistryErrorException(new()
+            {
+                Code = Models.SchemaRegistryErrorCode.NotFound,
+            });
+        }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {
             // ADR 15 specifies that schema registry clients should still throw a distinct error when the service returns a 422. It also specifies
