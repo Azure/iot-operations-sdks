@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using SchemaInfo = SchemaRegistry.Schema;
 
 
-internal class SchemaRegistryService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator) 
+internal class SchemaRegistryService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator)
     : SchemaRegistry.Service(applicationContext, mqttClient)
 {
     readonly Utf8JsonSerializer _jsonSerializer = new();
@@ -25,23 +25,18 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
         logger.LogInformation("Get request {req}", request.Name);
         StateStoreGetResponse resp = await _stateStoreClient.GetAsync(request.Name!, cancellationToken: cancellationToken);
         logger.LogInformation("Schema found {found}", resp.Value != null);
+        SchemaInfo sdoc = null!;
         if (resp.Value != null)
         {
-            SchemaInfo sdoc = _jsonSerializer.FromBytes<SchemaInfo>(new(resp.Value.Bytes), Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator);
-
-            return new ExtendedResponse<GetResponsePayload>
-            {
-                Response = new()
-                {
-                    Schema = sdoc
-                }
-            };
+            sdoc = _jsonSerializer.FromBytes<SchemaInfo>(new(resp.Value?.Bytes), Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator);
         }
-
-        throw new SchemaRegistryErrorException(new SchemaRegistryError()
+        return new ExtendedResponse<GetResponsePayload>
         {
-            Code = SchemaRegistryErrorCode.NotFound,
-        });
+            Response = new()
+            {
+                Schema = sdoc
+            }
+        };
     }
 
     public override async Task<ExtendedResponse<PutResponsePayload>> PutAsync(PutRequestSchema request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken)
