@@ -232,7 +232,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
-            await ForwardSampledDatasetAsync(asset, dataset, serializedPayload, cancellationToken);
+            await ForwardSampledDatasetAsync(asset, dataset, serializedPayload, null, null, cancellationToken);
         }
 
         /// <summary>
