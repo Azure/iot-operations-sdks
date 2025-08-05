@@ -14,7 +14,7 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
 
 **The chunking mechanism will**:
 
-- Be enabled/disabled by a configuration setting.
+- Be part of the protocol starting some version. [^1]
 - Use standardized user properties for chunk metadata. The `__chunk` user property will contain a colon-separated string with chunking metadata: ```<messageId>:<chunkIndex>:<totalChunks>:<checksum>```. The string will include:
   - `messageId` - UUID string in the 8-4-4-4-12 format, present for every chunk.
   - `chunkIndex` - unsigned 32 bit integer in decimal format, present for every chunk;
@@ -76,6 +76,12 @@ Chunking will use SHA-256 for checksum calculation.
 ### Compatibility
 
 - Non-chunking-aware clients will receive individual chunks as separate messages. Chunks reassembly could be implemented on the application side, given described above chunking implementation is known to the application author.
+
+[^1]: The group decided that supporting a specific protocol version should imply mandatory support for chunking, with no option to opt out, to simplify compatibility and avoid the complexity of feature flags or negotiation mechanisms.
+This approach ensures that all clients and servers claiming compliance with a given protocol version can reliably handle chunked messages, reducing ambiguity and potential errors.
+It was noted that making chunking always available (though not always used) streamlines the design and avoids the need for additional feature negotiation logic.
+The team acknowledged that while this is a stricter stance, it keeps the protocol simpler, especially for constrained devices, and avoids layering new features on top of feature negotiation.
+There was recognition that this approach means any implementation supporting the new protocol version must handle chunking, and rejecting chunked messages would make it non-compliant.
 
 ## Appendix
 
