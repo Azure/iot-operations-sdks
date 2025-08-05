@@ -94,7 +94,7 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
     /// <remarks>
     /// The callback provides the stream of requests and requires the user to return one to many responses.
     /// </remarks>
-    public required Func<IAsyncEnumerable<StreamingExtendedRequest<TReq>>, CancellationToken, Task<IAsyncEnumerable<StreamingExtendedResponse<TResp>>>> OnStreamingCommandReceived { get; set; }
+    public required Func<IAsyncEnumerable<StreamingExtendedRequest<TReq>>, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 }
 
 ```
