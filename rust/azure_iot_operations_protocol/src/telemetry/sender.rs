@@ -19,7 +19,7 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::{PayloadSerialize, SerializedPayload},
         topic_processor::TopicPattern,
-        user_properties::{UserProperty, validate_user_properties},
+        user_properties::{PERSIST_KEY, UserProperty, validate_user_properties},
     },
     telemetry::{
         TELEMETRY_PROTOCOL_VERSION,
@@ -189,6 +189,10 @@ pub struct Message<T: PayloadSerialize> {
     /// Indicates whether the message should be retained or not.
     #[builder(default = "false")]
     retain: bool,
+    /// Indicates that the telemetry event should be retained by the broker and stored to disk.
+    /// Note that this is only useable with the AIO Broker and implies the retain option if enabled.
+    #[builder(default = "false")]
+    persist: bool,
 }
 
 impl<T: PayloadSerialize> MessageBuilder<T> {
@@ -279,6 +283,9 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
                 CloudEventFields::DataContentType
                     .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
             }
+        }
+        if self.persist == Some(true) && self.retain == Some(false) {
+            return Err("Persist cannot be used without retain".to_string());
         }
         Ok(())
     }
@@ -442,6 +449,13 @@ where
             }
         }
 
+        // Persist header
+        if message.persist {
+            message
+                .custom_user_data
+                .push((PERSIST_KEY.to_string(), true.to_string()));
+        }
+
         // Add internal user properties
         message
             .custom_user_data
@@ -475,7 +489,7 @@ where
             .publish_with_properties(
                 message_topic,
                 message.qos,
-                message.retain,
+                message.retain || message.persist,
                 message.serialized_payload.payload,
                 publish_properties,
             )
@@ -755,6 +769,7 @@ mod tests {
         assert!(message_builder_result.is_ok());
         let m = message_builder_result.unwrap();
 
+        assert!(!m.persist);
         assert!(!m.retain);
         assert_eq!(
             m.qos,

@@ -48,19 +48,31 @@ pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
 
 /// Options for configuring a new [`Session`]
 #[derive(Builder)]
-#[builder(pattern = "owned")]
+#[builder(pattern = "owned", build_fn(validate = "Self::validate"))]
 pub struct SessionOptions {
     /// MQTT Connection Settings for configuring the [`Session`]
-    pub connection_settings: MqttConnectionSettings,
+    connection_settings: MqttConnectionSettings,
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
-    pub reconnect_policy: Box<dyn ReconnectPolicy>,
+    reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
     #[builder(default = "100")]
-    pub outgoing_max: usize,
+    outgoing_max: usize,
     /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
     #[builder(default = "true")]
-    pub aio_broker_features: bool,
+    aio_broker_features: bool,
+    /// Indicates if the Session should use AIO persistence
+    #[builder(default = "false")]
+    persist: bool,
+}
+
+impl SessionOptionsBuilder {
+    fn validate(&self) -> Result<(), String> {
+        if self.persist == Some(true) && self.aio_broker_features == Some(false) {
+            return Err("AIO persistence cannot be used without AIO broker features".to_string());
+        }
+        Ok(())
+    }
 }
 
 impl Session {
@@ -74,11 +86,14 @@ impl Session {
 
         // Add AIO metric to user properties when using AIO MQTT broker features
         // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
-        let user_properties = if options.aio_broker_features {
-            vec![("metriccategory".into(), "aiosdk-rust".into())]
+        let mut user_properties = if options.aio_broker_features {
+            vec![("metriccategory".to_string(), "aiosdk-rust".to_string())]
         } else {
             vec![]
         };
+        if options.persist {
+            user_properties.push(("aio-persistence".to_string(), true.to_string()));
+        }
 
         let (client, event_loop) = adapter::client(
             options.connection_settings,
