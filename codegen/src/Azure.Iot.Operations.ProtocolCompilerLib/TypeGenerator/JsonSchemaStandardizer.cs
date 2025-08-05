@@ -64,7 +64,7 @@
                     schemaName,
                     genNamespace,
                     description,
-                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(rootElt, p.Name, p.Value, internalDefsKey, requiredFields, genNamespace, retriever))));;
+                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(rootElt, p.Name, p.Value, internalDefsKey, requiredFields, genNamespace, retriever))));
             }
             else if (schemaElt.TryGetProperty("enum", out JsonElement enumElt))
             {
