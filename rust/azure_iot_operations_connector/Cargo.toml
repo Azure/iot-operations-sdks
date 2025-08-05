@@ -18,7 +18,6 @@ azure_iot_operations_mqtt = { version = "0.10.0", path = "../azure_iot_operation
 azure_iot_operations_otel = { version = "0.2.1", registry = "aio-sdks" }
 chrono.workspace = true
 derive-getters.workspace = true
-jmespath = "0.3.0"
 log.workspace = true
 notify.workspace = true
 notify-debouncer-full.workspace = true
