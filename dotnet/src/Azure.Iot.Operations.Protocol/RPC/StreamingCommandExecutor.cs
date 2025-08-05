@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol.Events;
+#pragma warning disable IDE0060 // Remove unused parameter
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -78,44 +79,69 @@ namespace Azure.Iot.Operations.Protocol.RPC
             TopicTokenMap = new();
         }
 
-        private Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
+        private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
-            throw new NotImplementedException();
+            if (IsNewStreamingCommand())
+            {
+                CancellationTokenSource cts = new();
+                var cancellationTokenRegistration = cts.Token.Register(async () =>
+                {
+                    await CancelStreamingCommandAsync(new Guid("TODO"));
+                });
+
+                IAsyncEnumerable<StreamingExtendedResponse<TResp>> responseStream = OnStreamingCommandReceived(GetMockRequestStream(cts.Token), cts.Token);
+
+                await foreach (StreamingExtendedResponse<TResp> response in responseStream.WithCancellation(cts.Token))
+                {
+                    // Publish MQTT message with response
+                }
+
+                // No need to send cancellation message to invoker once all responses have been streamed
+                cancellationTokenRegistration.Unregister();
+            }
+            else if (IsRequestInExistingStream())
+            {
+                // Feed an existing IAsyncEnumerable unless it has been cancelled
+            }
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
         public Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
             new Task(async () =>
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(10));
-                IAsyncEnumerable<StreamingExtendedResponse<TResp>> responseStream = OnStreamingCommandReceived.Invoke(GetRequestStream(), new CancellationTokenSource().Token);
+                IAsyncEnumerable<StreamingExtendedResponse<TResp>> responseStream = OnStreamingCommandReceived.Invoke(GetMockRequestStream(), new CancellationTokenSource().Token);
             }).Start();
             return Task.CompletedTask;
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
         public Task StopAsync(CancellationToken cancellationToken = default)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
             return Task.CompletedTask;
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
         public Task CancelStreamingCommandAsync(Guid correlationId)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
             return Task.CompletedTask;
         }
 
-        private static async IAsyncEnumerable<StreamingExtendedRequest<TReq>> GetRequestStream([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        private static async IAsyncEnumerable<StreamingExtendedRequest<TReq>> GetMockRequestStream([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             for (int i = 0; i < 10; i++)
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken);
                 yield return new StreamingExtendedRequest<TReq>();
             }
+        }
+
+        private bool IsNewStreamingCommand()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool IsRequestInExistingStream()
+        {
+            throw new NotImplementedException();
         }
 
         public ValueTask DisposeAsync()
@@ -125,3 +151,4 @@ namespace Azure.Iot.Operations.Protocol.RPC
         }
     }
 }
+#pragma warning restore IDE0060 // Remove unused parameter
