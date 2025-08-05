@@ -84,7 +84,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
             TopicTokenMap = new();
         }
 
+#pragma warning disable IDE0060 // Remove unused parameter
         public async IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<TReq> requests, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             metadata ??= new();
 
@@ -113,13 +115,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
             ctRegistration?.Unregister();
         }
 
+#pragma warning disable IDE0060 // Remove unused parameter
         public Task CancelStreamingCommandAsync(Guid correlationId, CancellationToken cancellationToken = default)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
+            cancellationToken.ThrowIfCancellationRequested();
             return Task.CompletedTask;
         }
 
+
         private static bool HasNextResponse()
         {
+            //if (_counter++ > 10)
+            //{
+            //    return false;
+            //}
+
             return true;
         }
 
@@ -129,14 +140,16 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return Task.FromResult(new StreamingExtendedResponse<TResp>());
         }
 
-        private async Task PublishRequestMessageAsync(CancellationToken cancellationToken = default)
+        private static Task PublishRequestMessageAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.CompletedTask;
         }
 
-        private async Task SubscribeAsNeeded(CancellationToken cancellationToken = default)
+        private static Task SubscribeAsNeeded(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.CompletedTask;
         }
 
         private Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)

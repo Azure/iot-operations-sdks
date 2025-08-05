@@ -24,13 +24,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         {
             MockMqttPubSubClient mockClient = new("clientId", MqttProtocolVersion.V500);
             CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(TimeSpan.FromSeconds(1));
             CancellationToken ct = cts.Token;
 
             StringStreamingCommandInvoker testInvoker = new(new(), mockClient);
 
             IAsyncEnumerable<StreamingExtendedResponse<string>> responseStream = testInvoker.InvokeStreamingCommandAsync(StringStream(), new(), new(), null, ct);
 
-            await foreach (StreamingExtendedResponse<string> response in responseStream.WithCancellation(ct))
+            // Cancellation token is still in effect during this loop due to how returned IAsyncEnumerable works
+            await foreach (StreamingExtendedResponse<string> response in responseStream)
             {
                 int index = response.StreamingResponseIndex;
                 string payloadString = response.Response;
