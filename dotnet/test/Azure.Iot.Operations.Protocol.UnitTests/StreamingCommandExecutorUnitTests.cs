@@ -4,6 +4,7 @@
 using System.Buffers;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using Azure.Iot.Operations.Protocol.Models;
@@ -32,23 +33,25 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
                 RequestTopicPattern = "mock/echo",
                 OnStreamingCommandReceived = async (cancelableRequestStream, ct) =>
                 {
+                    CancellationTokenSource cts = new CancellationTokenSource();
+                    CancellationToken ct = cts.Token;
+
                     List<string> requestStreamStrings = new();
-                    await foreach (ExtendedRequest<string> requestStreamEntry in cancelableRequestStream)
+                    await foreach (ExtendedRequest<string> requestStreamEntry in cancelableRequestStream.WithCancellation(ct))
                     {
                         requestStreamStrings.Add(requestStreamEntry.Request);
                     }
 
-                    return StringStream(requestStreamStrings);
+                    return StringStream(requestStreamStrings, ct);
                 },
             };
-
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> StringStream(List<string> stringsToStream)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> StringStream(List<string> stringsToStream, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             foreach (string s in stringsToStream)
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(1)); // Simulate asynchronous work
+                await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken); // Simulate asynchronous work
                 yield return new StreamingExtendedResponse<string>()
                 {
                     Response = s

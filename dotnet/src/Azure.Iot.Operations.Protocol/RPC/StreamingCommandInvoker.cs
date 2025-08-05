@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol.Events;
@@ -83,7 +84,57 @@ namespace Azure.Iot.Operations.Protocol.RPC
             TopicTokenMap = new();
         }
 
-        public ICancelableAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(ICancelableAsyncEnumerable<TReq> requests, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<TReq> requests, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            metadata ??= new();
+
+            await SubscribeAsNeeded(cancellationToken);
+
+            CancellationTokenRegistration? ctRegistration = null;
+            await foreach (var request in requests.WithCancellation(cancellationToken))
+            {
+                await PublishRequestMessageAsync(cancellationToken);
+
+                // register this cancellation callback only once the first request has been published. No need to send a
+                // cancellation message over the wire if no requests were sent yet.
+                ctRegistration ??= cancellationToken.Register(async () =>
+                {
+                    await CancelStreamingCommandAsync(metadata.CorrelationId);
+                });
+            }
+
+            while (HasNextResponse())
+            {
+                StreamingExtendedResponse<TResp>? response = await ReadResponseAsync(cancellationToken);
+                yield return response;
+            }
+
+            // All responses have been streamed, so there is nothing worth cancelling anymore
+            ctRegistration?.Unregister();
+        }
+
+        public Task CancelStreamingCommandAsync(Guid correlationId, CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
+
+        private static bool HasNextResponse()
+        {
+            return true;
+        }
+
+        private static Task<StreamingExtendedResponse<TResp>> ReadResponseAsync(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(new StreamingExtendedResponse<TResp>());
+        }
+
+        private async Task PublishRequestMessageAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task SubscribeAsNeeded(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

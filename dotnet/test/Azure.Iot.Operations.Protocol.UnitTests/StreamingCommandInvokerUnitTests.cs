@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol.Models;
@@ -22,16 +23,17 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         public async Task Test()
         {
             MockMqttPubSubClient mockClient = new("clientId", MqttProtocolVersion.V500);
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken ct = cts.Token;
 
             StringStreamingCommandInvoker testInvoker = new(new(), mockClient);
 
-            ICancelableAsyncEnumerable<StreamingExtendedResponse<string>> responseStream = testInvoker.InvokeStreamingCommandAsync(StringStream(), new(), new());
+            IAsyncEnumerable<StreamingExtendedResponse<string>> responseStream = testInvoker.InvokeStreamingCommandAsync(StringStream(), new(), new(), null, ct);
 
-            await foreach (StreamingExtendedResponse<string> response in responseStream)
+            await foreach (StreamingExtendedResponse<string> response in responseStream.WithCancellation(ct))
             {
                 int index = response.StreamingResponseIndex;
                 string payloadString = response.Response;
-                await responseStream.CancelAsync(); // can cancel mid-stream
             }
         }
 
