@@ -8,6 +8,7 @@ using Azure.Iot.Operations.Connector.Exceptions;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
@@ -231,6 +232,20 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
+            await ForwardSampledDatasetAsync(asset, dataset, serializedPayload, cancellationToken);
+        }
+
+        /// <summary>
+        /// Push a sampled dataset to the configured destinations.
+        /// </summary>
+        /// <param name="asset">The asset that the dataset belongs to.</param>
+        /// <param name="dataset">The dataset that was sampled.</param>
+        /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="cloudEvent">The optional cloud event headers to include. Only applicable for datasets with a destination of the MQTT broker.</param>
+        /// <param name="userData">The optional headers to include. Only applicable for datasets with a destination of the MQTT broker.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CloudEvent? cloudEvent = null, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
@@ -261,6 +276,19 @@ namespace Azure.Iot.Operations.Connector
                     if (ttl != null)
                     {
                         mqttMessage.MessageExpiryInterval = (uint)ttl.Value;
+                    }
+
+                    if (cloudEvent != null)
+                    {
+                        mqttMessage.AddCloudEvents(cloudEvent);
+                    }
+
+                    if (userData != null)
+                    {
+                        foreach (string key in userData.Keys)
+                        {
+                            mqttMessage.AddUserProperty(key, userData[key]);
+                        }
                     }
 
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
@@ -310,6 +338,20 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ForwardReceivedEventAsync(Asset asset, AssetEvent assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
+            await ForwardReceivedEventAsync(asset, assetEvent, serializedPayload, null, null, cancellationToken);
+        }
+
+        /// <summary>
+        /// Push a received event payload to the configured destinations.
+        /// </summary>
+        /// <param name="asset">The asset that this event came from.</param>
+        /// <param name="assetEvent">The event.</param>
+        /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="cloudEvent">The optional cloud event headers to include. Only applicable for datasets with a destination of the MQTT broker.</param>
+        /// <param name="userData">The optional headers to include. Only applicable for datasets with a destination of the MQTT broker.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        public async Task ForwardReceivedEventAsync(Asset asset, AssetEvent assetEvent, byte[] serializedPayload, CloudEvent? cloudEvent = null, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
             _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker.");
@@ -334,6 +376,19 @@ namespace Azure.Iot.Operations.Connector
                     if (retain != null)
                     {
                         mqttMessage.Retain = retain == Retain.Keep;
+                    }
+
+                    if (cloudEvent != null)
+                    {
+                        mqttMessage.AddCloudEvents(cloudEvent);
+                    }
+
+                    if (userData != null)
+                    {
+                        foreach (string key in userData.Keys)
+                        {
+                            mqttMessage.AddUserProperty(key, userData[key]);
+                        }
                     }
 
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
