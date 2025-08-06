@@ -14,7 +14,7 @@
         {
 /*
             DtdlModelTextService service = new DtdlModelTextService();
-            var result = service.GetGeneratedClassFileNames("dtmi:opcua:MTConnect_v2:MTMessageEventType;1", "McpDemo");
+            var result = service.GetGeneratedClassFileNames("dtmi:opcua:MTConnect_v2:MTMessageEventType;1", "McpDemo", false, false, false, true);
             if (result.IsError ?? false)
             {
                 Console.WriteLine("Error generating code: " + string.Join(Environment.NewLine, result.Content.Select(cb => ((TextContentBlock)cb).Text)));

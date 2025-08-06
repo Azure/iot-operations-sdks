@@ -7,8 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Azure.Iot.Operations.Protocol" Version="0.12.0" />
-  </ItemGroup>
-
 </Project>
