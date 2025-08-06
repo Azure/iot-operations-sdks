@@ -107,23 +107,29 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 
 To convey streaming context in a request/response stream, we will put this information in the "__stream" MQTT user property with a value that looks like:
 
-```<index>_<isLast>_<cancelRequest>```
+```<index>_<isLast>_<cancelRequest>_<rpc timeout milliseconds>```
 
 with data types
 
-```<uint>_<boolean>_<boolean>```
+```<uint>_<boolean>_<boolean>_<uint>```
+
+where the field ```_<rpc timeout milliseconds>``` is only present in request stream messages
 
 examples:
 
-```0_false_false```: The first (and not last) message in a stream
+```0_false_false_10000```: The first (and not last) message in a request stream where the RPC should timeout beyond 10 seconds
 
-```3_true_false```: The third and final message in a stream
+```3_true_false```: The third and final message in a response stream
 
-```0_true_false```: The first and final message in a stream
+```0_true_false_1000```: The first and final message in a request stream where the RPC should timeout beyond 1 second
 
-```0_true_true```: This stream should be canceled. Note that the values for ```index```, and ```isLast``` are ignored here.
+```0_true_true_0```: This request stream has been canceled. Note that the values for ```index```, ```isLast```, and ```<rpc timeout milliseconds>``` are ignored here.
+
+```0_true_true```: This response stream has been canceled. Note that the values for ```index``` and ```isLast``` are ignored here.
 
 [see cancellation support for more details on cancellation scenarios](#cancellation-support)
+
+[see timeout support for more details on timeout scenarios](#timeout-support)
 
 #### Invoker side
 
@@ -166,25 +172,41 @@ We need to provide timeout support for our streaming APIs to avoid scenarios suc
 
 #### Decision
 
-TODO
+We will offer two layers of timeout configurations. 
+ - Delivery timeout per message in the stream 
+ - Overall timeout for the RPC as a whole.
 
-Invoker side:
- - delivery timeout (assigned per request message in stream (extended streaming request assigned?))
- - execution timeout (noted in header of each request (for redundancy in case first message is lost))
- - overall timeout (not sent over the wire, just the amount of time the invoker should wait from API call to final response before giving up)
+##### Delivery timeout
 
- Executor side:
-  - At constructor time, user assigns 
+For the delivery timeout per message, the streaming command invoker and streaming command executor will assign the user-provided timeout as the message expiry interval in the associated MQTT PUBLISH packet. This allows the broker to discard the message if it wasn't delivered in time. Unlike normal RPC, though, the receiving end (invoker or executor) does not care about the message expiry interval.
 
+If the user specifies a delivery timeout of 0, the PUBLISH packet should not include a message expiry interval.
+
+##### RPC timeout
+
+For the overall RPC timeout, each message in the request stream will include a value in the ```<rpc timeout milliseconds>``` portion of the ```__stream``` user property. This header should be sent in all request stream messages in case the first N request messages are lost due to timeout or otherwise.
+
+The invoker side will start a countdown from this value after receiving the first PUBACK that ends with throwing a timeout exception to the user if the final stream response has not been received yet. The invoker should not send any further messages 
+
+The executor side will start a countdown from this value after receiving the first PUBLISH in the request stream. At the end of the countdown, if the executor has not sent the final response in the response stream, the executor should return the ```timeout``` error code back to the invoker. 
+
+Any request stream or response stream messages that are received by the executor/invoker after they have ended the timeout countdown should be acknowledged but otherwise ignored. This will require both parties to track correlationIds for timed out streams for a period of time beyond the expected end of the RPC so that any straggler messages are not treated as initiating a new stream.
+
+An RPC timeout value of 0 will be treated as infinite timeout.
+
+This design does make the invoker start the countdown sooner than the executor, but the time difference is negligible in most circumstances.
 
 #### Alternative timeout designs considered
 
+- The above approach, but trying to calculate time spent on broker side (using message expiry interval) so that invoker and executor timeout at the same exact time
+  - This would require additional metadata in the ```__stream``` user property (intended vs received message expiry interval) and is only helpful
+  in the uncommon scenario where a message spends extended periods of time at the broker
 - Specify the number of milliseconds allowed between the executor receiving the final command request and delivering the final command response.
   - This is the approach that gRPC takes, but... 
-    - It doesn't account well for delays in message delivery from broker. 
     - It doesn't account for scenarios where the invoker/executor dies unexpectedly (since gRPC relies on a direct connection between invoker and executor)
-- Allow users to specify timeouts for delivery and a separate timeout for execution
-  - a bit complex on API surface. Also subtly different enough from how our normal RPC does timeouts that it would cause confusion
+- Use the message expiry interval of the first received message in a stream to indicate the RPC level timeout
+  - Misuses the message expiry interval's purpose and could lead to broker storing messages for extended periods of time unintentionally
+  - The first message sent may not be the first message received
 
 ### Cancellation support
 
@@ -250,7 +272,7 @@ Any received MQTT messages pertaining to a command that was already canceled sho
 
 ### Protocol versioning
 
-By maintaining RPC streaming as a separate communication pattern from normal RPC, we will need to introduce an independent protocol version for RPC streaming specifically. It will start at ```1.0``` and should follow the same protocol versioning rules as the protocol versions used by telemetry and normal RPC.
+By maintaining RPC streaming as a separate communication pattern from normal RPC, we will need to introduce an independent protocol version for RPC streaming. It will start at ```1.0``` and should follow the same protocol versioning rules as the protocol versions used by telemetry and normal RPC.
 
 ## Alternative designs considered
 
