@@ -63,12 +63,12 @@ pub struct SessionOptions {
     aio_broker_features: bool,
     /// Indicates if the Session should use AIO persistence
     #[builder(default = "false")]
-    persist: bool,
+    aio_persistence: bool,
 }
 
 impl SessionOptionsBuilder {
     fn validate(&self) -> Result<(), String> {
-        if self.persist == Some(true) && self.aio_broker_features == Some(false) {
+        if self.aio_persistence == Some(true) && self.aio_broker_features == Some(false) {
             return Err("AIO persistence cannot be used without AIO broker features".to_string());
         }
         Ok(())
@@ -89,7 +89,7 @@ impl Session {
         let user_properties = if options.aio_broker_features {
             let mut user_properties =
                 vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
-            if options.persist {
+            if options.aio_persistence {
                 user_properties.push(("aio-persistence".to_string(), true.to_string()));
             }
             user_properties
