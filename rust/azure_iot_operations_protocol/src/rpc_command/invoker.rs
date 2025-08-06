@@ -160,6 +160,8 @@ where
     pub custom_user_data: Vec<(String, String)>,
     /// Timestamp of the command response.
     pub timestamp: Option<HybridLogicalClock>,
+    /// If present, contains the client ID of the executor of the command.
+    pub executor_id: Option<String>,
 }
 
 /// Helper function to return the application error code and payload, if present in `custom_user_data`.
@@ -347,6 +349,7 @@ where
             UserProperty::Timestamp,
             UserProperty::Status,
             UserProperty::StatusMessage,
+            UserProperty::SourceId,
             UserProperty::IsApplicationError,
             UserProperty::InvalidPropertyName,
             UserProperty::InvalidPropertyValue,
@@ -518,6 +521,7 @@ where
                     format_indicator,
                     custom_user_data: response_custom_user_data,
                     timestamp,
+                    executor_id: response_aio_data.remove(&UserProperty::SourceId),
                 })
             }
             // RemoteError

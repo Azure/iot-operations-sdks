@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Iot.Operations.Protoc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{45F99640-9B7E-4DAA-870F-95920FD367D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.ProtocolCompilerLib", "src\Azure.Iot.Operations.ProtocolCompilerLib\Azure.Iot.Operations.ProtocolCompilerLib.csproj", "{9396ABDB-FB21-C44D-9A3F-30E833B41A24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,11 +25,18 @@ Global
 		{153379DE-7A0F-421C-AC35-7E332BCCA078}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{153379DE-7A0F-421C-AC35-7E332BCCA078}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{153379DE-7A0F-421C-AC35-7E332BCCA078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9396ABDB-FB21-C44D-9A3F-30E833B41A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9396ABDB-FB21-C44D-9A3F-30E833B41A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9396ABDB-FB21-C44D-9A3F-30E833B41A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9396ABDB-FB21-C44D-9A3F-30E833B41A24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{153379DE-7A0F-421C-AC35-7E332BCCA078} = {45F99640-9B7E-4DAA-870F-95920FD367D7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBD77462-D0B0-41D2-BC2B-EF17A519C667}
 	EndGlobalSection
 EndGlobal

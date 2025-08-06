@@ -4,7 +4,7 @@
     using DTDLParser.Models;
     using NJsonSchema;
     using NJsonSchema.Validation;
-    using Azure.Iot.Operations.ProtocolCompiler;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     public class SchemaGeneratorTests
     {
@@ -97,7 +97,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateTelemetrySchemas(ValidateAvroSchema, mqttVersion, null);
+            schemaGenerator.GenerateTelemetrySchemas(ValidateAvroSchema, null);
         }
 
         [Theory]
@@ -118,7 +118,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateTelemetrySchemas(ValidateJsonSchema, mqttVersion, null);
+            schemaGenerator.GenerateTelemetrySchemas(ValidateJsonSchema, null);
         }
 
         [Theory]
@@ -149,7 +149,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateCommandSchemas(ValidateAvroSchema, mqttVersion, null);
+            schemaGenerator.GenerateCommandSchemas(ValidateAvroSchema, null);
         }
 
         [Theory]
@@ -180,7 +180,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateCommandSchemas(ValidateJsonSchema, mqttVersion, null);
+            schemaGenerator.GenerateCommandSchemas(ValidateJsonSchema, null);
         }
 
         [Theory]
@@ -197,7 +197,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateObjects(ValidateJsonSchema, mqttVersion, null);
+            schemaGenerator.GenerateObjects(ValidateJsonSchema, null);
         }
 
         [Theory]
@@ -220,7 +220,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateEnums(ValidateJsonSchema, mqttVersion, null);
+            schemaGenerator.GenerateEnums(ValidateJsonSchema, null);
         }
 
         [Theory]
@@ -235,7 +235,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateTelemetrySchemas(CheckProtoIndexes(fullyInferredIndexAssignments), mqttVersion, null);
+            schemaGenerator.GenerateTelemetrySchemas(CheckProtoIndexes(fullyInferredIndexAssignments), null);
         }
 
         [Theory]
@@ -250,7 +250,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateTelemetrySchemas(CheckProtoIndexes(partlyInferredIndexAssignments), mqttVersion, null);
+            schemaGenerator.GenerateTelemetrySchemas(CheckProtoIndexes(partlyInferredIndexAssignments), null);
         }
 
         [Theory]
@@ -265,7 +265,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateObjects(CheckProtoIndexes(fullyInferredIndexAssignments), mqttVersion, null);
+            schemaGenerator.GenerateObjects(CheckProtoIndexes(fullyInferredIndexAssignments), null);
         }
 
         [Theory]
@@ -280,7 +280,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateObjects(CheckProtoIndexes(partlyInferredIndexAssignments), mqttVersion, null);
+            schemaGenerator.GenerateObjects(CheckProtoIndexes(partlyInferredIndexAssignments), null);
         }
 
         [Theory]
@@ -295,7 +295,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateEnums(CheckProtoIndexes(fullyInferredIndexAssignments), mqttVersion, null);
+            schemaGenerator.GenerateEnums(CheckProtoIndexes(fullyInferredIndexAssignments), null);
         }
 
         [Theory]
@@ -310,7 +310,7 @@
 
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
-            schemaGenerator.GenerateEnums(CheckProtoIndexes(partlyInferredIndexAssignments), mqttVersion, null);
+            schemaGenerator.GenerateEnums(CheckProtoIndexes(partlyInferredIndexAssignments), null);
         }
 
         [Theory]
@@ -341,7 +341,7 @@
             schemaGenerator.GenerateObjects((string schemaText, string fileName, string subFolder) =>
             {
                 ++callCount;
-            }, mqttVersion, null);
+            }, null);
 
             Assert.Equal(1, callCount);
         }
@@ -374,7 +374,7 @@
             schemaGenerator.GenerateEnums((string schemaText, string fileName, string subFolder) =>
             {
                 ++callCount;
-            }, mqttVersion, null);
+            }, null);
 
             Assert.Equal(1, callCount);
         }

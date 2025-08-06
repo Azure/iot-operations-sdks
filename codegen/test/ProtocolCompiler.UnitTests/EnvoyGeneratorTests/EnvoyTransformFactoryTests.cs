@@ -5,7 +5,7 @@
     using DTDLParser;
     using DTDLParser.Models;
     using NJsonSchema;
-    using Azure.Iot.Operations.ProtocolCompiler;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     public class EnvoyTransformFactoryTests
     {
@@ -42,7 +42,7 @@
             var schemaGenerator = new SchemaGenerator(modelDict, "TestProject", dtInterface, mqttVersion, new CodeName("TestNamespace"));
 
             List<string> schemaTexts = new();
-            schemaGenerator.GenerateInterfaceAnnex(GetWriter(schemaTexts), mqttVersion, null);
+            schemaGenerator.GenerateInterfaceAnnex(GetWriter(schemaTexts), null);
 
             using (JsonDocument annexDoc = JsonDocument.Parse(schemaTexts.First()))
             {

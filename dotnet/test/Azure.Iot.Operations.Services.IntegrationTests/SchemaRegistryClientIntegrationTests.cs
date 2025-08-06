@@ -11,6 +11,8 @@ using Xunit;
 using Xunit.Abstractions;
 using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType;
+using Azure.Iot.Operations.Services.SchemaRegistry.Models;
+using SchemaRegistryErrorException = SchemaRegistry.Models.SchemaRegistryErrorException;
 
 [Trait("Category", "SchemaRegistry")]
 public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
@@ -48,8 +50,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
-        Schema? s = await client.GetAsync("NotFound");
-        Assert.Null(s);
+        await Assert.ThrowsAsync<SchemaRegistryErrorException>(async () => await client.GetAsync("NotFound"));
     }
 
     [Fact]
@@ -59,7 +60,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
-        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync(avroSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1)));
+        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync(avroSchema1, SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, null, null, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
         Assert.StartsWith("Invalid JsonSchemaDraft07 schema", ex.Message);
     }
@@ -71,7 +72,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
-        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync("not-json}", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1)));
+        AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await client.PutAsync("not-json}", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, null, null, TimeSpan.FromMinutes(1)));
         Assert.True(ex.IsRemote);
         Assert.StartsWith("Invalid JsonSchemaDraft07 schema", ex.Message);
     }
@@ -85,7 +86,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
 
         await client.DisposeAsync();
 
-        await Assert.ThrowsAsync<ObjectDisposedException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1)));
+        await Assert.ThrowsAsync<ObjectDisposedException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, null, null, TimeSpan.FromMinutes(1)));
         await Assert.ThrowsAsync<ObjectDisposedException>(async () => await client.GetAsync("irrelevant"));
     }
 
@@ -99,7 +100,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         CancellationTokenSource cts = new CancellationTokenSource();
         cts.Cancel();
 
-        await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, TimeSpan.FromMinutes(1), cts.Token));
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.PutAsync("irrelevant", SchemaFormat.JsonSchemaDraft07, SchemaType.MessageSchema, DefaultVersion, null!, null, null, TimeSpan.FromMinutes(1), cts.Token));
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await client.GetAsync("irrelevant", cancellationToken: cts.Token));
     }
 
