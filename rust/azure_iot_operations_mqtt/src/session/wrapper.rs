@@ -86,14 +86,16 @@ impl Session {
 
         // Add AIO metric to user properties when using AIO MQTT broker features
         // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
-        let mut user_properties = if options.aio_broker_features {
-            vec![("metriccategory".to_string(), "aiosdk-rust".to_string())]
+        let user_properties = if options.aio_broker_features {
+            let mut user_properties =
+                vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
+            if options.persist {
+                user_properties.push(("aio-persistence".to_string(), true.to_string()));
+            }
+            user_properties
         } else {
             vec![]
         };
-        if options.persist {
-            user_properties.push(("aio-persistence".to_string(), true.to_string()));
-        }
 
         let (client, event_loop) = adapter::client(
             options.connection_settings,
