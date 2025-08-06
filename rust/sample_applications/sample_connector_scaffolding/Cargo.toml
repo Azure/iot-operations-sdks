@@ -12,10 +12,8 @@ azure_iot_operations_otel = { version = "0.2.1", registry = "aio-sdks" }
 azure_iot_operations_protocol = { version = "0.10.0", registry = "aio-sdks"  }
 env_logger = "0.11.3"
 log = "0.4.21"
-serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tokio = { version = "1.41", features = ["full"] }
-tokio-util = "0.7.11"
 
 [lints.rust]
 rust_2018_idioms = "deny"
