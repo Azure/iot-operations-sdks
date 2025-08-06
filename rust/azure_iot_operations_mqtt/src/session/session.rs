@@ -11,7 +11,7 @@ use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 
 use crate::auth::{self, SatAuthContext};
-use crate::control_packet::QoS;
+use crate::control_packet::{ConnectReturnCode, QoS};
 use crate::error::ConnectionError;
 use crate::interface::{Event, Incoming, MqttClient, MqttDisconnect, MqttEventLoop};
 use crate::session::managed_client::SessionManagedClient;
@@ -298,7 +298,10 @@ where
                 }
 
                 // Connection refused by broker - unrecoverable
-                Err(ConnectionError::ConnectionRefused(rc)) => {
+                // NOTE: We carve out an exception for quota exceeded, as we wish to recover from that
+                Err(ConnectionError::ConnectionRefused(rc))
+                    if !matches!(rc, ConnectReturnCode::QuotaExceeded) =>
+                {
                     log::error!("Connection Refused: rc: {rc:?}");
                     result = Err(SessionErrorRepr::ConnectionError(next.unwrap_err()));
                     break;
