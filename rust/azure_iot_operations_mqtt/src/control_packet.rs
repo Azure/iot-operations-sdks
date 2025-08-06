@@ -21,3 +21,6 @@ pub type SubscribeProperties = rumqttc::v5::mqttbytes::v5::SubscribeProperties;
 pub type UnsubscribeProperties = rumqttc::v5::mqttbytes::v5::UnsubscribeProperties;
 /// Properties for an AUTH packet
 pub type AuthProperties = rumqttc::v5::mqttbytes::v5::AuthProperties;
+
+/// Connect Return Code
+pub type ConnectReturnCode = rumqttc::v5::mqttbytes::v5::ConnectReturnCode;
