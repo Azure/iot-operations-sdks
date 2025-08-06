@@ -11,6 +11,8 @@ using Xunit;
 using Xunit.Abstractions;
 using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using SchemaType = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType;
+using Azure.Iot.Operations.Services.SchemaRegistry.Models;
+using SchemaRegistryErrorException = SchemaRegistry.Models.SchemaRegistryErrorException;
 
 [Trait("Category", "SchemaRegistry")]
 public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
@@ -48,8 +50,7 @@ public class SchemaRegistryClientIntegrationTests(ITestOutputHelper output)
         ApplicationContext applicationContext = new();
         await using SchemaRegistryClient client = new(applicationContext, mqttClient);
 
-        Schema? s = await client.GetAsync("NotFound");
-        Assert.Null(s);
+        await Assert.ThrowsAsync<SchemaRegistryErrorException>(async () => await client.GetAsync("NotFound"));
     }
 
     [Fact]
