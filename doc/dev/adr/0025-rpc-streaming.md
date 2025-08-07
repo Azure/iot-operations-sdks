@@ -103,25 +103,25 @@ With this design, commands that use streaming are defined at codegen time. Codeg
 
 To convey streaming context in a request/response stream, we will put this information in the "__stream" MQTT user property with a value that looks like:
 
-```<index>_<isLast>_<cancelRequest>_<rpc timeout milliseconds>```
+```<index>:<isLast>:<cancelRequest>:<rpc timeout milliseconds>```
 
 with data types
 
-```<uint>_<boolean>_<boolean>_<uint>```
+```<uint>:<boolean>:<boolean>:<uint>```
 
-where the field ```_<rpc timeout milliseconds>``` is only present in request stream messages
+where the field ```:<rpc timeout milliseconds>``` is only present in request stream messages
 
 examples:
 
-```0_false_false_10000```: The first (and not last) message in a request stream where the RPC should timeout beyond 10 seconds
+```0:false:false:10000```: The first (and not last) message in a request stream where the RPC should timeout beyond 10 seconds
 
-```3_true_false```: The third and final message in a response stream
+```3:true:false```: The third and final message in a response stream
 
-```0_true_false_1000```: The first and final message in a request stream where the RPC should timeout beyond 1 second
+```0:true:false:1000```: The first and final message in a request stream where the RPC should timeout beyond 1 second
 
-```0_true_true_0```: This request stream has been canceled. Note that the values for ```index```, ```isLast```, and ```<rpc timeout milliseconds>``` are ignored here.
+```0:true:true:0```: This request stream has been canceled. Note that the values for ```index```, ```isLast```, and ```<rpc timeout milliseconds>``` are ignored here.
 
-```0_true_true```: This response stream has been canceled. Note that the values for ```index``` and ```isLast``` are ignored here.
+```0:true:true```: This response stream has been canceled. Note that the values for ```index``` and ```isLast``` are ignored here.
 
 [see cancellation support for more details on cancellation scenarios](#cancellation-support)
 
