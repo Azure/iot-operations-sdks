@@ -17,6 +17,10 @@
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.2" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Chunking\Exceptions\" />
+	</ItemGroup>
+
   <!-- Add strong name signing properties for release pipeline compatibility -->
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
