@@ -54,10 +54,10 @@ Any AIO Protocol Error is considered a "network error" and retriable. This may n
 ### Errors that couldn't trigger retries
 | Scenario | Logged? | Additional Behavior on failure | Notes |
 |-|-|-|-|
-|Asset has an invalid default dataset destination|Y|Error will be reported on it's status to ADR (see * for error handling of this action)|-|
-|Dataset update has an invalid dataset destination|Y|Error will be reported on it's status to ADR (see * for error handling of this action). An `UpdatedInvalid` notification will be provided to the application instead of an `Updated` notification so that it knows not to operate on the dataset until a new update is received.|-|
-|New dataset has an invalid dataset destination|Y|Error will be reported on it's status to ADR (see * for error handling of this action). The Dataset will not be provided to the Connector Application since it cannot be used|-|
-|Update is received for a Dataset, but the DatasetClient has been dropped|Y|Datset update will be dropped|-|
+|Asset has an invalid default dataset/event/stream destination|Y|Error will be reported on it's status to ADR (see * for error handling of this action)|-|
+|Data Operation (dataset/event/stream) update has an invalid destination|Y|Error will be reported on it's status to ADR (see * for error handling of this action). An `UpdatedInvalid` notification will be provided to the application instead of an `Updated` notification so that it knows not to operate on the data operation until a new update is received.|-|
+|New Data Operation has an invalid destination|Y|Error will be reported on it's status to ADR (see * for error handling of this action). The DataOperationCleint will not be provided to the Connector Application since it cannot be used|-|
+|Update is received for a Data Operation, but the DataOperationClient has been dropped|Y|Data Operation update will be dropped|-|
 |Device endpoint create notification provides a device/endpoint name that returns a device with no inbound endpoint from the service|Y|Unobserve is called, and the create notification is dropped|This is really only possible if the device endpoint gets deleted between the time we receive the notification and the get device call is made, so losing this notification means it was out of date.|
 
 ### Setup
