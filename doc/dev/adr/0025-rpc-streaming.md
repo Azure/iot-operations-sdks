@@ -246,7 +246,7 @@ As detailed below, the executor may also cancel the stream at any time. In respo
  - The same correlation data as the command itself
  - The "Canceled" error code
 
-Any received MQTT messages pertaining to a command that was already canceled should still be acknowledged. They should not be given to the user, though.
+After receiving an acknowledgement from the executor side that the stream has been canceled, any further received messages should be acknowledged but not given to the user.
 
 #### Executor side
 
