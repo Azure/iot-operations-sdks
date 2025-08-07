@@ -1313,10 +1313,17 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await worker.StopAsync(CancellationToken.None);
 
             // The user callbacks should each trigger the provided cancellation token and should end gracefully
-            await cancellationTokenTriggeredInDeviceCallback.Task;
-            await cancellationTokenTriggeredInAssetCallback.Task;
-            await deviceCallbackEndedGracefully.Task;
-            await assetCallbackEndedGracefully.Task;
+            try
+            {
+                await cancellationTokenTriggeredInDeviceCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                await cancellationTokenTriggeredInAssetCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                await deviceCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                await assetCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("User-supplied callbacks did not get canceled as expected or they did not complete gracefully");
+            }
 
             worker.Dispose();
         }
