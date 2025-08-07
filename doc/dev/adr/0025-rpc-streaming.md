@@ -2,11 +2,7 @@
 
 ## Context
 
-Users have expressed a desire to allow more than one request and/or more than one response per RPC invocation. This would enable scenarios like:
-
-- Execute long-running commands while still being responsive
-- Allow users to report status over time for a long-running command
-- Invoking a command where the executor wants a series of data points that would be impractical to put in one message
+Users have expressed a desire to allow more than one request and/or more than one response per RPC invocation.
 
 ## Requirements
 
