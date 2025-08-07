@@ -1317,13 +1317,22 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             {
                 await cancellationTokenTriggeredInDeviceCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 await cancellationTokenTriggeredInAssetCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("User-supplied callbacks did not get canceled as expected");
+            }
+
+            try
+            {
                 await deviceCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 await assetCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
             }
             catch (TimeoutException)
             {
-                Assert.Fail("User-supplied callbacks did not get canceled as expected or they did not complete gracefully");
+                Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
             }
+
 
             worker.Dispose();
         }
