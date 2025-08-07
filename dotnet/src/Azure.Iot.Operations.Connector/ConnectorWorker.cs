@@ -199,7 +199,7 @@ namespace Azure.Iot.Operations.Connector
                 List<Task> tasksToAwait = new();
 
                 _logger.LogInformation("Stopping all tasks that run while an asset is available");
-                foreach (UserTaskContext userTaskContext in _assetTasks.Values)
+                foreach (UserTaskContext userTaskContext in _assetTasks.Values.ToList())
                 {
                     // Cancel all tasks that run while an asset is available
                     userTaskContext.CancellationTokenSource.Cancel();
@@ -209,7 +209,7 @@ namespace Azure.Iot.Operations.Connector
                 }
 
                 _logger.LogInformation("Stopping all tasks that run while a device is available");
-                foreach (UserTaskContext userTaskContext in _deviceTasks.Values)
+                foreach (UserTaskContext userTaskContext in _deviceTasks.Values.ToList())
                 {
                     // Cancel all tasks that run while a device is available
                     userTaskContext.CancellationTokenSource.Cancel();
@@ -408,9 +408,10 @@ namespace Azure.Iot.Operations.Connector
                 DeviceAvailable(args, compoundDeviceName);
                 if (args.Device != null)
                 {
-                    CancellationTokenSource deviceTaskCancellationTokenSource = new();
                     if (WhileDeviceIsAvailable != null)
                     {
+                        CancellationTokenSource deviceTaskCancellationTokenSource = new();
+
                         // Do not block on this call because the user callback is designed to run for extended periods of time.
                         Task userTask = Task.Run(async () =>
                         {
@@ -579,10 +580,10 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            CancellationTokenSource assetTaskCancellationTokenSource = new();
-
             if (WhileAssetIsAvailable != null)
             {
+                CancellationTokenSource assetTaskCancellationTokenSource = new();
+
                 // Do not block on this call because the user callback is designed to run for extended periods of time.
                 Task userTask = Task.Run(async () =>
                 {
