@@ -1187,5 +1187,138 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await worker.StopAsync(CancellationToken.None);
             worker.Dispose();
         }
+
+        // User-provided callbacks may still be running after the connector worker cancels them. We need to check that the connector
+        // doesn't complete its shutdown before all of its user-supplied tasks have finished
+        [Fact]
+        public async Task ConnectorWaitsForUserCallbacksToComplete()
+        {
+            MockMqttClient mockMqttClient = new MockMqttClient();
+            MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
+            IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
+            Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
+            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
+
+            TaskCompletionSource cancellationTokenTriggeredInDeviceCallback = new();
+            TaskCompletionSource cancellationTokenTriggeredInAssetCallback = new();
+            TaskCompletionSource deviceCallbackEndedGracefully = new();
+            TaskCompletionSource assetCallbackEndedGracefully = new();
+
+            worker.WhileDeviceIsAvailable += async (args, cancellationToken) =>
+            {
+                cancellationToken.Register(() => cancellationTokenTriggeredInDeviceCallback.TrySetResult());
+
+                try
+                {
+                    // cancellation token should trigger almost immediately
+                    await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    // expected exception
+                }
+
+                // simulate the device task running longer than expected after cancellation
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                deviceCallbackEndedGracefully.TrySetResult();
+            };
+
+            worker.WhileAssetIsAvailable += async (args, cancellationToken) =>
+            {
+                cancellationToken.Register(() => cancellationTokenTriggeredInAssetCallback.TrySetResult());
+
+                try
+                {
+                    // cancellation token should trigger almost immediately
+                    await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    // expected exception
+                }
+
+                // simulate the asset task running longer than expected after cancellation
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                assetCallbackEndedGracefully.TrySetResult();
+            };
+
+            Task workerTask = worker.StartAsync(CancellationToken.None);
+
+            string deviceName = Guid.NewGuid().ToString();
+            string inboundEndpointName = Guid.NewGuid().ToString();
+            string assetName = Guid.NewGuid().ToString();
+            string datasetName = Guid.NewGuid().ToString();
+
+            var device = new Device()
+            {
+                Endpoints = new()
+                {
+                    Inbound = new()
+                        {
+                            {
+                                inboundEndpointName,
+                                new()
+                                {
+                                    Address = "someEndpointAddress",
+                                }
+                            }
+                        }
+                }
+            };
+
+            mockAdrClientWrapper.SimulateDeviceChanged(new(deviceName, inboundEndpointName, ChangeType.Created, device));
+
+            string expectedMqttTopic = "some/asset/telemetry/topic";
+            var asset = new Asset()
+            {
+                DeviceRef = new()
+                {
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
+                    {
+                        {
+                            new AssetDataset()
+                            {
+                                Name = datasetName,
+                                DataPoints = new()
+                                {
+                                    new AssetDatasetDataPointSchemaElement()
+                                    {
+                                        Name = "someDataPointName",
+                                        DataSource = "someDataPointDataSource"
+                                    }
+                                },
+                                Destinations = new()
+                                {
+                                    new DatasetDestination()
+                                    {
+                                        Target = DatasetTarget.Mqtt,
+                                        Configuration = new()
+                                        {
+                                            Topic = expectedMqttTopic,
+                                            Qos = QoS.Qos1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            };
+
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Created, asset));
+
+            await worker.StopAsync(CancellationToken.None);
+
+            // The user callbacks should each trigger the provided cancellation token and should end gracefully
+            await cancellationTokenTriggeredInDeviceCallback.Task;
+            await cancellationTokenTriggeredInAssetCallback.Task;
+            await deviceCallbackEndedGracefully.Task;
+            await assetCallbackEndedGracefully.Task;
+
+            worker.Dispose();
+        }
     }
 }
