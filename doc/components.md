@@ -84,3 +84,35 @@ The state store does not support resuming connections. In the case of a disconne
 By default, the session client will resume a session when it connects (both at first connect, and during a reconnect) using `Clean Start = false`. However at first connect, the SDK is unable to have retained the Session State from the past session, which is **not** compliant with [4.1.0-1](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901231).
  
 In this situation, if the application is restarted **after** a `PUBLISH` is sent but **before** the `PUBACK` is received, then this missing Session State may result in lost messages, as the client would be unable to process whether the `PUBLISH` was successful or not and therefor cannot initiate a retry, or report the failure.
+
+## Terminology
+
+The following outlines some of the main terms used to describe the different basic primitives used to construct the SDKs.
+
+### Envoys
+
+Envoys are actors implementing our MQTT communication patterns which are currently RPC and telemetry.
+
+#### Telemetry
+
+Messages sent from a client such as a _device_ or an _asset_ to a given topic using a pre-defined schema, describable with [DTDL](https://github.com/Azure/opendigitaltwins-dtdl).
+
+<!--TODO: Revise telemetry.md Described in detail in [telemetry.md](reference/telemetry.md).-->
+
+#### Commands
+
+Implement an RPC pattern, to decouple _clients_ and _servers_, where the client _invokes_ the command, and the server _executes_ the command, whether directly or by delegation.
+
+<!--TODO: Revise commands.md Described in detail in [commands.md](reference/commands.md).-->
+
+### Connection Management
+
+As we are using dependency injection to initialize the Envoy and Binders, we need to provide the ability to react/recover to underlying connection disruptions.
+
+<!--TODO: Revise connection management Described in detail in [connection-management.md](reference/connection-management.md).-->
+
+### Message Metadata
+
+Additionally to the defined topics, messages will include metadata properties to help with message ordering and flow control using timestamps based on the [Hybrid Logical Clock (HLC)](https://en.wikipedia.org/wiki/Logical_clock).
+
+<!-- TODO: Revise message metadata doc Described in detail in [message-metadata.md](reference/message-metadata.md).-->
