@@ -1,7 +1,23 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "aioConnectorMetadataSchemaVersion": "2.0-preview",
+  "aioConnectorMetadataSchemaVersion": "3.0-preview",
+  "definitions": {
+      "schemaMetadata": {
+          "type": "object",
+          "description": "todo",
+          "properties": {
+              "necessity": {
+                  "type": "string",
+                  "description": "If this schema is relevant to this connector or not", 
+                  "enum": ["required","unsupported","optional"]
+              }
+          },
+          "required": [
+            "necessity"
+          ]
+      }
+  },
   "properties": {
     "aioConnectorMetadataSchemaVersion": {
       "type": "string",
@@ -226,26 +242,89 @@
               "type": "object",
               "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
               "properties": {
-                "datasetConfigurationSchema": {
-                  "$ref": "http://json-schema.org/draft-07/schema#"
+                "datasetConfiguration" : {
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "schema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "metadata": {
+                      "$ref": "#/definitions/schemaMetadata"
+                    }
+                  }
                 },
-                "datasetDataPointConfigurationSchema": {
-                  "$ref": "http://json-schema.org/draft-07/schema#"
+                "datasetDataPointConfiguration" : {
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "schema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "metadata": {
+                      "$ref": "#/definitions/schemaMetadata"
+                    }
+                  }
                 },
-                "eventConfigurationSchema": {
-                  "$ref": "http://json-schema.org/draft-07/schema#"
+                "eventConfiguration" : {
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "schema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "metadata": {
+                      "$ref": "#/definitions/schemaMetadata"
+                    }
+                  }
                 },
-                "eventDataPointConfigurationSchema": {
-                  "$ref": "http://json-schema.org/draft-07/schema#"
+                "eventDataPointConfiguration" : {
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "schema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "metadata": {
+                      "$ref": "#/definitions/schemaMetadata"
+                    }
+                  }
                 },
-                "streamConfigurationSchema": {
-                  "$ref": "http://json-schema.org/draft-07/schema#"
+                "streamConfiguration" : {
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "schema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "metadata": {
+                      "$ref": "#/definitions/schemaMetadata"
+                    }
+                  }
                 },
-                "managementGroupConfigurationSchema": {
-                  "$ref": "http://json-schema.org/draft-07/schema#"
+                "managementGroupConfiguration" : {
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "schema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "metadata": {
+                      "$ref": "#/definitions/schemaMetadata"
+                    }
+                  }
                 },
-                "actionConfigurationSchema": {
-                  "$ref": "http://json-schema.org/draft-07/schema#"
+                "actionConfiguration" : {
+                  "type": "object",
+                  "description": "",
+                  "properties": {
+                    "schema": {
+                      "$ref": "http://json-schema.org/draft-07/schema#"
+                    },
+                    "metadata": {
+                      "$ref": "#/definitions/schemaMetadata"
+                    }
+                  }
                 }
               }
             },
