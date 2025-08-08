@@ -53,9 +53,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// Response timeout for the action.
         /// </summary>
-        [JsonPropertyName("timeOutInSeconds")]
+        [JsonPropertyName("timeoutInSeconds")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public uint? TimeOutInSeconds { get; set; } = default;
+        public uint? TimeoutInSeconds { get; set; } = default;
 
         /// <summary>
         /// The MQTT topic path on which a client will receive the request for the action.

@@ -1559,7 +1559,7 @@
                         },
                         {
                           "@type": "Field",
-                          "name": "timeOutInSeconds",
+                          "name": "timeoutInSeconds",
                           "description": "Response timeout for the action.",
                           "schema": "unsignedInteger"
                         },
@@ -1581,7 +1581,7 @@
                 },
                 {
                   "@type": "Field",
-                  "name": "defaultTimeOutInSeconds",
+                  "name": "defaultTimeoutInSeconds",
                   "description": "Default response timeout for all actions that are part of the management group.",
                   "schema": "unsignedInteger"
                 },
@@ -2222,7 +2222,7 @@
         },
         {
           "@type": "Field",
-          "name": "defaultTimeOutInSeconds",
+          "name": "defaultTimeoutInSeconds",
           "description": "Default response timeout for all actions that are part of the management group.",
           "schema": "unsignedInteger"
         },
@@ -2306,7 +2306,7 @@
         },
         {
           "@type": "Field",
-          "name": "timeOutInSeconds",
+          "name": "timeoutInSeconds",
           "description": "Response timeout for the action.",
           "schema": "unsignedInteger"
         },
