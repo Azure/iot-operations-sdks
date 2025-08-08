@@ -3,24 +3,15 @@
   "type": "object",
   "aioConnectorMetadataSchemaVersion": "3.0-preview",
   "definitions": {
-    "schemaMetadata": {
-      "type": "object",
-      "description": "Additional information about the schema",
-      "properties": {
-        "necessity": {
-          "type": "string",
-          "description": "If this schema is relevant to this connector or not.",
-          "enum": [
-            "required",
-            "unsupported",
-            "optional"
-          ],
-          "default": "unsupported"
-        }
-      },
-      "required": [
-        "necessity"
-      ]
+    "necessity": {
+      "type": "string",
+      "description": "If this field is relevant to this connector or not.",
+      "enum": [
+        "required",
+        "unsupported",
+        "optional"
+      ],
+      "default": "unsupported"
     },
     "mqttDestinationDefaults": {
       "type": "object",
@@ -305,15 +296,13 @@
                     "schema": {
                       "$ref": "http://json-schema.org/draft-07/schema#"
                     },
-                    "metadata": {
-                      "$ref": "#/definitions/schemaMetadata"
+                    "necessity": {
+                      "$ref": "#/definitions/necessity"
                     }
                   },
-                  "required": ["metadata"],
+                  "required": ["necessity"],
                   "default": {
-                    "metadata" : {
-                      "necessity": "unsupported"
-                    }
+                    "necessity": "unsupported"
                   }
                 },
                 "datasetDataPointConfiguration": {
@@ -323,15 +312,13 @@
                     "schema": {
                       "$ref": "http://json-schema.org/draft-07/schema#"
                     },
-                    "metadata": {
-                      "$ref": "#/definitions/schemaMetadata"
+                    "necessity": {
+                      "$ref": "#/definitions/necessity"
                     }
                   },
-                  "required": ["metadata"],
+                  "required": ["necessity"],
                   "default": {
-                    "metadata" : {
-                      "necessity": "unsupported"
-                    }
+                    "necessity": "unsupported"
                   }
                 },
                 "eventConfiguration": {
@@ -341,15 +328,13 @@
                     "schema": {
                       "$ref": "http://json-schema.org/draft-07/schema#"
                     },
-                    "metadata": {
-                      "$ref": "#/definitions/schemaMetadata"
+                    "necessity": {
+                      "$ref": "#/definitions/necessity"
                     }
                   },
-                  "required": ["metadata"],
+                  "required": ["necessity"],
                   "default": {
-                    "metadata" : {
-                      "necessity": "unsupported"
-                    }
+                    "necessity": "unsupported"
                   }
                 },
                 "eventDataPointConfiguration": {
@@ -359,15 +344,13 @@
                     "schema": {
                       "$ref": "http://json-schema.org/draft-07/schema#"
                     },
-                    "metadata": {
-                      "$ref": "#/definitions/schemaMetadata"
+                    "necessity": {
+                      "$ref": "#/definitions/necessity"
                     }
                   },
-                  "required": ["metadata"],
+                  "required": ["necessity"],
                   "default": {
-                    "metadata" : {
-                      "necessity": "unsupported"
-                    }
+                    "necessity": "unsupported"
                   }
                 },
                 "streamConfiguration": {
@@ -377,15 +360,13 @@
                     "schema": {
                       "$ref": "http://json-schema.org/draft-07/schema#"
                     },
-                    "metadata": {
-                      "$ref": "#/definitions/schemaMetadata"
+                    "necessity": {
+                      "$ref": "#/definitions/necessity"
                     }
                   },
-                  "required": ["metadata"],
+                  "required": ["necessity"],
                   "default": {
-                    "metadata" : {
-                      "necessity": "unsupported"
-                    }
+                    "necessity": "unsupported"
                   }
                 },
                 "managementGroupConfiguration": {
@@ -395,15 +376,13 @@
                     "schema": {
                       "$ref": "http://json-schema.org/draft-07/schema#"
                     },
-                    "metadata": {
-                      "$ref": "#/definitions/schemaMetadata"
+                    "necessity": {
+                      "$ref": "#/definitions/necessity"
                     }
                   },
-                  "required": ["metadata"],
+                  "required": ["necessity"],
                   "default": {
-                    "metadata" : {
-                      "necessity": "unsupported"
-                    }
+                    "necessity": "unsupported"
                   }
                 },
                 "actionConfiguration": {
@@ -413,15 +392,13 @@
                     "schema": {
                       "$ref": "http://json-schema.org/draft-07/schema#"
                     },
-                    "metadata": {
-                      "$ref": "#/definitions/schemaMetadata"
+                    "necessity": {
+                      "$ref": "#/definitions/necessity"
                     }
                   },
-                  "required": ["metadata"],
+                  "required": ["necessity"],
                   "default": {
-                    "metadata" : {
-                      "necessity": "unsupported"
-                    }
+                    "necessity": "unsupported"
                   }
                 }
               }

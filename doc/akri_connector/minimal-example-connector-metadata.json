@@ -28,9 +28,7 @@
                 }
               }
             },
-            "metadata": {
-              "necessity" : "required"
-            }
+          "necessity" : "required"
           }
       },
       "isEndpointTlsEnabled" : true
