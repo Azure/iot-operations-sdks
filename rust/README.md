@@ -15,7 +15,7 @@ The following Azure IoT Operations crates are available:
 | [**azure_iot_operations_mqtt**](azure_iot_operations_mqtt) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_mqtt/) | MQTTv5 client library for decoupled asynchronous applications |
 | [**azure_iot_operations_protocol**](azure_iot_operations_protocol) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_protocol/) | Utilities for using the Azure IoT Operations Protocol (RPC, Telemetry) |
 | [**azure_iot_operations_services**](azure_iot_operations_services) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_services/) | Clients for using services of Azure IoT Operations |
-<!-- | [**azure_iot_operations_connector**](azure_iot_operations_connector) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_connector/) | Library and Traits for building Azure IoT Operations Connectors | -->
+| [**azure_iot_operations_connector**](azure_iot_operations_connector) | [:link:](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_connector/) | Library and Traits for building Azure IoT Operations Connectors |
 
 ## Getting started
 
