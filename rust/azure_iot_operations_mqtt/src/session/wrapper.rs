@@ -51,16 +51,24 @@ pub struct SessionPubReceiver(managed_client::SessionPubReceiver);
 #[builder(pattern = "owned")]
 pub struct SessionOptions {
     /// MQTT Connection Settings for configuring the [`Session`]
-    pub connection_settings: MqttConnectionSettings,
+    connection_settings: MqttConnectionSettings,
     /// Reconnect Policy to by used by the `Session`
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
-    pub reconnect_policy: Box<dyn ReconnectPolicy>,
+    reconnect_policy: Box<dyn ReconnectPolicy>,
     /// Maximum number of queued outgoing messages not yet accepted by the MQTT Session
     #[builder(default = "100")]
-    pub outgoing_max: usize,
+    outgoing_max: usize,
     /// Indicates if the Session should use features specific for use with the AIO MQTT Broker
-    #[builder(default = "true")]
-    pub aio_broker_features: bool,
+    #[builder(default = "Some(AIOBrokerFeaturesBuilder::default().build().unwrap())")]
+    aio_broker_features: Option<AIOBrokerFeatures>,
+}
+
+/// Options for configuring features on a [`Session`] that are specific to the AIO broker
+#[derive(Builder)]
+pub struct AIOBrokerFeatures {
+    /// Indicates if the Session should use AIO persistence
+    #[builder(default = "false")]
+    persistence: bool,
 }
 
 impl Session {
@@ -72,10 +80,15 @@ impl Session {
         let client_id = options.connection_settings.client_id.clone();
         let sat_file = options.connection_settings.sat_file.clone();
 
-        // Add AIO metric to user properties when using AIO MQTT broker features
+        // Add AIO metric and features to user properties when using AIO MQTT broker features
         // TODO: consider user properties from being supported on SessionOptions or ConnectionSettings
-        let user_properties = if options.aio_broker_features {
-            vec![("metriccategory".into(), "aiosdk-rust".into())]
+        let user_properties = if let Some(features) = options.aio_broker_features {
+            let mut user_properties =
+                vec![("metriccategory".to_string(), "aiosdk-rust".to_string())];
+            if features.persistence {
+                user_properties.push(("aio-persistence".to_string(), true.to_string()));
+            }
+            user_properties
         } else {
             vec![]
         };

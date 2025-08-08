@@ -100,6 +100,7 @@ where
                 SetOptions {
                     set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
                     expires: Some(lease_expiration),
+                    ..Default::default()
                 },
             )
             .await?;

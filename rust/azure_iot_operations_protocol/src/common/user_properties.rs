@@ -11,6 +11,9 @@ use std::{
 /// Users cannot set this property on the invoker. For more details, see: [shared_subscriptions.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/shared-subscriptions.md).
 pub(crate) const PARTITION_KEY: &str = "$partition";
 
+/// Persist key used by the MQ broker to indicate disk-persistence.
+pub(crate) const PERSIST_KEY: &str = "aio-persistence";
+
 /// Enum representing the system properties.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum UserProperty {

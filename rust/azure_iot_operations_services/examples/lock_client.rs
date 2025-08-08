@@ -119,6 +119,7 @@ async fn lock_client_1_operations(
     let shared_resource_key_set_options = SetOptions {
         set_condition: SetCondition::Unconditional,
         expires: Some(Duration::from_secs(15)),
+        ..Default::default()
     };
 
     // 1.
@@ -194,6 +195,7 @@ async fn lock_client_2_operations(
     let shared_resource_key_set_options = SetOptions {
         set_condition: SetCondition::Unconditional,
         expires: Some(Duration::from_secs(15)),
+        ..Default::default()
     };
 
     // 4.
