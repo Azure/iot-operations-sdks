@@ -34,7 +34,7 @@ The Azure IoT Operations SDKs provide a number of components available for custo
 
 * A set of clients providing integration with **Azure IoT Operations services** such as **State Store**, **Leader Election**, **Leased Lock**, **Schema Registry**, and **Azure Device Registry**.
 
-* A **Base Connector** library which provides a framework for making it easy to build connectors.
+* A **Connector SDK** which provides a framework for making it easy to build connectors.
 
 * The **Protocol Compiler (Codegen)** allows clients and servers to communicate via a schema contract. First describe the communication (using **Telemetry** and **Commands**) with DTDL, then generate a set of client libraries and server library stubs across the supported programming languages.
 

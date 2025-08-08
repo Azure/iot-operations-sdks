@@ -35,7 +35,7 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 || **RPC with shared subscription** | RPC executors using shared subscriptions | :yellow_circle: | :yellow_circle: | [Rust](/rust/azure_iot_operations_protocol/examples/rpc_executors_with_shared_subscription.rs) |
 ||
 | **Services** | **State store client** | Get, set and delete a key | [Go](/go/samples/services/statestore) | [.NET](/dotnet/samples/Services/StateStoreClient) | [Rust](/rust/azure_iot_operations_services/examples/state_store_client.rs) |
-|| **State store client - observe key** | Observe a key and receive a notification | :yellow_circle: | [.NET](/dotnet/samples/Services/StateStoreObserveKey) | [Rust](/rust/azure_iot_operations_services/examples/state_store_client.rs) |
+|| **State store client - observe key** | Observe a key and receive a notification | [Go](/go/samples/services/statestore) | [.NET](/dotnet/samples/Services/StateStoreObserveKey) | [Rust](/rust/azure_iot_operations_services/examples/state_store_client.rs) |
 || **Leased lock client** | Lock a key in the state store shared between applications | [Go](/go/samples/services/leasedlock) | [.NET](/dotnet/samples/Services/LeasedLockClient) | [Rust](/rust/azure_iot_operations_services/examples/lock_client.rs) |
 || **Schema registry client** | Get and set schemas from the registry | [Go](/go/samples/services/schemaregistry) | [.NET](/dotnet/samples/Services/SchemaRegistryClient) | [Rust](/rust/azure_iot_operations_services/examples/schema_registry_client.rs) |
 || **ADR discovery** | Notify Akri services of discovered assets | :yellow_circle: | :yellow_circle: | [Rust](/rust/azure_iot_operations_services/examples/adr_discovery.rs) |
@@ -49,7 +49,9 @@ The tutorials listed below are step-by-step instructions to deploy a fully funct
 || **Telemetry + primitive schema** | Telemetry using primitive types such as integers, bool and float | [Go](/codegen/test/samples/go/) | [.NET](/codegen/test/samples/dotnet/) | [Rust](/codegen/test/samples/rust/) |
 || **Telemetry + complex schema** | Telemetry using complex types such as maps and objects | [Go](/codegen/test/samples/go/) | [.NET](/codegen/test/samples/dotnet/) | [Rust](/codegen/test/samples/rust/) |
 || **Command variants** | Commands using idempotent and cacheable | [Go](/codegen/test/samples/go/) | [.NET](/codegen/test/samples/dotnet/) | [Rust](/codegen/test/samples/rust/) |
+
 _* Codegen samples must be generated, the referenced samples above may not be present otherwise_
+
 ## Additional samples and tutorials
 
 Refer to each language directory below for additional samples.

@@ -87,6 +87,7 @@ The following tables outline the current components, along with the associated l
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :green_circle: |
 | **Azure Device Registry** client | Device endpoint and asset configuration and asset discovery | :green_circle: || :green_circle: |
+| **Connector SDK** | SDK to simplify developing connectors | :yellow_circle: || :green_circle: |
 
 ## Need support?
 

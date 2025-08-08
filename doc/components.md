@@ -59,9 +59,9 @@ The ADR client provides the Akri Connector with _Device Endpoint Profiles_ and a
 
 The ADR client also notifies of newly discovered assets, which can then be triaged by the operator.
 
-## Connector
+## Connector SDK
 
-Connector provides a framework for building connectors that will handle retrieving device and asset definitions from Azure Device Registry and transform and/or forward data within AIO. You can read more in our [connector documentation](/doc/akri_connector.md).
+The connector SDK provides a framework for building connectors that will handle retrieving device and asset definitions from Azure Device Registry and transform and/or forward data within AIO. You can read more about connectors in our [connector documentation](/doc/akri_connector.md).
 
 ## Protocol compiler (Codegen)
 
