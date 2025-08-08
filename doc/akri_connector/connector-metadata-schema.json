@@ -3,68 +3,76 @@
   "type": "object",
   "aioConnectorMetadataSchemaVersion": "3.0-preview",
   "definitions": {
-      "schemaMetadata": {
-          "type": "object",
-          "description": "todo",
-          "properties": {
-              "necessity": {
-                  "type": "string",
-                  "description": "If this schema is relevant to this connector or not.", 
-                  "enum": ["required","unsupported","optional"]
-              }
-          },
-          "required": [
-            "necessity"
+    "schemaMetadata": {
+      "type": "object",
+      "description": "todo",
+      "properties": {
+        "necessity": {
+          "type": "string",
+          "description": "If this schema is relevant to this connector or not.",
+          "enum": [
+            "required",
+            "unsupported",
+            "optional"
+          ],
+          "default": "unsupported"
+        }
+      },
+      "required": [
+        "necessity"
+      ]
+    },
+    "mqttDestinationDefaults": {
+      "type": "object",
+      "description": "The specific default values that will be used by the connector when publishing telemetry to the MQTT broker.",
+      "properties": {
+        "defaultTopicName": {
+          "type": "string",
+          "description": "The default MQTT topic that will be published to"
+        },
+        "defaultQualityOfService": {
+          "type": "integer",
+          "description": "The default MQTT quality of service that MQTT messages will be published with",
+          "enum": [
+            0,
+            1,
+            2
           ]
-      },
-      "mqttDestinationDefaults": {
-        "type":"object",
-        "description": "The specific default values that will be used by the connector when publishing telemetry to the MQTT broker.",
-        "properties": {
-          "defaultTopicName": {
-            "type": "string",
-            "description": "The default MQTT topic that will be published to"
-          },
-          "defaultQualityOfService": {
-            "type": "string",
-            "description": "The default MQTT quality of service that MQTT messages will be published with",
-            "enum": [
-              "0",
-              "1",
-              "2"
-            ]
-          },
-          "defaultTimeToLive": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "The default MQTT quality of service that MQTT messages will be published with."
-          },
-          "defaultRetain": {
-            "type": "string",
-            "description": "The default retain flag value that MQTT messages will be published with.",
-            "enum": [
-              "keep",
-              "never"
-            ]
-          }
         },
-        "required": [
-          "defaultTopicName", "defaultQualityOfService", "defaultTimeToLive", "defaultRetain"
-        ]
-      },
-      "brokerStateStoreDestinationDefaults": {
-        "type":"object",
-        "description": "The broker state store-specific default values that will be used by the connector if not otherwise specified.",
-        "properties": {
-          "defaultBrokerStateStoreKey": {
-            "type": "string",
-            "description": "The default broker state store key that will be published to"
-          }
+        "defaultTimeToLive": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The default MQTT quality of service that MQTT messages will be published with."
         },
-        "required": [
-          "defaultBrokerStateStoreKey"
-        ]
-      }
+        "defaultRetain": {
+          "type": "string",
+          "description": "The default retain flag value that MQTT messages will be published with.",
+          "enum": [
+            "keep",
+            "never"
+          ]
+        }
+      },
+      "required": [
+        "defaultTopicName",
+        "defaultQualityOfService",
+        "defaultTimeToLive",
+        "defaultRetain"
+      ]
+    },
+    "brokerStateStoreDestinationDefaults": {
+      "type": "object",
+      "description": "The broker state store-specific default values that will be used by the connector if not otherwise specified.",
+      "properties": {
+        "defaultBrokerStateStoreKey": {
+          "type": "string",
+          "description": "The default broker state store key that will be published to"
+        }
+      },
+      "required": [
+        "defaultBrokerStateStoreKey"
+      ]
+    }
   },
   "properties": {
     "aioConnectorMetadataSchemaVersion": {
@@ -290,7 +298,7 @@
               "type": "object",
               "description": "The JSON schemas and their respective metadata for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
               "properties": {
-                "datasetConfiguration" : {
+                "datasetConfiguration": {
                   "type": "object",
                   "description": "",
                   "properties": {
@@ -300,9 +308,15 @@
                     "metadata": {
                       "$ref": "#/definitions/schemaMetadata"
                     }
+                  },
+                  "required": ["metadata"],
+                  "default": {
+                    "metadata" : {
+                      "necessity": "unsupported"
+                    }
                   }
                 },
-                "datasetDataPointConfiguration" : {
+                "datasetDataPointConfiguration": {
                   "type": "object",
                   "description": "",
                   "properties": {
@@ -312,9 +326,15 @@
                     "metadata": {
                       "$ref": "#/definitions/schemaMetadata"
                     }
+                  },
+                  "required": ["metadata"],
+                  "default": {
+                    "metadata" : {
+                      "necessity": "unsupported"
+                    }
                   }
                 },
-                "eventConfiguration" : {
+                "eventConfiguration": {
                   "type": "object",
                   "description": "",
                   "properties": {
@@ -324,9 +344,15 @@
                     "metadata": {
                       "$ref": "#/definitions/schemaMetadata"
                     }
+                  },
+                  "required": ["metadata"],
+                  "default": {
+                    "metadata" : {
+                      "necessity": "unsupported"
+                    }
                   }
                 },
-                "eventDataPointConfiguration" : {
+                "eventDataPointConfiguration": {
                   "type": "object",
                   "description": "",
                   "properties": {
@@ -336,9 +362,15 @@
                     "metadata": {
                       "$ref": "#/definitions/schemaMetadata"
                     }
+                  },
+                  "required": ["metadata"],
+                  "default": {
+                    "metadata" : {
+                      "necessity": "unsupported"
+                    }
                   }
                 },
-                "streamConfiguration" : {
+                "streamConfiguration": {
                   "type": "object",
                   "description": "",
                   "properties": {
@@ -348,9 +380,15 @@
                     "metadata": {
                       "$ref": "#/definitions/schemaMetadata"
                     }
+                  },
+                  "required": ["metadata"],
+                  "default": {
+                    "metadata" : {
+                      "necessity": "unsupported"
+                    }
                   }
                 },
-                "managementGroupConfiguration" : {
+                "managementGroupConfiguration": {
                   "type": "object",
                   "description": "",
                   "properties": {
@@ -360,9 +398,15 @@
                     "metadata": {
                       "$ref": "#/definitions/schemaMetadata"
                     }
+                  },
+                  "required": ["metadata"],
+                  "default": {
+                    "metadata" : {
+                      "necessity": "unsupported"
+                    }
                   }
                 },
-                "actionConfiguration" : {
+                "actionConfiguration": {
                   "type": "object",
                   "description": "",
                   "properties": {
@@ -371,6 +415,12 @@
                     },
                     "metadata": {
                       "$ref": "#/definitions/schemaMetadata"
+                    }
+                  },
+                  "required": ["metadata"],
+                  "default": {
+                    "metadata" : {
+                      "necessity": "unsupported"
                     }
                   }
                 }
@@ -399,7 +449,7 @@
                     "Storage"
                   ]
                 },
-                "mqttDestinationDefaults" : {
+                "mqttDestinationDefaults": {
                   "$ref": "#/definitions/mqttDestinationDefaults"
                 }
               }
@@ -429,10 +479,10 @@
                     "Storage"
                   ]
                 },
-                "mqttDestinationDefaults" : {
+                "mqttDestinationDefaults": {
                   "$ref": "#/definitions/mqttDestinationDefaults"
                 },
-                "brokerStateStoreDestinationDefaults" : {
+                "brokerStateStoreDestinationDefaults": {
                   "$ref": "#/definitions/brokerStateStoreDestinationDefaults"
                 }
               }
@@ -460,7 +510,7 @@
                     "Storage"
                   ]
                 },
-                "mqttDestinationDefaults" : {
+                "mqttDestinationDefaults": {
                   "$ref": "#/definitions/mqttDestinationDefaults"
                 }
               }
@@ -471,7 +521,8 @@
             }
           },
           "required": [
-            "endpointType"
+            "endpointType",
+            "assetConfigurationSchemas"
           ]
         }
       ]
