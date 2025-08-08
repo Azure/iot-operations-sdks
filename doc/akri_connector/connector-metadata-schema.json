@@ -5,7 +5,7 @@
   "definitions": {
     "schemaMetadata": {
       "type": "object",
-      "description": "todo",
+      "description": "Additional information about the schema",
       "properties": {
         "necessity": {
           "type": "string",
