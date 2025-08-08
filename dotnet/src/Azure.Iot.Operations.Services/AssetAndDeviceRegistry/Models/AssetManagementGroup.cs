@@ -6,7 +6,7 @@ public class AssetManagementGroup
 {
     public List<AssetManagementGroupAction>? Actions { get; set; } = default;
 
-    public uint? DefaultTimeOutInSeconds { get; set; } = default;
+    public uint? DefaultTimeoutInSeconds { get; set; } = default;
 
     public string? DefaultTopic { get; set; } = default;
 
