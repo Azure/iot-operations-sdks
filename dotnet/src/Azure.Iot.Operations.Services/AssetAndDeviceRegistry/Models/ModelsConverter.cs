@@ -211,7 +211,7 @@ internal static class ModelsConverter
         {
             Name = source.Name,
             Actions = source.Actions?.Select(x => x.ToModel()).ToList(),
-            DefaultTimeOutInSeconds = source.DefaultTimeOutInSeconds,
+            DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
             DefaultTopic = source.DefaultTopic,
             ManagementGroupConfiguration = source.ManagementGroupConfiguration,
             TypeRef = source.TypeRef
@@ -224,7 +224,7 @@ internal static class ModelsConverter
         {
             Name = source.Name,
             TargetUri = source.TargetUri,
-            TimeOutInSeconds = source.TimeOutInSeconds,
+            TimeoutInSeconds = source.TimeoutInSeconds,
             Topic = source.Topic,
             TypeRef = source.TypeRef,
             ActionConfiguration = source.ActionConfiguration,
