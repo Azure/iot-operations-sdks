@@ -74,7 +74,7 @@
         "defaultTimeToLive": {
           "type": "integer",
           "minimum": 0,
-          "description": "The default MQTT quality of service that MQTT messages will be published with."
+          "description": "The default time to live that MQTT messages will be published with."
         },
         "defaultRetain": {
           "type": "string",
@@ -399,7 +399,7 @@
                 },
                 "defaultDestination": {
                   "type": "string",
-                  "description": "The destination that this asset's datasets will go to by default unless event-specific destinations are specified.",
+                  "description": "The destination that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
                   "enum": [
                     "Mqtt",
                     "BrokerStateStore",
@@ -431,7 +431,7 @@
                 },
                 "defaultDestination": {
                   "type": "string",
-                  "description": "The destination that this asset's streams will go to by default unless event-specific destinations are specified.",
+                  "description": "The destination that this asset's streams will go to by default unless stream-specific destinations are specified.",
                   "enum": [
                     "Mqtt",
                     "Storage"
@@ -448,7 +448,7 @@
             },
             "expectedModelFields" : {
               "type": "object",
-              "description": "defines which fields (which vary in necessity from connector to connector) are expected/not expected in this connector's asset defintion",
+              "description": "defines which fields (which vary in necessity from connector to connector) are expected/not expected in this connector's asset definition",
               "properties": {
                 "eventNotifier": {
                   "$ref": "#/definitions/fieldNecessity"
