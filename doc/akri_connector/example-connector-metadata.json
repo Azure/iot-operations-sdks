@@ -185,7 +185,6 @@
           "defaultRetain": "never"
         }
       },
-,
       "expectedModelFields" : {
         "datasetDataPointDataSource": {
           "necessity" : "required",
