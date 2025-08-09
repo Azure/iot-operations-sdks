@@ -353,9 +353,8 @@ pub struct AIOProtocolError {
     property_name: Option<String>,
     property_value: Option<Value>,
     command_name: Option<String>,
-    request_protocol_version: Option<String>,
     protocol_version: Option<String>,
-    supported_major_protocol_versions: Option<Vec>,
+    supported_protocol_major_versions: Option<Vec>,
 }
 ```
 

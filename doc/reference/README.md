@@ -5,7 +5,7 @@ The SDKs within this repository are built on open standards wherever possible, s
 This directory contains documentation relating to the implementation of the SDKs, as well as the underlying topic and payload structure used for communication over MQTT.
 
 > [!CAUTION]
-> Due to the preview nature of the SDKs, many of the documents below are not 100% up to date with implementation. The `State` column reflects the current status as of **November 2024**.
+> Due to the preview nature of the SDKs, many of the documents below are not 100% up to date with implementation. The `State` column reflects the current status as of **August 2025**.
 
 | State |
 |-|
@@ -37,4 +37,4 @@ This directory contains documentation relating to the implementation of the SDKs
 |-|-|-|
 | :green_circle: | [Package Versioning](package-versioning.md) | Outline of the package versioning strategy implemented by the SDKs |
 | :green_circle: | [Protocol Versioning](protocol-versioning.md) | Describes how changing protocol versions are managed across different package versions |
-| :green_circle: | [Repository Structure](repository-structure.md) | The directory structure used by this repository |
+| :yellow_circle: | [Repository Structure](repository-structure.md) | The directory structure used by this repository |
