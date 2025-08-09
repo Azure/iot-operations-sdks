@@ -28,11 +28,58 @@
             }
           }
       },
-      "expectedFields" : {
-
+      "expectedModelFields" : {
+        "datasetDataPointDataSource": {
+          "necessity" : "required",
+          "exampleValue": "/some/http/path"
+        },
+        "eventNotifier": {
+          "necessity" : "unsupported"
+        },
+        "eventDataPointDataSource": {
+          "necessity" : "unsupported"
+        },
+        "datasetTypeRef": {
+          "necessity" : "unsupported"
+        },
+        "datasetDataPointTypeRef": {
+          "necessity" : "unsupported"
+        },
+        "eventTypeRef": {
+          "necessity" : "unsupported"
+        },
+        "managementGroupTypeRef": {
+          "necessity" : "unsupported"
+        },
+        "managementGroupActionTypeRef": {
+          "necessity" : "unsupported"
+        },
+        "assetStreamTypeRef": {
+          "necessity" : "unsupported"
+        }
       },
       "modelLimits" : {
-        
+        "events" : { 
+          "maximum": 0
+        },
+        "datasets" : { 
+          "minimum": 1
+        },
+        "eventDataPoints" : { 
+          "maximum": 0
+        },
+        "datasetDataPoints" : { 
+          "minimum": 1
+        },
+        "managementGroups" : { 
+          "maximum": 0
+        },
+        "actions" : { 
+          "maximum": 0
+        },
+        "streams" : { 
+          "maximum": 0
+        }
       }
     }
   ]

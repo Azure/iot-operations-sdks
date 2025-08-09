@@ -446,7 +446,7 @@
               "type": "string",
               "description": "The version of the protocol of this inbound endpoint."
             },
-            "expectedFields" : {
+            "expectedModelFields" : {
               "type": "object",
               "description": "defines which fields (which vary in necessity from connector to connector) are expected/not expected in this connector's asset defintion",
               "properties": {
@@ -487,17 +487,18 @@
                 "events" : { "$ref": "#/definitions/modelLimits" },
                 "datasets" : { "$ref": "#/definitions/modelLimits" },
                 "eventDataPoints" : { "$ref": "#/definitions/modelLimits" },
-                "datasetDatapoints" : { "$ref": "#/definitions/modelLimits" },
+                "datasetDataPoints" : { "$ref": "#/definitions/modelLimits" },
                 "managementGroups" : { "$ref": "#/definitions/modelLimits" },
                 "actions" : { "$ref": "#/definitions/modelLimits" },
                 "streams" : { "$ref": "#/definitions/modelLimits" }
-              }
+              },
+              "required": ["events", "datasets", "eventDataPoints", "datasetDataPoints", "managementGroups", "actions", "streams"]
             }
           },
           "required": [
             "endpointType",
             "assetConfigurationSchemas",
-            "expectedFields",
+            "expectedModelFields",
             "modelLimits"
           ]
         }

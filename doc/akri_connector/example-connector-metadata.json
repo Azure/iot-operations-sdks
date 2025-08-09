@@ -185,34 +185,60 @@
           "defaultRetain": "never"
         }
       },
-      "expectedFields" : {
+,
+      "expectedModelFields" : {
+        "datasetDataPointDataSource": {
+          "necessity" : "required",
+          "exampleValue": "/some/http/path"
+        },
         "eventNotifier": {
-          "$ref": "#/definitions/fieldNecessity"
+          "necessity" : "required"
         },
         "eventDataPointDataSource": {
-          "$ref": "#/definitions/fieldNecessity"
-        },
-        "datasetDataPointDataSource": {
-          "$ref": "#/definitions/fieldNecessity"
+          "necessity" : "required"
         },
         "datasetTypeRef": {
-          "$ref": "#/definitions/fieldNecessity"
+          "necessity" : "required"
         },
         "datasetDataPointTypeRef": {
-          "$ref": "#/definitions/fieldNecessity"
+          "necessity" : "required"
         },
         "eventTypeRef": {
-          "$ref": "#/definitions/fieldNecessity"
+          "necessity" : "required"
         },
         "managementGroupTypeRef": {
-          "$ref": "#/definitions/fieldNecessity"
+          "necessity" : "required"
         },
         "managementGroupActionTypeRef": {
-          "$ref": "#/definitions/fieldNecessity"
+          "necessity" : "required"
         },
         "assetStreamTypeRef": {
-          "$ref": "#/definitions/fieldNecessity"
+          "necessity" : "required"
         }
+      },
+      "modelLimits" : {
+        "events" : { 
+          "minimum": 1
+        },
+        "datasets" : { 
+          "minimum": 1
+        },
+        "eventDataPoints" : { 
+          "minimum": 1
+        },
+        "datasetDataPoints" : { 
+          "minimum": 1
+        },
+        "managementGroups" : { 
+          "minimum": 1
+        },
+        "actions" : { 
+          "minimum": 1
+        },
+        "streams" : { 
+          "minimum": 1
+        }
+      }
     }
   ]
 }
