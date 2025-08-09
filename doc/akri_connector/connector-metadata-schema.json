@@ -1,7 +1,111 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "aioConnectorMetadataSchemaVersion": "2.0-preview",
+  "aioConnectorMetadataSchemaVersion": "3.0-preview",
+  "definitions": {
+    "fieldNecessity": {
+      "type": "object",
+      "description": "Details about if a field is required or not and what shape its value should take",
+      "properties": {
+        "necessity": {
+          "type": "string",
+          "description": "If this field is relevant to this connector or not.",
+          "enum": [
+            "required",
+            "unsupported",
+            "optional"
+          ]
+        },
+        "regex": {
+          "type": "array",
+          "description": "The set of regex that this field's value should adhere to.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exampleValue": {
+          "type": "string",
+          "description": "An example value for this field that fits the expected format"
+        }
+      },
+      "required": ["necessity"],
+      "default": {
+        "necessity" : "unsupported"
+      }
+    },
+    "modelLimits": {
+      "type": "object",
+      "description": "Describes the limits to this model type that this connector supports. For instance, a connector may support up to 5 datasets. A connector can signals that it does not support a model type by specifying a maximum of 0.",
+      "properties": {
+        "maximum": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The maximum number of this model type that this connector supports. If not specified, the default is whatever limits the ADR service itself has. If this value is 0, then this connector does not support using this model type (i.e. the connector supports datasets, but not events)."
+        },
+        "minimum": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "The minimum number of this model type that this connector supports."
+        }
+      },
+      "default" : {
+        "maximum":0,
+        "minimum":0
+      }
+    },
+    "mqttDestinationDefaults": {
+      "type": "object",
+      "description": "The specific default values that will be used by the connector when publishing telemetry to the MQTT broker.",
+      "properties": {
+        "defaultTopicName": {
+          "type": "string",
+          "description": "The default MQTT topic that will be published to"
+        },
+        "defaultQualityOfService": {
+          "type": "integer",
+          "description": "The default MQTT quality of service that MQTT messages will be published with",
+          "enum": [
+            0,
+            1,
+            2
+          ]
+        },
+        "defaultTimeToLive": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The default time to live that MQTT messages will be published with."
+        },
+        "defaultRetain": {
+          "type": "string",
+          "description": "The default retain flag value that MQTT messages will be published with.",
+          "enum": [
+            "keep",
+            "never"
+          ]
+        }
+      },
+      "required": [
+        "defaultTopicName",
+        "defaultQualityOfService",
+        "defaultTimeToLive",
+        "defaultRetain"
+      ]
+    },
+    "brokerStateStoreDestinationDefaults": {
+      "type": "object",
+      "description": "The broker state store-specific default values that will be used by the connector if not otherwise specified.",
+      "properties": {
+        "defaultBrokerStateStoreKey": {
+          "type": "string",
+          "description": "The default broker state store key that will be published to"
+        }
+      },
+      "required": [
+        "defaultBrokerStateStoreKey"
+      ]
+    }
+  },
   "properties": {
     "aioConnectorMetadataSchemaVersion": {
       "type": "string",
@@ -224,7 +328,7 @@
             },
             "assetConfigurationSchemas": {
               "type": "object",
-              "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
+              "description": "The JSON schemas and their respective metadata for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
               "properties": {
                 "datasetConfigurationSchema": {
                   "$ref": "http://json-schema.org/draft-07/schema#"
@@ -249,72 +353,153 @@
                 }
               }
             },
-            "supportedAssetEventDestinations": {
-              "type": "array",
-              "description": "The array of destinations that this asset's events supports.",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "Mqtt",
-                  "Storage"
-                ]
+            "assetEventDestinations": {
+              "type": "object",
+              "description": "Information about the supported and default destinations for asset events",
+              "properties": {
+                "supportedDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's events supports.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "Storage"
+                    ]
+                  }
+                },
+                "defaultDestination": {
+                  "type": "string",
+                  "description": "The destination that this asset's events will go to by default unless event-specific destinations are specified.",
+                  "enum": [
+                    "Mqtt",
+                    "Storage"
+                  ]
+                },
+                "mqttDestinationDefaults": {
+                  "$ref": "#/definitions/mqttDestinationDefaults"
+                }
               }
             },
-            "defaultAssetEventDestinations": {
-              "type": "string",
-              "description": "The default destination that this asset's events will go to by default unless event-specific destinations are specified.",
-              "enum": [
-                "Mqtt",
-                "Storage"
-              ]
-            },
-            "supportedAssetDatasetDestinations": {
-              "type": "array",
-              "description": "The array of destinations that this asset's datasets supports.",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "Mqtt",
-                  "BrokerStateStore",
-                  "Storage"
-                ]
+            "assetDatasetDestinations": {
+              "type": "object",
+              "description": "Information about the supported and default destinations for asset datasets",
+              "properties": {
+                "supportedDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's datasets supports.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "BrokerStateStore",
+                      "Storage"
+                    ]
+                  }
+                },
+                "defaultDestination": {
+                  "type": "string",
+                  "description": "The destination that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
+                  "enum": [
+                    "Mqtt",
+                    "BrokerStateStore",
+                    "Storage"
+                  ]
+                },
+                "mqttDestinationDefaults": {
+                  "$ref": "#/definitions/mqttDestinationDefaults"
+                },
+                "brokerStateStoreDestinationDefaults": {
+                  "$ref": "#/definitions/brokerStateStoreDestinationDefaults"
+                }
               }
             },
-            "defaultAssetDatasetDestinations": {
-              "type": "string",
-              "description": "The default destination that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
-              "enum": [
-                "Mqtt",
-                "BrokerStateStore",
-                "Storage"
-              ]
-            },
-            "supportedAssetStreamDestinations": {
-              "type": "array",
-              "description": "The array of destinations that this asset's streams supports.",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "Mqtt",
-                  "Storage"
-                ]
+            "assetStreamDestinations": {
+              "type": "object",
+              "description": "Information about the supported and default destinations for asset streams",
+              "properties": {
+                "supportedDestinations": {
+                  "type": "array",
+                  "description": "The array of destinations that this asset's streams supports.",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Mqtt",
+                      "Storage"
+                    ]
+                  }
+                },
+                "defaultDestination": {
+                  "type": "string",
+                  "description": "The destination that this asset's streams will go to by default unless stream-specific destinations are specified.",
+                  "enum": [
+                    "Mqtt",
+                    "Storage"
+                  ]
+                },
+                "mqttDestinationDefaults": {
+                  "$ref": "#/definitions/mqttDestinationDefaults"
+                }
               }
-            },
-            "defaultAssetStreamDestinations": {
-              "type": "string",
-              "description": "The default destination that this asset's streams will go to by default unless stream-specific destinations are specified.",
-              "enum": [
-                "Mqtt",
-                "Storage"
-              ]
             },
             "version": {
               "type": "string",
               "description": "The version of the protocol of this inbound endpoint."
+            },
+            "expectedModelFields" : {
+              "type": "object",
+              "description": "defines which fields (which vary in necessity from connector to connector) are expected/not expected in this connector's asset definition",
+              "properties": {
+                "eventNotifier": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "eventDataPointDataSource": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "datasetDataPointDataSource": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "datasetTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "datasetDataPointTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "eventTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "managementGroupTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "managementGroupActionTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "assetStreamTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                }
+              },
+              "required": ["eventNotifier", "eventDataPointDataSource", "datasetDataPointDataSource", "datasetTypeRef", "datasetDataPointTypeRef", "eventTypeRef", "managementGroupTypeRef", "managementGroupActionTypeRef", "assetStreamTypeRef"]
+            },
+            "modelLimits": {
+              "type": "object",
+              "description" : "Details the limits on each model type (datasets/events/management groups/etc) and also signals if this connector supports using that model type.",
+              "properties": {
+                "events" : { "$ref": "#/definitions/modelLimits" },
+                "datasets" : { "$ref": "#/definitions/modelLimits" },
+                "eventDataPoints" : { "$ref": "#/definitions/modelLimits" },
+                "datasetDataPoints" : { "$ref": "#/definitions/modelLimits" },
+                "managementGroups" : { "$ref": "#/definitions/modelLimits" },
+                "actions" : { "$ref": "#/definitions/modelLimits" },
+                "streams" : { "$ref": "#/definitions/modelLimits" }
+              },
+              "required": ["events", "datasets", "eventDataPoints", "datasetDataPoints", "managementGroups", "actions", "streams"]
             }
           },
           "required": [
-            "endpointType"
+            "endpointType",
+            "assetConfigurationSchemas",
+            "expectedModelFields",
+            "modelLimits"
           ]
         }
       ]
