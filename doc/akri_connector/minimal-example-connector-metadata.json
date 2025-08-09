@@ -14,24 +14,26 @@
       "endpointType": "Microsoft.Http",
       "version": "2.0",
       "assetConfigurationSchemas": {
-        "datasetConfiguration" : {
-            "schema": {
-              "$schema": "http://json-schema.org/draft-07/schema#",
-              "$id": "https://contoso.com/datasetConfig.schema.json",
-              "title": "Dataset Config Schema",
-              "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
-              "type": "object",
-              "properties": {
-                "SamplingInterval": {
-                  "description": "How frequently to sample each dataset by default (in milliseconds)",
-                  "type": "integer"
-                }
+        "datasetConfigurationSchema" : {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/datasetConfig.schema.json",
+            "title": "Dataset Config Schema",
+            "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SamplingInterval": {
+                "description": "How frequently to sample each dataset by default (in milliseconds)",
+                "type": "integer"
               }
-            },
-          "necessity" : "required"
+            }
           }
       },
-      "isEndpointTlsEnabled" : true
+      "expectedFields" : {
+
+      },
+      "modelLimits" : {
+        
+      }
     }
   ]
 }

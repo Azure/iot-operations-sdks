@@ -60,39 +60,33 @@
       "endpointType": "Microsoft.Http",
       "version": "2.0",
       "assetConfigurationSchemas": {
-        "datasetConfiguration" : {
-          "schema": {
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "$id": "https://contoso.com/datasetConfig.schema.json",
-            "title": "Dataset Config Schema",
-            "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
-            "type": "object",
-            "properties": {
-              "SamplingInterval": {
-                "description": "How frequently to sample each dataset by default (in milliseconds)",
-                "type": "integer"
-              }
+        "datasetConfigurationSchema" : {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "$id": "https://contoso.com/datasetConfig.schema.json",
+          "title": "Dataset Config Schema",
+          "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "SamplingInterval": {
+              "description": "How frequently to sample each dataset by default (in milliseconds)",
+              "type": "integer"
             }
-          },
-          "necessity" : "required"
+          }
         },
-        "datasetDataPointConfiguration" : {
-          "schema": {
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "$id": "https://contoso.com/dataPointConfig.schema.json",
-            "title": "Datapoint Config Schema",
-            "description": "The JSON schema for both the default datapoint configuration field and all individual datapoint-specific configuration fields",
-            "type": "object",
-            "properties": {
-              "SamplingInterval": {
-                "description": "How frequently to sample each datapoint by default (in milliseconds)",
-                "type": "integer"
-              }
+        "datasetDataPointConfigurationSchema" : {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "$id": "https://contoso.com/dataPointConfig.schema.json",
+          "title": "Datapoint Config Schema",
+          "description": "The JSON schema for both the default datapoint configuration field and all individual datapoint-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "SamplingInterval": {
+              "description": "How frequently to sample each datapoint by default (in milliseconds)",
+              "type": "integer"
             }
-          },
-          "necessity" : "required"
+          }
         },
-        "eventConfiguration" : {
+        "eventConfigurationSchema" : {
           "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/eventConfig.schema.json",
           "title": "Event Config Schema",
@@ -103,10 +97,9 @@
               "description": "Some configuration that is relevant to events",
               "type": "integer"
             }
-          },
-          "necessity" : "required"
+          }
         },
-        "eventDataPointConfiguration" : {
+        "eventDataPointConfigurationSchema" : {
           "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/eventConfig.schema.json",
           "title": "Event Datapoint Config Schema",
@@ -117,10 +110,9 @@
               "description": "Some configuration that is relevant to events",
               "type": "integer"
             }
-          },
-          "necessity" : "required"
+          }
         },
-        "streamConfiguration" : {
+        "streamConfigurationSchema" : {
           "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/streamConfig.schema.json",
           "title": "Event Config Schema",
@@ -131,10 +123,9 @@
               "description": "Some configuration that is relevant to streams",
               "type": "integer"
             }
-          },
-          "necessity" : "required"
+          }
         },
-        "managementGroupConfiguration" : {
+        "managementGroupConfigurationSchema" : {
           "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/managementGroupConfig.schema.json",
           "title": "Management Group Config Schema",
@@ -145,10 +136,9 @@
               "description": "Some configuration that is relevant to streams",
               "type": "integer"
             }
-          },
-          "necessity" : "required"
+          }
         },
-        "processControlConfiguration" : {
+        "processControlConfigurationSchema" : {
           "$schema": "http://json-schema.org/draft-07/schema#",
           "$id": "https://contoso.com/processControlConfig.schema.json",
           "title": "Process control Config Schema",
@@ -159,8 +149,7 @@
               "description": "Some configuration that is relevant to process control",
               "type": "integer"
             }
-          },
-          "necessity" : "required"
+          }
         }
       },
       "assetEventDestinations": {
@@ -196,7 +185,34 @@
           "defaultRetain": "never"
         }
       },
-      "isEndpointTlsEnabled" : true
+      "expectedFields" : {
+        "eventNotifier": {
+          "$ref": "#/definitions/fieldNecessity"
+        },
+        "eventDataPointDataSource": {
+          "$ref": "#/definitions/fieldNecessity"
+        },
+        "datasetDataPointDataSource": {
+          "$ref": "#/definitions/fieldNecessity"
+        },
+        "datasetTypeRef": {
+          "$ref": "#/definitions/fieldNecessity"
+        },
+        "datasetDataPointTypeRef": {
+          "$ref": "#/definitions/fieldNecessity"
+        },
+        "eventTypeRef": {
+          "$ref": "#/definitions/fieldNecessity"
+        },
+        "managementGroupTypeRef": {
+          "$ref": "#/definitions/fieldNecessity"
+        },
+        "managementGroupActionTypeRef": {
+          "$ref": "#/definitions/fieldNecessity"
+        },
+        "assetStreamTypeRef": {
+          "$ref": "#/definitions/fieldNecessity"
+        }
     }
   ]
 }

@@ -3,15 +3,56 @@
   "type": "object",
   "aioConnectorMetadataSchemaVersion": "3.0-preview",
   "definitions": {
-    "necessity": {
-      "type": "string",
-      "description": "If this field is relevant to this connector or not.",
-      "enum": [
-        "required",
-        "unsupported",
-        "optional"
-      ],
-      "default": "unsupported"
+    "fieldNecessity": {
+      "type": "object",
+      "description": "Details about if a field is required or not and what shape its value should take",
+      "properties": {
+        "necessity": {
+          "type": "string",
+          "description": "If this field is relevant to this connector or not.",
+          "enum": [
+            "required",
+            "unsupported",
+            "optional"
+          ]
+        },
+        "regex": {
+          "type": "array",
+          "description": "The set of regex that this field's value should adhere to.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exampleValue": {
+          "type": "string",
+          "description": "An example value for this field that fits the expected format"
+        }
+      },
+      "required": ["necessity"],
+      "default": {
+        "necessity" : "unsupported"
+      }
+    },
+    "modelLimits": {
+      "type": "object",
+      "description": "Describes the limits to this model type that this connector supports. For instance, a connector may support up to 5 datasets. A connector can signals that it does not support a model type by specifying a maximum of 0.",
+      "properties": {
+        "maximum": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The maximum number of this model type that this connector supports. If not specified, the default is whatever limits the ADR service itself has. If this value is 0, then this connector does not support using this model type (i.e. the connector supports datasets, but not events)."
+        },
+        "minimum": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "The minimum number of this model type that this connector supports."
+        }
+      },
+      "default" : {
+        "maximum":0,
+        "minimum":0
+      }
     },
     "mqttDestinationDefaults": {
       "type": "object",
@@ -289,117 +330,26 @@
               "type": "object",
               "description": "The JSON schemas and their respective metadata for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
               "properties": {
-                "datasetConfiguration": {
-                  "type": "object",
-                  "description": "",
-                  "properties": {
-                    "schema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "necessity": {
-                      "$ref": "#/definitions/necessity"
-                    }
-                  },
-                  "required": ["necessity"],
-                  "default": {
-                    "necessity": "unsupported"
-                  }
+                "datasetConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "datasetDataPointConfiguration": {
-                  "type": "object",
-                  "description": "",
-                  "properties": {
-                    "schema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "necessity": {
-                      "$ref": "#/definitions/necessity"
-                    }
-                  },
-                  "required": ["necessity"],
-                  "default": {
-                    "necessity": "unsupported"
-                  }
+                "datasetDataPointConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "eventConfiguration": {
-                  "type": "object",
-                  "description": "",
-                  "properties": {
-                    "schema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "necessity": {
-                      "$ref": "#/definitions/necessity"
-                    }
-                  },
-                  "required": ["necessity"],
-                  "default": {
-                    "necessity": "unsupported"
-                  }
+                "eventConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "eventDataPointConfiguration": {
-                  "type": "object",
-                  "description": "",
-                  "properties": {
-                    "schema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "necessity": {
-                      "$ref": "#/definitions/necessity"
-                    }
-                  },
-                  "required": ["necessity"],
-                  "default": {
-                    "necessity": "unsupported"
-                  }
+                "eventDataPointConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "streamConfiguration": {
-                  "type": "object",
-                  "description": "",
-                  "properties": {
-                    "schema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "necessity": {
-                      "$ref": "#/definitions/necessity"
-                    }
-                  },
-                  "required": ["necessity"],
-                  "default": {
-                    "necessity": "unsupported"
-                  }
+                "streamConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "managementGroupConfiguration": {
-                  "type": "object",
-                  "description": "",
-                  "properties": {
-                    "schema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "necessity": {
-                      "$ref": "#/definitions/necessity"
-                    }
-                  },
-                  "required": ["necessity"],
-                  "default": {
-                    "necessity": "unsupported"
-                  }
+                "managementGroupConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 },
-                "actionConfiguration": {
-                  "type": "object",
-                  "description": "",
-                  "properties": {
-                    "schema": {
-                      "$ref": "http://json-schema.org/draft-07/schema#"
-                    },
-                    "necessity": {
-                      "$ref": "#/definitions/necessity"
-                    }
-                  },
-                  "required": ["necessity"],
-                  "default": {
-                    "necessity": "unsupported"
-                  }
+                "actionConfigurationSchema": {
+                  "$ref": "http://json-schema.org/draft-07/schema#"
                 }
               }
             },
@@ -495,11 +445,60 @@
             "version": {
               "type": "string",
               "description": "The version of the protocol of this inbound endpoint."
+            },
+            "expectedFields" : {
+              "type": "object",
+              "description": "defines which fields (which vary in necessity from connector to connector) are expected/not expected in this connector's asset defintion",
+              "properties": {
+                "eventNotifier": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "eventDataPointDataSource": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "datasetDataPointDataSource": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "datasetTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "datasetDataPointTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "eventTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "managementGroupTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "managementGroupActionTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
+                "assetStreamTypeRef": {
+                  "$ref": "#/definitions/fieldNecessity"
+                }
+              },
+              "required": ["eventNotifier", "eventDataPointDataSource", "datasetDataPointDataSource", "datasetTypeRef", "datasetDataPointTypeRef", "eventTypeRef", "managementGroupTypeRef", "managementGroupActionTypeRef", "assetStreamTypeRef"]
+            },
+            "modelLimits": {
+              "type": "object",
+              "description" : "Details the limits on each model type (datasets/events/management groups/etc) and also signals if this connector supports using that model type.",
+              "properties": {
+                "events" : { "$ref": "#/definitions/modelLimits" },
+                "datasets" : { "$ref": "#/definitions/modelLimits" },
+                "eventDataPoints" : { "$ref": "#/definitions/modelLimits" },
+                "datasetDatapoints" : { "$ref": "#/definitions/modelLimits" },
+                "managementGroups" : { "$ref": "#/definitions/modelLimits" },
+                "actions" : { "$ref": "#/definitions/modelLimits" },
+                "streams" : { "$ref": "#/definitions/modelLimits" }
+              }
             }
           },
           "required": [
             "endpointType",
-            "assetConfigurationSchemas"
+            "assetConfigurationSchemas",
+            "expectedFields",
+            "modelLimits"
           ]
         }
       ]
