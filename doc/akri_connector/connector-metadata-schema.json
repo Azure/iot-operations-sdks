@@ -32,10 +32,7 @@
           "description": "Additional user-readable context for this field. May explain how the field is used or explain the validation rules around it."
         }
       },
-      "required": ["input"],
-      "default": {
-        "input" : "unsupported"
-      }
+      "required": ["input"]
     },
     "modelLimits": {
       "type": "object",
