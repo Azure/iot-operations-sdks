@@ -476,11 +476,11 @@
                 "managementGroupActionTypeRef": {
                   "$ref": "#/definitions/fieldNecessity"
                 },
-                "assetStreamTypeRef": {
+                "streamTypeRef": {
                   "$ref": "#/definitions/fieldNecessity"
                 }
               },
-              "required": ["eventNotifier", "eventDataPointDataSource", "datasetDataPointDataSource", "datasetTypeRef", "datasetDataPointTypeRef", "eventTypeRef", "managementGroupTypeRef", "managementGroupActionTypeRef", "assetStreamTypeRef"]
+              "required": ["eventNotifier", "eventDataPointDataSource", "datasetDataPointDataSource", "datasetTypeRef", "datasetDataPointTypeRef", "eventTypeRef", "managementGroupTypeRef", "managementGroupActionTypeRef", "streamTypeRef", "datasetDataSource"]
             },
             "modelLimits": {
               "type": "object",

@@ -214,7 +214,7 @@
         "managementGroupActionTypeRef": {
           "input" : "required"
         },
-        "assetStreamTypeRef": {
+        "streamTypeRef": {
           "input" : "required"
         }
       },

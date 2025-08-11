@@ -57,7 +57,7 @@
         "managementGroupActionTypeRef": {
           "input" : "unsupported"
         },
-        "assetStreamTypeRef": {
+        "streamTypeRef": {
           "input" : "unsupported"
         }
       },
