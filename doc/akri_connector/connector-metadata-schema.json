@@ -491,10 +491,10 @@
                 "eventDataPoints" : { "$ref": "#/definitions/modelLimits" },
                 "datasetDataPoints" : { "$ref": "#/definitions/modelLimits" },
                 "managementGroups" : { "$ref": "#/definitions/modelLimits" },
-                "actions" : { "$ref": "#/definitions/modelLimits" },
+                "managementGroupActions" : { "$ref": "#/definitions/modelLimits" },
                 "streams" : { "$ref": "#/definitions/modelLimits" }
               },
-              "required": ["events", "datasets", "eventDataPoints", "datasetDataPoints", "managementGroups", "actions", "streams"]
+              "required": ["events", "datasets", "eventDataPoints", "datasetDataPoints", "managementGroups", "managementGroupActions", "streams"]
             }
           },
           "required": [

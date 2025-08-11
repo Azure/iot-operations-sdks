@@ -77,7 +77,7 @@
         "managementGroups" : { 
           "maximum": 0
         },
-        "actions" : { 
+        "managementGroupActions" : { 
           "maximum": 0
         },
         "streams" : { 

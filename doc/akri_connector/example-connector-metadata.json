@@ -234,7 +234,7 @@
         "managementGroups" : { 
           "minimum": 1
         },
-        "actions" : { 
+        "managementGroupActions" : { 
           "minimum": 1
         },
         "streams" : { 
