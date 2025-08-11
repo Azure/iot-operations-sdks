@@ -186,6 +186,9 @@
         }
       },
       "expectedModelFields" : {
+        "datasetDataSource": {
+          "input" : "required"
+        },
         "datasetDataPointDataSource": {
           "input" : "required",
           "exampleValue": "/some/http/path"

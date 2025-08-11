@@ -455,6 +455,9 @@
                 "eventDataPointDataSource": {
                   "$ref": "#/definitions/fieldNecessity"
                 },
+                "datasetDataSource": {
+                  "$ref": "#/definitions/fieldNecessity"
+                },
                 "datasetDataPointDataSource": {
                   "$ref": "#/definitions/fieldNecessity"
                 },
