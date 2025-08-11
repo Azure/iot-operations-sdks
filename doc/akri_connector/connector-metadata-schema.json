@@ -7,7 +7,7 @@
       "type": "object",
       "description": "Details about if a field is required or not and what shape its value should take",
       "properties": {
-        "necessity": {
+        "input": {
           "type": "string",
           "description": "If this field is relevant to this connector or not.",
           "enum": [
@@ -28,9 +28,9 @@
           "description": "An example value for this field that fits the expected format"
         }
       },
-      "required": ["necessity"],
+      "required": ["input"],
       "default": {
-        "necessity" : "unsupported"
+        "input" : "unsupported"
       }
     },
     "modelLimits": {

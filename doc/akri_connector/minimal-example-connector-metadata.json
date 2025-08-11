@@ -30,32 +30,32 @@
       },
       "expectedModelFields" : {
         "datasetDataPointDataSource": {
-          "necessity" : "required",
+          "input" : "required",
           "exampleValue": "/some/http/path"
         },
         "eventNotifier": {
-          "necessity" : "unsupported"
+          "input" : "unsupported"
         },
         "eventDataPointDataSource": {
-          "necessity" : "unsupported"
+          "input" : "unsupported"
         },
         "datasetTypeRef": {
-          "necessity" : "unsupported"
+          "input" : "unsupported"
         },
         "datasetDataPointTypeRef": {
-          "necessity" : "unsupported"
+          "input" : "unsupported"
         },
         "eventTypeRef": {
-          "necessity" : "unsupported"
+          "input" : "unsupported"
         },
         "managementGroupTypeRef": {
-          "necessity" : "unsupported"
+          "input" : "unsupported"
         },
         "managementGroupActionTypeRef": {
-          "necessity" : "unsupported"
+          "input" : "unsupported"
         },
         "assetStreamTypeRef": {
-          "necessity" : "unsupported"
+          "input" : "unsupported"
         }
       },
       "modelLimits" : {

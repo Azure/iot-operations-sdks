@@ -187,32 +187,32 @@
       },
       "expectedModelFields" : {
         "datasetDataPointDataSource": {
-          "necessity" : "required",
+          "input" : "required",
           "exampleValue": "/some/http/path"
         },
         "eventNotifier": {
-          "necessity" : "required"
+          "input" : "required"
         },
         "eventDataPointDataSource": {
-          "necessity" : "required"
+          "input" : "required"
         },
         "datasetTypeRef": {
-          "necessity" : "required"
+          "input" : "required"
         },
         "datasetDataPointTypeRef": {
-          "necessity" : "required"
+          "input" : "required"
         },
         "eventTypeRef": {
-          "necessity" : "required"
+          "input" : "required"
         },
         "managementGroupTypeRef": {
-          "necessity" : "required"
+          "input" : "required"
         },
         "managementGroupActionTypeRef": {
-          "necessity" : "required"
+          "input" : "required"
         },
         "assetStreamTypeRef": {
-          "necessity" : "required"
+          "input" : "required"
         }
       },
       "modelLimits" : {
