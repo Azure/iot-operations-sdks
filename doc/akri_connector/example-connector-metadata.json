@@ -163,7 +163,7 @@
         }
       },
       "assetDatasetDestinations": {
-        "supportedDestinations" : ["Mqtt"],
+        "supportedDestinations" : ["Mqtt", "BrokerStateStore"],
         "defaultDestination" : "Mqtt",
         "mqttDestinationDefaults": {
           "defaultTopicName": "",
