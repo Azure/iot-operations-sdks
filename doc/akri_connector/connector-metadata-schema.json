@@ -26,6 +26,10 @@
         "exampleValue": {
           "type": "string",
           "description": "An example value for this field that fits the expected format"
+        },
+        "description": {
+          "type": "string",
+          "description": "Additional user-readable context for this field. May explain how the field is used or explain the validation rules around it."
         }
       },
       "required": ["input"],
