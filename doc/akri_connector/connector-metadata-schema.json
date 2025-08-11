@@ -67,8 +67,7 @@
           "description": "The default MQTT quality of service that MQTT messages will be published with",
           "enum": [
             0,
-            1,
-            2
+            1
           ]
         },
         "defaultTimeToLive": {
