@@ -156,7 +156,7 @@
         "supportedDestinations" : ["Mqtt"],
         "defaultDestination" : "Mqtt",
         "mqttDestinationDefaults": {
-          "defaultTopicName": "",
+          "defaultTopicName": "some/mqtt/path",
           "defaultQualityOfService": 1,
           "defaultTimeToLive": 10,
           "defaultRetain": "never"
@@ -166,7 +166,7 @@
         "supportedDestinations" : ["Mqtt", "BrokerStateStore"],
         "defaultDestination" : "Mqtt",
         "mqttDestinationDefaults": {
-          "defaultTopicName": "",
+          "defaultTopicName": "some/mqtt/path",
           "defaultQualityOfService": 1,
           "defaultTimeToLive": 10,
           "defaultRetain": "never"
@@ -179,7 +179,7 @@
         "supportedDestinations" : ["Mqtt"],
         "defaultDestination" : "Mqtt",
         "mqttDestinationDefaults": {
-          "defaultTopicName": "",
+          "defaultTopicName": "some/mqtt/path",
           "defaultQualityOfService": 1,
           "defaultTimeToLive": 10,
           "defaultRetain": "never"
