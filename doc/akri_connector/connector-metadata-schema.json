@@ -50,7 +50,6 @@
         }
       },
       "default" : {
-        "maximum":0,
         "minimum":0
       }
     },
