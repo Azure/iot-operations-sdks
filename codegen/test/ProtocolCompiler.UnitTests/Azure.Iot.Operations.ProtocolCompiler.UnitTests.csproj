@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Azure.Iot.Operations.ProtocolCompiler\Azure.Iot.Operations.ProtocolCompiler.csproj" />
+    <ProjectReference Include="..\..\src\Azure.Iot.Operations.ProtocolCompilerLib\Azure.Iot.Operations.ProtocolCompilerLib.csproj" />
   </ItemGroup>
 
 </Project>

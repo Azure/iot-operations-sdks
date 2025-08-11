@@ -1,7 +1,7 @@
 ﻿namespace Azure.Iot.Operations.ProtocolCompiler.UnitTests.ModelSelectorTests
 {
     using DTDLParser;
-    using Azure.Iot.Operations.ProtocolCompiler;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     public class ModelSelectorTests
     {

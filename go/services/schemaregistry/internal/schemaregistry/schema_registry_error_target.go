@@ -9,13 +9,13 @@ import (
 type SchemaRegistryErrorTarget int32
 
 const (
+	SchemaRegistryErrorTargetSchemaRegistryArmResource SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetDescriptionProperty SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetDisplayNameProperty SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetFormatProperty SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetNameProperty SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetSchemaArmResource SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetSchemaContentProperty SchemaRegistryErrorTarget = iota
-	SchemaRegistryErrorTargetSchemaRegistryArmResource SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetSchemaTypeProperty SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetSchemaVersionArmResource SchemaRegistryErrorTarget = iota
 	SchemaRegistryErrorTargetTagsProperty SchemaRegistryErrorTarget = iota
@@ -24,6 +24,8 @@ const (
 
 func (v SchemaRegistryErrorTarget) String() string {
 	switch v {
+	case SchemaRegistryErrorTargetSchemaRegistryArmResource:
+		return "SchemaRegistryArmResource"
 	case SchemaRegistryErrorTargetDescriptionProperty:
 		return "DescriptionProperty"
 	case SchemaRegistryErrorTargetDisplayNameProperty:
@@ -36,8 +38,6 @@ func (v SchemaRegistryErrorTarget) String() string {
 		return "SchemaArmResource"
 	case SchemaRegistryErrorTargetSchemaContentProperty:
 		return "SchemaContentProperty"
-	case SchemaRegistryErrorTargetSchemaRegistryArmResource:
-		return "SchemaRegistryArmResource"
 	case SchemaRegistryErrorTargetSchemaTypeProperty:
 		return "SchemaTypeProperty"
 	case SchemaRegistryErrorTargetSchemaVersionArmResource:
@@ -54,6 +54,8 @@ func (v SchemaRegistryErrorTarget) String() string {
 func (v SchemaRegistryErrorTarget) MarshalJSON() ([]byte, error) {
 	var s string
 	switch v {
+	case SchemaRegistryErrorTargetSchemaRegistryArmResource:
+		s = "SchemaRegistryResource"
 	case SchemaRegistryErrorTargetDescriptionProperty:
 		s = "Description"
 	case SchemaRegistryErrorTargetDisplayNameProperty:
@@ -66,8 +68,6 @@ func (v SchemaRegistryErrorTarget) MarshalJSON() ([]byte, error) {
 		s = "SchemaArmResource"
 	case SchemaRegistryErrorTargetSchemaContentProperty:
 		s = "SchemaContent"
-	case SchemaRegistryErrorTargetSchemaRegistryArmResource:
-		s = "SchemaRegistryResource"
 	case SchemaRegistryErrorTargetSchemaTypeProperty:
 		s = "SchemaType"
 	case SchemaRegistryErrorTargetSchemaVersionArmResource:
@@ -90,6 +90,8 @@ func (v *SchemaRegistryErrorTarget) UnmarshalJSON(b []byte) error {
 	}
 
 	switch s {
+	case "SchemaRegistryResource":
+		*v = SchemaRegistryErrorTargetSchemaRegistryArmResource
 	case "Description":
 		*v = SchemaRegistryErrorTargetDescriptionProperty
 	case "DisplayName":
@@ -102,8 +104,6 @@ func (v *SchemaRegistryErrorTarget) UnmarshalJSON(b []byte) error {
 		*v = SchemaRegistryErrorTargetSchemaArmResource
 	case "SchemaContent":
 		*v = SchemaRegistryErrorTargetSchemaContentProperty
-	case "SchemaRegistryResource":
-		*v = SchemaRegistryErrorTargetSchemaRegistryArmResource
 	case "SchemaType":
 		*v = SchemaRegistryErrorTargetSchemaTypeProperty
 	case "SchemaVersionArmResource":
