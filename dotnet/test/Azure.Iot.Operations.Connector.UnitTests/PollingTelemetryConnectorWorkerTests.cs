@@ -1207,16 +1207,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             worker.WhileDeviceIsAvailable += async (args, cancellationToken) =>
             {
-                cancellationToken.Register(() => cancellationTokenTriggeredInDeviceCallback.TrySetResult());
-
                 try
                 {
                     // cancellation token should trigger almost immediately
-                    await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                    await Task.Delay(TimeSpan.FromHours(24), cancellationToken);
                 }
                 catch (OperationCanceledException)
                 {
                     // expected exception
+                    cancellationTokenTriggeredInDeviceCallback.TrySetResult();
                 }
 
                 // simulate the device task running longer than expected after cancellation
@@ -1226,16 +1225,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             worker.WhileAssetIsAvailable += async (args, cancellationToken) =>
             {
-                cancellationToken.Register(() => cancellationTokenTriggeredInAssetCallback.TrySetResult());
-
                 try
                 {
                     // cancellation token should trigger almost immediately
-                    await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                    await Task.Delay(TimeSpan.FromHours(24), cancellationToken);
                 }
                 catch (OperationCanceledException)
                 {
                     // expected exception
+                    cancellationTokenTriggeredInAssetCallback.TrySetResult();
                 }
 
                 // simulate the asset task running longer than expected after cancellation
