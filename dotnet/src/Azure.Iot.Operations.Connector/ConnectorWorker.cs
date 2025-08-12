@@ -42,12 +42,11 @@ namespace Azure.Iot.Operations.Connector
         // Keys are <deviceName>_<inboundEndpointName>_<assetName> and values are the running task and their cancellation token to signal once the asset is no longer available or the connector is shutting down
         private readonly ConcurrentDictionary<string, UserTaskContext> _assetTasks = new();
 
-        // keys (in order of nesting) are composite device name, then asset name, then dataset name
+        // keys (in order of nesting) are composite device name, then asset name, then dataset name. The most nested value is the message schema registered for that device's asset's dataset
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ConcurrentDictionary<string, Schema>>> _registeredDatasetSchemasByDevice = new();
 
-        // keys (in order of nesting) are composite device name, then asset name, then event name
+        // keys (in order of nesting) are composite device name, then asset name, then event name. The most nested value is the message schema registered for that device's asset's event
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ConcurrentDictionary<string, Schema>>> _registeredEventSchemasByDevice = new();
-
 
         /// <summary>
         /// Event handler for when an device becomes available.
@@ -248,13 +247,13 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Push a sampled dataset to the configured destinations.
         /// </summary>
-        /// <param name="deviceName"></param>
-        /// <param name="inboundEndpointName"></param>
+        /// <param name="deviceName">The name of the device that this dataset belongs to</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint that this dataset belongs to</param>
         /// <param name="asset">The asset that the dataset belongs to.</param>
-        /// <param name="assetName"></param>
+        /// <param name="assetName">The name of the asset that the dataset belongs to</param>
         /// <param name="dataset">The dataset that was sampled.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
-        /// <param name="userData"></param>
+        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ForwardSampledDatasetAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
@@ -356,11 +355,13 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Push a received event payload to the configured destinations.
         /// </summary>
+        /// <param name="deviceName">The name of the device that this event belongs to</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint that this event belongs to</param>
         /// <param name="asset">The asset that this event came from.</param>
+        /// <param name="assetName">The name of the asset that this event belongs to.</param>
         /// <param name="assetEvent">The event.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
-        /// <param name="cloudEvent">The optional cloud event headers to include. Only applicable for datasets with a destination of the MQTT broker.</param>
-        /// <param name="userData">The optional headers to include. Only applicable for datasets with a destination of the MQTT broker.</param>
+        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ForwardReceivedEventAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
