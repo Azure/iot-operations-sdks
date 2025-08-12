@@ -19,15 +19,18 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 <# } #>
 use super::<#=this.schemaClassName.GetFileName(TargetLanguage.Rust)#>::<#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#>;
 
-const <#=this.schemaClassName.GetVariableName(TargetLanguage.Rust).ToUpperInvariant()#>_CONTENT_TYPE: &str = "<#=this.contentType#>";
+<#
+    var contentTypeConstName = this.schemaClassName.GetVariableName(TargetLanguage.Rust).ToUpperInvariant() + "_CONTENT_TYPE";
+#>
+const <#=contentTypeConstName#>: &str = "<#=this.contentType#>";
 
 impl <#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#> {
     fn is_content_type(content_type: &str) -> bool {
-        content_type.starts_with(<#=this.schemaClassName.GetVariableName(TargetLanguage.Rust).ToUpperInvariant()#>_CONTENT_TYPE)
+        content_type.starts_with(<#=contentTypeConstName#>)
             && matches!(
                 content_type
                     .chars()
-                    .nth(<#=this.schemaClassName.GetVariableName(TargetLanguage.Rust).ToUpperInvariant()#>_CONTENT_TYPE.len()),
+                    .nth(<#=contentTypeConstName#>.len()),
                 None | Some('+' | ';')
             )
     }
