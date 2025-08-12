@@ -44,7 +44,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 var applicationMessage = await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
                 var cloudEvent = new IncomingTelemetryMetadata(applicationMessage, 0).GetCloudEvent();
+                string debug = "";
 
+                Assert.NotNull(applicationMessage.UserProperties);
+                foreach (MqttUserProperty userProperty in applicationMessage.UserProperties)
+                {
+                    debug += $"{userProperty.Name}:{userProperty.Value}, ";
+                }
+                Assert.Fail(debug);
                 Assert.NotNull(cloudEvent.Time);
                 Assert.NotNull(cloudEvent.Source);
                 Assert.Equal("my-rest-thermostat-endpoint-name", cloudEvent.Source.ToString());
