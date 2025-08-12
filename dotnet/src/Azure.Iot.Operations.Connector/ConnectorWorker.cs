@@ -265,7 +265,7 @@ namespace Azure.Iot.Operations.Connector
                 && registeredDatasetSchemasPerAsset.TryGetValue(assetName, out var registeredSchemasPerDataset)
                 && registeredSchemasPerDataset.TryGetValue(dataset.Name, out var registeredDatasetSchema))
             {
-                cloudEvent = new(new Uri(inboundEndpointName))
+                cloudEvent = new(new Uri(inboundEndpointName), "ms.aio.telemetry", "1.0")
                 {
                     DataSchema = $"aio-sr://{registeredDatasetSchema.Namespace}/{registeredDatasetSchema.Name}:{registeredDatasetSchema.Version}",
                     Time = _applicationContext.ApplicationHlc.Timestamp
