@@ -1197,9 +1197,13 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             MockAdrClientWrapper mockAdrClientWrapper = new MockAdrClientWrapper();
             IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
             IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
-            Mock<ILogger<PollingTelemetryConnectorWorker>> mockLogger = new Mock<ILogger<PollingTelemetryConnectorWorker>>();
-            PollingTelemetryConnectorWorker worker = new PollingTelemetryConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, mockDatasetSamplerFactory, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
+            Mock<ILogger<ConnectorWorker>> mockLogger = new Mock<ILogger<ConnectorWorker>>();
 
+            // This test deliberately uses the base class ConnectorWorker so that it can check when the device/asset callbacks execute which can't be done with the PollingTelemetryConnectorWorker
+            ConnectorWorker worker = new ConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
+
+            TaskCompletionSource deviceCallbackStarted = new();
+            TaskCompletionSource assetCallbackStarted = new();
             TaskCompletionSource cancellationTokenTriggeredInDeviceCallback = new();
             TaskCompletionSource cancellationTokenTriggeredInAssetCallback = new();
             TaskCompletionSource deviceCallbackEndedGracefully = new();
@@ -1207,6 +1211,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             worker.WhileDeviceIsAvailable += async (args, cancellationToken) =>
             {
+                deviceCallbackStarted.TrySetResult();
                 try
                 {
                     // cancellation token should trigger almost immediately
@@ -1225,6 +1230,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             worker.WhileAssetIsAvailable += async (args, cancellationToken) =>
             {
+                assetCallbackStarted.TrySetResult();
                 try
                 {
                     // cancellation token should trigger almost immediately
@@ -1308,6 +1314,25 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Created, asset));
 
+            // Wait until both the device and asset callbacks have started
+            try
+            {
+                await deviceCallbackStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for the \"WhileDeviceIsAvailable\" callback to start");
+            }
+
+            try
+            {
+                await assetCallbackStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for the \"WhileAssetIsAvailable\" callback to start");
+            }
+
             await worker.StopAsync(CancellationToken.None);
 
             // The user callbacks should each trigger the provided cancellation token and should end gracefully
@@ -1330,7 +1355,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             {
                 Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
             }
-
 
             worker.Dispose();
         }
