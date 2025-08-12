@@ -42,7 +42,7 @@ public class IncomingTelemetryMetadataTests
 
         Assert.Equal("1.0", metadata.GetCloudEvent().SpecVersion);
         Assert.Equal("eventType", metadata.GetCloudEvent().Type);
-        Assert.Equal(new Uri("my://source"), metadata.GetCloudEvent().Source);
+        Assert.Equal(new Uri("my://source").ToString(), metadata.GetCloudEvent().Source);
         Assert.Equal("eventSubject", metadata.GetCloudEvent().Subject);
         Assert.Equal("eventSchema", metadata.GetCloudEvent().DataSchema);
         Assert.Equal("application/json", metadata.GetCloudEvent().DataContentType);
@@ -175,7 +175,7 @@ public class IncomingTelemetryMetadataTests
         Assert.NotNull(metadata.GetCloudEvent());
         Assert.Equal("1.0", metadata.GetCloudEvent().SpecVersion);
         Assert.Equal("123", metadata.GetCloudEvent().Id!.ToString());
-        Assert.Equal(new Uri("a/b/c", UriKind.RelativeOrAbsolute), metadata.GetCloudEvent().Source);
+        Assert.Equal(new Uri("a/b/c", UriKind.RelativeOrAbsolute).ToString(), metadata.GetCloudEvent().Source);
         Assert.Equal("test", metadata.GetCloudEvent().Type);
     }
 

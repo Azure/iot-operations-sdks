@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
     /// <param name="source"><see cref="Source"/></param>
     /// <param name="type"><see cref="Type"/></param>
     /// <param name="specversion"><see cref="SpecVersion"/></param>
-    public class CloudEvent(Uri source, string type = "ms.aio.telemetry", string specversion = "1.0")
+    public class CloudEvent(string source, string type = "ms.aio.telemetry", string specversion = "1.0")
     {
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// the organization publishing the event or the process that produced the event. 
         /// The exact syntax and semantics behind the data encoded in the URI is defined by the event producer.
         /// </summary>
-        public Uri? Source => source;
+        public string? Source => source;
 
         /// <summary>The version of the CloudEvents specification which the event uses. 
         /// This enables the interpretation of the context. 

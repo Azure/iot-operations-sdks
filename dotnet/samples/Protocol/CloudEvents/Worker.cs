@@ -25,7 +25,7 @@ public class Worker(MqttSessionClient mqttClient, OvenService ovenService, Schem
 
         OutgoingTelemetryMetadata metadata = new()
         {
-            CloudEvent = new CloudEvent(new Uri("aio://oven/sample"))
+            CloudEvent = new CloudEvent(new Uri("aio://oven/sample").ToString())
             {
                 DataSchema = $"sr://{schemaInfo?.Namespace}/{schemaInfo?.Name}#{schemaInfo?.Version}"
             }
