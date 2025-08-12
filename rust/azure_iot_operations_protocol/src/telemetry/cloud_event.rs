@@ -236,6 +236,7 @@ mod tests {
     #[test_case("f0o/json", false; "number_first_half")]
     #[test_case("foo", false; "no_slash")]
     #[test_case("foo/bar?bazz", false; "question_mark")]
+    #[test_case("application/json; charset=utf-8", true; "parameter")]
     fn test_cloud_event_validate_data_content_type(data_content_type: &str, expected: bool) {
         assert_eq!(
             CloudEventFields::DataContentType
