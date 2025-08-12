@@ -12,6 +12,7 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
 
@@ -38,6 +39,9 @@ namespace Azure.Iot.Operations.Connector
 
         // Keys are <deviceName>_<inboundEndpointName>_<assetName> and values are the cancellation tokens to signal once the asset is no longer available
         private readonly ConcurrentDictionary<string, CancellationTokenSource> _assetTasks = new();
+
+        // keys (in order of nesting) are composite device name, then asset name, then dataset name
+        ConcurrentDictionary<string, ConcurrentDictionary<string, ConcurrentDictionary<string, Schema>>> _registeredSchemasByDevice = new();
 
         /// <summary>
         /// Event handler for when an device becomes available.
@@ -230,23 +234,11 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="dataset">The dataset that was sampled.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
-        {
-            await ForwardSampledDatasetAsync(asset, dataset, serializedPayload, null, null, cancellationToken);
-        }
-
-        /// <summary>
-        /// Push a sampled dataset to the configured destinations.
-        /// </summary>
-        /// <param name="asset">The asset that the dataset belongs to.</param>
-        /// <param name="dataset">The dataset that was sampled.</param>
-        /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
-        /// <param name="cloudEvent">The optional cloud event headers to include. Only applicable for datasets with a destination of the MQTT broker.</param>
-        /// <param name="userData">The optional headers to include. Only applicable for datasets with a destination of the MQTT broker.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CloudEvent? cloudEvent = null, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
+        public async Task ForwardSampledDatasetAsync(string inboundEndpointName, Asset asset, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
+
+            CloudEvent cloudEvent = new($"aio-sr://{}/{}:{}")
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
@@ -557,12 +549,29 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                            await schemaRegistryClient.PutAsync(
+                            var putResponse = await schemaRegistryClient.PutAsync(
                                 datasetMessageSchema.SchemaContent,
                                 datasetMessageSchema.SchemaFormat,
                                 datasetMessageSchema.SchemaType,
                                 datasetMessageSchema.Version ?? "1",
                                 datasetMessageSchema.Tags);
+
+                            if (!_registeredSchemasByDevice.ContainsKey(compoundDeviceName))
+                            {
+                                _registeredSchemasByDevice.TryAdd(compoundDeviceName, new());
+                            }
+
+                            _registeredSchemasByDevice.TryGetValue(compoundDeviceName, out var registeredSchemasByAsset);
+
+                            if (!registeredSchemasByAsset!.ContainsKey(assetName))
+                            {
+                                registeredSchemasByAsset!.TryAdd(assetName, new());
+                            }
+
+                            registeredSchemasByAsset.TryGetValue(assetName, out var registeredSchemasByDataset);
+
+                            registeredSchemasByDataset!.Remove(dataset.Name, out var _);
+                            registeredSchemasByDataset!.TryAdd(dataset.Name, putResponse!);
                         }
                         catch (Exception ex)
                         {
