@@ -13,7 +13,7 @@ namespace EventDrivenTcpThermostatConnector
 {
     public class MessageSchemaProvider : IMessageSchemaProvider
     {
-        private static readonly string jsonSchema1 = """
+        private static readonly string _datasetJsonSchema = """
     {
         "$schema": "https://json-schema.org/draft-07/schema#",
         "type": "object",
