@@ -46,11 +46,24 @@ pub struct Data {
     pub timestamp: Option<HybridLogicalClock>,
 }
 
-/// Represents a dataset associated with a specific device, endpoint, and asset.
+/// Represents the kind of a `DataOperation`
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum DataOperationKind {
+    /// Dataset
+    Dataset,
+    /// Event
+    Event,
+    /// Stream
+    Stream,
+}
+
+/// Represents a `DataOperation` (Dataset, Event, or Stream) associated with a specific device, endpoint, and asset.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub struct DatasetRef {
-    /// The name of the dataset
-    pub dataset_name: String,
+pub struct DataOperationRef {
+    /// The name of the `DataOperation`
+    pub data_operation_name: String,
+    /// The kind of the `DataOperation`
+    pub data_operation_kind: DataOperationKind,
     /// The name of the asset
     pub asset_name: String,
     /// The name of the device
