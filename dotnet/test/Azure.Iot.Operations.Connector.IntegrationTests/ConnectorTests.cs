@@ -43,21 +43,12 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 var applicationMessage = await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
-                string debug = "";
-
-                Assert.NotNull(applicationMessage.UserProperties);
-                foreach (MqttUserProperty userProperty in applicationMessage.UserProperties)
-                {
-                    debug += $"{userProperty.Name}:{userProperty.Value}, ";
-                }
-                Assert.Fail(debug);
-
                 var cloudEvent = new IncomingTelemetryMetadata(applicationMessage, 0).GetCloudEvent();
 
                 Assert.NotNull(cloudEvent.Time);
                 Assert.NotNull(cloudEvent.Source);
                 Assert.Equal("my-rest-thermostat-endpoint-name", cloudEvent.Source.ToString());
-                Assert.Equal($"aio-sr://DefaultSRNamespace/todo:1.0", cloudEvent.DataSchema);
+                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", cloudEvent.DataSchema);
             }
             catch (TimeoutException)
             {
@@ -121,21 +112,12 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 var applicationMessage = await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
-                string debug = "";
-
-                Assert.NotNull(applicationMessage.UserProperties);
-                foreach (MqttUserProperty userProperty in applicationMessage.UserProperties)
-                {
-                    debug += $"{userProperty.Name}:{userProperty.Value}, ";
-                }
-                Assert.Fail(debug);
-
                 var cloudEvent = new IncomingTelemetryMetadata(applicationMessage, 0).GetCloudEvent();
 
                 Assert.NotNull(cloudEvent.Time);
                 Assert.NotNull(cloudEvent.Source);
                 Assert.Equal("my-rest-thermostat-endpoint-name", cloudEvent.Source.ToString());
-                Assert.Equal($"aio-sr://DefaultSRNamespace/todo:1.0", cloudEvent.DataSchema);
+                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", cloudEvent.DataSchema);
             }
             catch (TimeoutException)
             {
