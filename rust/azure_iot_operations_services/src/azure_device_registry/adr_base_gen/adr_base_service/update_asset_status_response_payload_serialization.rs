@@ -7,6 +7,20 @@ use serde_json;
 
 use super::update_asset_status_response_payload::UpdateAssetStatusResponsePayload;
 
+const UPDATE_ASSET_STATUS_RESPONSE_PAYLOAD_CONTENT_TYPE: &str = "application/json";
+
+impl UpdateAssetStatusResponsePayload {
+    fn is_content_type(content_type: &str) -> bool {
+        content_type.starts_with(UPDATE_ASSET_STATUS_RESPONSE_PAYLOAD_CONTENT_TYPE)
+            && matches!(
+                content_type
+                    .chars()
+                    .nth(UPDATE_ASSET_STATUS_RESPONSE_PAYLOAD_CONTENT_TYPE.len()),
+                None | Some('+' | ';')
+            )
+    }
+}
+
 impl PayloadSerialize for UpdateAssetStatusResponsePayload {
     type Error = serde_json::Error;
 
@@ -25,7 +39,7 @@ impl PayloadSerialize for UpdateAssetStatusResponsePayload {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
-            if content_type != "application/json" {
+            if !UpdateAssetStatusResponsePayload::is_content_type(content_type) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be 'application/json'"
                 )));

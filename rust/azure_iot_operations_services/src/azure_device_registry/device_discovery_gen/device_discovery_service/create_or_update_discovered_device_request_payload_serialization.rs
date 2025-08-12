@@ -7,6 +7,20 @@ use serde_json;
 
 use super::create_or_update_discovered_device_request_payload::CreateOrUpdateDiscoveredDeviceRequestPayload;
 
+const CREATE_OR_UPDATE_DISCOVERED_DEVICE_REQUEST_PAYLOAD_CONTENT_TYPE: &str = "application/json";
+
+impl CreateOrUpdateDiscoveredDeviceRequestPayload {
+    fn is_content_type(content_type: &str) -> bool {
+        content_type.starts_with(CREATE_OR_UPDATE_DISCOVERED_DEVICE_REQUEST_PAYLOAD_CONTENT_TYPE)
+            && matches!(
+                content_type
+                    .chars()
+                    .nth(CREATE_OR_UPDATE_DISCOVERED_DEVICE_REQUEST_PAYLOAD_CONTENT_TYPE.len()),
+                None | Some('+' | ';')
+            )
+    }
+}
+
 impl PayloadSerialize for CreateOrUpdateDiscoveredDeviceRequestPayload {
     type Error = serde_json::Error;
 
@@ -25,7 +39,7 @@ impl PayloadSerialize for CreateOrUpdateDiscoveredDeviceRequestPayload {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
-            if content_type != "application/json" {
+            if !CreateOrUpdateDiscoveredDeviceRequestPayload::is_content_type(content_type) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be 'application/json'"
                 )));
