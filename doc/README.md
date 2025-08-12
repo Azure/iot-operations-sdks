@@ -2,7 +2,7 @@
 
 Here you will find detailed information on what the SDKs are, how they were constructed, and what edge applications they can be used to create.
 
-Multiple languages are supported, with each language providing an SDK (collectively known as the *Azure IoT Operations SDKs*) with the same level of features and support available in each. The languages supported today are C#, Go and Rust, however additional languages will be added based on customer demand.
+Multiple languages are supported, with each language providing an SDK (collectively known as the *Azure IoT Operations SDKs*) with the same level of features and support available in each. The languages supported today are C#, Go and Rust, however, additional languages will be added based on customer demand.
 
 ## Goals
 
@@ -18,21 +18,20 @@ The SDKs provide a number of benefits compared to utilizing the MQTT client dire
 |-|-|
 | **Connectivity** | Maintain a secure connection to the MQTT Broker, including rotating server certificates and authentication keys |
 | **Security** | Support SAT or x509 certificate authentication with credential rotation |
-| **Configuration** | Configure the Broker connection through the file system, environment or connection string |
+| **Configuration** | Configure the Broker connection through the environment or a connection string |
 | **Services** | Provides client libraries to Azure IoT Operation services for simplified development |
 | **Codegen** | Provides contract guarantees between client and servers via RPC and telemetry |
-| **High availability** | Building blocks for building HA apps via State Store, Lease Lock and Leader Election clients |
-| **Payload formats** | Supports multiple serialization formats, built in |
+| **High availability** | Building blocks for building HA apps via State Store and Lease Lock |
 
 ## Components
 
 The Azure IoT Operations SDKs provide a number of components available for customers:
 
-* A **Session client**, that augments the MQTT client, adding reconnection and authentication to provide a seemless connectivity experience.
+* A **Session client**, that augments the MQTT client, adding reconnection and authentication to provide a seamless connectivity experience.
 
 * A set of protocol primitives, designed to assist in creating applications, built on the fundamental protocol implementations; **Commands** and **Telemetry**. 
 
-* A set of clients providing integration with **Azure IoT Operations services** such as **State Store**, **Leader Election**, **Leased Lock**, **Schema Registry**, and **Azure Device Registry**.
+* A set of clients providing integration with **Azure IoT Operations services** such as **State Store**, **Leased Lock**, **Schema Registry**, and **Azure Device Registry**.
 
 * A **Connector SDK** which provides a framework for making it easy to build connectors.
 

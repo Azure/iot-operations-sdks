@@ -96,14 +96,11 @@ rust/
 │  ├─ tests/
 │  ├─ Cargo.toml
 ├─ sample_applications/
-│  ├─ counter/
-│  ├─ event_driven_app/
-│  ├─ sample_connector_scaffolding/
 ├─ Cargo.toml
 ```
 * unit tests for each crate are part of `src`. The `tests` subdirectories are for integration/stress/longhaul etc. tests, including METL if possible.
 
-* Any CodeGen related samples are in the `sample_applications` directory
+* Any CodeGen related samples are in the `sample_applications` directory as individual crates.
 
 <!-- TODO: Add reference to stub schema registry service and state store cli tool -->
 

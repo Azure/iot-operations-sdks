@@ -41,7 +41,7 @@ The following authentication methods are **mutually exclusive** - only one can b
 | Username/Password | `Username` & `PasswordFile` | Basic authentication with credentials |
 
 > [!CAUTION]
-> Configuring both SAT and Username/Password authentication simultaneously will result in a validation error.
+> Configuring both SAT and Username/Password authentication simultaneously will result in a configuration validation error during connection initialization.
 
 ### X.509 Certificate Authentication
 

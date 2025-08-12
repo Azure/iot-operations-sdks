@@ -86,6 +86,7 @@ Each crate contains an examples directory containing samples demonstrating the u
 1. [MQTT samples](/rust/azure_iot_operations_mqtt/examples)
 1. [Protocol samples](/rust/azure_iot_operations_protocol/examples)
 1. [Services samples](/rust/azure_iot_operations_services/examples)
+1. [Connector samples](/rust/azure_iot_operations_connector/examples)
 
 Run the sample, substituting the sample name of your choice:
 

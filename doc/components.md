@@ -6,19 +6,19 @@ The following components groups are included:
 * [MQTT](#mqtt)
 * [Protocol](#protocol)
 * [Services](#services)
+* [Azure Device Registry (ADR) Client*](#azure-device-registry-adr-client)
 * [Protocol compiler (Codegen)](#protocol-compiler-codegen)
-* [Akri Services *(Private Preview)*](#akri-services-private-preview)
 * [Component limitations](#component-limitations)
 
 ## MQTT 
 
 ### Session client
 
-This client provides a seemless way to connect an application to the MQTT Broker and other Azure IoT Operations services. It takes care of configuration, connection, reconnection, authentication and security.
+This client provides a seamless way to connect an application to the MQTT Broker and other Azure IoT Operations services. It takes care of configuration, connection, reconnection, authentication and security.
 
 ## Protocol
 
-Protocol contains Telemetry, Commands and Serialization. Telemetry consists of a sender and a receiver. Command provides an invoker and an executor.
+Protocol contains Telemetry and Commands. Telemetry consists of a sender and a receiver. Command provides an invoker and an executor.
 
 ### Telemetry sender
 
@@ -48,20 +48,20 @@ The schema registry client provides an interface to get and set Schemas from the
 
 ### Lease lock client
 
-The lease lock client allows the application to create a lock on a shared resource (a key within the state store), ensuring that no other application can modify that resource while the lock is active. This is a key component of the leader election algorithm.
+The lease lock client allows the application to create a lock on a shared resource (a key within the state store), ensuring that no other application can modify that resource while the lock is active.
 
 ### Azure Device Registry (ADR) client
 
-The ADR client provides the Akri Connector with _Device Endpoint Profiles_ and associated _Asset Definitions_.
+The ADR client provides the Akri Connector with _Device Endpoint Definitions_ and associated _Asset Definitions_.
 
-- _Device Endpoint Profile_: Connection information such as the hostname, port, username, password, and certificates needed to authenticate with customer's on-prem service.
-- _Asset_: Describes how the asset is accessed within the _Device Endpoint Profile_ and defines its datasets, events, streams and management groups.
+- _Device Endpoint Definitions_: Connection information such as the hostname, port, username, password, and certificates needed to authenticate with customer's on-prem service.
+- _Asset_: Describes how the asset is accessed within the _Device Endpoint Definition_ and defines its datasets, events, streams and management groups.
 
-The ADR client also notifies of newly discovered assets, which can then be triaged by the operator.
+The ADR client also notifies the service of newly discovered assets and devices, which can then be triaged by the operator.
 
-## Connector SDK
+## Connector
 
-The connector SDK provides a framework for building connectors that will handle retrieving device and asset definitions from Azure Device Registry and transform and/or forward data within AIO. You can read more about connectors in our [connector documentation](/doc/akri_connector.md).
+The connector component provides a framework for building connectors that will handle retrieving device and asset definitions from Azure Device Registry and transform and/or forward data within AIO. You can read more about connectors in our [connector documentation](/doc/akri_connector.md).
 
 ## Protocol compiler (Codegen)
 
@@ -107,7 +107,7 @@ Implement an RPC pattern, to decouple _clients_ and _servers_, where the client 
 
 ### Connection Management
 
-As we are using dependency injection to initialize the Envoy and Binders, we need to provide the ability to react/recover to underlying connection disruptions.
+As we are using dependency injection to initialize the Envoys, we need to provide the ability to react/recover to underlying connection disruptions.
 
 <!--TODO: Revise connection management Described in detail in [connection-management.md](reference/connection-management.md).-->
 
