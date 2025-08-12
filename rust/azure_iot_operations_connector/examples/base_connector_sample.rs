@@ -153,9 +153,21 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
                 // now we should update the status of the asset
                 let asset_status = generate_asset_status(&asset_client);
 
-                if let Err(e) = asset_client.report_status(asset_status).await {
+                if let Err(e) = asset_client.report_status_if_modified(|curr_status| {
+                    if curr_status.is_err() {
+                        log::warn!("Asset status already reported as error, not updating again");
+                        None
+                    } else {
+                        log::info!("Reporting asset status: {asset_status:?}");
+                        Some(Ok(()))
+                    }
+                }).await {
                     log::error!("Error reporting asset status: {e}");
                 }
+
+                // if let Err(e) = asset_client.report_status(asset_status).await {
+                //     log::error!("Error reporting asset status: {e}");
+                // }
 
                 // Start handling the datasets for this asset
                 // if we didn't accept the asset, then we still want to run this to wait for updates

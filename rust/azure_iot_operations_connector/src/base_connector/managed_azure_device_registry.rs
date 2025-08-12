@@ -916,6 +916,53 @@ impl AssetClient {
         asset_client
     }
 
+    pub async fn report_status_if_modified<F>(&self, modify: F) -> Result<(), azure_device_registry::Error> 
+    where 
+        F: FnOnce(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
+    {
+        let mut status_write_guard = self.status.write().await;
+        let version = self.specification.read().unwrap().version;
+        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
+        let mut new_status = Self::current_status_to_modify(&status_write_guard, version);
+        
+        let status_arg = match &new_status.config {
+            Some(config) => {
+                match &config.error {
+                    Some(e) => Some(Err(e)),
+                    None => Some(Ok(())),
+                }
+            },
+            None => Ok(()), // Corresponds to unset
+        };
+
+        let status_res = modify(status_arg);
+
+        match status_res {
+            Some(update_status) => {
+                // no matter whether we kept other fields or not, we will always fully replace the config status
+                new_status.config = Some(azure_device_registry::ConfigStatus {
+                    version,
+                    error: update_status.err(),
+                    last_transition_time: Some(chrono::Utc::now()),
+                });
+                log::debug!("Reporting asset status from app for {:?}", self.asset_ref);
+                // send status update to the service
+                Self::internal_report_status(
+                    new_status,
+                    &self.connector_context,
+                    &self.asset_ref,
+                    &mut status_write_guard,
+                    "AssetClient::report_status_if_modified",
+                )
+                .await
+            },
+            None => {
+                // Do nothing.
+                todo!()
+            },
+        }
+    }
+
     /// Used to report the status of an Asset,
     /// and then updates the `self.status` with the new status returned
     ///
