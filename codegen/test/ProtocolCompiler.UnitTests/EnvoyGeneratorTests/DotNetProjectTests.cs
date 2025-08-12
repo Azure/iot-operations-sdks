@@ -5,7 +5,7 @@
     using System.Text.RegularExpressions;
     using System.Xml;
     using NuGet.Versioning;
-    using Azure.Iot.Operations.ProtocolCompiler;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     public class DotNetProjectTests
     {

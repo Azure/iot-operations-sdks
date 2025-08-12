@@ -4,7 +4,7 @@
     using DTDLParser.Models;
     using NJsonSchema;
     using NJsonSchema.Validation;
-    using Azure.Iot.Operations.ProtocolCompiler;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     public class ThingGeneratorTests
     {
