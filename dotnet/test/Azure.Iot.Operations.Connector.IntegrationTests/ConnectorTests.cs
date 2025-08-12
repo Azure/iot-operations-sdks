@@ -121,6 +121,15 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 var applicationMessage = await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
+                string debug = "";
+
+                Assert.NotNull(applicationMessage.UserProperties);
+                foreach (MqttUserProperty userProperty in applicationMessage.UserProperties)
+                {
+                    debug += $"{userProperty.Name}:{userProperty.Value}, ";
+                }
+                Assert.Fail(debug);
+
                 var cloudEvent = new IncomingTelemetryMetadata(applicationMessage, 0).GetCloudEvent();
 
                 Assert.NotNull(cloudEvent.Time);
