@@ -600,7 +600,7 @@ namespace Azure.Iot.Operations.Connector
                                 datasetMessageSchema.Version ?? "1",
                                 datasetMessageSchema.Tags);
 
-                            _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
+                            _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
                             if (!_registeredDatasetSchemasByDevice.ContainsKey(compoundDeviceName))
                             {
@@ -653,6 +653,8 @@ namespace Azure.Iot.Operations.Connector
                                 eventMessageSchema.SchemaType,
                                 eventMessageSchema.Version ?? "1",
                                 eventMessageSchema.Tags);
+
+                            _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
                             if (!_registeredEventSchemasByDevice.ContainsKey(compoundDeviceName))
                             {
