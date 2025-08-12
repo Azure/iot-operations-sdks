@@ -2,7 +2,7 @@
 {
     using DTDLParser;
     using DTDLParser.Models;
-    using Azure.Iot.Operations.ProtocolCompiler;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     public class TopicCollisionDetectorTests
     {

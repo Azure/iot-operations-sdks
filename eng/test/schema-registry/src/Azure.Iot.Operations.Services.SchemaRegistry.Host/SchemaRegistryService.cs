@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using SchemaInfo = SchemaRegistry.Schema;
 
 
-internal class SchemaRegistryService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator) 
+internal class SchemaRegistryService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator)
     : SchemaRegistry.Service(applicationContext, mqttClient)
 {
     readonly Utf8JsonSerializer _jsonSerializer = new();

@@ -13,11 +13,11 @@
 use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_connector::{
-    AdrConfigError, Data,
+    AdrConfigError, Data, DataOperationKind,
     base_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, ClientNotification, DatasetClient, DatasetNotification,
+            AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation,
         },
     },
@@ -182,24 +182,36 @@ async fn run_asset(mut asset_client: AssetClient) {
                 log::warn!("Asset has been deleted");
                 break;
             }
-            ClientNotification::Created(dataset_client) => {
-                log::info!("Dataset Created: {dataset_client:?}");
-                tokio::task::spawn(run_dataset(dataset_client));
+            ClientNotification::Created(data_operation_client) => {
+                log::info!("Data Operation Created: {data_operation_client:?}");
+                if let DataOperationKind::Dataset = data_operation_client
+                    .data_operation_ref()
+                    .data_operation_kind
+                {
+                    tokio::task::spawn(run_dataset(data_operation_client));
+                } else {
+                    tokio::task::spawn(handle_unsupported_data_operation(data_operation_client));
+                }
             }
         }
     }
 }
 
-async fn run_dataset(mut dataset_client: DatasetClient) {
+/// Note, this function takes in a `DataOperationClient`, but we know it is specifically a `Dataset`
+/// because we already filtered out non-dataset `DataOperationClient`s in the `run_asset` function.
+async fn run_dataset(mut data_operation_client: DataOperationClient) {
     // now we should update the status of the dataset and report the message schema
-    if let Err(e) = dataset_client.report_status(Ok(())).await {
+    if let Err(e) = data_operation_client.report_status(Ok(())).await {
         log::error!("Error reporting dataset status: {e}");
     }
 
     let sample_data = mock_received_data(0);
 
     let message_schema = derived_json::create_schema(&sample_data).unwrap();
-    match dataset_client.report_message_schema(message_schema).await {
+    match data_operation_client
+        .report_message_schema(message_schema)
+        .await
+    {
         Ok(message_schema_reference) => {
             log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
         }
@@ -215,12 +227,12 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
         tokio::select! {
             biased;
             // Listen for a dataset update notifications
-            res = dataset_client.recv_notification() => {
+            res = data_operation_client.recv_notification() => {
                 match res {
-                    DatasetNotification::Updated => {
-                        log::info!("dataset updated: {dataset_client:?}");
+                    DataOperationNotification::Updated => {
+                        log::info!("dataset updated: {data_operation_client:?}");
                         // now we should update the status of the dataset and report the message schema
-                        if let Err(e) = dataset_client.report_status(Ok(())).await {
+                        if let Err(e) = data_operation_client.report_status(Ok(())).await {
                             log::error!("Error reporting dataset status: {e}");
                         }
 
@@ -228,7 +240,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
 
                         let message_schema =
                             derived_json::create_schema(&sample_data).unwrap();
-                        match dataset_client.report_message_schema(message_schema).await {
+                        match data_operation_client.report_message_schema(message_schema).await {
                             Ok(message_schema_reference) => {
                                 log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
                             }
@@ -238,11 +250,11 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
                         }
                         dataset_valid = true;
                     },
-                    DatasetNotification::UpdatedInvalid => {
+                    DataOperationNotification::UpdatedInvalid => {
                         log::warn!("Dataset has invalid update. Wait for new dataset update.");
                         dataset_valid = false;
                     },
-                    DatasetNotification::Deleted => {
+                    DataOperationNotification::Deleted => {
                         log::warn!("Dataset has been deleted. No more dataset updates will be received");
                         break;
                     }
@@ -250,16 +262,72 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
             },
             _ = timer.tick(), if dataset_valid => {
                 let sample_data = mock_received_data(count);
-                match dataset_client.forward_data(sample_data).await {
+                match data_operation_client.forward_data(sample_data).await {
                     Ok(()) => {
                         log::info!(
                             "data {count} for {} forwarded",
-                            dataset_client.dataset_ref().dataset_name
+                            data_operation_client.data_operation_ref().data_operation_name
                         );
                         count += 1;
                     }
                     Err(e) => log::error!("error forwarding data: {e}"),
                 }
+            }
+        }
+    }
+}
+
+/// Small handler to indicate lack of stream/event support in this connector
+async fn handle_unsupported_data_operation(mut data_operation_client: DataOperationClient) {
+    let data_operation_kind = data_operation_client
+        .data_operation_ref()
+        .data_operation_kind;
+    let data_operation_name = data_operation_client
+        .data_operation_ref()
+        .data_operation_name
+        .clone();
+    log::warn!("Data Operation kind {data_operation_kind:?} not supported for this connector");
+    // Report invalid definition to adr
+    if let Err(e) = data_operation_client
+        .report_status(Err(AdrConfigError {
+            message: Some(format!(
+                "Data Operation kind {data_operation_kind:?} not supported for this connector",
+            )),
+            ..Default::default()
+        }))
+        .await
+    {
+        log::error!("Error reporting {data_operation_kind:?} {data_operation_name} status: {e}");
+    }
+
+    loop {
+        match data_operation_client.recv_notification().await {
+            DataOperationNotification::Updated => {
+                log::warn!(
+                    "{data_operation_name} update notification received. {data_operation_kind:?} is not supported for the this Connector",
+                );
+                if let Err(e) = data_operation_client
+                    .report_status(Err(AdrConfigError {
+                        message: Some(format!(
+                            "Data Operation kind {data_operation_kind:?} not supported for this connector",
+                        )),
+                        ..Default::default()
+                    }))
+                    .await
+                {
+                    log::error!("Error reporting {data_operation_kind:?} {data_operation_name} status: {e}");
+                }
+            }
+            DataOperationNotification::UpdatedInvalid => {
+                log::info!(
+                    "{data_operation_kind:?} {data_operation_name} update invalid notification received"
+                );
+            }
+            DataOperationNotification::Deleted => {
+                log::info!(
+                    "{data_operation_kind:?} {data_operation_name} deleted notification received"
+                );
+                break;
             }
         }
     }
