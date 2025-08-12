@@ -6,9 +6,10 @@ The following components groups are included:
 * [MQTT](#mqtt)
 * [Protocol](#protocol)
 * [Services](#services)
-* [Azure Device Registry (ADR) Client*](#azure-device-registry-adr-client)
+* [Connector](#connector)
 * [Protocol compiler (Codegen)](#protocol-compiler-codegen)
 * [Component limitations](#component-limitations)
+* [Terminology](#terminology)
 
 ## MQTT 
 
