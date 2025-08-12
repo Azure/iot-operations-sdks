@@ -600,6 +600,8 @@ namespace Azure.Iot.Operations.Connector
                                 datasetMessageSchema.Version ?? "1",
                                 datasetMessageSchema.Tags);
 
+                            _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
+
                             if (!_registeredDatasetSchemasByDevice.ContainsKey(compoundDeviceName))
                             {
                                 _registeredDatasetSchemasByDevice.TryAdd(compoundDeviceName, new());
