@@ -20,7 +20,7 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 use super::<#=this.schemaClassName.GetFileName(TargetLanguage.Rust)#>::<#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#>;
 
 <#
-    var contentTypeConstName = this.schemaClassName.GetVariableName(TargetLanguage.Rust).ToUpperInvariant() + "_CONTENT_TYPE";
+    var contentTypeConstName = this.schemaClassName.GetConstantName(TargetLanguage.Rust, "content", "type");
 #>
 const <#=contentTypeConstName#>: &str = "<#=this.contentType#>";
 
