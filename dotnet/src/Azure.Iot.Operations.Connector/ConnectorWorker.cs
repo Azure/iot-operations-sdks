@@ -235,9 +235,13 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Push a sampled dataset to the configured destinations.
         /// </summary>
+        /// <param name="deviceName"></param>
+        /// <param name="inboundEndpointName"></param>
         /// <param name="asset">The asset that the dataset belongs to.</param>
+        /// <param name="assetName"></param>
         /// <param name="dataset">The dataset that was sampled.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="userData"></param>
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ForwardSampledDatasetAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
