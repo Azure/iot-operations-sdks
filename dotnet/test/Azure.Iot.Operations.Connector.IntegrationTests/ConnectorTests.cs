@@ -86,14 +86,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
             string assetTelemetryTopic = "/mqtt/machine/status/change_event";
-            TaskCompletionSource assetTelemetryReceived = new();
+            TaskCompletionSource<MqttApplicationMessage> assetTelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
                 if (isValidPayload(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(assetTelemetryTopic))
                     {
-                        assetTelemetryReceived.TrySetResult();
+                        assetTelemetryReceived.TrySetResult(args.ApplicationMessage);
                     }
                 }
 
@@ -110,7 +110,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
             try
             {
-                await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                var applicationMessage = await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+                var cloudEvent = new IncomingTelemetryMetadata(applicationMessage, 0).GetCloudEvent();
+
+                Assert.NotNull(cloudEvent.Time);
+                Assert.NotNull(cloudEvent.Source);
+                Assert.Equal("my-rest-thermostat-endpoint-name", cloudEvent.Source.ToString());
+                Assert.Equal($"aio-sr://DefaultSRNamespace/todo:1.0", cloudEvent.DataSchema);
             }
             catch (TimeoutException)
             {
