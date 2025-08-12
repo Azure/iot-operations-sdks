@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	stderr "errors"
 	"fmt"
+	"regexp"
 
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
 	"github.com/Azure/iot-operations-sdks/go/protocol/internal/constants"
@@ -108,16 +109,18 @@ func (JSON[T]) Serialize(t T) (*Data, error) {
 	return &Data{bytes, "application/json", 1}, nil
 }
 
+var jsonContentTypeRegex = regexp.MustCompile(
+	`^$|^application/json([+;].*)?$`,
+)
+
 // Deserialize translates JSON bytes into the Go type T.
 func (JSON[T]) Deserialize(data *Data) (T, error) {
 	var t T
-	switch data.ContentType {
-	case "", "application/json":
-		err := json.Unmarshal(data.Payload, &t)
-		return t, err
-	default:
+	if !jsonContentTypeRegex.MatchString(data.ContentType) {
 		return t, ErrUnsupportedContentType
 	}
+	err := json.Unmarshal(data.Payload, &t)
+	return t, err
 }
 
 // Serialize validates that the payload is empty.
@@ -147,14 +150,16 @@ func (Raw) Serialize(t []byte) (*Data, error) {
 	return &Data{t, "application/octet-stream", 0}, nil
 }
 
+var rawContentTypeRegex = regexp.MustCompile(
+	`^$|^application/octet-stream([+;].*)?$`,
+)
+
 // Deserialize returns the bytes unchanged.
 func (Raw) Deserialize(data *Data) ([]byte, error) {
-	switch data.ContentType {
-	case "", "application/octet-stream":
-		return data.Payload, nil
-	default:
+	if !rawContentTypeRegex.MatchString(data.ContentType) {
 		return nil, ErrUnsupportedContentType
 	}
+	return data.Payload, nil
 }
 
 // Serialize returns the data unchanged.
