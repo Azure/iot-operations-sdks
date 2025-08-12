@@ -2101,7 +2101,10 @@
           "schema": "dateTime"
         },
         {
-          "@type": "Field",
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
           "description": "The name of the data point.",
           "schema": "string"
@@ -2200,7 +2203,10 @@
           "schema": "dateTime"
         },
         {
-          "@type": "Field",
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
           "description": "The name of the data point.",
           "schema": "string"
