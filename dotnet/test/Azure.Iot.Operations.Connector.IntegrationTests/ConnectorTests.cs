@@ -116,7 +116,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
                 Assert.NotNull(cloudEvent.Time);
                 Assert.NotNull(cloudEvent.Source);
-                Assert.Equal("tcp-service.azure-iot-operations.svc.cluster.local:80", cloudEvent.Source.ToString());
+                Assert.Equal("my-rest-thermostat-endpoint-name", cloudEvent.Source.ToString());
                 Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", cloudEvent.DataSchema);
             }
             catch (TimeoutException)
