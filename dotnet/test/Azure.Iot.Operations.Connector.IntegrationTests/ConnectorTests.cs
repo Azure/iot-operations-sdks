@@ -46,15 +46,6 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 var applicationMessage = await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
-                string debug = "";
-
-                Assert.NotNull(applicationMessage.UserProperties);
-                foreach (MqttUserProperty userProperty in applicationMessage.UserProperties)
-                {
-                    debug += $"{userProperty.Name}:{userProperty.Value}, ";
-                }
-                Assert.Fail(debug);
-
                 Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
                 Assert.Equal("my-rest-thermostat-endpoint-name", GetCloudEventSourceFromMqttMessage(applicationMessage));
                 string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
@@ -122,15 +113,6 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 var applicationMessage = await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
-                string debug = "";
-
-                Assert.NotNull(applicationMessage.UserProperties);
-                foreach (MqttUserProperty userProperty in applicationMessage.UserProperties)
-                {
-                    debug += $"{userProperty.Name}:{userProperty.Value}, ";
-                }
-                Assert.Fail(debug);
-
                 Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
                 Assert.Equal("my-rest-thermostat-endpoint-name", GetCloudEventSourceFromMqttMessage(applicationMessage));
                 string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
@@ -181,7 +163,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
             foreach (MqttUserProperty userProperty in mqttMessage.UserProperties)
             {
-                if (userProperty.Name.Equals(name))
+                if (userProperty.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                 {
                     return userProperty.Value;
                 }
