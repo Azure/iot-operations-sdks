@@ -114,7 +114,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 var applicationMessage = await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
                 Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
-                Assert.Equal("my-rest-thermostat-endpoint-name", GetCloudEventSourceFromMqttMessage(applicationMessage));
+                Assert.Equal("my_tcp_endpoint", GetCloudEventSourceFromMqttMessage(applicationMessage));
                 string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
                 Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", dataSchema);
             }

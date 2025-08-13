@@ -595,7 +595,7 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                            var registeredSchema = await schemaRegistryClient.PutAsync(
+                            var registeredDatasetMessageSchema = await schemaRegistryClient.PutAsync(
                                 datasetMessageSchema.SchemaContent,
                                 datasetMessageSchema.SchemaFormat,
                                 datasetMessageSchema.SchemaType,
@@ -604,7 +604,7 @@ namespace Azure.Iot.Operations.Connector
 
                             _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
-                            _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", new());
+                            _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", registeredDatasetMessageSchema);
                         }
                         catch (Exception ex)
                         {
@@ -643,7 +643,7 @@ namespace Azure.Iot.Operations.Connector
 
                             _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
-                            _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", new());
+                            _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", registeredEventSchema);
                         }
                         catch (Exception ex)
                         {
