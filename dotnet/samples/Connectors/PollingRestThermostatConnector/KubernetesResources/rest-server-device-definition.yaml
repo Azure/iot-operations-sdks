@@ -10,7 +10,7 @@ spec:
   enabled: true
   endpoints:
     inbound:
-      my-rest-thermostat-endpoint-name:
+      http://www.contoso.com/somePath:
         additionalConfiguration: '{}'
         address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80
         authentication:
