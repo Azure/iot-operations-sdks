@@ -7,6 +7,20 @@ use serde_json;
 
 use super::asset_update_event_telemetry::AssetUpdateEventTelemetry;
 
+const ASSET_UPDATE_EVENT_TELEMETRY_CONTENT_TYPE: &str = "application/json";
+
+impl AssetUpdateEventTelemetry {
+    fn is_content_type(content_type: &str) -> bool {
+        content_type.starts_with(ASSET_UPDATE_EVENT_TELEMETRY_CONTENT_TYPE)
+            && matches!(
+                content_type
+                    .chars()
+                    .nth(ASSET_UPDATE_EVENT_TELEMETRY_CONTENT_TYPE.len()),
+                None | Some('+' | ';')
+            )
+    }
+}
+
 impl PayloadSerialize for AssetUpdateEventTelemetry {
     type Error = serde_json::Error;
 
@@ -25,7 +39,7 @@ impl PayloadSerialize for AssetUpdateEventTelemetry {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
-            if content_type != "application/json" {
+            if !AssetUpdateEventTelemetry::is_content_type(content_type) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be 'application/json'"
                 )));
