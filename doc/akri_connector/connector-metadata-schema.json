@@ -40,7 +40,7 @@
       "properties": {
         "maximum": {
           "type": "integer",
-          "minimum": 0,
+          "minimum": 1, //TODO
           "description": "The maximum number of this model type that this connector supports. If not specified, the default is whatever limits the ADR service itself has. If this value is 0, then this connector does not support using this model type (i.e. the connector supports datasets, but not events)."
         },
         "minimum": {
@@ -103,6 +103,20 @@
       "required": [
         "defaultBrokerStateStoreKey"
       ]
+    },
+    "naming": {
+      "type": "object",
+      "description": "The different names for a given model",
+      "properties": {
+        "singular": {
+          "type": "string",
+          "description": "The singular display name"
+        },
+        "plural": {
+          "type": "string",
+          "description": "The plural display name"
+        }
+      }
     }
   },
   "properties": {
@@ -482,25 +496,89 @@
               },
               "required": ["eventNotifier", "eventDataPointDataSource", "datasetDataPointDataSource", "datasetTypeRef", "datasetDataPointTypeRef", "eventTypeRef", "managementGroupTypeRef", "managementGroupActionTypeRef", "streamTypeRef", "datasetDataSource"]
             },
-            "modelLimits": {
+            "supportedModeling": {
               "type": "object",
-              "description" : "Details the limits on each model type (datasets/events/management groups/etc) and also signals if this connector supports using that model type.",
+              "description" : "If present, modeling is supported? Todo",
               "properties": {
-                "events" : { "$ref": "#/definitions/modelLimits" },
-                "datasets" : { "$ref": "#/definitions/modelLimits" },
-                "eventDataPoints" : { "$ref": "#/definitions/modelLimits" },
-                "datasetDataPoints" : { "$ref": "#/definitions/modelLimits" },
-                "managementGroups" : { "$ref": "#/definitions/modelLimits" },
-                "managementGroupActions" : { "$ref": "#/definitions/modelLimits" },
-                "streams" : { "$ref": "#/definitions/modelLimits" }
-              },
-              "required": ["events", "datasets", "eventDataPoints", "datasetDataPoints", "managementGroups", "managementGroupActions", "streams"]
+                "events" : { 
+                  "type": "object",
+                  "description" : "TODO",
+                  "properties": {
+                    "limits": { "$ref": "#/definitions/modelLimits" },
+                    "fields": {
+                      "type": "object",
+                      "description" : "TODO",
+                      "properties": {
+                        "eventNotifier": { "$ref": "#/definitions/fieldNecessity" },
+                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                      }
+                    }
+                  },
+                  "required": ["limits", "fields"]
+                },
+                "datasets" : {
+                  "type": "object",
+                  "description" : "TODO",
+                  "properties": {
+                    "limits": { "$ref": "#/definitions/modelLimits" },
+                    "fields": {
+                      "type": "object",
+                      "description" : "TODO",
+                      "properties": {
+                        "dataSource": { "$ref": "#/definitions/fieldNecessity" },
+                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                      }
+                    }
+                  },
+                  "required": ["limits", "fields"]
+                },
+                "eventDataPoints" : { 
+                  "type": "object",
+                  "description" : "TODO",
+                  "properties": {
+                    "limits" : { "$ref": "#/definitions/modelLimits" },
+                    "dataSource": { "$ref": "#/definitions/fieldNecessity" }
+                  }    
+                },
+                "datasetDataPoints" : { 
+                  "type": "object",
+                  "description" : "TODO",
+                  "properties": {
+                    "limits" : { "$ref": "#/definitions/modelLimits" },
+                    "dataSource": { "$ref": "#/definitions/fieldNecessity" },
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                  }    
+                },
+                "managementGroups" : { 
+                  "type": "object",
+                  "description" : "TODO",
+                  "properties": {
+                    "limits" : { "$ref": "#/definitions/modelLimits" },
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                  }    
+                },
+                "managementGroupActions" : { 
+                  "type": "object",
+                  "description" : "TODO",
+                  "properties": {
+                    "limits" : { "$ref": "#/definitions/modelLimits" },
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                  }    
+                },
+                "streams" : { 
+                  "type": "object",
+                  "description" : "TODO",
+                  "properties": {
+                    "limits" : { "$ref": "#/definitions/modelLimits" },
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                  }    
+                }
+              }
             }
           },
           "required": [
             "endpointType",
-            "expectedModelFields",
-            "modelLimits"
+            "supportedModeling"
           ]
         }
       ]
