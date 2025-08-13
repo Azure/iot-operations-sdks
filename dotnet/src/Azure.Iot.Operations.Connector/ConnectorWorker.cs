@@ -643,7 +643,7 @@ namespace Azure.Iot.Operations.Connector
 
                             _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
-                            _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", new());
+                            _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", new());
                         }
                         catch (Exception ex)
                         {
