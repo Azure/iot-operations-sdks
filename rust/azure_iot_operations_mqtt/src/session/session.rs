@@ -299,6 +299,9 @@ where
 
                 // Connection refused by broker - unrecoverable
                 // NOTE: We carve out an exception for quota exceeded, as we wish to recover from that
+                // NOTE: The carve-out does not actually work due to a bug in rumqttc where QuotaExceeded does not correctly surface.
+                // Instead it surfaces as a deserialization error, which we cannot accurately match. This implementation exists here
+                // as documentation of the desire for this behavior.
                 Err(ConnectionError::ConnectionRefused(rc))
                     if !matches!(rc, ConnectReturnCode::QuotaExceeded) =>
                 {
