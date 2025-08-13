@@ -4,7 +4,7 @@
 
 When DTDL was upgraded from v3 to v4, one key addition was support for [recursive schema definitions](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.v4.md#complex-schema).
 The motivation for this addition was to support several known use cases for self-referential definitions, such as those in [ONVIF](https://www.onvif.org/) and [OPC UA](https://opcfoundation.org/about/opc-technologies/opc-ua/).
-However, the DTDL ProtocolCompiler &mdash; which generates code from models that use the [Mqtt extension](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.mqtt.v3.md) &mdash; is not consistently able to generated code that functions correctly for recursive schemas.
+However, the DTDL ProtocolCompiler &mdash; which generates code from models that use the [Mqtt extension](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.mqtt.v3.md) &mdash; is not consistently able to generate code that functions correctly for recursive schemas.
 
 The problem most readily manifests when generating code in Rust.
 A recursive definition in Rust requires an indirection to prevent an infinitely large in-place definition.
