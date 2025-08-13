@@ -1,8 +1,11 @@
 ﻿using System.Buffers;
+using System.Globalization;
+using System.Net.Mime;
 using System.Text.Json;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.StateStore;
+using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
@@ -43,12 +46,10 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 var applicationMessage = await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
-                var cloudEvent = new IncomingTelemetryMetadata(applicationMessage, 0).GetCloudEvent();
-
-                Assert.NotNull(cloudEvent.Time);
-                Assert.NotNull(cloudEvent.Source);
-                Assert.Equal("my-rest-thermostat-endpoint-name", cloudEvent.Source.ToString());
-                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", cloudEvent.DataSchema);
+                Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
+                Assert.Equal("my-rest-thermostat-endpoint-name", GetCloudEventSourceFromMqttMessage(applicationMessage));
+                string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
+                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", dataSchema);
             }
             catch (TimeoutException)
             {
@@ -112,12 +113,10 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 var applicationMessage = await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
 
-                var cloudEvent = new IncomingTelemetryMetadata(applicationMessage, 0).GetCloudEvent();
-
-                Assert.NotNull(cloudEvent.Time);
-                Assert.NotNull(cloudEvent.Source);
-                Assert.Equal("my-rest-thermostat-endpoint-name", cloudEvent.Source.ToString());
-                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", cloudEvent.DataSchema);
+                Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
+                Assert.Equal("my-rest-thermostat-endpoint-name", GetCloudEventSourceFromMqttMessage(applicationMessage));
+                string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
+                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", dataSchema);
             }
             catch (TimeoutException)
             {
@@ -153,6 +152,39 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 Assert.Fail("Timed out waiting for SQL connector to push expected data to DSS. This likely means the connector did not deploy successfully");
             }
+        }
+
+        private static string safeGetUserProperty(MqttApplicationMessage mqttMessage, string name)
+        {
+            if (mqttMessage.UserProperties == null)
+            {
+                return "";
+            }
+
+            foreach (MqttUserProperty userProperty in mqttMessage.UserProperties)
+            {
+                if (userProperty.Name.Equals(name))
+                {
+                    return userProperty.Value;
+                }
+            }
+
+            return "";
+        }
+
+        private static string GetCloudEventSourceFromMqttMessage(MqttApplicationMessage mqttMessage)
+        {
+            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.Source));
+        }
+
+        private static string GetCloudEventTimeFromMqttMessage(MqttApplicationMessage mqttMessage)
+        {
+            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.Time));
+        }
+
+        private static string GetCloudEventDataSchemaFromMqttMessage(MqttApplicationMessage mqttMessage)
+        {
+            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.DataSchema));
         }
 
         private bool isValidPayload(ReadOnlySequence<byte> payload)

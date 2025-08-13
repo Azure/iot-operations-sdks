@@ -63,7 +63,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public MqttPayloadFormatIndicator PayloadFormatIndicator { get; internal set; }
 
 
-        public IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null)
+        internal IncomingTelemetryMetadata(MqttApplicationMessage message, uint packetId, string? topicPattern = null)
         {
             UserData = [];
 

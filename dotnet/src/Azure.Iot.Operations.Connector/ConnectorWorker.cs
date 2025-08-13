@@ -269,7 +269,8 @@ namespace Azure.Iot.Operations.Connector
                     cloudEvent = new(new Uri(inboundEndpointName, UriKind.RelativeOrAbsolute))
                     {
                         DataSchema = $"aio-sr://{registeredDatasetSchema.Namespace}/{registeredDatasetSchema.Name}:{registeredDatasetSchema.Version}",
-                        Time = _applicationContext.ApplicationHlc.Timestamp
+                        Time = _applicationContext.ApplicationHlc.Timestamp,
+                        Id = Guid.NewGuid().ToString(),
                     };
                 }
                 else
@@ -392,7 +393,8 @@ namespace Azure.Iot.Operations.Connector
                     cloudEvent = new(new Uri(inboundEndpointName))
                     {
                         DataSchema = $"aio-sr://{registeredEventSchema.Namespace}/{registeredEventSchema.Name}:{registeredEventSchema.Version}",
-                        Time = _applicationContext.ApplicationHlc.Timestamp
+                        Time = _applicationContext.ApplicationHlc.Timestamp,
+                        Id = Guid.NewGuid().ToString(),
                     };
                 }
                 else
