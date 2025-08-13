@@ -10,7 +10,7 @@ spec:
   enabled: true
   endpoints:
     inbound:
-      my_tcp_endpoint:
+      tcp-service.azure-iot-operations.svc.cluster.local:80:
         additionalConfiguration: '{}'
         address: tcp-service.azure-iot-operations.svc.cluster.local:80
         endpointType: Microsoft.Tcp
