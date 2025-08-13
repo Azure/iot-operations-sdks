@@ -93,7 +93,11 @@ help: insert some indirection (e.g., a `Box`, `Rc`, or `&`) to break the cycle
 
 This is a simple example, but a more complex example might include a recursive reference via a long chain of schema types.
 The infinite-size condition can be alleviated by the addition of one or more indirection points, but it would be wasteful to burden all generated Object fields with unnecessary `Box` wrappers merely to address this problem for the small number of models that include recursive definitions.
-On the other hand, judiciously placing indirection points only where needed is a non-trivial task to automate.
+On the other hand, judiciously placing indirection points only where needed is a challenging task to automate.
+
+What is not especially challenging is detecting recursive structures and flagging them as errors.
+The ProtocolCompiler already contains logic for this; it is used to forcibly skip generating a WoT Thing Description, because Thing Descriptions cannot contain any self-referential definitions.
+It will be up to the modeler to add indirection points as appropriate to remove all direct-recursion conditions in the model.
 
 ## Decision
 
@@ -130,6 +134,7 @@ For example, the tree node in the DTDL model above could be modified to add an I
 ```
 
 The ProtocolCompiler will be enhanced to support the Indirect adjunct type.
+It will also be enhanced to fail code generation when any directly recursive structures are detected in the model.
 This will affect code generation only in Rust, for which a `Box` will be wrapped around the field type, like so:
 
 ```rust
@@ -151,6 +156,10 @@ pub struct TreeNode {
     pub value: Option<f64>,
 }
 ```
+
+The Indirect adjunct type and the [Required](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.requirement.v1.md#required-adjunct-type) adjunct type will not be permitted to co-type the same Field.
+This is particularly relevant for Go, because generated Go Fields always use pointers unless they are co-typed Required.
+Since Required is disallowed when Indirect is specified, the Indirect adjunct type will prevent the Field pointer from being removed via a Required co-type.
 
 ### No new adjunct type for Array or Map
 
