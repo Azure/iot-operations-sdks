@@ -42,11 +42,11 @@ namespace Azure.Iot.Operations.Connector
         // Keys are <deviceName>_<inboundEndpointName>_<assetName> and values are the running task and their cancellation token to signal once the asset is no longer available or the connector is shutting down
         private readonly ConcurrentDictionary<string, UserTaskContext> _assetTasks = new();
 
-        // keys (in order of nesting) are composite device name, then asset name, then dataset name. The most nested value is the message schema registered for that device's asset's dataset
-        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ConcurrentDictionary<string, Schema>>> _registeredDatasetSchemasByDevice = new();
+        // keys are "{composite device name}_{asset name}_{dataset name}. The value is the message schema registered for that device's asset's dataset
+        private readonly ConcurrentDictionary<string, Schema> _registeredDatasetMessageSchemas = new();
 
-        // keys (in order of nesting) are composite device name, then asset name, then event name. The most nested value is the message schema registered for that device's asset's event
-        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, ConcurrentDictionary<string, Schema>>> _registeredEventSchemasByDevice = new();
+        // keys are "{composite device name}_{asset name}_{event name}. The value is the message schema registered for that device's asset's event
+        private readonly ConcurrentDictionary<string, Schema> _registeredEventMessageSchemas = new();
 
         /// <summary>
         /// Event handler for when an device becomes available.
@@ -260,22 +260,15 @@ namespace Azure.Iot.Operations.Connector
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
             CloudEvent? cloudEvent = null;
-            if (_registeredDatasetSchemasByDevice.TryGetValue($"{deviceName}_{inboundEndpointName}", out var registeredDatasetSchemasPerAsset)
-                && registeredDatasetSchemasPerAsset.TryGetValue(assetName, out var registeredSchemasPerDataset)
-                && registeredSchemasPerDataset.TryGetValue(dataset.Name, out var registeredDatasetSchema))
+            if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", out var registeredDatasetMessageSchema))
             {
                 if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
                 {
-                    cloudEvent = new(new Uri(inboundEndpointName, UriKind.RelativeOrAbsolute))
-                    {
-                        DataSchema = $"aio-sr://{registeredDatasetSchema.Namespace}/{registeredDatasetSchema.Name}:{registeredDatasetSchema.Version}",
-                        Time = _applicationContext.ApplicationHlc.Timestamp,
-                        Id = Guid.NewGuid().ToString(),
-                    };
+                    cloudEvent = ConstructCloudEventHeaders(inboundEndpointName, registeredDatasetMessageSchema);
                 }
                 else
                 {
-                    _logger.LogError("Cannot construct cloud event for dataset because its inbound enpoint name is not a valid Uri or Uri reference");
+                    _logger.LogError("Cannot construct cloud event headers for dataset because its inbound endpoint name is not a valid Uri or Uri reference");
                 }
             }
 
@@ -384,22 +377,15 @@ namespace Azure.Iot.Operations.Connector
             }
 
             CloudEvent? cloudEvent = null;
-            if (_registeredEventSchemasByDevice.TryGetValue($"{deviceName}_{inboundEndpointName}", out var registeredEventSchemasPerAsset)
-                && registeredEventSchemasPerAsset.TryGetValue(assetName, out var registeredSchemasPerEvent)
-                && registeredSchemasPerEvent.TryGetValue(assetEvent.Name, out var registeredEventSchema))
+            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", out var registeredEventMessageSchema))
             {
                 if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
                 {
-                    cloudEvent = new(new Uri(inboundEndpointName))
-                    {
-                        DataSchema = $"aio-sr://{registeredEventSchema.Namespace}/{registeredEventSchema.Name}:{registeredEventSchema.Version}",
-                        Time = _applicationContext.ApplicationHlc.Timestamp,
-                        Id = Guid.NewGuid().ToString(),
-                    };
+                    cloudEvent = ConstructCloudEventHeaders(inboundEndpointName, registeredEventMessageSchema);
                 }
                 else
                 {
-                    _logger.LogError("Cannot construct cloud event for dataset because its inbound enpoint name is not a valid Uri or Uri reference.");
+                    _logger.LogError("Cannot construct cloud event headers for event because its inbound endpoint name is not a valid Uri or Uri reference.");
                 }
             }
 
@@ -618,22 +604,7 @@ namespace Azure.Iot.Operations.Connector
 
                             _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
-                            if (!_registeredDatasetSchemasByDevice.ContainsKey(compoundDeviceName))
-                            {
-                                _registeredDatasetSchemasByDevice.TryAdd(compoundDeviceName, new());
-                            }
-
-                            _registeredDatasetSchemasByDevice.TryGetValue(compoundDeviceName, out var registeredSchemasByAsset);
-
-                            if (!registeredSchemasByAsset!.ContainsKey(assetName))
-                            {
-                                registeredSchemasByAsset!.TryAdd(assetName, new());
-                            }
-
-                            registeredSchemasByAsset.TryGetValue(assetName, out var registeredSchemasByDataset);
-
-                            registeredSchemasByDataset!.Remove(dataset.Name, out var _);
-                            registeredSchemasByDataset!.TryAdd(dataset.Name, registeredSchema);
+                            _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", new());
                         }
                         catch (Exception ex)
                         {
@@ -672,22 +643,7 @@ namespace Azure.Iot.Operations.Connector
 
                             _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
-                            if (!_registeredEventSchemasByDevice.ContainsKey(compoundDeviceName))
-                            {
-                                _registeredEventSchemasByDevice.TryAdd(compoundDeviceName, new());
-                            }
-
-                            _registeredEventSchemasByDevice.TryGetValue(compoundDeviceName, out var registeredSchemasByAsset);
-
-                            if (!registeredSchemasByAsset!.ContainsKey(assetName))
-                            {
-                                registeredSchemasByAsset!.TryAdd(assetName, new());
-                            }
-
-                            registeredSchemasByAsset.TryGetValue(assetName, out var registeredSchemasByDataset);
-
-                            registeredSchemasByDataset!.Remove(assetEvent.Name, out var _);
-                            registeredSchemasByDataset!.TryAdd(assetEvent.Name, registeredEventSchema);
+                            _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", new());
                         }
                         catch (Exception ex)
                         {
@@ -749,6 +705,16 @@ namespace Azure.Iot.Operations.Connector
         private string GetCompoundAssetName(string compoundDeviceName, string assetName)
         {
             return compoundDeviceName + "_" + assetName;
+        }
+
+        private CloudEvent ConstructCloudEventHeaders(string inboundEndpointName, Schema registeredSchema)
+        {
+            return new(new Uri(inboundEndpointName, UriKind.RelativeOrAbsolute))
+            {
+                DataSchema = $"aio-sr://{registeredSchema.Namespace}/{registeredSchema.Name}:{registeredSchema.Version}",
+                Time = _applicationContext.ApplicationHlc.Timestamp,
+                Id = Guid.NewGuid().ToString(),
+            };
         }
     }
 }
