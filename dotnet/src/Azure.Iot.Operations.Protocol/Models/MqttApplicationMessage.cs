@@ -214,7 +214,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             }
 
             AddUserProperty(nameof(md.Type).ToLowerInvariant(), md.Type);
-            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source);
+            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source.ToString());
 
             if (md.Time is not null)
             {
