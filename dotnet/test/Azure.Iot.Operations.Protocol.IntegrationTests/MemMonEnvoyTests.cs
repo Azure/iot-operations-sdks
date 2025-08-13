@@ -115,7 +115,7 @@ public class MemMonEnvoyTests
         var MemoryStatsCorrelationId = Guid.NewGuid();
         var MemoryStatsUserDataKey = Guid.NewGuid().ToString();
         var MemoryStatsUserDataValue = Guid.NewGuid().ToString();
-        var MemoryStatsTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq").ToString()) };
+        var MemoryStatsTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq")) };
         MemoryStatsTelemetryMetadata.UserData.Add(MemoryStatsUserDataKey, MemoryStatsUserDataValue);
         await memMonService.SendTelemetryAsync(new MemoryStatsTelemetry() { MemoryStats = new MemoryStatsSchema { ManagedMemory = 3, WorkingSet = 4 } }, MemoryStatsTelemetryMetadata);
 
@@ -129,7 +129,7 @@ public class MemMonEnvoyTests
         var ManagedMemoryCorrelationId = Guid.NewGuid();
         var ManagedMemoryUserDataKey = Guid.NewGuid().ToString();
         var ManagedMemoryUserDataValue = Guid.NewGuid().ToString();
-        var ManagedMemoryTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq").ToString()) };
+        var ManagedMemoryTelemetryMetadata = new OutgoingTelemetryMetadata() { CloudEvent = new CloudEvent(new Uri("test://mq")) };
         ManagedMemoryTelemetryMetadata.UserData.Add(ManagedMemoryUserDataKey, ManagedMemoryUserDataValue);
         await memMonService.SendTelemetryAsync(new ManagedMemoryTelemetry() { ManagedMemory = 2 }, ManagedMemoryTelemetryMetadata);
 
