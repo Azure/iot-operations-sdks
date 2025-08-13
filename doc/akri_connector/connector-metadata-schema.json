@@ -40,7 +40,7 @@
       "properties": {
         "maximum": {
           "type": "integer",
-          "minimum": 1, //TODO
+          "minimum": 1,
           "description": "The maximum number of this model type that this connector supports. If not specified, the default is whatever limits the ADR service itself has. If this value is 0, then this connector does not support using this model type (i.e. the connector supports datasets, but not events)."
         },
         "minimum": {
@@ -458,43 +458,6 @@
             "version": {
               "type": "string",
               "description": "The version of the protocol of this inbound endpoint."
-            },
-            "expectedModelFields" : {
-              "type": "object",
-              "description": "defines which fields (which vary in necessity from connector to connector) are expected/not expected in this connector's asset definition",
-              "properties": {
-                "eventNotifier": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "eventDataPointDataSource": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "datasetDataSource": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "datasetDataPointDataSource": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "datasetTypeRef": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "datasetDataPointTypeRef": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "eventTypeRef": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "managementGroupTypeRef": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "managementGroupActionTypeRef": {
-                  "$ref": "#/definitions/fieldNecessity"
-                },
-                "streamTypeRef": {
-                  "$ref": "#/definitions/fieldNecessity"
-                }
-              },
-              "required": ["eventNotifier", "eventDataPointDataSource", "datasetDataPointDataSource", "datasetTypeRef", "datasetDataPointTypeRef", "eventTypeRef", "managementGroupTypeRef", "managementGroupActionTypeRef", "streamTypeRef", "datasetDataSource"]
             },
             "supportedModeling": {
               "type": "object",

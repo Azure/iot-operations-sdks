@@ -28,60 +28,21 @@
             }
           }
       },
-      "expectedModelFields" : {
-        "datasetDataSource": {
-          "input" : "unsupported"
-        },
-        "datasetDataPointDataSource": {
-          "input" : "required",
-          "exampleValue": "/some/http/path"
-        },
-        "eventNotifier": {
-          "input" : "unsupported"
-        },
-        "eventDataPointDataSource": {
-          "input" : "unsupported"
-        },
-        "datasetTypeRef": {
-          "input" : "unsupported"
-        },
-        "datasetDataPointTypeRef": {
-          "input" : "unsupported"
-        },
-        "eventTypeRef": {
-          "input" : "unsupported"
-        },
-        "managementGroupTypeRef": {
-          "input" : "unsupported"
-        },
-        "managementGroupActionTypeRef": {
-          "input" : "unsupported"
-        },
-        "streamTypeRef": {
-          "input" : "unsupported"
-        }
-      },
-      "modelLimits" : {
-        "events" : { 
-          "maximum": 0
-        },
-        "datasets" : { 
-          "minimum": 1
-        },
-        "eventDataPoints" : { 
-          "maximum": 0
-        },
-        "datasetDataPoints" : { 
-          "minimum": 1
-        },
-        "managementGroups" : { 
-          "maximum": 0
-        },
-        "managementGroupActions" : { 
-          "maximum": 0
-        },
-        "streams" : { 
-          "maximum": 0
+      "supportedModeling": {
+        "datasets" : {
+          "limits": { 
+            "minimum": 0
+          },
+          "fields": {
+            "dataSource": { 
+              "input": "required",
+              "exampleValue": "/api/thermostat/current",
+              "description": "The path on the HTTP server"
+            },
+            "typeRef": { 
+              "input": "unsupported"
+            }
+          }
         }
       }
     }
