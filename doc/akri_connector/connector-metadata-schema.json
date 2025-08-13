@@ -103,20 +103,6 @@
       "required": [
         "defaultBrokerStateStoreKey"
       ]
-    },
-    "naming": {
-      "type": "object",
-      "description": "The different names for a given model",
-      "properties": {
-        "singular": {
-          "type": "string",
-          "description": "The singular display name"
-        },
-        "plural": {
-          "type": "string",
-          "description": "The plural display name"
-        }
-      }
     }
   },
   "properties": {
@@ -461,16 +447,16 @@
             },
             "supportedModeling": {
               "type": "object",
-              "description" : "If present, modeling is supported? Todo",
+              "description" : "The list of models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all. A connector must support at least one type of modeling. A connector may support more than one type of modeling.",
               "properties": {
                 "events" : { 
                   "type": "object",
-                  "description" : "TODO",
+                  "description" : "If present, this connector supports using events.",
                   "properties": {
                     "limits": { "$ref": "#/definitions/modelLimits" },
                     "fields": {
                       "type": "object",
-                      "description" : "TODO",
+                      "description" : "How to use/if a field should be used for event-specific fields",
                       "properties": {
                         "eventNotifier": { "$ref": "#/definitions/fieldNecessity" },
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
@@ -481,12 +467,12 @@
                 },
                 "datasets" : {
                   "type": "object",
-                  "description" : "TODO",
+                  "description" : "If present, this connector supports using datasets.",
                   "properties": {
                     "limits": { "$ref": "#/definitions/modelLimits" },
                     "fields": {
                       "type": "object",
-                      "description" : "TODO",
+                      "description" : "How to use/if a field should be used for dataset-specific fields",
                       "properties": {
                         "dataSource": { "$ref": "#/definitions/fieldNecessity" },
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
@@ -497,46 +483,85 @@
                 },
                 "eventDataPoints" : { 
                   "type": "object",
-                  "description" : "TODO",
+                  "description" : "If present, this connector supports using event datapoints.",
                   "properties": {
                     "limits" : { "$ref": "#/definitions/modelLimits" },
-                    "dataSource": { "$ref": "#/definitions/fieldNecessity" }
+                    "fields": {
+                      "type": "object",
+                      "description" : "How to use/if a field should be used for event datapoint-specific fields",
+                      "properties": {
+                        "dataSource": { "$ref": "#/definitions/fieldNecessity" }
+                      }
+                    }
                   }    
                 },
                 "datasetDataPoints" : { 
                   "type": "object",
-                  "description" : "TODO",
+                  "description" : "If present, this connector supports using dataset datapoints.",
                   "properties": {
                     "limits" : { "$ref": "#/definitions/modelLimits" },
-                    "dataSource": { "$ref": "#/definitions/fieldNecessity" },
-                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                    "fields": {
+                      "type": "object",
+                      "description" : "How to use/if a field should be used for dataset datapoint-specific fields",
+                      "properties": {
+                        "dataSource": { "$ref": "#/definitions/fieldNecessity" },
+                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                      }
+                    }
                   }    
                 },
                 "managementGroups" : { 
                   "type": "object",
-                  "description" : "TODO",
+                  "description" : "If present, this connector supports using management groups.",
                   "properties": {
                     "limits" : { "$ref": "#/definitions/modelLimits" },
-                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                    "fields": {
+                      "type": "object",
+                      "description" : "How to use/if a field should be used for management group-specific fields",
+                      "properties": {
+                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                      }
+                    }
                   }    
                 },
                 "managementGroupActions" : { 
                   "type": "object",
-                  "description" : "TODO",
+                  "description" : "If present, this connector supports using management group actions.",
                   "properties": {
                     "limits" : { "$ref": "#/definitions/modelLimits" },
-                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                    "fields": {
+                      "type": "object",
+                      "description" : "How to use/if a field should be used for management group action-specific fields",
+                      "properties": {
+                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                      }
+                    }
                   }    
                 },
                 "streams" : { 
                   "type": "object",
-                  "description" : "TODO",
+                  "description" : "If present, this connector supports using streams.",
                   "properties": {
                     "limits" : { "$ref": "#/definitions/modelLimits" },
-                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                    "fields": {
+                      "type": "object",
+                      "description" : "How to use/if a field should be used for stream-specific fields",
+                      "properties": {
+                        "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                      }
+                    }
                   }    
                 }
-              }
+              },
+              "anyOf": [
+                {"required": ["events"]},
+                {"required": ["datasets"]},
+                {"required": ["eventDataPoints"]},
+                {"required": ["datasetDataPoints"]},
+                {"required": ["managementGroups"]},
+                {"required": ["managementGroupActions"]},
+                {"required": ["streams"]}
+              ]
             }
           },
           "required": [

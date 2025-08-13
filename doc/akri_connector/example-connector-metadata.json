@@ -185,60 +185,36 @@
           "defaultRetain": "never"
         }
       },
-      "expectedModelFields" : {
-        "datasetDataSource": {
-          "input" : "required"
+      "supportedModeling": {
+        "datasets" : {
+          "limits": { 
+            "minimum": 0
+          },
+          "fields": {
+            "dataSource": { 
+              "input": "required",
+              "exampleValue": "/api/thermostat/current",
+              "description": "The path on the HTTP server"
+            },
+            "typeRef": { 
+              "input": "unsupported"
+            }
+          }
         },
-        "datasetDataPointDataSource": {
-          "input" : "required",
-          "exampleValue": "/some/http/path"
-        },
-        "eventNotifier": {
-          "input" : "required"
-        },
-        "eventDataPointDataSource": {
-          "input" : "required"
-        },
-        "datasetTypeRef": {
-          "input" : "required"
-        },
-        "datasetDataPointTypeRef": {
-          "input" : "required"
-        },
-        "eventTypeRef": {
-          "input" : "required"
-        },
-        "managementGroupTypeRef": {
-          "input" : "required"
-        },
-        "managementGroupActionTypeRef": {
-          "input" : "required"
-        },
-        "streamTypeRef": {
-          "input" : "required"
-        }
-      },
-      "modelLimits" : {
-        "events" : { 
-          "minimum": 1
-        },
-        "datasets" : { 
-          "minimum": 1
-        },
-        "eventDataPoints" : { 
-          "minimum": 1
-        },
-        "datasetDataPoints" : { 
-          "minimum": 1
-        },
-        "managementGroups" : { 
-          "minimum": 1
-        },
-        "managementGroupActions" : { 
-          "minimum": 1
-        },
-        "streams" : { 
-          "minimum": 1
+        "events": {
+          "limits": { 
+            "minimum": 0
+          },
+          "fields": {
+            "eventNotifier": { 
+              "input": "required",
+              "exampleValue": "/api/thermostat/current",
+              "description": "The path on the HTTP server to receive events on"
+            },
+            "typeRef": { 
+              "input": "unsupported"
+            }
+          }
         }
       }
     }
