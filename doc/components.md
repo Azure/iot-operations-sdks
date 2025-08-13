@@ -114,6 +114,6 @@ As we are using dependency injection to initialize the Envoys, we need to provid
 
 ### Message Metadata
 
-Additionally to the defined topics, messages will include metadata properties to help with message ordering and flow control using timestamps based on the [Hybrid Logical Clock (HLC)](https://en.wikipedia.org/wiki/Logical_clock).
+In addition to the defined topics, messages include metadata properties to assist with message ordering and flow control using timestamps based on the [Hybrid Logical Clock (HLC)](https://en.wikipedia.org/wiki/Logical_clock). Application-level metadata can also be specified and will be set as custom MQTT user properties on the message.
 
 <!-- TODO: Revise message metadata doc Described in detail in [message-metadata.md](reference/message-metadata.md).-->
