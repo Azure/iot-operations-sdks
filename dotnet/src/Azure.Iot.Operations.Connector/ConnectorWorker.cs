@@ -264,11 +264,18 @@ namespace Azure.Iot.Operations.Connector
                 && registeredDatasetSchemasPerAsset.TryGetValue(assetName, out var registeredSchemasPerDataset)
                 && registeredSchemasPerDataset.TryGetValue(dataset.Name, out var registeredDatasetSchema))
             {
-                cloudEvent = new(new Uri(inboundEndpointName), "ms.aio.telemetry", "1.0")
+                if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
                 {
-                    DataSchema = $"aio-sr://{registeredDatasetSchema.Namespace}/{registeredDatasetSchema.Name}:{registeredDatasetSchema.Version}",
-                    Time = _applicationContext.ApplicationHlc.Timestamp
-                };
+                    cloudEvent = new(new Uri(inboundEndpointName, UriKind.RelativeOrAbsolute))
+                    {
+                        DataSchema = $"aio-sr://{registeredDatasetSchema.Namespace}/{registeredDatasetSchema.Name}:{registeredDatasetSchema.Version}",
+                        Time = _applicationContext.ApplicationHlc.Timestamp
+                    };
+                }
+                else
+                {
+                    _logger.LogError("Cannot construct cloud event for dataset because its inbound enpoint name is not a valid Uri or Uri reference");
+                }
             }
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
@@ -380,11 +387,18 @@ namespace Azure.Iot.Operations.Connector
                 && registeredEventSchemasPerAsset.TryGetValue(assetName, out var registeredSchemasPerEvent)
                 && registeredSchemasPerEvent.TryGetValue(assetEvent.Name, out var registeredEventSchema))
             {
-                cloudEvent = new(new Uri(inboundEndpointName))
+                if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
                 {
-                    DataSchema = $"aio-sr://{registeredEventSchema.Namespace}/{registeredEventSchema.Name}:{registeredEventSchema.Version}",
-                    Time = _applicationContext.ApplicationHlc.Timestamp
-                };
+                    cloudEvent = new(new Uri(inboundEndpointName))
+                    {
+                        DataSchema = $"aio-sr://{registeredEventSchema.Namespace}/{registeredEventSchema.Name}:{registeredEventSchema.Version}",
+                        Time = _applicationContext.ApplicationHlc.Timestamp
+                    };
+                }
+                else
+                {
+                    _logger.LogError("Cannot construct cloud event for dataset because its inbound enpoint name is not a valid Uri or Uri reference.");
+                }
             }
 
             foreach (var destination in assetEvent.Destinations)
