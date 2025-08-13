@@ -303,12 +303,12 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 Uri sourceUri = new Uri(actionSendTelemetry.CloudEvent.Source!, UriKind.RelativeOrAbsolute);
 
                 metadata.CloudEvent = actionSendTelemetry.CloudEvent.Type != null && actionSendTelemetry.CloudEvent.SpecVersion != null
-                    ? new CloudEvent(sourceUri.ToString(), actionSendTelemetry.CloudEvent.Type, actionSendTelemetry.CloudEvent.SpecVersion)
+                    ? new CloudEvent(sourceUri, actionSendTelemetry.CloudEvent.Type, actionSendTelemetry.CloudEvent.SpecVersion)
                     : actionSendTelemetry.CloudEvent.Type != null
-                        ? new CloudEvent(sourceUri.ToString(), type: actionSendTelemetry.CloudEvent.Type)
+                        ? new CloudEvent(sourceUri, type: actionSendTelemetry.CloudEvent.Type)
                         : actionSendTelemetry.CloudEvent.SpecVersion != null
-                                            ? new CloudEvent(sourceUri.ToString(), specversion: actionSendTelemetry.CloudEvent.SpecVersion)
-                                            : new CloudEvent(sourceUri.ToString());
+                                            ? new CloudEvent(sourceUri, specversion: actionSendTelemetry.CloudEvent.SpecVersion)
+                                            : new CloudEvent(sourceUri);
 
                 if (actionSendTelemetry.CloudEvent.Id != null)
                 {

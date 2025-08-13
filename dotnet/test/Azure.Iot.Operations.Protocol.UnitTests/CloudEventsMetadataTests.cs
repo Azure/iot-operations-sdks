@@ -10,7 +10,7 @@ public class CloudEventsMetadataTests
     [Fact]
     public void DefaultValues()
     {
-        var metadata = new CloudEvent(new Uri("a", UriKind.RelativeOrAbsolute).ToString(), "tel-type");
+        var metadata = new CloudEvent(new Uri("a", UriKind.RelativeOrAbsolute), "tel-type");
         
         Assert.Equal("1.0", metadata.SpecVersion);
         Assert.Equal("tel-type", metadata.Type);
@@ -35,7 +35,7 @@ public class CloudEventsMetadataTests
         var subject = "test";
         var time = DateTime.Now;
 
-        var metadata = new CloudEvent(source.ToString(), type, specVersion)
+        var metadata = new CloudEvent(source, type, specVersion)
         {
             Id = id,
             DataContentType = dataContentType,
@@ -45,7 +45,7 @@ public class CloudEventsMetadataTests
         };
 
         Assert.Equal(id, metadata.Id);
-        Assert.Equal(source.ToString(), metadata.Source);
+        Assert.Equal(source, metadata.Source);
         Assert.Equal(specVersion, metadata.SpecVersion);
         Assert.Equal(type, metadata.Type);
         Assert.Equal(dataContentType, metadata.DataContentType);

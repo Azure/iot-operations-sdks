@@ -142,7 +142,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 throw new ArgumentException("Could not parse cloud event from telemetry: Cloud events time must be a valid RFC3339 date-time");
             }
 
-            return new CloudEvent(source.ToString(), type)
+            return new CloudEvent(source, type)
             {
                 Id = id,
                 Time = _dateTime,
