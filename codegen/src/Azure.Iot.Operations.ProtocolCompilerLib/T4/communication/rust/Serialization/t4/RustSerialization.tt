@@ -19,6 +19,23 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 <# } #>
 use super::<#=this.schemaClassName.GetFileName(TargetLanguage.Rust)#>::<#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#>;
 
+<#
+    var contentTypeConstName = this.schemaClassName.GetConstantName(TargetLanguage.Rust, "content", "type");
+#>
+const <#=contentTypeConstName#>: &str = "<#=this.contentType#>";
+
+impl <#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#> {
+    fn is_content_type(content_type: &str) -> bool {
+        content_type.starts_with(<#=contentTypeConstName#>)
+            && matches!(
+                content_type
+                    .chars()
+                    .nth(<#=contentTypeConstName#>.len()),
+                None | Some('+' | ';')
+            )
+    }
+}
+
 impl PayloadSerialize for <#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#> {
 <# if (this.serdeLib != null) { #>
     type Error = <#=this.serdeLib#>::Error;
@@ -41,7 +58,7 @@ let payload = <# foreach (string serializeLine in this.serializeCode) { #>
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
-            if content_type != "<#=this.contentType#>" {
+            if !<#=this.schemaClassName.GetTypeName(TargetLanguage.Rust)#>::is_content_type(content_type) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be '<#=this.contentType#>'"
                 )));

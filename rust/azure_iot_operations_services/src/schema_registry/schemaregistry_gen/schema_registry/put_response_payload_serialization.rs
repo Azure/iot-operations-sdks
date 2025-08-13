@@ -7,6 +7,20 @@ use serde_json;
 
 use super::put_response_payload::PutResponsePayload;
 
+const PUT_RESPONSE_PAYLOAD_CONTENT_TYPE: &str = "application/json";
+
+impl PutResponsePayload {
+    fn is_content_type(content_type: &str) -> bool {
+        content_type.starts_with(PUT_RESPONSE_PAYLOAD_CONTENT_TYPE)
+            && matches!(
+                content_type
+                    .chars()
+                    .nth(PUT_RESPONSE_PAYLOAD_CONTENT_TYPE.len()),
+                None | Some('+' | ';')
+            )
+    }
+}
+
 impl PayloadSerialize for PutResponsePayload {
     type Error = serde_json::Error;
 
@@ -25,7 +39,7 @@ impl PayloadSerialize for PutResponsePayload {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
-            if content_type != "application/json" {
+            if !PutResponsePayload::is_content_type(content_type) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be 'application/json'"
                 )));
