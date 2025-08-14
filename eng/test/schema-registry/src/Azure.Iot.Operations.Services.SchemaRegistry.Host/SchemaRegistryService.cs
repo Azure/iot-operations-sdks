@@ -64,7 +64,7 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
                 Name = id,
                 SchemaContent = request.SchemaContent,
                 Format = request.Format,
-                Version = "1.0.0",
+                Version = request.Version,
                 Tags = request.Tags,
                 SchemaType = request.SchemaType,
                 Namespace = "DefaultSRNamespace"
