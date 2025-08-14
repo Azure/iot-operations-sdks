@@ -300,6 +300,10 @@
         }
       ]
     },
+    "inboundEndpointAlternativeTypeName" : { 
+      "$ref" : "#/definitions/alternativeTypeName",
+      "description": "The alternative name to the type \"inboundEndpoint\" in a device"
+    },
     "inboundEndpoints": {
       "type": "array",
       "description": "The array of inbound endpoints in a device that this connector will be deployed for.",
@@ -555,10 +559,6 @@
                 {"required": ["managementGroups"]},
                 {"required": ["streams"]}
               ]
-            },
-            "alternativeTypeName" : { 
-              "$ref" : "#/definitions/alternativeTypeName",
-              "description": "The alternative name to the type \"inboundEndpoint\" in a device"
             }
           },
           "additionalProperties": false,
