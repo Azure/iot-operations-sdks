@@ -7,6 +7,20 @@ use serde_json;
 
 use super::get_request_schema::GetRequestSchema;
 
+const GET_REQUEST_SCHEMA_CONTENT_TYPE: &str = "application/json";
+
+impl GetRequestSchema {
+    fn is_content_type(content_type: &str) -> bool {
+        content_type.starts_with(GET_REQUEST_SCHEMA_CONTENT_TYPE)
+            && matches!(
+                content_type
+                    .chars()
+                    .nth(GET_REQUEST_SCHEMA_CONTENT_TYPE.len()),
+                None | Some('+' | ';')
+            )
+    }
+}
+
 impl PayloadSerialize for GetRequestSchema {
     type Error = serde_json::Error;
 
@@ -25,7 +39,7 @@ impl PayloadSerialize for GetRequestSchema {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
-            if content_type != "application/json" {
+            if !GetRequestSchema::is_content_type(content_type) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be 'application/json'"
                 )));

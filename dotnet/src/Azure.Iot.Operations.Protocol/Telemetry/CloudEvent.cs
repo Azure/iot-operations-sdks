@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// the organization publishing the event or the process that produced the event. 
         /// The exact syntax and semantics behind the data encoded in the URI is defined by the event producer.
         /// </summary>
-        public Uri? Source => source;
+        public Uri Source => source;
 
         /// <summary>The version of the CloudEvents specification which the event uses. 
         /// This enables the interpretation of the context. 
