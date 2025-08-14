@@ -95,6 +95,10 @@
                     "type": "integer"
                   }
                 }
+              },
+              "alternativeTypeName": {
+                "singular": "tag",
+                "plural": "tags"
               }
             }
           }
