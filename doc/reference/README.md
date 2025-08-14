@@ -37,4 +37,4 @@ This directory contains documentation relating to the implementation of the SDKs
 |-|-|-|
 | :green_circle: | [Package Versioning](package-versioning.md) | Outline of the package versioning strategy implemented by the SDKs |
 | :green_circle: | [Protocol Versioning](protocol-versioning.md) | Describes how changing protocol versions are managed across different package versions |
-| :green_circle: | [Repository Structure](repository-structure.md) | The directory structure used by this repository |
+| :yellow_circle: | [Repository Structure](repository-structure.md) | The directory structure used by this repository |

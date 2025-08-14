@@ -13,7 +13,7 @@ The MqttConnectionSettings class enables the operator to configure the MQTT Conn
 |Name|Environment variable|Required|Type|Default value|Description|
 |-|-|-|-|-|-|
 |`Hostname`|`AIO_BROKER_HOSTNAME`|yes|string|n/a|FQDN to the endpoint, eg: mybroker.mydomain.com|
-|`TcpPort`|`AIO_BROKER_TCP_PORT`|no|uint16|`18883`|TCP port to access the endpoint eg: 18883|
+|`TcpPort`|`AIO_BROKER_TCP_PORT`|no|uint16|`8883`|TCP port to access the endpoint eg: 8883|
 |`UseTls`|`AIO_MQTT_USE_TLS`|no|bool|`true`|Enable TLS negotiation (disabling not recommended for production)|
 |`CaFile`|`AIO_TLS_CA_FILE`|no|string|null|Path to a PEM file to validate server identity|
 |`CleanStart`|`AIO_MQTT_CLEAN_START`|no|bool|false|Whether to use persistent session on first connect, subsequent connections will be `false`. `true` requires a unique `ClientId`.
@@ -27,18 +27,29 @@ The MqttConnectionSettings class enables the operator to configure the MQTT Conn
 |`KeyPasswordFile`|`AIO_TLS_KEY_PASSWORD_FILE`|no|string|null|Password (aka pass-phrase) to protect the key| 
 |`SatAuthFile`|`AIO_SAT_FILE`|no|string|null|Path to a file with the token to be used with SAT auth|
 
-## Authentication Priority
+## Authentication Methods
 
-The following table defines the different authentication methods, and the priority in which they will be used.
+The MQTT connection supports multiple authentication methods that can be used independently or in combination:
+
+### Mutually Exclusive Authentication Methods
+
+The following authentication methods are **mutually exclusive** - only one can be configured:
+
+| Authentication Method | Required Settings | Description |
+|-|-|-|
+| SAT (Service Account Token) | `SatAuthFile` | Kubernetes service account token authentication |
+| Username/Password | `Username` & `PasswordFile` | Basic authentication with credentials |
 
 > [!CAUTION]
-> If any configuration for an authentication method is present, then that authentication will be used if it has the highest priority:
+> Configuring both SAT and Username/Password authentication simultaneously will result in a configuration validation error during connection initialization.
 
-| Priority | Authentication | Settings |
+### X.509 Certificate Authentication
+
+X.509 client certificate authentication can be used **independently** or **combined** with either primary authentication method:
+
+| Authentication Method | Required Settings | Description |
 |-|-|-|
-| 1 | SAT |  `SatAuthFile` |
-| 2 | x509 | `CertFile` & `KeyFile` |
-| 3 | Username / password |`Username` & `PasswordFile` |
+| X.509 Certificate | `CertFile` & `KeyFile` | Client certificate authentication for TLS |
 
 ## Initialization
 
@@ -66,7 +77,7 @@ export AIO_MQTT_USE_TLS=false
 MqttConnectionSettings connSettings = MqttConnectionSettings.CreateFromEnvVars();
 ```
 
-### Initialize from connection string
+### Initialize from connection string (.NET only)
 
 ```cs
 string connectionString = "HostName=aio-broker;TcpPort=1883;UseTls=false";
