@@ -317,7 +317,7 @@
                 },
                 "defaultDestination": {
                   "type": "string",
-                  "description": "The destination that this asset's events will go to by default unless event-specific destinations are specified.",
+                  "description": "The destination that this asset's events will go to by default unless specified otherwise in the asset or the event.",
                   "enum": [
                     "Mqtt",
                     "Storage"
@@ -347,7 +347,7 @@
                 },
                 "defaultDestination": {
                   "type": "string",
-                  "description": "The destination that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
+                  "description": "The destination that this asset's datasets will go to by default unless specified otherwise in the asset or the dataset.",
                   "enum": [
                     "Mqtt",
                     "BrokerStateStore",
@@ -380,7 +380,7 @@
                 },
                 "defaultDestination": {
                   "type": "string",
-                  "description": "The destination that this asset's streams will go to by default unless stream-specific destinations are specified.",
+                  "description": "The destination that this asset's streams will go to by default unless unless specified otherwise in the asset or the stream.",
                   "enum": [
                     "Mqtt",
                     "Storage"
