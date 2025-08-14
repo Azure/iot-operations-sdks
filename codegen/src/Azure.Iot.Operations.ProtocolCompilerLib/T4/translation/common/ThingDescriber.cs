@@ -119,7 +119,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         {
             if (this.ancestralSchemaIds.Contains(schemaId))
             {
-                throw new RecursionException(schemaId);
+                throw new RecursionException(new CodeName(schemaId));
             }
 
             this.ancestralSchemaIds.Add(schemaId);
