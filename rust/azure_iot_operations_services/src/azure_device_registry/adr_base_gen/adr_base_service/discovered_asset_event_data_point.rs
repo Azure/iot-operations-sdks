@@ -30,7 +30,5 @@ pub struct DiscoveredAssetEventDataPoint {
     pub last_updated_on: Option<DateTime<Utc>>,
 
     /// The name of the data point.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub name: Option<String>,
+    pub name: String,
 }

@@ -32,10 +32,10 @@ pub struct AssetManagementGroupActionSchemaElementSchema {
     pub target_uri: String,
 
     /// Response timeout for the action.
-    #[serde(rename = "timeOutInSeconds")]
+    #[serde(rename = "timeoutInSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub time_out_in_seconds: Option<u32>,
+    pub timeout_in_seconds: Option<u32>,
 
     /// The MQTT topic path on which a client will receive the request for the action.
     #[serde(skip_serializing_if = "Option::is_none")]

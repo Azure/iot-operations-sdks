@@ -1559,7 +1559,7 @@
                         },
                         {
                           "@type": "Field",
-                          "name": "timeOutInSeconds",
+                          "name": "timeoutInSeconds",
                           "description": "Response timeout for the action.",
                           "schema": "unsignedInteger"
                         },
@@ -1581,7 +1581,7 @@
                 },
                 {
                   "@type": "Field",
-                  "name": "defaultTimeOutInSeconds",
+                  "name": "defaultTimeoutInSeconds",
                   "description": "Default response timeout for all actions that are part of the management group.",
                   "schema": "unsignedInteger"
                 },
@@ -2101,7 +2101,10 @@
           "schema": "dateTime"
         },
         {
-          "@type": "Field",
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
           "description": "The name of the data point.",
           "schema": "string"
@@ -2200,7 +2203,10 @@
           "schema": "dateTime"
         },
         {
-          "@type": "Field",
+          "@type": [
+            "Field",
+            "Required"
+          ],
           "name": "name",
           "description": "The name of the data point.",
           "schema": "string"
@@ -2222,7 +2228,7 @@
         },
         {
           "@type": "Field",
-          "name": "defaultTimeOutInSeconds",
+          "name": "defaultTimeoutInSeconds",
           "description": "Default response timeout for all actions that are part of the management group.",
           "schema": "unsignedInteger"
         },
@@ -2306,7 +2312,7 @@
         },
         {
           "@type": "Field",
-          "name": "timeOutInSeconds",
+          "name": "timeoutInSeconds",
           "description": "Response timeout for the action.",
           "schema": "unsignedInteger"
         },

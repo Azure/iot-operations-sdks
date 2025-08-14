@@ -12,7 +12,7 @@ public class AssetManagementGroupAction
 
     public string TargetUri { get; set; } = default!;
 
-    public uint? TimeOutInSeconds { get; set; } = default;
+    public uint? TimeoutInSeconds { get; set; } = default;
 
     public string? Topic { get; set; } = default;
 

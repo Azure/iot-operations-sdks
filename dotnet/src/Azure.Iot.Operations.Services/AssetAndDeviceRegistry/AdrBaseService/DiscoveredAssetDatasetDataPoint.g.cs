@@ -38,8 +38,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// The name of the data point.
         /// </summary>
         [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Name { get; set; } = default!;
 
         /// <summary>
         /// URI or type definition ID.
@@ -54,6 +55,10 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 throw new ArgumentNullException("dataSource field cannot be null");
             }
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
         }
 
         void IJsonOnSerializing.OnSerializing()
@@ -61,6 +66,10 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             if (DataSource is null)
             {
                 throw new ArgumentNullException("dataSource field cannot be null");
+            }
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
             }
         }
     }
