@@ -449,7 +449,7 @@
                     "limits": { "$ref": "#/definitions/modelLimits" },
                     "supportedModeling": {
                       "type": "object",
-                      "description" : "The list of event-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all.",
+                      "description" : "The list of event-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all. If this field isn't present, then this connector does not support modeling of any sub-event types like event datapoints.",
                       "properties": {
                         "dataPoints" : { 
                           "type": "object",
@@ -492,7 +492,7 @@
                     },
                     "supportedModeling": {
                       "type": "object",
-                      "description" : "The list of dataset-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all.",
+                      "description" : "The list of dataset-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all. If this field isn't present, then this connector does not support modeling of any sub-dataset types like dataset datapoints.",
                       "properties": {
                         "dataPoints" : { 
                           "type": "object",
@@ -535,7 +535,7 @@
                     },
                     "supportedModeling": {
                       "type": "object",
-                      "description" : "The list of management group-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all.",
+                      "description" : "The list of management group-specific models that this connector supports using and additional details for how to use each model. If a model type is not present, that indicates this connector doesn't support using that model at all. If this field isn't present, then this connector does not support modeling of any sub-management group types like management group actions.",
                       "properties": {
                         "managementGroupActions" : { 
                           "type": "object",
