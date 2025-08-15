@@ -364,7 +364,23 @@
                   "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
-              "additionalProperties": false
+              "additionalProperties": false,
+              "anyOf": [
+                {
+                  "properties": {
+                    "defaultDestination": { "const": "Mqtt" }
+                  },
+                  "required": ["mqttDestinationDefaults"],
+                  "not" : { "required" : ["storageDestinationDefaults"] }
+                },
+                {
+                  "properties": {
+                    "defaultDestination": { "const": "Storage" }
+                  },
+                  "required": ["storageDestinationDefaults"],
+                  "not" : { "required" : ["mqttDestinationDefaults"] }
+                }
+              ]
             },
             "assetDatasetDestinations": {
               "type": "object",
@@ -401,6 +417,29 @@
                   "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
+              "anyOf": [
+                {
+                  "properties": {
+                    "defaultDestination": { "const": "Mqtt" }
+                  },
+                  "required": ["mqttDestinationDefaults"],
+                  "not" : { "required" : ["storageDestinationDefaults", "brokerStateStoreDestinationDefaults"] }
+                },
+                {
+                  "properties": {
+                    "defaultDestination": { "const": "brokerStateStore" }
+                  },
+                  "required": ["brokerStateStoreDestinationDefaults"],
+                  "not" : { "required" : ["storageDestinationDefaults", "mqttDestinationDefaults"] }
+                },
+                {
+                  "properties": {
+                    "defaultDestination": { "const": "Storage" }
+                  },
+                  "required": ["storageDestinationDefaults"],
+                  "not" : { "required" : ["mqttDestinationDefaults", "brokerStateStoreDestinationDefaults"] }
+                }
+              ],
               "additionalProperties": false
             },
             "assetStreamDestinations": {
@@ -433,6 +472,22 @@
                   "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
+              "anyOf": [
+                {
+                  "properties": {
+                    "defaultDestination": { "const": "Mqtt" }
+                  },
+                  "required": ["mqttDestinationDefaults"],
+                  "not" : { "required" : ["storageDestinationDefaults"] }
+                },
+                {
+                  "properties": {
+                    "defaultDestination": { "const": "Storage" }
+                  },
+                  "required": ["storageDestinationDefaults"],
+                  "not" : { "required" : ["mqttDestinationDefaults"] }
+                }
+              ],
               "additionalProperties": false
             },
             "version": {
