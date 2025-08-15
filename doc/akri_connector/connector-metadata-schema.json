@@ -25,6 +25,13 @@
       "type": "object",
       "description": "The specific default values that will be used by the connector when publishing telemetry to the MQTT broker.",
       "properties": {
+        "destination": {
+          "type": "string",
+          "enum": [
+            "Mqtt"
+          ],
+          "default": "Mqtt"
+        },
         "topic": {
           "type": "string",
           "description": "The default MQTT topic that will be published to"
@@ -63,6 +70,13 @@
       "type": "object",
       "description": "The broker state store-specific default values that will be used by the connector if not otherwise specified.",
       "properties": {
+        "destination": {
+          "type": "string",
+          "enum": [
+            "BrokerStateStore"
+          ],
+          "default": "BrokerStateStore"
+        },
         "key": {
           "type": "string",
           "description": "The default broker state store key that will be published to"
@@ -77,6 +91,13 @@
       "type": "object",
       "description": "The storage-specific default values that will be used by the connector if not otherwise specified.",
       "properties": {
+        "destination": {
+          "type": "string",
+          "enum": [
+            "Storage"
+          ],
+          "default": "Storage"
+        },
         "path": {
           "type": "string",
           "description": "The default path that storage will use"
@@ -350,37 +371,14 @@
                   }
                 },
                 "defaultDestination": {
-                  "type": "string",
                   "description": "The destination that this asset's events will go to by default unless specified otherwise in the asset or the event.",
-                  "enum": [
-                    "Mqtt",
-                    "Storage"
+                  "oneOf": [
+                    {"$ref" : "#/definitions/mqttDestinationDefaults"},
+                    {"$ref" : "#/definitions/storageDestinationDefaults"}
                   ]
-                },
-                "mqttDestinationDefaults": {
-                  "$ref": "#/definitions/mqttDestinationDefaults"
-                },
-                "storageDestinationDefaults": {
-                  "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
-              "additionalProperties": false,
-              "anyOf": [
-                {
-                  "properties": {
-                    "defaultDestination": { "const": "Mqtt" }
-                  },
-                  "required": ["mqttDestinationDefaults"],
-                  "not" : { "required" : ["storageDestinationDefaults"] }
-                },
-                {
-                  "properties": {
-                    "defaultDestination": { "const": "Storage" }
-                  },
-                  "required": ["storageDestinationDefaults"],
-                  "not" : { "required" : ["mqttDestinationDefaults"] }
-                }
-              ]
+              "additionalProperties": false
             },
             "assetDatasetDestinations": {
               "type": "object",
@@ -399,47 +397,14 @@
                   }
                 },
                 "defaultDestination": {
-                  "type": "string",
                   "description": "The destination that this asset's datasets will go to by default unless specified otherwise in the asset or the dataset.",
-                  "enum": [
-                    "Mqtt",
-                    "BrokerStateStore",
-                    "Storage"
+                  "oneOf": [
+                    {"$ref" : "#/definitions/mqttDestinationDefaults"},
+                    {"$ref" : "#/definitions/storageDestinationDefaults"},
+                    {"$ref" : "#/definitions/brokerStateStoreDestinationDefaults"}
                   ]
-                },
-                "mqttDestinationDefaults": {
-                  "$ref": "#/definitions/mqttDestinationDefaults"
-                },
-                "brokerStateStoreDestinationDefaults": {
-                  "$ref": "#/definitions/brokerStateStoreDestinationDefaults"
-                },
-                "storageDestinationDefaults": {
-                  "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
-              "anyOf": [
-                {
-                  "properties": {
-                    "defaultDestination": { "const": "Mqtt" }
-                  },
-                  "required": ["mqttDestinationDefaults"],
-                  "not" : { "required" : ["storageDestinationDefaults", "brokerStateStoreDestinationDefaults"] }
-                },
-                {
-                  "properties": {
-                    "defaultDestination": { "const": "brokerStateStore" }
-                  },
-                  "required": ["brokerStateStoreDestinationDefaults"],
-                  "not" : { "required" : ["storageDestinationDefaults", "mqttDestinationDefaults"] }
-                },
-                {
-                  "properties": {
-                    "defaultDestination": { "const": "Storage" }
-                  },
-                  "required": ["storageDestinationDefaults"],
-                  "not" : { "required" : ["mqttDestinationDefaults", "brokerStateStoreDestinationDefaults"] }
-                }
-              ],
               "additionalProperties": false
             },
             "assetStreamDestinations": {
@@ -458,36 +423,13 @@
                   }
                 },
                 "defaultDestination": {
-                  "type": "string",
                   "description": "The destination that this asset's streams will go to by default unless unless specified otherwise in the asset or the stream.",
-                  "enum": [
-                    "Mqtt",
-                    "Storage"
+                  "oneOf": [
+                    {"$ref" : "#/definitions/mqttDestinationDefaults"},
+                    {"$ref" : "#/definitions/storageDestinationDefaults"}
                   ]
-                },
-                "mqttDestinationDefaults": {
-                  "$ref": "#/definitions/mqttDestinationDefaults"
-                },
-                "storageDestinationDefaults": {
-                  "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
-              "anyOf": [
-                {
-                  "properties": {
-                    "defaultDestination": { "const": "Mqtt" }
-                  },
-                  "required": ["mqttDestinationDefaults"],
-                  "not" : { "required" : ["storageDestinationDefaults"] }
-                },
-                {
-                  "properties": {
-                    "defaultDestination": { "const": "Storage" }
-                  },
-                  "required": ["storageDestinationDefaults"],
-                  "not" : { "required" : ["mqttDestinationDefaults"] }
-                }
-              ],
               "additionalProperties": false
             },
             "version": {

@@ -29,8 +29,8 @@
       "version": "2.0",
       "assetEventDestinations": {
         "supportedDestinations" : ["Mqtt"],
-        "defaultDestination" : "Mqtt",
-        "mqttDestinationDefaults": {
+        "defaultDestination" : {
+          "destination": "Mqtt",
           "topic": "some/mqtt/path",
           "qos": 1,
           "ttl": 10,
@@ -39,21 +39,14 @@
       },
       "assetDatasetDestinations": {
         "supportedDestinations" : ["Mqtt", "BrokerStateStore"],
-        "defaultDestination" : "Mqtt",
-        "mqttDestinationDefaults": {
-          "topic": "some/mqtt/path",
-          "qos": 1,
-          "ttl": 10,
-          "retain": "never"
-        },
-        "brokerStateStoreDestinationDefaults": {
-          "key": "myDssKey"
+        "defaultDestination" : {
+          "destination": "BrokerStateStore",
+          "key": "someDssKey"
         }
       },
       "assetStreamDestinations": {
         "supportedDestinations" : ["Mqtt"],
-        "defaultDestination" : "Mqtt",
-        "mqttDestinationDefaults": {
+        "defaultDestination" : {
           "topic": "some/mqtt/path",
           "qos": 1,
           "ttl": 10,
