@@ -47,6 +47,7 @@
       "assetStreamDestinations": {
         "supportedDestinations" : ["Mqtt"],
         "defaultDestination" : {
+          "destination": "Mqtt",
           "topic": "some/mqtt/path",
           "qos": 1,
           "ttl": 10,
