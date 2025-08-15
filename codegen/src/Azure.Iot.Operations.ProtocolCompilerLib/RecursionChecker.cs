@@ -21,7 +21,7 @@
                 {
                     if (!fieldInfo.IsIndirect && fieldInfo.SchemaType is ReferenceType referenceType)
                     {
-                        if (referenceType.SchemaName.Equals(objectType.SchemaName) || CanReach(referenceType.SchemaName, objectType.SchemaName))
+                        if (referenceType.SchemaName.Equals(objectType.SchemaName) || CanReach(referenceType.SchemaName, objectType.SchemaName, new HashSet<CodeName>()))
                         {
                             recursiveSchemaName = objectType.SchemaName;
                             return true;
@@ -41,13 +41,13 @@
             return false;
         }
 
-        private bool CanReach(CodeName source, CodeName endpoint)
+        private bool CanReach(CodeName source, CodeName endpoint, HashSet<CodeName> visited)
         {
-            if (this.directEdges.TryGetValue(source, out List<CodeName>? targets))
+            if (this.directEdges.TryGetValue(source, out List<CodeName>? targets) && visited.Add(source))
             {
                 foreach (CodeName target in targets)
                 {
-                    if (target.Equals(endpoint) || CanReach(target, endpoint))
+                    if (target.Equals(endpoint) || CanReach(target, endpoint, visited))
                     {
                         return true;
                     }
