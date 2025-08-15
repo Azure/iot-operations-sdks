@@ -378,7 +378,8 @@
                   ]
                 }
               },
-              "additionalProperties": false
+              "additionalProperties": false,
+              "required": ["supportedDestinations"]
             },
             "assetDatasetDestinations": {
               "type": "object",
@@ -405,7 +406,8 @@
                   ]
                 }
               },
-              "additionalProperties": false
+              "additionalProperties": false,
+              "required": ["supportedDestinations"]
             },
             "assetStreamDestinations": {
               "type": "object",
@@ -430,7 +432,8 @@
                   ]
                 }
               },
-              "additionalProperties": false
+              "additionalProperties": false,
+              "required": ["supportedDestinations"]
             },
             "version": {
               "type": "string",
