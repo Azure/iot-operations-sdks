@@ -5,7 +5,7 @@
   "definitions": {
     "modelLimits": {
       "type": "object",
-      "description": "Describes the limits to this model type that this connector supports. For instance, a connector may support up to 5 datasets.",
+      "description": "Describes the limits to this model type that this connector supports. For instance, a connector may support between 0 to 5 datasets.",
       "properties": {
         "maximum": {
           "type": "integer",
@@ -108,7 +108,7 @@
       "type": "string",
       "description": "The version of AIO connector metadata schema that this connector metadata file adheres to.",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
-      "default": "2.0-preview"
+      "default": "3.0-preview"
     },
     "name": {
       "type": "string",
