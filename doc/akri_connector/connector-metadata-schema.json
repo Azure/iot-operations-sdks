@@ -25,11 +25,11 @@
       "type": "object",
       "description": "The specific default values that will be used by the connector when publishing telemetry to the MQTT broker.",
       "properties": {
-        "defaultTopicName": {
+        "topic": {
           "type": "string",
           "description": "The default MQTT topic that will be published to"
         },
-        "defaultQualityOfService": {
+        "qos": {
           "type": "integer",
           "description": "The default MQTT quality of service that MQTT messages will be published with",
           "enum": [
@@ -37,12 +37,12 @@
             1
           ]
         },
-        "defaultTimeToLive": {
+        "ttl": {
           "type": "integer",
           "minimum": 0,
           "description": "The default time to live that MQTT messages will be published with."
         },
-        "defaultRetain": {
+        "retain": {
           "type": "string",
           "description": "The default retain flag value that MQTT messages will be published with.",
           "enum": [
@@ -53,23 +53,37 @@
       },
       "additionalProperties": false,
       "required": [
-        "defaultQualityOfService",
-        "defaultTimeToLive",
-        "defaultRetain"
+        "qos",
+        "ttl",
+        "retain"
       ]
     },
     "brokerStateStoreDestinationDefaults": {
       "type": "object",
       "description": "The broker state store-specific default values that will be used by the connector if not otherwise specified.",
       "properties": {
-        "defaultBrokerStateStoreKey": {
+        "key": {
           "type": "string",
           "description": "The default broker state store key that will be published to"
         }
       },
       "additionalProperties": false,
       "required": [
-        "defaultBrokerStateStoreKey"
+        "key"
+      ]
+    },
+    "storageDestinationDefaults": {
+      "type": "object",
+      "description": "The storage-specific default values that will be used by the connector if not otherwise specified.",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The default path that storage will use"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
       ]
     },
     "alternativeTypeName": {
@@ -344,6 +358,9 @@
                 },
                 "mqttDestinationDefaults": {
                   "$ref": "#/definitions/mqttDestinationDefaults"
+                },
+                "storageDestinationDefaults": {
+                  "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
               "additionalProperties": false
@@ -378,6 +395,9 @@
                 },
                 "brokerStateStoreDestinationDefaults": {
                   "$ref": "#/definitions/brokerStateStoreDestinationDefaults"
+                },
+                "storageDestinationDefaults": {
+                  "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
               "additionalProperties": false
@@ -407,6 +427,9 @@
                 },
                 "mqttDestinationDefaults": {
                   "$ref": "#/definitions/mqttDestinationDefaults"
+                },
+                "storageDestinationDefaults": {
+                  "$ref": "#/definitions/storageDestinationDefaults"
                 }
               },
               "additionalProperties": false
