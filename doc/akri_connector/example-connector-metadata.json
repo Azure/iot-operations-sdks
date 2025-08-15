@@ -31,33 +31,33 @@
         "supportedDestinations" : ["Mqtt"],
         "defaultDestination" : "Mqtt",
         "mqttDestinationDefaults": {
-          "defaultTopicName": "some/mqtt/path",
-          "defaultQualityOfService": 1,
-          "defaultTimeToLive": 10,
-          "defaultRetain": "never"
+          "topic": "some/mqtt/path",
+          "qos": 1,
+          "ttl": 10,
+          "retain": "never"
         }
       },
       "assetDatasetDestinations": {
         "supportedDestinations" : ["Mqtt", "BrokerStateStore"],
         "defaultDestination" : "Mqtt",
         "mqttDestinationDefaults": {
-          "defaultTopicName": "some/mqtt/path",
-          "defaultQualityOfService": 1,
-          "defaultTimeToLive": 10,
-          "defaultRetain": "never"
+          "topic": "some/mqtt/path",
+          "qos": 1,
+          "ttl": 10,
+          "retain": "never"
         },
         "brokerStateStoreDestinationDefaults": {
-          "defaultBrokerStateStoreKey": "myDssKey"
+          "key": "myDssKey"
         }
       },
       "assetStreamDestinations": {
         "supportedDestinations" : ["Mqtt"],
         "defaultDestination" : "Mqtt",
         "mqttDestinationDefaults": {
-          "defaultTopicName": "some/mqtt/path",
-          "defaultQualityOfService": 1,
-          "defaultTimeToLive": 10,
-          "defaultRetain": "never"
+          "topic": "some/mqtt/path",
+          "qos": 1,
+          "ttl": 10,
+          "retain": "never"
         }
       },
       "supportedModeling": {
