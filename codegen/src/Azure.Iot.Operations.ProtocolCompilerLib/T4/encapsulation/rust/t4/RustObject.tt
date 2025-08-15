@@ -11,10 +11,12 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 <# foreach (var referencedSchema in this.referencedSchemas) { #>
+<# if (!referencedSchema.SchemaName.Equals(this.objectType.SchemaName)) { #>
 <# if (referencedSchema.Namespace.Equals(this.objectType.Namespace)) { #>
 use super::<#=referencedSchema.SchemaName.GetFileName(TargetLanguage.Rust)#>::<#=referencedSchema.SchemaName.GetTypeName(TargetLanguage.Rust)#>;
 <# } else { #>
 use super::super::<#=referencedSchema.Namespace.GetFolderName(TargetLanguage.Rust)#>::<#=referencedSchema.SchemaName.GetFileName(TargetLanguage.Rust)#>::<#=referencedSchema.SchemaName.GetTypeName(TargetLanguage.Rust)#>;
+<# } #>
 <# } #>
 <# } #>
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
@@ -42,6 +44,6 @@ pub struct <#=this.objectType.SchemaName.GetTypeName(TargetLanguage.Rust)#> {
 <# } else if (RustSchemaSupport.HasNativeDefault(fieldInfo.Value.SchemaType)) { #>
     #[builder(default)]
 <# } #>
-    pub <#=fieldInfo.Key.GetFieldName(TargetLanguage.Rust)#>: <#=RustSchemaSupport.GetType(fieldInfo.Value.SchemaType, fieldInfo.Value.IsRequired)#>,
+    pub <#=fieldInfo.Key.GetFieldName(TargetLanguage.Rust)#>: <#=RustSchemaSupport.GetType(fieldInfo.Value.SchemaType, fieldInfo.Value.IsIndirect, fieldInfo.Value.IsRequired)#>,
 <# firstField = false; } #>
 }

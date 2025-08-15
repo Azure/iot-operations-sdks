@@ -17,6 +17,8 @@
 
         public static readonly string CacheableAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Cacheable";
 
+        public static readonly string IndirectAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indirect";
+
         public static readonly string TransparentAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Transparent";
 
         public static readonly string IndexedAdjunctTypeFormat = "dtmi:dtdl:extension:mqtt:v{0}:Indexed";

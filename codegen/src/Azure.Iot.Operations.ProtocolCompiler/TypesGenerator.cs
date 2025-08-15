@@ -50,9 +50,16 @@
                 ITypeGenerator typeGenerator = TypeGenerators[langName];
                 ISchemaStandardizer schemaStandardizer = SchemaStandardizers.First(ss => schemaFileName.EndsWith(ss.Key)).Value;
 
+                var recursionChecker = new RecursionChecker();
                 var typeWriter = new TypeWriter(genRoot);
                 foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(File.ReadAllText(schemaFilePath), genNamespace, refString => File.ReadAllText(Path.Combine(schemaFileFolder, refString))))
                 {
+                    if (recursionChecker.TryDetectLoop(schemaType, out CodeName? selfReferencedName))
+                    {
+                        Console.WriteLine($"Code generation aborted because schema {selfReferencedName.AsGiven} is self-referential without indirection");
+                        Environment.Exit(1);
+                    }
+
                     typeGenerator.GenerateTypeFromSchema(typeWriter.Accept, projectName, schemaType, schemaStandardizer.SerializationFormat);
                 }
             }

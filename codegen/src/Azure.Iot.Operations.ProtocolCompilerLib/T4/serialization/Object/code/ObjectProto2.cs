@@ -8,17 +8,17 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private readonly string projectName;
         private readonly CodeName genNamespace;
         private readonly CodeName schema;
-        private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
+        private readonly List<(string, string, DTSchemaInfo, bool, bool, int)> nameDescSchemaIndirectRequiredIndices;
         private readonly HashSet<DTSchemaInfo> uniqueSchemas;
         private readonly HashSet<string> importNames;
 
-        public ObjectProto2(string projectName, CodeName genNamespace, CodeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices)
+        public ObjectProto2(string projectName, CodeName genNamespace, CodeName schema, List<(string, string, DTSchemaInfo, bool, bool, int)> nameDescSchemaIndirectRequiredIndices)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.schema = schema;
-            this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
-            this.uniqueSchemas = new HashSet<DTSchemaInfo>(nameDescSchemaRequiredIndices.Select(ndsi => ndsi.Item3));
+            this.nameDescSchemaIndirectRequiredIndices = nameDescSchemaIndirectRequiredIndices;
+            this.uniqueSchemas = new HashSet<DTSchemaInfo>(nameDescSchemaIndirectRequiredIndices.Select(ndsi => ndsi.Item3));
             this.importNames = new HashSet<string>();
         }
 

@@ -402,12 +402,12 @@
                 return;
             }
 
-            List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices = dtObject.Fields.Where(f => !IsFieldErrorCode(f) && !IsFieldErrorInfo(f)).Select(f => (f.Name, f.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{f.Name}' Field.", f.Schema, IsRequired(f), GetFieldIndex(f))).ToList();
-            nameDescSchemaRequiredIndices.Sort((x, y) => x.Item5 == 0 && y.Item5 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item5.CompareTo(x.Item5));
-            int ix = nameDescSchemaRequiredIndices.FirstOrDefault().Item5;
-            nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5 == 0 ? ++ix : x.Item5)).ToList();
+            List<(string, string, DTSchemaInfo, bool, bool, int)> nameDescSchemaIndirectRequiredIndices = dtObject.Fields.Where(f => !IsFieldErrorCode(f) && !IsFieldErrorInfo(f)).Select(f => (f.Name, f.Description.FirstOrDefault(t => t.Key.StartsWith("en")).Value ?? $"The '{f.Name}' Field.", f.Schema, IsIndirect(f), IsRequired(f), GetFieldIndex(f))).ToList();
+            nameDescSchemaIndirectRequiredIndices.Sort((x, y) => x.Item6 == 0 && y.Item6 == 0 ? x.Item1.CompareTo(y.Item1) : y.Item6.CompareTo(x.Item6));
+            int ix = nameDescSchemaIndirectRequiredIndices.FirstOrDefault().Item6;
+            nameDescSchemaIndirectRequiredIndices = nameDescSchemaIndirectRequiredIndices.Select(x => (x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6 == 0 ? ++ix : x.Item6)).ToList();
 
-            foreach (ITemplateTransform objectSchemaTransform in SchemaTransformFactory.GetObjectSchemaTransforms(payloadFormat, projectName, genNamespace, interfaceId, dtObject.Id, description, schemaName, nameDescSchemaRequiredIndices, sharedPrefix, mqttVersion, isResult))
+            foreach (ITemplateTransform objectSchemaTransform in SchemaTransformFactory.GetObjectSchemaTransforms(payloadFormat, projectName, genNamespace, interfaceId, dtObject.Id, description, schemaName, nameDescSchemaIndirectRequiredIndices, sharedPrefix, mqttVersion, isResult))
             {
                 acceptor(objectSchemaTransform.TransformText(), objectSchemaTransform.FileName, objectSchemaTransform.FolderPath);
             }
@@ -436,6 +436,11 @@
         private bool IsRequired(DTFieldInfo dtField)
         {
             return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+        }
+
+        private bool IsIndirect(DTFieldInfo dtField)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.IndirectAdjunctTypeFormat, mqttVersion)));
         }
 
         private bool IsCommandIdempotent(DTCommandInfo dtCommand)

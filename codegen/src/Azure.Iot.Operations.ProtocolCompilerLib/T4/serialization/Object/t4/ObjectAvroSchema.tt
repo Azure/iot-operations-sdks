@@ -10,14 +10,17 @@
 <# } #>
   "type": "record",
   "fields": [
-<# foreach (var nameSchemaRequired in this.nameSchemaRequireds) { #>
+<# foreach (var nameSchemaIndirectRequired in this.nameSchemaIndirectRequireds) { #>
     {
-      "name": "<#=nameSchemaRequired.Item1#>",
-      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaRequired.Item2, 6, this.sharedPrefix, nullable: !nameSchemaRequired.Item3, this.definedIds, this.mqttVersion)#>
-    }<#=this.IsLast(nameSchemaRequired) ? "" : ","#>
+      "name": "<#=nameSchemaIndirectRequired.Item1#>",
+<# if (nameSchemaIndirectRequired.Item3) { #>
+      "doc": "[INDIRECT]",
+<# } #>
+      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaIndirectRequired.Item2, 6, this.sharedPrefix, nullable: !nameSchemaIndirectRequired.Item4, this.definedIds, this.mqttVersion)#>
+    }<#=this.IsLast(nameSchemaIndirectRequired) ? "" : ","#>
 <# } #>
   ]
 }<# this.PopIndent(); #>
 <#+
-    private bool IsLast((string, DTSchemaInfo, bool) nameSchemaRequired) => nameSchemaRequired.Item1 == this.nameSchemaRequireds.Last().Item1;
+    private bool IsLast((string, DTSchemaInfo, bool, bool) nameSchemaIndirectRequired) => nameSchemaIndirectRequired.Item1 == this.nameSchemaIndirectRequireds.Last().Item1;
 #>

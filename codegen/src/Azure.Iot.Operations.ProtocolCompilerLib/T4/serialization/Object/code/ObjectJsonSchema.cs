@@ -10,17 +10,17 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private readonly string schemaId;
         private readonly string description;
         private readonly CodeName schema;
-        private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
+        private readonly List<(string, string, DTSchemaInfo, bool, bool, int)> nameDescSchemaIndirectRequiredIndices;
         private readonly CodeName? sharedPrefix;
         private readonly bool setIndex;
 
-        public ObjectJsonSchema(CodeName genNamespace, string schemaId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix, bool setIndex)
+        public ObjectJsonSchema(CodeName genNamespace, string schemaId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, bool, int)> nameDescSchemaIndirectRequiredIndices, CodeName? sharedPrefix, bool setIndex)
         {
             this.genNamespace = genNamespace;
             this.schemaId = schemaId;
             this.description = description;
             this.schema = schema;
-            this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
+            this.nameDescSchemaIndirectRequiredIndices = nameDescSchemaIndirectRequiredIndices;
             this.sharedPrefix = sharedPrefix;
             this.setIndex = setIndex;
         }

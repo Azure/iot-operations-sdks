@@ -58,12 +58,18 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 _ => null!,
             };
 
+            var recursionChecker = new RecursionChecker();
             Dictionary<string, string> codeDict = new();
 
             foreach (KeyValuePair<string, string> schema in schemaDict)
             {
                 foreach (SchemaType schemaType in schemaStandardizer.GetStandardizedSchemas(schema.Value, genNamespace, refString => schemaDict[refString]))
                 {
+                    if (recursionChecker.TryDetectLoop(schemaType, out CodeName? selfReferencedName))
+                    {
+                        throw new RecursionException(selfReferencedName);
+                    }
+
                     typeGenerator.GenerateTypeFromSchema((typeText, fileName, _) => { codeDict[fileName] = typeText; }, projectName, schemaType, schemaStandardizer.SerializationFormat);
                 }
             }

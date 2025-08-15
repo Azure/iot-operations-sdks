@@ -24,15 +24,18 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         public class FieldInfo
         {
-            public FieldInfo(SchemaType schemaType, bool isRequired, string? description, int? index)
+            public FieldInfo(SchemaType schemaType, bool isIndirect, bool isRequired, string? description, int? index)
             {
                 SchemaType = schemaType;
+                IsIndirect = isIndirect;
                 IsRequired = isRequired;
                 Description = description;
                 Index = index;
             }
 
             public SchemaType SchemaType { get; }
+
+            public bool IsIndirect { get; }
 
             public bool IsRequired { get; }
 

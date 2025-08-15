@@ -9,21 +9,24 @@
 <# } #>
   "type": "object",
   "additionalProperties": false,
-<# if (this.nameDescSchemaRequiredIndices.Any(ndsri => ndsri.Item4)) { #>
-  "required": [ <#=string.Join(", ", this.nameDescSchemaRequiredIndices.Where(ndsri => ndsri.Item4).Select(ndsri => $"\"{ndsri.Item1}\""))#> ],
+<# if (this.nameDescSchemaIndirectRequiredIndices.Any(ndsri => ndsri.Item5)) { #>
+  "required": [ <#=string.Join(", ", this.nameDescSchemaIndirectRequiredIndices.Where(ndsri => ndsri.Item5).Select(ndsri => $"\"{ndsri.Item1}\""))#> ],
+<# } #>
+<# if (this.nameDescSchemaIndirectRequiredIndices.Any(ndsri => ndsri.Item4)) { #>
+  "x-indirect": [ <#=string.Join(", ", this.nameDescSchemaIndirectRequiredIndices.Where(ndsri => ndsri.Item4).Select(ndsri => $"\"{ndsri.Item1}\""))#> ],
 <# } #>
   "properties": {
-<# foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { #>
-    "<#=nameDescSchemaRequiredIndex.Item1#>": {
-      "description": "<#=nameDescSchemaRequiredIndex.Item2#>",
-<# if (this.setIndex && nameDescSchemaRequiredIndex.Item5 > 0) { #>
-      "index": <#=nameDescSchemaRequiredIndex.Item5#>,
+<# foreach (var nameDescSchemaIndirectRequiredIndex in this.nameDescSchemaIndirectRequiredIndices) { #>
+    "<#=nameDescSchemaIndirectRequiredIndex.Item1#>": {
+      "description": "<#=nameDescSchemaIndirectRequiredIndex.Item2#>",
+<# if (this.setIndex && nameDescSchemaIndirectRequiredIndex.Item6 > 0) { #>
+      "index": <#=nameDescSchemaIndirectRequiredIndex.Item6#>,
 <# } #>
-      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaRequiredIndex.Item3, this.sharedPrefix, this.genNamespace)#>
-    }<#=this.IsLast(nameDescSchemaRequiredIndex) ? "" : ","#>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndirectRequiredIndex.Item3, this.sharedPrefix, this.genNamespace)#>
+    }<#=this.IsLast(nameDescSchemaIndirectRequiredIndex) ? "" : ","#>
 <# } #>
   }
 }
 <#+
-    private bool IsLast((string, string, DTSchemaInfo, bool, int) nameDescSchemaRequiredIndex) => nameDescSchemaRequiredIndex.Item1 == this.nameDescSchemaRequiredIndices.Last().Item1;
+    private bool IsLast((string, string, DTSchemaInfo, bool, bool, int) nameDescSchemaIndirectRequiredIndex) => nameDescSchemaIndirectRequiredIndex.Item1 == this.nameDescSchemaIndirectRequiredIndices.Last().Item1;
 #>
