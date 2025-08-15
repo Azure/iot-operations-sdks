@@ -53,6 +53,7 @@
       },
       "additionalProperties": false,
       "required": [
+        "topic",
         "qos",
         "ttl",
         "retain"
