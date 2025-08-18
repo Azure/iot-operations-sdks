@@ -408,6 +408,7 @@ async fn state_store_set_conditions_network_tests() {
                     SetOptions {
                         expires: Some(Duration::from_secs(10)),
                         set_condition: SetCondition::OnlyIfDoesNotExist,
+                        ..Default::default()
                     },
                 )
                 .await
@@ -425,6 +426,7 @@ async fn state_store_set_conditions_network_tests() {
                     SetOptions {
                         expires: Some(Duration::from_secs(10)),
                         set_condition: SetCondition::OnlyIfDoesNotExist,
+                        ..Default::default()
                     },
                 )
                 .await
@@ -444,6 +446,7 @@ async fn state_store_set_conditions_network_tests() {
                     SetOptions {
                         expires: Some(Duration::from_secs(10)),
                         set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
+                        ..Default::default()
                     },
                 )
                 .await
@@ -463,6 +466,7 @@ async fn state_store_set_conditions_network_tests() {
                     SetOptions {
                         expires: Some(Duration::from_secs(10)),
                         set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
+                        ..Default::default()
                     },
                 )
                 .await
@@ -527,6 +531,7 @@ async fn state_store_key_set_conditions_2_network_tests() {
                     SetOptions {
                         expires: Some(Duration::from_secs(10)),
                         set_condition: SetCondition::OnlyIfEqualOrDoesNotExist,
+                        ..Default::default()
                     },
                 )
                 .await

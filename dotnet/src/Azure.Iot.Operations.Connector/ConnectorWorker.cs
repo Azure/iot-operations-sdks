@@ -2,15 +2,19 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Data;
+using System.Collections.Generic;
 using System.Text;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Connector.Exceptions;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
 
@@ -30,13 +34,19 @@ namespace Azure.Iot.Operations.Connector
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
         private bool _isDisposed = false;
-        private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration; //TODO one connector as leader for all devices? Or will some connectors have a subset of devices?
+        private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration;
 
-        // Keys are <deviceName>_<inboundEndpointName> and values are the cancellation tokens to signal once the device is no longer available
-        private readonly ConcurrentDictionary<string, CancellationTokenSource> _deviceTasks = new();
+        // Keys are <deviceName>_<inboundEndpointName> and values are the running task and their cancellation token to signal once the device is no longer available or the connector is shutting down
+        private readonly ConcurrentDictionary<string, UserTaskContext> _deviceTasks = new();
 
-        // Keys are <deviceName>_<inboundEndpointName>_<assetName> and values are the cancellation tokens to signal once the asset is no longer available
-        private readonly ConcurrentDictionary<string, CancellationTokenSource> _assetTasks = new();
+        // Keys are <deviceName>_<inboundEndpointName>_<assetName> and values are the running task and their cancellation token to signal once the asset is no longer available or the connector is shutting down
+        private readonly ConcurrentDictionary<string, UserTaskContext> _assetTasks = new();
+
+        // keys are "{composite device name}_{asset name}_{dataset name}. The value is the message schema registered for that device's asset's dataset
+        private readonly ConcurrentDictionary<string, Schema> _registeredDatasetMessageSchemas = new();
+
+        // keys are "{composite device name}_{asset name}_{event name}. The value is the message schema registered for that device's asset's event
+        private readonly ConcurrentDictionary<string, Schema> _registeredEventMessageSchemas = new();
 
         /// <summary>
         /// Event handler for when an device becomes available.
@@ -195,24 +205,36 @@ namespace Azure.Iot.Operations.Connector
                 _adrClient.DeviceChanged -= OnDeviceChanged;
                 _adrClient.AssetChanged -= OnAssetChanged;
 
+                List<Task> tasksToAwait = new();
+
                 _logger.LogInformation("Stopping all tasks that run while an asset is available");
-                while (_assetTasks.Count > 1)
+                foreach (UserTaskContext userTaskContext in _assetTasks.Values.ToList())
                 {
                     // Cancel all tasks that run while an asset is available
-                    var first = _assetTasks.First();
-                    _assetTasks.TryRemove(first);
-                    first.Value.Cancel();
-                    first.Value.Dispose();
+                    userTaskContext.CancellationTokenSource.Cancel();
+                    userTaskContext.CancellationTokenSource.Dispose();
+
+                    tasksToAwait.Add(userTaskContext.UserTask);
                 }
 
                 _logger.LogInformation("Stopping all tasks that run while a device is available");
-                while (_deviceTasks.Count > 1)
+                foreach (UserTaskContext userTaskContext in _deviceTasks.Values.ToList())
                 {
                     // Cancel all tasks that run while a device is available
-                    var first = _deviceTasks.First();
-                    _deviceTasks.TryRemove(first);
-                    first.Value.Cancel();
-                    first.Value.Dispose();
+                    userTaskContext.CancellationTokenSource.Cancel();
+                    userTaskContext.CancellationTokenSource.Dispose();
+
+                    tasksToAwait.Add(userTaskContext.UserTask);
+                }
+
+                _logger.LogInformation("Waiting for all user-defined tasks to complete");
+                try
+                {
+                    await Task.WhenAll(tasksToAwait);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Encountered an error while waiting for all the user-defined tasks to complete");
                 }
             }
 
@@ -225,13 +247,30 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Push a sampled dataset to the configured destinations.
         /// </summary>
+        /// <param name="deviceName">The name of the device that this dataset belongs to</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint that this dataset belongs to</param>
         /// <param name="asset">The asset that the dataset belongs to.</param>
+        /// <param name="assetName">The name of the asset that the dataset belongs to</param>
         /// <param name="dataset">The dataset that was sampled.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        public async Task ForwardSampledDatasetAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
+
+            CloudEvent? cloudEvent = null;
+            if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", out var registeredDatasetMessageSchema))
+            {
+                if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
+                {
+                    cloudEvent = ConstructCloudEventHeaders(inboundEndpointName, registeredDatasetMessageSchema);
+                }
+                else
+                {
+                    _logger.LogError("Cannot construct cloud event headers for dataset because its inbound endpoint name is not a valid Uri or Uri reference");
+                }
+            }
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
@@ -261,6 +300,19 @@ namespace Azure.Iot.Operations.Connector
                     if (ttl != null)
                     {
                         mqttMessage.MessageExpiryInterval = (uint)ttl.Value;
+                    }
+
+                    if (cloudEvent != null)
+                    {
+                        mqttMessage.AddCloudEvents(cloudEvent);
+                    }
+
+                    if (userData != null)
+                    {
+                        foreach (string key in userData.Keys)
+                        {
+                            mqttMessage.AddUserProperty(key, userData[key]);
+                        }
                     }
 
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
@@ -304,11 +356,15 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Push a received event payload to the configured destinations.
         /// </summary>
+        /// <param name="deviceName">The name of the device that this event belongs to</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint that this event belongs to</param>
         /// <param name="asset">The asset that this event came from.</param>
+        /// <param name="assetName">The name of the asset that this event belongs to.</param>
         /// <param name="assetEvent">The event.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardReceivedEventAsync(Asset asset, AssetEvent assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        public async Task ForwardReceivedEventAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -318,6 +374,19 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogError("Cannot forward received event because it has no configured destinations");
                 return;
+            }
+
+            CloudEvent? cloudEvent = null;
+            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", out var registeredEventMessageSchema))
+            {
+                if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
+                {
+                    cloudEvent = ConstructCloudEventHeaders(inboundEndpointName, registeredEventMessageSchema);
+                }
+                else
+                {
+                    _logger.LogError("Cannot construct cloud event headers for event because its inbound endpoint name is not a valid Uri or Uri reference.");
+                }
             }
 
             foreach (var destination in assetEvent.Destinations)
@@ -334,6 +403,19 @@ namespace Azure.Iot.Operations.Connector
                     if (retain != null)
                     {
                         mqttMessage.Retain = retain == Retain.Keep;
+                    }
+
+                    if (cloudEvent != null)
+                    {
+                        mqttMessage.AddCloudEvents(cloudEvent);
+                    }
+
+                    if (userData != null)
+                    {
+                        foreach (string key in userData.Keys)
+                        {
+                            mqttMessage.AddUserProperty(key, userData[key]);
+                        }
                     }
 
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
@@ -375,13 +457,13 @@ namespace Azure.Iot.Operations.Connector
             else if (args.ChangeType == ChangeType.Deleted)
             {
                 _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
+                await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
                 await _adrClient!.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
             }
             else if (args.ChangeType == ChangeType.Updated)
             {
                 _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                AssetUnavailable(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
+                await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
                 await AssetAvailableAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
             }
         }
@@ -395,12 +477,12 @@ namespace Azure.Iot.Operations.Connector
                 DeviceAvailable(args, compoundDeviceName);
                 if (args.Device != null)
                 {
-                    CancellationTokenSource deviceTaskCancellationTokenSource = new();
-                    _deviceTasks.TryAdd(compoundDeviceName, deviceTaskCancellationTokenSource);
                     if (WhileDeviceIsAvailable != null)
                     {
+                        CancellationTokenSource deviceTaskCancellationTokenSource = new();
+
                         // Do not block on this call because the user callback is designed to run for extended periods of time.
-                        _ = Task.Run(async () =>
+                        Task userTask = Task.Run(async () =>
                         {
                             try
                             {
@@ -411,6 +493,8 @@ namespace Azure.Iot.Operations.Connector
                                 // This is the expected way for the callback to exit since this layer signals the cancellation token
                             }
                         });
+
+                        _deviceTasks.TryAdd(compoundDeviceName, new(userTask, deviceTaskCancellationTokenSource));
                     }
                 }
             }
@@ -418,10 +502,19 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
                 await DeviceUnavailableAsync(args, compoundDeviceName, false);
-                if (_deviceTasks.TryRemove(compoundDeviceName, out CancellationTokenSource? deviceTaskCancellationTokenSource))
+                if (_deviceTasks.TryRemove(compoundDeviceName, out UserTaskContext? userTaskContext))
                 {
-                    deviceTaskCancellationTokenSource.Cancel();
-                    deviceTaskCancellationTokenSource.Dispose();
+                    userTaskContext.CancellationTokenSource.Cancel();
+                    userTaskContext.CancellationTokenSource.Dispose();
+
+                    try
+                    {
+                        await userTaskContext.UserTask;
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}", args.DeviceName, args.InboundEndpointName);
+                    }
                 }
             }
             else if (args.ChangeType == ChangeType.Updated)
@@ -454,7 +547,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 foreach (string assetName in deviceContext.Assets.Keys)
                 {
-                    AssetUnavailable(args.DeviceName, args.InboundEndpointName, assetName, isUpdating);
+                    await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, assetName, isUpdating);
                 }
             }
         }
@@ -502,12 +595,16 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                            await schemaRegistryClient.PutAsync(
+                            var registeredDatasetMessageSchema = await schemaRegistryClient.PutAsync(
                                 datasetMessageSchema.SchemaContent,
                                 datasetMessageSchema.SchemaFormat,
                                 datasetMessageSchema.SchemaType,
                                 datasetMessageSchema.Version ?? "1",
                                 datasetMessageSchema.Tags);
+
+                            _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+
+                            _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", registeredDatasetMessageSchema);
                         }
                         catch (Exception ex)
                         {
@@ -537,12 +634,16 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                            await schemaRegistryClient.PutAsync(
+                            var registeredEventSchema = await schemaRegistryClient.PutAsync(
                                 eventMessageSchema.SchemaContent,
                                 eventMessageSchema.SchemaFormat,
                                 eventMessageSchema.SchemaType,
                                 eventMessageSchema.Version ?? "1",
                                 eventMessageSchema.Tags);
+
+                            _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+
+                            _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", registeredEventSchema);
                         }
                         catch (Exception ex)
                         {
@@ -556,13 +657,12 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            CancellationTokenSource assetTaskCancellationTokenSource = new();
-            _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), assetTaskCancellationTokenSource);
-
             if (WhileAssetIsAvailable != null)
             {
+                CancellationTokenSource assetTaskCancellationTokenSource = new();
+
                 // Do not block on this call because the user callback is designed to run for extended periods of time.
-                _ = Task.Run(async () =>
+                Task userTask = Task.Run(async () =>
                 {
                     try
                     {
@@ -573,20 +673,31 @@ namespace Azure.Iot.Operations.Connector
                         // This is the expected way for the callback to exit since this layer signals the cancellation token
                     }
                 });
+
+                _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), new(userTask, assetTaskCancellationTokenSource));
             }
         }
 
-        private void AssetUnavailable(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)
+        private async Task AssetUnavailableAsync(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
 
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
             if (!isUpdating)
             {
-                if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out CancellationTokenSource? assetTaskCancellationTokenSource))
+                if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out UserTaskContext? userTaskContext))
                 {
-                    assetTaskCancellationTokenSource.Cancel();
-                    assetTaskCancellationTokenSource.Dispose();
+                    userTaskContext.CancellationTokenSource.Cancel();
+                    userTaskContext.CancellationTokenSource.Dispose();
+
+                    try
+                    {
+                        await userTaskContext.UserTask;
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
+                    }
                 }
             }
         }
@@ -594,6 +705,16 @@ namespace Azure.Iot.Operations.Connector
         private string GetCompoundAssetName(string compoundDeviceName, string assetName)
         {
             return compoundDeviceName + "_" + assetName;
+        }
+
+        private CloudEvent ConstructCloudEventHeaders(string inboundEndpointName, Schema registeredSchema)
+        {
+            return new(new Uri(inboundEndpointName, UriKind.RelativeOrAbsolute))
+            {
+                DataSchema = $"aio-sr://{registeredSchema.Namespace}/{registeredSchema.Name}:{registeredSchema.Version}",
+                Time = _applicationContext.ApplicationHlc.Timestamp,
+                Id = Guid.NewGuid().ToString(),
+            };
         }
     }
 }

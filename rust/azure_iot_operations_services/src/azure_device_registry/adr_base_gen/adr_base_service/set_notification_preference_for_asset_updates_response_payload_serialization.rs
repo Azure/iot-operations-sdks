@@ -7,6 +7,22 @@ use serde_json;
 
 use super::set_notification_preference_for_asset_updates_response_payload::SetNotificationPreferenceForAssetUpdatesResponsePayload;
 
+const SET_NOTIFICATION_PREFERENCE_FOR_ASSET_UPDATES_RESPONSE_PAYLOAD_CONTENT_TYPE: &str =
+    "application/json";
+
+impl SetNotificationPreferenceForAssetUpdatesResponsePayload {
+    fn is_content_type(content_type: &str) -> bool {
+        content_type.starts_with(
+            SET_NOTIFICATION_PREFERENCE_FOR_ASSET_UPDATES_RESPONSE_PAYLOAD_CONTENT_TYPE,
+        ) && matches!(
+            content_type.chars().nth(
+                SET_NOTIFICATION_PREFERENCE_FOR_ASSET_UPDATES_RESPONSE_PAYLOAD_CONTENT_TYPE.len()
+            ),
+            None | Some('+' | ';')
+        )
+    }
+}
+
 impl PayloadSerialize for SetNotificationPreferenceForAssetUpdatesResponsePayload {
     type Error = serde_json::Error;
 
@@ -25,7 +41,9 @@ impl PayloadSerialize for SetNotificationPreferenceForAssetUpdatesResponsePayloa
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type {
-            if content_type != "application/json" {
+            if !SetNotificationPreferenceForAssetUpdatesResponsePayload::is_content_type(
+                content_type,
+            ) {
                 return Err(DeserializationError::UnsupportedContentType(format!(
                     "Invalid content type: '{content_type}'. Must be 'application/json'"
                 )));

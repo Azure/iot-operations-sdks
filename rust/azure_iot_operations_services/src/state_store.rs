@@ -22,6 +22,9 @@ pub use resp3::{Operation, SetCondition, SetOptions};
 /// User Property Key for a [`HybridLogicalClock`] fencing token used to protect the object of the request from conflicting updates.
 const FENCING_TOKEN_USER_PROPERTY: &str = "__ft";
 
+/// User Property Key to indicate disk persistence.
+const PERSIST_USER_PROPERTY: &str = "aio-persistence";
+
 /// Represents an error that occurred in the Azure IoT Operations State Store implementation.
 #[derive(Debug, Error)]
 #[error(transparent)]
