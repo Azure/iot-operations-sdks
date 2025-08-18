@@ -133,7 +133,7 @@ Fields in the write request are optional; only fields that are present and have 
 ### New adjunct types: PropertyResult, PropertyValue, ReadError, and WriteError
 
 The second additive change to the Mqtt extension is support for modeling the error conditions that can result from a Property read or write.
-Mechanisms for modeling errors in Comamand responses are defined in [ADR 19](./0019-codegen-user-errs.md).
+Mechanisms for modeling errors in Command responses are defined in [ADR 19](./0019-codegen-user-errs.md).
 The present ADR adds closely analogous mechanims for modeling errors in Property read/write responses.
 Specifically, the following four adjunct types are added.
 
