@@ -192,7 +192,7 @@ pub struct DiscoveredDatasetDataPoint {
     /// UTC timestamp indicating when the data point was added or modified.
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the data point
-    pub name: Option<String>,
+    pub name: String,
     /// URI or type definition id
     pub type_ref: Option<String>,
 }
@@ -403,7 +403,7 @@ pub struct DiscoveredEventDataPoint {
     /// UTC timestamp indicating when the data point was added or modified.
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the data point.
-    pub name: Option<String>,
+    pub name: String,
 }
 
 // TODO: turn into rust enums for which of these options can correlate to which destination enums
