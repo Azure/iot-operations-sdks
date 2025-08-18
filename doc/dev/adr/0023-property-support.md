@@ -1,205 +1,51 @@
-# ADR 23: SDK Support for Property
+# ADR 23: Codegen Support for Property
 
 ## Context
 
-The AIO SDKs currently support two communication patterns: RPC and Telemetry.
-There is no support for the stateful communication pattern we call Property.
-There is an upcoming need to support this pattern because it is used heavily in OPC UA companion specifications, which AIO intends to support during [Br].
+The ProtocolCompiler currently generates code from the two DTDL content types Command and Telemetry.
+There is no support for the content type Property, which represents a stateful communication pattern.
+There is an upcoming need to support this pattern because it is used heavily in OPC UA companion specifications, which are translated into DTDL models.
 
-Although one design option is to support Property without any SDK modifications, by providing support entirely within the ProtocolCompiler, this would be unsatisfactory for non-codegen scenarios.
-Another design option is for the SDKs to provide native support for Property that is parallel to &mdash; and independent of &mdash; their support for RPC and Telemetry; however, this would be very expensive in terms of development cost.
+The AIO SDKs provide first-class support for RPC (Command) and Telemetry communication patterns but no support for the Property pattern.
+However, the semantics of Property (i.e., reading and writing) are achievable via special cases of the RPC pattern.
+
+## Requirements
+
+In its most basic form, a Property can be realized as two Commands, one for reading and one for writing.
+(In fact, for read-only Properties, only one Command is needed.)
+However, the situation is complicated by three requirements.
+
+1. **optional aggregation** &mdash; Just as Telemetry can support either sending all of an Interface's Telemetries together or sending each Telemetry on a separate MQTT topic, it must be possible either to read and write all of an Interface's Properties in a consistent snapshot or to read and write each Property separately.
+
+2. **error modeling** &mdash; Mechanisms analogous to those defined by [ADR 19](./0019-codegen-user-errs.md) must be available to enable users to model errors that can be returned when a read or write request fails.
+
+3. **dynamically itemized properties** &mdash; In addition to supporting conventional Properties that are defined statically at modeling time, there must be a way to model placeholders for collections of Properties that are itemized dynamically at run time.
 
 ## Decision
 
-The AIO SDKs will be enhanced with new envoy classes that support the Property communication pattern.
-Because the semantics of Property are decomposable into semantics of RPC and Telemetry, the new Property envoys will leverage the extant RPC and Telemetry envoys by layering functionality atop them.
-
 The ProtocolCompiler will be enhanced to support the DTDL Property content type.
-Generated code will target the new Property envoy classes in the SDKs.
+No modifications will be made to the AIO SDKs.
+Instead, extant SDK mechanisms will be targeted by the ProtocolCompiler.
 This requires an additive change to the DTDL Mqtt extension, and since version 4 of this extension has not officially shipped, this change will be rolled into the pending Mqtt extension version 4.
 
 ## Property roles and semantics
 
 Just as RPC encompasses the two roles of Executor and Invoker, and as Telemetry encompasses the two roles of Sender and Receiver, the Property pattern encompasses two roles: Maintainer and Consumer.
+The Maintainer's responsibilities are to hold the Property state, to read the state upon request, and (for writable properties) to update the state upon request.
+The Consumer issues read and (if appropriate) write requests to the Maintainer.
 
-The Maintainer's responsibilities are to hold the Property state, to read and update the state upon request, and to configurably distribute notifications of state changes.
+## Additive changes to DTDL Mqtt extension
 
-The Consumer issues requests to the Maintainer, and it processes change notifications it receives from the Maintainer.
+To support MQTT communication of DTDL Property contents, the Mqtt extension will be updated with three additive changes, which are described in the following three subsections.
 
-The values of all Properties within an Interface must be readable atomically, writable atomically, and notifiable atomically.
-User code is not under any obligation to respect this atomicity, but the envoys are obligated to provide an API that readily supports atomicity if the application demands it.
+### New property `propertyTopic` added to the Mqtt adjunct type
 
-There are five specific actions that are relevant to Properties:
-
-* Action *write*:
-  * The Consumer sends a `write` request to the Maintainer, specifying new values for one or more Properties.
-  * The Maintainer attempts to apply the `write` and responds with an indication of which Properties were updated.
-  * The Consumer receives the response from the Maintainer.
-* Action *read*:
-  * The Consumer sends a `read` request to the Maintainer, specifying which Properties it wishes to read.
-  * The Maintainer attempts to read values for the designated Properties and responds with a collation of Property values.
-  * The Consumer receives the response from the Maintainer.
-* Action *observe*:
-  * The Consumer sends a `observe` request to the Maintainer, indicating Properties to add to the notification list.
-  * The Maintainer attempts to apply the `observe` and responds with an indication of which Properties are now on the notification list.
-  * The Consumer receives the response from the Maintainer.
-* Action *unobserve*:
-  * The Consumer sends an `unobserve` request to the Maintainer, indicating Properties to remove from the notification list.
-  * The Maintainer attempts to apply the `unobserve` and responds with an indication of which Properties remain on the notification list.
-  * The Consumer receives the response from the Maintainer.
-* Action *notify*:
-  * Values of one or more Properties held by the Maintainer are modified, either by the application of a *write* action, or by an internal state change, or by some other mechanism.
-  * The Maintainer broadcasts a change notification containing the current Property values.
-  * The notification is received by all Consumers that are listening for notifications about the Properties.
-
-The *write*, *read*, *observe*, and *unobserve* actions have behaviors that align with the RPC communication pattern.
-The *notify* action has a behavior that aligns with the Telemetry communication pattern.
-
-## Property envoy
-
-A Property envoy is an assemblage of four Command envoys and one Telemetry envoy.
-It is parameterized by three types: `TProp`, `TCtrl`, and `TStat`.
-These types must satisfy the following constraints.
-
-* `TProp` &mdash; a structure type (class/struct/object) that collates related Properties
-  * There is one field for each static Property, which may have an arbitrary type
-  * There is one field for each dynamically itemized Property, with a map/dictionary type
-    * The dictionary key type is string
-    * The dictionary value type may be an arbitrary type
-* `TCtrl` &mdash; a structure type whose field names match those in `TProp`
-  * Each static Property field has type Boolean
-  * Each dynamically itemized Property field is an array/vector/list type with element type string
-* `TStat` &mdash; a structure type whose field names match those in `TProp`
-  * There is some type `TStatVal` for all fields that is Boolean, integer, string, or an enum
-  * Each static Property field has type `TStatVal`
-  * Each dynamically itemized Property field is a map/dictionary type
-    * The dictionary key type is string
-    * The dictionary value type is `TStatVal`
-
-As an example, consider the following types.
-These illustrations use C#, but analogous types can be defined in all supported languages.
-Class `PropObj` is a concrete type for `TProp`:
-
-```csharp
-public partial class PropObj
-{
-    public int? Foo { get; set; } = default;
-    public string? Bar { get; set; } = default;
-    public Dictionary<string, int?> Baz { get; set; } = new();
-}
-```
-
-Class `CtrlObj` is a concrete type for `TCtrl` that aligns with `PropObj`:
-
-```csharp
-public partial class CtrlObj
-{
-    public bool Foo { get; set; } = default;
-    public bool Bar { get; set; } = default;
-    public List<string> Baz { get; set; } = new();
-}
-```
-
-Class `StatObj` is a concrete type for `TStat` that aligns with `PropObj` and has `TStatVal` of integer:
-
-```csharp
-public partial class StatObj
-{
-    public int? Foo { get; set; } = default;
-    public int? Bar { get; set; } = default;
-    public Dictionary<string, int> Baz { get; set; } = new();
-}
-```
-
-The above types are used in the RPC and Telemetry realizations of Property actions.
-
-## Envoy implementation
-
-Continuing to illustrate in C#, the client-side `PropertyConsumer` is implemented as follows:
-
-```csharp
-public class PropertyWriteRequester<TProp, TStat> : CommandInvoker<TProp, TStat>;
-
-public class PropertyReadRequester<TCtrl, TProp> : CommandInvoker<TCtrl, TProp>;
-
-public class PropertyObserveRequester<TCtrl, TStat> : CommandInvoker<TCtrl, TStat>;
-
-public class PropertyUnobserveRequester<TCtrl, TStat> : CommandInvoker<TCtrl, TStat>;
-
-public class PropertyListener<TProp> : TelemetryReceiver<TProp>;
-```
-
-The service-side `PropertyMaintainer` is implemented as follows:
-
-```csharp
-public class PropertyWriteResponder<TProp, TStat> : CommandExecutor<TProp, TStat>;
-
-public class PropertyReadResponder<TCtrl, TProp> : CommandExecutor<TCtrl, TProp>;
-
-public class PropertyObserveResponder<TCtrl, TStat> : CommandExecutor<TCtrl, TStat>;
-
-public class PropertyUnobserveResponder<TCtrl, TStat> : CommandExecutor<TCtrl, TStat>;
-
-public class PropertyNotifier<TProp> : TelemetrySender<TProp>;
-```
-
-The *write* action is performed by issuing a 'write' Command request.
-
-* The request payload is an instance of `TProp`.
-  * For statically itemized properties, the optional fields in the `TProp` request object contain values for any Properties that are to be written.
-  * For dynamically itemized properties, the keys in the request map indicate which Properties to write, and the corresponding values are what is to be written.
-* The response payload is an instance of `TStat`.
-  * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the write operation for the Property named by the field.
-  * For dynamically itemized properties, each value in the response map indicates the status of the write operation for the Property named by the key.
-  * The semantics of `TStatVal` values are determined by the service that implements the property.
-
-The *read* action is performed by issuing a 'read' Command request.
-
-* The request payload is an instance of `TCtrl`.
-  * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be read.
-  * For dynamically itemized properties, the elements in the request array indicate the names of the Properties to read.
-* The response payload is an instance of `TProp`.
-  * For statically itemized properties, the optional fields in the `TProp` response object contain values for any Properties that have been read.
-  * For dynamically itemized properties, the keys in the response map indicate which Properties have been read, and the corresponding values are what was read.
-
-The *observe* action is performed by issuing an 'observe' Command request.
-
-* The request payload is an instance of `TCtrl`.
-  * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be added to the notify list.
-  * For dynamically itemized properties, the elements in the request array indicate the names of the Properties to add to the notify list.
-  * The maintainer may keep a single notify list across all consumers, or it may keep a separate notify list for each consumer; in the latter case, the maintainer must be provided with a way to identify the consumer that requested the observation.
-* The response payload is an instance of `TStat`.
-  * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the observe operation for the Property named by the field.
-  * For dynamically itemized properties, each value in the response map indicates the status of the observe operation for the Property named by the key.
-  * The semantics of `TStatVal` values are determined by the service that implements the property.
-  * The maintainer's response may additionally provide status values for the observation state of properties other than those named in the 'observe' request.
-
-The *unobserve* action is performed by issuing an 'unobserve' Command request.
-
-* The request payload is an instance of `TCtrl`.
-  * For statically itemized properties, the optional fields in the `TCtrl` request object are `true` for each field whose Property is to be removed from the notify list.
-  * For dynamically itemized properties, the elements in the request array indicate the names of the Properties to remove from the notify list.
-  * The maintainer may keep a single notify list across all consumers, or it may keep a separate notify list for each consumer; in the latter case, the maintainer must be provided with a way to identify the consumer that requested the observation.
-* The response payload is an instance of `TStat`.
-  * For statically itemized properties, each optional field in the `TStat` response object indicates the status of the unobserve operation for the Property named by the field.
-  * For dynamically itemized properties, each value in the response map indicates the status of the unobserve operation for the Property named by the key.
-  * The semantics of `TStatVal` values are determined by the service that implements the property.
-  * The maintainer's response may additionally provide status values for the observation state of properties other than those named in the 'unobserve' request.
-
-The *notify* action is performed by sending a Telemetry with a payload that is an instance of `TProp`.
-
-* For statically itemized properties, the optional fields in the `TProp` notify object contain values for any Properties that are in the notify list.
-* For dynamically itemized properties, the key/value pairs in the notify map indicate which Properties are in the notify list and their corresponding values.
-
-## Additive change to DTDL Mqtt extension
-
-To support MQTT communication of DTDL Property contents, the Mqtt extension will be updated.
-Specifically, when the Mqtt adjunct type co-types an Interface, it adds properties `commandTopic`, `telemetryTopic`, and [several others](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.mqtt.v3.md#mqtt-adjunct-type).
-As part of the present change, an additional property will be added:
+When the Mqtt adjunct type co-types an Interface, it adds properties `commandTopic`, `telemetryTopic`, and [several others](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.mqtt.v3.md#mqtt-adjunct-type).
+As part of the present change, another property will be added:
 
 | Property | Required | Data type | Limits | Description |
 | --- | --- | --- | --- | --- |
-| `propertyTopic` | optional | *string* | slash-separated sequence of character-restricted labels and/or brace-enclosed tokens | MQTT topic pattern on which a request or notification is published. |
+| `propertyTopic` | optional | *string* | slash-separated sequence of character-restricted labels and/or brace-enclosed tokens | MQTT topic pattern on which a read or write request is published. |
 
 The DTDL Mqtt extension places no restrictions &mdash; other than basic syntactical constraints &mdash; on the set of tokens used in MQTT topic patterns.
 Topic tokens recognized by the ProtocolCompiler are defined in the [topic-structure](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/topic-structure.md) document.
@@ -207,17 +53,25 @@ The sets of tokens differ between RPC and Telemetry, and the following set of to
 
 | Topic token | Description | Required |
 | --- | --- | --- |
-| `{modelId}` | The identifier of the service model, which is the full DTMI of the Interface, might include the version | optional |
+| `{modelId}` | The identifier of the service model, which is the full DTMI of the Interface | optional |
 | `{maintainerId}` | Identifier of the maintainer, by default the MQTT client ID | optional |
-| `{sourceId}` | Identifier of the source of the request or notification, by default the MQTT client ID | optional |
-| `{action}` | One of "read", "write", "observe", "unobserve", or "notify" | optional |
+| `{consumerClientId}` | The MQTT client ID of the endpoint that requests to read or write a Property | optional |
+| `{propertyName}` | The name of the Property | optional |
+| `{action}` | "read" or "write" | optional |
 
-An example Property topic pattern is illustrated in the sample model below.
+>[!NOTE]
+> The string value of the `propertyTopic` property is not required to contain the `{propertyName}` token, but Property communication differs depending on whether this token is present:
+>
+> * If the `propertyTopic` property contains a `{propertyName}` token, each Property is assigned a separate MQTT pub/sub topic, and each is read or written separately.
+> * If the `propertyTopic` property does not contain a `{propertyName}` token, all Properties in the Interface are grouped into a collection that is read or written with a combined payload. This does not require updating all Properties with each write operation, but it provides the option of writing multiple Properties in a single consistent update.
 
-## Sample model
+>[!NOTE]
+> The action token is optional because a model might have no writable properties, in which case all requests are implicitly read requests.
 
-The following DTDL model defines three Properties, two of which ("Foo" and "Bar") are statically itemized, and one of which ("Props") is dynamically itemized.
-These Properties correspond to the example types [defined above](#property-envoy).
+#### Basic sample model with separate Property topics
+
+The following sample model defines two Properties, one read-only and one writable.
+The property topic pattern contains the tokens "{propertyName}" and "{action}".
 
 ```json
 {
@@ -225,7 +79,7 @@ These Properties correspond to the example types [defined above](#property-envoy
   "@id": "dtmi:propertySketch:PropertySketch;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
-  "propertyTopic": "sample/{modelId}/{sourceId}/property/{action}",
+  "propertyTopic": "sample/property/{propertyName}/{action}",
   "contents": [
     {
       "@type": "Property",
@@ -235,11 +89,148 @@ These Properties correspond to the example types [defined above](#property-envoy
     {
       "@type": "Property",
       "name": "Bar",
+      "writable": true,
       "schema": "string"
+    }
+  ]
+}
+```
+
+This model generates three Commands:
+
+| Command name | MQTT topic | Example request | Example response |
+| --- | --- | --- | --- |
+| ReadFoo | "sample/property/Foo/read" | | { "Foo": 33 } |
+| ReadBar | "sample/property/Bar/read" | | { "Bar": "hello" } |
+| WriteBar | "sample/property/Bar/write" | { "Bar": "bye" } | |
+
+The two read Commands have no request payloads.
+Their response payloads are objects, each with a single required field.
+The reverse holds for the write Command, which is defined only for the writable property.
+
+#### Basic sample model with aggregated Property topics
+
+The next sample model is identical to the above except for the property topic value, which does not contain a "{propertyName}" token:
+
+```json
+  "propertyTopic": "sample/property/{action}"
+```
+
+This model generates two Commands:
+
+| Command name | MQTT topic | Example request | Example response |
+| --- | --- | --- | --- |
+| Read | "sample/property/read" | | { "Foo": 33, "Bar": "hello" } |
+| Write | "sample/property/write" | { "Bar": "bye" } | |
+
+In general, a model that does not contain a "{propertyName}" token generates at most two Commands, one for reading and one for writing.
+If no Property in the Interface is writable, only a read Command is generated.
+
+The read Command has no request payload, and the write Command has no response payload.
+Fields in the read response are not optional and not nullable; all values are read on each read Command.
+Fields in the write request are optional; only fields that are present and have non-null values will be written.
+
+### New adjunct types: PropertyResult, PropertyValue, ReadError, and WriteError
+
+The second additive change to the Mqtt extension is support for modeling the error conditions that can result from a Property read or write.
+Mechanisms for modeling errors in Comamand responses are defined in [ADR 19](./0019-codegen-user-errs.md).
+The present ADR adds closely analogous mechanims for modeling errors in Property read/write responses.
+Specifically, the following four adjunct types are added.
+
+| New Adjunct Type | Material Cotype | Analogous ADR19 Type |
+| --- | --- | --- |
+| PropertyResult | Object | Result |
+| PropertyValue | Field | NormalResult |
+| ReadError | Field | ErrorResult |
+| WriteError | Field | ErrorResult |
+
+These adjunct types behave nearly identically, *mutatis mutandis*, to the analogous types defined for Command in ADR19.
+Specifically:
+
+* PropertyResult defines the type sent on the wire in a read response.
+* PropertyResult also defines the type sent on the wire in a write response, except there is no payload when there is no error.
+* PropertyValue defines the type returned by the Read API when there is no error.
+* PropertyValue also defines the type accepted by the Write API for writable Properties.
+* ReadError defines the type returned by the Read API when an error occurs during reading.
+* WriteError defines the type returned by the Write API when an error occurs during writing.
+
+In addition, the schema of a Field that is co-typed ReadError or WriteError must be an Object that is co-typed with the extant Error adjunct type.
+
+The following sample model illustrates the use of these new adjunct types in an enhancement of the above model.
+
+```json
+{
+  "@context": [ "dtmi:dtdl:context;4", "dtmi:dtdl:extension:mqtt;4" ],
+  "@id": "dtmi:propertySketch:PropertySketch;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "propertyTopic": "sample/property/{propertyName}/{action}",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Foo",
+      "schema": {
+        "@type": [ "Object", "PropertyResult" ],
+        "fields": [
+          {
+            "@type": [ "Field", "PropertyValue" ],
+            "name": "foo",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "ReadError" ],
+            "name": "propError",
+            "schema": "dtmi:com:example:FooPropertyError;1"
+          }
+        ]
+      }
     },
+    {
+      "@type": "Property",
+      "name": "Bar",
+      "writable": true,
+      "schema": {
+        "@type": [ "Object", "PropertyResult" ],
+        "fields": [
+          {
+            "@type": [ "Field", "PropertyValue" ],
+            "name": "bar",
+            "schema": "string"
+          },
+          {
+            "@type": [ "Field", "ReadError", "WriteError" ],
+            "name": "propError",
+            "schema": "dtmi:com:example:BarPropertyError;1"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+Note that the "propError" field of Property "Bar" is co-typed with both ReadError and WriteError.
+This is not a requirement.
+Writable Properties may define separate error result types for read and write Commands if desired.
+
+### New adjunct type: Fragmented
+
+The third additive change to the Mqtt extension is support for dynamically itemized Properties via the new adjunct type Fragmented.
+
+The following sample model defines a dynamically itemized, writable Property placeholder named Baz.
+
+```json
+{
+  "@context": [ "dtmi:dtdl:context;4", "dtmi:dtdl:extension:mqtt;4" ],
+  "@id": "dtmi:propertySketch:PropertySketch;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "propertyTopic": "sample/property/{propertyName}/{action}",
+  "contents": [
     {
       "@type": [ "Property", "Fragmented" ],
       "name": "Baz",
+      "writable": true,
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -256,14 +247,60 @@ These Properties correspond to the example types [defined above](#property-envoy
 }
 ```
 
-The ProtocolCompiler will aggregate all statically itemized Properties into a single set of classes.
-These classes will be analogous to the definitions of `PropObj`, `CtrlObj`, and `StatObj` defined above, each having fields for Foo, Bar, and Baz, as in this example:
+A dynamically itemized Property placeholder is defined using co-type Fragmented and a schema that is a Map whose contents are dynamically added Properties.
+The Map keys are the names of the dynamic Properties, and the Map values are the Properties themselves.
 
-```csharp
-public partial class PropObj
+The Fragmented adjunct type indicates that the Map values have analogous constraints to the Property values of normal static Properties.
+Specifically, Map values in a read response are not nullable, and all values in the Map should be returned on each read Command.
+Map values in a write request are optional and nullable:
+
+* If a key is omitted from the Map in a write request, the value is not written.
+* If a key is included and the value is non-null, the dynamic Property is added if not yet present and updated if already present.
+* If a key is included and the value is null, the dynamic Property is removed from the Map.
+
+If the above-defined error types are used with a dynamically itemized Property, the PropertyValue applies to the Map in aggregate, not to individual entries in the Map.
+
+```json
 {
-    public int? Foo { get; set; } = default;
-    public string? Bar { get; set; } = default;
-    public Dictionary<string, int?> Baz { get; set; } = new();
+  "@context": [ "dtmi:dtdl:context;4", "dtmi:dtdl:extension:mqtt;4" ],
+  "@id": "dtmi:propertySketch:PropertySketch;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "propertyTopic": "sample/property/{propertyName}/{action}",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Baz",
+      "writable": true,
+      "schema": {
+        "@type": [ "Object", "PropertyResult" ],
+        "fields": [
+          {
+            "@type": [ "Field", "PropertyValue" ],
+            "name": "baz",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "propKey",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "propValue",
+                "schema": "integer"
+              }
+            }
+          },
+          {
+            "@type": [ "Field", "ReadError", "WriteError" ],
+            "name": "propError",
+            "schema": "dtmi:com:example:BazPropertyError;1"
+          }
+        ]
+      }
+    }
+  ]
 }
 ```
+
+If a modeler wishes to return a Map of error conditions so that each condition can be paired with a dynamic Property in the Map, this must be defined manually.
+In other words, the schema of the Error must be an Object containing a Map field.
