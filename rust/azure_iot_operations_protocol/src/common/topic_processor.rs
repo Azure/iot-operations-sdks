@@ -50,7 +50,7 @@ impl std::fmt::Display for TopicPatternError {
 #[derive(thiserror::Error, Debug)]
 pub enum TopicPatternErrorKind {
     /// The topic pattern is invalid
-    #[error("Topic pattern '{0}' is invalid")]
+    #[error("Invalid topic pattern: {0}")]
     Pattern(String),
     /// The share name is invalid
     #[error("Share name '{0}' is invalid")]
