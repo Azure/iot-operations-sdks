@@ -192,7 +192,7 @@ pub struct DiscoveredDatasetDataPoint {
     /// UTC timestamp indicating when the data point was added or modified.
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the data point
-    pub name: Option<String>,
+    pub name: String,
     /// URI or type definition id
     pub type_ref: Option<String>,
 }
@@ -284,7 +284,7 @@ pub struct ManagementGroup {
     /// Array of actions that are part of the management group. Each action can have an individual configuration.
     pub actions: Vec<ManagementGroupAction>, // if None on generated model, we can represent as empty vec
     /// Default response timeout for all actions that are part of the management group.
-    pub default_time_out_in_seconds: Option<u32>,
+    pub default_timeout_in_seconds: Option<u32>,
     /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
     pub default_topic: Option<String>,
     /// Stringified JSON that contains connector-specific configuration for the management group.
@@ -301,7 +301,7 @@ pub struct DiscoveredManagementGroup {
     /// Array of actions that are part of the management group. Each action can have an individual configuration.
     pub actions: Vec<DiscoveredManagementGroupAction>, // if None on generated model, we can represent as empty vec
     /// Default response timeout for all actions that are part of the management group.
-    pub default_time_out_in_seconds: Option<u32>,
+    pub default_timeout_in_seconds: Option<u32>,
     /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
     pub default_topic: Option<String>,
     /// Timestamp (in UTC) indicating when the management group was added or modified.
@@ -326,7 +326,7 @@ pub struct ManagementGroupAction {
     /// The target URI on which a client can invoke the specific action.
     pub target_uri: String,
     /// Response timeout for the action.
-    pub time_out_in_seconds: Option<u32>,
+    pub timeout_in_seconds: Option<u32>,
     /// The MQTT topic path on which a client will receive the request for the action.
     pub topic: Option<String>,
     /// URI or type definition ID.
@@ -347,7 +347,7 @@ pub struct DiscoveredManagementGroupAction {
     /// The target URI on which a client can invoke the specific action.
     pub target_uri: String,
     /// Response timeout for the action.
-    pub time_out_in_seconds: Option<u32>,
+    pub timeout_in_seconds: Option<u32>,
     /// The MQTT topic path on which a client will receive the request for the action.
     pub topic: Option<String>,
     /// URI or type definition id of the management group action
@@ -403,7 +403,7 @@ pub struct DiscoveredEventDataPoint {
     /// UTC timestamp indicating when the data point was added or modified.
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the data point.
-    pub name: Option<String>,
+    pub name: String,
 }
 
 // TODO: turn into rust enums for which of these options can correlate to which destination enums
@@ -898,7 +898,7 @@ impl From<base_client_gen::AssetManagementGroupSchemaElementSchema> for Manageme
     fn from(value: base_client_gen::AssetManagementGroupSchemaElementSchema) -> Self {
         ManagementGroup {
             actions: value.actions.option_vec_into().unwrap_or_default(),
-            default_time_out_in_seconds: value.default_time_out_in_seconds,
+            default_timeout_in_seconds: value.default_timeout_in_seconds,
             default_topic: value.default_topic,
             management_group_configuration: value.management_group_configuration,
             name: value.name,
@@ -911,7 +911,7 @@ impl From<DiscoveredManagementGroup> for base_client_gen::DiscoveredAssetManagem
     fn from(value: DiscoveredManagementGroup) -> Self {
         base_client_gen::DiscoveredAssetManagementGroup {
             actions: value.actions.option_vec_into(),
-            default_time_out_in_seconds: value.default_time_out_in_seconds,
+            default_timeout_in_seconds: value.default_timeout_in_seconds,
             default_topic: value.default_topic,
             last_updated_on: value.last_updated_on,
             management_group_configuration: value.management_group_configuration,
@@ -930,7 +930,7 @@ impl From<base_client_gen::AssetManagementGroupActionSchemaElementSchema>
             action_type: value.action_type.into(),
             name: value.name,
             target_uri: value.target_uri,
-            time_out_in_seconds: value.time_out_in_seconds,
+            timeout_in_seconds: value.timeout_in_seconds,
             topic: value.topic,
             type_ref: value.type_ref,
         }
@@ -947,7 +947,7 @@ impl From<DiscoveredManagementGroupAction>
             last_updated_on: value.last_updated_on,
             name: value.name,
             target_uri: value.target_uri,
-            time_out_in_seconds: value.time_out_in_seconds,
+            timeout_in_seconds: value.timeout_in_seconds,
             topic: value.topic,
             type_ref: value.type_ref,
         }

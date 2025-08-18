@@ -1,0 +1,90 @@
+﻿[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4",
+      "dtmi:dtdl:extension:mqtt;4"
+    ],
+    "@id": "dtmi:test:TelemetryRecursiveSchemas;1",
+    "@type": [ "Interface", "Mqtt" ],
+    "payloadFormat": "Json/ecma/404",
+    "telemetryTopic": "sample/{senderId}/telemetry",
+    "schemas": [
+      {
+        "@id": "dtmi:test:treeNode;1",
+        "@type": "Object",
+        "fields": [
+          {
+            "name": "value",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Indirect" ],
+            "name": "left",
+            "schema": "dtmi:test:treeNode;1"
+          },
+          {
+            "@type": [ "Field", "Indirect" ],
+            "name": "right",
+            "schema": "dtmi:test:treeNode;1"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": "Telemetry",
+        "name": "tree",
+        "schema": "dtmi:test:treeNode;1"
+      },
+      {
+        "@type": "Telemetry",
+        "name": "recursiveArray",
+        "schema": {
+          "@id": "dtmi:test:recursiveArray;1",
+          "@type": "Array",
+          "elementSchema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "name": "elements",
+                "schema": "dtmi:test:recursiveArray;1"
+              },
+              {
+                "name": "content",
+                "schema": "double"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": "Telemetry",
+        "name": "recursiveMap",
+        "schema": {
+          "@id": "dtmi:test:recursiveMap;1",
+          "@type": "Map",
+          "mapKey": {
+            "name": "stringKey",
+            "schema": "string"
+          },
+          "mapValue": {
+            "name": "recursiveValue",
+            "schema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "name": "value",
+                  "schema": "dtmi:test:recursiveMap;1"
+                },
+                {
+                  "name": "content",
+                  "schema": "double"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+]

@@ -59,12 +59,13 @@
 
             if (schemaElt.TryGetProperty("properties", out JsonElement propertiesElt) && schemaElt.GetProperty("type").GetString() == "object")
             {
+                HashSet<string> indirectFields = schemaElt.TryGetProperty("x-indirect", out JsonElement indirectElt) ? indirectElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
                 HashSet<string> requiredFields = schemaElt.TryGetProperty("required", out JsonElement requiredElt) ? requiredElt.EnumerateArray().Select(e => e.GetString()!).ToHashSet() : new HashSet<string>();
                 schemaTypes.Add(new ObjectType(
                     schemaName,
                     genNamespace,
                     description,
-                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(rootElt, p.Name, p.Value, internalDefsKey, requiredFields, genNamespace, retriever))));
+                    propertiesElt.EnumerateObject().ToDictionary(p => new CodeName(p.Name), p => GetObjectTypeFieldInfo(rootElt, p.Name, p.Value, internalDefsKey, indirectFields, requiredFields, genNamespace, retriever))));
             }
             else if (schemaElt.TryGetProperty("enum", out JsonElement enumElt))
             {
@@ -94,10 +95,11 @@
             }
         }
 
-        private ObjectType.FieldInfo GetObjectTypeFieldInfo(JsonElement rootElt, string fieldName, JsonElement schemaElt, string? internalDefsKey, HashSet<string> requiredFields, CodeName genNamespace, Func<string, string> retriever)
+        private ObjectType.FieldInfo GetObjectTypeFieldInfo(JsonElement rootElt, string fieldName, JsonElement schemaElt, string? internalDefsKey, HashSet<string> indirectFields, HashSet<string> requiredFields, CodeName genNamespace, Func<string, string> retriever)
         {
             return new ObjectType.FieldInfo(
                 GetSchemaTypeFromJsonElement(rootElt, schemaElt, internalDefsKey, genNamespace, retriever),
+                indirectFields.Contains(fieldName),
                 requiredFields.Contains(fieldName),
                 schemaElt.TryGetProperty("description", out JsonElement descElt) ? descElt.GetString() : null,
                 schemaElt.TryGetProperty("index", out JsonElement indexElt) ? indexElt.GetInt32() : null);

@@ -116,13 +116,14 @@
         private ObjectType.FieldInfo GetObjectTypeFieldInfo(JsonElement fieldElt, List<SchemaType> schemaTypes, CodeName parentNamespace)
         {
             JsonElement typeElt = fieldElt.GetProperty("type");
+            bool isIndirect = fieldElt.TryGetProperty("doc", out JsonElement docElt) && docElt.GetString() == "[INDIRECT]";
             bool isOptional = typeElt.ValueKind == JsonValueKind.Array && typeElt[0].GetString() == "null";
-            return isOptional ? GetNonNullTypeFieldInfo(typeElt[1], schemaTypes, parentNamespace, isRequired: false) : GetNonNullTypeFieldInfo(fieldElt, schemaTypes, parentNamespace, isRequired: true);
+            return isOptional ? GetNonNullTypeFieldInfo(typeElt[1], schemaTypes, parentNamespace, isIndirect, isRequired: false) : GetNonNullTypeFieldInfo(fieldElt, schemaTypes, parentNamespace, isIndirect, isRequired: true);
         }
 
-        private ObjectType.FieldInfo GetNonNullTypeFieldInfo(JsonElement schemaElt, List<SchemaType> schemaTypes, CodeName parentNamespace, bool isRequired)
+        private ObjectType.FieldInfo GetNonNullTypeFieldInfo(JsonElement schemaElt, List<SchemaType> schemaTypes, CodeName parentNamespace, bool isIndirect, bool isRequired)
         {
-            return new ObjectType.FieldInfo(GetSchemaType(schemaElt, schemaTypes, parentNamespace), isRequired, null, null);
+            return new ObjectType.FieldInfo(GetSchemaType(schemaElt, schemaTypes, parentNamespace), isIndirect, isRequired, null, null);
         }
     }
 }
