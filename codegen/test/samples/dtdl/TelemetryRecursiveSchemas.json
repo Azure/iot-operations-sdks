@@ -48,6 +48,10 @@
               {
                 "name": "elements",
                 "schema": "dtmi:test:recursiveArray;1"
+              },
+              {
+                "name": "content",
+                "schema": "double"
               }
             ]
           }
@@ -71,6 +75,10 @@
                 {
                   "name": "value",
                   "schema": "dtmi:test:recursiveMap;1"
+                },
+                {
+                  "name": "content",
+                  "schema": "double"
                 }
               ]
             }
