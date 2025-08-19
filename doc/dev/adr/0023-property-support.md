@@ -137,7 +137,7 @@ If such control is desired, the model must define an Object as the schema of the
 
 The second additive change to the Mqtt extension is support for modeling the error conditions that can result from a Property read or write.
 Mechanisms for modeling errors in Command responses are defined in [ADR 19](./0019-codegen-user-errs.md).
-The present ADR adds closely analogous mechanims for modeling errors in Property read/write responses.
+The present ADR adds closely analogous mechanisms for modeling errors in Property read/write responses.
 Specifically, the following four adjunct types are added.
 
 | New Adjunct Type | Material Cotype | Analogous ADR19 Type | Field is in message |
@@ -157,7 +157,7 @@ Specifically:
 * ReadError defines the type returned by the Read API when an error occurs during reading.
 * WriteError defines the type returned by the Write API when an error occurs during writing.
 
-> * The types generated from PropertyValue for Read and Write are not exactly the same when there is an aggreted Property topic.
+> * The types generated from PropertyValue for Read and Write are not exactly the same when there is an aggregated Property topic.
 > In this case, each field in the value accepted by the Write API will be optional/nullable, whereas the fields in the value returned by the Read API will not be.
 
 In addition, the schema of a Field that is co-typed ReadError or WriteError must be an Object that is co-typed with the extant Error adjunct type.
