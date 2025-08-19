@@ -129,6 +129,9 @@ If no Property in the Interface is writable, only a read Command is generated.
 The read Command has no request payload, and the write Command has no response payload.
 Fields in the read response are not optional and not nullable; all values are read on each read Command.
 Fields in the write request are optional; only fields that are present and have non-null values will be written.
+This optionality/nullability is defined by the code-generation process and is not affected in any way by the user's model.
+There is no way for a user to add (or remove) optionality/nullability at the top level of a Property.
+If such control is desired, the model must define an Object as the schema of the Property, allowing selectable optionality on the Fields within the Object.
 
 ### New adjunct types: PropertyResult, PropertyValue, ReadError, and WriteError
 
@@ -137,22 +140,25 @@ Mechanisms for modeling errors in Command responses are defined in [ADR 19](./00
 The present ADR adds closely analogous mechanims for modeling errors in Property read/write responses.
 Specifically, the following four adjunct types are added.
 
-| New Adjunct Type | Material Cotype | Analogous ADR19 Type |
-| --- | --- | --- |
-| PropertyResult | Object | Result |
-| PropertyValue | Field | NormalResult |
-| ReadError | Field | ErrorResult |
-| WriteError | Field | ErrorResult |
+| New Adjunct Type | Material Cotype | Analogous ADR19 Type | Field is in message |
+| --- | --- | --- | --- |
+| PropertyResult | Object | Result | |
+| PropertyValue | Field | NormalResult | Read response when no error |
+| ReadError | Field | ErrorResult | Read response when error |
+| WriteError | Field | ErrorResult | Write response when error |
 
 These adjunct types behave nearly identically, *mutatis mutandis*, to the analogous types defined for Command in ADR19.
 Specifically:
 
 * PropertyResult defines the type sent on the wire in a read response.
 * PropertyResult also defines the type sent on the wire in a write response, except there is no payload when there is no error.
-* PropertyValue defines the type returned by the Read API when there is no error.
-* PropertyValue also defines the type accepted by the Write API for writable Properties.
+* PropertyValue defines the type returned by the Read API when there is no error. *
+* PropertyValue also defines the type accepted by the Write API for writable Properties. *
 * ReadError defines the type returned by the Read API when an error occurs during reading.
 * WriteError defines the type returned by the Write API when an error occurs during writing.
+
+> * The types generated from PropertyValue for Read and Write are not exactly the same when there is an aggreted Property topic.
+> In this case, each field in the value accepted by the Write API will be optional/nullable, whereas the fields in the value returned by the Read API will not be.
 
 In addition, the schema of a Field that is co-typed ReadError or WriteError must be an Object that is co-typed with the extant Error adjunct type.
 
@@ -303,4 +309,32 @@ If the above-defined error types are used with a dynamically itemized Property, 
 ```
 
 If a modeler wishes to return a Map of error conditions so that each condition can be paired with a dynamic Property in the Map, this must be defined manually.
-In other words, the schema of the Error must be an Object containing a Map field.
+In other words, the schema of the Error must be an Object containing a Map field, like this:
+
+```json
+{
+  "@id": "dtmi:com:example:BazPropertyError;1",
+  "@type": [ "Object", "Error" ],
+  "fields": [
+    {
+      "@type": [ "Field", "ErrorMessage" ],
+      "name": "explanation",
+      "schema": "string"
+    },
+    {
+      "name": "details",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "propKey",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "errorCondition",
+          "schema": "string"
+        }
+      }
+    }
+  ]
+}
+```
