@@ -153,9 +153,26 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
                 // now we should update the status of the asset
                 let asset_status = generate_asset_status(&asset_client);
 
-                if let Err(e) = asset_client.report_status(asset_status).await {
+                if let Err(e) = asset_client
+                    .report_asset_status_if_modified(|curr_status| {
+                        if curr_status.is_err() {
+                            log::warn!(
+                                "Asset status already reported as error, not updating again"
+                            );
+                            None
+                        } else {
+                            log::info!("Reporting asset status: {asset_status:?}");
+                            Some(Ok(()))
+                        }
+                    })
+                    .await
+                {
                     log::error!("Error reporting asset status: {e}");
                 }
+
+                // if let Err(e) = asset_client.report_status(asset_status).await {
+                //     log::error!("Error reporting asset status: {e}");
+                // }
 
                 // Start handling the datasets for this asset
                 // if we didn't accept the asset, then we still want to run this to wait for updates
@@ -240,6 +257,7 @@ async fn run_dataset(mut data_operation_client: DataOperationClient) {
 
                         let message_schema =
                             derived_json::create_schema(&sample_data).unwrap();
+                        // FIN: Provide the schema reference in the report_message_schema_if_modified
                         match data_operation_client.report_message_schema(message_schema).await {
                             Ok(message_schema_reference) => {
                                 log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
