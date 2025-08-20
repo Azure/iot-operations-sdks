@@ -63,23 +63,6 @@ const DEFAULT_LOG_LEVEL: &str =
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Initialize the logger
-    // TODO: Use a more sophisticated logger configuration in production
-    env_logger::Builder::new()
-        .filter_level(log::LevelFilter::Debug)
-        .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
-        .filter_module("reqwest", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_protocol", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_services", log::LevelFilter::Warn)
-        .filter_module("azure_iot_operations_connector", log::LevelFilter::Warn)
-        .filter_module("notify_debouncer_full", log::LevelFilter::Off)
-        .filter_module("notify::inotify", log::LevelFilter::Off)
-        .init();
-
-    log::info!("Starting connector");
-
     // Create the connector artifacts from the deployment, IMPLEMENT: Use them as needed
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
 
@@ -87,6 +70,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let otel_config = connector_artifacts.to_otel_config(OTEL_TAG, DEFAULT_LOG_LEVEL);
     let mut otel_exporter = Otel::new(otel_config);
     let otel_task = otel_exporter.run();
+
+    log::info!("Starting connector");
 
     // Create the appplication context used by the AIO SDK
     let application_context = ApplicationContextBuilder::default().build()?;
