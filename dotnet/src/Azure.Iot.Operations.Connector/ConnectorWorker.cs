@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Data;
 using System.Collections.Generic;
 using System.Text;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
@@ -9,9 +10,11 @@ using Azure.Iot.Operations.Connector.Exceptions;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.LeaderElection;
 using Azure.Iot.Operations.Services.SchemaRegistry;
+using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
 using Azure.Iot.Operations.Services.StateStore;
 using Microsoft.Extensions.Logging;
 
@@ -38,6 +41,12 @@ namespace Azure.Iot.Operations.Connector
 
         // Keys are <deviceName>_<inboundEndpointName>_<assetName> and values are the running task and their cancellation token to signal once the asset is no longer available or the connector is shutting down
         private readonly ConcurrentDictionary<string, UserTaskContext> _assetTasks = new();
+
+        // keys are "{composite device name}_{asset name}_{dataset name}. The value is the message schema registered for that device's asset's dataset
+        private readonly ConcurrentDictionary<string, Schema> _registeredDatasetMessageSchemas = new();
+
+        // keys are "{composite device name}_{asset name}_{event name}. The value is the message schema registered for that device's asset's event
+        private readonly ConcurrentDictionary<string, Schema> _registeredEventMessageSchemas = new();
 
         /// <summary>
         /// Event handler for when an device becomes available.
@@ -238,13 +247,30 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Push a sampled dataset to the configured destinations.
         /// </summary>
+        /// <param name="deviceName">The name of the device that this dataset belongs to</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint that this dataset belongs to</param>
         /// <param name="asset">The asset that the dataset belongs to.</param>
+        /// <param name="assetName">The name of the asset that the dataset belongs to</param>
         /// <param name="dataset">The dataset that was sampled.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        public async Task ForwardSampledDatasetAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetDataset dataset, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
+
+            CloudEvent? cloudEvent = null;
+            if (_registeredDatasetMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", out var registeredDatasetMessageSchema))
+            {
+                if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
+                {
+                    cloudEvent = ConstructCloudEventHeaders(inboundEndpointName, registeredDatasetMessageSchema);
+                }
+                else
+                {
+                    _logger.LogError("Cannot construct cloud event headers for dataset because its inbound endpoint name is not a valid Uri or Uri reference");
+                }
+            }
 
             _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
@@ -274,6 +300,19 @@ namespace Azure.Iot.Operations.Connector
                     if (ttl != null)
                     {
                         mqttMessage.MessageExpiryInterval = (uint)ttl.Value;
+                    }
+
+                    if (cloudEvent != null)
+                    {
+                        mqttMessage.AddCloudEvents(cloudEvent);
+                    }
+
+                    if (userData != null)
+                    {
+                        foreach (string key in userData.Keys)
+                        {
+                            mqttMessage.AddUserProperty(key, userData[key]);
+                        }
                     }
 
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
@@ -317,11 +356,15 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Push a received event payload to the configured destinations.
         /// </summary>
+        /// <param name="deviceName">The name of the device that this event belongs to</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint that this event belongs to</param>
         /// <param name="asset">The asset that this event came from.</param>
+        /// <param name="assetName">The name of the asset that this event belongs to.</param>
         /// <param name="assetEvent">The event.</param>
         /// <param name="serializedPayload">The payload to push to the configured destinations.</param>
+        /// <param name="userData">Optional headers to include in the telemetry. Only applicable for datasets with a destination of the MQTT broker.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ForwardReceivedEventAsync(Asset asset, AssetEvent assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        public async Task ForwardReceivedEventAsync(string deviceName, string inboundEndpointName, Asset asset, string assetName, AssetEvent assetEvent, byte[] serializedPayload, Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -331,6 +374,19 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogError("Cannot forward received event because it has no configured destinations");
                 return;
+            }
+
+            CloudEvent? cloudEvent = null;
+            if (_registeredEventMessageSchemas.TryGetValue($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", out var registeredEventMessageSchema))
+            {
+                if (Uri.IsWellFormedUriString(inboundEndpointName, UriKind.RelativeOrAbsolute))
+                {
+                    cloudEvent = ConstructCloudEventHeaders(inboundEndpointName, registeredEventMessageSchema);
+                }
+                else
+                {
+                    _logger.LogError("Cannot construct cloud event headers for event because its inbound endpoint name is not a valid Uri or Uri reference.");
+                }
             }
 
             foreach (var destination in assetEvent.Destinations)
@@ -347,6 +403,19 @@ namespace Azure.Iot.Operations.Connector
                     if (retain != null)
                     {
                         mqttMessage.Retain = retain == Retain.Keep;
+                    }
+
+                    if (cloudEvent != null)
+                    {
+                        mqttMessage.AddCloudEvents(cloudEvent);
+                    }
+
+                    if (userData != null)
+                    {
+                        foreach (string key in userData.Keys)
+                        {
+                            mqttMessage.AddUserProperty(key, userData[key]);
+                        }
                     }
 
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
@@ -526,12 +595,16 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                            await schemaRegistryClient.PutAsync(
+                            var registeredDatasetMessageSchema = await schemaRegistryClient.PutAsync(
                                 datasetMessageSchema.SchemaContent,
                                 datasetMessageSchema.SchemaFormat,
                                 datasetMessageSchema.SchemaType,
                                 datasetMessageSchema.Version ?? "1",
                                 datasetMessageSchema.Tags);
+
+                            _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+
+                            _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", registeredDatasetMessageSchema);
                         }
                         catch (Exception ex)
                         {
@@ -561,12 +634,16 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
-                            await schemaRegistryClient.PutAsync(
+                            var registeredEventSchema = await schemaRegistryClient.PutAsync(
                                 eventMessageSchema.SchemaContent,
                                 eventMessageSchema.SchemaFormat,
                                 eventMessageSchema.SchemaType,
                                 eventMessageSchema.Version ?? "1",
                                 eventMessageSchema.Tags);
+
+                            _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+
+                            _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", registeredEventSchema);
                         }
                         catch (Exception ex)
                         {
@@ -628,6 +705,16 @@ namespace Azure.Iot.Operations.Connector
         private string GetCompoundAssetName(string compoundDeviceName, string assetName)
         {
             return compoundDeviceName + "_" + assetName;
+        }
+
+        private CloudEvent ConstructCloudEventHeaders(string inboundEndpointName, Schema registeredSchema)
+        {
+            return new(new Uri(inboundEndpointName, UriKind.RelativeOrAbsolute))
+            {
+                DataSchema = $"aio-sr://{registeredSchema.Namespace}/{registeredSchema.Name}:{registeredSchema.Version}",
+                Time = _applicationContext.ApplicationHlc.Timestamp,
+                Id = Guid.NewGuid().ToString(),
+            };
         }
     }
 }

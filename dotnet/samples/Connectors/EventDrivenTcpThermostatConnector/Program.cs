@@ -10,7 +10,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddSingleton<ApplicationContext>();
         services.AddSingleton(MqttSessionClientProvider.Factory);
-        services.AddSingleton(NoMessageSchemaProvider.Factory);
+        services.AddSingleton(MessageSchemaProvider.Factory);
         services.AddSingleton(LeaderElectionConfigurationProvider.Factory);
         services.AddSingleton<IAdrClientWrapperProvider>(CustomAdrClientWrapperProvider.Factory);
         services.AddHostedService<EventDrivenTcpThermostatConnectorWorker>();

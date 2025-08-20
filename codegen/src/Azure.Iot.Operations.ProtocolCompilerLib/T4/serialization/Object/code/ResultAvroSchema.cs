@@ -8,17 +8,17 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private readonly string projectName;
         private readonly CodeName genNamespace;
         private readonly ITypeName schema;
-        private readonly List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices;
+        private readonly List<(string, string, DTSchemaInfo, bool, bool, int)> nameDescSchemaIndirectRequiredIndices;
         private readonly CodeName? sharedPrefix;
         private readonly HashSet<Dtmi> definedIds;
         private readonly int mqttVersion;
 
-        public ResultAvroSchema(string projectName, CodeName genNamespace, ITypeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix, int mqttVersion)
+        public ResultAvroSchema(string projectName, CodeName genNamespace, ITypeName schema, List<(string, string, DTSchemaInfo, bool, bool, int)> nameDescSchemaIndirectRequiredIndices, CodeName? sharedPrefix, int mqttVersion)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
             this.schema = schema;
-            this.nameDescSchemaRequiredIndices = nameDescSchemaRequiredIndices;
+            this.nameDescSchemaIndirectRequiredIndices = nameDescSchemaIndirectRequiredIndices;
             this.sharedPrefix = sharedPrefix;
             this.definedIds = new HashSet<Dtmi>();
             this.mqttVersion = mqttVersion;

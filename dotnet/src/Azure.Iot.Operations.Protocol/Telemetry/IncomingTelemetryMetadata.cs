@@ -109,7 +109,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             string specVersion = safeGetUserProperty(nameof(CloudEvent.SpecVersion).ToLowerInvariant());
 
 
-            if (specVersion != "1.0")
+            if (!specVersion.Equals("1.0", StringComparison.Ordinal))
             {
                 throw new ArgumentException($"Could not parse cloud event from telemetry: Only version 1.0 supported. Version provided: {specVersion}");
             }

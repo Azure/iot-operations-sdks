@@ -1,16 +1,15 @@
 ﻿namespace Azure.Iot.Operations.ProtocolCompilerLib
 {
     using System;
-    using DTDLParser;
 
     public class RecursionException : Exception
     {
-        public Dtmi SchemaId { get; }
+        public CodeName SchemaName { get; }
 
-        public RecursionException(Dtmi schemaId)
-            : base($"Schema {schemaId} refers to itself")
+        public RecursionException(CodeName schemaName)
+            : base($"Schema {schemaName.AsGiven} refers to itself")
         {
-            SchemaId = schemaId;
+            SchemaName = schemaName;
         }
     }
 }

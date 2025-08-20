@@ -19,7 +19,7 @@ use crate::{
         is_invalid_utf8,
         payload_serialize::{PayloadSerialize, SerializedPayload},
         topic_processor::TopicPattern,
-        user_properties::{UserProperty, validate_user_properties},
+        user_properties::{PERSIST_KEY, UserProperty, validate_user_properties},
     },
     telemetry::{
         TELEMETRY_PROTOCOL_VERSION,
@@ -187,8 +187,13 @@ pub struct Message<T: PayloadSerialize> {
     #[builder(default = "None")]
     cloud_event: Option<CloudEvent>,
     /// Indicates whether the message should be retained or not.
-    #[builder(default = "false")]
+    #[builder(default = "self.persist == Some(true)")]
     retain: bool,
+    /// Indicates that the telemetry event should be retained by the broker and stored to disk.
+    /// Note that this is only useable with the AIO Broker and with retain enabled (which will be
+    /// set by default if this option is enabled).
+    #[builder(default = "false")]
+    persist: bool,
 }
 
 impl<T: PayloadSerialize> MessageBuilder<T> {
@@ -249,6 +254,7 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
     ///     - any of `custom_user_data`'s keys or values are invalid utf-8
     ///     - `message_expiry` is > `u32::max`
     ///     - Quality of Service is not `AtMostOnce` or `AtLeastOnce`
+    ///     - Persist is enabled when Retain has been explicitly disabled
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             for (key, _) in custom_user_data {
@@ -279,6 +285,9 @@ impl<T: PayloadSerialize> MessageBuilder<T> {
                 CloudEventFields::DataContentType
                     .validate(&serialized_payload.content_type, &cloud_event.spec_version)?;
             }
+        }
+        if self.persist == Some(true) && self.retain == Some(false) {
+            return Err("Persist cannot be used without retain".to_string());
         }
         Ok(())
     }
@@ -440,6 +449,13 @@ where
             for (key, value) in cloud_event_headers {
                 message.custom_user_data.push((key, value));
             }
+        }
+
+        // Persist header
+        if message.persist {
+            message
+                .custom_user_data
+                .push((PERSIST_KEY.to_string(), true.to_string()));
         }
 
         // Add internal user properties
@@ -734,6 +750,30 @@ mod tests {
     }
 
     #[test]
+    fn test_invalid_persist_retain() {
+        let mut mock_telemetry_payload = MockPayload::new();
+        mock_telemetry_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: String::new().into(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let message_builder_result = MessageBuilder::default()
+            .payload(mock_telemetry_payload)
+            .unwrap()
+            .persist(true)
+            .retain(false)
+            .build();
+
+        assert!(message_builder_result.is_err());
+    }
+
+    #[test]
     fn test_message_defaults() {
         let mut mock_telemetry_payload = MockPayload::new();
         mock_telemetry_payload
@@ -755,6 +795,7 @@ mod tests {
         assert!(message_builder_result.is_ok());
         let m = message_builder_result.unwrap();
 
+        assert!(!m.persist);
         assert!(!m.retain);
         assert_eq!(
             m.qos,

@@ -33,7 +33,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Azure.IoT.ModelsRepository" Version="1.0.0-preview.6" />
-		<PackageReference Include="DTDLParser" Version="1.2.12-preview-g83dc10aafd" />
+		<PackageReference Include="DTDLParser" Version="1.2.13-preview-g8a42f2082f" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
 		<PackageReference Include="NuGet.Versioning" Version="6.13.2" />
 		<PackageReference Include="System.CodeDom" Version="9.0.3" />
