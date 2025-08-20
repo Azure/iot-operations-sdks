@@ -108,6 +108,28 @@ The two read Commands have no request payloads.
 Their response payloads are objects, each with a single required field.
 The reverse holds for the write Command, which is defined only for the writable property.
 
+In C#, the generated code would look something like this:
+
+```csharp
+public partial class FooProperty
+{
+    public int Foo { get; set; }
+}
+
+public partial class BarProperty
+{
+    public string Bar { get; set; }
+}
+```
+
+```csharp
+public class FooPropertyReadRequester : CommandInvoker<EmptyJson, FooProperty>;
+
+public class BarPropertyReadRequester : CommandInvoker<EmptyJson, BarProperty>;
+
+public class BarPropertyWriteRequester : CommandInvoker<BarProperty, EmptyJson>;
+```
+
 #### Basic sample model with aggregated Property topics
 
 The next sample model is identical to the above except for the property topic value, which does not contain a "{propertyName}" token:
@@ -129,9 +151,32 @@ If no Property in the Interface is writable, only a read Command is generated.
 The read Command has no request payload, and the write Command has no response payload.
 Fields in the read response are not optional and not nullable; all values are read on each read Command.
 Fields in the write request are optional; only fields that are present and have non-null values will be written.
-This optionality/nullability is defined by the code-generation process and is not affected in any way by the user's model.
-There is no way for a user to add (or remove) optionality/nullability at the top level of a Property.
-If such control is desired, the model must define an Object as the schema of the Property, allowing selectable optionality on the Fields within the Object.
+
+>[!NOTE]
+> This optionality/nullability is defined by the code-generation process and is not affected in any way by the user's model.
+> There is no way for a user to add (or remove) optionality/nullability at the top level of a Property.
+> If such control is desired, the model must define an Object as the schema of the Property, allowing selectable optionality on the Fields within the Object.
+
+In C#, the generated code would look something like this:
+
+```csharp
+public partial class PropertyCollection
+{
+    public int Foo { get; set; }
+    public string Bar { get; set; }
+}
+
+public partial class WritablePropertyCollection
+{
+    public string? Bar { get; set; }
+}
+```
+
+```csharp
+public class PropertyCollectionReadRequester : CommandInvoker<EmptyJson, PropertyCollection>;
+
+public class PropertyCollectionWriteRequester : CommandInvoker<WritablePropertyCollection, EmptyJson>;
+```
 
 ### New adjunct types: PropertyResult, PropertyValue, ReadError, and WriteError
 
@@ -140,10 +185,10 @@ Mechanisms for modeling errors in Command responses are defined in [ADR 19](./00
 The present ADR adds closely analogous mechanisms for modeling errors in Property read/write responses.
 Specifically, the following four adjunct types are added.
 
-| New Adjunct Type | Material Cotype | Analogous ADR19 Type | Field is in message |
+| New Adjunct Type | Material Cotype | Analogous ADR19 Type | On-wire usage |
 | --- | --- | --- | --- |
-| PropertyResult | Object | Result | |
-| PropertyValue | Field | NormalResult | Read response when no error |
+| PropertyResult | Object | Result | Schema of Read/Write response |
+| PropertyValue | Field | NormalResult | Read response when no error, Write request |
 | ReadError | Field | ErrorResult | Read response when error |
 | WriteError | Field | ErrorResult | Write response when error |
 
@@ -157,7 +202,7 @@ Specifically:
 * ReadError defines the type returned by the Read API when an error occurs during reading.
 * WriteError defines the type returned by the Write API when an error occurs during writing.
 
-> * The types generated from PropertyValue for Read and Write are not exactly the same when there is an aggregated Property topic.
+> \* The types generated from PropertyValue for Read and Write are not exactly the same when there is an aggregated Property topic.
 > In this case, each field in the value accepted by the Write API will be optional/nullable, whereas the fields in the value returned by the Read API will not be.
 
 In addition, the schema of a Field that is co-typed ReadError or WriteError must be an Object that is co-typed with the extant Error adjunct type.
@@ -218,6 +263,35 @@ The following sample model illustrates the use of these new adjunct types in an 
 Note that the "propError" field of Property "Bar" is co-typed with both ReadError and WriteError.
 This is not a requirement.
 Writable Properties may define separate error result types for read and write Commands if desired.
+
+In C#, the generated code for the above model would look something like this:
+
+```csharp
+public partial class FooPropertyReadResponseSchema
+{
+    public FooProperty? Foo { get; set; } = default;
+    public FooPropertyError? PropError { get; set; } = default;
+}
+
+public partial class BarPropertyReadResponseSchema
+{
+    public BarProperty? Bar { get; set; } = default;
+    public BarPropertyError? PropError { get; set; } = default;
+}
+
+public partial class BarPropertyWriteResponseSchema
+{
+    public BarPropertyError? PropError { get; set; } = default;
+}
+```
+
+```csharp
+public class FooPropertyReadRequester : CommandInvoker<EmptyJson, FooPropertyReadResponseSchema>;
+
+public class BarPropertyReadRequester : CommandInvoker<EmptyJson, BarPropertyReadResponseSchema>;
+
+public class BarPropertyWriteRequester : CommandInvoker<BarProperty, BarPropertyWriteResponseSchema>;
+```
 
 ### New adjunct type: Fragmented
 
@@ -306,6 +380,39 @@ If the above-defined error types are used with a dynamically itemized Property, 
     }
   ]
 }
+```
+
+In C#, the generated code would look something like this:
+
+```csharp
+public partial class BazProperty
+{
+    public Dictionary<string, int> Baz { get; set; }
+}
+
+public partial class BazWritableProperty
+{
+    public Dictionary<string, int?> Baz { get; set; }
+}
+```
+
+```csharp
+public partial class BazPropertyReadResponseSchema
+{
+    public BazProperty? Baz { get; set; } = default;
+    public BarPropertyError? PropError { get; set; } = default;
+}
+
+public partial class BarPropertyWriteResponseSchema
+{
+    public BazPropertyError? PropError { get; set; } = default;
+}
+```
+
+```csharp
+public class BazPropertyReadRequester : CommandInvoker<EmptyJson, BazPropertyReadResponseSchema>;
+
+public class BazPropertyWriteRequester : CommandInvoker<BazWritableProperty, BazPropertyWriteResponseSchema>;
 ```
 
 If a modeler wishes to return a Map of error conditions so that each condition can be paired with a dynamic Property in the Map, this must be defined manually.
