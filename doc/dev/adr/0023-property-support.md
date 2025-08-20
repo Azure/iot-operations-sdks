@@ -400,10 +400,10 @@ public partial class BazWritableProperty
 public partial class BazPropertyReadResponseSchema
 {
     public BazProperty? Baz { get; set; } = default;
-    public BarPropertyError? PropError { get; set; } = default;
+    public BazPropertyError? PropError { get; set; } = default;
 }
 
-public partial class BarPropertyWriteResponseSchema
+public partial class BazPropertyWriteResponseSchema
 {
     public BazPropertyError? PropError { get; set; } = default;
 }
