@@ -10,7 +10,7 @@ Have rust installed in your local machine.
 
 For a lean release build, run:
 ```shell
-cd ./tools/aiostatestore-cli
+cd ./tools/statestore-cli
 cargo build --release --config profile.release.panic=\'abort\'
 ```
 
@@ -22,7 +22,7 @@ Current requirements:
 
 Run:
 ```shell
-cd ./tools/aiostatestore-cli/test
+cd ./tools/statestore-cli/test
 ./test.sh
 ```
 
