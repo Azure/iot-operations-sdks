@@ -5,13 +5,22 @@
 Please see [readme.md](./readme.md).
 
 ## How to build?
-
+### On host machine
 Have rust installed in your local machine.
 
 For a lean release build, run:
 ```shell
 cd ./tools/statestore-cli
 cargo build --release --config profile.release.panic=\'abort\'
+```
+
+### In container
+Have docker installed on the local machine.
+
+Run
+```bash
+cd ./tools/statestore-cli
+docker build --tag statestore-cli . --progress=plain --no-cache
 ```
 
 ## How to test?
