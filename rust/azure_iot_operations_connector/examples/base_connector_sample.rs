@@ -180,7 +180,7 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
                 let asset_status = generate_asset_status(&asset_client);
 
                 if let Err(e) = asset_reporter
-                    .report_asset_status_if_modified(report_status_if_changed(asset_status))
+                    .report_status_if_modified(report_status_if_changed(asset_status))
                     .await
                 {
                     log::error!("Error reporting asset status: {e}");
@@ -212,7 +212,7 @@ async fn run_asset(mut asset_client: AssetClient) {
                 let asset_status = generate_asset_status(&asset_client);
 
                 if let Err(e) = asset_reporter
-                    .report_asset_status_if_modified(report_status_if_changed(asset_status))
+                    .report_status_if_modified(report_status_if_changed(asset_status))
                     .await
                 {
                     log::error!("Error reporting asset status: {e}");
@@ -245,7 +245,7 @@ async fn run_dataset(mut data_operation_client: DataOperationClient) {
 
     // now we should update the status of the dataset and report the message schema
     if let Err(e) = data_operation_reporter
-        .report_data_operation_status_if_modified(report_status_if_changed(Ok(())))
+        .report_status_if_modified(report_status_if_changed(Ok(())))
         .await
     {
         log::error!("Error reporting dataset status: {e}");
@@ -292,7 +292,7 @@ async fn run_dataset(mut data_operation_client: DataOperationClient) {
 
                         // now we should update the status of the dataset and report the message schema
                         if let Err(e) = data_operation_reporter
-                            .report_data_operation_status_if_modified(report_status_if_changed(Ok(())))
+                            .report_status_if_modified(report_status_if_changed(Ok(())))
                             .await
                         {
                             log::error!("Error reporting dataset status: {e}");
@@ -380,7 +380,7 @@ async fn handle_unsupported_data_operation(mut data_operation_client: DataOperat
     });
 
     if let Err(e) = data_operation_reporter
-        .report_data_operation_status_if_modified(report_status_if_changed(error_status))
+        .report_status_if_modified(report_status_if_changed(error_status))
         .await
     {
         log::error!("Error reporting {data_operation_kind:?} {data_operation_name} status: {e}");
@@ -401,9 +401,7 @@ async fn handle_unsupported_data_operation(mut data_operation_client: DataOperat
                 });
 
                 if let Err(e) = data_operation_reporter
-                    .report_data_operation_status_if_modified(report_status_if_changed(
-                        error_status,
-                    ))
+                    .report_status_if_modified(report_status_if_changed(error_status))
                     .await
                 {
                     log::error!(

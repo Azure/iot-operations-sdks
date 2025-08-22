@@ -171,7 +171,7 @@ impl AssetStatusReporter {
     ///
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_asset_status_if_modified<F>(
+    pub async fn report_status_if_modified<F>(
         &self,
         modify: F,
     ) -> Result<ModifyResult, azure_device_registry::Error>
@@ -222,7 +222,7 @@ impl DataOperationStatusReporter {
     ///
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_data_operation_status_if_modified<F>(
+    pub async fn report_status_if_modified<F>(
         &self,
         modify: F,
     ) -> Result<ModifyResult, azure_device_registry::Error>
@@ -713,9 +713,11 @@ impl DeviceEndpointClient {
     where
         F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
     {
+        // Get the current version of the device endpoint specification
         let cached_version = device_endpoint_specification.read().unwrap().version;
 
         {
+            // Get the current device status
             let status_read_guard = device_endpoint_status.read().await;
             let current_device_endpoint_status =
                 status_read_guard.get_current_device_endpoint_status(cached_version);
@@ -1420,9 +1422,11 @@ impl AssetClient {
     where
         F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
     {
+        // Get the current version of the asset specification
         let cached_version = asset_specification.read().unwrap().version;
 
         {
+            // Get the current asset status
             let status_read_guard = asset_status.read().await;
             let current_asset_status =
                 Self::get_current_asset_status(&status_read_guard, cached_version);
@@ -1477,6 +1481,7 @@ impl AssetClient {
 
         let mut asset_status_to_report = current_asset_status.into_owned();
 
+        // Update the config status
         asset_status_to_report.config = Some(azure_device_registry::ConfigStatus {
             version: cached_version,
             error: modify_result.clone().err(),
