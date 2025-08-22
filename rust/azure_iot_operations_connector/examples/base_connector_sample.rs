@@ -17,9 +17,8 @@ use azure_iot_operations_connector::{
     base_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, ClientNotification, DataOperationClient, 
-            DataOperationNotification, DeviceEndpointClient, 
-            DeviceEndpointClientCreationObservation, ModifyResult,
+            AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
+            DeviceEndpointClient, DeviceEndpointClientCreationObservation, ModifyResult,
         },
     },
     data_processor::derived_json,
@@ -143,7 +142,7 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
 async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
     // Get the status reporter for this device endpoint - create once and reuse
     let device_endpoint_reporter = device_endpoint_client.get_status_reporter();
-    
+
     loop {
         match device_endpoint_client.recv_notification().await {
             ClientNotification::Deleted => {
@@ -152,7 +151,7 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
             }
             ClientNotification::Updated => {
                 log::info!("Device updated: {device_endpoint_client:?}");
-                
+
                 // Update device status - usually only on first report or error changes
                 if let Err(e) = device_endpoint_reporter
                     .report_device_status_if_modified(report_status_if_changed(Ok(())))
@@ -203,12 +202,12 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
 async fn run_asset(mut asset_client: AssetClient) {
     // Get the status reporter for this asset - create once and reuse
     let asset_reporter = asset_client.get_status_reporter();
-    
+
     loop {
         match asset_client.recv_notification().await {
             ClientNotification::Updated => {
                 log::info!("asset updated: {asset_client:?}");
-                
+
                 // Generate status outside the closure to avoid borrowing issues
                 let asset_status = generate_asset_status(&asset_client);
 
@@ -243,7 +242,7 @@ async fn run_asset(mut asset_client: AssetClient) {
 async fn run_dataset(mut data_operation_client: DataOperationClient) {
     // Get the status reporter for this data operation - create once and reuse
     let data_operation_reporter = data_operation_client.get_status_reporter();
-    
+
     // now we should update the status of the dataset and report the message schema
     if let Err(e) = data_operation_reporter
         .report_data_operation_status_if_modified(report_status_if_changed(Ok(())))
@@ -266,16 +265,14 @@ async fn run_dataset(mut data_operation_client: DataOperationClient) {
         })
         .await
     {
-        Ok(status_reported) => {
-            match status_reported {
-                ModifyResult::Reported => {
-                    log::info!("Message Schema reported successfully");
-                }
-                ModifyResult::NotModified => {
-                    log::info!("Message Schema already exists, not reporting");
-                }
+        Ok(status_reported) => match status_reported {
+            ModifyResult::Reported => {
+                log::info!("Message Schema reported successfully");
             }
-        }
+            ModifyResult::NotModified => {
+                log::info!("Message Schema already exists, not reporting");
+            }
+        },
         Err(e) => {
             log::error!("Error reporting message schema: {e}");
         }
@@ -292,7 +289,7 @@ async fn run_dataset(mut data_operation_client: DataOperationClient) {
                 match res {
                     DataOperationNotification::Updated => {
                         log::info!("dataset updated: {data_operation_client:?}");
-                        
+
                         // now we should update the status of the dataset and report the message schema
                         if let Err(e) = data_operation_reporter
                             .report_data_operation_status_if_modified(report_status_if_changed(Ok(())))
@@ -370,10 +367,10 @@ async fn handle_unsupported_data_operation(mut data_operation_client: DataOperat
         .data_operation_name
         .clone();
     log::warn!("Data Operation kind {data_operation_kind:?} not supported for this connector");
-    
+
     // Get the status reporter for this data operation - create once and reuse
     let data_operation_reporter = data_operation_client.get_status_reporter();
-    
+
     // Report invalid definition to adr
     let error_status = Err(AdrConfigError {
         message: Some(format!(
@@ -395,7 +392,7 @@ async fn handle_unsupported_data_operation(mut data_operation_client: DataOperat
                 log::warn!(
                     "{data_operation_name} update notification received. {data_operation_kind:?} is not supported for the this Connector",
                 );
-                
+
                 let error_status = Err(AdrConfigError {
                     message: Some(format!(
                         "Data Operation kind {data_operation_kind:?} not supported for this connector",
@@ -404,7 +401,9 @@ async fn handle_unsupported_data_operation(mut data_operation_client: DataOperat
                 });
 
                 if let Err(e) = data_operation_reporter
-                    .report_data_operation_status_if_modified(report_status_if_changed(error_status))
+                    .report_data_operation_status_if_modified(report_status_if_changed(
+                        error_status,
+                    ))
                     .await
                 {
                     log::error!(

@@ -44,18 +44,17 @@ pub enum ClientNotification<T> {
     Created(T),
 }
 
-/// Represents the result of reporting a status to ADR
+/// Represents the result of a network modification
 pub enum ModifyResult {
-    /// Indicates that the status was reported successfully
+    /// Indicates that the modification was reported
     Reported,
-    /// Indicates that the status was not reported because it was not modified
+    /// Indicates that the modification did not occur
     NotModified,
 }
 
 /// A cloneable status reporter for Device and Endpoint status reporting.
 ///
-/// This provides a way to report Device and Endpoint status changes from outside the DeviceEndpointClient,
-/// enabling separation of concerns between data handling and status reporting.
+/// This provides a way to report Device and Endpoint status changes from outside the [`DeviceEndpointClient`].
 #[derive(Clone, Debug)]
 pub struct DeviceEndpointStatusReporter {
     connector_context: Arc<ConnectorContext>,
@@ -142,8 +141,7 @@ impl DeviceEndpointStatusReporter {
 
 /// A cloneable status reporter for Asset status reporting.
 ///
-/// This provides a way to report Asset status changes from outside the AssetClient,
-/// enabling separation of concerns between data handling and status reporting.
+/// This provides a way to report Asset status changes from outside the [`AssetClient`].
 #[derive(Clone, Debug)]
 pub struct AssetStatusReporter {
     connector_context: Arc<ConnectorContext>,
@@ -191,9 +189,9 @@ impl AssetStatusReporter {
     }
 }
 
-/// This provides a way to report data operation status changes from outside the DataOperationClient,
-/// allowing for thread-safe access to status reporting functionality.
-/// All reporters created from the same DataOperationClient share the same underlying state.
+/// A clonable status reporter for Data Operation status reporting.
+///
+/// This provides a way to report Data Operation status changes from outside the [`DataOperationClient`].
 #[derive(Debug, Clone)]
 pub struct DataOperationStatusReporter {
     connector_context: Arc<ConnectorContext>,
@@ -231,9 +229,11 @@ impl DataOperationStatusReporter {
     where
         F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
     {
+        // Get the current version of the asset specification
         let cached_version = self.asset_specification.read().unwrap().version;
 
         {
+            // Get the current asset status
             let status_read_guard = self.asset_status.read().await;
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
@@ -283,6 +283,7 @@ impl DataOperationStatusReporter {
             };
         }
 
+        // To modify, we need to acquire the write lock
         let mut status_write_guard = self.asset_status.write().await;
 
         if cached_version != self.asset_specification.read().unwrap().version {
@@ -290,10 +291,14 @@ impl DataOperationStatusReporter {
             return Ok(ModifyResult::NotModified);
         }
 
-        let modify_result = {
-            let current_asset_status =
-                AssetClient::get_current_asset_status(&status_write_guard, cached_version);
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
 
+        // Get the current asset status in case it has changed
+        let current_asset_status =
+            AssetClient::get_current_asset_status(&status_write_guard, cached_version);
+
+        let modify_result = {
             let modify_input = match self.data_operation_ref.data_operation_kind {
                 DataOperationKind::Dataset => current_asset_status
                     .datasets
@@ -341,17 +346,37 @@ impl DataOperationStatusReporter {
             modify_result
         };
 
-        let mut asset_status_to_report = AssetClient::get_current_asset_status(&status_write_guard, cached_version).into_owned();
+        let mut asset_status_to_report = current_asset_status.into_owned();
 
+        // Update the config status
+        asset_status_to_report.config = match asset_status_to_report.config {
+            Some(mut config) => {
+                config.version = cached_version;
+                config.last_transition_time = Some(Utc::now());
+                Some(config)
+            }
+            None => {
+                // If the config is None, we need to create a new one to report along with the
+                // data operations status
+                Some(azure_device_registry::ConfigStatus {
+                    version: cached_version,
+                    last_transition_time: Some(Utc::now()),
+                    ..Default::default()
+                })
+            }
+        };
+
+        // Update the data operation status
         match self.data_operation_ref.data_operation_kind {
             DataOperationKind::Dataset => {
                 if asset_status_to_report.datasets.is_none() {
                     asset_status_to_report.datasets = Some(Vec::new());
                 }
                 let datasets = asset_status_to_report.datasets.as_mut().unwrap();
-                match datasets.iter_mut().find(|ds_status| {
-                    ds_status.name == self.data_operation_ref.data_operation_name
-                }) {
+                match datasets
+                    .iter_mut()
+                    .find(|ds_status| ds_status.name == self.data_operation_ref.data_operation_name)
+                {
                     Some(existing_dataset) => {
                         existing_dataset.error = modify_result.err();
                     }
@@ -369,9 +394,10 @@ impl DataOperationStatusReporter {
                     asset_status_to_report.events = Some(Vec::new());
                 }
                 let events = asset_status_to_report.events.as_mut().unwrap();
-                match events.iter_mut().find(|e_status| {
-                    e_status.name == self.data_operation_ref.data_operation_name
-                }) {
+                match events
+                    .iter_mut()
+                    .find(|e_status| e_status.name == self.data_operation_ref.data_operation_name)
+                {
                     Some(existing_event) => {
                         existing_event.error = modify_result.err();
                     }
@@ -389,9 +415,10 @@ impl DataOperationStatusReporter {
                     asset_status_to_report.streams = Some(Vec::new());
                 }
                 let streams = asset_status_to_report.streams.as_mut().unwrap();
-                match streams.iter_mut().find(|s_status| {
-                    s_status.name == self.data_operation_ref.data_operation_name
-                }) {
+                match streams
+                    .iter_mut()
+                    .find(|s_status| s_status.name == self.data_operation_ref.data_operation_name)
+                {
                     Some(existing_stream) => {
                         existing_stream.error = modify_result.err();
                     }
@@ -406,8 +433,12 @@ impl DataOperationStatusReporter {
             }
         }
 
-        log::debug!("Reporting data operation status from app for {:?}", self.data_operation_ref);
+        log::debug!(
+            "Reporting data operation status from app for {:?}",
+            self.data_operation_ref
+        );
 
+        // Report the status and update the status rwlock
         AssetClient::internal_report_status(
             asset_status_to_report,
             &self.connector_context,
@@ -688,25 +719,22 @@ impl DeviceEndpointClient {
             let status_read_guard = device_endpoint_status.read().await;
             let current_device_endpoint_status =
                 status_read_guard.get_current_device_endpoint_status(cached_version);
-            match modify(
-                current_device_endpoint_status
-                    .config
-                    .as_ref()
-                    .map(|config| match &config.error {
-                        Some(e) => Err(e),
-                        None => Ok(()),
-                    }),
-            ) {
-                Some(_) => {
-                    // Continue to modify
-                }
-                None => {
-                    // If no modification is needed, return Ok
-                    return Ok(ModifyResult::NotModified);
-                }
-            }
-        };
 
+            let modify_input = current_device_endpoint_status
+                .config
+                .as_ref()
+                .map(|config| match &config.error {
+                    Some(e) => Err(e),
+                    None => Ok(()),
+                });
+
+            let Some(_modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+        }
+
+        // To modify, we need to acquire the write lock
         let mut status_write_guard = device_endpoint_status.write().await;
 
         if cached_version != device_endpoint_specification.read().unwrap().version {
@@ -714,17 +742,28 @@ impl DeviceEndpointClient {
             return Ok(ModifyResult::NotModified);
         }
 
+        // We can continue here because the device endpoint status will not change. The specification might
+        // update but we will be reporting for an old version.
+
+        // Get the current device endpoint status in case it has changed
         let current_device_endpoint_status =
             status_write_guard.get_current_device_endpoint_status(cached_version);
 
-        let Some(modify_result) = modify(current_device_endpoint_status.config.as_ref().map(
-            |config| match &config.error {
-                Some(e) => Err(e),
-                None => Ok(()),
-            },
-        )) else {
-            // If no modification is needed, return Ok
-            return Ok(ModifyResult::NotModified);
+        let modify_result = {
+            let modify_input = current_device_endpoint_status
+                .config
+                .as_ref()
+                .map(|config| match &config.error {
+                    Some(e) => Err(e),
+                    None => Ok(()),
+                });
+
+            let Some(modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+
+            modify_result
         };
 
         let device_endpoint_status_to_report = current_device_endpoint_status.into_owned();
@@ -773,25 +812,22 @@ impl DeviceEndpointClient {
             let status_read_guard = device_endpoint_status.read().await;
             let current_device_endpoint_status =
                 status_read_guard.get_current_device_endpoint_status(cached_version);
-            match modify(
-                current_device_endpoint_status
-                    .inbound_endpoint_status
-                    .as_ref()
-                    .map(|r| match r {
-                        Ok(()) => Ok(()),
-                        Err(e) => Err(e),
-                    }),
-            ) {
-                Some(_) => {
-                    // Continue to modify
-                }
-                None => {
-                    // If no modification is needed, return Ok
-                    return Ok(ModifyResult::NotModified);
-                }
-            }
-        };
 
+            let modify_input = current_device_endpoint_status
+                .inbound_endpoint_status
+                .as_ref()
+                .map(|r| match r {
+                    Ok(()) => Ok(()),
+                    Err(e) => Err(e),
+                });
+
+            let Some(_modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+        }
+
+        // To modify, we need to acquire the write lock
         let mut status_write_guard = device_endpoint_status.write().await;
 
         if cached_version != device_endpoint_specification.read().unwrap().version {
@@ -799,20 +835,28 @@ impl DeviceEndpointClient {
             return Ok(ModifyResult::NotModified);
         }
 
+        // We can continue here because the device endpoint status will not change. The specification might
+        // update but we will be reporting for an old version.
+
+        // Get the current device endpoint status in case it has changed
         let current_device_endpoint_status =
             status_write_guard.get_current_device_endpoint_status(cached_version);
 
-        let Some(modify_result) = modify(
-            current_device_endpoint_status
+        let modify_result = {
+            let modify_input = current_device_endpoint_status
                 .inbound_endpoint_status
                 .as_ref()
                 .map(|r| match r {
                     Ok(()) => Ok(()),
                     Err(e) => Err(e),
-                }),
-        ) else {
-            // If no modification is needed, return Ok
-            return Ok(ModifyResult::NotModified);
+                });
+
+            let Some(modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+
+            modify_result
         };
 
         let device_endpoint_status_to_report = current_device_endpoint_status.into_owned();
@@ -962,9 +1006,10 @@ impl DeviceEndpointClient {
     }
 
     /// Creates a new status reporter for this Device Endpoint.
-    /// 
+    ///
     /// The status reporter provides thread-safe access to status reporting functionality
     /// and can be cloned and used from multiple threads or tasks.
+    #[must_use]
     pub fn get_status_reporter(&self) -> DeviceEndpointStatusReporter {
         DeviceEndpointStatusReporter {
             connector_context: self.connector_context.clone(),
@@ -1153,8 +1198,6 @@ impl DeviceEndpointClient {
         });
     }
 }
-
-
 
 /// Struct used to hold the updates for an Asset's data operations
 /// until all data operation kinds have been processed and the function
@@ -1383,24 +1426,23 @@ impl AssetClient {
             let status_read_guard = asset_status.read().await;
             let current_asset_status =
                 Self::get_current_asset_status(&status_read_guard, cached_version);
-            match modify(
+
+            let modify_input =
                 current_asset_status
                     .config
                     .as_ref()
                     .map(|config| match &config.error {
                         Some(err) => Err(err),
                         None => Ok(()),
-                    }),
-            ) {
-                Some(_) => {
-                    // Modification is needed, continue
-                }
-                None => return Ok(ModifyResult::NotModified), // No modification needed
-            }
-        };
+                    });
 
-        // Status could've changed here
+            let Some(_modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+        }
 
+        // To modify, we need to acquire the write lock
         let mut status_write_guard = asset_status.write().await;
 
         if cached_version != asset_specification.read().unwrap().version {
@@ -1408,21 +1450,29 @@ impl AssetClient {
             return Ok(ModifyResult::NotModified);
         }
 
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
+
+        // Get the current asset status in case it has changed
         let current_asset_status =
             Self::get_current_asset_status(&status_write_guard, cached_version);
 
-        let Some(modify_result) =
-            modify(
+        let modify_result = {
+            let modify_input =
                 current_asset_status
                     .config
                     .as_ref()
                     .map(|config| match &config.error {
                         Some(err) => Err(err),
                         None => Ok(()),
-                    }),
-            )
-        else {
-            return Ok(ModifyResult::NotModified);
+                    });
+
+            let Some(modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+
+            modify_result
         };
 
         let mut asset_status_to_report = current_asset_status.into_owned();
@@ -1887,9 +1937,10 @@ impl AssetClient {
     }
 
     /// Creates a new status reporter for this Asset.
-    /// 
+    ///
     /// The status reporter provides thread-safe access to status reporting functionality
     /// and can be cloned and used from multiple threads or tasks.
+    #[must_use]
     pub fn get_status_reporter(&self) -> AssetStatusReporter {
         AssetStatusReporter {
             connector_context: self.connector_context.clone(),
@@ -2146,7 +2197,7 @@ impl DataOperationClient {
     }
 
     /// Used to conditionally report the message schema of a data operation as an existing schema reference
-    /// 
+    ///
     /// The `modify` function is called with the current message schema reference (if any) and should return:
     /// - `Some(new_message_schema_reference)` if the schema should be updated and reported
     /// - `None` if no update is needed
@@ -2272,15 +2323,15 @@ impl DataOperationClient {
                 config.version = cached_version;
                 config.last_transition_time = Some(Utc::now());
                 Some(config)
-            },
+            }
             None => {
-            // If the config is None, we need to create a new one to report along with the asset status
-            Some(azure_device_registry::ConfigStatus {
-                version: cached_version,
-                last_transition_time: Some(Utc::now()),
-                ..Default::default()
-            })
-        }
+                // If the config is None, we need to create a new one to report along with the asset status
+                Some(azure_device_registry::ConfigStatus {
+                    version: cached_version,
+                    last_transition_time: Some(Utc::now()),
+                    ..Default::default()
+                })
+            }
         };
 
         Self::internal_report_message_schema_reference(
@@ -2372,15 +2423,12 @@ impl DataOperationClient {
 
             log::info!("MODIFY INPUT: {modify_input:?}");
 
-            match modify(modify_input) {
-                Some(_) => {
-                    // A modification was made, we proceed to report schema
-                }
-                None => {
-                    // No modification was made, so no need to report schema
-                    log::info!("1: NOT PRINTED");
-                    return Ok(ModifyResult::NotModified);
-                }
+            if modify(modify_input).is_some() {
+                // A modification was made, we proceed to report schema
+            } else {
+                // No modification was made, so no need to report schema
+                log::info!("1: NOT PRINTED");
+                return Ok(ModifyResult::NotModified);
             }
         };
 
@@ -2438,15 +2486,15 @@ impl DataOperationClient {
                 config.version = cached_version;
                 config.last_transition_time = Some(Utc::now());
                 Some(config)
-            },
+            }
             None => {
-            // If the config is None, we need to create a new one to report along with the asset status
-            Some(azure_device_registry::ConfigStatus {
-                version: cached_version,
-                last_transition_time: Some(Utc::now()),
-                ..Default::default()
-            })
-        }
+                // If the config is None, we need to create a new one to report along with the asset status
+                Some(azure_device_registry::ConfigStatus {
+                    version: cached_version,
+                    last_transition_time: Some(Utc::now()),
+                    ..Default::default()
+                })
+            }
         };
 
         // First put the schema in the schema registry
@@ -2591,9 +2639,7 @@ impl DataOperationClient {
         }
 
         // send status update to the service
-        log::debug!(
-            "Reporting data operation {data_operation_ref:?} message schema from app"
-        );
+        log::debug!("Reporting data operation {data_operation_ref:?} message schema from app");
         AssetClient::internal_report_status(
             new_status,
             connector_context,
@@ -2603,8 +2649,7 @@ impl DataOperationClient {
         )
         .await?;
 
-        forwarder
-            .update_message_schema_reference(Some(message_schema_reference.clone()));
+        forwarder.update_message_schema_reference(Some(message_schema_reference.clone()));
 
         Ok(())
     }
@@ -2745,9 +2790,10 @@ impl DataOperationClient {
     }
 
     /// Creates a new status reporter for this Data Operation.
-    /// 
+    ///
     /// The status reporter provides thread-safe access to status reporting functionality
     /// and can be cloned and used from multiple threads or tasks.
+    #[must_use]
     pub fn get_status_reporter(&self) -> DataOperationStatusReporter {
         DataOperationStatusReporter {
             connector_context: self.connector_context.clone(),
