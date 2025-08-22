@@ -277,6 +277,8 @@ impl DataOperationStatusReporter {
                     }),
             };
 
+            // We do not use the result since the status once we acquire the read lock might change
+            // and we will have to re-evaluate
             let Some(_modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
                 return Ok(ModifyResult::NotModified);
@@ -730,6 +732,8 @@ impl DeviceEndpointClient {
                     None => Ok(()),
                 });
 
+            // We do not use the result since the status once we acquire the read lock might change
+            // and we will have to re-evaluate
             let Some(_modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
                 return Ok(ModifyResult::NotModified);
@@ -808,9 +812,11 @@ impl DeviceEndpointClient {
     where
         F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
     {
+        // Get the current version of the device endpoint specification
         let cached_version = device_endpoint_specification.read().unwrap().version;
 
         {
+            // Get the current endpoint status
             let status_read_guard = device_endpoint_status.read().await;
             let current_device_endpoint_status =
                 status_read_guard.get_current_device_endpoint_status(cached_version);
@@ -823,6 +829,8 @@ impl DeviceEndpointClient {
                     Err(e) => Err(e),
                 });
 
+            // We do not use the result since the status once we acquire the read lock might change
+            // and we will have to re-evaluate
             let Some(_modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
                 return Ok(ModifyResult::NotModified);
@@ -983,7 +991,6 @@ impl DeviceEndpointClient {
                     // Start asset creation task
                     self.pending_asset_creation = true;
                     let connector_context = self.connector_context.clone();
-                    let device_endpoint_ref = self.device_endpoint_ref.clone();
                     let specification = self.specification.clone();
                     let status = self.status.clone();
                     let asset_completion_tx = self.asset_completion_tx.clone();
@@ -993,7 +1000,6 @@ impl DeviceEndpointClient {
                             connector_context,
                             asset_ref,
                             asset_deletion_token,
-                            device_endpoint_ref,
                             specification,
                             status,
                         ).await;
@@ -1007,10 +1013,7 @@ impl DeviceEndpointClient {
         }
     }
 
-    /// Creates a new status reporter for this Device Endpoint.
-    ///
-    /// The status reporter provides thread-safe access to status reporting functionality
-    /// and can be cloned and used from multiple threads or tasks.
+    /// Creates a new status reporter for this [`DeviceEndpointClient`].
     #[must_use]
     pub fn get_status_reporter(&self) -> DeviceEndpointStatusReporter {
         DeviceEndpointStatusReporter {
@@ -1026,7 +1029,6 @@ impl DeviceEndpointClient {
         connector_context: Arc<ConnectorContext>,
         asset_ref: AssetRef,
         asset_deletion_token: CancellationToken,
-        device_endpoint_ref: DeviceEndpointRef,
         specification: Arc<std::sync::RwLock<DeviceSpecification>>,
         status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     ) -> Option<AssetClient> {
@@ -1114,7 +1116,6 @@ impl DeviceEndpointClient {
                 asset,
                 asset_status,
                 asset_ref,
-                device_endpoint_ref,
                 specification,
                 status,
                 asset_update_observation,
@@ -1234,8 +1235,6 @@ pub struct AssetClient {
     #[getter(skip)]
     device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
-    /// Device endpoint reference
-    device_endpoint_ref: DeviceEndpointRef,
     /// Internal `CancellationToken` for when the Asset is deleted. Surfaced to the user through the receive update flow
     #[getter(skip)]
     asset_deletion_token: CancellationToken,
@@ -1295,7 +1294,6 @@ impl AssetClient {
         asset: adr_models::Asset,
         asset_status: adr_models::AssetStatus,
         asset_ref: AssetRef,
-        device_endpoint_ref: DeviceEndpointRef,
         device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
         device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
         asset_update_observation: azure_device_registry::AssetUpdateObservation,
@@ -1314,7 +1312,6 @@ impl AssetClient {
             status: Arc::new(tokio::sync::RwLock::new(asset_status)),
             device_specification,
             device_status,
-            device_endpoint_ref,
             asset_update_observation,
             asset_update_watcher_rx,
             asset_update_watcher_tx,
@@ -1440,6 +1437,8 @@ impl AssetClient {
                         None => Ok(()),
                     });
 
+            // We do not use the result since the status once we acquire the read lock might change
+            // and we will have to re-evaluate
             let Some(_modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
                 return Ok(ModifyResult::NotModified);
@@ -1647,7 +1646,6 @@ impl AssetClient {
                     self.asset_ref.clone(),
                     self.status.clone(),
                     self.specification.clone(),
-                    self.device_endpoint_ref.clone(),
                     self.device_specification.clone(),
                     self.device_status.clone(),
                     self.connector_context.clone(),
@@ -1941,10 +1939,7 @@ impl AssetClient {
         (*self.device_status.read().await).clone()
     }
 
-    /// Creates a new status reporter for this Asset.
-    ///
-    /// The status reporter provides thread-safe access to status reporting functionality
-    /// and can be cloned and used from multiple threads or tasks.
+    /// Creates a new status reporter for this [`AssetClient`]
     #[must_use]
     pub fn get_status_reporter(&self) -> AssetStatusReporter {
         AssetStatusReporter {
@@ -1955,6 +1950,12 @@ impl AssetClient {
         }
     }
 
+    /// Internal helper to get an [`adr_models::AssetStatus`] that can be used as a starting place 
+    /// to modify the current status with whatever new things we want to report.
+    /// 
+    /// Note that it returns a `Cow`. The reason is that most of the times that we are reporting
+    /// a status we will not end up modifying it. `Cow` allows us to only clone when we are going to
+    /// modify.
     pub(crate) fn get_current_asset_status(
         current_status: &adr_models::AssetStatus,
         adr_version: Option<u64>,
@@ -2088,8 +2089,6 @@ pub struct DataOperationClient {
     #[getter(skip)]
     device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
     // Internally used fields
-    /// Device endpoint reference
-    device_endpoint_ref: DeviceEndpointRef,
     /// Internal [`Forwarder`] that handles forwarding data to the destination defined in the data operation definition
     #[getter(skip)]
     forwarder: destination_endpoint::Forwarder,
@@ -2113,7 +2112,6 @@ impl DataOperationClient {
         asset_ref: AssetRef,
         asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
         asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
-        device_endpoint_ref: DeviceEndpointRef,
         device_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
         device_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
         connector_context: Arc<ConnectorContext>,
@@ -2163,7 +2161,6 @@ impl DataOperationClient {
             asset_specification,
             device_specification,
             device_status,
-            device_endpoint_ref,
             forwarder,
             data_operation_update_watcher_rx,
             connector_context,
@@ -2185,8 +2182,16 @@ impl DataOperationClient {
                 &data_operation_ref.data_operation_name,
                 desired_data_operation_status,
             ),
-            DataOperationKind::Event => todo!(),
-            DataOperationKind::Stream => todo!(),
+            DataOperationKind::Event => Self::update_event_status(
+                &mut adr_asset_status,
+                &data_operation_ref.data_operation_name,
+                desired_data_operation_status,
+            ),
+            DataOperationKind::Stream => Self::update_stream_status(
+                &mut adr_asset_status,
+                &data_operation_ref.data_operation_name,
+                desired_data_operation_status,
+            ),
         }
 
         log::debug!("Reporting data operation {data_operation_ref:?} status from app");
@@ -2228,9 +2233,11 @@ impl DataOperationClient {
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
     {
+        // Get the current version of the asset specification
         let cached_version = self.asset_specification.read().unwrap().version;
 
         {
+            // Get the current asset status
             let status_read_guard = self.asset_status.read().await;
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
@@ -2276,13 +2283,18 @@ impl DataOperationClient {
             }
         };
 
+        // To modify, we need to acquire the write lock
         let mut status_write_guard = self.asset_status.write().await;
+
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
             return Ok(ModifyResult::NotModified);
         }
 
+        // Get the current asset status in case it has changed
         let current_asset_status =
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
@@ -2389,9 +2401,11 @@ impl DataOperationClient {
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
     {
+        // Get the current version of the asset specification
         let cached_version = self.asset_specification.read().unwrap().version;
 
         {
+            // Get the current asset status
             let status_read_guard = self.asset_status.read().await;
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
@@ -2426,25 +2440,26 @@ impl DataOperationClient {
                     .and_then(|st_status| st_status.message_schema_reference.as_ref()),
             };
 
-            log::info!("MODIFY INPUT: {modify_input:?}");
-
             if modify(modify_input).is_some() {
                 // A modification was made, we proceed to report schema
             } else {
                 // No modification was made, so no need to report schema
-                log::info!("1: NOT PRINTED");
                 return Ok(ModifyResult::NotModified);
             }
         };
 
+        // To modify, we need to acquire the write lock
         let mut status_write_guard = self.asset_status.write().await;
+
+        // We can continue here because the asset status will not change. The specification might
+        // update but we will be reporting for an old version.
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
-            log::info!("2: NOT PRINTED");
             return Ok(ModifyResult::NotModified);
         }
 
+        // Get the current asset status in case it has changed
         let current_asset_status =
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
@@ -2480,7 +2495,6 @@ impl DataOperationClient {
 
         let Some(new_message_schema) = modify(modify_input) else {
             // No modification was made, so no need to report schema
-            log::info!("3: NOT PRINTED");
             return Ok(ModifyResult::NotModified);
         };
 
@@ -2794,10 +2808,7 @@ impl DataOperationClient {
         DataOperationNotification::Updated
     }
 
-    /// Creates a new status reporter for this Data Operation.
-    ///
-    /// The status reporter provides thread-safe access to status reporting functionality
-    /// and can be cloned and used from multiple threads or tasks.
+    /// Creates a new status reporter for this [`DataOperationClient`]
     #[must_use]
     pub fn get_status_reporter(&self) -> DataOperationStatusReporter {
         DataOperationStatusReporter {
@@ -3129,6 +3140,12 @@ impl DeviceEndpointStatus {
         }
     }
 
+    /// Internal helper to get an [`DeviceEndpointStatus`] that can be used as a starting place 
+    /// to modify the current status with whatever new things we want to report.
+    /// 
+    /// Note that it returns a `Cow`. The reason is that most of the times that we are reporting
+    /// a status we will not end up modifying it. `Cow` allows us to only clone when we are going to
+    /// modify.
     pub(crate) fn get_current_device_endpoint_status(
         &self,
         adr_version: Option<u64>,
