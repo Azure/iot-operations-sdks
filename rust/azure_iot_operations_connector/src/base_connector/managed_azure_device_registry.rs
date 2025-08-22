@@ -45,11 +45,380 @@ pub enum ClientNotification<T> {
 }
 
 /// Represents the result of reporting a status to ADR
-pub enum StatusReported {
+pub enum ModifyResult {
     /// Indicates that the status was reported successfully
-    Success,
+    Reported,
     /// Indicates that the status was not reported because it was not modified
     NotModified,
+}
+
+/// A cloneable status reporter for Device and Endpoint status reporting.
+///
+/// This provides a way to report Device and Endpoint status changes from outside the DeviceEndpointClient,
+/// enabling separation of concerns between data handling and status reporting.
+#[derive(Clone, Debug)]
+pub struct DeviceEndpointStatusReporter {
+    connector_context: Arc<ConnectorContext>,
+    device_endpoint_status: Arc<tokio::sync::RwLock<DeviceEndpointStatus>>,
+    device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
+    device_endpoint_ref: DeviceEndpointRef,
+}
+
+impl DeviceEndpointStatusReporter {
+    /// Used to conditionally report the device status and then updates the device with the new status returned.
+    ///
+    /// The `modify` function is called with the current device status (if any) and should return:
+    /// - `Some(new_status)` if the status should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`ModifyResult::Reported`] if the status was updated and successfully reported
+    /// - [`ModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    pub async fn report_device_status_if_modified<F>(
+        &self,
+        modify: F,
+    ) -> Result<ModifyResult, azure_device_registry::Error>
+    where
+        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
+    {
+        DeviceEndpointClient::internal_report_device_status_if_modified(
+            self.connector_context.clone(),
+            self.device_endpoint_status.clone(),
+            self.device_endpoint_specification.clone(),
+            &self.device_endpoint_ref,
+            modify,
+        )
+        .await
+    }
+
+    /// Used to conditionally report the endpoint status and then updates the device with the new status returned.
+    ///
+    /// The `modify` function is called with the current endpoint status (if any) and should return:
+    /// - `Some(new_status)` if the status should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`ModifyResult::Reported`] if the status was updated and successfully reported
+    /// - [`ModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    pub async fn report_endpoint_status_if_modified<F>(
+        &self,
+        modify: F,
+    ) -> Result<ModifyResult, azure_device_registry::Error>
+    where
+        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
+    {
+        DeviceEndpointClient::internal_report_endpoint_status_if_modified(
+            self.connector_context.clone(),
+            self.device_endpoint_status.clone(),
+            self.device_endpoint_specification.clone(),
+            &self.device_endpoint_ref,
+            modify,
+        )
+        .await
+    }
+}
+
+/// A cloneable status reporter for Asset status reporting.
+///
+/// This provides a way to report Asset status changes from outside the AssetClient,
+/// enabling separation of concerns between data handling and status reporting.
+#[derive(Clone, Debug)]
+pub struct AssetStatusReporter {
+    connector_context: Arc<ConnectorContext>,
+    asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+    asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+    asset_ref: AssetRef,
+}
+
+impl AssetStatusReporter {
+    /// Used to conditionally report the asset status and then updates the asset with the new status returned.
+    ///
+    /// The `modify` function is called with the current asset status (if any) and should return:
+    /// - `Some(new_status)` if the status should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`ModifyResult::Reported`] if the status was updated and successfully reported
+    /// - [`ModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    pub async fn report_asset_status_if_modified<F>(
+        &self,
+        modify: F,
+    ) -> Result<ModifyResult, azure_device_registry::Error>
+    where
+        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
+    {
+        AssetClient::internal_report_status_if_modified(
+            self.connector_context.clone(),
+            self.asset_status.clone(),
+            self.asset_specification.clone(),
+            &self.asset_ref,
+            modify,
+        )
+        .await
+    }
+}
+
+/// This provides a way to report data operation status changes from outside the DataOperationClient,
+/// allowing for thread-safe access to status reporting functionality.
+/// All reporters created from the same DataOperationClient share the same underlying state.
+#[derive(Debug, Clone)]
+pub struct DataOperationStatusReporter {
+    connector_context: Arc<ConnectorContext>,
+    asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
+    asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
+    data_operation_ref: DataOperationRef,
+    asset_ref: AssetRef,
+}
+
+impl DataOperationStatusReporter {
+    /// Used to conditionally report the data operation status and then updates the asset with the new status returned.
+    ///
+    /// The `modify` function is called with the current data operation status (if any) and should return:
+    /// - `Some(new_status)` if the status should be updated and reported
+    /// - `None` if no update is needed
+    ///
+    /// # Returns
+    /// - [`ModifyResult::Reported`] if the status was updated and successfully reported
+    /// - [`ModifyResult::NotModified`] if no modification was needed or the version changed during processing
+    ///
+    /// # Errors
+    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
+    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
+    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
+    ///
+    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    pub async fn report_data_operation_status_if_modified<F>(
+        &self,
+        modify: F,
+    ) -> Result<ModifyResult, azure_device_registry::Error>
+    where
+        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
+    {
+        let cached_version = self.asset_specification.read().unwrap().version;
+
+        {
+            let status_read_guard = self.asset_status.read().await;
+            let current_asset_status =
+                AssetClient::get_current_asset_status(&status_read_guard, cached_version);
+
+            let modify_input = match self.data_operation_ref.data_operation_kind {
+                DataOperationKind::Dataset => current_asset_status
+                    .datasets
+                    .as_ref()
+                    .and_then(|datasets| {
+                        datasets.iter().find(|ds_status| {
+                            ds_status.name == self.data_operation_ref.data_operation_name
+                        })
+                    })
+                    .map(|ds_status| match &ds_status.error {
+                        Some(e) => Err(e),
+                        None => Ok(()),
+                    }),
+                DataOperationKind::Event => current_asset_status
+                    .events
+                    .as_ref()
+                    .and_then(|events| {
+                        events.iter().find(|e_status| {
+                            e_status.name == self.data_operation_ref.data_operation_name
+                        })
+                    })
+                    .map(|e_status| match &e_status.error {
+                        Some(e) => Err(e),
+                        None => Ok(()),
+                    }),
+                DataOperationKind::Stream => current_asset_status
+                    .streams
+                    .as_ref()
+                    .and_then(|streams| {
+                        streams.iter().find(|s_status| {
+                            s_status.name == self.data_operation_ref.data_operation_name
+                        })
+                    })
+                    .map(|s_status| match &s_status.error {
+                        Some(e) => Err(e),
+                        None => Ok(()),
+                    }),
+            };
+
+            let Some(_modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+        }
+
+        let mut status_write_guard = self.asset_status.write().await;
+
+        if cached_version != self.asset_specification.read().unwrap().version {
+            // Our modify is no longer valid
+            return Ok(ModifyResult::NotModified);
+        }
+
+        let modify_result = {
+            let current_asset_status =
+                AssetClient::get_current_asset_status(&status_write_guard, cached_version);
+
+            let modify_input = match self.data_operation_ref.data_operation_kind {
+                DataOperationKind::Dataset => current_asset_status
+                    .datasets
+                    .as_ref()
+                    .and_then(|datasets| {
+                        datasets.iter().find(|ds_status| {
+                            ds_status.name == self.data_operation_ref.data_operation_name
+                        })
+                    })
+                    .map(|ds_status| match &ds_status.error {
+                        Some(e) => Err(e),
+                        None => Ok(()),
+                    }),
+                DataOperationKind::Event => current_asset_status
+                    .events
+                    .as_ref()
+                    .and_then(|events| {
+                        events.iter().find(|e_status| {
+                            e_status.name == self.data_operation_ref.data_operation_name
+                        })
+                    })
+                    .map(|e_status| match &e_status.error {
+                        Some(e) => Err(e),
+                        None => Ok(()),
+                    }),
+                DataOperationKind::Stream => current_asset_status
+                    .streams
+                    .as_ref()
+                    .and_then(|streams| {
+                        streams.iter().find(|s_status| {
+                            s_status.name == self.data_operation_ref.data_operation_name
+                        })
+                    })
+                    .map(|s_status| match &s_status.error {
+                        Some(e) => Err(e),
+                        None => Ok(()),
+                    }),
+            };
+
+            let Some(modify_result) = modify(modify_input) else {
+                // If no modification is needed, return Ok
+                return Ok(ModifyResult::NotModified);
+            };
+
+            modify_result
+        };
+
+        let mut asset_status_to_report = AssetClient::get_current_asset_status(&status_write_guard, cached_version).into_owned();
+
+        match self.data_operation_ref.data_operation_kind {
+            DataOperationKind::Dataset => {
+                if asset_status_to_report.datasets.is_none() {
+                    asset_status_to_report.datasets = Some(Vec::new());
+                }
+                let datasets = asset_status_to_report.datasets.as_mut().unwrap();
+                match datasets.iter_mut().find(|ds_status| {
+                    ds_status.name == self.data_operation_ref.data_operation_name
+                }) {
+                    Some(existing_dataset) => {
+                        existing_dataset.error = modify_result.err();
+                    }
+                    None => {
+                        datasets.push(adr_models::DatasetEventStreamStatus {
+                            name: self.data_operation_ref.data_operation_name.clone(),
+                            error: modify_result.err(),
+                            message_schema_reference: None,
+                        });
+                    }
+                }
+            }
+            DataOperationKind::Event => {
+                if asset_status_to_report.events.is_none() {
+                    asset_status_to_report.events = Some(Vec::new());
+                }
+                let events = asset_status_to_report.events.as_mut().unwrap();
+                match events.iter_mut().find(|e_status| {
+                    e_status.name == self.data_operation_ref.data_operation_name
+                }) {
+                    Some(existing_event) => {
+                        existing_event.error = modify_result.err();
+                    }
+                    None => {
+                        events.push(adr_models::DatasetEventStreamStatus {
+                            name: self.data_operation_ref.data_operation_name.clone(),
+                            error: modify_result.err(),
+                            message_schema_reference: None,
+                        });
+                    }
+                }
+            }
+            DataOperationKind::Stream => {
+                if asset_status_to_report.streams.is_none() {
+                    asset_status_to_report.streams = Some(Vec::new());
+                }
+                let streams = asset_status_to_report.streams.as_mut().unwrap();
+                match streams.iter_mut().find(|s_status| {
+                    s_status.name == self.data_operation_ref.data_operation_name
+                }) {
+                    Some(existing_stream) => {
+                        existing_stream.error = modify_result.err();
+                    }
+                    None => {
+                        streams.push(adr_models::DatasetEventStreamStatus {
+                            name: self.data_operation_ref.data_operation_name.clone(),
+                            error: modify_result.err(),
+                            message_schema_reference: None,
+                        });
+                    }
+                }
+            }
+        }
+
+        log::debug!("Reporting data operation status from app for {:?}", self.data_operation_ref);
+
+        AssetClient::internal_report_status(
+            asset_status_to_report,
+            &self.connector_context,
+            &self.asset_ref,
+            &mut status_write_guard,
+            "DataOperationStatusReporter::report_data_operation_status_if_modified",
+        )
+        .await?;
+
+        Ok(ModifyResult::Reported)
+    }
 }
 
 /// An Observation for device endpoint creation events that uses
@@ -309,7 +678,7 @@ impl DeviceEndpointClient {
         device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
         device_endpoint_ref: &DeviceEndpointRef,
         modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
+    ) -> Result<ModifyResult, azure_device_registry::Error>
     where
         F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
     {
@@ -333,7 +702,7 @@ impl DeviceEndpointClient {
                 }
                 None => {
                     // If no modification is needed, return Ok
-                    return Ok(StatusReported::NotModified);
+                    return Ok(ModifyResult::NotModified);
                 }
             }
         };
@@ -342,7 +711,7 @@ impl DeviceEndpointClient {
 
         if cached_version != device_endpoint_specification.read().unwrap().version {
             // Our modify is no longer valid
-            return Ok(StatusReported::NotModified);
+            return Ok(ModifyResult::NotModified);
         }
 
         let current_device_endpoint_status =
@@ -355,7 +724,7 @@ impl DeviceEndpointClient {
             },
         )) else {
             // If no modification is needed, return Ok
-            return Ok(StatusReported::NotModified);
+            return Ok(ModifyResult::NotModified);
         };
 
         let device_endpoint_status_to_report = current_device_endpoint_status.into_owned();
@@ -385,44 +754,7 @@ impl DeviceEndpointClient {
         )
         .await?;
 
-        Ok(StatusReported::Success)
-    }
-
-    /// Used to conditionally report the device status and then updates the [`DeviceEndpointClient`] with the new status returned.
-    ///
-    /// The `modify` function is called with the current device status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_device_status_if_modified<F>(
-        &mut self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        Self::internal_report_device_status_if_modified(
-            self.connector_context.clone(),
-            self.status.clone(),
-            self.specification.clone(),
-            &self.device_endpoint_ref,
-            modify,
-        )
-        .await
+        Ok(ModifyResult::Reported)
     }
 
     pub(crate) async fn internal_report_endpoint_status_if_modified<F>(
@@ -431,7 +763,7 @@ impl DeviceEndpointClient {
         device_endpoint_specification: Arc<std::sync::RwLock<DeviceSpecification>>,
         device_endpoint_ref: &DeviceEndpointRef,
         modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
+    ) -> Result<ModifyResult, azure_device_registry::Error>
     where
         F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
     {
@@ -455,7 +787,7 @@ impl DeviceEndpointClient {
                 }
                 None => {
                     // If no modification is needed, return Ok
-                    return Ok(StatusReported::NotModified);
+                    return Ok(ModifyResult::NotModified);
                 }
             }
         };
@@ -464,7 +796,7 @@ impl DeviceEndpointClient {
 
         if cached_version != device_endpoint_specification.read().unwrap().version {
             // Our modify is no longer valid
-            return Ok(StatusReported::NotModified);
+            return Ok(ModifyResult::NotModified);
         }
 
         let current_device_endpoint_status =
@@ -480,7 +812,7 @@ impl DeviceEndpointClient {
                 }),
         ) else {
             // If no modification is needed, return Ok
-            return Ok(StatusReported::NotModified);
+            return Ok(ModifyResult::NotModified);
         };
 
         let device_endpoint_status_to_report = current_device_endpoint_status.into_owned();
@@ -517,44 +849,7 @@ impl DeviceEndpointClient {
         )
         .await?;
 
-        Ok(StatusReported::Success)
-    }
-
-    /// Used to conditionally report the endpoint status and then updates the [`DeviceEndpointClient`] with the new status returned.
-    ///
-    /// The `modify` function is called with the current endpoint status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_endpoint_status_if_modified<F>(
-        &mut self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        Self::internal_report_endpoint_status_if_modified(
-            self.connector_context.clone(),
-            self.status.clone(),
-            self.specification.clone(),
-            &self.device_endpoint_ref,
-            modify,
-        )
-        .await
+        Ok(ModifyResult::Reported)
     }
 
     /// Used to receive notifications related to the Device/Inbound Endpoint
@@ -663,6 +958,19 @@ impl DeviceEndpointClient {
                     continue; // Continue the loop to wait for task completion
                 }
             }
+        }
+    }
+
+    /// Creates a new status reporter for this Device Endpoint.
+    /// 
+    /// The status reporter provides thread-safe access to status reporting functionality
+    /// and can be cloned and used from multiple threads or tasks.
+    pub fn get_status_reporter(&self) -> DeviceEndpointStatusReporter {
+        DeviceEndpointStatusReporter {
+            connector_context: self.connector_context.clone(),
+            device_endpoint_status: self.status.clone(),
+            device_endpoint_specification: self.specification.clone(),
+            device_endpoint_ref: self.device_endpoint_ref.clone(),
         }
     }
 
@@ -845,6 +1153,8 @@ impl DeviceEndpointClient {
         });
     }
 }
+
+
 
 /// Struct used to hold the updates for an Asset's data operations
 /// until all data operation kinds have been processed and the function
@@ -1057,87 +1367,13 @@ impl AssetClient {
         asset_client
     }
 
-    /// Used to conditionally report the device status through this [`AssetClient`] and then updates the device with the new status returned.
-    ///
-    /// The `modify` function is called with the current device status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_device_status_if_modified<F>(
-        &mut self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        DeviceEndpointClient::internal_report_device_status_if_modified(
-            self.connector_context.clone(),
-            self.device_status.clone(),
-            self.device_specification.clone(),
-            &self.device_endpoint_ref,
-            modify,
-        )
-        .await
-    }
-
-    /// Used to conditionally report the endpoint status through this [`AssetClient`] and then updates the device with the new status returned.
-    ///
-    /// The `modify` function is called with the current endpoint status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_endpoint_status_if_modified<F>(
-        &mut self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        DeviceEndpointClient::internal_report_endpoint_status_if_modified(
-            self.connector_context.clone(),
-            self.device_status.clone(),
-            self.device_specification.clone(),
-            &self.device_endpoint_ref,
-            modify,
-        )
-        .await
-    }
-
     pub(crate) async fn internal_report_status_if_modified<F>(
         connector_context: Arc<ConnectorContext>,
         asset_status: Arc<tokio::sync::RwLock<adr_models::AssetStatus>>,
         asset_specification: Arc<std::sync::RwLock<AssetSpecification>>,
         asset_ref: &AssetRef,
         modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
+    ) -> Result<ModifyResult, azure_device_registry::Error>
     where
         F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
     {
@@ -1159,7 +1395,7 @@ impl AssetClient {
                 Some(_) => {
                     // Modification is needed, continue
                 }
-                None => return Ok(StatusReported::NotModified), // No modification needed
+                None => return Ok(ModifyResult::NotModified), // No modification needed
             }
         };
 
@@ -1169,7 +1405,7 @@ impl AssetClient {
 
         if cached_version != asset_specification.read().unwrap().version {
             // Our modify is no longer valid
-            return Ok(StatusReported::NotModified);
+            return Ok(ModifyResult::NotModified);
         }
 
         let current_asset_status =
@@ -1186,7 +1422,7 @@ impl AssetClient {
                     }),
             )
         else {
-            return Ok(StatusReported::NotModified);
+            return Ok(ModifyResult::NotModified);
         };
 
         let mut asset_status_to_report = current_asset_status.into_owned();
@@ -1208,44 +1444,7 @@ impl AssetClient {
         )
         .await?;
 
-        Ok(StatusReported::Success)
-    }
-
-    /// Used to conditionally report the asset status and then updates the [`AssetClient`] with the new status returned.
-    ///
-    /// The `modify` function is called with the current asset status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_status_if_modified<F>(
-        &mut self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        Self::internal_report_status_if_modified(
-            self.connector_context.clone(),
-            self.status.clone(),
-            self.specification.clone(),
-            &self.asset_ref,
-            modify,
-        )
-        .await
+        Ok(ModifyResult::Reported)
     }
 
     /// Helper function to handle updates for all of a type of data operations on an Asset
@@ -1687,6 +1886,19 @@ impl AssetClient {
         (*self.device_status.read().await).clone()
     }
 
+    /// Creates a new status reporter for this Asset.
+    /// 
+    /// The status reporter provides thread-safe access to status reporting functionality
+    /// and can be cloned and used from multiple threads or tasks.
+    pub fn get_status_reporter(&self) -> AssetStatusReporter {
+        AssetStatusReporter {
+            connector_context: self.connector_context.clone(),
+            asset_status: self.status.clone(),
+            asset_specification: self.specification.clone(),
+            asset_ref: self.asset_ref.clone(),
+        }
+    }
+
     pub(crate) fn get_current_asset_status(
         current_status: &adr_models::AssetStatus,
         adr_version: Option<u64>,
@@ -1902,287 +2114,6 @@ impl DataOperationClient {
         })
     }
 
-    /// Used to conditionally report the device status through this [`DataOperationClient`] and then updates the device with the new status returned.
-    ///
-    /// The `modify` function is called with the current device status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_device_status_if_modified<F>(
-        &mut self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        DeviceEndpointClient::internal_report_device_status_if_modified(
-            self.connector_context.clone(),
-            self.device_status.clone(),
-            self.device_specification.clone(),
-            &self.device_endpoint_ref,
-            modify,
-        )
-        .await
-    }
-
-    /// Used to conditionally report the endpoint status through this [`DataOperationClient`] and then updates the device with the new status returned.
-    ///
-    /// The `modify` function is called with the current endpoint status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_endpoint_status_if_modified<F>(
-        &mut self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        DeviceEndpointClient::internal_report_endpoint_status_if_modified(
-            self.connector_context.clone(),
-            self.device_status.clone(),
-            self.device_specification.clone(),
-            &self.device_endpoint_ref,
-            modify,
-        )
-        .await
-    }
-
-    /// Used to conditionally report the asset status through this [`DataOperationClient`] and then updates the asset with the new status returned.
-    ///
-    /// The `modify` function is called with the current asset status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_asset_status_if_modified<F>(
-        &mut self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        AssetClient::internal_report_status_if_modified(
-            self.connector_context.clone(),
-            self.asset_status.clone(),
-            self.asset_specification.clone(),
-            &self.asset_ref,
-            modify,
-        )
-        .await
-    }
-
-    /// Used to conditionally report the data operation status and then updates the [`DataOperationClient`] with the new status returned.
-    ///
-    /// The `modify` function is called with the current data operation status (if any) and should return:
-    /// - `Some(new_status)` if the status should be updated and reported
-    /// - `None` if no update is needed
-    ///
-    /// # Returns
-    /// - [`StatusReported::Success`] if the status was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
-    ///
-    /// # Errors
-    /// [`azure_device_registry::Error`] of kind [`AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
-    /// there are any underlying errors from the AIO RPC protocol. This error will be retried
-    /// 10 times with exponential backoff and jitter and only returned if it still is failing.
-    ///
-    /// [`azure_device_registry::Error`] of kind [`ServiceError`](azure_device_registry::ErrorKind::ServiceError) if an error is returned
-    /// by the Azure Device Registry service.
-    ///
-    /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_status_if_modified<F>(
-        &self,
-        modify: F,
-    ) -> Result<StatusReported, azure_device_registry::Error>
-    where
-        F: Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>>,
-    {
-        let cached_version = self.asset_specification.read().unwrap().version;
-
-        {
-            let status_read_guard = self.asset_status.read().await;
-            let current_asset_status =
-                AssetClient::get_current_asset_status(&status_read_guard, cached_version);
-
-            let modify_input = match self.data_operation_ref.data_operation_kind {
-                DataOperationKind::Dataset => current_asset_status
-                    .datasets
-                    .as_ref()
-                    .and_then(|datasets| {
-                        datasets.iter().find(|ds_status| {
-                            ds_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|ds_status| match &ds_status.error {
-                        Some(err) => Err(err),
-                        None => Ok(()),
-                    }),
-                DataOperationKind::Event => current_asset_status
-                    .events
-                    .as_ref()
-                    .and_then(|events| {
-                        events.iter().find(|ev_status| {
-                            ev_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|ev_status| match &ev_status.error {
-                        Some(err) => Err(err),
-                        None => Ok(()),
-                    }),
-                DataOperationKind::Stream => current_asset_status
-                    .streams
-                    .as_ref()
-                    .and_then(|streams| {
-                        streams.iter().find(|st_status| {
-                            st_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|st_status| match &st_status.error {
-                        Some(err) => Err(err),
-                        None => Ok(()),
-                    }),
-            };
-
-            match modify(modify_input) {
-                Some(_) => {
-                    // A modification was made, we proceed to report status
-                }
-                None => {
-                    // No modification was made, so no need to report status
-                    return Ok(StatusReported::NotModified);
-                }
-            }
-        };
-
-        let mut status_write_guard = self.asset_status.write().await;
-
-        if cached_version != self.asset_specification.read().unwrap().version {
-            // Our modify is no longer valid
-            return Ok(StatusReported::NotModified);
-        }
-
-        let current_asset_status =
-            AssetClient::get_current_asset_status(&status_write_guard, cached_version);
-
-        let modify_input = match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => current_asset_status
-                .datasets
-                .as_ref()
-                .and_then(|datasets| {
-                    datasets.iter().find(|ds_status| {
-                        ds_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .map(|ds_status| match &ds_status.error {
-                    Some(err) => Err(err),
-                    None => Ok(()),
-                }),
-            DataOperationKind::Event => current_asset_status
-                .events
-                .as_ref()
-                .and_then(|events| {
-                    events.iter().find(|ev_status| {
-                        ev_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .map(|ev_status| match &ev_status.error {
-                    Some(err) => Err(err),
-                    None => Ok(()),
-                }),
-            DataOperationKind::Stream => current_asset_status
-                .streams
-                .as_ref()
-                .and_then(|streams| {
-                    streams.iter().find(|st_status| {
-                        st_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .map(|st_status| match &st_status.error {
-                    Some(err) => Err(err),
-                    None => Ok(()),
-                }),
-        };
-
-        let Some(modify_result) = modify(modify_input) else {
-            // No modification was made, so no need to report status
-            return Ok(StatusReported::NotModified);
-        };
-
-        let mut asset_status_to_report = current_asset_status.into_owned();
-
-        asset_status_to_report.config = match asset_status_to_report.config {
-            Some(mut config) => {
-                config.version = cached_version;
-                config.last_transition_time = Some(Utc::now());
-                Some(config)
-            },
-            None => {
-            // If the config is None, we need to create a new one to report along with the asset status
-            Some(azure_device_registry::ConfigStatus {
-                version: cached_version,
-                last_transition_time: Some(Utc::now()),
-                ..Default::default()
-            })
-        }
-        };
-
-        Self::internal_report_status(
-            self.connector_context.clone(),
-            &self.asset_ref,
-            asset_status_to_report,
-            &mut status_write_guard,
-            &self.data_operation_ref,
-            modify_result,
-            "DataOperationClient::report_status_if_modified",
-        )
-        .await?;
-
-        Ok(StatusReported::Success)
-    }
-
     async fn internal_report_status(
         connector_context: Arc<ConnectorContext>,
         asset_ref: &AssetRef,
@@ -2237,7 +2168,7 @@ impl DataOperationClient {
     pub async fn report_message_schema_reference_if_modified<F>(
         &mut self,
         modify: F,
-    ) -> Result<StatusReported, MessageSchemaError>
+    ) -> Result<ModifyResult, MessageSchemaError>
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
     {
@@ -2284,7 +2215,7 @@ impl DataOperationClient {
                 }
                 None => {
                     // No modification was made, so no need to report schema
-                    return Ok(StatusReported::NotModified);
+                    return Ok(ModifyResult::NotModified);
                 }
             }
         };
@@ -2293,7 +2224,7 @@ impl DataOperationClient {
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
-            return Ok(StatusReported::NotModified);
+            return Ok(ModifyResult::NotModified);
         }
 
         let current_asset_status =
@@ -2331,7 +2262,7 @@ impl DataOperationClient {
 
         let Some(new_message_schema_reference) = modify(modify_input) else {
             // No modification was made, so no need to report schema
-            return Ok(StatusReported::NotModified);
+            return Ok(ModifyResult::NotModified);
         };
 
         let mut asset_status_to_report = current_asset_status.into_owned();
@@ -2364,7 +2295,7 @@ impl DataOperationClient {
         )
         .await?;
 
-        Ok(StatusReported::Success)
+        Ok(ModifyResult::Reported)
     }
 
     /// Used to conditionally report the message schema of a data operation
@@ -2398,7 +2329,7 @@ impl DataOperationClient {
     pub async fn report_message_schema_if_modified<F>(
         &mut self,
         modify: F,
-    ) -> Result<StatusReported, MessageSchemaError>
+    ) -> Result<ModifyResult, MessageSchemaError>
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
     {
@@ -2439,13 +2370,16 @@ impl DataOperationClient {
                     .and_then(|st_status| st_status.message_schema_reference.as_ref()),
             };
 
+            log::info!("MODIFY INPUT: {modify_input:?}");
+
             match modify(modify_input) {
                 Some(_) => {
                     // A modification was made, we proceed to report schema
                 }
                 None => {
                     // No modification was made, so no need to report schema
-                    return Ok(StatusReported::NotModified);
+                    log::info!("1: NOT PRINTED");
+                    return Ok(ModifyResult::NotModified);
                 }
             }
         };
@@ -2454,7 +2388,8 @@ impl DataOperationClient {
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
-            return Ok(StatusReported::NotModified);
+            log::info!("2: NOT PRINTED");
+            return Ok(ModifyResult::NotModified);
         }
 
         let current_asset_status =
@@ -2492,7 +2427,8 @@ impl DataOperationClient {
 
         let Some(new_message_schema) = modify(modify_input) else {
             // No modification was made, so no need to report schema
-            return Ok(StatusReported::NotModified);
+            log::info!("3: NOT PRINTED");
+            return Ok(ModifyResult::NotModified);
         };
 
         let mut asset_status_to_report = current_asset_status.into_owned();
@@ -2574,7 +2510,7 @@ impl DataOperationClient {
         )
         .await?;
 
-        Ok(StatusReported::Success)
+        Ok(ModifyResult::Reported)
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -2806,6 +2742,20 @@ impl DataOperationClient {
         // Once the data_operation definition has been updated we can mark the value in the watcher as seen
         self.data_operation_update_watcher_rx.mark_unchanged();
         DataOperationNotification::Updated
+    }
+
+    /// Creates a new status reporter for this Data Operation.
+    /// 
+    /// The status reporter provides thread-safe access to status reporting functionality
+    /// and can be cloned and used from multiple threads or tasks.
+    pub fn get_status_reporter(&self) -> DataOperationStatusReporter {
+        DataOperationStatusReporter {
+            connector_context: self.connector_context.clone(),
+            asset_status: self.asset_status.clone(),
+            asset_specification: self.asset_specification.clone(),
+            data_operation_ref: self.data_operation_ref.clone(),
+            asset_ref: self.asset_ref.clone(),
+        }
     }
 
     /// Returns a clone of this Data Operation's [`MessageSchemaReference`] from
