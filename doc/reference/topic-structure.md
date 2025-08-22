@@ -125,7 +125,7 @@ sensors/west/building22/property/sensor-temp-1628/read
 > The string value of the `propertyTopic` property is not required to contain the `{propertyName}` token, but Property communication differs depending on whether this token is present:
 >
 > * If the `propertyTopic` property contains a `{propertyName}` token, each Property is assigned a separate MQTT pub/sub topic, and each is read or written separately.
-> * If the `propertyTopic` property does not contain a `{propertyName}` token, all Properties in the Interface are grouped into a collection that is read or written in a combined payload. Read payloads will express values for all Properties, but Write payloads may omit any Property whose value is not being reqested to change.
+> * If the `propertyTopic` property does not contain a `{propertyName}` token, all Properties in the Interface are grouped into a collection that is read or written in a combined payload. Read payloads will express values for all Properties, but Write payloads may omit any Property whose value is not being requested to change.
 
 ## Command
 
