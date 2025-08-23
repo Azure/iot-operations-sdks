@@ -18,7 +18,7 @@ use azure_iot_operations_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
             AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
-            DeviceEndpointClient, DeviceEndpointClientCreationObservation, ModifyResult,
+            DeviceEndpointClient, DeviceEndpointClientCreationObservation, SchemaModifyResult,
         },
     },
     data_processor::derived_json,
@@ -109,6 +109,7 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
     // Wait for a device creation notification
     loop {
         let device_endpoint_client = device_creation_observation.recv_notification().await;
+        let log_identifier = format!("[{}]", device_endpoint_client.device_endpoint_ref());
         log::info!("Device created: {device_endpoint_client:?}");
 
         // Get the status reporter for this device endpoint
@@ -116,7 +117,7 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
 
         // now we should update the status of the device
         if let Err(e) = device_endpoint_reporter
-            .report_device_status_if_modified(report_status_if_changed(Ok(())))
+            .report_device_status_if_modified(report_status_if_changed(&log_identifier, Ok(())))
             .await
         {
             log::error!("Error reporting device status: {e}");
@@ -126,7 +127,10 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
         let endpoint_status = generate_endpoint_status(&device_endpoint_client);
 
         if let Err(e) = device_endpoint_reporter
-            .report_endpoint_status_if_modified(report_status_if_changed(endpoint_status))
+            .report_endpoint_status_if_modified(report_status_if_changed(
+                &log_identifier,
+                endpoint_status,
+            ))
             .await
         {
             log::error!("Error reporting device endpoint status: {e}");
@@ -134,44 +138,52 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
 
         // Start handling the assets for this device endpoint
         // if we didn't accept the inbound endpoint, then we still want to run this to wait for updates
-        tokio::task::spawn(run_device(device_endpoint_client));
+        tokio::task::spawn(run_device(log_identifier, device_endpoint_client));
     }
 }
 
 // This function runs in a loop, waiting for asset creation notifications.
-async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
+async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEndpointClient) {
     // Get the status reporter for this device endpoint - create once and reuse
     let device_endpoint_reporter = device_endpoint_client.get_status_reporter();
 
     loop {
         match device_endpoint_client.recv_notification().await {
             ClientNotification::Deleted => {
-                log::warn!("Device Endpoint deleted");
+                log::warn!("{log_identifier} Device Endpoint deleted");
                 break;
             }
             ClientNotification::Updated => {
-                log::info!("Device updated: {device_endpoint_client:?}");
+                log::info!("{log_identifier} Device updated: {device_endpoint_client:?}");
 
                 // Update device status - usually only on first report or error changes
                 if let Err(e) = device_endpoint_reporter
-                    .report_device_status_if_modified(report_status_if_changed(Ok(())))
+                    .report_device_status_if_modified(report_status_if_changed(
+                        &log_identifier,
+                        Ok(()),
+                    ))
                     .await
                 {
-                    log::error!("Error reporting device status: {e}");
+                    log::error!("{log_identifier} Error reporting device status: {e}");
                 }
 
                 // Update endpoint status - check for changes
                 let endpoint_status = generate_endpoint_status(&device_endpoint_client);
 
                 if let Err(e) = device_endpoint_reporter
-                    .report_endpoint_status_if_modified(report_status_if_changed(endpoint_status))
+                    .report_endpoint_status_if_modified(report_status_if_changed(
+                        &log_identifier,
+                        endpoint_status,
+                    ))
                     .await
                 {
-                    log::error!("Error reporting endpoint status: {e}");
+                    log::error!("{log_identifier} Error reporting endpoint status: {e}");
                 }
             }
             ClientNotification::Created(asset_client) => {
-                log::info!("Asset created: {asset_client:?}");
+                let asset_log_identifier =
+                    format!("{log_identifier}[{}]", asset_client.asset_ref().name);
+                log::info!("{asset_log_identifier} Asset created: {asset_client:?}");
 
                 // Get the status reporter for this asset
                 let asset_reporter = asset_client.get_status_reporter();
@@ -180,57 +192,73 @@ async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
                 let asset_status = generate_asset_status(&asset_client);
 
                 if let Err(e) = asset_reporter
-                    .report_status_if_modified(report_status_if_changed(asset_status))
+                    .report_status_if_modified(report_status_if_changed(
+                        &asset_log_identifier,
+                        asset_status,
+                    ))
                     .await
                 {
-                    log::error!("Error reporting asset status: {e}");
+                    log::error!("{asset_log_identifier} Error reporting asset status: {e}");
                 }
-
-                // if let Err(e) = asset_client.report_status(asset_status).await {
-                //     log::error!("Error reporting asset status: {e}");
-                // }
 
                 // Start handling the datasets for this asset
                 // if we didn't accept the asset, then we still want to run this to wait for updates
-                tokio::task::spawn(run_asset(asset_client));
+                tokio::task::spawn(run_asset(asset_log_identifier, asset_client));
             }
         }
     }
 }
 
 // This function runs in a loop, waiting for dataset creation notifications.
-async fn run_asset(mut asset_client: AssetClient) {
+async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) {
     // Get the status reporter for this asset - create once and reuse
     let asset_reporter = asset_client.get_status_reporter();
 
     loop {
         match asset_client.recv_notification().await {
             ClientNotification::Updated => {
-                log::info!("asset updated: {asset_client:?}");
+                log::info!("{asset_log_identifier} Asset updated");
 
                 // Generate status outside the closure to avoid borrowing issues
                 let asset_status = generate_asset_status(&asset_client);
 
                 if let Err(e) = asset_reporter
-                    .report_status_if_modified(report_status_if_changed(asset_status))
+                    .report_status_if_modified(report_status_if_changed(
+                        &asset_log_identifier,
+                        asset_status,
+                    ))
                     .await
                 {
-                    log::error!("Error reporting asset status: {e}");
+                    log::error!("{asset_log_identifier} Error reporting asset status: {e}");
                 }
             }
             ClientNotification::Deleted => {
-                log::warn!("Asset has been deleted");
+                log::warn!("{asset_log_identifier} Asset has been deleted");
                 break;
             }
             ClientNotification::Created(data_operation_client) => {
-                log::info!("Data Operation Created: {data_operation_client:?}");
+                let data_operation_log_identifier = format!(
+                    "{asset_log_identifier}[{}]",
+                    data_operation_client
+                        .data_operation_ref()
+                        .data_operation_name
+                );
+                log::info!(
+                    "{data_operation_log_identifier} Data Operation Created: {data_operation_client:?}"
+                );
                 if let DataOperationKind::Dataset = data_operation_client
                     .data_operation_ref()
                     .data_operation_kind
                 {
-                    tokio::task::spawn(run_dataset(data_operation_client));
+                    tokio::task::spawn(run_dataset(
+                        data_operation_log_identifier,
+                        data_operation_client,
+                    ));
                 } else {
-                    tokio::task::spawn(handle_unsupported_data_operation(data_operation_client));
+                    tokio::task::spawn(handle_unsupported_data_operation(
+                        data_operation_log_identifier,
+                        data_operation_client,
+                    ));
                 }
             }
         }
@@ -239,44 +267,40 @@ async fn run_asset(mut asset_client: AssetClient) {
 
 /// Note, this function takes in a `DataOperationClient`, but we know it is specifically a `Dataset`
 /// because we already filtered out non-dataset `DataOperationClient`s in the `run_asset` function.
-async fn run_dataset(mut data_operation_client: DataOperationClient) {
+async fn run_dataset(log_identifier: String, mut data_operation_client: DataOperationClient) {
     // Get the status reporter for this data operation - create once and reuse
     let data_operation_reporter = data_operation_client.get_status_reporter();
 
     // now we should update the status of the dataset and report the message schema
     if let Err(e) = data_operation_reporter
-        .report_status_if_modified(report_status_if_changed(Ok(())))
+        .report_status_if_modified(report_status_if_changed(&log_identifier, Ok(())))
         .await
     {
-        log::error!("Error reporting dataset status: {e}");
+        log::error!("{log_identifier} Error reporting dataset status: {e}");
     }
 
     let sample_data = mock_received_data(0);
 
-    let message_schema = derived_json::create_schema(&sample_data).unwrap();
-    match data_operation_client
-        .report_message_schema_if_modified(|current_schema| {
-            // Only report schema if there isn't already one
-            if current_schema.is_none() {
-                Some(message_schema.clone())
-            } else {
-                None
-            }
-        })
+    let mut local_message_schema = derived_json::create_schema(&sample_data).unwrap();
+    let mut local_schema_reference = match data_operation_client
+        .report_message_schema_if_modified(|_current_schema| Some(local_message_schema.clone()))
         .await
     {
         Ok(status_reported) => match status_reported {
-            ModifyResult::Reported => {
-                log::info!("Message Schema reported successfully");
+            SchemaModifyResult::Reported(schema_ref) => {
+                log::info!("{log_identifier} Message Schema reported successfully: {schema_ref:?}");
+                schema_ref
             }
-            ModifyResult::NotModified => {
-                log::info!("Message Schema already exists, not reporting");
+            SchemaModifyResult::NotModified => {
+                log::info!("{log_identifier} Message Schema already exists, not reporting");
+                unreachable!(); // Always report the first time
             }
         },
         Err(e) => {
-            log::error!("Error reporting message schema: {e}");
+            log::error!("{log_identifier} Error reporting message schema: {e}");
+            panic!();
         }
-    }
+    };
     let mut count = 0;
     // Timer will trigger the sampling of data
     let mut timer = tokio::time::interval(Duration::from_secs(10));
@@ -288,54 +312,63 @@ async fn run_dataset(mut data_operation_client: DataOperationClient) {
             res = data_operation_client.recv_notification() => {
                 match res {
                     DataOperationNotification::Updated => {
-                        log::info!("dataset updated: {data_operation_client:?}");
+                        log::info!("{log_identifier} Dataset updated: {data_operation_client:?}");
 
                         // now we should update the status of the dataset and report the message schema
                         if let Err(e) = data_operation_reporter
-                            .report_status_if_modified(report_status_if_changed(Ok(())))
+                            .report_status_if_modified(report_status_if_changed(&log_identifier, Ok(())))
                             .await
                         {
-                            log::error!("Error reporting dataset status: {e}");
+                            log::error!("{log_identifier} Error reporting dataset status: {e}");
                         }
 
                         let sample_data = mock_received_data(0);
 
-                        let message_schema =
+                        let current_message_schema =
                             derived_json::create_schema(&sample_data).unwrap();
                         // Report schema only if there isn't already one
                         match data_operation_client
-                            .report_message_schema_if_modified(|current_schema| {
+                            .report_message_schema_if_modified(|current_schema_reference| {
                                 // Only report schema if there isn't already one
-                                if current_schema.is_none() {
-                                    Some(message_schema.clone())
+                                if let Some(current_schema_reference) = current_schema_reference {
+                                    if *current_schema_reference != local_schema_reference
+                                        || current_message_schema != local_message_schema
+                                    {
+                                        Some(current_message_schema.clone())
+                                    } else {
+                                        None
+                                    }
                                 } else {
-                                    None
+                                    Some(current_message_schema.clone())
                                 }
                             })
                             .await
                         {
                             Ok(status_reported) => {
                                 match status_reported {
-                                    ModifyResult::Reported => {
-                                        log::info!("Message Schema reported successfully");
+                                    SchemaModifyResult::Reported(schema_ref) => {
+                                        local_message_schema = current_message_schema;
+                                        local_schema_reference = schema_ref;
+
+                                        log::info!("{log_identifier} Message Schema reported successfully: {local_schema_reference:?}");
                                     }
-                                    ModifyResult::NotModified => {
-                                        log::info!("Message Schema already exists, not reporting");
+                                    SchemaModifyResult::NotModified => {
+                                        log::info!("{log_identifier} Message Schema already exists, not reporting");
                                     }
                                 }
                             }
                             Err(e) => {
-                                log::error!("Error reporting message schema: {e}");
+                                log::error!("{log_identifier} Error reporting message schema: {e}");
                             }
                         }
                         dataset_valid = true;
                     },
                     DataOperationNotification::UpdatedInvalid => {
-                        log::warn!("Dataset has invalid update. Wait for new dataset update.");
+                        log::warn!("{log_identifier} Dataset has invalid update. Wait for new dataset update.");
                         dataset_valid = false;
                     },
                     DataOperationNotification::Deleted => {
-                        log::warn!("Dataset has been deleted. No more dataset updates will be received");
+                        log::warn!("{log_identifier} Dataset has been deleted. No more dataset updates will be received");
                         break;
                     }
                 }
@@ -345,12 +378,12 @@ async fn run_dataset(mut data_operation_client: DataOperationClient) {
                 match data_operation_client.forward_data(sample_data).await {
                     Ok(()) => {
                         log::info!(
-                            "data {count} for {} forwarded",
+                            "{log_identifier} data {count} for {} forwarded",
                             data_operation_client.data_operation_ref().data_operation_name
                         );
                         count += 1;
                     }
-                    Err(e) => log::error!("error forwarding data: {e}"),
+                    Err(e) => log::error!("{log_identifier} error forwarding data: {e}"),
                 }
             }
         }
@@ -358,7 +391,10 @@ async fn run_dataset(mut data_operation_client: DataOperationClient) {
 }
 
 /// Small handler to indicate lack of stream/event support in this connector
-async fn handle_unsupported_data_operation(mut data_operation_client: DataOperationClient) {
+async fn handle_unsupported_data_operation(
+    log_identifier: String,
+    mut data_operation_client: DataOperationClient,
+) {
     let data_operation_kind = data_operation_client
         .data_operation_ref()
         .data_operation_kind;
@@ -366,7 +402,9 @@ async fn handle_unsupported_data_operation(mut data_operation_client: DataOperat
         .data_operation_ref()
         .data_operation_name
         .clone();
-    log::warn!("Data Operation kind {data_operation_kind:?} not supported for this connector");
+    log::warn!(
+        "{log_identifier} Data Operation kind {data_operation_kind:?} not supported for this connector"
+    );
 
     // Get the status reporter for this data operation - create once and reuse
     let data_operation_reporter = data_operation_client.get_status_reporter();
@@ -380,17 +418,19 @@ async fn handle_unsupported_data_operation(mut data_operation_client: DataOperat
     });
 
     if let Err(e) = data_operation_reporter
-        .report_status_if_modified(report_status_if_changed(error_status))
+        .report_status_if_modified(report_status_if_changed(&log_identifier, error_status))
         .await
     {
-        log::error!("Error reporting {data_operation_kind:?} {data_operation_name} status: {e}");
+        log::error!(
+            "{log_identifier} Error reporting {data_operation_kind:?} {data_operation_name} status: {e}"
+        );
     }
 
     loop {
         match data_operation_client.recv_notification().await {
             DataOperationNotification::Updated => {
                 log::warn!(
-                    "{data_operation_name} update notification received. {data_operation_kind:?} is not supported for the this Connector",
+                    "{log_identifier} {data_operation_name} update notification received. {data_operation_kind:?} is not supported for the this Connector",
                 );
 
                 let error_status = Err(AdrConfigError {
@@ -401,22 +441,25 @@ async fn handle_unsupported_data_operation(mut data_operation_client: DataOperat
                 });
 
                 if let Err(e) = data_operation_reporter
-                    .report_status_if_modified(report_status_if_changed(error_status))
+                    .report_status_if_modified(report_status_if_changed(
+                        &log_identifier,
+                        error_status,
+                    ))
                     .await
                 {
                     log::error!(
-                        "Error reporting {data_operation_kind:?} {data_operation_name} status: {e}"
+                        "{log_identifier} Error reporting {data_operation_kind:?} {data_operation_name} status: {e}"
                     );
                 }
             }
             DataOperationNotification::UpdatedInvalid => {
                 log::info!(
-                    "{data_operation_kind:?} {data_operation_name} update invalid notification received"
+                    "{log_identifier} {data_operation_kind:?} {data_operation_name} update invalid notification received"
                 );
             }
             DataOperationNotification::Deleted => {
                 log::info!(
-                    "{data_operation_kind:?} {data_operation_name} deleted notification received"
+                    "{log_identifier} {data_operation_kind:?} {data_operation_name} deleted notification received"
                 );
                 break;
             }
@@ -442,31 +485,35 @@ pub fn mock_received_data(count: u32) -> Data {
     }
 }
 
-/// Helper function for consistent status reporting behavior across all `*_if_modified` calls.
 /// Only reports status on first time (None) or when changing from OK to Error.
 /// Skips reporting when status has already been reported and hasn't changed.
 fn report_status_if_changed(
+    log_identifier: &str,
     new_status: Result<(), AdrConfigError>,
 ) -> impl Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>> {
     move |current_status| match current_status {
         None => {
-            // First time reporting status
+            log::info!("{log_identifier} reporting status");
             Some(new_status.clone())
         }
         Some(Ok(())) => {
             // Status was OK, report if we now have an error
             if new_status.is_err() {
+                log::info!("{log_identifier} reporting error on ok status");
                 Some(new_status.clone())
             } else {
                 // Still OK, no need to report again
+                log::info!("{log_identifier} reporting no change");
                 None
             }
         }
         Some(Err(_)) => {
             // Status was error, report if we now have OK
             if new_status.is_ok() {
+                log::info!("{log_identifier} reporting ok on error status");
                 Some(new_status.clone())
             } else {
+                log::info!("{log_identifier} reporting no change");
                 // Still error, no need to report again
                 None
             }

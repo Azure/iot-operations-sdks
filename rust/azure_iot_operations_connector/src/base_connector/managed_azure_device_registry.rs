@@ -44,6 +44,14 @@ pub enum ClientNotification<T> {
     Created(T),
 }
 
+/// Result of a schema modification attempt
+pub enum SchemaModifyResult {
+    /// Indicates that the schema was reported successfully and status was modified
+    Reported(MessageSchemaReference),
+    /// Indicates that the schema or status were modified
+    NotModified,
+}
+
 /// Represents the result of a network modification
 pub enum ModifyResult {
     /// Indicates that the modification was reported
@@ -1950,9 +1958,9 @@ impl AssetClient {
         }
     }
 
-    /// Internal helper to get an [`adr_models::AssetStatus`] that can be used as a starting place 
+    /// Internal helper to get an [`adr_models::AssetStatus`] that can be used as a starting place
     /// to modify the current status with whatever new things we want to report.
-    /// 
+    ///
     /// Note that it returns a `Cow`. The reason is that most of the times that we are reporting
     /// a status we will not end up modifying it. `Cow` allows us to only clone when we are going to
     /// modify.
@@ -2213,8 +2221,8 @@ impl DataOperationClient {
     /// - `None` if no update is needed
     ///
     /// # Returns
-    /// - [`StatusReported::Success`] if the schema was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
     ///
     /// # Errors
     /// [`MessageSchemaError`] of kind [`AzureDeviceRegistryError::AIOProtocolError`](azure_device_registry::ErrorKind::AIOProtocolError) if
@@ -2229,7 +2237,7 @@ impl DataOperationClient {
     pub async fn report_message_schema_reference_if_modified<F>(
         &mut self,
         modify: F,
-    ) -> Result<ModifyResult, MessageSchemaError>
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchemaReference>,
     {
@@ -2278,7 +2286,7 @@ impl DataOperationClient {
                 }
                 None => {
                     // No modification was made, so no need to report schema
-                    return Ok(ModifyResult::NotModified);
+                    return Ok(SchemaModifyResult::NotModified);
                 }
             }
         };
@@ -2291,7 +2299,7 @@ impl DataOperationClient {
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
-            return Ok(ModifyResult::NotModified);
+            return Ok(SchemaModifyResult::NotModified);
         }
 
         // Get the current asset status in case it has changed
@@ -2330,7 +2338,7 @@ impl DataOperationClient {
 
         let Some(new_message_schema_reference) = modify(modify_input) else {
             // No modification was made, so no need to report schema
-            return Ok(ModifyResult::NotModified);
+            return Ok(SchemaModifyResult::NotModified);
         };
 
         let mut asset_status_to_report = current_asset_status.into_owned();
@@ -2363,7 +2371,7 @@ impl DataOperationClient {
         )
         .await?;
 
-        Ok(ModifyResult::Reported)
+        Ok(SchemaModifyResult::Reported(new_message_schema_reference))
     }
 
     /// Used to conditionally report the message schema of a data operation
@@ -2373,8 +2381,8 @@ impl DataOperationClient {
     /// - `None` if no update is needed
     ///
     /// # Returns
-    /// - [`StatusReported::Success`] if the schema was updated and successfully reported
-    /// - [`StatusReported::NotModified`] if no modification was needed or the version changed during processing
+    /// - [`SchemaModifyResult::Reported`] if the schema was updated and successfully reported, containing the reported [`MessageSchemaReference`]
+    /// - [`SchemaModifyResult::NotModified`] if no modification was needed or the version changed during processing
     ///
     /// # Errors
     /// [`MessageSchemaError`] of kind [`SchemaRegistryError::InvalidRequestArgument`](schema_registry::ErrorKind::InvalidRequestArgument)
@@ -2397,7 +2405,7 @@ impl DataOperationClient {
     pub async fn report_message_schema_if_modified<F>(
         &mut self,
         modify: F,
-    ) -> Result<ModifyResult, MessageSchemaError>
+    ) -> Result<SchemaModifyResult, MessageSchemaError>
     where
         F: Fn(Option<&MessageSchemaReference>) -> Option<MessageSchema>,
     {
@@ -2444,7 +2452,7 @@ impl DataOperationClient {
                 // A modification was made, we proceed to report schema
             } else {
                 // No modification was made, so no need to report schema
-                return Ok(ModifyResult::NotModified);
+                return Ok(SchemaModifyResult::NotModified);
             }
         };
 
@@ -2456,7 +2464,7 @@ impl DataOperationClient {
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
-            return Ok(ModifyResult::NotModified);
+            return Ok(SchemaModifyResult::NotModified);
         }
 
         // Get the current asset status in case it has changed
@@ -2495,7 +2503,7 @@ impl DataOperationClient {
 
         let Some(new_message_schema) = modify(modify_input) else {
             // No modification was made, so no need to report schema
-            return Ok(ModifyResult::NotModified);
+            return Ok(SchemaModifyResult::NotModified);
         };
 
         let mut asset_status_to_report = current_asset_status.into_owned();
@@ -2577,7 +2585,7 @@ impl DataOperationClient {
         )
         .await?;
 
-        Ok(ModifyResult::Reported)
+        Ok(SchemaModifyResult::Reported(message_schema_reference))
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -3140,9 +3148,9 @@ impl DeviceEndpointStatus {
         }
     }
 
-    /// Internal helper to get an [`DeviceEndpointStatus`] that can be used as a starting place 
+    /// Internal helper to get an [`DeviceEndpointStatus`] that can be used as a starting place
     /// to modify the current status with whatever new things we want to report.
-    /// 
+    ///
     /// Note that it returns a `Cow`. The reason is that most of the times that we are reporting
     /// a status we will not end up modifying it. `Cow` allows us to only clone when we are going to
     /// modify.
