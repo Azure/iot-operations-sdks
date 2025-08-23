@@ -201,10 +201,6 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                     log::error!("{asset_log_identifier} Error reporting asset status: {e}");
                 }
 
-                // if let Err(e) = asset_client.report_status(asset_status).await {
-                //     log::error!("Error reporting asset status: {e}");
-                // }
-
                 // Start handling the datasets for this asset
                 // if we didn't accept the asset, then we still want to run this to wait for updates
                 tokio::task::spawn(run_asset(asset_log_identifier, asset_client));
