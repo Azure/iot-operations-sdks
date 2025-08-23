@@ -51,7 +51,7 @@ namespace Azure.Iot.Operations.Connector
                     try
                     {
                         byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
-                        await ForwardSampledDatasetAsync(args.Asset, dataset, sampledData);
+                        await ForwardSampledDatasetAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, dataset, sampledData);
                     }
                     catch (Exception e)
                     {

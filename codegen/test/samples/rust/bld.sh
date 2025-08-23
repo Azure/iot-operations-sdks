@@ -36,6 +36,10 @@ cd TelemetryPrimitiveSchemasSample/telemetry_primitive_schemas_gen
 cargo build
 cd ../..
 
+cd TelemetryRecursiveSchemasSample/telemetry_recursive_schemas_gen
+cargo build
+cd ../..
+
 cd TelemetryRawSingleSample/telemetry_raw_single_gen
 cargo build
 cd ../..

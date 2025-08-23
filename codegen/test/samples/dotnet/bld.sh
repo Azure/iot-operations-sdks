@@ -9,6 +9,7 @@ dotnet build ./TelemetryAndCommandSampleClientOnly
 dotnet build ./TelemetryAndCommandSampleServerOnly
 dotnet build ./TelemetryComplexSchemasSample
 dotnet build ./TelemetryPrimitiveSchemasSample
+dotnet build ./TelemetryRecursiveSchemasSample
 dotnet build ./TelemetryRawSingleSample
 dotnet build ./TelemetryRawSeparateSample
 dotnet build ./SharedComplexSchemasSample

@@ -4,12 +4,12 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
     public static class RustSchemaSupport
     {
-        public static string GetType(SchemaType schemaType, bool isRequired)
+        public static string GetType(SchemaType schemaType, bool isIndirect, bool isRequired)
         {
             string innerType = schemaType switch
             {
-                ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, true)}>",
-                MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, true)}>",
+                ArrayType arrayType => $"Vec<{GetType(arrayType.ElementSchema, false, true)}>",
+                MapType mapType => $"HashMap<String, {GetType(mapType.ValueSchema, false, true)}>",
                 ObjectType objectType => objectType.SchemaName.GetTypeName(TargetLanguage.Rust),
                 EnumType enumType => enumType.SchemaName.GetTypeName(TargetLanguage.Rust),
                 BooleanType _ => "bool",
@@ -35,7 +35,9 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 _ => throw new Exception($"unrecognized SchemaType type {schemaType.GetType()}"),
             };
 
-            return isRequired ? innerType : $"Option<{innerType}>";
+            string wrappedType = isIndirect ? $"Box<{innerType}>" : innerType;
+
+            return isRequired ? wrappedType : $"Option<{wrappedType}>";
         }
 
         public static bool HasNativeDefault(SchemaType schemaType)

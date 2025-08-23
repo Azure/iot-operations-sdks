@@ -13,7 +13,7 @@ import "<#=importName#>";
 <# } } #>
 
 message <#=this.schema.GetTypeName(TargetLanguage.Independent)#> {
-<# foreach (var nameDescSchemaRequiredIndex in this.nameDescSchemaRequiredIndices) { #>
-    <#=nameDescSchemaRequiredIndex.Item4 ? "" : "optional " #><#=ProtobufSupport.GetType(nameDescSchemaRequiredIndex.Item3)#> <#=nameDescSchemaRequiredIndex.Item1#> = <#=nameDescSchemaRequiredIndex.Item5#>; // <#=nameDescSchemaRequiredIndex.Item2#>
+<# foreach (var nameDescSchemaIndirectRequiredIndex in this.nameDescSchemaIndirectRequiredIndices) { #>
+    <#=nameDescSchemaIndirectRequiredIndex.Item5 ? "" : "optional " #><#=ProtobufSupport.GetType(nameDescSchemaIndirectRequiredIndex.Item3)#> <#=nameDescSchemaIndirectRequiredIndex.Item1#> = <#=nameDescSchemaIndirectRequiredIndex.Item6#>; // <#=nameDescSchemaIndirectRequiredIndex.Item2#>
 <# } #>
 }

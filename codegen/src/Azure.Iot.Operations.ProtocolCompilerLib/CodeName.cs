@@ -106,6 +106,14 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             _ => throw new ArgumentOutOfRangeException(nameof(language)),
         };
 
+        public string GetConstantName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null) => language switch
+        {
+            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix)),
+            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix)),
+            TargetLanguage.Rust => Escape(language, AsScreamingSnake(suffix1, suffix2, suffix3, prefix)),
+            _ => throw new ArgumentOutOfRangeException(nameof(language)),
+        };
+
         public string GetFileName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null) => language switch
         {
             TargetLanguage.Independent => AsPascal(suffix1, suffix2, suffix3),
@@ -161,6 +169,11 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private string AsSnake(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null)
         {
             return GetSnakePrefix(prefix) + snakeName + GetSnakeSuffix(suffix1) + GetSnakeSuffix(suffix2) + GetSnakeSuffix(suffix3);
+        }
+
+        private string AsScreamingSnake(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null)
+        {
+            return AsSnake(suffix1, suffix2, suffix3, prefix).ToUpperInvariant();
         }
 
         private static string Extend(string baseName, string suffix1, string? suffix2)

@@ -71,7 +71,7 @@ public class DiscoveredAssetManagementGroup
 {
     public List<DiscoveredAssetManagementGroupAction>? Actions { get; set; } = default;
 
-    public uint? DefaultTimeOutInSeconds { get; set; } = default;
+    public uint? DefaultTimeoutInSeconds { get; set; } = default;
 
     public string? DefaultTopic { get; set; } = default;
 
@@ -96,7 +96,7 @@ public class DiscoveredAssetManagementGroupAction
 
     public string TargetUri { get; set; } = default!;
 
-    public uint? TimeOutInSeconds { get; set; } = default;
+    public uint? TimeoutInSeconds { get; set; } = default;
 
     public string? Topic { get; set; } = default;
 

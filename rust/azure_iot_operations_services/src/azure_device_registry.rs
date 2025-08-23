@@ -142,7 +142,7 @@ pub struct ConfigStatus {
 
 // TODO: we cannot make a meaningful error message if everything is optional.
 #[derive(Clone, Debug, Default, PartialEq, Error)]
-#[error("Configuration error")]
+#[error("{}", message.as_deref().unwrap_or("Unknown configuration error"))]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
     /// Error code for classification of errors (ex: '400', '404', '500', etc.).
