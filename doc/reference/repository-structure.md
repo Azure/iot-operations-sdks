@@ -39,13 +39,17 @@ dotnet/
 │  │  ├─ Azure.Iot.Operations.Protocol.csproj
 │  ├─ Azure.Iot.Operations.Services/
 │  │  ├─ Azure.Iot.Operations.Services.csproj
-├─ tests/
+│  ├─ Azure.Iot.Operations.Connector/
+│  │  ├─ Azure.Iot.Operations.Connector.csproj
+├─ test/
 │  ├─ Azure.Iot.Operations.Mqtt.UnitTests/
 │  │  ├─ Azure.Iot.Operations.Mqtt.UnitTests.csproj
 │  ├─ Azure.Iot.Operations.Protocol.UnitTests/
 │  │  ├─ Azure.Iot.Operations.Protocol.UnitTests.csproj
 │  ├─ Azure.Iot.Operations.Services.UnitTests/
 │  │  ├─ Azure.Iot.Operations.Services.UnitTests.csproj
+│  ├─ Azure.Iot.Operations.Connector.UnitTests/
+│  │  ├─ Azure.Iot.Operations.Connector.UnitTests.csproj
 │  ├─ Azure.Iot.Operations.Mqtt.IntegrationTests/
 │  │  ├─ Azure.Iot.Operations.Mqtt.IntegrationTests.csproj
 │  ├─ Azure.Iot.Operations.Protocol.IntegrationTests/
@@ -54,7 +58,10 @@ dotnet/
 │  │  ├─ Azure.Iot.Operations.Services.IntegrationTests.csproj
 │  ├─ Azure.Iot.Operations.Protocol.MetlTests/
 │  │  ├─ Azure.Iot.Operations.Protocol.MetlTests.csproj
+│  ├─ Azure.Iot.Operations.Connector.IntegrationTests/
+│  │  ├─ Azure.Iot.Operations.Connector.IntegrationTests.csproj
 ├─ samples/
+├─ templates/
 ├─ Azure.Iot.Operations.sln
 ```
 
@@ -78,14 +85,24 @@ rust/
 │  ├─ src/
 │  ├─ tests/
 │  ├─ Cargo.toml
-├─ e2e/
+├─ azure_iot_operations_services/
+│  ├─ examples/
+│  ├─ src/
+│  ├─ tests/
+│  ├─ Cargo.toml
+├─ azure_iot_operations_connector/
+│  ├─ examples/
+│  ├─ src/
+│  ├─ tests/
+│  ├─ Cargo.toml
+├─ sample_applications/
 ├─ Cargo.toml
 ```
 * unit tests for each crate are part of `src`. The `tests` subdirectories are for integration/stress/longhaul etc. tests, including METL if possible.
 
-* `e2e` (could be named something else) is for any tests that include CodeGen output. These are "full solution" tests, as opposed to crate specific ones
+* Any CodeGen related samples are in the `sample_applications` directory as individual crates.
 
-* Any CodeGen related samples (if distinct from the `e2e` tests) could also be included at top-level of `rust` directory
+<!-- TODO: Add reference to stub schema registry service and state store cli tool -->
 
 ### Go
 ```
@@ -95,21 +112,40 @@ go/
 ├─ protocol/
 │  ├─ go.mod
 ├─ samples/
-│  ├─ greeter/
-│  │  ├─ client/
-│  │  │  ├─ go.mod
-│  │  ├─ protocol/
-│  │  │  ├─ go.mod
-│  │  ├─ server/
-│  │  │  ├─ go.mod
+│  ├─ application/eventdrivenapp
+│  │  ├─ go.mod
+│  ├─ protocol/
+│  │  ├─ cloudevents/
+|  │  │  ├─ client/
+|  │  │  │  ├─ go.mod
+|  │  │  ├─ envoy/
+|  │  │  │  ├─ go.mod
+|  │  │  ├─ server/
+|  │  │  │  ├─ go.mod
+│  │  ├─ counter/
+|  │  │  ├─ client/
+|  │  │  │  ├─ go.mod
+|  │  │  ├─ envoy/
+|  │  │  │  ├─ go.mod
+|  │  │  ├─ server/
+|  │  │  │  ├─ go.mod
+│  │  ├─ greeter/
+|  │  │  ├─ client/
+|  │  │  │  ├─ go.mod
+|  │  │  ├─ envoy/
+|  │  │  │  ├─ go.mod
+|  │  │  ├─ server/
+|  │  │  │  ├─ go.mod
 ├─ services/
 │  ├─ go.mod
 │  ├─ leaselock/
+│  ├─ schemaregistry/
+│  ├─ statestore/
 ├─ test/
 ```
 * The current plan of record is for `services` to be a single module, but each of its packages should be structured with minimal interdependency such that they could be converted to separate modules in the future. This would not change the directory structure.
 
-* `samples` follows the precedent of `Azure/azure-sdk-for-go` and should contain the client/protocol/server triplet for each named sample.
+* `samples` follows the precedent of `Azure/azure-sdk-for-go` and should contain the client/envoy/server triplet for each named sample.
 
 * `test` contains the common testing infrastructure (e.g. the METL test framework for Go). It should be structured following the `/eng/test/` folder.
 
