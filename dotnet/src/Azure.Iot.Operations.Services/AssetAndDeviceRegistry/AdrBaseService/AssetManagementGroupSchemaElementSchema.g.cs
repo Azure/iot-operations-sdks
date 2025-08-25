@@ -22,9 +22,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// Default response timeout for all actions that are part of the management group.
         /// </summary>
-        [JsonPropertyName("defaultTimeOutInSeconds")]
+        [JsonPropertyName("defaultTimeoutInSeconds")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public uint? DefaultTimeOutInSeconds { get; set; } = default;
+        public uint? DefaultTimeoutInSeconds { get; set; } = default;
 
         /// <summary>
         /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.

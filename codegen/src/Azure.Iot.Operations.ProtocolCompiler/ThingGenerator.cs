@@ -30,7 +30,7 @@
             }
             catch (RecursionException rex)
             {
-                Console.WriteLine($"Unable to generate Thing Description {interfaceThingTransform.FileName} because {rex.SchemaId} has a self-referential definition");
+                Console.WriteLine($"Unable to generate Thing Description {interfaceThingTransform.FileName} because {rex.SchemaName.AsDtmi} has a self-referential definition");
                 return false;
             }
 

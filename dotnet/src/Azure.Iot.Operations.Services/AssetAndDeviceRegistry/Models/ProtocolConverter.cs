@@ -160,7 +160,7 @@ internal static class ProtocolConverter
     return new AdrBaseService.DiscoveredAssetManagementGroup
     {
         Actions = source.Actions?.Select(x => x.ToProtocol()).ToList(),
-        DefaultTimeOutInSeconds = source.DefaultTimeOutInSeconds,
+        DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
         DefaultTopic = source.DefaultTopic,
         LastUpdatedOn = source.LastUpdatedOn,
         ManagementGroupConfiguration = source.ManagementGroupConfiguration,
@@ -180,7 +180,7 @@ internal static class ProtocolConverter
         LastUpdatedOn = source.LastUpdatedOn,
         TypeRef = source.TypeRef,
         TargetUri = source.TargetUri,
-        TimeOutInSeconds = source.TimeOutInSeconds,
+        TimeoutInSeconds = source.TimeoutInSeconds,
         Topic = source.Topic,
     };
 }

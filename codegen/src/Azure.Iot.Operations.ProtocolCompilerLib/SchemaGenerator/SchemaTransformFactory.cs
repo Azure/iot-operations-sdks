@@ -80,7 +80,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             }
         }
 
-        public static IEnumerable<ITemplateTransform> GetObjectSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, Dtmi objectId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, int)> nameDescSchemaRequiredIndices, CodeName? sharedPrefix, int mqttVersion, bool isResult)
+        public static IEnumerable<ITemplateTransform> GetObjectSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, Dtmi objectId, string description, CodeName schema, List<(string, string, DTSchemaInfo, bool, bool, int)> nameDescSchemaIndirectRequiredIndices, CodeName? sharedPrefix, int mqttVersion, bool isResult)
         {
             switch (payloadFormat)
             {
@@ -91,20 +91,20 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 case PayloadFormat.Avro:
                     if (isResult)
                     {
-                        yield return new ResultAvroSchema(projectName, genNamespace, schema, nameDescSchemaRequiredIndices, sharedPrefix, mqttVersion);
+                        yield return new ResultAvroSchema(projectName, genNamespace, schema, nameDescSchemaIndirectRequiredIndices, sharedPrefix, mqttVersion);
                     }
                     yield break;
                 case PayloadFormat.Cbor:
-                    yield return new ObjectJsonSchema(CommonSchemaSupport.GetNamespace(objectId, sharedPrefix, genNamespace)!, GetSchemaId(objectId, schema), description, schema, nameDescSchemaRequiredIndices, sharedPrefix, setIndex: true);
+                    yield return new ObjectJsonSchema(CommonSchemaSupport.GetNamespace(objectId, sharedPrefix, genNamespace)!, GetSchemaId(objectId, schema), description, schema, nameDescSchemaIndirectRequiredIndices, sharedPrefix, setIndex: true);
                     yield break;
                 case PayloadFormat.Json:
-                    yield return new ObjectJsonSchema(CommonSchemaSupport.GetNamespace(objectId, sharedPrefix, genNamespace)!, GetSchemaId(objectId, schema), description, schema, nameDescSchemaRequiredIndices, sharedPrefix, setIndex: false);
+                    yield return new ObjectJsonSchema(CommonSchemaSupport.GetNamespace(objectId, sharedPrefix, genNamespace)!, GetSchemaId(objectId, schema), description, schema, nameDescSchemaIndirectRequiredIndices, sharedPrefix, setIndex: false);
                     yield break;
                 case PayloadFormat.Proto2:
-                    yield return new ObjectProto2(projectName, genNamespace, schema, nameDescSchemaRequiredIndices);
+                    yield return new ObjectProto2(projectName, genNamespace, schema, nameDescSchemaIndirectRequiredIndices);
                     yield break;
                 case PayloadFormat.Proto3:
-                    yield return new ObjectProto3(projectName, genNamespace, schema, nameDescSchemaRequiredIndices);
+                    yield return new ObjectProto3(projectName, genNamespace, schema, nameDescSchemaIndirectRequiredIndices);
                     yield break;
                 default:
                     throw GetFormatNotRecognizedException(payloadFormat);

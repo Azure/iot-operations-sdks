@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             if (dtSchema.EntityKind == DTEntityKind.Object)
             {
                 definedIds.Add(dtSchema.Id);
-                var templateTransform = new ObjectAvroSchema(schemaId, sharedNamespace, ((DTObjectInfo)dtSchema).Fields.Where(f => !IsFieldErrorCode(f, mqttVersion) && !IsFieldErrorInfo(f, mqttVersion)).Select(f => (f.Name, f.Schema, IsRequired(f))).ToList(), indent, sharedPrefix, definedIds, mqttVersion);
+                var templateTransform = new ObjectAvroSchema(schemaId, sharedNamespace, ((DTObjectInfo)dtSchema).Fields.Where(f => !IsFieldErrorCode(f, mqttVersion) && !IsFieldErrorInfo(f, mqttVersion)).Select(f => (f.Name, f.Schema, IsIndirect(f, mqttVersion), IsRequired(f))).ToList(), indent, sharedPrefix, definedIds, mqttVersion);
                 return templateTransform.TransformText();
             }
 
@@ -80,6 +80,11 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private static bool IsRequired(DTFieldInfo dtField)
         {
             return dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+        }
+
+        private static bool IsIndirect(DTFieldInfo dtField, int mqttVersion)
+        {
+            return dtField.SupplementalTypes.Contains(new Dtmi(string.Format(DtdlMqttExtensionValues.IndirectAdjunctTypeFormat, mqttVersion)));
         }
 
         private static bool IsFieldErrorCode(DTFieldInfo dtField, int mqttVersion)
