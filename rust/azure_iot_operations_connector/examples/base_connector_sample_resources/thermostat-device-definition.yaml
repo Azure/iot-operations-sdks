@@ -11,16 +11,10 @@ spec:
   endpoints:
     inbound:
       my-rest-endpoint:
-        additionalConfiguration: '{"key1": "value1", "nested": {"key2": 2}}'
         address: http://some.address:80
         authentication:
           method: Anonymous
         endpointType: rest-thermostat
-        version: "0.0.1"
-      my-coap-endpoint:
-        address: coap://some.address/temp
-        authentication:
-          method: Anonymous
-        endpointType: coap-thermostat
+        version: "1.0"
   uuid: 1234-5678-9012-3456
   version: 2
