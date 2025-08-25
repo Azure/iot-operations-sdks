@@ -2,11 +2,11 @@
 
 ## Description
 
-The `aiostatestore-cli` tool can be used to manage keys and values in the AIO State Store.
+The `statestore-cli` tool can be used to manage keys and values in the AIO State Store.
 
 ## Requirements
 
-The `aiostatestore-cli` is a standalone self-sufficient binary application, not requiring you to install any additional libraries or frameworks on the platform where the tool is run.
+The `statestore-cli` is a standalone self-sufficient binary application, not requiring you to install any additional libraries or frameworks on the platform where the tool is run.
 
 Supported platforms: Linux (tested on Ubuntu 24.04), Windows 11.
 
@@ -21,13 +21,13 @@ For the examples below please assume:
 
 ### Access the built-in help documentation
 
-For accessing help directly from the console just type `aiostatestore-cli --help`.
+For accessing help directly from the console just type `statestore-cli --help`.
 
 ```shell
-user@ubuntu2404:~$ ./aiostatestore-cli --help
+user@ubuntu2404:~$ ./statestore-cli --help
 Allows managing key/value pairs in the MQ State Store.
 
-Usage: aiostatestore-cli [OPTIONS] <COMMAND>
+Usage: statestore-cli [OPTIONS] <COMMAND>
 
 Commands:
   get     Gets the value of an existing key
@@ -72,13 +72,13 @@ Options:
 user@ubuntu2404:~$
 ```
 
-Help specific to each command can be printed through calling `aiostatestore-cli <command> --help`.
+Help specific to each command can be printed through calling `statestore-cli <command> --help`.
 
 ```shell
-user@ubuntu2404:~$ ./aiostatestore-cli get --help
+user@ubuntu2404:~$ ./statestore-cli get --help
 Gets the value of an existing key
 
-Usage: aiostatestore-cli get [OPTIONS] --key <KEY>
+Usage: statestore-cli get [OPTIONS] --key <KEY>
 
 Options:
   -k, --key <KEY>
@@ -111,7 +111,7 @@ user@ubuntu2404:~$
 To retrieve an existing key:
 
 ```shell
-./aiostatestore-cli get -n "myaiomqbroker.net" -k "keyName1" -f "./keyValue1.txt" -T "~/certs/broker-ca.crt" -C "~/certs/client.crt" -K "~/certs/client.key"
+./statestore-cli get -n "myaiomqbroker.net" -k "keyName1" -f "./keyValue1.txt" -T "~/certs/broker-ca.crt" -C "~/certs/client.crt" -K "~/certs/client.key"
 ```
 
 |||
@@ -123,7 +123,7 @@ To retrieve an existing key:
 To set the value of a key:
 
 ```shell
-./aiostatestore-cli set -n "myaiomqbroker.net" -k "keyName1" --value "keyValue1" -T "~/certs/broker-ca.crt" -C "~/certs/client.crt" -K "~/certs/client.key"
+./statestore-cli set -n "myaiomqbroker.net" -k "keyName1" --value "keyValue1" -T "~/certs/broker-ca.crt" -C "~/certs/client.crt" -K "~/certs/client.key"
 ```
 
 |||
@@ -135,7 +135,7 @@ To set the value of a key:
 To delete an existing key:
 
 ```shell
-./aiostatestore-cli delete -n "myaiomqbroker.net" -k "keyName1" -T "~/certs/broker-ca.crt" -C "~/certs/client.crt" -K "~/certs/client.key"
+./statestore-cli delete -n "myaiomqbroker.net" -k "keyName1" -T "~/certs/broker-ca.crt" -C "~/certs/client.crt" -K "~/certs/client.key"
 ```
 
 |||
@@ -149,13 +149,13 @@ To delete an existing key:
 
 > **Disclaimer:**</br>
 > The use non-secure connections with the AIO MQ Broker is highly discouraged.</br>
-> That option is provided in `aiostatestore-cli` for testing purposes only.</br>
+> That option is provided in `statestore-cli` for testing purposes only.</br>
 > Our recommendation is to not use unsecure (non-TLS) connections in production environments. 
 
 To retrieve an existing key:
 
 ```shell
-./aiostatestore-cli get -n "myaiomqbroker.net" -k "keyName1" -f "./keyValue1.txt" --notls
+./statestore-cli get -n "myaiomqbroker.net" -k "keyName1" -f "./keyValue1.txt" --notls
 ```
 
 |||
@@ -167,7 +167,7 @@ To retrieve an existing key:
 To set the value of a key:
 
 ```shell
-./aiostatestore-cli set -n "myaiomqbroker.net" -k "keyName1" --value "keyValue1" --notls
+./statestore-cli set -n "myaiomqbroker.net" -k "keyName1" --value "keyValue1" --notls
 ```
 
 |||
@@ -179,7 +179,7 @@ To set the value of a key:
 To delete an existing key:
 
 ```shell
-./aiostatestore-cli delete -n "myaiomqbroker.net" -k "keyName1" --notls
+./statestore-cli delete -n "myaiomqbroker.net" -k "keyName1" --notls
 ```
 
 |||
@@ -190,7 +190,7 @@ To delete an existing key:
 
 ## Limitations
 
-The following features are not currently supported by `aiostatestore-cli`:
+The following features are not currently supported by `statestore-cli`:
 
 - The following AIO MQ State Store operations are not supported: vdel, observe/unobserve.
 - No username/password authentication.
