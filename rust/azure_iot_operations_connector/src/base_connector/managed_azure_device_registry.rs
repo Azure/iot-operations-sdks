@@ -108,13 +108,7 @@ impl DeviceEndpointStatusReporter {
             let current_device_endpoint_status =
                 status_read_guard.get_current_device_endpoint_status(cached_version);
 
-            let modify_input = current_device_endpoint_status
-                .config
-                .as_ref()
-                .map(|config| match &config.error {
-                    Some(e) => Err(e),
-                    None => Ok(()),
-                });
+            let modify_input = Self::get_device_modify_input(&current_device_endpoint_status);
 
             // We do not use the result since the status once we acquire the read lock might change
             // and we will have to re-evaluate
@@ -129,6 +123,9 @@ impl DeviceEndpointStatusReporter {
 
         if cached_version != self.device_endpoint_specification.read().unwrap().version {
             // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date device endpoint specification, will not modify"
+            );
             return Ok(ModifyResult::NotModified);
         }
 
@@ -140,13 +137,7 @@ impl DeviceEndpointStatusReporter {
             status_write_guard.get_current_device_endpoint_status(cached_version);
 
         let modify_result = {
-            let modify_input = current_device_endpoint_status
-                .config
-                .as_ref()
-                .map(|config| match &config.error {
-                    Some(e) => Err(e),
-                    None => Ok(()),
-                });
+            let modify_input = Self::get_device_modify_input(&current_device_endpoint_status);
 
             let Some(modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
@@ -173,7 +164,10 @@ impl DeviceEndpointStatusReporter {
             )]),
         };
 
-        log::debug!("Reporting device status from app for {:?}", self.device_endpoint_ref);
+        log::debug!(
+            "Reporting device status from app for {:?}",
+            self.device_endpoint_ref
+        );
 
         DeviceEndpointClient::internal_report_status(
             &self.connector_context,
@@ -184,6 +178,18 @@ impl DeviceEndpointStatusReporter {
         .await?;
 
         Ok(ModifyResult::Reported)
+    }
+
+    fn get_device_modify_input(
+        current_status: &DeviceEndpointStatus,
+    ) -> Option<Result<(), &AdrConfigError>> {
+        current_status
+            .config
+            .as_ref()
+            .map(|config| match &config.error {
+                Some(e) => Err(e),
+                None => Ok(()),
+            })
     }
 
     /// Used to conditionally report the endpoint status and then updates the device with the new status returned.
@@ -222,13 +228,7 @@ impl DeviceEndpointStatusReporter {
             let current_device_endpoint_status =
                 status_read_guard.get_current_device_endpoint_status(cached_version);
 
-            let modify_input = current_device_endpoint_status
-                .inbound_endpoint_status
-                .as_ref()
-                .map(|r| match r {
-                    Ok(()) => Ok(()),
-                    Err(e) => Err(e),
-                });
+            let modify_input = Self::get_endpoint_modify_input(&current_device_endpoint_status);
 
             // We do not use the result since the status once we acquire the read lock might change
             // and we will have to re-evaluate
@@ -243,6 +243,9 @@ impl DeviceEndpointStatusReporter {
 
         if cached_version != self.device_endpoint_specification.read().unwrap().version {
             // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date device endpoint specification, will not modify"
+            );
             return Ok(ModifyResult::NotModified);
         }
 
@@ -254,13 +257,7 @@ impl DeviceEndpointStatusReporter {
             status_write_guard.get_current_device_endpoint_status(cached_version);
 
         let modify_result = {
-            let modify_input = current_device_endpoint_status
-                .inbound_endpoint_status
-                .as_ref()
-                .map(|r| match r {
-                    Ok(()) => Ok(()),
-                    Err(e) => Err(e),
-                });
+            let modify_input = Self::get_endpoint_modify_input(&current_device_endpoint_status);
 
             let Some(modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
@@ -293,7 +290,10 @@ impl DeviceEndpointStatusReporter {
             )]),
         };
 
-        log::debug!("Reporting endpoint status from app for {:?}", self.device_endpoint_ref);
+        log::debug!(
+            "Reporting endpoint status from app for {:?}",
+            self.device_endpoint_ref
+        );
 
         // Report and update status
         DeviceEndpointClient::internal_report_status(
@@ -305,6 +305,18 @@ impl DeviceEndpointStatusReporter {
         .await?;
 
         Ok(ModifyResult::Reported)
+    }
+
+    fn get_endpoint_modify_input(
+        current_status: &DeviceEndpointStatus,
+    ) -> Option<Result<(), &AdrConfigError>> {
+        current_status
+            .inbound_endpoint_status
+            .as_ref()
+            .map(|status| match status {
+                Ok(()) => Ok(()),
+                Err(e) => Err(e),
+            })
     }
 }
 
@@ -903,14 +915,7 @@ impl AssetStatusReporter {
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
-            let modify_input =
-                current_asset_status
-                    .config
-                    .as_ref()
-                    .map(|config| match &config.error {
-                        Some(err) => Err(err),
-                        None => Ok(()),
-                    });
+            let modify_input = self.get_modify_input(&current_asset_status);
 
             // We do not use the result since the status once we acquire the read lock might change
             // and we will have to re-evaluate
@@ -925,6 +930,9 @@ impl AssetStatusReporter {
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date asset specification from an Asset status reporter, will not modify"
+            );
             return Ok(ModifyResult::NotModified);
         }
 
@@ -936,14 +944,7 @@ impl AssetStatusReporter {
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
         let modify_result = {
-            let modify_input =
-                current_asset_status
-                    .config
-                    .as_ref()
-                    .map(|config| match &config.error {
-                        Some(err) => Err(err),
-                        None => Ok(()),
-                    });
+            let modify_input = self.get_modify_input(&current_asset_status);
 
             let Some(modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
@@ -974,6 +975,19 @@ impl AssetStatusReporter {
         .await?;
 
         Ok(ModifyResult::Reported)
+    }
+
+    fn get_modify_input<'a>(
+        &self,
+        current_status: &'a adr_models::AssetStatus,
+    ) -> Option<Result<(), &'a AdrConfigError>> {
+        current_status
+            .config
+            .as_ref()
+            .map(|config| match &config.error {
+                Some(err) => Err(err),
+                None => Ok(()),
+            })
     }
 }
 
@@ -1798,44 +1812,7 @@ impl DataOperationStatusReporter {
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
-            let modify_input = match self.data_operation_ref.data_operation_kind {
-                DataOperationKind::Dataset => current_asset_status
-                    .datasets
-                    .as_ref()
-                    .and_then(|datasets| {
-                        datasets.iter().find(|ds_status| {
-                            ds_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|ds_status| match &ds_status.error {
-                        Some(e) => Err(e),
-                        None => Ok(()),
-                    }),
-                DataOperationKind::Event => current_asset_status
-                    .events
-                    .as_ref()
-                    .and_then(|events| {
-                        events.iter().find(|e_status| {
-                            e_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|e_status| match &e_status.error {
-                        Some(e) => Err(e),
-                        None => Ok(()),
-                    }),
-                DataOperationKind::Stream => current_asset_status
-                    .streams
-                    .as_ref()
-                    .and_then(|streams| {
-                        streams.iter().find(|s_status| {
-                            s_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|s_status| match &s_status.error {
-                        Some(e) => Err(e),
-                        None => Ok(()),
-                    }),
-            };
+            let modify_input = self.get_modify_input(&current_asset_status);
 
             // We do not use the result since the status once we acquire the read lock might change
             // and we will have to re-evaluate
@@ -1850,6 +1827,9 @@ impl DataOperationStatusReporter {
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date asset specification from a Data Operation status reporter, will not modify"
+            );
             return Ok(ModifyResult::NotModified);
         }
 
@@ -1861,44 +1841,7 @@ impl DataOperationStatusReporter {
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
         let modify_result = {
-            let modify_input = match self.data_operation_ref.data_operation_kind {
-                DataOperationKind::Dataset => current_asset_status
-                    .datasets
-                    .as_ref()
-                    .and_then(|datasets| {
-                        datasets.iter().find(|ds_status| {
-                            ds_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|ds_status| match &ds_status.error {
-                        Some(e) => Err(e),
-                        None => Ok(()),
-                    }),
-                DataOperationKind::Event => current_asset_status
-                    .events
-                    .as_ref()
-                    .and_then(|events| {
-                        events.iter().find(|e_status| {
-                            e_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|e_status| match &e_status.error {
-                        Some(e) => Err(e),
-                        None => Ok(()),
-                    }),
-                DataOperationKind::Stream => current_asset_status
-                    .streams
-                    .as_ref()
-                    .and_then(|streams| {
-                        streams.iter().find(|s_status| {
-                            s_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .map(|s_status| match &s_status.error {
-                        Some(e) => Err(e),
-                        None => Ok(()),
-                    }),
-            };
+            let modify_input = self.get_modify_input(&current_asset_status);
 
             let Some(modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
@@ -2011,6 +1954,50 @@ impl DataOperationStatusReporter {
         .await?;
 
         Ok(ModifyResult::Reported)
+    }
+
+    fn get_modify_input<'a>(
+        &self,
+        current_status: &'a adr_models::AssetStatus,
+    ) -> Option<Result<(), &'a AdrConfigError>> {
+        match self.data_operation_ref.data_operation_kind {
+            DataOperationKind::Dataset => current_status
+                .datasets
+                .as_ref()
+                .and_then(|datasets| {
+                    datasets.iter().find(|ds_status| {
+                        ds_status.name == self.data_operation_ref.data_operation_name
+                    })
+                })
+                .map(|ds_status| match &ds_status.error {
+                    Some(e) => Err(e),
+                    None => Ok(()),
+                }),
+            DataOperationKind::Event => current_status
+                .events
+                .as_ref()
+                .and_then(|events| {
+                    events.iter().find(|e_status| {
+                        e_status.name == self.data_operation_ref.data_operation_name
+                    })
+                })
+                .map(|e_status| match &e_status.error {
+                    Some(e) => Err(e),
+                    None => Ok(()),
+                }),
+            DataOperationKind::Stream => current_status
+                .streams
+                .as_ref()
+                .and_then(|streams| {
+                    streams.iter().find(|s_status| {
+                        s_status.name == self.data_operation_ref.data_operation_name
+                    })
+                })
+                .map(|s_status| match &s_status.error {
+                    Some(e) => Err(e),
+                    None => Ok(()),
+                }),
+        }
     }
 }
 
@@ -2239,6 +2226,9 @@ impl DataOperationClient {
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date asset specification from a Data Operation client, will not modify"
+            );
             return Ok(SchemaModifyResult::NotModified);
         }
 
@@ -2404,6 +2394,9 @@ impl DataOperationClient {
 
         if cached_version != self.asset_specification.read().unwrap().version {
             // Our modify is no longer valid
+            log::debug!(
+                "Reporting for an out-of-date asset specification from a Data Operation client, will not modify"
+            );
             return Ok(SchemaModifyResult::NotModified);
         }
 
