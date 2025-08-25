@@ -915,7 +915,7 @@ impl AssetStatusReporter {
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
-            let modify_input = self.get_modify_input(&current_asset_status);
+            let modify_input = Self::get_modify_input(&current_asset_status);
 
             // We do not use the result since the status once we acquire the read lock might change
             // and we will have to re-evaluate
@@ -944,7 +944,7 @@ impl AssetStatusReporter {
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
         let modify_result = {
-            let modify_input = self.get_modify_input(&current_asset_status);
+            let modify_input = Self::get_modify_input(&current_asset_status);
 
             let Some(modify_result) = modify(modify_input) else {
                 // If no modification is needed, return Ok
@@ -977,10 +977,9 @@ impl AssetStatusReporter {
         Ok(ModifyResult::Reported)
     }
 
-    fn get_modify_input<'a>(
-        &self,
-        current_status: &'a adr_models::AssetStatus,
-    ) -> Option<Result<(), &'a AdrConfigError>> {
+    fn get_modify_input(
+        current_status: &adr_models::AssetStatus,
+    ) -> Option<Result<(), &AdrConfigError>> {
         current_status
             .config
             .as_ref()
@@ -1874,10 +1873,7 @@ impl DataOperationStatusReporter {
         // Update the data operation status
         match self.data_operation_ref.data_operation_kind {
             DataOperationKind::Dataset => {
-                if asset_status_to_report.datasets.is_none() {
-                    asset_status_to_report.datasets = Some(Vec::new());
-                }
-                let datasets = asset_status_to_report.datasets.as_mut().unwrap();
+                let datasets = asset_status_to_report.datasets.get_or_insert_default();
                 match datasets
                     .iter_mut()
                     .find(|ds_status| ds_status.name == self.data_operation_ref.data_operation_name)
@@ -1895,10 +1891,7 @@ impl DataOperationStatusReporter {
                 }
             }
             DataOperationKind::Event => {
-                if asset_status_to_report.events.is_none() {
-                    asset_status_to_report.events = Some(Vec::new());
-                }
-                let events = asset_status_to_report.events.as_mut().unwrap();
+                let events = asset_status_to_report.events.get_or_insert_default();
                 match events
                     .iter_mut()
                     .find(|e_status| e_status.name == self.data_operation_ref.data_operation_name)
@@ -1916,10 +1909,7 @@ impl DataOperationStatusReporter {
                 }
             }
             DataOperationKind::Stream => {
-                if asset_status_to_report.streams.is_none() {
-                    asset_status_to_report.streams = Some(Vec::new());
-                }
-                let streams = asset_status_to_report.streams.as_mut().unwrap();
+                let streams = asset_status_to_report.streams.get_or_insert_default();
                 match streams
                     .iter_mut()
                     .find(|s_status| s_status.name == self.data_operation_ref.data_operation_name)
@@ -2275,7 +2265,6 @@ impl DataOperationClient {
 
         asset_status_to_report.config = match asset_status_to_report.config {
             Some(mut config) => {
-                config.version = cached_version;
                 config.last_transition_time = Some(Utc::now());
                 Some(config)
             }
