@@ -7,9 +7,10 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol.Events;
+using Azure.Iot.Operations.Protocol.RPC;
 #pragma warning disable IDE0060 // Remove unused parameter
 
-namespace Azure.Iot.Operations.Protocol.RPC
+namespace Azure.Iot.Operations.Protocol.Streaming
 {
     public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
         where TReq : class

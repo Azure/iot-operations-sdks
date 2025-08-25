@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Azure.Iot.Operations.Protocol.RPC;
 
-namespace Azure.Iot.Operations.Protocol.RPC
+namespace Azure.Iot.Operations.Protocol.Streaming
 {
     public class StreamingExtendedResponse<TReq> : ExtendedResponse<TReq>
         where TReq : class

@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.RPC;
+using Azure.Iot.Operations.Protocol.Streaming;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests

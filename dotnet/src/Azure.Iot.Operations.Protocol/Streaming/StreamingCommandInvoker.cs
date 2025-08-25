@@ -7,6 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol.Events;
+using Azure.Iot.Operations.Protocol.Streaming;
+
+#pragma warning disable IDE0060 // Remove unused parameter
 
 namespace Azure.Iot.Operations.Protocol.RPC
 {
@@ -84,45 +87,43 @@ namespace Azure.Iot.Operations.Protocol.RPC
             TopicTokenMap = new();
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
-        public async IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<TReq> requests, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-#pragma warning restore IDE0060 // Remove unused parameter
+        // TODO API that just takes payload object and we fill in the extended streaming request for them?
+        public async Task<ICancellableAsyncEnumerable<StreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, StreamRequestMetadata? streamRequestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
         {
-            metadata ??= new();
-
             await SubscribeAsNeeded(cancellationToken);
 
-            CancellationTokenRegistration? ctRegistration = null;
-            await foreach (var request in requests.WithCancellation(cancellationToken))
-            {
-                await PublishRequestMessageAsync(cancellationToken);
-
-                // register this cancellation callback only once the first request has been published. No need to send a
-                // cancellation message over the wire if no requests were sent yet.
-                ctRegistration ??= cancellationToken.Register(async () =>
-                {
-                    await CancelStreamingCommandAsync(metadata.CorrelationId);
-                });
-            }
-
-            while (HasNextResponse())
-            {
-                StreamingExtendedResponse<TResp>? response = await ReadResponseAsync(cancellationToken);
-                yield return response;
-            }
-
-            // All responses have been streamed, so there is nothing worth cancelling anymore
-            ctRegistration?.Unregister();
+            Func<Guid, CancellationToken, Task> cancellationFunc = CancelStreamingCommandAsync;
+            return new CancellableAsyncEnumerable<StreamingExtendedResponse<TResp>>(cancellationFunc, GetAsyncEnumerable(requests, streamRequestMetadata ?? new(), cancellationToken));
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
         public Task CancelStreamingCommandAsync(Guid correlationId, CancellationToken cancellationToken = default)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
             cancellationToken.ThrowIfCancellationRequested();
             return Task.CompletedTask;
         }
 
+        private async IAsyncEnumerable<StreamingExtendedResponse<TResp>> GetAsyncEnumerable(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, StreamRequestMetadata streamRequestMetadata, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            CancellationTokenRegistration? ctRegistration = null;
+            await foreach (var request in requests.WithCancellation(cancellationToken))
+            {
+                await PublishRequestMessageAsync(request, streamRequestMetadata, cancellationToken);
+
+                // register this cancellation callback only once the first request has been published. No need to send a
+                // cancellation message over the wire if no requests were sent yet.
+                ctRegistration ??= cancellationToken.Register(async () =>
+                {
+                    await CancelStreamingCommandAsync(streamRequestMetadata.CorrelationId);
+                });
+            }
+
+            //TODO read responses while streaming requests
+            while (HasNextResponse())
+            {
+                StreamingExtendedResponse<TResp>? response = await ReadResponseAsync(cancellationToken);
+                yield return response;
+            }
+        }
 
         private static bool HasNextResponse()
         {
@@ -140,8 +141,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
             return Task.FromResult(new StreamingExtendedResponse<TResp>());
         }
 
-        private static Task PublishRequestMessageAsync(CancellationToken cancellationToken = default)
+        private static Task PublishRequestMessageAsync(StreamingExtendedRequest<TReq> request, StreamRequestMetadata streamRequestMetadata, CancellationToken cancellationToken = default)
         {
+            //TODO marshall message to both the message-specific metadata and the stream-specific metadata to populate all of the timestamp/correlationId/etc fields.
+
             cancellationToken.ThrowIfCancellationRequested();
             return Task.CompletedTask;
         }
@@ -162,6 +165,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             GC.SuppressFinalize(this);
             return ValueTask.CompletedTask;
         }
+#pragma warning restore IDE0060 // Remove unused parameter
 
     }
 }

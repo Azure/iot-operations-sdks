@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// When CommandRequestMetadata is constructed by user code that will invoke a command, the CorrelationData is set to a new GUID.
         /// When CommandRequestMetadata is passed by a CommandExecutor into a user-code execution function, the Correlation Data is set from the request message.
         /// </summary>
-        public Guid CorrelationId { get; }
+        public Guid CorrelationId { get; internal set; }
 
         /// <summary>
         /// The MQTT Client ID of the Command invoker that sends the request.
