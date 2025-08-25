@@ -10,9 +10,9 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 {
     internal class CancellableAsyncEnumerable<T> : ICancellableAsyncEnumerable<T>
     {
-        private readonly Func<Guid, CancellationToken, Task> _cancellationFunction;
+        private readonly Func<CancellationToken, Task> _cancellationFunction;
 
-        internal CancellableAsyncEnumerable(Func<Guid, CancellationToken, Task> cancellationFunction, IAsyncEnumerable<T> asyncEnumerable)
+        internal CancellableAsyncEnumerable(Func<CancellationToken, Task> cancellationFunction, IAsyncEnumerable<T> asyncEnumerable)
         {
             _cancellationFunction = cancellationFunction;
             AsyncEnumerable = asyncEnumerable;
@@ -20,9 +20,9 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
         public IAsyncEnumerable<T> AsyncEnumerable { get; set; }
 
-        public Task CancelAsync(Guid correlationId, CancellationToken cancellationToken = default)
+        public Task CancelAsync(CancellationToken cancellationToken = default)
         {
-            return _cancellationFunction.Invoke(correlationId, cancellationToken);
+            return _cancellationFunction.Invoke(cancellationToken);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Streaming;
 using Azure.Iot.Operations.Protocol.UnitTests.Serializers.JSON;
 
@@ -20,7 +21,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
     public class StreamingCommandInvokerUnitTests
     {
         [Fact]
-        public async Task Test()
+        public async Task TestCancellingWhileStreamingRequests()
         {
             MockMqttPubSubClient mockClient = new("clientId", MqttProtocolVersion.V500);
             CancellationTokenSource cts = new CancellationTokenSource();
@@ -29,22 +30,49 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             StringStreamingCommandInvoker testInvoker = new(new(), mockClient);
 
-            IAsyncEnumerable<StreamingExtendedResponse<string>> responseStream = testInvoker.InvokeStreamingCommandAsync(StringStream(), new(), new(), null, ct);
+            ICancellableAsyncEnumerable<StreamingExtendedResponse<string>> responseStream = await testInvoker.InvokeStreamingCommandAsync(StringStream(), new StreamRequestMetadata(), new(), null, ct);
+
+            responseStream.CancelAsync()
 
             // Cancellation token is still in effect during this loop due to how returned IAsyncEnumerable works
-            await foreach (StreamingExtendedResponse<string> response in responseStream)
+            await foreach (StreamingExtendedResponse<string> response in responseStream.AsyncEnumerable)
             {
                 int index = response.StreamingResponseIndex;
                 string payloadString = response.Response;
             }
         }
 
-        private async IAsyncEnumerable<string> StringStream()
+        [Fact]
+        public async Task TestCancellingWhileStreamingResponses()
         {
-            for (int i = 1; i <= 10; i++)
+            MockMqttPubSubClient mockClient = new("clientId", MqttProtocolVersion.V500);
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(TimeSpan.FromSeconds(1));
+            CancellationToken ct = cts.Token;
+
+            StringStreamingCommandInvoker testInvoker = new(new(), mockClient);
+
+            ICancellableAsyncEnumerable<StreamingExtendedResponse<string>> responseStream = await testInvoker.InvokeStreamingCommandAsync(StringStream(), new StreamRequestMetadata(), new(), null, ct);
+
+            // Cancellation token is still in effect during this loop due to how returned IAsyncEnumerable works
+            await foreach (StreamingExtendedResponse<string> response in responseStream.AsyncEnumerable)
+            {
+                int index = response.StreamingResponseIndex;
+                string payloadString = response.Response;
+            }
+        }
+
+
+        private async IAsyncEnumerable<StreamingExtendedRequest<string>> StringStream()
+        {
+            for (int i = 0; i <= 10; i++)
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(1)); // Simulate asynchronous work
-                yield return $"Message {i}";
+                yield return new()
+                {
+                    Request = $"Message {i}",
+                    StreamingRequestIndex = i,
+                };
             }
         }
     }

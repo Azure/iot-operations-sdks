@@ -14,6 +14,6 @@ namespace Azure.Iot.Operations.Protocol.Streaming
     {
         IAsyncEnumerable<T> AsyncEnumerable { get; set; }
 
-        Task CancelAsync(Guid correlationId, CancellationToken cancellationToken = default);
+        Task CancelAsync(CancellationToken cancellationToken = default);
     }
 }

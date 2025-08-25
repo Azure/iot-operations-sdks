@@ -7,11 +7,11 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Iot.Operations.Protocol.Events;
-using Azure.Iot.Operations.Protocol.Streaming;
+using Azure.Iot.Operations.Protocol.RPC;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
-namespace Azure.Iot.Operations.Protocol.RPC
+namespace Azure.Iot.Operations.Protocol.Streaming
 {
     public abstract class StreamingCommandInvoker<TReq, TResp> : IAsyncDisposable
         where TReq : class
@@ -92,7 +92,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
         {
             await SubscribeAsNeeded(cancellationToken);
 
-            Func<Guid, CancellationToken, Task> cancellationFunc = CancelStreamingCommandAsync;
+            streamRequestMetadata ??= new();
+            Func<CancellationToken, Task> cancellationFunc = async (ct) =>
+            {
+                await CancelStreamingCommandAsync(streamRequestMetadata.CorrelationId, ct);
+            };
             return new CancellableAsyncEnumerable<StreamingExtendedResponse<TResp>>(cancellationFunc, GetAsyncEnumerable(requests, streamRequestMetadata ?? new(), cancellationToken));
         }
 
