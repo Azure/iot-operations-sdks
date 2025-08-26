@@ -28,6 +28,35 @@ use azure_iot_operations_otel::Otel;
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
 
+/// Only reports status on first time (None) and when changing from OK to Error.
+/// Skips reporting when status has already been reported and hasn't changed.
+macro_rules! report_status_if_changed {
+    ($log_identifier:expr, $new_status:expr) => {
+        |current_status| match current_status {
+            None => {
+                log::info!("{} reporting status", $log_identifier);
+                Some($new_status.clone())
+            }
+            Some(Ok(())) => {
+                // Status was OK, report if we now have an error
+                if $new_status.is_err() {
+                    log::info!("{} reporting error on ok status", $log_identifier);
+                    Some($new_status.clone())
+                } else {
+                    // Still OK, no need to report again
+                    log::debug!("{} reporting no change", $log_identifier);
+                    None
+                }
+            }
+            Some(Err(_)) => {
+                // Status was an error, we leave it as is
+                log::debug!("{} reporting no change", $log_identifier);
+                None
+            }
+        }
+    };
+}
+
 const OTEL_TAG: &str = "base_connector_sample_logs";
 const DEFAULT_LOG_LEVEL: &str =
     "warn,base_connector_sample=info,azure_iot_operations_connector=info";
@@ -125,19 +154,19 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
 
     // Update the status of the device
     if let Err(e) = device_endpoint_reporter
-        .report_device_status_if_modified(report_status_if_changed(&log_identifier, Ok(())))
+        .report_device_status_if_modified(report_status_if_changed!(
+            &log_identifier,
+            Ok::<(), AdrConfigError>(())
+        ))
         .await
     {
         log::error!("{log_identifier} Error reporting device status: {e}");
     }
 
-    // Generate endpoint status
-    let endpoint_status = generate_endpoint_status(&device_endpoint_client);
-
     if let Err(e) = device_endpoint_reporter
-        .report_endpoint_status_if_modified(report_status_if_changed(
+        .report_endpoint_status_if_modified(report_status_if_changed!(
             &log_identifier,
-            endpoint_status,
+            generate_endpoint_status(&device_endpoint_client)
         ))
         .await
     {
@@ -155,22 +184,19 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
 
                 // Update device status - usually only on first report or error changes
                 if let Err(e) = device_endpoint_reporter
-                    .report_device_status_if_modified(report_status_if_changed(
+                    .report_device_status_if_modified(report_status_if_changed!(
                         &log_identifier,
-                        Ok(()),
+                        Ok::<(), AdrConfigError>(())
                     ))
                     .await
                 {
                     log::error!("{log_identifier} Error reporting device status: {e}");
                 }
 
-                // Update endpoint status - check for changes
-                let endpoint_status = generate_endpoint_status(&device_endpoint_client);
-
                 if let Err(e) = device_endpoint_reporter
-                    .report_endpoint_status_if_modified(report_status_if_changed(
+                    .report_endpoint_status_if_modified(report_status_if_changed!(
                         &log_identifier,
-                        endpoint_status,
+                        generate_endpoint_status(&device_endpoint_client)
                     ))
                     .await
                 {
@@ -195,13 +221,10 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
     // Get the status reporter for this asset - create once and reuse
     let asset_reporter = asset_client.get_status_reporter();
 
-    // Generate status
-    let asset_status = generate_asset_status(&asset_client);
-
     if let Err(e) = asset_reporter
-        .report_status_if_modified(report_status_if_changed(
+        .report_status_if_modified(report_status_if_changed!(
             &asset_log_identifier,
-            asset_status,
+            generate_asset_status(&asset_client)
         ))
         .await
     {
@@ -213,13 +236,10 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
             ClientNotification::Updated => {
                 log::info!("{asset_log_identifier} Asset updated");
 
-                // Generate status outside the closure to avoid borrowing issues
-                let asset_status = generate_asset_status(&asset_client);
-
                 if let Err(e) = asset_reporter
-                    .report_status_if_modified(report_status_if_changed(
+                    .report_status_if_modified(report_status_if_changed!(
                         &asset_log_identifier,
-                        asset_status,
+                        generate_asset_status(&asset_client)
                     ))
                     .await
                 {
@@ -267,7 +287,10 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
 
     // now we should update the status of the dataset and report the message schema
     if let Err(e) = data_operation_reporter
-        .report_status_if_modified(report_status_if_changed(&log_identifier, Ok(())))
+        .report_status_if_modified(report_status_if_changed!(
+            &log_identifier,
+            Ok::<(), AdrConfigError>(())
+        ))
         .await
     {
         log::error!("{log_identifier} Error reporting dataset status: {e}");
@@ -310,7 +333,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
 
                         // now we should update the status of the dataset and report the message schema
                         if let Err(e) = data_operation_reporter
-                            .report_status_if_modified(report_status_if_changed(&log_identifier, Ok(())))
+                            .report_status_if_modified(report_status_if_changed!(&log_identifier, Ok::<(), AdrConfigError>(())))
                             .await
                         {
                             log::error!("{log_identifier} Error reporting dataset status: {e}");
@@ -420,7 +443,7 @@ async fn handle_unsupported_data_operation(
     });
 
     if let Err(e) = data_operation_reporter
-        .report_status_if_modified(report_status_if_changed(&log_identifier, error_status))
+        .report_status_if_modified(report_status_if_changed!(&log_identifier, &error_status))
         .await
     {
         log::error!(
@@ -443,9 +466,9 @@ async fn handle_unsupported_data_operation(
                 });
 
                 if let Err(e) = data_operation_reporter
-                    .report_status_if_modified(report_status_if_changed(
+                    .report_status_if_modified(report_status_if_changed!(
                         &log_identifier,
-                        error_status,
+                        error_status
                     ))
                     .await
                 {
@@ -484,42 +507,6 @@ pub fn mock_received_data(count: u32) -> Data {
         content_type: "application/json".to_string(),
         custom_user_data: Vec::new(),
         timestamp: None,
-    }
-}
-
-/// Only reports status on first time (None) or when changing from OK to Error.
-/// Skips reporting when status has already been reported and hasn't changed.
-fn report_status_if_changed(
-    log_identifier: &str,
-    new_status: Result<(), AdrConfigError>,
-) -> impl Fn(Option<Result<(), &AdrConfigError>>) -> Option<Result<(), AdrConfigError>> {
-    move |current_status| match current_status {
-        None => {
-            log::info!("{log_identifier} reporting status");
-            Some(new_status.clone())
-        }
-        Some(Ok(())) => {
-            // Status was OK, report if we now have an error
-            if new_status.is_err() {
-                log::info!("{log_identifier} reporting error on ok status");
-                Some(new_status.clone())
-            } else {
-                // Still OK, no need to report again
-                log::info!("{log_identifier} reporting no change");
-                None
-            }
-        }
-        Some(Err(_)) => {
-            // Status was error, report if we now have OK
-            if new_status.is_ok() {
-                log::info!("{log_identifier} reporting ok on error status");
-                Some(new_status.clone())
-            } else {
-                log::info!("{log_identifier} reporting no change");
-                // Still error, no need to report again
-                None
-            }
-        }
     }
 }
 
