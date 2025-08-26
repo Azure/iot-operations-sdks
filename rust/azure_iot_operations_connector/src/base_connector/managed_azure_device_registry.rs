@@ -149,6 +149,21 @@ impl DeviceEndpointStatusReporter {
 
         let device_endpoint_status_to_report = current_device_endpoint_status.into_owned();
 
+        let endpoints = {
+            if let Some(inbound_endpoint_status) =
+                device_endpoint_status_to_report.inbound_endpoint_status
+            {
+                // If the inbound endpoint status is present, include it in the report
+                HashMap::from([(
+                    self.device_endpoint_ref.inbound_endpoint_name.clone(),
+                    inbound_endpoint_status.err(),
+                )])
+            } else {
+                // If the inbound endpoint status is not present, exclude it from the report
+                HashMap::new()
+            }
+        };
+
         // Create a device status
         let device_status_to_report = adr_models::DeviceStatus {
             config: Some(azure_device_registry::ConfigStatus {
@@ -156,12 +171,7 @@ impl DeviceEndpointStatusReporter {
                 error: modify_result.err(),
                 last_transition_time: Some(Utc::now()),
             }),
-            endpoints: HashMap::from([(
-                self.device_endpoint_ref.inbound_endpoint_name.clone(),
-                device_endpoint_status_to_report
-                    .inbound_endpoint_status
-                    .and_then(std::result::Result::err),
-            )]),
+            endpoints,
         };
 
         log::debug!(
@@ -269,14 +279,8 @@ impl DeviceEndpointStatusReporter {
 
         let device_endpoint_status_to_report = current_device_endpoint_status.into_owned();
 
-        let mut device_config_status =
-            device_endpoint_status_to_report.config.unwrap_or_else(|| {
-                // If the config is None, we need to create a new one to report along with the endpoint status
-                azure_device_registry::ConfigStatus {
-                    error: None,
-                    ..Default::default()
-                }
-            });
+        // If the config is None, we need to create a new one to report along with the endpoint status
+        let mut device_config_status = device_endpoint_status_to_report.config.unwrap_or_default();
 
         device_config_status.version = cached_version;
         device_config_status.last_transition_time = Some(Utc::now());
@@ -1855,7 +1859,6 @@ impl DataOperationStatusReporter {
         // Update the config status
         asset_status_to_report.config = match asset_status_to_report.config {
             Some(mut config) => {
-                config.version = cached_version;
                 config.last_transition_time = Some(Utc::now());
                 Some(config)
             }
@@ -2167,35 +2170,7 @@ impl DataOperationClient {
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
-            let modify_input = match self.data_operation_ref.data_operation_kind {
-                DataOperationKind::Dataset => current_asset_status
-                    .datasets
-                    .as_ref()
-                    .and_then(|datasets| {
-                        datasets.iter().find(|ds_status| {
-                            ds_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .and_then(|ds_status| ds_status.message_schema_reference.as_ref()),
-                DataOperationKind::Event => current_asset_status
-                    .events
-                    .as_ref()
-                    .and_then(|events| {
-                        events.iter().find(|ev_status| {
-                            ev_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .and_then(|ev_status| ev_status.message_schema_reference.as_ref()),
-                DataOperationKind::Stream => current_asset_status
-                    .streams
-                    .as_ref()
-                    .and_then(|streams| {
-                        streams.iter().find(|st_status| {
-                            st_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .and_then(|st_status| st_status.message_schema_reference.as_ref()),
-            };
+            let modify_input = self.get_schema_reference_modify_input(&current_asset_status);
 
             match modify(modify_input) {
                 Some(_) => {
@@ -2226,35 +2201,7 @@ impl DataOperationClient {
         let current_asset_status =
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
-        let modify_input = match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => current_asset_status
-                .datasets
-                .as_ref()
-                .and_then(|datasets| {
-                    datasets.iter().find(|ds_status| {
-                        ds_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .and_then(|ds_status| ds_status.message_schema_reference.as_ref()),
-            DataOperationKind::Event => current_asset_status
-                .events
-                .as_ref()
-                .and_then(|events| {
-                    events.iter().find(|ev_status| {
-                        ev_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .and_then(|ev_status| ev_status.message_schema_reference.as_ref()),
-            DataOperationKind::Stream => current_asset_status
-                .streams
-                .as_ref()
-                .and_then(|streams| {
-                    streams.iter().find(|st_status| {
-                        st_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .and_then(|st_status| st_status.message_schema_reference.as_ref()),
-        };
+        let modify_input = self.get_schema_reference_modify_input(&current_asset_status);
 
         let Some(new_message_schema_reference) = modify(modify_input) else {
             // No modification was made, so no need to report schema
@@ -2337,35 +2284,7 @@ impl DataOperationClient {
             let current_asset_status =
                 AssetClient::get_current_asset_status(&status_read_guard, cached_version);
 
-            let modify_input = match self.data_operation_ref.data_operation_kind {
-                DataOperationKind::Dataset => current_asset_status
-                    .datasets
-                    .as_ref()
-                    .and_then(|datasets| {
-                        datasets.iter().find(|ds_status| {
-                            ds_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .and_then(|ds_status| ds_status.message_schema_reference.as_ref()),
-                DataOperationKind::Event => current_asset_status
-                    .events
-                    .as_ref()
-                    .and_then(|events| {
-                        events.iter().find(|ev_status| {
-                            ev_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .and_then(|ev_status| ev_status.message_schema_reference.as_ref()),
-                DataOperationKind::Stream => current_asset_status
-                    .streams
-                    .as_ref()
-                    .and_then(|streams| {
-                        streams.iter().find(|st_status| {
-                            st_status.name == self.data_operation_ref.data_operation_name
-                        })
-                    })
-                    .and_then(|st_status| st_status.message_schema_reference.as_ref()),
-            };
+            let modify_input = self.get_schema_reference_modify_input(&current_asset_status);
 
             if modify(modify_input).is_some() {
                 // A modification was made, we proceed to report schema
@@ -2393,35 +2312,7 @@ impl DataOperationClient {
         let current_asset_status =
             AssetClient::get_current_asset_status(&status_write_guard, cached_version);
 
-        let modify_input = match self.data_operation_ref.data_operation_kind {
-            DataOperationKind::Dataset => current_asset_status
-                .datasets
-                .as_ref()
-                .and_then(|datasets| {
-                    datasets.iter().find(|ds_status| {
-                        ds_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .and_then(|ds_status| ds_status.message_schema_reference.as_ref()),
-            DataOperationKind::Event => current_asset_status
-                .events
-                .as_ref()
-                .and_then(|events| {
-                    events.iter().find(|ev_status| {
-                        ev_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .and_then(|ev_status| ev_status.message_schema_reference.as_ref()),
-            DataOperationKind::Stream => current_asset_status
-                .streams
-                .as_ref()
-                .and_then(|streams| {
-                    streams.iter().find(|st_status| {
-                        st_status.name == self.data_operation_ref.data_operation_name
-                    })
-                })
-                .and_then(|st_status| st_status.message_schema_reference.as_ref()),
-        };
+        let modify_input = self.get_schema_reference_modify_input(&current_asset_status);
 
         let Some(new_message_schema) = modify(modify_input) else {
             // No modification was made, so no need to report schema
@@ -2432,7 +2323,6 @@ impl DataOperationClient {
 
         asset_status_to_report.config = match asset_status_to_report.config {
             Some(mut config) => {
-                config.version = cached_version;
                 config.last_transition_time = Some(Utc::now());
                 Some(config)
             }
@@ -2601,6 +2491,41 @@ impl DataOperationClient {
         forwarder.update_message_schema_reference(Some(message_schema_reference.clone()));
 
         Ok(())
+    }
+
+    fn get_schema_reference_modify_input<'a>(
+        &self,
+        asset_status: &'a adr_models::AssetStatus,
+    ) -> Option<&'a adr_models::MessageSchemaReference> {
+        match self.data_operation_ref.data_operation_kind {
+            DataOperationKind::Dataset => asset_status
+                .datasets
+                .as_ref()
+                .and_then(|datasets| {
+                    datasets.iter().find(|ds_status| {
+                        ds_status.name == self.data_operation_ref.data_operation_name
+                    })
+                })
+                .and_then(|ds_status| ds_status.message_schema_reference.as_ref()),
+            DataOperationKind::Event => asset_status
+                .events
+                .as_ref()
+                .and_then(|events| {
+                    events.iter().find(|e_status| {
+                        e_status.name == self.data_operation_ref.data_operation_name
+                    })
+                })
+                .and_then(|e_status| e_status.message_schema_reference.as_ref()),
+            DataOperationKind::Stream => asset_status
+                .streams
+                .as_ref()
+                .and_then(|streams| {
+                    streams.iter().find(|s_status| {
+                        s_status.name == self.data_operation_ref.data_operation_name
+                    })
+                })
+                .and_then(|s_status| s_status.message_schema_reference.as_ref()),
+        }
     }
 
     /// Used to send transformed data to the destination
