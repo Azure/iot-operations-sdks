@@ -112,30 +112,6 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
         let log_identifier = format!("[{}]", device_endpoint_client.device_endpoint_ref());
         log::info!("Device created: {device_endpoint_client:?}");
 
-        // Get the status reporter for this device endpoint
-        let device_endpoint_reporter = device_endpoint_client.get_status_reporter();
-
-        // now we should update the status of the device
-        if let Err(e) = device_endpoint_reporter
-            .report_device_status_if_modified(report_status_if_changed(&log_identifier, Ok(())))
-            .await
-        {
-            log::error!("Error reporting device status: {e}");
-        }
-
-        // Generate endpoint status outside closure to avoid borrowing issues
-        let endpoint_status = generate_endpoint_status(&device_endpoint_client);
-
-        if let Err(e) = device_endpoint_reporter
-            .report_endpoint_status_if_modified(report_status_if_changed(
-                &log_identifier,
-                endpoint_status,
-            ))
-            .await
-        {
-            log::error!("Error reporting device endpoint status: {e}");
-        }
-
         // Start handling the assets for this device endpoint
         // if we didn't accept the inbound endpoint, then we still want to run this to wait for updates
         tokio::task::spawn(run_device(log_identifier, device_endpoint_client));
@@ -146,6 +122,27 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
 async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEndpointClient) {
     // Get the status reporter for this device endpoint - create once and reuse
     let device_endpoint_reporter = device_endpoint_client.get_status_reporter();
+
+    // Update the status of the device
+    if let Err(e) = device_endpoint_reporter
+        .report_device_status_if_modified(report_status_if_changed(&log_identifier, Ok(())))
+        .await
+    {
+        log::error!("{log_identifier} Error reporting device status: {e}");
+    }
+
+    // Generate endpoint status
+    let endpoint_status = generate_endpoint_status(&device_endpoint_client);
+
+    if let Err(e) = device_endpoint_reporter
+        .report_endpoint_status_if_modified(report_status_if_changed(
+            &log_identifier,
+            endpoint_status,
+        ))
+        .await
+    {
+        log::error!("{log_identifier} Error reporting endpoint status: {e}");
+    }
 
     loop {
         match device_endpoint_client.recv_notification().await {
@@ -185,22 +182,6 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                     format!("{log_identifier}[{}]", asset_client.asset_ref().name);
                 log::info!("{asset_log_identifier} Asset created: {asset_client:?}");
 
-                // Get the status reporter for this asset
-                let asset_reporter = asset_client.get_status_reporter();
-
-                // Generate status outside the closure to avoid borrowing issues
-                let asset_status = generate_asset_status(&asset_client);
-
-                if let Err(e) = asset_reporter
-                    .report_status_if_modified(report_status_if_changed(
-                        &asset_log_identifier,
-                        asset_status,
-                    ))
-                    .await
-                {
-                    log::error!("{asset_log_identifier} Error reporting asset status: {e}");
-                }
-
                 // Start handling the datasets for this asset
                 // if we didn't accept the asset, then we still want to run this to wait for updates
                 tokio::task::spawn(run_asset(asset_log_identifier, asset_client));
@@ -213,6 +194,19 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
 async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) {
     // Get the status reporter for this asset - create once and reuse
     let asset_reporter = asset_client.get_status_reporter();
+
+    // Generate status
+    let asset_status = generate_asset_status(&asset_client);
+
+    if let Err(e) = asset_reporter
+        .report_status_if_modified(report_status_if_changed(
+            &asset_log_identifier,
+            asset_status,
+        ))
+        .await
+    {
+        log::error!("{asset_log_identifier} Error reporting asset status: {e}");
+    };
 
     loop {
         match asset_client.recv_notification().await {
@@ -289,7 +283,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
         Ok(status_reported) => match status_reported {
             SchemaModifyResult::Reported(schema_ref) => {
                 log::info!("{log_identifier} Message Schema reported successfully: {schema_ref:?}");
-                schema_ref
+                Some(schema_ref)
             }
             SchemaModifyResult::NotModified => {
                 log::info!("{log_identifier} Message Schema already exists, not reporting");
@@ -298,7 +292,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
         },
         Err(e) => {
             log::error!("{log_identifier} Error reporting message schema: {e}");
-            panic!();
+            None
         }
     };
     let mut count = 0;
@@ -322,45 +316,7 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                             log::error!("{log_identifier} Error reporting dataset status: {e}");
                         }
 
-                        let sample_data = mock_received_data(0);
 
-                        let current_message_schema =
-                            derived_json::create_schema(&sample_data).unwrap();
-                        // Report schema only if there isn't already one
-                        match data_operation_client
-                            .report_message_schema_if_modified(|current_schema_reference| {
-                                // Only report schema if there isn't already one
-                                if let Some(current_schema_reference) = current_schema_reference {
-                                    if *current_schema_reference != local_schema_reference
-                                        || current_message_schema != local_message_schema
-                                    {
-                                        Some(current_message_schema.clone())
-                                    } else {
-                                        None
-                                    }
-                                } else {
-                                    Some(current_message_schema.clone())
-                                }
-                            })
-                            .await
-                        {
-                            Ok(status_reported) => {
-                                match status_reported {
-                                    SchemaModifyResult::Reported(schema_ref) => {
-                                        local_message_schema = current_message_schema;
-                                        local_schema_reference = schema_ref;
-
-                                        log::info!("{log_identifier} Message Schema reported successfully: {local_schema_reference:?}");
-                                    }
-                                    SchemaModifyResult::NotModified => {
-                                        log::info!("{log_identifier} Message Schema already exists, not reporting");
-                                    }
-                                }
-                            }
-                            Err(e) => {
-                                log::error!("{log_identifier} Error reporting message schema: {e}");
-                            }
-                        }
                         dataset_valid = true;
                     },
                     DataOperationNotification::UpdatedInvalid => {
@@ -375,6 +331,52 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
             },
             _ = timer.tick(), if dataset_valid => {
                 let sample_data = mock_received_data(count);
+
+                let current_message_schema =
+                    derived_json::create_schema(&sample_data).unwrap();
+                // Report schema only if there isn't already one
+                match data_operation_client
+                    .report_message_schema_if_modified(|current_schema_reference| {
+                        if let Some(local_schema_reference) = &local_schema_reference
+                        {
+                            // Only report schema if there isn't already one
+                            if let Some(current_schema_reference) = current_schema_reference {
+                                if *current_schema_reference != *local_schema_reference
+                                    || current_message_schema != local_message_schema
+                                {
+                                    Some(current_message_schema.clone())
+                                } else {
+                                    None
+                                }
+                            } else {
+                                Some(current_message_schema.clone())
+                            }
+                        } else {
+                            // If we don't have a local schema reference, we failed to report the schema and are retrying
+                            Some(current_message_schema.clone())
+                        }
+                    })
+                    .await
+                {
+                    Ok(status_reported) => {
+                        match status_reported {
+                            SchemaModifyResult::Reported(schema_ref) => {
+                                local_message_schema = current_message_schema;
+                                local_schema_reference = Some(schema_ref);
+
+                                log::info!("{log_identifier} Message Schema reported successfully: {local_schema_reference:?}");
+                            }
+                            SchemaModifyResult::NotModified => {
+                                log::info!("{log_identifier} Message Schema already exists, not reporting");
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("{log_identifier} Error reporting message schema: {e}");
+                        continue; // Can't forward data without a schema reported
+                    }
+                }
+
                 match data_operation_client.forward_data(sample_data).await {
                     Ok(()) => {
                         log::info!(
