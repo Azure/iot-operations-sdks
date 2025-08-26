@@ -13,6 +13,7 @@ using Azure.Iot.Operations.Protocol.RPC;
 
 namespace Azure.Iot.Operations.Protocol.Streaming
 {
+    //TODO if we allow simultaneous request + response streaming, does it have to end with a response message? Does the final request have to happen prior to the final response message?
     public abstract class StreamingCommandInvoker<TReq, TResp> : IAsyncDisposable
         where TReq : class
         where TResp : class

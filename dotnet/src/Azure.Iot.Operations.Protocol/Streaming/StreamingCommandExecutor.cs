@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <remarks>
         /// The callback provides the stream of requests and requires the user to return one to many responses.
         /// </remarks>
-        public required Func<IAsyncEnumerable<StreamingExtendedRequest<TReq>>, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+        public required Func<IAsyncEnumerable<StreamingExtendedRequest<TReq>>, StreamRequestMetadata, ICancelableStreamContext, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 
         public string? ExecutorId { get; init; }
 
@@ -85,20 +85,23 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             if (IsNewStreamingCommand())
             {
                 CancellationTokenSource cts = new();
-                var cancellationTokenRegistration = cts.Token.Register(async () =>
-                {
-                    await CancelStreamingCommandAsync(new Guid("TODO"));
-                });
 
-                IAsyncEnumerable<StreamingExtendedResponse<TResp>> responseStream = OnStreamingCommandReceived(GetMockRequestStream(cts.Token), cts.Token);
+                //TODO null check
+                Guid correlationId = new Guid(args.ApplicationMessage.CorrelationData!);
+
+                Func<CancellationToken, Task> cancellationFunc = async (ct) =>
+                {
+                    await CancelStreamingCommandAsync(correlationId, ct);
+                };
+
+                StreamRequestMetadata streamMetadata = new StreamRequestMetadata(args.ApplicationMessage, RequestTopicPattern);
+
+                IAsyncEnumerable<StreamingExtendedResponse<TResp>> responseStream = OnStreamingCommandReceived(GetMockRequestStream(cts.Token), streamMetadata, new CancelableStreamContext(cancellationFunc), cts.Token);
 
                 await foreach (StreamingExtendedResponse<TResp> response in responseStream.WithCancellation(cts.Token))
                 {
                     // Publish MQTT message with response
                 }
-
-                // No need to send cancellation message to invoker once all responses have been streamed
-                cancellationTokenRegistration.Unregister();
             }
             else if (IsRequestInExistingStream())
             {
@@ -108,11 +111,6 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
         public Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {
-            new Task(async () =>
-            {
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
-                IAsyncEnumerable<StreamingExtendedResponse<TResp>> responseStream = OnStreamingCommandReceived.Invoke(GetMockRequestStream(), new CancellationTokenSource().Token);
-            }).Start();
             return Task.CompletedTask;
         }
 
@@ -121,7 +119,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             return Task.CompletedTask;
         }
 
-        public Task CancelStreamingCommandAsync(Guid correlationId)
+        public Task CancelStreamingCommandAsync(Guid correlationId, CancellationToken cancellationToken = default)
         {
             return Task.CompletedTask;
         }

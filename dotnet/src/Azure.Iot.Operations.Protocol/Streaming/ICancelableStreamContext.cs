@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.Streaming
 {
-    public interface ICancellableAsyncEnumerable<T> : ICancelableStreamContext
+    public interface ICancelableStreamContext
     {
-        IAsyncEnumerable<T> AsyncEnumerable { get; set; }
+        Task CancelAsync(CancellationToken cancellationToken = default);
     }
 }
