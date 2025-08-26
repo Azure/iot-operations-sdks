@@ -2560,6 +2560,7 @@ impl DataOperationClient {
     /// should not be used after this point, and no more notifications will be received.
     ///
     /// # Panics
+    /// If the asset specification mutex has been poisoned, which should not be possible
     ///
     /// # Cancel safety
     /// This method is cancel safe. If you use it as the event in a `tokio::select!` statement and some other branch
@@ -2631,9 +2632,25 @@ impl DataOperationClient {
                         );
                         let mut status_write_guard = asset_status_mutex_clone.write().await;
                         let adr_version = asset_specification_mutex_clone.read().unwrap().version;
-                        let adr_asset_status =
+                        let mut adr_asset_status =
                             AssetClient::get_current_asset_status(&status_write_guard, adr_version)
                                 .into_owned();
+                        // Update the config status
+                        adr_asset_status.config = match adr_asset_status.config {
+                            Some(mut config) => {
+                                config.last_transition_time = Some(Utc::now());
+                                Some(config)
+                            }
+                            None => {
+                                // If the config is None, we need to create a new one to report along
+                                // with the data operations status
+                                Some(azure_device_registry::ConfigStatus {
+                                    version: adr_version,
+                                    last_transition_time: Some(Utc::now()),
+                                    ..Default::default()
+                                })
+                            }
+                        };
                         if let Err(e) = Self::internal_report_status(
                             connector_context,
                             &asset_ref,
@@ -3023,7 +3040,6 @@ impl DeviceEndpointStatus {
                 Cow::Borrowed(self)
             }
         }
-        // If an endpoint update is performed we must notify the device watcher as well.
     }
 }
 
@@ -3212,24 +3228,49 @@ mod tests {
 
     use super::*;
 
-    #[test_case(None, None, true; "new")]
+    #[test_case(None, None, false, true; "new")]
     #[test_case(Some(azure_device_registry::ConfigStatus {
             version: Some(2),
             ..Default::default()
-        }), Some(2), true; "version_match")]
+        }), Some(2), false, true; "version_match")]
     #[test_case(Some(azure_device_registry::ConfigStatus {
             version: Some(1),
             ..Default::default()
         }), Some(2),
+        false,
         false; "version_mismatch")]
+    #[test_case(None, None, false, true; "new_with_dataset")]
+    #[test_case(Some(azure_device_registry::ConfigStatus {
+            version: Some(2),
+            ..Default::default()
+        }), Some(2), true, true; "version_match_with_dataset")]
+    #[test_case(Some(azure_device_registry::ConfigStatus {
+            version: Some(1),
+            ..Default::default()
+        }), Some(2),
+        true,
+        false; "version_mismatch_with_dataset")]
     fn get_current_asset_status_asset(
         config: Option<azure_device_registry::ConfigStatus>,
         new_spec_version: Option<u64>,
+        datasets_set: bool,
         expect_keep_received: bool,
     ) {
-        let current_status = adr_models::AssetStatus {
-            config,
-            ..Default::default()
+        let current_status = if datasets_set {
+            adr_models::AssetStatus {
+                config,
+                datasets: Some(vec![adr_models::DatasetEventStreamStatus {
+                    name: "test".to_string(),
+                    message_schema_reference: None,
+                    error: None,
+                }]),
+                ..Default::default()
+            }
+        } else {
+            adr_models::AssetStatus {
+                config,
+                ..Default::default()
+            }
         };
 
         let new_status_base =
