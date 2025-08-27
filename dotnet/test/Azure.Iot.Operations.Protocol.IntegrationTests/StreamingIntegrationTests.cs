@@ -41,7 +41,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             int requestCount = multipleRequests ? 3 : 1;
             int responseCount = multipleResponses ? 3 : 1;
 
-            EchoStringStreamingCommandExecutor executor = multipleResponses
+            await using EchoStringStreamingCommandExecutor executor = multipleResponses
                 ? new(new(), executorMqttClient)
                  {
                      OnStreamingCommandReceived = SerialHandlerMultipleResponses
@@ -53,7 +53,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await executor.StartAsync();
 
-            StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
+            await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
             var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(requestCount), requestMetadata);
@@ -99,7 +99,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using MqttSessionClient invokerMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using MqttSessionClient executorMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
-            EchoStringStreamingCommandExecutor executor =
+            await using EchoStringStreamingCommandExecutor executor =
                 new(new(), executorMqttClient)
                 {
                     OnStreamingCommandReceived = SerialHandlerSingleResponse
@@ -107,12 +107,12 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await executor.StartAsync();
 
-            StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
+            await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
             var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), requestMetadata);
 
-            await responseStream.CancelAsync();
+            await responseStream.CancelAsync(); //TODO this reads a bit funny. Shouldn't it look more like "requestStream.cancel()"?
         }
 
         [Fact]
@@ -121,24 +121,25 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using MqttSessionClient invokerMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using MqttSessionClient executorMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
-            EchoStringStreamingCommandExecutor executor =
-                new(new(), executorMqttClient)
-                {
-                    OnStreamingCommandReceived = SerialHandlerMultipleResponsesWithDelay
-                };
+            await using EchoStringStreamingCommandExecutor executor = new(new(), executorMqttClient)
+            {
+                OnStreamingCommandReceived = SerialHandlerMultipleResponsesWithDelay
+            };
 
             await executor.StartAsync();
 
-            StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
+            await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
             var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), requestMetadata);
 
             await foreach (var response in responseStream.AsyncEnumerable)
             {
-                //TODO check first response
+                //TODO check first response?
 
+                //TODO how to check that the tear down happened on executor side? something like saving the state via guid like with saving requests/responses?
                 await responseStream.CancelAsync();
+                break;
             }
         }
 
@@ -148,7 +149,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using MqttSessionClient invokerMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using MqttSessionClient executorMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
-            EchoStringStreamingCommandExecutor executor =
+            await using EchoStringStreamingCommandExecutor executor =
                 new(new(), executorMqttClient)
                 {
                     OnStreamingCommandReceived = SerialHandlerWithCancellationWhileStreamingRequests
@@ -156,7 +157,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await executor.StartAsync();
 
-            StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
+            await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
             var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), requestMetadata);
@@ -183,7 +184,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using MqttSessionClient invokerMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using MqttSessionClient executorMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
-            EchoStringStreamingCommandExecutor executor =
+            await using EchoStringStreamingCommandExecutor executor =
                 new(new(), executorMqttClient)
                 {
                     OnStreamingCommandReceived = SerialHandlerWithCancellationWhileStreamingResponses
@@ -191,7 +192,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await executor.StartAsync();
 
-            StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
+            await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
             var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), requestMetadata);
@@ -218,14 +219,14 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using MqttSessionClient invokerMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using MqttSessionClient executorMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
-            EchoStringStreamingCommandExecutor executor = new(new(), executorMqttClient)
+            await using EchoStringStreamingCommandExecutor executor = new(new(), executorMqttClient)
             {
                 OnStreamingCommandReceived = ParallelHandlerEchoResponses
             };
 
             await executor.StartAsync();
 
-            StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
+            await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
             TaskCompletionSource tcs1 = new(); // the delay to impose before sending the first request in the request stream
