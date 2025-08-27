@@ -391,10 +391,10 @@ async fn handle_dataset(
     // // If the dataset definition is not OK, report it and await for a new one
     // match data_operation_client.report_status(Err(e)).await {
     //     Ok(()) => {
-    //         log::info!("{data_operation_log_identifier} Dataset status reported as error");
+    //         log::info!("{dataset_log_identifier} Dataset status reported as error");
     //     }
     //     Err(e) => {
-    //         log::error!("{data_operation_log_identifier} Failed to report dataset status: {e}");
+    //         log::error!("{dataset_log_identifier} Failed to report dataset status: {e}");
     //     }
     // }
     // is_dataset_ready = false;
