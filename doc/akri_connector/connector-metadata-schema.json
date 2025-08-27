@@ -10,7 +10,7 @@
         "maximum": {
           "type": "integer",
           "minimum": 1,
-          "description": "The maximum number of this model type that this connector supports. If not specified, the default is whatever limits the ADR service itself has. If this value is 0, then this connector does not support using this model type (i.e. the connector supports datasets, but not events)."
+          "description": "The maximum number of this model type that this connector supports. If not specified, the default is whatever limits the ADR service itself has."
         },
         "minimum": {
           "type": "integer",
