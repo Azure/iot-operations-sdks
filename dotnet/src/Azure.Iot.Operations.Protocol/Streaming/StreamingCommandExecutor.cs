@@ -42,7 +42,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <remarks>
         /// The callback provides the stream of requests and requires the user to return one to many responses.
         /// </remarks>
-        public required Func<IAsyncEnumerable<StreamingExtendedRequest<TReq>>, StreamRequestMetadata, ICancelableStreamContext, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+        public required Func<ICancelableRequestStreamContext<TReq>, StreamRequestMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 
         public string? ExecutorId { get; init; }
 
@@ -96,7 +96,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
                 StreamRequestMetadata streamMetadata = new StreamRequestMetadata(args.ApplicationMessage, RequestTopicPattern);
 
-                IAsyncEnumerable<StreamingExtendedResponse<TResp>> responseStream = OnStreamingCommandReceived(GetMockRequestStream(cts.Token), streamMetadata, new CancelableStreamContext(cancellationFunc), cts.Token);
+                IAsyncEnumerable<StreamingExtendedResponse<TResp>> responseStream = OnStreamingCommandReceived(new CancellableRequestStreamContext<TReq>(cancellationFunc, GetMockRequestStream(cts.Token)), streamMetadata, cts.Token);
 
                 await foreach (StreamingExtendedResponse<TResp> response in responseStream.WithCancellation(cts.Token))
                 {

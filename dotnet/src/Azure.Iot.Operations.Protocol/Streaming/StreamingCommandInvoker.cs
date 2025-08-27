@@ -89,7 +89,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         }
 
         // TODO API that just takes payload object and we fill in the extended streaming request for them?
-        public async Task<ICancellableAsyncEnumerable<StreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, StreamRequestMetadata? streamRequestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+        public async Task<ICancelableResponseStreamContext<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, StreamRequestMetadata? streamRequestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
         {
             await SubscribeAsNeeded(cancellationToken);
 
@@ -98,7 +98,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
             {
                 await CancelStreamingCommandAsync(streamRequestMetadata.CorrelationId, ct);
             };
-            return new CancellableAsyncEnumerable<StreamingExtendedResponse<TResp>>(cancellationFunc, GetAsyncEnumerable(requests, streamRequestMetadata ?? new(), cancellationToken));
+            return new CancellableResponseStreamContext<TResp>(cancellationFunc, GetAsyncEnumerable(requests, streamRequestMetadata ?? new(), cancellationToken));
         }
 
         public Task CancelStreamingCommandAsync(Guid correlationId, CancellationToken cancellationToken = default)

@@ -56,10 +56,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
-            var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(requestCount), requestMetadata);
+            var streamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(requestCount), requestMetadata);
 
             List<StreamingExtendedResponse<string>> receivedResponses = new();
-            await foreach (StreamingExtendedResponse<string> response in responseStream.AsyncEnumerable)
+            await foreach (StreamingExtendedResponse<string> response in streamContext.Responses)
             {
                 receivedResponses.Add(response);
             }
@@ -110,9 +110,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
-            var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), requestMetadata);
+            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), requestMetadata);
 
-            await responseStream.CancelAsync(); //TODO this reads a bit funny. Shouldn't it look more like "requestStream.cancel()"?
+            await stream.CancelAsync();
         }
 
         [Fact]
@@ -131,14 +131,14 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
-            var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), requestMetadata);
+            var streamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), requestMetadata);
 
-            await foreach (var response in responseStream.AsyncEnumerable)
+            await foreach (var response in streamContext.Responses)
             {
                 //TODO check first response?
 
                 //TODO how to check that the tear down happened on executor side? something like saving the state via guid like with saving requests/responses?
-                await responseStream.CancelAsync();
+                await streamContext.CancelAsync();
                 break;
             }
         }
@@ -160,12 +160,12 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
-            var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), requestMetadata);
+            var streamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), requestMetadata);
 
             bool receivedCancellation = false;
             try
             {
-                await foreach (var response in responseStream.AsyncEnumerable)
+                await foreach (var response in streamContext.Responses)
                 {
                     //TODO care about the one expected response?
                 }
@@ -195,12 +195,12 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             StreamRequestMetadata requestMetadata = new();
-            var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), requestMetadata);
+            var streamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), requestMetadata);
 
             bool receivedCancellation = false;
             try
             {
-                await foreach (var response in responseStream.AsyncEnumerable)
+                await foreach (var response in streamContext.Responses)
                 {
                     //TODO care about the one expected response?
                 }
@@ -235,10 +235,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             tcs1.TrySetResult(); // Don't need to delay the first message
 
-            var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(tcs1, tcs2, tcs3), requestMetadata);
+            var streamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(tcs1, tcs2, tcs3), requestMetadata);
 
             List<StreamingExtendedResponse<string>> receivedResponses = new();
-            await foreach (StreamingExtendedResponse<string> response in responseStream.AsyncEnumerable)
+            await foreach (StreamingExtendedResponse<string> response in streamContext.Responses)
             {
                 receivedResponses.Add(response);
 
@@ -269,7 +269,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         }
 
         [Fact]
-        public Task CanAddUserPropertiesToSpecificToMessagesInRequestAndResponseStreams()
+        public Task CanAddUserPropertiesToSpecificToMessagesInRequestAndstreamContexts()
         {
             throw new NotImplementedException();
         }
@@ -308,7 +308,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> GetStringResponseStream(int responseCount)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> GetStringStreamContext(int responseCount)
         {
             for (int i = 0; i < responseCount; i++)
             {
@@ -335,7 +335,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> GetStringResponseStreamWithDelay()
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> GetStringstreamContextWithDelay()
         {
             for (int i = 0; i <= 10; i++)
             {
@@ -349,21 +349,21 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerSingleResponse(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerSingleResponse(ICancelableRequestStreamContext<string> stream, StreamRequestMetadata streamMetadata, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            await SaveReceivedRequests(requestStream, streamMetadata, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, cancellationToken);
 
-            await foreach (var response in GetStringResponseStream(3))
+            await foreach (var response in GetStringStreamContext(3))
             {
                 yield return response;
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponses(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponses(ICancelableRequestStreamContext<string> stream, StreamRequestMetadata streamMetadata, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            await SaveReceivedRequests(requestStream, streamMetadata, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, cancellationToken);
 
-            await foreach (var response in GetStringResponseStream(3))
+            await foreach (var response in GetStringStreamContext(3))
             {
                 _sentResponses.TryAdd(streamMetadata.CorrelationId, new());
                 if (_sentResponses.TryGetValue(streamMetadata.CorrelationId, out var sentResponses))
@@ -375,9 +375,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> ParallelHandlerEchoResponses(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> ParallelHandlerEchoResponses(ICancelableRequestStreamContext<string> stream, StreamRequestMetadata streamMetadata, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            await foreach (StreamingExtendedRequest<string> requestStreamEntry in requestStream.WithCancellation(cancellationToken))
+            await foreach (StreamingExtendedRequest<string> requestStreamEntry in stream.Requests.WithCancellation(cancellationToken))
             {
                 // doesn't overwrite if the correlationId already exists in the dictionary
                 _receivedRequests.TryAdd(streamMetadata.CorrelationId, new());
@@ -395,11 +395,11 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponsesWithDelay(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponsesWithDelay(ICancelableRequestStreamContext<string> stream, StreamRequestMetadata streamMetadata, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            await SaveReceivedRequests(requestStream, streamMetadata, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, cancellationToken);
 
-            await foreach (var response in GetStringResponseStream(3))
+            await foreach (var response in GetStringStreamContext(3))
             {
                 _sentResponses.TryAdd(streamMetadata.CorrelationId, new());
                 if (_sentResponses.TryGetValue(streamMetadata.CorrelationId, out var sentResponses))
@@ -414,12 +414,12 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellationWhileStreamingRequests(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellationWhileStreamingRequests(ICancelableRequestStreamContext<string> stream, StreamRequestMetadata streamMetadata, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             CancellationTokenSource requestTimeoutCancellationTokenSource = new CancellationTokenSource();
             requestTimeoutCancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(1));
 
-            var asyncEnumeratorWithCancellation = requestStream.WithCancellation(requestTimeoutCancellationTokenSource.Token).GetAsyncEnumerator();
+            var asyncEnumeratorWithCancellation = stream.Requests.WithCancellation(requestTimeoutCancellationTokenSource.Token).GetAsyncEnumerator();
 
             bool readingRequestStream = true;
             while (readingRequestStream)
@@ -433,7 +433,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                 catch (OperationCanceledException)
                 {
                     // simulates timing out while waiting on an entry in the stream and the executor deciding to cancel the stream as a result
-                    await streamContext.CancelAsync();
+                    await stream.CancelAsync();
                     yield break;
                 }
 
@@ -445,9 +445,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellationWhileStreamingResponses(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellationWhileStreamingResponses(ICancelableRequestStreamContext<string> stream, StreamRequestMetadata streamMetadata, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            await SaveReceivedRequests(requestStream, streamMetadata, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, cancellationToken);
 
             CancellationTokenSource cts = new();
             cts.CancelAfter(TimeSpan.FromSeconds(1));
@@ -463,7 +463,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                 }
                 catch (OperationCanceledException)
                 {
-                    await streamContext.CancelAsync();
+                    await stream.CancelAsync();
                     yield break;
                 }
 
@@ -475,9 +475,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async Task SaveReceivedRequests(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, CancellationToken cancellationToken)
+        private async Task SaveReceivedRequests(ICancelableRequestStreamContext<string> stream, StreamRequestMetadata streamMetadata, CancellationToken cancellationToken)
         {
-            await foreach (StreamingExtendedRequest<string> requestStreamEntry in requestStream.WithCancellation(cancellationToken))
+            await foreach (StreamingExtendedRequest<string> requestStreamEntry in stream.Requests.WithCancellation(cancellationToken))
             {
                 // doesn't overwrite if the correlationId already exists in the dictionary
                 _receivedRequests.TryAdd(streamMetadata.CorrelationId, new());

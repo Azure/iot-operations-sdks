@@ -8,17 +8,18 @@ using System.Threading.Tasks;
 
 namespace Azure.Iot.Operations.Protocol.Streaming
 {
-    internal class CancellableAsyncEnumerable<T> : ICancellableAsyncEnumerable<T>
+    internal class CancellableResponseStreamContext<T> : ICancelableResponseStreamContext<T>
+        where T : class
     {
         private readonly Func<CancellationToken, Task> _cancellationFunction;
 
-        internal CancellableAsyncEnumerable(Func<CancellationToken, Task> cancellationFunction, IAsyncEnumerable<T> asyncEnumerable)
+        internal CancellableResponseStreamContext(Func<CancellationToken, Task> cancellationFunction, IAsyncEnumerable<StreamingExtendedResponse<T>> asyncEnumerable)
         {
             _cancellationFunction = cancellationFunction;
-            AsyncEnumerable = asyncEnumerable;
+            Responses = asyncEnumerable;
         }
 
-        public IAsyncEnumerable<T> AsyncEnumerable { get; set; }
+        public IAsyncEnumerable<StreamingExtendedResponse<T>> Responses { get; set; }
 
         public Task CancelAsync(CancellationToken cancellationToken = default)
         {
