@@ -151,7 +151,42 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             EchoStringStreamingCommandExecutor executor =
                 new(new(), executorMqttClient)
                 {
-                    OnStreamingCommandReceived = SerialHandlerWithCancellation
+                    OnStreamingCommandReceived = SerialHandlerWithCancellationWhileStreamingRequests
+                };
+
+            await executor.StartAsync();
+
+            StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
+
+            StreamRequestMetadata requestMetadata = new();
+            var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), requestMetadata);
+
+            bool receivedCancellation = false;
+            try
+            {
+                await foreach (var response in responseStream.AsyncEnumerable)
+                {
+                    //TODO care about the one expected response?
+                }
+            }
+            catch (AkriMqttException ame) when (ame.Kind is AkriMqttErrorKind.Cancellation)
+            {
+                receivedCancellation = true;
+            }
+
+            Assert.True(receivedCancellation);
+        }
+
+        [Fact]
+        public async Task ExecutorCanCancelWhileStreamingResponses()
+        {
+            await using MqttSessionClient invokerMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using MqttSessionClient executorMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+
+            EchoStringStreamingCommandExecutor executor =
+                new(new(), executorMqttClient)
+                {
+                    OnStreamingCommandReceived = SerialHandlerWithCancellationWhileStreamingResponses
                 };
 
             await executor.StartAsync();
@@ -178,15 +213,58 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         }
 
         [Fact]
-        public Task ExecutorCanCancelWhileStreamingResponses()
+        public async Task CanStreamRequestsAndResponsesSimultaneously()
         {
-            throw new NotImplementedException();
-        }
+            await using MqttSessionClient invokerMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using MqttSessionClient executorMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
-        [Fact]
-        public Task CanStreamRequestsAndResponsesSimultaneously()
-        {
-            throw new NotImplementedException();
+            EchoStringStreamingCommandExecutor executor = new(new(), executorMqttClient)
+            {
+                OnStreamingCommandReceived = ParallelHandlerEchoResponses
+            };
+
+            await executor.StartAsync();
+
+            StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
+
+            StreamRequestMetadata requestMetadata = new();
+            TaskCompletionSource tcs1 = new(); // the delay to impose before sending the first request in the request stream
+            TaskCompletionSource tcs2 = new(); // the delay to impose before sending the second request in the request stream
+            TaskCompletionSource tcs3 = new(); // the delay to impose before sending the third request in the request stream
+
+            tcs1.TrySetResult(); // Don't need to delay the first message
+
+            var responseStream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(tcs1, tcs2, tcs3), requestMetadata);
+
+            List<StreamingExtendedResponse<string>> receivedResponses = new();
+            await foreach (StreamingExtendedResponse<string> response in responseStream.AsyncEnumerable)
+            {
+                receivedResponses.Add(response);
+
+                if (response.StreamingResponseIndex == 0)
+                {
+                    // The first response has been received, so allow the second request to be sent
+                    tcs2.TrySetResult();
+                }
+
+                if (response.StreamingResponseIndex == 1)
+                {
+                    // The second response has been received, so allow the third request to be sent
+                    tcs2.TrySetResult();
+                }
+            }
+
+            if (!_receivedRequests.TryGetValue(requestMetadata.CorrelationId, out var receivedRequests))
+            {
+                Assert.Fail("Executor did not receive any requests");
+            }
+
+            // Executor should echo back each request as a response
+            Assert.Equal(receivedResponses.Count, receivedRequests.Count);
+            for (int i = 0; i < receivedResponses.Count; i++)
+            {
+                Assert.Equal(receivedResponses[i].Response, receivedRequests[i].Request);
+            }
         }
 
         [Fact]
@@ -210,6 +288,21 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                 {
                     Request = $"Message {i}",
                     StreamingRequestIndex = i,
+                };
+            }
+        }
+
+        // send N requests after each provided TCS is triggered. This allows for testing scenarios like "only send a request once a response has been received"
+        private async IAsyncEnumerable<StreamingExtendedRequest<string>> GetStringRequestStreamWithDelay(params TaskCompletionSource[] delays)
+        {
+            int index = 0;
+            foreach (TaskCompletionSource delay in delays)
+            {
+                await delay.Task; // Simulate asynchronous work
+                yield return new()
+                {
+                    Request = $"Message {index}",
+                    StreamingRequestIndex = index,
                 };
             }
         }
@@ -281,6 +374,26 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> ParallelHandlerEchoResponses(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            await foreach (StreamingExtendedRequest<string> requestStreamEntry in requestStream.WithCancellation(cancellationToken))
+            {
+                // doesn't overwrite if the correlationId already exists in the dictionary
+                _receivedRequests.TryAdd(streamMetadata.CorrelationId, new());
+
+                if (_receivedRequests.TryGetValue(streamMetadata.CorrelationId, out var requestsReceived))
+                {
+                    requestsReceived.Add(requestStreamEntry);
+                }
+
+                yield return new StreamingExtendedResponse<string>()
+                {
+                    Response = requestStreamEntry.Request,
+                    StreamingResponseIndex = requestStreamEntry.StreamingRequestIndex,
+                };
+            }
+        }
+
         private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponsesWithDelay(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             await SaveReceivedRequests(requestStream, streamMetadata, cancellationToken);
@@ -300,27 +413,64 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellation(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellationWhileStreamingRequests(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             CancellationTokenSource requestTimeoutCancellationTokenSource = new CancellationTokenSource();
             requestTimeoutCancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(1));
 
-            try
+            var asyncEnumeratorWithCancellation = requestStream.WithCancellation(requestTimeoutCancellationTokenSource.Token).GetAsyncEnumerator();
+
+            bool readingRequestStream = true;
+            while (readingRequestStream)
             {
-                await foreach (var request in requestStream.WithCancellation(requestTimeoutCancellationTokenSource.Token))
+                StreamingExtendedRequest<string> request;
+                try
                 {
-                    // TODO check first request?
-                    yield return new StreamingExtendedResponse<string>()
-                    {
-                        Response = request.Request,
-                        StreamingResponseIndex = request.StreamingRequestIndex,
-                    };
+                    readingRequestStream = await asyncEnumeratorWithCancellation.MoveNextAsync();
+                    request = asyncEnumeratorWithCancellation.Current;
                 }
+                catch (OperationCanceledException)
+                {
+                    // simulates timing out while waiting on an entry in the stream and the executor deciding to cancel the stream as a result
+                    await streamContext.CancelAsync();
+                    yield break;
+                }
+
+                yield return new StreamingExtendedResponse<string>()
+                {
+                    Response = request.Request,
+                    StreamingResponseIndex = request.StreamingRequestIndex,
+                };
             }
-            catch (OperationCanceledException)
+        }
+
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellationWhileStreamingResponses(IAsyncEnumerable<StreamingExtendedRequest<string>> requestStream, StreamRequestMetadata streamMetadata, ICancelableStreamContext streamContext, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            await SaveReceivedRequests(requestStream, streamMetadata, cancellationToken);
+
+            CancellationTokenSource cts = new();
+            cts.CancelAfter(TimeSpan.FromSeconds(1));
+            for (int responseCount = 0; responseCount < 5; responseCount++)
             {
-                await streamContext.CancelAsync();
-                throw;
+                try
+                {
+                    if (responseCount == 3)
+                    {
+                        // simulate one entry in the response stream taking too long and the executor deciding to cancel the stream because of it
+                        await Task.Delay(TimeSpan.FromHours(1), cancellationToken);
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    await streamContext.CancelAsync();
+                    yield break;
+                }
+
+                yield return new StreamingExtendedResponse<string>()
+                {
+                    Response = "some response",
+                    StreamingResponseIndex = responseCount,
+                };
             }
         }
 
