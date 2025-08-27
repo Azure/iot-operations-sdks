@@ -1,6 +1,6 @@
 # Topic Structure
 
-Telemetry and Command require topics to create the Envoys, these topics are defined in _topic template_ as a simple grammar composed with _tokens_.
+Telemetry, Property, and Command require topics to create the Envoys, these topics are defined in _topic template_ as a simple grammar composed with _tokens_.
 
 ## Requirements
 
@@ -17,11 +17,12 @@ Topic structure SHOULD be compatible with:
 
 * A topic pattern is a sequence of _labels_ separated by `/`.
 * Each _label_ is one of:
-    * A string of printable ASCII characters not including space, `"`, `+`, `#`, `{`, `}`, or `/`
-    * A *recognized token* from the first column in the tables below, specifically:
-        * one of `{modelId}`, `{senderId}`, `{telemetryName}` for [Telemetry](telemetry.md)
-        * one of `{modelId}`, `{executorId}`, `{invokerClientId}`, or `{commandName}` for [Commands](commands.md)
-    * A *custom token*, defined as string that begins with `{ex:`, ends with `}`, and otherwise contains only ASCII alphabetic characters, with a minimum of one alphabetic character, e.g., `{ex:customToken}`
+  * A string of printable ASCII characters not including space, `"`, `+`, `#`, `{`, `}`, or `/`
+  * A _recognized token_ from the first column in the tables below, specifically:
+    * one of `{modelId}`, `{senderId}`, `{telemetryName}` for [Telemetry](telemetry.md)
+    * one of `{modelId}`, `{maintainerId}`, `{consumerClientId}`, `{propertyName}`, `{action}` for [Property](../dev/adr/0023-property-support.md)
+    * one of `{modelId}`, `{executorId}`, `{invokerClientId}`, `{commandName}` for [Command](commands.md)
+  * A _custom token_, defined as string that begins with `{ex:`, ends with `}`, and otherwise contains only ASCII alphabetic characters, with a minimum of one alphabetic character, e.g., `{ex:customToken}`
 * The first label must not start with `$`
 
 ## Telemetry
@@ -30,11 +31,11 @@ Telemetry topic patterns MAY contain the following recognized tokens.
 
 | Topic token | Description | Required |
 | --- | --- | --- |
-| `{modelId}` | The identifier of the the service model, which is the full DTMI of the Interface, might include the version | optional |
+| `{modelId}` | The identifier of the the service model, which is the full DTMI of the Interface | optional |
 | `{senderId}` | Identifier of the asset that that sends Telemetry, by default the MQTT client ID of the asset | optional |
 | `{telemetryName}` | The name of the Telemetry | optional |
 
-A *telemetry namespace* is an optional string of printable ASCII characters not including space, `+`, `#`, `{`, or `}`.
+A _telemetry namespace_ is an optional string of printable ASCII characters not including space, `+`, `#`, `{`, or `}`.
 The string MAY contain one or more `/` characters, but it MUST NOT begin with a `/` character, MUST NOT end with a `/` character, and MUST NOT contain two or more `/` characters in succession.
 
 A telemetry MQTT pub/sub topic is derived from a telemetry topic pattern in two steps.
@@ -75,6 +76,57 @@ deployments/gen/3/sensors/west/building22/sensor-temp-1628/telemetry
 > * If the `telemetryTopic` property contains a `{telemetryName}` token, each Telemetry is assigned a separate MQTT pub/sub topic, and each is published separately. This may be more efficient for Telemetries that have no logical or temporal relationship to each other.
 > * If the `telemetryTopic` property does not contain a `{telemetryName}` token, all Telemetries in the Interface are grouped into a collection that is published in a combined payload. This does not require any given payload to express values for all Telemetries, but it provides the option of including multiple Telemetries in a single published message.
 
+## Property
+
+Property topic patterns MAY contain the following recognized tokens.
+
+| Topic token | Description | Required |
+| --- | --- | --- |
+| `{modelId}` | The identifier of the service model, which is the full DTMI of the Interface | optional |
+| `{maintainerId}` | Identifier of the maintainer, by default the MQTT client ID | optional |
+| `{consumerClientId}` | The MQTT client ID of the endpoint that requests to read or write a Property | optional |
+| `{propertyName}` | The name of the Property | optional |
+| `{action}` | "read" or "write" | optional |
+
+If a Property is writable, its topic patterns SHOULD contain the token `{action}` to distinguish Read requests from Write requests.
+
+A _property namespace_ is an optional string of printable ASCII characters not including space, `+`, `#`, `{`, or `}`.
+The string MAY contain one or more `/` characters, but it MUST NOT begin with a `/` character, MUST NOT end with a `/` character, and MUST NOT contain two or more `/` characters in succession.
+
+A property MQTT pub/sub topic is derived from a property topic pattern in two steps.
+In the first step, each topic token is replaced with a concrete string value.
+For custom tokens, a replacement map is defined by the user; each map key is a non-empty string of ASCII alphabetic characters, and each map value follows the rules defined above for property namespace.
+For recognized tokens, the replacements are defined by the following table.
+
+* For the `{propertyName}` token, the replacement string is determined by the `name` property of the Property.
+* For the `{modelId}` token, the replacement string is determined by the `@id` property of the Interface (e.g., `"dtmi:example:TestVehicle;1"`)
+* For the `{consumerClientId}` token, the replacement string is determined by querying the local MQTT client.
+* For the `{maintainerId}` token, the replacement string is determined by a property set by user code; if the property is not set, the local MQTT client of the targeted asset is queried for its ID.
+* For the `{action}` token, the replacement string is "read" for a Read request and "write" for a Write request.
+
+In the second step, if a property namespace is defined by the user, the namespace is prepended to the token-substituted topic pattern, with an intervening `/` character.
+If no property namespace is defined by the user, the token-substituted topic pattern is used as the final topic for the property.
+
+### Property topic example
+
+An example of a permitted MQTT Property topic pattern string is:
+
+```text
+sensors/{ex:dataPath}/property/{propertyName}/{action}
+```
+
+If the asset has identifier `sensor-temp-1628`, and if the user supplies a custom replacement map that contains the entry `"dataPath" : "west/building22"`, then for a Read request the resulting MQTT topic is:
+
+```text
+sensors/west/building22/property/sensor-temp-1628/read
+```
+
+>[!NOTE]
+> The string value of the `propertyTopic` property is not required to contain the `{propertyName}` token, but Property communication differs depending on whether this token is present:
+>
+> * If the `propertyTopic` property contains a `{propertyName}` token, each Property is assigned a separate MQTT pub/sub topic, and each is read or written separately.
+> * If the `propertyTopic` property does not contain a `{propertyName}` token, all Properties in the Interface are grouped into a collection that is read or written in a combined payload. Read payloads will express values for all Properties, but Write payloads may omit any Property whose value is not being requested to change.
+
 ## Command
 
 Command topic patterns MAY contain the following recognized tokens.
@@ -86,12 +138,12 @@ Command topic patterns MAY contain the following recognized tokens.
 | `{invokerClientId}` | The MQTT client ID of the endpoint that invokes a Command | optional |
 | `{commandName}` | The name of the Command | optional |
 
-A *command namespace* is an optional string of printable ASCII characters not including space, `+`, `#`, `{`, or `}`.
+A _command namespace_ is an optional string of printable ASCII characters not including space, `+`, `#`, `{`, or `}`.
 The string MAY contain one or more `/` characters, but it MUST NOT begin with a `/` character, MUST NOT end with a `/` character, and MUST NOT contain two or more `/` characters in succession.
 
 ### Command request
 
-A command request MQTT pub/sub topic is derived from a *request topic pattern* in two steps.
+A command request MQTT pub/sub topic is derived from a _request topic pattern_ in two steps.
 In the first step, each topic token is replaced with a concrete string value.
 For custom tokens, a replacement map is defined by the user; each map key is a non-empty string of ASCII alphabetic characters, and each map value follows the rules defined above for command namespace.
 For recognized tokens, the replacements are defined by the following table.
@@ -109,27 +161,27 @@ If no command namespace is defined by the user, the token-substituted topic patt
 The response for a command MUST be published on the topic specified by the `ResponseTopic` MQTT property in the command request message.
 The value for this property is derived from the following four values, each of which follows the rules defined above for request topic patterns, including the allowability of topic tokens:
 
-* A *response topic pattern* optionally provided by the user
+* A _response topic pattern_ optionally provided by the user
 * The request topic pattern described above
-* A *response prefix* optionally provided by the user
-* A *response suffix* optionally provided by the user
+* A _response prefix_ optionally provided by the user
+* A _response suffix_ optionally provided by the user
 
 The response topic is derived by the following four steps.
 
-The first step produces an *unresolved response pattern* by the following rules:
+The first step produces an _unresolved response pattern_ by the following rules:
 
 * If a response topic pattern is provided, this is the unresolved response pattern.
 * If no response topic pattern is provided, the unresolved response pattern is formed from the request topic pattern, conditionally modified by the next two rules.
 * If a response prefix is provided, this is prepended to the command topic pattern with an intervening `/` character.
 * If a response suffix is provided, this is appended to the command topic pattern with an intervening `/` character.
 
-The second step produces a *resolved response pattern* as follows:
+The second step produces a _resolved response pattern_ as follows:
 Each topic token in the unresolved response pattern is replaced with a concrete string value.
 For custom tokens, a replacement map is defined by the user; each map key is a non-empty string of ASCII alphabetic characters, and each map value follows the rules defined above for command namespace.
 For recognized tokens, the replacements are defined by the table presented above with reference to deriving request topics.
 
 The third step applies only if the user has provided no response topic pattern, no response prefix, and no response suffix.
-In this case, the third step prepends a *default response prefix* to the resolved response pattern.
+In this case, the third step prepends a _default response prefix_ to the resolved response pattern.
 The default response prefix is the string `clients/` followed by the client ID, followed by a `/` character.
 
 In the fourth step, if a command namespace is defined by the user, the namespace is prepended to the result of the previous steps, with an intervening `/` character.
