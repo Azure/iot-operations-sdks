@@ -339,6 +339,9 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                             log::error!("{log_identifier} Error reporting dataset status: {e}");
                         }
 
+                        // Update the local schema reference
+                        local_schema_reference = data_operation_client.message_schema_reference().await;
+
 
                         dataset_valid = true;
                     },
