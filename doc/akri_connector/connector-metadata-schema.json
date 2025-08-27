@@ -466,7 +466,7 @@
                             },
                             "alternativeTypeName" : { 
                               "$ref" : "#/definitions/alternativeTypeName",
-                              "description": "The alternative name to the type \"dataPoint\" within an event"
+                              "description": "The alternative name to the type \"dataPoints\" within an event"
                             }
                           }    
                         }
