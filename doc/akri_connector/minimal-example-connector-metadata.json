@@ -1,10 +1,9 @@
 {
-  "aioConnectorMetadataSchemaVersion": "2.0-preview",
+  "aioConnectorMetadataSchemaVersion": "3.0-preview",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",
   "imageConfigurationSettings": {
-    "containerRegistryName": "contoso-acr.io",
     "imageName": "RestConnector",
     "tag": "1.0.0"
   },
@@ -13,20 +12,33 @@
     {
       "endpointType": "Microsoft.Http",
       "version": "2.0",
-      "configSchemas": {
-        "datasetConfigSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "Dataset Config Schema",
-          "type": "object",
-          "properties": {
-            "SamplingInterval": {
-              "description": "How frequently to sample each dataset by default (in milliseconds)",
-              "type": "integer"
+      "supportedModeling": {
+        "datasets" : {
+          "limits": { 
+            "minimum": 0
+          },
+          "datasetConfigurationSchema" : {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/datasetConfig.schema.json",
+            "title": "Dataset Config Schema",
+            "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SamplingInterval": {
+                "description": "How frequently to sample each dataset by default (in milliseconds)",
+                "type": "integer"
+              }
+            }
+          },
+          "supportedModeling": {
+            "dataPoints" : { 
+              "limits" : { 
+                "minimum":0
+              }
             }
           }
         }
-      },
-      "isEndpointTlsEnabled" : true
+      }
     }
   ]
 }
