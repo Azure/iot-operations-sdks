@@ -10,7 +10,7 @@
         "maximum": {
           "type": "integer",
           "minimum": 1,
-          "description": "The maximum number of this model type that this connector supports. If not specified, the default is whatever limits the ADR service itself has. If this value is 0, then this connector does not support using this model type (i.e. the connector supports datasets, but not events)."
+          "description": "The maximum number of this model type that this connector supports. If not specified, the default is whatever limits the ADR service itself has."
         },
         "minimum": {
           "type": "integer",
@@ -521,7 +521,7 @@
                             },
                             "alternativeTypeName" : { 
                               "$ref" : "#/definitions/alternativeTypeName",
-                              "description": "The alternative name to the type \"dataPoint\" within an event"
+                              "description": "The alternative name to the type \"dataPoints\" within an event"
                             },
                             "fields": {
                               "type": "object",
@@ -630,7 +630,7 @@
                     },
                     "alternativeTypeName" : { 
                       "$ref" : "#/definitions/alternativeTypeName",
-                      "description": "The alternative name to the type \"managementGroup\" within an asset"
+                      "description": "The alternative name to the type \"managementGroups\" within an asset"
                     },
                     "supportedModeling": {
                       "type": "object",

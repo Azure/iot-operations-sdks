@@ -55,11 +55,8 @@
       "assetStreamDestinations": {
         "supportedDestinations" : ["Mqtt"],
         "defaultDestination" : {
-          "destination": "Mqtt",
-          "topic": "some/mqtt/path",
-          "qos": 1,
-          "ttl": 10,
-          "retain": "never"
+          "destination": "Storage",
+          "path": "some/storage/path"
         }
       },
       "supportedModeling": {
