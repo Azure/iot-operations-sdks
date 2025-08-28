@@ -15,7 +15,6 @@
     {
       "endpointType": "Microsoft.Tcp",
       "version": "2",
-      "isEndpointTlsEnabled": false,
       "supportedAssetEventDestinations": [
         "Mqtt"
       ]
