@@ -27,6 +27,14 @@
     {
       "endpointType": "Microsoft.Http",
       "version": "2.0",
+      "fields": {
+        "address": {
+          "input": "required",
+          "exampleValue": "https://www.contoso.com/someAddress",
+          "regex": ["/^(https?:\/\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\/\\w \\.-]*)*\/?$/"],
+          "description": "The HTTP address to connect to"
+        }
+      },
       "assetEventDestinations": {
         "supportedDestinations" : ["Mqtt"],
         "defaultDestination" : {
@@ -59,6 +67,15 @@
           "limits": { 
             "minimum": 0
           },
+          "fields": {
+            "dataSource": {
+              "input": "required",
+              "exampleValue": "some/path"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          },
           "datasetConfigurationSchema" : {
             "$schema": "http://json-schema.org/draft-07/schema#",
             "$id": "https://contoso.com/datasetConfig.schema.json",
@@ -76,6 +93,13 @@
             "dataPoints": {
               "limits": { 
                 "minimum": 0
+              },
+              "dataSource": {
+                "input": "required",
+                "exampleValue": "some/path"
+              },
+              "typeRef": {
+                "input": "unsupported"
               },
               "dataPointConfigurationSchema" : {
                 "$schema": "http://json-schema.org/draft-07/schema#",
@@ -101,6 +125,15 @@
           "limits": { 
             "minimum": 0
           },
+          "fields": {
+            "eventNotifier": {
+              "input": "required",
+              "exampleValue": "some/path"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          },
           "eventConfigurationSchema" : {
             "$schema": "http://json-schema.org/draft-07/schema#",
             "$id": "https://contoso.com/eventConfig.schema.json",
@@ -118,6 +151,12 @@
             "dataPoints": {
               "limits": { 
                 "minimum": 0
+              },
+              "fields": {
+                "dataSource": {
+                  "input": "required",
+                  "exampleValue": "some/path"
+                }
               },
               "dataPointConfigurationSchema" : {
                 "$schema": "http://json-schema.org/draft-07/schema#",

@@ -402,7 +402,9 @@
               "description" : "Describes if this connector expects these fields to be provided in the device defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
               "properties": {
                 "address": { "$ref": "#/definitions/fieldNecessity" }
-              }
+              },
+              "required": ["address"],
+              "additionalProperties": false
             },
             "assetsEnabledByDefault": {
               "type": "boolean",
@@ -526,9 +528,12 @@
                               "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                               "properties": {
                                 "dataSource": { "$ref": "#/definitions/fieldNecessity" }
-                              }
+                              },
+                              "required": ["dataSource"],
+                              "additionalProperties": false
                             }
-                          }    
+                          },
+                          "required": ["fields", "limits"]    
                         }
                       },
                       "additionalProperties": false
@@ -547,11 +552,13 @@
                       "properties": {
                         "eventNotifier": { "$ref": "#/definitions/fieldNecessity" },
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
-                      }
+                      },
+                      "required": ["eventNotifier", "typeRef"],
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false,
-                  "required": ["limits"]
+                  "required": ["limits", "fields"]
                 },
                 "datasets" : {
                   "type": "object",
@@ -585,7 +592,9 @@
                               "properties": {
                                 "dataSource": { "$ref": "#/definitions/fieldNecessity" },
                                 "typeRef": { "$ref": "#/definitions/fieldNecessity" }
-                              }
+                              },
+                              "required": ["dataSource", "typeRef"],
+                              "additionalProperties": false
                             }
                           }    
                         }
@@ -602,11 +611,13 @@
                       "properties": {
                         "dataSource": { "$ref": "#/definitions/fieldNecessity" },
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
-                      }
+                      },
+                      "required": ["dataSource", "typeRef"],
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false,
-                  "required": ["limits"]
+                  "required": ["limits", "fields"]
                 },
                 "managementGroups" : { 
                   "type": "object",
@@ -644,10 +655,13 @@
                               "properties": {
                                 "targetUri": { "$ref": "#/definitions/fieldNecessity" },
                                 "typeRef": { "$ref": "#/definitions/fieldNecessity" }
-                              }
+                              },
+                              "required": ["targetUri", "typeRef"],
+                              "additionalProperties": false
                             }
                           },
-                          "additionalProperties": false
+                          "additionalProperties": false,
+                          "required": ["limits", "fields"]
                         }
                       },
                       "additionalProperties": false
@@ -657,10 +671,13 @@
                       "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                       "properties": {
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
-                      }
+                      },
+                      "required": ["typeRef"],
+                      "additionalProperties": false
                     }
                   },
-                  "additionalProperties": false
+                  "additionalProperties": false,
+                  "required": ["limits", "fields"]
                 },
                 "streams" : { 
                   "type": "object",
@@ -680,9 +697,12 @@
                       "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                       "properties": {
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
-                      }
+                      },
+                      "required": ["typeRef"],
+                      "additionalProperties": false
                     }
-                  }    
+                  },
+                  "required": ["fields", "limits"]  
                 }
               },
               "additionalProperties": false,
@@ -697,7 +717,8 @@
           "additionalProperties": false,
           "required": [
             "endpointType",
-            "supportedModeling"
+            "supportedModeling",
+            "fields"
           ]
         }
       ]
