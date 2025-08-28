@@ -133,7 +133,7 @@
       "properties": {
         "input": {
           "type": "string",
-          "description": "If this field is relevant to this connector or not. If required, the connector cannot function without this field being provided in the specified shape. If unsupported, the connector will ignore any value provided for this field. If optional, the connector can function with or without this field being provdied, but the behavior may vary depending on it.",
+          "description": "If this field is relevant to this connector or not. If required, the connector cannot function without this field being provided in the specified shape. If unsupported, the connector will ignore any value provided for this field. If optional, the connector can function with or without this field being provided, but the behavior may vary depending on it.",
           "enum": [
             "required",
             "unsupported",
