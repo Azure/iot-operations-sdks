@@ -163,6 +163,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
         log::error!("{log_identifier} Error reporting device status: {e}");
     }
 
+    // Update the status of the endpoint
     if let Err(e) = device_endpoint_reporter
         .report_endpoint_status_if_modified(report_status_if_changed!(
             &log_identifier,
@@ -193,6 +194,7 @@ async fn run_device(log_identifier: String, mut device_endpoint_client: DeviceEn
                     log::error!("{log_identifier} Error reporting device status: {e}");
                 }
 
+                // Update the status of the endpoint
                 if let Err(e) = device_endpoint_reporter
                     .report_endpoint_status_if_modified(report_status_if_changed!(
                         &log_identifier,
@@ -363,23 +365,15 @@ async fn run_dataset(log_identifier: String, mut data_operation_client: DataOper
                 // Report schema only if there isn't already one
                 match data_operation_client
                     .report_message_schema_if_modified(|current_schema_reference| {
-                        if let Some(local_schema_reference) = &local_schema_reference
+                        // Only report schema if there isn't already one, or if schema has changed
+                        if local_schema_reference.is_none()
+                            || current_schema_reference.is_none()
+                            || current_schema_reference != local_schema_reference.as_ref()
+                            || current_message_schema != local_message_schema
                         {
-                            // Only report schema if there isn't already one
-                            if let Some(current_schema_reference) = current_schema_reference {
-                                if *current_schema_reference != *local_schema_reference
-                                    || current_message_schema != local_message_schema
-                                {
-                                    Some(current_message_schema.clone())
-                                } else {
-                                    None
-                                }
-                            } else {
-                                Some(current_message_schema.clone())
-                            }
-                        } else {
-                            // If we don't have a local schema reference, we failed to report the schema and are retrying
                             Some(current_message_schema.clone())
+                        } else {
+                            None
                         }
                     })
                     .await
@@ -454,6 +448,9 @@ async fn handle_unsupported_data_operation(
         );
     }
 
+    // While the unsupported data operation client is active, we should keep polling for updates
+    // to handle cases where it is deleted and to continue reporting errors if it is
+    // incorrectly updated.
     loop {
         match data_operation_client.recv_notification().await {
             DataOperationNotification::Updated => {
