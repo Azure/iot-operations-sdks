@@ -413,86 +413,6 @@
             "additionalConfigurationSchema": {
               "$ref": "http://json-schema.org/draft-07/schema#"
             },
-            "assetEventDestinations": {
-              "type": "object",
-              "description": "Information about the supported and default destinations for asset events",
-              "properties": {
-                "supportedDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's events supports.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "Storage"
-                    ]
-                  }
-                },
-                "defaultDestination": {
-                  "description": "The destination that this asset's events will go to by default unless specified otherwise in the asset or the event.",
-                  "oneOf": [
-                    {"$ref" : "#/definitions/mqttDestinationDefaults"},
-                    {"$ref" : "#/definitions/storageDestinationDefaults"}
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": ["supportedDestinations"]
-            },
-            "assetDatasetDestinations": {
-              "type": "object",
-              "description": "Information about the supported and default destinations for asset datasets",
-              "properties": {
-                "supportedDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's datasets supports.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "BrokerStateStore",
-                      "Storage"
-                    ]
-                  }
-                },
-                "defaultDestination": {
-                  "description": "The destination that this asset's datasets will go to by default unless specified otherwise in the asset or the dataset.",
-                  "oneOf": [
-                    {"$ref" : "#/definitions/mqttDestinationDefaults"},
-                    {"$ref" : "#/definitions/storageDestinationDefaults"},
-                    {"$ref" : "#/definitions/brokerStateStoreDestinationDefaults"}
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": ["supportedDestinations"]
-            },
-            "assetStreamDestinations": {
-              "type": "object",
-              "description": "Information about the supported and default destinations for asset streams",
-              "properties": {
-                "supportedDestinations": {
-                  "type": "array",
-                  "description": "The array of destinations that this asset's streams supports.",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "Mqtt",
-                      "Storage"
-                    ]
-                  }
-                },
-                "defaultDestination": {
-                  "description": "The destination that this asset's streams will go to by default unless unless specified otherwise in the asset or the stream.",
-                  "oneOf": [
-                    {"$ref" : "#/definitions/mqttDestinationDefaults"},
-                    {"$ref" : "#/definitions/storageDestinationDefaults"}
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": ["supportedDestinations"]
-            },
             "version": {
               "type": "string",
               "description": "The version of the protocol of this inbound endpoint."
@@ -555,6 +475,32 @@
                       },
                       "required": ["eventNotifier", "typeRef"],
                       "additionalProperties": false
+                    },
+                    "destinations": {
+                      "type": "object",
+                      "description": "Information about the supported and default destinations for asset events",
+                      "properties": {
+                        "supportedDestinations": {
+                          "type": "array",
+                          "description": "The array of destinations that this asset's events supports.",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "Mqtt",
+                              "Storage"
+                            ]
+                          }
+                        },
+                        "defaultDestination": {
+                          "description": "The destination that this asset's events will go to by default unless specified otherwise in the asset or the event.",
+                          "oneOf": [
+                            {"$ref" : "#/definitions/mqttDestinationDefaults"},
+                            {"$ref" : "#/definitions/storageDestinationDefaults"}
+                          ]
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": ["supportedDestinations"]
                     }
                   },
                   "additionalProperties": false,
@@ -614,6 +560,34 @@
                       },
                       "required": ["dataSource", "typeRef"],
                       "additionalProperties": false
+                    },
+                    "destinations": {
+                      "type": "object",
+                      "description": "Information about the supported and default destinations for asset datasets",
+                      "properties": {
+                        "supportedDestinations": {
+                          "type": "array",
+                          "description": "The array of destinations that this asset's datasets supports.",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "Mqtt",
+                              "BrokerStateStore",
+                              "Storage"
+                            ]
+                          }
+                        },
+                        "defaultDestination": {
+                          "description": "The destination that this asset's datasets will go to by default unless specified otherwise in the asset or the dataset.",
+                          "oneOf": [
+                            {"$ref" : "#/definitions/mqttDestinationDefaults"},
+                            {"$ref" : "#/definitions/storageDestinationDefaults"},
+                            {"$ref" : "#/definitions/brokerStateStoreDestinationDefaults"}
+                          ]
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": ["supportedDestinations"]
                     }
                   },
                   "additionalProperties": false,
@@ -700,6 +674,32 @@
                       },
                       "required": ["typeRef"],
                       "additionalProperties": false
+                    },
+                    "destinations": {
+                      "type": "object",
+                      "description": "Information about the supported and default destinations for asset streams",
+                      "properties": {
+                        "supportedDestinations": {
+                          "type": "array",
+                          "description": "The array of destinations that this asset's streams supports.",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "Mqtt",
+                              "Storage"
+                            ]
+                          }
+                        },
+                        "defaultDestination": {
+                          "description": "The destination that this asset's streams will go to by default unless unless specified otherwise in the asset or the stream.",
+                          "oneOf": [
+                            {"$ref" : "#/definitions/mqttDestinationDefaults"},
+                            {"$ref" : "#/definitions/storageDestinationDefaults"}
+                          ]
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": ["supportedDestinations"]
                     }
                   },
                   "required": ["fields", "limits"]  
