@@ -43,14 +43,14 @@ namespace Azure.Iot.Operations.Connector
             _monitor.AssetFileChanged += AssetFileChanged;
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public void ObserveDevices()
         {
             // Any pre-existing devices will trigger the monitor's callback which triggers the ADR client to observe updates
             _monitor.ObserveDevices();
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public async Task UnobserveDevicesAsync(CancellationToken cancellationToken = default)
         {
             _monitor.UnobserveDevices();
@@ -64,14 +64,14 @@ namespace Azure.Iot.Operations.Connector
             _observedDevices.Clear();
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public void ObserveAssets(string deviceName, string inboundEndpointName)
         {
             // Any pre-existing assets will trigger the monitor's callback which triggers the ADR client to observe updates
             _monitor.ObserveAssets(deviceName, inboundEndpointName);
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public async Task UnobserveAssetsAsync(string deviceName, string inboundEndpointName, CancellationToken cancellationToken = default)
         {
             _monitor.UnobserveAssets(deviceName, inboundEndpointName);
@@ -88,7 +88,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public async Task UnobserveAllAsync(CancellationToken cancellationToken = default)
         {
             _monitor.UnobserveAll();
@@ -113,13 +113,13 @@ namespace Azure.Iot.Operations.Connector
             _observedDevices.Clear();
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public EndpointCredentials GetEndpointCredentials(string deviceName, string inboundEndpointName, InboundEndpointSchemaMapValue inboundEndpoint)
         {
             return _monitor.GetEndpointCredentials(deviceName, inboundEndpointName, inboundEndpoint);
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public async Task<DeviceStatus> UpdateDeviceStatusAsync(
             string deviceName,
             string inboundEndpointName,
@@ -130,7 +130,7 @@ namespace Azure.Iot.Operations.Connector
             return await _client.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, status, commandTimeout, cancellationToken);
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public async Task<AssetStatus> UpdateAssetStatusAsync(
             string deviceName,
             string inboundEndpointName,
@@ -141,37 +141,37 @@ namespace Azure.Iot.Operations.Connector
             return await _client.UpdateAssetStatusAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public IEnumerable<string> GetAssetNames(string deviceName, string inboundEndpointName)
         {
             return _monitor.GetAssetNames(deviceName, inboundEndpointName);
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public IEnumerable<string> GetInboundEndpointNames(string deviceName)
         {
             return _monitor.GetInboundEndpointNames(deviceName);
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public IEnumerable<string> GetDeviceNames()
         {
             return _monitor.GetDeviceNames();
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public Task<CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             return _client.CreateOrUpdateDiscoveredAssetAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestSchema request, string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             return _client.CreateOrUpdateDiscoveredDeviceAsync(request, inboundEndpointType, commandTimeout, cancellationToken);
         }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public ValueTask DisposeAsync()
         {
             return _client.DisposeAsync();

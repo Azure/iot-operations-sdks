@@ -5,19 +5,17 @@ using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Services.StateStore
 {
-    public class StateStoreGetResponse : StateStoreResponse
+    public class StateStoreGetResponse : IStateStoreGetResponse
     {
-        /// <summary>
-        /// The requested value associated with the key.
-        /// </summary>
-        /// <remarks>
-        /// This value is null if the requested key isn't in the State Store.
-        /// </remarks>
-        public StateStoreValue? Value { get; internal set; }
+        /// <inheritdoc/>
+        public StateStoreValue? Value { get; }
+
+        /// <inheritdoc/>
+        public HybridLogicalClock? Version { get; set; }
 
         internal StateStoreGetResponse(HybridLogicalClock? version, StateStoreValue? value)
-            : base(version)
         {
+            Version = version;
             Value = value;
         }
     }
