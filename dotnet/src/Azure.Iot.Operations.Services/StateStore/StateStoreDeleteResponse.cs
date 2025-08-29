@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Services.StateStore
 {
     public class StateStoreDeleteResponse : IStateStoreDeleteResponse
     {
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public int? DeletedItemsCount { get; }
 
         internal StateStoreDeleteResponse(int? deletedItemsCount = null)
