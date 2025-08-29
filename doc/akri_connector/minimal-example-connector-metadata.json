@@ -1,5 +1,5 @@
 {
-  "aioConnectorMetadataSchemaVersion": "3.0-preview",
+  "aioConnectorMetadataSchemaVersion": "4.0-preview",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",
@@ -12,10 +12,27 @@
     {
       "endpointType": "Microsoft.Http",
       "version": "2.0",
+      "fields": {
+        "address": {
+          "input": "required",
+          "exampleValue": "https://www.contoso.com/someAddress",
+          "regex": ["/^(https?:\/\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\/\\w \\.-]*)*\/?$/"],
+          "description": "The HTTP address to connect to"
+        }
+      },
       "supportedModeling": {
         "datasets" : {
           "limits": { 
             "minimum": 0
+          },
+          "fields": {
+            "dataSource": {
+              "input": "required",
+              "exampleValue": "some/http/path"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
           },
           "datasetConfigurationSchema" : {
             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -34,6 +51,15 @@
             "dataPoints" : { 
               "limits" : { 
                 "minimum":0
+              },
+              "fields": {
+                "dataSource": {
+                  "input": "optional",
+                  "exampleValue": "some/http/path"
+                },
+                "typeRef": {
+                  "input": "optional"
+                }
               }
             }
           }

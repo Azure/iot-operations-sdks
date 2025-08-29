@@ -1,5 +1,5 @@
 {
-  "aioConnectorMetadataSchemaVersion": "3.0-preview",
+  "aioConnectorMetadataSchemaVersion": "4.0-preview",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",
@@ -27,34 +27,34 @@
     {
       "endpointType": "Microsoft.Http",
       "version": "2.0",
-      "assetEventDestinations": {
-        "supportedDestinations" : ["Mqtt"],
-        "defaultDestination" : {
-          "destination": "Mqtt",
-          "topic": "some/mqtt/path",
-          "qos": 1,
-          "ttl": 10,
-          "retain": "never"
-        }
-      },
-      "assetDatasetDestinations": {
-        "supportedDestinations" : ["Mqtt", "BrokerStateStore"],
-        "defaultDestination" : {
-          "destination": "BrokerStateStore",
-          "key": "someDssKey"
-        }
-      },
-      "assetStreamDestinations": {
-        "supportedDestinations" : ["Mqtt"],
-        "defaultDestination" : {
-          "destination": "Storage",
-          "path": "some/storage/path"
+      "fields": {
+        "address": {
+          "input": "required",
+          "exampleValue": "https://www.contoso.com/someAddress",
+          "regex": ["/^(https?:\/\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\/\\w \\.-]*)*\/?$/"],
+          "description": "The HTTP address to connect to"
         }
       },
       "supportedModeling": {
         "datasets" : {
           "limits": { 
             "minimum": 0
+          },
+          "fields": {
+            "dataSource": {
+              "input": "required",
+              "exampleValue": "some/path"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          },
+          "destinations": {
+            "supportedDestinations" : ["Mqtt", "BrokerStateStore"],
+            "defaultDestination" : {
+              "destination": "BrokerStateStore",
+              "key": "someDssKey"
+            }
           },
           "datasetConfigurationSchema" : {
             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -73,6 +73,13 @@
             "dataPoints": {
               "limits": { 
                 "minimum": 0
+              },
+              "dataSource": {
+                "input": "required",
+                "exampleValue": "some/path"
+              },
+              "typeRef": {
+                "input": "unsupported"
               },
               "dataPointConfigurationSchema" : {
                 "$schema": "http://json-schema.org/draft-07/schema#",
@@ -98,6 +105,25 @@
           "limits": { 
             "minimum": 0
           },
+          "fields": {
+            "eventNotifier": {
+              "input": "required",
+              "exampleValue": "some/path"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          },
+          "destinations": {
+            "supportedDestinations" : ["Mqtt"],
+            "defaultDestination" : {
+              "destination": "Mqtt",
+              "topic": "some/mqtt/path",
+              "qos": 1,
+              "ttl": 10,
+              "retain": "never"
+            }
+          },
           "eventConfigurationSchema" : {
             "$schema": "http://json-schema.org/draft-07/schema#",
             "$id": "https://contoso.com/eventConfig.schema.json",
@@ -116,6 +142,12 @@
               "limits": { 
                 "minimum": 0
               },
+              "fields": {
+                "dataSource": {
+                  "input": "required",
+                  "exampleValue": "some/path"
+                }
+              },
               "dataPointConfigurationSchema" : {
                 "$schema": "http://json-schema.org/draft-07/schema#",
                 "$id": "https://contoso.com/eventConfig.schema.json",
@@ -129,6 +161,24 @@
                   }
                 }
               }
+            }
+          }
+        },
+        "streams": {
+          "limits" : { 
+            "minimum": 0
+          },
+          "fields": {
+            "typeRef": {
+              "input": "required",
+              "exampleValue": "someTypeRef"
+            }
+          },
+          "destinations": {
+            "supportedDestinations" : ["Mqtt", "Storage"],
+            "defaultDestination" : {
+              "destination": "Storage",
+              "path": "some/storage/path"
             }
           }
         }
