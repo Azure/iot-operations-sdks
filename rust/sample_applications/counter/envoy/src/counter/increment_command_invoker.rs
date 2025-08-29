@@ -51,9 +51,9 @@ impl IncrementRequestBuilder {
     }
 
     /// Target executor ID
-    pub fn executor_id(&mut self, executor_id: String) -> &mut Self {
+    pub fn executor_id(&mut self, executor_id: &str) -> &mut Self {
         self.topic_tokens
-            .insert("executorId".to_string(), executor_id.clone());
+            .insert("executorId".to_string(), executor_id.to_string());
         self.set_executor_id = true;
         self
     }
