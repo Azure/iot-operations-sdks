@@ -445,7 +445,7 @@
                             },
                             "fields": {
                               "type": "object",
-                              "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                              "description" : "Describes if this connector expects these fields to be provided in the data point defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                               "properties": {
                                 "dataSource": { "$ref": "#/definitions/fieldNecessity" }
                               },
@@ -468,7 +468,7 @@
                     },
                     "fields": {
                       "type": "object",
-                      "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                      "description" : "Describes if this connector expects these fields to be provided in the event defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                       "properties": {
                         "eventNotifier": { "$ref": "#/definitions/fieldNecessity" },
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
@@ -534,7 +534,7 @@
                             },
                             "fields": {
                               "type": "object",
-                              "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                              "description" : "Describes if this connector expects these fields to be provided in the data point defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                               "properties": {
                                 "dataSource": { "$ref": "#/definitions/fieldNecessity" },
                                 "typeRef": { "$ref": "#/definitions/fieldNecessity" }
@@ -553,7 +553,7 @@
                     },
                     "fields": {
                       "type": "object",
-                      "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                      "description" : "Describes if this connector expects these fields to be provided in the dataset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                       "properties": {
                         "dataSource": { "$ref": "#/definitions/fieldNecessity" },
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
@@ -625,7 +625,7 @@
                             },
                             "fields": {
                               "type": "object",
-                              "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                              "description" : "Describes if this connector expects these fields to be provided in the management group action defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                               "properties": {
                                 "targetUri": { "$ref": "#/definitions/fieldNecessity" },
                                 "typeRef": { "$ref": "#/definitions/fieldNecessity" }
@@ -642,7 +642,7 @@
                     },
                     "fields": {
                       "type": "object",
-                      "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                      "description" : "Describes if this connector expects these fields to be provided in the management group defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                       "properties": {
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
                       },
@@ -668,7 +668,7 @@
                     },
                     "fields": {
                       "type": "object",
-                      "description" : "Describes if this connector expects these fields to be provided in the asset defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
+                      "description" : "Describes if this connector expects these fields to be provided in the stream defintion when deploying the connector. Also describes the expected shape of these values if they are supported.",
                       "properties": {
                         "typeRef": { "$ref": "#/definitions/fieldNecessity" }
                       },
