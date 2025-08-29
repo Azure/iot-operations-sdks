@@ -7,10 +7,10 @@ namespace Azure.Iot.Operations.Services.StateStore
 {
     public class StateStoreGetResponse : IStateStoreGetResponse
     {
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public StateStoreValue? Value { get; }
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public HybridLogicalClock? Version { get; set; }
 
         internal StateStoreGetResponse(HybridLogicalClock? version, StateStoreValue? value)
