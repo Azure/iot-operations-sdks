@@ -130,7 +130,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         }
 
         /// <inheritdoc/>
-        public virtual async Task<StateStoreGetResponse> GetAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task<IStateStoreGetResponse> GetAsync(StateStoreKey key, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ArgumentNullException.ThrowIfNull(key, nameof(key));
@@ -169,7 +169,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         }
 
         /// <inheritdoc/>
-        public virtual async Task<StateStoreSetResponse> SetAsync(StateStoreKey key, StateStoreValue value, StateStoreSetRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task<IStateStoreSetResponse> SetAsync(StateStoreKey key, StateStoreValue value, StateStoreSetRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ArgumentNullException.ThrowIfNull(key, nameof(key));
@@ -213,7 +213,7 @@ namespace Azure.Iot.Operations.Services.StateStore
         }
 
         /// <inheritdoc/>
-        public virtual async Task<StateStoreDeleteResponse> DeleteAsync(StateStoreKey key, StateStoreDeleteRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task<IStateStoreDeleteResponse> DeleteAsync(StateStoreKey key, StateStoreDeleteRequestOptions? options = null, TimeSpan? requestTimeout = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
