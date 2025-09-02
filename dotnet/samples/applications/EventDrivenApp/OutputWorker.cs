@@ -51,7 +51,7 @@ public class OutputWorker(ApplicationContext applicationContext, SessionClientFa
                 await using StateStoreClient stateStoreClient = new(applicationContext, sessionClient);
                 {
                     // Fetch the past sensor data from the state store
-                    StateStoreGetResponse response = await stateStoreClient.GetAsync(Constants.StateStoreSensorKey);
+                    IStateStoreGetResponse response = await stateStoreClient.GetAsync(Constants.StateStoreSensorKey);
                     if (response.Value == null)
                     {
                         await Console.Out.WriteLineAsync("Sensor data not found in state store");

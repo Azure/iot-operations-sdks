@@ -23,7 +23,7 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
     {
         await using StateStoreClient _stateStoreClient = new(applicationContext, mqttClient);
         logger.LogInformation("Get request {req}", request.Name);
-        StateStoreGetResponse resp = await _stateStoreClient.GetAsync(request.Name!, cancellationToken: cancellationToken);
+        IStateStoreGetResponse resp = await _stateStoreClient.GetAsync(request.Name!, cancellationToken: cancellationToken);
         logger.LogInformation("Schema found {found}", resp.Value != null);
         SchemaInfo sdoc = null!;
         if (resp.Value != null)
@@ -56,7 +56,7 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
         logger.LogInformation("Trying to register schema {id}", id);
         SchemaInfo schemaInfo;
 
-        StateStoreGetResponse find = await _stateStoreClient.GetAsync(id, cancellationToken: cancellationToken);
+        IStateStoreGetResponse find = await _stateStoreClient.GetAsync(id, cancellationToken: cancellationToken);
         if (find.Value == null)
         {
             schemaInfo = new()
@@ -70,7 +70,7 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
                 Namespace = "DefaultSRNamespace"
             };
             ReadOnlySequence<byte> schemaInfoBytes = _jsonSerializer.ToBytes(schemaInfo)!.SerializedPayload;
-            StateStoreSetResponse resp = await _stateStoreClient.SetAsync(id, new StateStoreValue(schemaInfoBytes.ToArray()), new StateStoreSetRequestOptions() { }, cancellationToken: cancellationToken);
+            IStateStoreSetResponse resp = await _stateStoreClient.SetAsync(id, new StateStoreValue(schemaInfoBytes.ToArray()), new StateStoreSetRequestOptions() { }, cancellationToken: cancellationToken);
             logger.LogInformation("RegisterSchema response success: {s} {id}", resp.Success, id);
         }
         else

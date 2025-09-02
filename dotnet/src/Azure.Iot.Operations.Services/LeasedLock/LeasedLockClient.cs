@@ -217,7 +217,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                 ? new StateStoreValue(LockHolderName)
                 : new StateStoreValue(string.Format(ValueFormat, LockHolderName, options.SessionId));
             Debug.Assert(_lockKey != null);
-            StateStoreSetResponse setResponse =
+            IStateStoreSetResponse setResponse =
                 await _stateStoreClient.SetAsync(
                     _lockKey,
                     value,
@@ -413,7 +413,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
                 try
                 {
-                    StateStoreGetResponse getResponse = await _stateStoreClient.GetAsync(key, timeoutPerRequest, cancellationToken: cancellationToken);
+                    IStateStoreGetResponse getResponse = await _stateStoreClient.GetAsync(key, timeoutPerRequest, cancellationToken: cancellationToken);
 
                     StateStoreValue? newValue = updateValueFunc.Invoke(getResponse.Value);
 
@@ -424,7 +424,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                             FencingToken = acquireLockResponse.FencingToken,
                         };
 
-                        StateStoreDeleteResponse deleteResponse = await _stateStoreClient.DeleteAsync(key, deleteOptions, timeoutPerRequest, cancellationToken);
+                        IStateStoreDeleteResponse deleteResponse = await _stateStoreClient.DeleteAsync(key, deleteOptions, timeoutPerRequest, cancellationToken);
                         valueChanged = deleteResponse.DeletedItemsCount == 1;
                     }
                     else
@@ -434,7 +434,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                             FencingToken = acquireLockResponse.FencingToken,
                         };
 
-                        StateStoreSetResponse setResponse = await _stateStoreClient.SetAsync(key, newValue, setOptions, timeoutPerRequest, cancellationToken: cancellationToken);
+                        IStateStoreSetResponse setResponse = await _stateStoreClient.SetAsync(key, newValue, setOptions, timeoutPerRequest, cancellationToken: cancellationToken);
                         valueChanged = setResponse.Success;
                     }
                 }
@@ -469,7 +469,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             ObjectDisposedException.ThrowIf(_disposed, this);
 
             Debug.Assert(_lockKey != null);
-            StateStoreGetResponse getResponse = await _stateStoreClient.GetAsync(
+            IStateStoreGetResponse getResponse = await _stateStoreClient.GetAsync(
                 _lockKey,
                 timeout,
                 cancellationToken).ConfigureAwait(false);
@@ -500,7 +500,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
                 ? new StateStoreValue(LockHolderName)
                 : new StateStoreValue(string.Format(ValueFormat, LockHolderName, options.SessionId));
             Debug.Assert(_lockKey != null);
-            StateStoreDeleteResponse deleteResponse =
+            IStateStoreDeleteResponse deleteResponse =
                 await _stateStoreClient.DeleteAsync(
                     _lockKey,
                     new StateStoreDeleteRequestOptions()

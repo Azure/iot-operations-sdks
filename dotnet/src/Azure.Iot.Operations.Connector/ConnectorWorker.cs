@@ -335,7 +335,7 @@ namespace Azure.Iot.Operations.Connector
 
                     string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
 
-                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload));
+                    IStateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload));
 
                     if (response.Success)
                     {

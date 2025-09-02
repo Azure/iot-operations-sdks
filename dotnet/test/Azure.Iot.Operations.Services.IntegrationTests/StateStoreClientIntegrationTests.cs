@@ -22,7 +22,7 @@ public class StateStoreClientIntegrationTests
 
         Assert.True((await stateStoreClient.SetAsync(key, value)).Success);
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
 
         Assert.Equal(value, getResponse.Value);
 
@@ -42,7 +42,7 @@ public class StateStoreClientIntegrationTests
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
 
-        StateStoreSetResponse setResponse =
+        IStateStoreSetResponse setResponse =
             await stateStoreClient.SetAsync(
                 key,
                 value,
@@ -56,7 +56,7 @@ public class StateStoreClientIntegrationTests
         // Wait a bit for the value in DSS to expire
         await Task.Delay(TimeSpan.FromSeconds(3));
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
 
         // No value should have been retrieved because the value expired
         // on its own earlier
@@ -72,7 +72,7 @@ public class StateStoreClientIntegrationTests
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
 
-        StateStoreSetResponse setResponse =
+        IStateStoreSetResponse setResponse =
             await stateStoreClient.SetAsync(key, value);
 
         Assert.True(setResponse.Success);
@@ -144,12 +144,12 @@ public class StateStoreClientIntegrationTests
         var key = Guid.NewGuid().ToString();
         var value = Guid.NewGuid().ToString();
 
-        StateStoreSetResponse setResponse =
+        IStateStoreSetResponse setResponse =
             await stateStoreClient.SetAsync(key, value);
 
         Assert.True(setResponse.Success);
 
-        StateStoreDeleteResponse deleteResponse =
+        IStateStoreDeleteResponse deleteResponse =
             await stateStoreClient.DeleteAsync(
                 key,
                 new StateStoreDeleteRequestOptions()
@@ -396,7 +396,7 @@ public class StateStoreClientIntegrationTests
 
         Assert.True((await stateStoreClient.SetAsync(key, value)).Success);
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(key);
 
         Assert.Equal(value, getResponse.Value);
     }

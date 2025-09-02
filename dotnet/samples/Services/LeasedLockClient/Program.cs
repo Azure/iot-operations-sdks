@@ -61,7 +61,7 @@ internal sealed class Program
             Console.WriteLine("Successfully acquired lock. Now altering a shared resource in the State Store");
 
             string newValue = Guid.NewGuid().ToString();
-            StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+            IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
                 _sharedResourceKey,
                 newValue,
                 new StateStoreSetRequestOptions()
