@@ -39,11 +39,11 @@
 use std::time::Duration;
 
 use azure_iot_operations_connector::{
-    Data,
+    AdrConfigError, Data,
     base_connector::{
         BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, ClientNotification, DatasetClient, DatasetNotification,
+            AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
             DeviceEndpointClient, DeviceEndpointClientCreationObservation,
         },
     },
@@ -315,20 +315,41 @@ async fn asset_handler(
                 // If there was an error, notify any lower components that the asset is not in a ready state while we wait for another update
                 // asset_ready_watcher_tx.send_if_modified(send_if_modified_fn(false));
             }
-            ClientNotification::Created(dataset_client) => {
-                let dataset_log_identifier = {
-                    let dataset_ref = dataset_client.dataset_ref();
-                    format!("{asset_log_identifier}[DS: {}]", dataset_ref.dataset_name)
+            ClientNotification::Created(data_operation_client) => {
+                let data_operation_ref = data_operation_client.data_operation_ref();
+                let data_operation_log_identifier = {
+                    format!(
+                        "{asset_log_identifier}[{:?}: {}]",
+                        data_operation_ref.data_operation_kind,
+                        data_operation_ref.data_operation_name
+                    )
                 };
-                log::info!("{dataset_log_identifier} Dataset created");
+                log::info!("{data_operation_log_identifier} Data Operation created");
 
-                // Handle the new dataset
-                tokio::task::spawn(handle_dataset(
-                    dataset_log_identifier,
-                    dataset_client,
-                    asset_ready_watcher_tx.subscribe(),
-                    device_endpoint_ready_watcher_rx.clone(),
-                ));
+                // Handle the new data operation
+                // IMPLEMENT: For this scaffolding a dataset handler is provided, other
+                // data operation handlers should be implemented as needed.
+                match data_operation_ref.data_operation_kind {
+                    azure_iot_operations_connector::DataOperationKind::Dataset => {
+                        // Handle the new dataset
+                        tokio::task::spawn(handle_dataset(
+                            data_operation_log_identifier,
+                            data_operation_client,
+                            asset_ready_watcher_tx.subscribe(),
+                            device_endpoint_ready_watcher_rx.clone(),
+                        ));
+                    }
+                    azure_iot_operations_connector::DataOperationKind::Event
+                    | azure_iot_operations_connector::DataOperationKind::Stream => {
+                        // Handle the new stream / event
+                        // For this scaffolding, they are not supported. A similar implementation
+                        // could be added for handling these types of data operations.
+                        tokio::task::spawn(handle_unsupported_data_operation(
+                            data_operation_log_identifier,
+                            data_operation_client,
+                        ));
+                    }
+                }
             }
             ClientNotification::Deleted => {
                 log::info!(
@@ -345,12 +366,12 @@ async fn asset_handler(
 ///
 /// # Arguments
 /// * `dataset_log_identifier` - A string identifier for the dataset, used for logging.
-/// * `dataset_client` - The dataset client.
+/// * `data_operation_client` - The data operation client we use for operations related to the dataset.
 /// * `asset_ready_watcher_rx` - A watcher for the asset readiness state.
 /// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
 async fn handle_dataset(
     dataset_log_identifier: String,
-    mut dataset_client: DatasetClient,
+    mut data_operation_client: DataOperationClient,
     mut asset_ready_watcher_rx: watch::Receiver<bool>,
     mut device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
 ) {
@@ -362,13 +383,13 @@ async fn handle_dataset(
     let mut is_dataset_reported = false;
 
     // Extract the dataset definition from the dataset client
-    let mut _local_dataset_definition = dataset_client.dataset_definition().clone();
+    let mut _local_dataset_definition = data_operation_client.definition().clone();
     // IMPLEMENT: Verify the dataset definition is OK
 
     // For this example, we will assume that the dataset definition is OK, see below for how to handle a bad definition.
     is_dataset_ready = true;
     // // If the dataset definition is not OK, report it and await for a new one
-    // match dataset_client.report_status(Err(e)).await {
+    // match data_operation_client.report_status(Err(e)).await {
     //     Ok(()) => {
     //         log::info!("{dataset_log_identifier} Dataset status reported as error");
     //     }
@@ -402,10 +423,10 @@ async fn handle_dataset(
 
                 log::info!("{dataset_log_identifier} Asset ready state changed to {is_asset_ready}");
             },
-            dataset_notification = dataset_client.recv_notification() => {
-                // Match the dataset notification to handle updates, deletions, or invalid updates
-                match dataset_notification {
-                    DatasetNotification::Updated => {
+            data_operation_notification = data_operation_client.recv_notification() => {
+                // Match the data operation notification to handle updates, deletions, or invalid updates
+                match data_operation_notification {
+                    DataOperationNotification::Updated => {
                         log::info!("{dataset_log_identifier} Dataset update notification received");
 
                         // IMPLEMENT: Verify the dataset specification is OK and send an error report if needed
@@ -413,17 +434,17 @@ async fn handle_dataset(
                         is_dataset_ready = true;
 
                         // Update the local dataset definition
-                        _local_dataset_definition = dataset_client.dataset_definition().clone();
+                        _local_dataset_definition = data_operation_client.definition().clone();
 
                         // Reset the dataset reported flag
                         is_dataset_reported = false;
                     },
-                    DatasetNotification::Deleted => {
+                    DataOperationNotification::Deleted => {
                         // The dataset client has been deleted, we need to end the dataset handler
                         log::info!("{dataset_log_identifier} Dataset deleted notification received, ending dataset handler");
                         break;
                     },
-                    DatasetNotification::UpdatedInvalid => {
+                    DataOperationNotification::UpdatedInvalid => {
                         // The dataset update is invalid, we need to wait for a valid update
                         log::info!("{dataset_log_identifier} Dataset invalid update notification received, waiting for a valid update");
                         is_dataset_ready = false;
@@ -461,7 +482,7 @@ async fn handle_dataset(
                 // If we've already reported the dataset status, we will not report it again until an update occurs.
                 if !is_dataset_reported {
                     log::info!("{dataset_log_identifier} Reporting dataset status as OK");
-                    match dataset_client.report_status(Ok(())).await {
+                    match data_operation_client.report_status(Ok(())).await {
                         Ok(()) => {
                             log::debug!("{dataset_log_identifier} Dataset status reported as OK");
                             is_dataset_reported = true;
@@ -476,7 +497,7 @@ async fn handle_dataset(
                 if current_schema.is_none() || current_schema.as_ref() != Some(&message_schema) {
                     // Note, this operation already retries internally.
                     log::info!("{dataset_log_identifier} Reporting message schema");
-                    match dataset_client.report_message_schema(message_schema.clone()).await {
+                    match data_operation_client.report_message_schema(message_schema.clone()).await {
                         Ok(_) => {
                             log::debug!("{dataset_log_identifier} Successfully reported message schema");
                             current_schema = Some(message_schema);
@@ -489,11 +510,11 @@ async fn handle_dataset(
                     }
                 }
 
-                // Forward the data using the dataset client
+                // Forward the data using the data operation client
                 log::info!("{dataset_log_identifier} Forwarding data");
 
                 // IMPLEMENT: This should handle errors forwarding the data.
-                let _ = dataset_client.forward_data(data).await;
+                let _ = data_operation_client.forward_data(data).await;
             }
         }
     }
@@ -519,6 +540,62 @@ fn send_if_modified_fn(desired_state: bool) -> impl FnOnce(&mut bool) -> bool {
             // Otherwise, update the current state to the desired state and return true to indicate that an update should be sent
             *curr = desired_state;
             true
+        }
+    }
+}
+
+/// Small handler to indicate lack of stream/event support in this scaffolding
+///
+/// Will report errors for this data operation on updates
+async fn handle_unsupported_data_operation(
+    data_operation_log_identifier: String,
+    mut data_operation_client: DataOperationClient,
+) {
+    let data_operation_kind = data_operation_client
+        .data_operation_ref()
+        .data_operation_kind;
+    log::warn!(
+        "{data_operation_log_identifier} Data Operation kind {data_operation_kind:?} not supported for this scaffolding"
+    );
+
+    let error_status = Err(AdrConfigError {
+        message: Some(format!(
+            "Data Operation kind {data_operation_kind:?} not supported for this scaffolding",
+        )),
+        ..Default::default()
+    });
+
+    // Report invalid definition to adr
+    match data_operation_client
+        .report_status(error_status.clone())
+        .await
+    {
+        Ok(()) => log::debug!("{data_operation_log_identifier} Status reported"),
+        Err(e) => log::error!("{data_operation_log_identifier} Failed to report status: {e}"),
+    }
+    loop {
+        match data_operation_client.recv_notification().await {
+            DataOperationNotification::Updated => {
+                log::warn!(
+                    "{data_operation_log_identifier} update notification received. {data_operation_kind:?} is not supported for this scaffolding",
+                );
+                match data_operation_client
+                    .report_status(error_status.clone())
+                    .await
+                {
+                    Ok(()) => log::debug!("{data_operation_log_identifier} Status reported"),
+                    Err(e) => {
+                        log::error!("{data_operation_log_identifier} Failed to report status: {e}");
+                    }
+                }
+            }
+            DataOperationNotification::UpdatedInvalid => {
+                log::info!("{data_operation_log_identifier} Update invalid notification received");
+            }
+            DataOperationNotification::Deleted => {
+                log::info!("{data_operation_log_identifier} Deleted notification received");
+                break;
+            }
         }
     }
 }

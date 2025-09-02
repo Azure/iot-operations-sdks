@@ -86,8 +86,8 @@ The following tables outline the current components, along with the associated l
 | **Schema registry** client | Interact with the [schema registry](https://learn.microsoft.com/azure/iot-operations/connect-to-cloud/concept-schema-registry) to fetch and store asset schemas | :green_circle: | :green_circle: | :green_circle: |
 | **State store** client | Client that enables interaction with the state store and provides the ability to get/set/delete and watch a key | :green_circle: | :green_circle: | :green_circle: |
 | **Lease lock** client | Create a lock for a shared resource | :green_circle: | :green_circle: | :green_circle: |
-| **Leader election** client | Assigns the elected application (leader) when multiple applications a deployed in a highly available configuration | :green_circle: | :yellow_circle: | :yellow_circle: |
-| **Akri** client | Asset and asset endpoint configuration and asset discovery | :green_circle: | :yellow_circle: | :yellow_circle: |
+| **Azure Device Registry** client | Device endpoint and asset configuration and asset discovery | :green_circle: || :green_circle: |
+| **Connector SDK** | SDK to simplify developing connectors | :yellow_circle: || :green_circle: |
 
 ## Need support?
 
