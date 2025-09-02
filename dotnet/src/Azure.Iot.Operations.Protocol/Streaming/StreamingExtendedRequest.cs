@@ -19,8 +19,14 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         public int StreamingRequestIndex { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        /// <summary>
+        /// The request payload
+        /// </summary>
         public TReq Request { get; set; }
 
+        /// <summary>
+        /// The metadata specific to this message in the stream
+        /// </summary>
         public StreamRequestMessageMetadata RequestMessageMetadata { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     }
