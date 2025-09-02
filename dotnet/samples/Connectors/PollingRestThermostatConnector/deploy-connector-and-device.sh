@@ -20,4 +20,4 @@ kubectl apply -f ./KubernetesResources/rest-server.yaml
 # Deploy REST server device and its two assets
 kubectl apply -f ./KubernetesResources/rest-server-device-definition.yaml
 kubectl apply -f ./KubernetesResources/rest-server-asset1-definition.yaml
-kubectl apply -f ./KubernetesResources/rest-server-asset2-definition.yaml
+#kubectl apply -f ./KubernetesResources/rest-server-asset2-definition.yaml
