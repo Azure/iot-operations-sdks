@@ -11,6 +11,12 @@ $gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./CommandComplexSch
 [[ -d ./CommandRawSample ]] && rm -r ./CommandRawSample
 $gen --modelFile ../dtdl/CommandRaw.json --outDir ./CommandRawSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
+[[ -d ./PropertySeparateSample ]] && rm -r ./PropertySeparateSample
+$gen --modelFile ../dtdl/PropertySeparate.json --outDir ./PropertySeparateSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
+
+[[ -d ./PropertyTogetherSample ]] && rm -r ./PropertyTogetherSample
+$gen --modelFile ../dtdl/PropertyTogether.json --outDir ./PropertyTogetherSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
+
 [[ -d ./TelemetryAndCommandSample ]] && rm -r ./TelemetryAndCommandSample
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
