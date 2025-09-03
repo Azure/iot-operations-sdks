@@ -12,6 +12,10 @@ Users have expressed a desire to allow more than one request and/or more than on
  - When exposed to the user, each request and response includes an index of where it was in the stream
  - Allow for multiple separate commands to be streamed simultaneously
  - Allow for invoker and/or executor to cancel a streamed request and/or streamed response at any time
+ - Allow for invoker + executor to send their requests/responses at arbitrary* times
+   - For instance, executor may send 1 response upon receiving 1 request, or it may wait for the request stream to finish before sending the first response
+   - Alternatively, this allows the invoker to send a request upon receiving a response
+   - *The only limitations are that the invoker must initiate the RPC with a request and the executor must end the RPC with a response
 
 ## Non-requirements
 
@@ -19,7 +23,6 @@ Users have expressed a desire to allow more than one request and/or more than on
  - The API of the receiving side of a stream will provide the user the streamed requests/responses in their **intended** order rather than their **received** order
    - If the stream's Nth message is lost due to message expiry (or other circumstances), our API should still notify the user when the N+1th stream message is received 
    - This may be added as a feature later if requested by customers
- - Allow for users to send command responses before the request stream has finished
 
 ## State of the art
 
@@ -37,25 +40,35 @@ gRPC supports these patterns for RPC:
 
 While RPC streaming shares a lot of similarities to normal RPC, we will define a new communication pattern to handle this scenario with two corresponding base classes: ```StreamingCommandInvoker``` and ```StreamingCommandExecutor```. 
 
-These new base classes will use extended versions of the ```ExtendedRequest``` and ```ExtendedResponse``` classes to include the streaming-specific information about each request and response:
+These new base classes will use similar versions of the ```ExtendedRequest``` and ```ExtendedResponse``` RPC classes to include the streaming-specific information about each request and response:
 
 ```csharp
-public class StreamingExtendedRequest<TResp> : ExtendedRequest<TResp>
-    where TResp : class
+public class StreamingExtendedRequest<TReq>
+    where TReq : class
 {
     /// <summary>
-    /// The index of this request relative to the other requests in this request stream. Starts at 0.
+    /// The request payload
     /// </summary>
-    public int StreamingRequestIndex { get; set; }
+    public TReq Request { get; set; }
+
+    /// <summary>
+    /// The metadata specific to this message in the stream
+    /// </summary>
+    public StreamMessageMetadata Metadata { get; set; }
 }
 
-public class StreamingExtendedResponse<TResp> : ExtendedResponse<TResp>
-    where TResp : class
+public class StreamingExtendedResponse<TResp>
+        where TResp : class
 {
     /// <summary>
-    /// The index of this response relative to the other responses in this response stream. Starts at 0.
+    /// The response payload
     /// </summary>
-    public int StreamingResponseIndex { get; set; }
+    public TResp Response { get; set; }
+
+    /// <summary>
+    /// The metadata specific to this message in the stream
+    /// </summary>
+    public StreamMessageMetadata Metadata { get; set; }
 }
 ```
 
@@ -71,7 +84,7 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     where TResp : class
 {
     // Many requests, many responses.
-    public IAsyncEnumerable<StreamingExtendedResponse<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<TReq> requests, ...) {...}
+        public async Task<ICancelableStreamContext<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, StreamRequestMetadata? streamRequestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default) {...}
 }
 ```
 
@@ -90,7 +103,8 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
     /// <remarks>
     /// The callback provides the stream of requests and requires the user to return one to many responses.
     /// </remarks>
-    public required Func<IAsyncEnumerable<StreamingExtendedRequest<TReq>>, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+    public required Func<ICancelableStreamContext<TReq>, StreamRequestMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+
 }
 
 ```
@@ -109,9 +123,9 @@ with data types
 
 ```<uint>:<boolean>:<boolean>:<uint>```
 
-where the field ```:<rpc timeout milliseconds>``` is only present in request stream messages
+where the field ```:<rpc timeout milliseconds>``` is only present in request stream messages and may be omitted if the RPC has no timeout.
 
-examples:
+For example:
 
 ```0:false:false:10000```: The first (and not last) message in a request stream where the RPC should timeout beyond 10 seconds
 
@@ -138,16 +152,16 @@ Once the user invokes a streaming command, the streaming command invoker will se
   - The serialized payload as provided by the user's request object
   - Any user-definied metadata as specified in the ```ExtendedRequest```
 
-Once the stream of requests has finished sending, the streaming command invoker should expect the stream of responses to arrive on the provided response topic with the provided correlation data and the streaming user property.
+Once the stream of requests has started sending, the streaming command invoker should expect the stream of responses to arrive on the provided response topic with the provided correlation data and the streaming user property.
 
-The command invoker will acknowledge all messages it receives that match the correlation data of a known streaming command
+The command invoker will acknowledge all messages it receives that match the correlation data of a known streaming command.
 
 #### Executor side
 
 A streaming command executor should start by subscribing to the expected command topic
   - Even though the streaming command classes are separate from the existing RPC classes, they should also offer the same features around topic string pre/suffixing, custom topic token support, etc.
 
-Upon receiving a MQTT message that contains a streaming request, the streaming executor should notify the application layer that the first message in a request stream was received. Once the executor has notified the user that the final message in a request stream was received, the user should be able to provide a stream of responses. Upon receiving each response in that stream from the user, the executor will send an MQTT message for each streamed response with:
+Upon receiving a MQTT message that contains a streaming request, the streaming executor should notify the application layer that the first message in a request stream was received. Once the executor has notified the user that the first message in a request stream was received, the user should be able to provide a stream of responses. Upon receiving each response in that stream from the user, the executor will send an MQTT message for each streamed response with:
   - The same correlation data as the original request
   - The topic as specified by the original request's response topic field
   - The appropriate streaming metadata [see above](#streaming-user-property)
@@ -164,31 +178,20 @@ We need to provide timeout support for our streaming APIs to avoid scenarios suc
 
 - The invoker side is stuck waiting for the final response in a stream because it was lost or the executor side crashed before sending it.
 - The executor side is stuck waiting for the final request in a stream because it was lost or the invoker side crashed before sending it.
-- The broker delivers a request/response stream message that is "no longer relevant"
 
 #### Decision
 
-We will offer two layers of timeout configurations. 
- - Delivery timeout per message in the stream 
- - Overall timeout for the RPC as a whole.
+We will allow configuration on the invoker's side of a timeout for the RPC as a whole.
 
-##### Delivery timeout
+To enable this, each message in the request stream will include a value in the ```<rpc timeout milliseconds>``` portion of the ```__stream``` user property. This header should be sent in all request stream messages in case the first N request messages are lost due to timeout or otherwise.
 
-For the delivery timeout per message, the streaming command invoker and streaming command executor will assign the user-provided timeout as the message expiry interval in the associated MQTT PUBLISH packet. This allows the broker to discard the message if it wasn't delivered in time. Unlike normal RPC, though, the receiving end (invoker or executor) does not care about the message expiry interval.
-
-If the user specifies a delivery timeout of 0, the PUBLISH packet should not include a message expiry interval.
-
-##### RPC timeout
-
-For the overall RPC timeout, each message in the request stream will include a value in the ```<rpc timeout milliseconds>``` portion of the ```__stream``` user property. This header should be sent in all request stream messages in case the first N request messages are lost due to timeout or otherwise.
-
-The invoker side will start a countdown from this value after receiving the first PUBACK that ends with throwing a timeout exception to the user if the final stream response has not been received yet. The invoker should not send any further messages 
+The invoker side will start a countdown from this value after receiving the first PUBACK that ends with throwing a timeout exception to the user if the final stream response has not been received yet. The invoker should not send any further messages beyond this timeout.
 
 The executor side will start a countdown from this value after receiving the first PUBLISH in the request stream. At the end of the countdown, if the executor has not sent the final response in the response stream, the executor should return the ```timeout``` error code back to the invoker. The executor should also notify the user callback to stop. 
 
-Any request stream or response stream messages that are received by the executor/invoker after they have ended the timeout countdown should be acknowledged but otherwise ignored. This will require both parties to track correlationIds for timed out streams for a period of time beyond the expected end of the RPC so that any straggler messages are not treated as initiating a new stream.
+Any request stream or response stream messages that are received by the executor/invoker after they have ended the timeout countdown should be acknowledged but otherwise ignored. This will require both parties to track correlationIds for timed out streams for a period of time beyond the expected end of the RPC so that any post-timeout messages are not treated as initiating a new stream.
 
-An RPC timeout value of 0 will be treated as infinite timeout.
+If the request stream omits the timeout value in the ```__stream``` user property, the invoker and executor should treat the RPC as not having a timeout.
 
 This design does make the invoker start the countdown sooner than the executor, but the time difference is negligible in most circumstances.
 
@@ -202,7 +205,6 @@ This design does make the invoker start the countdown sooner than the executor, 
     - It doesn't account for scenarios where the invoker/executor dies unexpectedly (since gRPC relies on a direct connection between invoker and executor)
 - Use the message expiry interval of the first received message in a stream to indicate the RPC level timeout
   - Misuses the message expiry interval's purpose and could lead to broker storing messages for extended periods of time unintentionally
-  - The first message sent may not be the first message received
 
 ### Cancellation support
 
@@ -210,27 +212,36 @@ To avoid scenarios where long-running streaming requests/responses are no longer
 
 Since sending a cancellation request may fail (message expiry on broker side), the SDK API design should allow for the user to repeatedly call "cancel" and should return successfully once the other party has responded appropriately. 
 
-The proposed design for that would look like:
+#### .NET API design
+
+The proposed cancellation support would come from the return type on the invoker side and the provided type on the executor side:
 
 ```csharp
-
-public abstract class StreamingCommandInvoker<TReq, TResp>
-    where TReq : class
-    where TResp : class
+public interface ICancelableStreamContext<T>
+    where T : class
 {
-    public async Task CancelStreamingCommandAsync(Guid correlationId) {...}
-}
+    /// <summary>
+    /// The asynchronously readable entries in the stream.
+    /// </summary>
+    IAsyncEnumerable<T> Entries { get; set; }
 
-public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
-    where TReq : class
-    where TResp : class
-{
-    public async Task CancelStreamingCommandAsync(Guid correlationId) {...}
+    /// <summary>
+    /// Cancel this received RPC streaming request.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token for this cancellation request</param>
+    /// <remarks>
+    /// This method may be called by the streaming executor at any time. For instance, if the request stream
+    /// stalls unexpectedly, the executor can call this method to notify the invoker to stop sending requests.
+    /// Additionally, the executor can call this method if its response stream has stalled unexpectedly.
+    /// </remarks>
+    Task CancelAsync(CancellationToken cancellationToken = default);
+}oken cancellationToken = default);
 }
-
 ```
 
-where the user gets the correlationId from the ```CommandRequestMetadata``` they provide to the command invoker when invoking a command or the ```CommandResponseMetadata``` that the executor gives them upon receiving a streaming command.
+With this design, we can cancel a stream from either side at any time. For detailed examples, see the integration tests written [here](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/StreamingIntegrationTests.cs).
+
+### Protocol layer details
 
 #### Invoker side
 
