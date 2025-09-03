@@ -94,7 +94,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         }
 
         [Fact]
-        public async Task InvokerCanCancelWhileStreamingRequests()
+        public async Task InvokerCanCancelWhileStreamingRequests() //TODO does cancellation token trigger on executor side? Add to other tests as well
         {
             await using MqttSessionClient invokerMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using MqttSessionClient executorMqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
@@ -335,25 +335,11 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> GetStringstreamContextWithDelay()
-        {
-            for (int i = 0; i <= 10; i++)
-            {
-                yield return new()
-                {
-                    Response = $"Message {i}",
-                    StreamingResponseIndex = i,
-                };
-
-                await Task.Delay(TimeSpan.FromHours(1)); // Simulate asynchronous work that is stuck after the first request is sent
-            }
-        }
-
         private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerSingleResponse(ICancelableRequestStreamContext<string> stream, StreamRequestMetadata streamMetadata, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             await SaveReceivedRequests(stream, streamMetadata, cancellationToken);
 
-            await foreach (var response in GetStringStreamContext(3))
+            await foreach (var response in GetStringStreamContext(3).WithCancellation(cancellationToken))
             {
                 yield return response;
             }
@@ -363,7 +349,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         {
             await SaveReceivedRequests(stream, streamMetadata, cancellationToken);
 
-            await foreach (var response in GetStringStreamContext(3))
+            await foreach (var response in GetStringStreamContext(3).WithCancellation(cancellationToken))
             {
                 _sentResponses.TryAdd(streamMetadata.CorrelationId, new());
                 if (_sentResponses.TryGetValue(streamMetadata.CorrelationId, out var sentResponses))
@@ -399,7 +385,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
         {
             await SaveReceivedRequests(stream, streamMetadata, cancellationToken);
 
-            await foreach (var response in GetStringStreamContext(3))
+            await foreach (var response in GetStringStreamContext(3).WithCancellation(cancellationToken))
             {
                 _sentResponses.TryAdd(streamMetadata.CorrelationId, new());
                 if (_sentResponses.TryGetValue(streamMetadata.CorrelationId, out var sentResponses))
@@ -409,8 +395,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
                 yield return response;
 
-                //TODO cancellation token stuff
-                await Task.Delay(TimeSpan.FromHours(1));
+                await Task.Delay(TimeSpan.FromHours(1), cancellationToken);
             }
         }
 
