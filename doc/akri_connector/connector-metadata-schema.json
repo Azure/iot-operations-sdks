@@ -1,6 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "title": "JSON schema for Azure IoT Operations Connector Metadata 5.0-preview",
+  "description": "Schema that defines how to write a connector metadata document when writing connectors for Azure IoT Operations soluations",
   "aioConnectorMetadataSchemaVersion": "5.0-preview",
   "definitions": {
     "modelLimits": {
@@ -724,7 +726,7 @@
     },
     "recommendedAllocationPolicy": {
       "type": "string",
-      "description": "The recommended configuration to use for allocating device inbound endpoints for the connector instances",
+      "description": "The recommended configuration to use for allocating device inbound endpoints for the connector instances. Only 'bucketized' is currently supported.",
       "enum": ["bucketized"]
     },
     "recommendedReplicas": {
