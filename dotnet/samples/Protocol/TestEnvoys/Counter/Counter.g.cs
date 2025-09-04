@@ -198,7 +198,7 @@ namespace TestEnvoys.Counter
                 this.readCounterCommandInvoker = new ReadCounterCommandInvoker(applicationContext, mqttClient);
                 this.incrementCommandInvoker = new IncrementCommandInvoker(applicationContext, mqttClient);
                 this.resetCommandInvoker = new ResetCommandInvoker(applicationContext, mqttClient);
-                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry ;
+                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
 
                 if (topicTokenMap != null)
                 {

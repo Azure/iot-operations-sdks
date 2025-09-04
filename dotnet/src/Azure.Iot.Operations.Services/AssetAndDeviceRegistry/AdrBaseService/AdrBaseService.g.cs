@@ -467,8 +467,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 this.setNotificationPreferenceForDeviceUpdatesCommandInvoker = new SetNotificationPreferenceForDeviceUpdatesCommandInvoker(applicationContext, mqttClient);
                 this.setNotificationPreferenceForAssetUpdatesCommandInvoker = new SetNotificationPreferenceForAssetUpdatesCommandInvoker(applicationContext, mqttClient);
                 this.createOrUpdateDiscoveredAssetCommandInvoker = new CreateOrUpdateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
-                this.deviceUpdateEventTelemetryReceiver = new DeviceUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry ;
-                this.assetUpdateEventTelemetryReceiver = new AssetUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry ;
+                this.deviceUpdateEventTelemetryReceiver = new DeviceUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.assetUpdateEventTelemetryReceiver = new AssetUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
 
                 if (topicTokenMap != null)
                 {

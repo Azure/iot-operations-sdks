@@ -158,7 +158,7 @@ namespace TestEnvoys.CustomTopicTokens
                 this.mqttClient = mqttClient;
 
                 this.readCustomTopicTokenCommandInvoker = new ReadCustomTopicTokenCommandInvoker(applicationContext, mqttClient);
-                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry ;
+                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
 
                 if (topicTokenMap != null)
                 {

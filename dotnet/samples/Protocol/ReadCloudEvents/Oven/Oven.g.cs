@@ -116,7 +116,7 @@ namespace ReadCloudEvents.Oven
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
-                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry ;
+                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
 
                 if (topicTokenMap != null)
                 {

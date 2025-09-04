@@ -262,9 +262,9 @@ namespace TestEnvoys.Memmon
                 this.startTelemetryCommandInvoker = new StartTelemetryCommandInvoker(applicationContext, mqttClient);
                 this.stopTelemetryCommandInvoker = new StopTelemetryCommandInvoker(applicationContext, mqttClient);
                 this.getRuntimeStatsCommandInvoker = new GetRuntimeStatsCommandInvoker(applicationContext, mqttClient);
-                this.workingSetTelemetryReceiver = new WorkingSetTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry ;
-                this.managedMemoryTelemetryReceiver = new ManagedMemoryTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry ;
-                this.memoryStatsTelemetryReceiver = new MemoryStatsTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry ;
+                this.workingSetTelemetryReceiver = new WorkingSetTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.managedMemoryTelemetryReceiver = new ManagedMemoryTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.memoryStatsTelemetryReceiver = new MemoryStatsTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
 
                 if (topicTokenMap != null)
                 {

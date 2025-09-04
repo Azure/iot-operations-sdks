@@ -392,7 +392,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
-                this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(applicationContext, mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemEnvoyInfo, "receive")#> ;
+                this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(applicationContext, mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemEnvoyInfo, "receive")#> };
 <# } #>
 
                 if (topicTokenMap != null)
