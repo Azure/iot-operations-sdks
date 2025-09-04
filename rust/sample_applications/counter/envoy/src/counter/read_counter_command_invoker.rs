@@ -50,9 +50,9 @@ impl ReadCounterRequestBuilder {
     }
 
     /// Target executor ID
-    pub fn executor_id(&mut self, executor_id: &str) -> &mut Self {
+    pub fn executor_id(&mut self, executor_id: String) -> &mut Self {
         self.topic_tokens
-            .insert("executorId".to_string(), executor_id.to_string());
+            .insert("executorId".to_string(), executor_id.clone());
         self.set_executor_id = true;
         self
     }

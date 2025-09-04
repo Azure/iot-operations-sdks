@@ -92,6 +92,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 return new ExtendedResponse<byte[]> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
+
             public async ValueTask DisposeAsync()
             {
                 await this.invokeCommandExecutor.DisposeAsync().ConfigureAwait(false);
@@ -124,6 +125,7 @@ namespace Azure.Iot.Operations.Services.StateStore.StateStore
                 this.mqttClient = mqttClient;
 
                 this.invokeCommandInvoker = new InvokeCommandInvoker(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)

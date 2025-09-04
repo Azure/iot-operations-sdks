@@ -136,18 +136,18 @@
             return GetPrimitiveTypeFromJsonElement(rootElt, referencedElt, internalDefsKey, genNamespace, retriever);
         }
 
-        private bool TryGetNestedNullableJsonElement(ref JsonElement jsonELement)
+        private bool TryGetNestedNullableJsonElement(ref JsonElement jsonElement)
         {
-            if (jsonELement.TryGetProperty("anyOf", out JsonElement anyOfElt) && anyOfElt.ValueKind == JsonValueKind.Array)
+            if (jsonElement.TryGetProperty("anyOf", out JsonElement anyOfElt) && anyOfElt.ValueKind == JsonValueKind.Array)
             {
                 if (anyOfElt[0].TryGetProperty("type", out JsonElement typeElt) && typeElt.GetString() == "null")
                 {
-                    jsonELement = anyOfElt[1];
+                    jsonElement = anyOfElt[1];
                     return true;
                 }
                 else if (anyOfElt[1].TryGetProperty("type", out typeElt) && typeElt.GetString() == "null")
                 {
-                    jsonELement = anyOfElt[0];
+                    jsonElement = anyOfElt[0];
                     return true;
                 }
             }
