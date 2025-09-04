@@ -160,7 +160,7 @@ The command invoker will acknowledge all messages it receives that match the cor
 
 A streaming command executor should start by subscribing to the expected command topic
   - Even though the streaming command classes are separate from the existing RPC classes, they should also offer the same features around topic string pre/suffixing, custom topic token support, etc.
-  - The executor will use a shared subscription topic (exactly like how non-streaming RPC executors do)
+  - The executor will use a shared subscription topic (exactly like how non-streaming RPC executors do) so that each streaming request is received by only one executor
 
 Upon receiving a MQTT message that contains a streaming request, the streaming executor should notify the application layer that the first message in a request stream was received. Once the executor has notified the user that the first message in a request stream was received, the user should be able to provide a stream of responses. Upon receiving each response in that stream from the user, the executor will send an MQTT message for each streamed response with:
   - The same correlation data as the original request
