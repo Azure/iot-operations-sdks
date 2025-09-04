@@ -65,6 +65,10 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 {
                     throw new Exception($"Model {modelId} has at least one Property content but no {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PropTopicPropertyFormat)} property");
                 }
+                else if (!propertyTopic.Contains(MqttTopicTokens.PropertyAction) && propsElt.EnumerateArray().Any(p => p.TryGetProperty(AnnexFileProperties.PropWriteReqSchema, out _)))
+                {
+                    throw new Exception($"Model {modelId} has at least one writable Property content but {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PropTopicPropertyFormat)} does not contain {MqttTopicTokens.PropertyAction} token");
+                }
 
                 foreach (JsonElement propEl in propsElt.EnumerateArray())
                 {
