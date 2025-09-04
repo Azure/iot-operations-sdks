@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "aioConnectorMetadataSchemaVersion": "4.0-preview",
+  "aioConnectorMetadataSchemaVersion": "5.0-preview",
   "definitions": {
     "modelLimits": {
       "type": "object",
@@ -164,7 +164,7 @@
       "type": "string",
       "description": "The version of AIO connector metadata schema that this connector metadata file adheres to.",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9A-Za-z-][0-9A-Za-z-]*))*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$",
-      "default": "4.0-preview"
+      "default": "5.0-preview"
     },
     "name": {
       "type": "string",
@@ -721,6 +721,16 @@
           ]
         }
       ]
+    },
+    "recommendedAllocationPolicy": {
+      "type": "string",
+      "description": "The recommended configuration to use for allocating device inbound endpoints for the connector instances",
+      "enum": ["bucketized"]
+    },
+    "recommendedReplicas": {
+      "type": "integer",
+      "description": "The recommended number of replicas to deploy for this connector.",
+      "minimum": 1
     }
   },
   "required": [
