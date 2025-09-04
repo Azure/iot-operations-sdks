@@ -29,7 +29,7 @@
   },
   "events": {
 <# if (this.dtInterface.Telemetries.Any()) { #>
-<# if (this.telemetryTopic.Contains(MqttTopicTokens.TelemetryName)) { #>
+<# if (this.telemetryTopic?.Contains(MqttTopicTokens.TelemetryName) ?? false) { #>
 <# ix = 1; foreach (KeyValuePair<string, DTTelemetryInfo> dtTelemetry in this.dtInterface.Telemetries) { #>
 <#=this.thingDescriber.GetTelemetryAffordance(dtTelemetry.Value, this.usesTypes, this.contentType, this.telemetryTopic, this.telemServiceGroupId)#><#=ix < this.dtInterface.Telemetries.Count ? "," : ""#>
 <# ix++; } #>

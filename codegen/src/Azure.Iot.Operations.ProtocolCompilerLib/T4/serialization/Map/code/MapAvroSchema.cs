@@ -11,8 +11,9 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private readonly CodeName? sharedPrefix;
         private readonly HashSet<Dtmi> definedIds;
         private readonly int mqttVersion;
+        private readonly bool nullValues;
 
-        public MapAvroSchema(CodeName schema, DTSchemaInfo valueSchema, int indent, CodeName? sharedPrefix, HashSet<Dtmi> definedIds, int mqttVersion)
+        public MapAvroSchema(CodeName schema, DTSchemaInfo valueSchema, int indent, CodeName? sharedPrefix, HashSet<Dtmi> definedIds, int mqttVersion, bool nullValues)
         {
             this.schema = schema;
             this.valueSchema = valueSchema;
@@ -20,6 +21,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             this.sharedPrefix = sharedPrefix;
             this.definedIds = definedIds;
             this.mqttVersion = mqttVersion;
+            this.nullValues = nullValues;
         }
 
         public string FileName { get => string.Empty; }

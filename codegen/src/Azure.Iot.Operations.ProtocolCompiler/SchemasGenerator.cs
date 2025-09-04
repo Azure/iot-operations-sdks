@@ -29,6 +29,7 @@
             schemaGenerator.GenerateInterfaceAnnex(schemaWriter.Accept, sharedPrefix);
 
             schemaGenerator.GenerateTelemetrySchemas(schemaWriter.Accept, sharedPrefix);
+            schemaGenerator.GeneratePropertySchemas(schemaWriter.Accept, sharedPrefix);
             schemaGenerator.GenerateCommandSchemas(schemaWriter.Accept, sharedPrefix);
             schemaGenerator.GenerateObjects(schemaWriter.Accept, sharedPrefix);
             schemaGenerator.GenerateEnums(schemaWriter.Accept, sharedPrefix);

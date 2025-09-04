@@ -396,6 +396,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 }
             }
 
+
             public async ValueTask DisposeAsync()
             {
                 await this.getDeviceCommandExecutor.DisposeAsync().ConfigureAwait(false);
@@ -458,90 +459,31 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 this.mqttClient = mqttClient;
 
                 this.getDeviceCommandInvoker = new GetDeviceCommandInvoker(applicationContext, mqttClient);
+                this.getDeviceStatusCommandInvoker = new GetDeviceStatusCommandInvoker(applicationContext, mqttClient);
+                this.getAssetCommandInvoker = new GetAssetCommandInvoker(applicationContext, mqttClient);
+                this.getAssetStatusCommandInvoker = new GetAssetStatusCommandInvoker(applicationContext, mqttClient);
+                this.updateDeviceStatusCommandInvoker = new UpdateDeviceStatusCommandInvoker(applicationContext, mqttClient);
+                this.updateAssetStatusCommandInvoker = new UpdateAssetStatusCommandInvoker(applicationContext, mqttClient);
+                this.setNotificationPreferenceForDeviceUpdatesCommandInvoker = new SetNotificationPreferenceForDeviceUpdatesCommandInvoker(applicationContext, mqttClient);
+                this.setNotificationPreferenceForAssetUpdatesCommandInvoker = new SetNotificationPreferenceForAssetUpdatesCommandInvoker(applicationContext, mqttClient);
+                this.createOrUpdateDiscoveredAssetCommandInvoker = new CreateOrUpdateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
+                this.deviceUpdateEventTelemetryReceiver = new DeviceUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.assetUpdateEventTelemetryReceiver = new AssetUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.getDeviceCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.getDeviceStatusCommandInvoker = new GetDeviceStatusCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.getDeviceStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.getAssetCommandInvoker = new GetAssetCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.getAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.getAssetStatusCommandInvoker = new GetAssetStatusCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.getAssetStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.updateDeviceStatusCommandInvoker = new UpdateDeviceStatusCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.updateDeviceStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.updateAssetStatusCommandInvoker = new UpdateAssetStatusCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.updateAssetStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.setNotificationPreferenceForDeviceUpdatesCommandInvoker = new SetNotificationPreferenceForDeviceUpdatesCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.setNotificationPreferenceForAssetUpdatesCommandInvoker = new SetNotificationPreferenceForAssetUpdatesCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.setNotificationPreferenceForAssetUpdatesCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.createOrUpdateDiscoveredAssetCommandInvoker = new CreateOrUpdateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.createOrUpdateDiscoveredAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.deviceUpdateEventTelemetryReceiver = new DeviceUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.deviceUpdateEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.assetUpdateEventTelemetryReceiver = new AssetUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.assetUpdateEventTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }

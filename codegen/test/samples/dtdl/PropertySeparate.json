@@ -1,0 +1,152 @@
+﻿{
+  "@context": [
+    "dtmi:dtdl:context;4",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:requirement;1"
+  ],
+  "@id": "dtmi:test:PropertySeparate;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "propertyTopic": "test/PropertySeparate/{propertyName}/{action}",
+  "payloadFormat": "Json/ecma/404",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Alpha",
+      "schema": "integer"
+    },
+    {
+      "@type": "Property",
+      "name": "Beta",
+      "writable": true,
+      "schema": "integer"
+    },
+    {
+      "@type": "Property",
+      "name": "Gamma",
+      "schema": {
+        "@type": [ "Object", "PropertyResult" ],
+        "fields": [
+          {
+            "@type": [ "Field", "PropertyValue" ],
+            "name": "propValue",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "ReadError" ],
+            "name": "propError",
+            "schema": "dtmi:test:PropertySeparate:Error;1"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "Property",
+      "name": "Delta",
+      "writable": true,
+      "schema": {
+        "@type": [ "Object", "PropertyResult" ],
+        "fields": [
+          {
+            "@type": [ "Field", "PropertyValue" ],
+            "name": "propValue",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "ReadError", "WriteError" ],
+            "name": "propError",
+            "schema": "dtmi:test:PropertySeparate:Error;1"
+          }
+        ]
+      }
+    },
+    {
+      "@type": [ "Property", "Fragmented" ],
+      "name": "Zeta",
+      "writable": true,
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "propKey",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "propValue",
+          "schema": "integer"
+        }
+      }
+    },
+    {
+      "@type": [ "Property" ],
+      "name": "Eta",
+      "writable": true,
+      "schema": {
+        "@type": [ "Object", "PropertyResult" ],
+        "fields": [
+          {
+            "@type": [ "Field", "PropertyValue", "Fragmented" ],
+            "name": "propValue",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "propKey",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "propValue",
+                "schema": "integer"
+              }
+            }
+          },
+          {
+            "@type": [ "Field", "ReadError" ],
+            "name": "propReadError",
+            "schema": "dtmi:test:PropertySeparate:Error;1"
+          },
+          {
+            "@type": [ "Field", "WriteError" ],
+            "name": "propWriteError",
+            "schema": "dtmi:test:PropertySeparate:MultiWriteError;1"
+          }
+        ]
+      }
+    }
+  ],
+  "schemas": [
+    {
+      "@id": "dtmi:test:PropertySeparate:Error;1",
+      "@type": [ "Object", "Error" ],
+      "description": "The requested property read/write could not be completed.",
+      "fields": [
+        {
+          "@type": [ "Field", "ErrorMessage" ],
+          "name": "explanation",
+          "schema": "string"
+        },
+        {
+          "name": "details",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:test:PropertySeparate:MultiWriteError;1",
+      "@type": [ "Object", "Error" ],
+      "description": "The requested multiple property write could not be completed.",
+      "fields": [
+        {
+          "@type": [ "Field", "ErrorMessage" ],
+          "name": "explanation",
+          "schema": "string"
+        },
+        {
+          "name": "attemptedWriteCount",
+          "schema": "integer"
+        },
+        {
+          "name": "failedWriteCount",
+          "schema": "integer"
+        }
+      ]
+    }
+  ]
+}

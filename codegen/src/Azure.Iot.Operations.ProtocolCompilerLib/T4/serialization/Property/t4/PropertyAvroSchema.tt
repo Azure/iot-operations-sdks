@@ -1,0 +1,18 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+{
+  "namespace": "<#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.Independent)#>",
+  "name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
+  "type": "record",
+  "fields": [
+<# foreach (var nameDescSchemaIndexFrag in this.nameDescSchemaIndexFrags) { #>
+    {
+      "name": "<#=nameDescSchemaIndexFrag.Item1#>",
+      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndexFrag.Item3, indent: 6, this.sharedPrefix, nullable: !this.required, this.definedIds, this.mqttVersion, nullValues: nameDescSchemaIndexFrag.Item5)#>
+    }<#=this.IsLast(nameDescSchemaIndexFrag) ? "" : ","#>
+<# } #>
+  ]
+}
+<#+
+    private bool IsLast((string, string, DTSchemaInfo, int, bool) nameDescSchemaIndexFrag) => nameDescSchemaIndexFrag.Item1 == this.nameDescSchemaIndexFrags.Last().Item1;
+#>

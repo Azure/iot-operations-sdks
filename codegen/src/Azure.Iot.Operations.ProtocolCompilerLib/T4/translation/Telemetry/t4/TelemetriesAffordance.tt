@@ -31,7 +31,7 @@
 <# if (this.serviceGroupId != null) { #>
           "x-serviceGroupId": "<#=this.serviceGroupId#>",
 <# } #>
-          "x-topic": "<#=this.telemetryTopic#>"
+          "x-topic": "<#=this.telemetryTopic ?? ""#>"
         }
       ]
     }

@@ -135,6 +135,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 }
             }
 
+
             public async ValueTask DisposeAsync()
             {
                 await this.putCommandExecutor.DisposeAsync().ConfigureAwait(false);
@@ -170,18 +171,13 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 this.mqttClient = mqttClient;
 
                 this.putCommandInvoker = new PutCommandInvoker(applicationContext, mqttClient);
+                this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.putCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.getCommandInvoker = new GetCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.getCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }

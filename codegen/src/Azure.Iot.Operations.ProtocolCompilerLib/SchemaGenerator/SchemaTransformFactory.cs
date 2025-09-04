@@ -48,6 +48,30 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             }
         }
 
+        public static IEnumerable<ITemplateTransform> GetPropertySchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, ITypeName schema, List<(string, string, DTSchemaInfo, int, bool)> nameDescSchemaIndexFrags, CodeName? sharedPrefix, bool required, int mqttVersion)
+        {
+            switch (payloadFormat)
+            {
+                case PayloadFormat.Raw:
+                case PayloadFormat.Custom:
+                    throw new Exception($"PayloadFormat '{payloadFormat}' is not usable in an Interface that contains a Property");
+                case PayloadFormat.Avro:
+                    yield return new PropertyAvroSchema(projectName, genNamespace, schema, nameDescSchemaIndexFrags, sharedPrefix, required, mqttVersion);
+                    yield break;
+                case PayloadFormat.Cbor:
+                    yield return new PropertyJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, nameDescSchemaIndexFrags, sharedPrefix, required, setIndex: true);
+                    yield break;
+                case PayloadFormat.Json:
+                    yield return new PropertyJsonSchema(genNamespace, GetSchemaId(interfaceId, schema), schema, nameDescSchemaIndexFrags, sharedPrefix, required, setIndex: false);
+                    yield break;
+                case PayloadFormat.Proto2:
+                case PayloadFormat.Proto3:
+                    throw new Exception($"PayloadFormat '{payloadFormat}' is not usable in an Interface that contains a Property");
+                default:
+                    throw GetFormatNotRecognizedException(payloadFormat);
+            }
+        }
+
         public static IEnumerable<ITemplateTransform> GetCommandSchemaTransforms(string payloadFormat, string projectName, CodeName genNamespace, Dtmi interfaceId, ITypeName schema, string commandName, string subType, string paramName, DTSchemaInfo paramSchema, CodeName? sharedPrefix, int mqttVersion, bool isNullable)
         {
             switch (payloadFormat)
@@ -75,6 +99,29 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 case PayloadFormat.Proto3:
                     yield return new CommandProto3(projectName, genNamespace, schema, paramName, paramSchema, isNullable);
                     yield break;
+                default:
+                    throw GetFormatNotRecognizedException(payloadFormat);
+            }
+        }
+
+        public static IEnumerable<ITemplateTransform> GetSinglePropertyResponseSchemaTransforms(ITypeName schema, CodeName errorSchema, string payloadFormat, CodeName genNamespace, bool includeValue)
+        {
+            switch (payloadFormat)
+            {
+                case PayloadFormat.Raw:
+                case PayloadFormat.Custom:
+                    throw new Exception($"PayloadFormat '{payloadFormat}' is not usable in an Interface that contains a Property");
+                case PayloadFormat.Avro:
+                    yield break;
+                case PayloadFormat.Cbor:
+                    yield return new AggregateResponseJsonSchema(genNamespace, schema, errorSchema, includeValue, setIndex: true);
+                    yield break;
+                case PayloadFormat.Json:
+                    yield return new AggregateResponseJsonSchema(genNamespace, schema, errorSchema, includeValue, setIndex: false);
+                    yield break;
+                case PayloadFormat.Proto2:
+                case PayloadFormat.Proto3:
+                    throw new Exception($"PayloadFormat '{payloadFormat}' is not usable in an Interface that contains a Property");
                 default:
                     throw GetFormatNotRecognizedException(payloadFormat);
             }

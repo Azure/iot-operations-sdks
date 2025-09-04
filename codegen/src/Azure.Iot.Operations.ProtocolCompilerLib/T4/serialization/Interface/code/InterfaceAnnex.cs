@@ -17,6 +17,8 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         public static string? TelemetryTopic { get; } = AnnexFileProperties.TelemetryTopic;
 
+        public static string? PropertyTopic { get; } = AnnexFileProperties.PropertyTopic;
+
         public static string? CommandRequestTopic { get; } = AnnexFileProperties.CommandRequestTopic;
 
         public static string? TelemServiceGroupId { get; } = AnnexFileProperties.TelemServiceGroupId;
@@ -28,6 +30,38 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         public static string? TelemName { get; } = AnnexFileProperties.TelemName;
 
         public static string? TelemSchema { get; } = AnnexFileProperties.TelemSchema;
+
+        public static string? PropertyList { get; } = AnnexFileProperties.PropertyList;
+
+        public static string? PropName { get; } = AnnexFileProperties.PropName;
+
+        public static string? PropSchema { get; } = AnnexFileProperties.PropSchema;
+
+        public static string? PropReadRespSchema { get; } = AnnexFileProperties.PropReadRespSchema;
+
+        public static string? PropReadRespNamespace { get; } = AnnexFileProperties.PropReadRespNamespace;
+
+        public static string? PropWriteReqSchema { get; } = AnnexFileProperties.PropWriteReqSchema;
+
+        public static string? PropWriteReqNamespace { get; } = AnnexFileProperties.PropWriteReqNamespace;
+
+        public static string? PropWriteRespSchema { get; } = AnnexFileProperties.PropWriteRespSchema;
+
+        public static string? PropWriteRespNamespace { get; } = AnnexFileProperties.PropWriteRespNamespace;
+
+        public static string? PropValueName { get; } = AnnexFileProperties.PropValueName;
+
+        public static string? PropReadErrorName { get; } = AnnexFileProperties.PropReadErrorName;
+
+        public static string? PropReadErrorSchema { get; } = AnnexFileProperties.PropReadErrorSchema;
+
+        public static string? PropReadErrorNamespace { get; } = AnnexFileProperties.PropReadErrorNamespace;
+
+        public static string? PropWriteErrorName { get; } = AnnexFileProperties.PropWriteErrorName;
+
+        public static string? PropWriteErrorSchema { get; } = AnnexFileProperties.PropWriteErrorSchema;
+
+        public static string? PropWriteErrorNamespace { get; } = AnnexFileProperties.PropWriteErrorNamespace;
 
         public static string? CommandList { get; } = AnnexFileProperties.CommandList;
 
@@ -87,7 +121,17 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         public static string? ErrorMessageIsNullable { get; } = AnnexFileProperties.ErrorMessageIsNullable;
 
+        public static string? AggregateErrorList { get; } = AnnexFileProperties.AggregateErrorList;
+
+        public static string? InnerErrorList { get; } = AnnexFileProperties.InnerErrorList;
+
+        public static string? InnerErrorName { get; } = AnnexFileProperties.InnerErrorName;
+
+        public static string? InnerErrorSchema { get; } = AnnexFileProperties.InnerErrorSchema;
+
         public static string? TelemSeparate { get; } = AnnexFileProperties.TelemSeparate;
+
+        public static string? PropSeparate { get; } = AnnexFileProperties.PropSeparate;
 
         private readonly string projectName;
         private readonly CodeName genNamespace;
@@ -96,13 +140,17 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private readonly string serializationFormat;
         private readonly CodeName serviceName;
         private readonly string? telemTopicPattern;
+        private readonly string? propTopicPattern;
         private readonly string? cmdTopicPattern;
         private readonly string? telemServiceGroupId;
         private readonly string? cmdServiceGroupId;
         private readonly List<TelemetrySchemaInfo> telemSchemaInfos;
+        private readonly List<PropertySchemaInfo> propSchemaInfos;
         private readonly List<CommandSchemaInfo> cmdSchemaInfos;
         private readonly List<ErrorSchemaInfo> errSchemaInfos;
+        private readonly List<AggregateErrorSchemaInfo> aggregateErrSchemaInfos;
         private readonly bool separateTelemetries;
+        private readonly bool separateProperties;
 
         public InterfaceAnnex(
             string projectName,
@@ -112,13 +160,17 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             string serializationFormat,
             CodeName serviceName,
             string? telemTopicPattern,
+            string? propTopicPattern,
             string? cmdTopicPattern,
             string? telemServiceGroupId,
             string? cmdServiceGroupId,
             List<TelemetrySchemaInfo> telemSchemaInfos,
+            List<PropertySchemaInfo> propSchemaInfos,
             List<CommandSchemaInfo> cmdSchemaInfos,
             List<ErrorSchemaInfo> errSchemaInfos,
-            bool separateTelemetries)
+            List<AggregateErrorSchemaInfo> aggregateErrSchemaInfos,
+            bool separateTelemetries,
+            bool separateProperties)
         {
             this.projectName = projectName;
             this.genNamespace = genNamespace;
@@ -127,13 +179,17 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             this.serializationFormat = serializationFormat;
             this.serviceName = serviceName;
             this.telemTopicPattern = telemTopicPattern;
+            this.propTopicPattern = propTopicPattern;
             this.cmdTopicPattern = cmdTopicPattern;
             this.telemServiceGroupId = telemServiceGroupId;
             this.cmdServiceGroupId = cmdServiceGroupId;
             this.telemSchemaInfos = telemSchemaInfos;
+            this.propSchemaInfos = propSchemaInfos;
             this.cmdSchemaInfos = cmdSchemaInfos;
             this.errSchemaInfos = errSchemaInfos;
+            this.aggregateErrSchemaInfos = aggregateErrSchemaInfos;
             this.separateTelemetries = separateTelemetries;
+            this.separateProperties = separateProperties;
         }
 
         public string FileName { get => $"{this.serviceName.GetFileName(TargetLanguage.Independent)}.annex.json"; }

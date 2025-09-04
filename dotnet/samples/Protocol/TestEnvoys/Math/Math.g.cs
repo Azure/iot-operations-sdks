@@ -124,6 +124,7 @@ namespace TestEnvoys.Math
                 return new ExtendedResponse<GetRandomResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
+
             public async ValueTask DisposeAsync()
             {
                 await this.isPrimeCommandExecutor.DisposeAsync().ConfigureAwait(false);
@@ -162,26 +163,15 @@ namespace TestEnvoys.Math
                 this.mqttClient = mqttClient;
 
                 this.isPrimeCommandInvoker = new IsPrimeCommandInvoker(applicationContext, mqttClient);
+                this.fibCommandInvoker = new FibCommandInvoker(applicationContext, mqttClient);
+                this.getRandomCommandInvoker = new GetRandomCommandInvoker(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.isPrimeCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.fibCommandInvoker = new FibCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.fibCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.getRandomCommandInvoker = new GetRandomCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.getRandomCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }

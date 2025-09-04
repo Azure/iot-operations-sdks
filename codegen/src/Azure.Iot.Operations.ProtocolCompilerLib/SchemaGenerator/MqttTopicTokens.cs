@@ -34,5 +34,25 @@
         /// Token representing the ID of a Telemetry sender, should be used only in Telemetry topic patterns.
         /// </summary>
         public const string TelemetrySenderId = "{senderId}";
+
+        /// <summary>
+        /// Token representing the name of a Property.
+        /// </summary>
+        public const string PropertyName = "{propertyName}";
+
+        /// <summary>
+        /// Token representing the ID of a Property maintainer, should be used only in Property topic patterns.
+        /// </summary>
+        public const string PropertyMaintainerId = "{maintainerId}";
+
+        /// <summary>
+        /// Token representing the MQTT Client ID of a Property consumer, should be used only in Property topic patterns.
+        /// </summary>
+        public const string PropertyConsumerId = "{consumerClientId}";
+
+        /// <summary>
+        /// Token representing a Property action, 'read' or 'write'.
+        /// </summary>
+        public const string PropertyAction = "{action}";
     }
 }

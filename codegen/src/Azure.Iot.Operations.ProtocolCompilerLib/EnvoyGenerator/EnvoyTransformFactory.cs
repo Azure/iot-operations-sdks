@@ -28,8 +28,10 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             CodeName serviceName = new CodeName(annexDocument.RootElement.GetProperty(AnnexFileProperties.ServiceName).GetString()!);
             string genFormat = annexDocument.RootElement.GetProperty(AnnexFileProperties.PayloadFormat).GetString()!;
             bool separateTelemetries = annexDocument.RootElement.GetProperty(AnnexFileProperties.TelemSeparate).GetBoolean();
+            bool separateProperties = annexDocument.RootElement.GetProperty(AnnexFileProperties.PropSeparate).GetBoolean();
 
             string? telemetryTopic = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.TelemetryTopic, out JsonElement telemTopicElt) ? telemTopicElt.GetString() : null;
+            string? propertyTopic = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.PropertyTopic, out JsonElement propTopicElt) ? propTopicElt.GetString() : null;
             string? commandTopic = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.CommandRequestTopic, out JsonElement cmdTopicElt) ? cmdTopicElt.GetString() : null;
             string? telemServiceGroupId = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.TelemServiceGroupId, out JsonElement tGroupIdElt) ? tGroupIdElt.GetString() : null;
             string? cmdServiceGroupId = annexDocument.RootElement.TryGetProperty(AnnexFileProperties.CmdServiceGroupId, out JsonElement cGroupIdElt) ? cGroupIdElt.GetString() : null;
@@ -38,6 +40,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             string? normalizedVersionSuffix = version?.Replace(".", "_");
 
             List<CommandEnvoyInfo> cmdEnvoyInfos = new();
+            List<PropertyEnvoyInfo> propEnvoyInfos = new();
             List<TelemetryEnvoyInfo> telemEnvoyInfos = new();
 
             if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.TelemetryList, out JsonElement telemsElt) && telemsElt.GetArrayLength() > 0)
@@ -50,6 +53,26 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 foreach (JsonElement telemEl in telemsElt.EnumerateArray())
                 {
                     foreach (ITemplateTransform templateTransform in GetTelemetryTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, telemEl, telemEnvoyInfos, workingPath, generateClient, generateServer, useSharedSubscription: telemServiceGroupId != null))
+                    {
+                        yield return templateTransform;
+                    }
+                }
+            }
+
+            if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.PropertyList, out JsonElement propsElt) && propsElt.GetArrayLength() > 0)
+            {
+                if (propertyTopic == null)
+                {
+                    throw new Exception($"Model {modelId} has at least one Property content but no {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PropTopicPropertyFormat)} property");
+                }
+                else if (!propertyTopic.Contains(MqttTopicTokens.PropertyAction) && propsElt.EnumerateArray().Any(p => p.TryGetProperty(AnnexFileProperties.PropWriteReqSchema, out _)))
+                {
+                    throw new Exception($"Model {modelId} has at least one writable Property content but {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PropTopicPropertyFormat)} does not contain {MqttTopicTokens.PropertyAction} token");
+                }
+
+                foreach (JsonElement propEl in propsElt.EnumerateArray())
+                {
+                    foreach (ITemplateTransform templateTransform in GetPropertyTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, propEl, propEnvoyInfos, workingPath, generateClient, generateServer))
                     {
                         yield return templateTransform;
                     }
@@ -78,7 +101,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 }
             }
 
-            if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.ErrorList, out JsonElement errsElt) && errsElt.GetArrayLength() > 0)
+            if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.ErrorList, out JsonElement errsElt))
             {
                 foreach (JsonElement errEl in errsElt.EnumerateArray())
                 {
@@ -89,7 +112,18 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 }
             }
 
-            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, sharedNamespace, modelId, serviceName, genFormat, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, sharedPrefix, genRoot, generateClient, generateServer, defaultImpl, separateTelemetries))
+            if (annexDocument.RootElement.TryGetProperty(AnnexFileProperties.AggregateErrorList, out JsonElement aggErrsElt))
+            {
+                foreach (JsonElement aggErrEl in aggErrsElt.EnumerateArray())
+                {
+                    foreach (ITemplateTransform templateTranform in GetAggregateErrorTransforms(language, projectName, genNamespace, genFormat, workingPath, aggErrEl))
+                    {
+                        yield return templateTranform;
+                    }
+                }
+            }
+
+            foreach (ITemplateTransform templateTransform in GetServiceTransforms(language, projectName, genNamespace, sharedNamespace, modelId, serviceName, genFormat, commandTopic, propertyTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, propEnvoyInfos, telemEnvoyInfos, sharedPrefix, genRoot, generateClient, generateServer, defaultImpl, separateTelemetries, separateProperties))
             {
                 yield return templateTransform;
             }
@@ -199,6 +233,57 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             }
 
             telemEnvoyInfos.Add(new TelemetryEnvoyInfo(telemetryName, schemaType));
+        }
+
+        private static IEnumerable<ITemplateTransform> GetPropertyTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, JsonElement propElt, List<PropertyEnvoyInfo> propEnvoyInfos, string? workingPath, bool generateClient, bool generateServer)
+        {
+            string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
+            string serializerClassName = formatSerializers[genFormat].ClassName;
+            EmptyTypeName serializerEmptyType = formatSerializers[genFormat].EmptyType;
+
+            CodeName? propertyName = propElt.TryGetProperty(AnnexFileProperties.PropName, out JsonElement nameElt) ? new CodeName(nameElt.GetString()!) : null;
+            CodeName propSchema = new CodeName(propElt.GetProperty(AnnexFileProperties.PropSchema).GetString()!);
+            CodeName readResponseSchema = new CodeName(propElt.GetProperty(AnnexFileProperties.PropReadRespSchema).GetString()!);
+            CodeName? readRespNamespace = propElt.TryGetProperty(AnnexFileProperties.PropReadRespNamespace, out JsonElement readRespNamespaceElt) ? new(readRespNamespaceElt.GetString()!) : null;
+            CodeName? writeRequestSchema = propElt.TryGetProperty(AnnexFileProperties.PropWriteReqSchema, out JsonElement writeRequestSchemaElt) ? new(writeRequestSchemaElt.GetString()!) : null;
+            CodeName? writeReqNamespace = propElt.TryGetProperty(AnnexFileProperties.PropWriteReqNamespace, out JsonElement writeReqNamespaceElt) ? new(writeReqNamespaceElt.GetString()!) : null;
+            CodeName? writeResponseSchema = propElt.TryGetProperty(AnnexFileProperties.PropWriteRespSchema, out JsonElement writeResponseSchemaElt) ? new(writeResponseSchemaElt.GetString()!) : null;
+            CodeName? writeRespNamespace = propElt.TryGetProperty(AnnexFileProperties.PropWriteRespNamespace, out JsonElement writeRespNamespaceElt) ? new(writeRespNamespaceElt.GetString()!) : null;
+            CodeName? propValueName = propElt.TryGetProperty(AnnexFileProperties.PropValueName, out JsonElement propValueNameElt) ? new(propValueNameElt.GetString()!) : null;
+            CodeName? readErrorName = propElt.TryGetProperty(AnnexFileProperties.PropReadErrorName, out JsonElement readErrorNameElt) ? new(readErrorNameElt.GetString()!) : null;
+            CodeName? readErrorSchema = propElt.TryGetProperty(AnnexFileProperties.PropReadErrorSchema, out JsonElement readErrorSchemaElt) ? new(readErrorSchemaElt.GetString()!) : null;
+            CodeName? writeErrorName = propElt.TryGetProperty(AnnexFileProperties.PropWriteErrorName, out JsonElement writeErrorNameElt) ? new(writeErrorNameElt.GetString()!) : null;
+            CodeName? writeErrorSchema = propElt.TryGetProperty(AnnexFileProperties.PropWriteErrorSchema, out JsonElement writeErrorSchemaElt) ? new(writeErrorSchemaElt.GetString()!) : null;
+
+            switch (language)
+            {
+                case "csharp":
+                    if (generateServer)
+                    {
+                        yield return new DotNetPropertyMaintainer(propertyName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, readResponseSchema, readRespNamespace, writeRequestSchema, writeReqNamespace, writeResponseSchema, writeRespNamespace);
+                    }
+
+                    if (generateClient)
+                    {
+                        yield return new DotNetPropertyConsumer(propertyName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, readResponseSchema, readRespNamespace, writeRequestSchema, writeReqNamespace, writeResponseSchema, writeRespNamespace);
+                    }
+
+                    break;
+                case "go":
+                    break;
+                case "java":
+                    break;
+                case "python":
+                    break;
+                case "rust":
+                    break;
+                case "c":
+                    break;
+                default:
+                    throw GetLanguageNotRecognizedException(language);
+            }
+
+            propEnvoyInfos.Add(new PropertyEnvoyInfo(propertyName, propSchema, readResponseSchema, writeRequestSchema, writeResponseSchema, propValueName, readErrorName, readErrorSchema, writeErrorName, writeErrorSchema));
         }
 
         private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<CommandEnvoyInfo> cmdEnvoyInfos, string? normalizedVersionSuffix, string? workingPath, bool generateClient, bool generateServer, bool useSharedSubscription)
@@ -405,10 +490,37 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             }
         }
 
-        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, CodeName genNamespace, CodeName? sharedNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<CommandEnvoyInfo> cmdEnvoyInfos, List<TelemetryEnvoyInfo> telemEnvoyInfos, CodeName? sharedPrefix, string genRoot, bool generateClient, bool generateServer, bool defaultImpl, bool separateTelemetries)
+        private static IEnumerable<ITemplateTransform> GetAggregateErrorTransforms(string language, string projectName, CodeName genNamespace, string genFormat, string? workingPath, JsonElement aggErrElt)
+        {
+            CodeName schemaName = new CodeName(aggErrElt.GetProperty(AnnexFileProperties.ErrorSchema).GetString()!);
+            CodeName schemaNamespace = aggErrElt.TryGetProperty(AnnexFileProperties.ErrorNamespace, out JsonElement namespaceElt) ? new CodeName(namespaceElt.GetString()!) : genNamespace;
+            List<(CodeName, CodeName)> innerNameSchemas = aggErrElt.GetProperty(AnnexFileProperties.InnerErrorList).EnumerateArray().Select(ie => (new CodeName(ie.GetProperty(AnnexFileProperties.InnerErrorName).GetString()!), new CodeName(ie.GetProperty(AnnexFileProperties.InnerErrorSchema).GetString()!))).ToList();
+
+            switch (language)
+            {
+                case "csharp":
+                    yield return new DotNetAggregateError(projectName, schemaName, schemaNamespace, innerNameSchemas);
+                    break;
+                case "go":
+                    break;
+                case "java":
+                    break;
+                case "python":
+                    break;
+                case "rust":
+                    break;
+                case "c":
+                    break;
+                default:
+                    throw GetLanguageNotRecognizedException(language);
+            }
+        }
+
+        private static IEnumerable<ITemplateTransform> GetServiceTransforms(string language, string projectName, CodeName genNamespace, CodeName? sharedNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, string? propertyTopic, string? telemetryTopic, string? cmdServiceGroupId, string? telemServiceGroupId, List<CommandEnvoyInfo> cmdEnvoyInfos, List<PropertyEnvoyInfo> propEnvoyInfos, List<TelemetryEnvoyInfo> telemEnvoyInfos, CodeName? sharedPrefix, string genRoot, bool generateClient, bool generateServer, bool defaultImpl, bool separateTelemetries, bool separateProperties)
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
+            bool doesPropertyTargetMaintainer = DoesTopicReferToMaintainer(commandTopic);
             bool doesTelemetryTargetService = DoesTopicReferToService(telemetryTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             EmptyTypeName serializerEmptyType = formatSerializers[genFormat].EmptyType;
@@ -416,7 +528,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             switch (language)
             {
                 case "csharp":
-                    yield return new DotNetService(projectName, genNamespace, sharedNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService, generateClient, generateServer, defaultImpl);
+                    yield return new DotNetService(projectName, genNamespace, sharedNamespace, serviceName, serializerSubNamespace, serializerEmptyType, commandTopic, propertyTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, propEnvoyInfos, telemEnvoyInfos, doesCommandTargetExecutor, doesCommandTargetService, doesPropertyTargetMaintainer, doesTelemetryTargetService, generateClient, generateServer, defaultImpl, separateProperties);
                     break;
                 case "go":
                     yield return new GoService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, doesCommandTargetService, doesTelemetryTargetService, generateClient, generateServer, separateTelemetries);
@@ -506,6 +618,11 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         private static bool DoesTopicReferToExecutor(string? topic)
         {
             return topic != null && topic.Contains(MqttTopicTokens.CommandExecutorId);
+        }
+
+        private static bool DoesTopicReferToMaintainer(string? topic)
+        {
+            return topic != null && topic.Contains(MqttTopicTokens.PropertyMaintainerId);
         }
 
         private static bool DoesTopicReferToService(string? topic)

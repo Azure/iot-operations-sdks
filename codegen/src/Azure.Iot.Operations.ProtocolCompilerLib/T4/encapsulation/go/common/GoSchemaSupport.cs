@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             return schemaType switch
             {
                 ArrayType arrayType => $"[]{GetType(arrayType.ElementSchema, true)}",
-                MapType mapType => $"map[string]{GetType(mapType.ValueSchema, true)}",
+                MapType mapType => $"map[string]{GetType(mapType.ValueSchema, !mapType.NullValues)}",
                 ObjectType objectType => $"{optRef}{objectType.SchemaName.GetTypeName(TargetLanguage.Go)}",
                 EnumType enumType => $"{optRef}{enumType.SchemaName.GetTypeName(TargetLanguage.Go)}",
                 BooleanType _ => $"{optRef}bool",

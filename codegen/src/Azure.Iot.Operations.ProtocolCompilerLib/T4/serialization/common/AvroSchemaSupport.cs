@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
     public static class AvroSchemaSupport
     {
-        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, CodeName? sharedPrefix, bool nullable, HashSet<Dtmi> definedIds, int mqttVersion)
+        public static string GetTypeAndAddenda(DTSchemaInfo dtSchema, int indent, CodeName? sharedPrefix, bool nullable, HashSet<Dtmi> definedIds, int mqttVersion, bool nullValues = false)
         {
             CodeName schemaId = new CodeName(dtSchema.Id);
 
@@ -46,7 +46,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             if (dtSchema.EntityKind == DTEntityKind.Map)
             {
                 definedIds.Add(dtSchema.Id);
-                var templateTransform = new MapAvroSchema(schemaId, ((DTMapInfo)dtSchema).MapValue.Schema, indent, sharedPrefix, definedIds, mqttVersion);
+                var templateTransform = new MapAvroSchema(schemaId, ((DTMapInfo)dtSchema).MapValue.Schema, indent, sharedPrefix, definedIds, mqttVersion, nullValues);
                 return templateTransform.TransformText();
             }
 

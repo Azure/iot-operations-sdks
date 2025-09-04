@@ -84,6 +84,7 @@ namespace ReadCloudEvents.Oven
                 await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
+
             public async ValueTask DisposeAsync()
             {
                 await this.telemetrySender.DisposeAsync().ConfigureAwait(false);
@@ -116,6 +117,7 @@ namespace ReadCloudEvents.Oven
                 this.mqttClient = mqttClient;
 
                 this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)

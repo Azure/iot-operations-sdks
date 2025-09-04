@@ -4,8 +4,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum SchemaRegistryErrorTarget {
-    #[serde(rename = "SchemaRegistryResource")]
-    SchemaRegistryArmResource,
     #[serde(rename = "Description")]
     DescriptionProperty,
     #[serde(rename = "DisplayName")]
@@ -18,6 +16,8 @@ pub enum SchemaRegistryErrorTarget {
     SchemaArmResource,
     #[serde(rename = "SchemaContent")]
     SchemaContentProperty,
+    #[serde(rename = "SchemaRegistryResource")]
+    SchemaRegistryArmResource,
     #[serde(rename = "SchemaType")]
     SchemaTypeProperty,
     #[serde(rename = "SchemaVersionArmResource")]
