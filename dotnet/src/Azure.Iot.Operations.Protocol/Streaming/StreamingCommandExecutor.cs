@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <remarks>
         /// The callback provides the stream of requests and requires the user to return one to many responses.
         /// </remarks>
-        public required Func<ICancelableStreamContext<StreamingExtendedRequest<TReq>>, RequestStreamMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+        public required Func<IStreamContext<StreamingExtendedRequest<TReq>>, RequestStreamMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 
         public string? ExecutorId { get; init; }
 
@@ -50,18 +50,25 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
         public Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {
+            // TODO: derive the expected request topic (like command executor does)
+
+            // TODO: subscribe to the shared subscription prefixed request topic
+
             throw new NotImplementedException();
         }
 
         public Task StopAsync(CancellationToken cancellationToken = default)
         {
+            // TODO: Unsubscribe from the request topic derived in StartAsync
+
             throw new NotImplementedException();
         }
 
-        public ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
+            await StopAsync();
+
             GC.SuppressFinalize(this);
-            return ValueTask.CompletedTask;
         }
     }
 }

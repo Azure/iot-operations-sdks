@@ -15,7 +15,9 @@ Users have expressed a desire to allow more than one request and/or more than on
  - Allow for invoker + executor to send their requests/responses at arbitrary* times
    - For instance, executor may send 1 response upon receiving 1 request, or it may wait for the request stream to finish before sending the first response
    - Alternatively, this allows the invoker to send a request upon receiving a response
-   - *The only limitations are that the invoker must initiate the RPC with a request and the executor must end the RPC with a response
+   - *The only limitation is that the invoker must initiate the RPC streaming with a request
+ - Allow for invoker/executor to end their own request/response stream gracefully at any time
+   - For instance, if the executor doesn't know if a response will be the last one prior to sending it, the executor should still be capable of ending the response stream later without sending another fully-fledged payload
 
 ## Non-requirements
 
@@ -84,7 +86,7 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     where TResp : class
 {
     // Many requests, many responses.
-        public async Task<ICancelableStreamContext<TResp>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, StreamRequestMetadata? streamRequestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default) {...}
+    public async Task<IStreamContext<StreamingExtendedResponse<TResp?>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, StreamRequestMetadata? streamRequestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default) {...}
 }
 ```
 
@@ -103,7 +105,7 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
     /// <remarks>
     /// The callback provides the stream of requests and requires the user to return one to many responses.
     /// </remarks>
-    public required Func<ICancelableStreamContext<TReq>, StreamRequestMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+    public required Func<IStreamContext<StreamingExtendedRequest<TReq?>, StreamRequestMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 
 }
 
@@ -150,9 +152,15 @@ Once the user invokes a streaming command, the streaming command invoker will se
   - The same correlation data
   - The appropriate streaming metadata [see above](#streaming-user-property)
   - The serialized payload as provided by the user's request object
-  - Any user-definied metadata as specified in the ```ExtendedRequest```
+  - Any user-definied metadata as specified in the ```ExtendedStreamingRequest```
 
 Once the stream of requests has started sending, the streaming command invoker should expect the stream of responses to arrive on the provided response topic with the provided correlation data and the streaming user property.
+
+Once the user-supplied stream of request messages has ended, the streaming command invoker should send one final message to the same topic/with the same correlation data with no payload and with the 'isLast' flag set in the '__stream' metadata bundle.  
+
+Upon receiving an MQTT message in the response stream with the 'isLast' flag set in the '__stream' metadata, the streaming command invoker should notify the user that the stream of responses has ended. This particular message should not contain any payload or other user properties, so the message _should not_ be propagated to the user as if it were part of the response stream.
+
+If a streaming command invoker receives an MQTT message with the 'isLast' flag set but has not received any other messages in that response stream, the invoker should log an error, acknowledge the message, but otherwise ignore it. A stream of responses must have at least one entry.
 
 The command invoker will acknowledge all messages it receives that match the correlation data of a known streaming command.
 
@@ -167,11 +175,15 @@ Upon receiving a MQTT message that contains a streaming request, the streaming e
   - The topic as specified by the original request's response topic field
   - The appropriate streaming metadata [see above](#streaming-user-property)
   - The serialized payload as provided by the user's response object
-  - Any user-definied metadata as specified in the ```ExtendedResponse```
+  - Any user-definied metadata as specified in the ```ExtendedStreamingResponse```
 
-Unlike normal RPC, the streaming command executor will not provide any cache support. This is because streams may grow indefinitely in length and size.
+Upon receiving an MQTT message in the request stream with the 'isLast' flag set in the '__stream' metadata, the streaming executor should notify the user that the stream of requests has ended. This particular message should not contain any payload or other user properties, so the message _should not_ be propagated to the user as if it were part of the request stream.
 
-Also unlike normal RPC, the stream command executor should acknowledge the MQTT message of a received stream request as soon as the user has been notified about it. We cannot defer acknowledging the stream request messages until after the full command has finished as streams may run indefinitely and we don't want to block other users of the MQTT client.
+If a streaming command executor receives an MQTT message with the 'isLast' flag set but has not received any other messages in that request stream, the executor should log an error, acknowledge the message, but otherwise ignore it. A stream of requests must have at least one entry.
+
+Unlike normal RPC, the stream command executor should acknowledge the MQTT message of a received stream request as soon as the user has been notified about it. We cannot defer acknowledging the stream request messages until after the full command has finished as streams may run indefinitely and we don't want to block other users of the MQTT client.
+
+Also unlike normal RPC, the streaming command executor will not provide any cache support. This is because streams may grow indefinitely in length and size. 
 
 ### Timeout support
 
@@ -218,7 +230,7 @@ Since sending a cancellation request may fail (message expiry on broker side), t
 The proposed cancellation support would come from the return type on the invoker side and the provided type on the executor side:
 
 ```csharp
-public interface ICancelableStreamContext<T>
+public interface IStreamContext<T>
     where T : class
 {
     /// <summary>

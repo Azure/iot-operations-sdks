@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning disable CS0168 // Variable is declared but never used
 
 namespace Azure.Iot.Operations.Protocol.Streaming
 {
-    //TODO if we allow simultaneous request + response streaming, does it have to end with a response message? Does the final request have to happen prior to the final response message?
     public abstract class StreamingCommandInvoker<TReq, TResp> : IAsyncDisposable
         where TReq : class
         where TResp : class
@@ -60,8 +60,23 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// </remarks>
         public string? ResponseTopicPattern { get; set; }
 
-        public Task<ICancelableStreamContext<StreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, RequestStreamMetadata? streamRequestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+        public async Task<IStreamContext<StreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, RequestStreamMetadata? streamMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? streamExchangeTimeout = default, CancellationToken cancellationToken = default)
         {
+            // TODO: Derive the request topic (like commandInvoker does)
+
+            // TODO: Subscribe to the expected response topic
+
+            // TODO: construct the IAsyncEnumerable of responses to capture the stream of responses prior to sending the first request.
+            IAsyncEnumerable<StreamingExtendedResponse<TResp>> responses;
+            IStreamContext<IAsyncEnumerable<StreamingExtendedResponse<TResp>>> streamContext;
+
+            await foreach (var streamMessage in requests)
+            {
+                // TODO: Construct and send an MQTT message to the executor. Attach properties from both streamMetadata and streamMessage.Metadata
+            }
+
+            // TODO: Send the "end of stream" MQTT message now that all request messages have been sent
+
             throw new NotImplementedException();
         }
 
@@ -72,6 +87,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         }
 #pragma warning restore IDE0060 // Remove unused parameter
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+#pragma warning restore CS0168 // Variable is declared but never used
 
     }
 }
