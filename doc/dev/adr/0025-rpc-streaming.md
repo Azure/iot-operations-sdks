@@ -149,7 +149,9 @@ The streaming command invoker will first subscribe to the appropriate response t
 
 Once the user invokes a streaming command, the streaming command invoker will send one to many MQTT messages with:
   - The same response topic
+    - This response topic must be prefixed with 'clients/{mqtt client id of invoker}' like in vanilla RPC
   - The same correlation data
+  - A topic that includes an 'executorId' topic token (see vanilla RPC for details)
   - The appropriate streaming metadata [see above](#streaming-user-property)
   - The serialized payload as provided by the user's request object
   - Any user-definied metadata as specified in the ```ExtendedStreamingRequest```
@@ -168,7 +170,9 @@ The command invoker will acknowledge all messages it receives that match the cor
 
 A streaming command executor should start by subscribing to the expected command topic
   - Even though the streaming command classes are separate from the existing RPC classes, they should also offer the same features around topic string pre/suffixing, custom topic token support, etc.
-  - The executor will use a shared subscription topic (exactly like how non-streaming RPC executors do) so that each streaming request is received by only one executor
+  - The expected command topic _must_ include the 'executorId' topic token and its value must be set equal to the client Id of the executor's MQTT client
+    - By including the executorId in the expected request topic, we can guarantee that all messages in a request stream are delivered to the same executor
+    - Because streaming executors always have distinct expected request topics, there is no need to use/configure shared subscriptions
 
 Upon receiving a MQTT message that contains a streaming request, the streaming executor should notify the application layer that the first message in a request stream was received. Once the executor has notified the user that the first message in a request stream was received, the user should be able to provide a stream of responses. Upon receiving each response in that stream from the user, the executor will send an MQTT message for each streamed response with:
   - The same correlation data as the original request
@@ -248,7 +252,6 @@ public interface IStreamContext<T>
     /// Additionally, the executor can call this method if its response stream has stalled unexpectedly.
     /// </remarks>
     Task CancelAsync(CancellationToken cancellationToken = default);
-}oken cancellationToken = default);
 }
 ```
 

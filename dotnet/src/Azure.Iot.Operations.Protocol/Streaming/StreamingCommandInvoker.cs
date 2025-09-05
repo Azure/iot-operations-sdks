@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         where TResp : class
     {
         /// <summary>
-        /// The topic token replacement map that this command invoker will use by default. Generally, this will include the token values
+        /// The topic token replacement map that this streaming command invoker will use by default. Generally, this will include the token values
         /// for topic tokens such as "modelId" which should be the same for the duration of this command invoker's lifetime.
         /// </summary>
         /// <remarks>
@@ -60,7 +60,23 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// </remarks>
         public string? ResponseTopicPattern { get; set; }
 
-        public async Task<IStreamContext<StreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, RequestStreamMetadata? streamMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? streamExchangeTimeout = default, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// Invoke a streaming command on a particular streaming command executor
+        /// </summary>
+        /// <param name="requests">The stream of requests to send. This stream must contain at least one request.</param>
+        /// <param name="executorId">The Id of the executor to send this request to.</param>
+        /// <param name="streamMetadata">The metadata for the request stream as a whole.</param>
+        /// <param name="additionalTopicTokenMap">Topic tokens to substitute in the request topic.</param>
+        /// <param name="streamExchangeTimeout">The timeout between the beginning of the request stream and the end of both the request and response stream.</param>
+        /// <param name="cancellationToken">Cancellation token. Signalling this will also make a single attempt to notify the executor of the cancellation.</param>
+        /// <returns>The stream of responses.</returns>
+        public async Task<IStreamContext<StreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(
+            IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
+            string executorId,
+            RequestStreamMetadata? streamMetadata = null,
+            Dictionary<string, string>? additionalTopicTokenMap = null,
+            TimeSpan? streamExchangeTimeout = default,
+            CancellationToken cancellationToken = default)
         {
             // TODO: Derive the request topic (like commandInvoker does)
 
