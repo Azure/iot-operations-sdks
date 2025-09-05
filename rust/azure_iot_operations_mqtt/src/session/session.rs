@@ -137,11 +137,13 @@ where
                 }
             }
 
+            let client_id = self.client_id.clone();
+
             let (auth_watch_channel_tx, auth_watch_channel_rx) =
                 tokio::sync::mpsc::unbounded_channel();
             sat_auth_tx = Some(auth_watch_channel_tx);
             sat_auth_context = Some(
-                SatAuthContext::new(sat_file.clone(), auth_watch_channel_rx).map_err(|e| {
+                SatAuthContext::new(client_id, sat_file.clone(), auth_watch_channel_rx).map_err(|e| {
                     log::error!("Error while creating SAT auth context: {e:?}");
                     SessionErrorRepr::SatAuthError(e)
                 })?,
@@ -366,10 +368,11 @@ async fn run_background(
             }
 
             // Re-authenticate the client
-            if sat_auth_context
+            let res = sat_auth_context
                 .reauth(Duration::from_secs(10), &client)
-                .await
-                .is_ok()
+                .await;
+
+            if res.is_ok()
             {
                 log::debug!("SAT token renewed successfully");
                 // Drain the notification so we don't re-auth again for a prior change to the SAT file
@@ -377,6 +380,8 @@ async fn run_background(
                 retrying = false;
                 continue;
             }
+            log::error!("TEMPORARY LOGS: SAT TOKEN RENEWAL ERROR, FILE_LOCATION: {}, CLIENT_ID: {}", sat_auth_context.file_location, sat_auth_context.client_id);
+            log::error!("TEMPORARY LOGS: ACTUAL ERROR: {}", res.as_ref().err().unwrap());
             log::error!("Error renewing SAT token, retrying...");
             retrying = true;
             // Wait before retrying

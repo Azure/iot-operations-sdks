@@ -54,8 +54,9 @@ pub enum SatReauthError {
 
 /// Context for maintaining SAT token authentication.
 pub struct SatAuthContext {
+    pub client_id: String,
     /// File path to the SAT token
-    file_location: String,
+    pub file_location: String,
     /// SAT file's directory watcher, held to keep the watcher alive
     #[allow(dead_code)]
     watcher: Option<notify_debouncer_full::Debouncer<RecommendedWatcher, RecommendedCache>>,
@@ -70,6 +71,7 @@ impl SatAuthContext {
     ///
     /// Returns a [`SatAuthContext`] instance. If an error occurs, a [`SatAuthContextInitError`] is returned.
     pub fn new(
+        client_id: String,
         file_location: String,
         auth_watcher_rx: tokio::sync::mpsc::UnboundedReceiver<AuthReasonCode>,
     ) -> Result<Self, SatAuthContextInitError> {
@@ -126,6 +128,7 @@ impl SatAuthContext {
         };
 
         Ok(Self {
+            client_id,
             file_location,
             watcher,
             directory_watcher_notify,
