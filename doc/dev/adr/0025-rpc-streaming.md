@@ -297,6 +297,24 @@ The command invoker should then send a message on the same command topic with th
 
 Any received MQTT messages pertaining to a command that was already canceled should still be acknowledged. They should not be given to the user, though.
 
+### Disconnection scenario considerations
+
+- Invoker side disconnects unexpectedly while sending requests
+  - Upon reconnection, the request messages queued in the session client should send as expected
+  - If no reconnection, the streaming RPC will timeout
+- Invoker side disconnects unexpectedly while receiving responses
+  - The broker should hold all published responses for as long as the invoker's session lives and send them upon reconnection
+  - If the invoker's session is lost, then the RPC will timeout
+- Executor side isn't connected when invoker sends first request
+  - Invoker will receive a "no matching subscribers" puback
+    - Seems like a scenario we would want to retry?
+- Executor side disconnects unexpectedly while receiving requests
+  - Broker should hold all published requests for as long as the executor's session lives and send them upon reconnection
+  - If the executor's session is lost, the RPC will timeout
+- Executor side disconnects unexpectedly while sending responses
+  - Upon reconnection, the response messages queued in the session client should send as expected
+  - If no reconnection, the streaming RPC will timeout
+
 ### Protocol versioning
 
 By maintaining RPC streaming as a separate communication pattern from normal RPC, we will need to introduce an independent protocol version for RPC streaming. It will start at ```1.0``` and should follow the same protocol versioning rules as the protocol versions used by telemetry and normal RPC.
