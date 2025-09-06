@@ -314,7 +314,11 @@ Any received MQTT messages pertaining to a command that was already canceled sho
 - Executor side disconnects unexpectedly while sending responses
   - Upon reconnection, the response messages queued in the session client should send as expected
   - If no reconnection, the streaming RPC will timeout
-
+- Invoker disconnects causing one message in request stream to be sent twice (due to QoS 1)
+  - Executor side can de-dup the request by checking the stream index of this request vs the stream index of the last message it gave to the user
+- Executor disconnects causing one message in response stream to be sent twice (due to QoS 1)
+  - Invoker side can de-dup the request by checking the stream index of this request vs the stream index of the last message it gave to the user
+  
 ### Protocol versioning
 
 By maintaining RPC streaming as a separate communication pattern from normal RPC, we will need to introduce an independent protocol version for RPC streaming. It will start at ```1.0``` and should follow the same protocol versioning rules as the protocol versions used by telemetry and normal RPC.
