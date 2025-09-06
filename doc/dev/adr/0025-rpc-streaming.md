@@ -76,9 +76,8 @@ public class StreamingExtendedResponse<TResp>
 
 #### Invoker side
 
-The new ```StreamingCommandInvoker``` will largely look like the existing ```CommandInvoker```, but will instead have an API for ```InvokeCommandWithStreaming```.
-
-This new method will take the same parameters as ```InvokeCommand``` but will accept a stream of requests and return a stream of command responses. 
+The new API will ask users to provide a stream of request payloads + metadata, the target streaming command executor, any stream-level metadata and timeout/cancellation tokens. It will return the
+stream of responses as well as a cancellation function that allows the user to terminate the stream exchange at any time. 
 
 ```csharp
 public abstract class StreamingCommandInvoker<TReq, TResp>
@@ -86,7 +85,13 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     where TResp : class
 {
     // Many requests, many responses.
-    public async Task<IStreamContext<StreamingExtendedResponse<TResp?>> InvokeStreamingCommandAsync(IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests, StreamRequestMetadata? streamRequestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default) {...}
+    public async Task<IStreamContext<StreamingExtendedResponse<TResp?>> InvokeStreamingCommandAsync(
+      IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
+      string executorId,
+      StreamRequestMetadata? streamRequestMetadata = null, 
+      Dictionary<string, string>? additionalTopicTokenMap = null, 
+      TimeSpan? commandTimeout = default, 
+      CancellationToken cancellationToken = default) {...}
 }
 ```
 
@@ -106,7 +111,6 @@ public abstract class StreamingCommandExecutor<TReq, TResp> : IAsyncDisposable
     /// The callback provides the stream of requests and requires the user to return one to many responses.
     /// </remarks>
     public required Func<IStreamContext<StreamingExtendedRequest<TReq?>, StreamRequestMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
-
 }
 
 ```
