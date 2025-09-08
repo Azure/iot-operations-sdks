@@ -84,7 +84,16 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     where TReq : class
     where TResp : class
 {
-    // Many requests, many responses.
+    /// <summary>
+    /// Invoke a streaming command on a particular streaming command executor
+    /// </summary>
+    /// <param name="requests">The stream of requests to send. This stream must contain at least one request.</param>
+    /// <param name="executorId">The Id of the executor to send this request to.</param>
+    /// <param name="streamMetadata">The metadata for the request stream as a whole.</param>
+    /// <param name="additionalTopicTokenMap">Topic tokens to substitute in the request topic.</param>
+    /// <param name="streamExchangeTimeout">The timeout between the beginning of the request stream and the end of both the request and response stream.</param>
+    /// <param name="cancellationToken">Cancellation token. Signalling this will also make a single attempt to notify the executor of the cancellation.</param>
+    /// <returns>The stream of responses.</returns>
     public async Task<IStreamContext<StreamingExtendedResponse<TResp?>> InvokeStreamingCommandAsync(
       IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
       string executorId,
