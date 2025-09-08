@@ -40,6 +40,8 @@ pub struct SetOptions {
     pub set_condition: SetCondition,
     /// How long the key should persist before it expires, in millisecond precision.
     pub expires: Option<Duration>,
+    /// Whether the key should be persisted to disk.
+    pub persist: bool,
 }
 
 /// Condition for a `Set` Request

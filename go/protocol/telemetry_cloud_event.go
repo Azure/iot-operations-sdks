@@ -43,7 +43,7 @@ const (
 )
 
 var contentTypeRegex = regexp.MustCompile(
-	`^([-a-z]+)/([-a-z0-9.]+)(?:\+([-a-z0-9.]+))?$`,
+	`^([-a-z]+)/([-a-z0-9.]+)(\+([-a-z0-9.]+))?(;.*)?$`,
 )
 
 var ceReserved = []string{

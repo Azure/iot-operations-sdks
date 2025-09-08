@@ -13,6 +13,7 @@ use azure_iot_operations_services::azure_device_registry::{
 use super::ConnectorContext;
 
 /// Client exposing Azure Device Registry Discovery operations
+#[derive(Clone)]
 pub struct Client(Arc<ConnectorContext>);
 
 impl Client {

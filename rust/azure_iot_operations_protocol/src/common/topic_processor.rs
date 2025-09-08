@@ -39,9 +39,10 @@ impl TopicPatternError {
 impl std::fmt::Display for TopicPatternError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if let Some(msg) = &self.msg {
-            write!(f, "{} - {}", self.kind, msg)?;
+            write!(f, "{} - {}", self.kind, msg)
+        } else {
+            write!(f, "{}", self.kind)
         }
-        write!(f, "{}", self.kind)
     }
 }
 
@@ -49,7 +50,7 @@ impl std::fmt::Display for TopicPatternError {
 #[derive(thiserror::Error, Debug)]
 pub enum TopicPatternErrorKind {
     /// The topic pattern is invalid
-    #[error("Topic pattern is invalid")]
+    #[error("Invalid topic pattern: {0}")]
     Pattern(String),
     /// The share name is invalid
     #[error("Share name '{0}' is invalid")]

@@ -13,7 +13,7 @@ public record DiscoveredAssetDatasetDataPoint
 
     public DateTime? LastUpdatedOn { get; set; }
 
-    public required string? Name { get; set; }
+    public required string Name { get; set; }
 
     public string? TypeRef { get; set; }
 }

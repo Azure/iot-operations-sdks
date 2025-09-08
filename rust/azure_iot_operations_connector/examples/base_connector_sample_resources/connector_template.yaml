@@ -5,15 +5,12 @@ metadata:
   namespace: azure-iot-operations
 spec:
   version: "1.0"
-  aioMetadata:
-    aioMaxVersion: "3.0"
-    aioMinVersion: "0.0"
   diagnostics:
     logs:
       level: "info"
   deviceInboundEndpointTypes:
   - endpointType: rest-thermostat
-    version: "0.0.1"
+    version: "1.0"
   runtimeConfiguration:
     runtimeConfigurationType: managedConfiguration
     managedConfigurationSettings:

@@ -10,6 +10,7 @@ using SchemaInfo = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.S
 using SchemaFormat = Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format;
 using System.Diagnostics;
 using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Services.SchemaRegistry.Models;
 
 string jsonSchema1 = /*lang=json,strict*/ """
     {
@@ -52,6 +53,11 @@ if (resolvedSchema == null)
 Console.WriteLine(resolvedSchema.Name);
 Console.WriteLine(resolvedSchema.SchemaContent);
 
-
-SchemaInfo? notfound = await schemaRegistryClient.GetAsync("not found");
-Console.WriteLine(notfound == null ? "notfound" : "found");
+try
+{
+    await schemaRegistryClient.GetAsync("not found");
+}
+catch (SchemaRegistryErrorException e) when (e.SchemaRegistryError.Code == SchemaRegistryErrorCode.NotFound)
+{
+    Console.WriteLine("Schema was not found");
+}
