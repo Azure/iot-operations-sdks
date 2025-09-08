@@ -76,7 +76,7 @@ namespace EventDrivenTcpThermostatConnector
                             Array.Resize(ref buffer, bytesRead);
 
                             _logger.LogInformation("Received data from event with name {0} on asset with name {1}. Forwarding this data to the MQTT broker.", assetEvent.Name, args.AssetName);
-                            await _connector.ForwardReceivedEventAsync(args.Asset, assetEvent, buffer, cancellationToken);
+                            await _connector.ForwardReceivedEventAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, assetEvent, buffer, null, cancellationToken);
                         }
                     }
                     catch (Exception e)

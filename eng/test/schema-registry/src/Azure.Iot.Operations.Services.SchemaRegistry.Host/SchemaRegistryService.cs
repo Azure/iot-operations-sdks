@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using SchemaInfo = SchemaRegistry.Schema;
 
 
-internal class SchemaRegistryService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator) 
+internal class SchemaRegistryService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator)
     : SchemaRegistry.Service(applicationContext, mqttClient)
 {
     readonly Utf8JsonSerializer _jsonSerializer = new();
@@ -64,7 +64,7 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
                 Name = id,
                 SchemaContent = request.SchemaContent,
                 Format = request.Format,
-                Version = "1.0.0",
+                Version = request.Version,
                 Tags = request.Tags,
                 SchemaType = request.SchemaType,
                 Namespace = "DefaultSRNamespace"

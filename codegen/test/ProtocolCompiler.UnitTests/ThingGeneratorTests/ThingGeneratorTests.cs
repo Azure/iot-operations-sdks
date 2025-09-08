@@ -4,7 +4,7 @@
     using DTDLParser.Models;
     using NJsonSchema;
     using NJsonSchema.Validation;
-    using Azure.Iot.Operations.ProtocolCompiler;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
 
     public class ThingGeneratorTests
     {
@@ -66,7 +66,7 @@
             ITemplateTransform interfaceThingTransform = new InterfaceThing(dtInterface, mqttVersion);
 
             RecursionException rex = Assert.Throws<RecursionException>(interfaceThingTransform.TransformText);
-            Assert.Equal(faultyId, rex.SchemaId);
+            Assert.Equal(faultyId, rex.SchemaName.AsDtmi);
         }
 
         private static IEnumerable<object[]> GetTestCasesInt(string path)

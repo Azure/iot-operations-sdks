@@ -208,9 +208,13 @@ namespace Azure.Iot.Operations.Protocol.Models
         public void AddCloudEvents(CloudEvent md)
         {
             AddUserProperty(nameof(md.SpecVersion).ToLowerInvariant(), md.SpecVersion);
-            AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id!.ToString());
+            if (md.Id != null)
+            {
+                AddUserProperty(nameof(md.Id).ToLowerInvariant(), md.Id.ToString());
+            }
+
             AddUserProperty(nameof(md.Type).ToLowerInvariant(), md.Type);
-            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source!.ToString());
+            AddUserProperty(nameof(md.Source).ToLowerInvariant(), md.Source.ToString());
 
             if (md.Time is not null)
             {

@@ -26,92 +26,33 @@ Layout within the languages directory should follow the Azure SDK language speci
 
 The top-level should only contain files expected for an Microsoft Open-source project, but exceptions may be made where necessary. Associated languages files should be created within that language directory.
 
-## Language-specific SDK layout
+## SDK layout
 
-### .NET
+Principles:
+- Each language contains the same core packages: mqtt, protocol, services, connector (except for Go).
+- Include `src/`, `tests/` (or `test/`), and `samples/`. Other folders are optional (e.g., `examples/`, `templates/`).
+- Follow idiomatic language conventions.
 
-```
-dotnet/
-├─ src/
-│  ├─ Azure.Iot.Operations.Mqtt/
-│  │  ├─ Azure.Iot.Operations.Mqtt.csproj
-│  ├─ Azure.Iot.Operations.Protocol/
-│  │  ├─ Azure.Iot.Operations.Protocol.csproj
-│  ├─ Azure.Iot.Operations.Services/
-│  │  ├─ Azure.Iot.Operations.Services.csproj
-├─ tests/
-│  ├─ Azure.Iot.Operations.Mqtt.UnitTests/
-│  │  ├─ Azure.Iot.Operations.Mqtt.UnitTests.csproj
-│  ├─ Azure.Iot.Operations.Protocol.UnitTests/
-│  │  ├─ Azure.Iot.Operations.Protocol.UnitTests.csproj
-│  ├─ Azure.Iot.Operations.Services.UnitTests/
-│  │  ├─ Azure.Iot.Operations.Services.UnitTests.csproj
-│  ├─ Azure.Iot.Operations.Mqtt.IntegrationTests/
-│  │  ├─ Azure.Iot.Operations.Mqtt.IntegrationTests.csproj
-│  ├─ Azure.Iot.Operations.Protocol.IntegrationTests/
-│  │  ├─ Azure.Iot.Operations.Protocol.IntegrationTests.csproj
-│  ├─ Azure.Iot.Operations.Services.IntegrationTests/
-│  │  ├─ Azure.Iot.Operations.Services.IntegrationTests.csproj
-│  ├─ Azure.Iot.Operations.Protocol.MetlTests/
-│  │  ├─ Azure.Iot.Operations.Protocol.MetlTests.csproj
-├─ samples/
-├─ Azure.Iot.Operations.sln
-```
+Naming conventions by language (illustrative):
+- .NET: `Azure.Iot.Operations.{Mqtt|Protocol|Services|Connector}` under `src/`
+- Rust: `azure_iot_operations_{mqtt|protocol|services|connector}` (crates)
+- Go: `{mqtt|protocol|services}` packages under `go/`
 
-* The Azure.Iot.Operations.sln file will not include a reference to any of the DSS CLI, faultable MQTT broker, schema registry service, or code gen packages
+### Language notes
 
-* The faultable MQTT broker schema registry service packages will live in ```eng/test``` since they are both tools to be used only for testing our different language SDKs
+- .NET
+  - The Azure.Iot.Operations.sln file will not include a reference to any of the DSS CLI, faultable MQTT broker, schema registry service, or code gen packages.
+  - The faultable MQTT broker schema registry service packages will live in `eng/test` since they are both tools to be used only for testing our different language SDKs.
+  - The DSS CLI package will live in `tools`.
 
-* The DSS CLI package will live in `tools`
+- Rust
+  - Unit tests for each crate are part of `src`. The `tests` subdirectories are for integration/stress/longhaul etc. tests, including METL if possible.
+  - Any CodeGen related samples are in the `sample_applications` directory as individual crates.
 
-### Rust
-
-```
-rust/
-├─ azure_iot_operations_mqtt/
-│  ├─ examples/
-│  ├─ tests/
-│  ├─ src/
-│  ├─ Cargo.toml
-├─ azure_iot_operations_protocol/
-│  ├─ examples/
-│  ├─ src/
-│  ├─ tests/
-│  ├─ Cargo.toml
-├─ e2e/
-├─ Cargo.toml
-```
-* unit tests for each crate are part of `src`. The `tests` subdirectories are for integration/stress/longhaul etc. tests, including METL if possible.
-
-* `e2e` (could be named something else) is for any tests that include CodeGen output. These are "full solution" tests, as opposed to crate specific ones
-
-* Any CodeGen related samples (if distinct from the `e2e` tests) could also be included at top-level of `rust` directory
-
-### Go
-```
-go/
-├─ mqtt/
-│  ├─ go.mod
-├─ protocol/
-│  ├─ go.mod
-├─ samples/
-│  ├─ greeter/
-│  │  ├─ client/
-│  │  │  ├─ go.mod
-│  │  ├─ protocol/
-│  │  │  ├─ go.mod
-│  │  ├─ server/
-│  │  │  ├─ go.mod
-├─ services/
-│  ├─ go.mod
-│  ├─ leaselock/
-├─ test/
-```
-* The current plan of record is for `services` to be a single module, but each of its packages should be structured with minimal interdependency such that they could be converted to separate modules in the future. This would not change the directory structure.
-
-* `samples` follows the precedent of `Azure/azure-sdk-for-go` and should contain the client/protocol/server triplet for each named sample.
-
-* `test` contains the common testing infrastructure (e.g. the METL test framework for Go). It should be structured following the `/eng/test/` folder.
+- Go
+  - The current plan of record is for `services` to be a single module, but each of its packages should be structured with minimal interdependency such that they could be converted to separate modules in the future. This would not change the directory structure.
+  - `samples` follows the precedent of `Azure/azure-sdk-for-go` and should contain the client/envoy/server triplet for each named sample.
+  - `test` contains the common testing infrastructure (e.g. the METL test framework for Go). It should be structured following the `/eng/test/` folder.
 
 ## README.md format
 

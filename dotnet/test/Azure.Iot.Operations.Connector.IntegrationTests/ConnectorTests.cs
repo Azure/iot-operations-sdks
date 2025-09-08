@@ -1,6 +1,11 @@
 ﻿using System.Buffers;
+using System.Globalization;
+using System.Net.Mime;
 using System.Text.Json;
+using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
 using Azure.Iot.Operations.Services.StateStore;
+using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
@@ -15,14 +20,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
             string asset1TelemetryTopic = "/mqtt/machine/asset1/status";
-            TaskCompletionSource asset1TelemetryReceived = new();
+            TaskCompletionSource<MqttApplicationMessage> asset1TelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
                 if (isValidPayload(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(asset1TelemetryTopic))
                     {
-                        asset1TelemetryReceived.TrySetResult();
+                        asset1TelemetryReceived.TrySetResult(args.ApplicationMessage);
                     }
                 }
 
@@ -39,7 +44,12 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
             try
             {
-                await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                var applicationMessage = await asset1TelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+                Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
+                Assert.Equal("my-rest-thermostat-endpoint-name", GetCloudEventSourceFromMqttMessage(applicationMessage));
+                string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
+                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", dataSchema);
             }
             catch (TimeoutException)
             {
@@ -77,14 +87,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             await using var mqttClient = await ClientFactory.CreateSessionClientFromEnvAsync();
 
             string assetTelemetryTopic = "/mqtt/machine/status/change_event";
-            TaskCompletionSource assetTelemetryReceived = new();
+            TaskCompletionSource<MqttApplicationMessage> assetTelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
                 if (isValidPayload(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(assetTelemetryTopic))
                     {
-                        assetTelemetryReceived.TrySetResult();
+                        assetTelemetryReceived.TrySetResult(args.ApplicationMessage);
                     }
                 }
 
@@ -101,7 +111,12 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
             try
             {
-                await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                var applicationMessage = await assetTelemetryReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+                Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
+                Assert.Equal("my_tcp_endpoint", GetCloudEventSourceFromMqttMessage(applicationMessage));
+                string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
+                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", dataSchema);
             }
             catch (TimeoutException)
             {
@@ -137,6 +152,39 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 Assert.Fail("Timed out waiting for SQL connector to push expected data to DSS. This likely means the connector did not deploy successfully");
             }
+        }
+
+        private static string safeGetUserProperty(MqttApplicationMessage mqttMessage, string name)
+        {
+            if (mqttMessage.UserProperties == null)
+            {
+                return "";
+            }
+
+            foreach (MqttUserProperty userProperty in mqttMessage.UserProperties)
+            {
+                if (userProperty.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    return userProperty.Value;
+                }
+            }
+
+            return "";
+        }
+
+        private static string GetCloudEventSourceFromMqttMessage(MqttApplicationMessage mqttMessage)
+        {
+            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.Source));
+        }
+
+        private static string GetCloudEventTimeFromMqttMessage(MqttApplicationMessage mqttMessage)
+        {
+            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.Time));
+        }
+
+        private static string GetCloudEventDataSchemaFromMqttMessage(MqttApplicationMessage mqttMessage)
+        {
+            return safeGetUserProperty(mqttMessage, nameof(CloudEvent.DataSchema));
         }
 
         private bool isValidPayload(ReadOnlySequence<byte> payload)

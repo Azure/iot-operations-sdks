@@ -1,0 +1,26 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+{
+<# this.PushIndent(new string(' ', this.indent)); #>
+<# if (this.schema != null) { #>
+  "name": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
+<# if (this.sharedNamespace != null) { #>
+  "namespace": "<#=this.sharedNamespace.AsGiven#>",
+<# } #>
+<# } #>
+  "type": "record",
+  "fields": [
+<# foreach (var nameSchemaIndirectRequired in this.nameSchemaIndirectRequireds) { #>
+    {
+      "name": "<#=nameSchemaIndirectRequired.Item1#>",
+<# if (nameSchemaIndirectRequired.Item3) { #>
+      "doc": "[INDIRECT]",
+<# } #>
+      "type": <#=AvroSchemaSupport.GetTypeAndAddenda(nameSchemaIndirectRequired.Item2, 6, this.sharedPrefix, nullable: !nameSchemaIndirectRequired.Item4, this.definedIds, this.mqttVersion)#>
+    }<#=this.IsLast(nameSchemaIndirectRequired) ? "" : ","#>
+<# } #>
+  ]
+}<# this.PopIndent(); #>
+<#+
+    private bool IsLast((string, DTSchemaInfo, bool, bool) nameSchemaIndirectRequired) => nameSchemaIndirectRequired.Item1 == this.nameSchemaIndirectRequireds.Last().Item1;
+#>

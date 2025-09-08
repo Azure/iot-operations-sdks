@@ -20,7 +20,9 @@ use derive_builder::Builder;
 use tokio::{sync::Notify, task};
 
 use crate::common::dispatcher::{DispatchError, DispatchErrorKind, Dispatcher, Receiver};
-use crate::state_store::{self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, SetOptions};
+use crate::state_store::{
+    self, Error, ErrorKind, FENCING_TOKEN_USER_PROPERTY, PERSIST_USER_PROPERTY, SetOptions,
+};
 
 const REQUEST_TOPIC_PATTERN: &str =
     "statestore/v1/FA9AE35F-2F64-47CD-9BFF-08E2B32A0FE8/command/invoke";
@@ -215,22 +217,24 @@ where
                 "key is empty".to_string(),
             )));
         }
-        let mut request_builder = rpc_command::invoker::RequestBuilder::default();
-        request_builder
+
+        let mut custom_user_data = vec![];
+        if let Some(ft) = fencing_token {
+            custom_user_data.push((FENCING_TOKEN_USER_PROPERTY.to_string(), ft.to_string()));
+        }
+        if options.persist {
+            custom_user_data.push((PERSIST_USER_PROPERTY.to_string(), true.to_string()));
+        }
+
+        let request = rpc_command::invoker::RequestBuilder::default()
             .payload(state_store::resp3::Request::Set {
                 key,
                 value,
                 options: options.clone(),
             })
             .map_err(|e| ErrorKind::SerializationError(e.to_string()))? // this can't fail
-            .timeout(timeout);
-        if let Some(ft) = fencing_token {
-            request_builder.custom_user_data(vec![(
-                FENCING_TOKEN_USER_PROPERTY.to_string(),
-                ft.to_string(),
-            )]);
-        }
-        let request = request_builder
+            .timeout(timeout)
+            .custom_user_data(custom_user_data)
             .build()
             .map_err(|e| ErrorKind::InvalidArgument(e.to_string()))?;
         state_store::convert_response(

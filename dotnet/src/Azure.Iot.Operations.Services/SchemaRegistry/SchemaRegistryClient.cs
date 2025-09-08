@@ -17,7 +17,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
     private bool _disposed;
 
     /// <inheritdoc/>
-    public async Task<SchemaInfo?> GetAsync(
+    public async Task<SchemaInfo> GetAsync(
         string schemaId,
         string version = "1",
         TimeSpan? timeout = null,
@@ -43,7 +43,10 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
         {
             // This is likely because the user received a "not found" response payload from the service, but the service is an
             // older version that sends an empty payload instead of the expected "{}" payload.
-            return null;
+            throw new Models.SchemaRegistryErrorException(new()
+            {
+                Code = Models.SchemaRegistryErrorCode.NotFound,
+            });
         }
         catch (AkriMqttException e) when (e.Kind == AkriMqttErrorKind.UnknownError)
         {
@@ -61,7 +64,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
     }
 
     /// <inheritdoc/>
-    public async Task<SchemaInfo?> PutAsync(
+    public async Task<SchemaInfo> PutAsync(
         string schemaContent,
         SchemaFormat schemaFormat,
         SchemaType schemaType = SchemaType.MessageSchema,

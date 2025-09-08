@@ -1,0 +1,32 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="DTDLParser.Models" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "<#=this.schemaId#>",
+  "title": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
+<# if (this.description != null) { #>
+  "description": "<#=this.description#>",
+<# } #>
+  "type": "object",
+  "additionalProperties": false,
+<# if (this.nameDescSchemaIndirectRequiredIndices.Any(ndsri => ndsri.Item5)) { #>
+  "required": [ <#=string.Join(", ", this.nameDescSchemaIndirectRequiredIndices.Where(ndsri => ndsri.Item5).Select(ndsri => $"\"{ndsri.Item1}\""))#> ],
+<# } #>
+<# if (this.nameDescSchemaIndirectRequiredIndices.Any(ndsri => ndsri.Item4)) { #>
+  "x-indirect": [ <#=string.Join(", ", this.nameDescSchemaIndirectRequiredIndices.Where(ndsri => ndsri.Item4).Select(ndsri => $"\"{ndsri.Item1}\""))#> ],
+<# } #>
+  "properties": {
+<# foreach (var nameDescSchemaIndirectRequiredIndex in this.nameDescSchemaIndirectRequiredIndices) { #>
+    "<#=nameDescSchemaIndirectRequiredIndex.Item1#>": {
+      "description": "<#=nameDescSchemaIndirectRequiredIndex.Item2#>",
+<# if (this.setIndex && nameDescSchemaIndirectRequiredIndex.Item6 > 0) { #>
+      "index": <#=nameDescSchemaIndirectRequiredIndex.Item6#>,
+<# } #>
+      <#=JsonSchemaSupport.GetTypeAndAddenda(nameDescSchemaIndirectRequiredIndex.Item3, this.sharedPrefix, this.genNamespace)#>
+    }<#=this.IsLast(nameDescSchemaIndirectRequiredIndex) ? "" : ","#>
+<# } #>
+  }
+}
+<#+
+    private bool IsLast((string, string, DTSchemaInfo, bool, bool, int) nameDescSchemaIndirectRequiredIndex) => nameDescSchemaIndirectRequiredIndex.Item1 == this.nameDescSchemaIndirectRequiredIndices.Last().Item1;
+#>

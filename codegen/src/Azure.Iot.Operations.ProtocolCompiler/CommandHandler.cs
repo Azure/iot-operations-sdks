@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using Azure.Iot.Operations.ProtocolCompilerLib;
     using DTDLParser;
 
     internal class CommandHandler
@@ -22,11 +23,11 @@
         {
             try
             {
-                bool isModelSpecified = options.ModelFiles.Length > 0;
+                bool isModelSpecified = options.ModelFiles.Length > 0 || (options.ModelId != null && options.ResolverConfig != null);
                 if (!isModelSpecified && options.GenNamespace == null)
                 {
-                    Console.WriteLine("You must specify at least one modelFile or a namespace.");
-                    Console.WriteLine("In the absence of a modelFile, code will be generated from schema definitions in the workingDir, bypassing DTDL.");
+                    Console.WriteLine("You must specify at least (a) one modelFile or (b) a modelId and a resolver or (c) a namespace.");
+                    Console.WriteLine("When there is no modelFile and no modelId/resolver, code will be generated from schema definitions in the workingDir, bypassing DTDL.");
                     Console.WriteLine("Use option --help for a full list of options");
                     return 1;
                 }
@@ -102,9 +103,11 @@
                         return 1;
                     }
 
+                    DtmiResolverAsync? dtmiResolverAsync = options.ResolverConfig != null ? new Resolver(options.ResolverConfig.FullName).ResolveAsync : null;
+
                     string[] modelTexts = options.ModelFiles.Select(mf => mf.OpenText().ReadToEnd()).ToArray();
                     string[] modelNames = options.ModelFiles.Select(mf => mf.Name).ToArray();
-                    ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, options.ResolverConfig, Console.WriteLine);
+                    ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(modelTexts, modelNames, modelDtmi, dtmiResolverAsync, Console.WriteLine);
 
                     if (contextualizedInterface.InterfaceId == null)
                     {
@@ -125,7 +128,7 @@
 
                     thingGenerator.GenerateThing(workingDir);
 
-                    if (!SchemaGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, genNamespace, sharedPrefix))
+                    if (!SchemasGenerator.GenerateSchemas(contextualizedInterface.ModelDict!, contextualizedInterface.InterfaceId, contextualizedInterface.MqttVersion, projectName, workingDir, genNamespace, sharedPrefix))
                     {
                         return 1;
                     }
