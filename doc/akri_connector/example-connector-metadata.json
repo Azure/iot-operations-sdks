@@ -184,5 +184,7 @@
         }
       }
     }
-  ]
+  ],
+  "recommendedAllocationPolicy": "bucketized",
+  "recommendedReplicas": 1
 }
