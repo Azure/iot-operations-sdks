@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             RequestStreamMetadata requestMetadata = new();
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(requestCount), requestMetadata);
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(requestCount), executorMqttClient.ClientId!, requestMetadata);
 
             List<StreamingExtendedResponse<string>> receivedResponses = new();
             await foreach (StreamingExtendedResponse<string> response in responseStreamContext.Entries)
@@ -115,7 +115,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay());
+            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), executorMqttClient.ClientId!);
 
             await stream.CancelAsync();
         }
@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1));
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), executorMqttClient.ClientId!);
 
             await foreach (var response in responseStreamContext.Entries)
             {
@@ -160,7 +160,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay());
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), executorMqttClient.ClientId!);
 
             bool receivedCancellation = false;
             try
@@ -194,7 +194,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1));
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), executorMqttClient.ClientId!);
 
             bool receivedCancellation = false;
             try
@@ -235,7 +235,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             tcs1.TrySetResult(); // Don't need to delay the first message
 
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(tcs1, tcs2, tcs3), requestMetadata);
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(tcs1, tcs2, tcs3), executorMqttClient.ClientId!, requestMetadata);
 
             List<StreamingExtendedResponse<string>> receivedResponses = new();
             await foreach (StreamingExtendedResponse<string> response in responseStreamContext.Entries)
@@ -299,7 +299,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithYieldBreak());
+            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithYieldBreak(), executorMqttClient.ClientId!);
 
             await foreach (var response in stream.Entries)
             {
@@ -324,7 +324,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(3));
+            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(3), executorMqttClient.ClientId!);
 
             await foreach (var response in stream.Entries)
             {
