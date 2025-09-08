@@ -1,0 +1,1666 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncMessageType;1",
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "CncMessageType",
+    "description": "Event transmitting simple information messages.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseEventType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1011",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncAlarmType;1",
+    "@type": [ "Interface", "Event", "Mqtt", "Congruence" ],
+    "displayName": "CncAlarmType",
+    "description": "Event transmitting Alarms within a CNC system.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:DiscreteAlarmType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1006",
+    "commandTopic": "opcua/CNC/CncAlarmType/{commandName}",
+    "telemetryTopic": "opcua/CNC/CncAlarmType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "AlarmIdentifier",
+        "displayName": "AlarmIdentifier",
+        "description": "Unique alarm number.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "AuxParameters",
+        "displayName": "AuxParameters",
+        "description": "Array of auxiliary parameter for additional alarm description.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        },
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "HelpSource",
+        "displayName": "HelpSource",
+        "description": "Additional information to message giving information on how to solve problem that caused the alarm.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string",
+        "writable": true
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncAxisListType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CncAxisListType",
+    "description": "List of CNC axis objects.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
+        "name": "CncAxis",
+        "displayName": "<CncAxis>",
+        "description": "CNC axis object.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "target": "dtmi:opcua:CNC:CncAxisType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncChannelListType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CncChannelListType",
+    "description": "List of CNC channel objects.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1010",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
+        "name": "CncChannel",
+        "displayName": "<CncChannel>",
+        "description": "CNC channel object.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "target": "dtmi:opcua:CNC:CncChannelType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncComponentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CncComponentType",
+    "description": "Base component for soft- or hardware elements of a CNC system.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1001",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncChannelType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CncChannelType",
+    "description": "CNC channel component.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:CNC:CncComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1002",
+    "commandTopic": "opcua/CNC/CncChannelType/{commandName}",
+    "telemetryTopic": "opcua/CNC/CncChannelType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:CNC:CncChannelType:dataType:CncOperationMode;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "CncOperationMode",
+        "description": "Modes of operation.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3006",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Manual",
+            "enumValue": 0
+          },
+          {
+            "name": "MDA",
+            "enumValue": 1
+          },
+          {
+            "name": "Automatic",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:CNC:CncChannelType:dataType:CncChannelProgramStatus;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "CncChannelProgramStatus",
+        "description": "Status of program execution within a channel.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3002",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Stopped",
+            "enumValue": 0
+          },
+          {
+            "name": "Running",
+            "enumValue": 1
+          },
+          {
+            "name": "Waiting",
+            "enumValue": 2
+          },
+          {
+            "name": "Interrupted",
+            "enumValue": 3
+          },
+          {
+            "name": "Canceled",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:CNC:CncChannelType:dataType:CncChannelStatus;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "CncChannelStatus",
+        "description": "Status of a CNC channel.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3003",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Active",
+            "enumValue": 0
+          },
+          {
+            "name": "Interrupted",
+            "enumValue": 1
+          },
+          {
+            "name": "Reset",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "CncPositionDataType",
+        "description": "Structure of position elements.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ActPos",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CmdPos",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "RemDist",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "Id",
+        "displayName": "Id",
+        "description": "Unique numeric channel identifier.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "unsignedInteger",
+        "writable": true
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActFeedrate",
+        "displayName": "ActFeedrate",
+        "description": "Feedrate actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActGFunctions",
+        "displayName": "ActGFunctions",
+        "description": "Array of active G functions; there can be several G functions active at a time (modal and non-modal G functions).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "unsignedInteger"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Length" ],
+        "name": "ActJogIncrement",
+        "displayName": "ActJogIncrement",
+        "description": "Active JOG increment.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "millimetre",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActMainProgramFile",
+        "displayName": "ActMainProgramFile",
+        "description": "Path of active CNC main program.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActMainProgramFileOffset",
+        "displayName": "ActMainProgramFileOffset",
+        "description": "File offset of active CNC main program file.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActMainProgramLine",
+        "displayName": "ActMainProgramLine",
+        "description": "Line number of active CNC main program.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActMainProgramName",
+        "displayName": "ActMainProgramName",
+        "description": "Name of active CNC main program.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActMFunctions",
+        "displayName": "ActMFunctions",
+        "description": "Array of active M functions: there can be several M functions active at a time (modal and non-modal M functions).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "unsignedInteger"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActModalOffsetFunction",
+        "displayName": "ActModalOffsetFunction",
+        "description": "Active zero offset function.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActOperationMode",
+        "displayName": "ActOperationMode",
+        "description": "Channel's active mode of operation.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncOperationMode;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
+        "name": "ActOverride",
+        "displayName": "ActOverride",
+        "description": "Axis override actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "percent",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActProgramBlock",
+        "displayName": "ActProgramBlock",
+        "description": "Block of lines containing the previous, actual and subsequent lines of a CNC part program.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": "Array",
+          "elementSchema": "string"
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActProgramFile",
+        "displayName": "ActProgramFile",
+        "description": "Path of active CNC program file (main or subprogram).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActProgramFileOffset",
+        "displayName": "ActProgramFileOffset",
+        "description": "File offset of active CNC program file (main or subprogram).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActProgramLine",
+        "displayName": "ActProgramLine",
+        "description": "Line number of active CNC program (main or subprogram).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActProgramName",
+        "displayName": "ActProgramName",
+        "description": "Name of active CNC program (main or subprogram).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActProgramStatus",
+        "displayName": "ActProgramStatus",
+        "description": "Active channel program status",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncChannelProgramStatus;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActStatus",
+        "displayName": "ActStatus",
+        "description": "Active status of channel.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncChannelStatus;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "BlockMode",
+        "displayName": "BlockMode",
+        "description": "Block mode status (true in case of block mode is active, else false).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CmdFeedrate",
+        "displayName": "CmdFeedrate",
+        "description": "Feedrate setpoint value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CmdOperationMode",
+        "displayName": "CmdOperationMode",
+        "description": "Channel’s mode of operation setpoint value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncOperationMode;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
+        "name": "CmdOverride",
+        "displayName": "CmdOverride",
+        "description": "Override setpoint value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "percent",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "DryRunFeed",
+        "displayName": "DryRunFeed",
+        "description": "Test feedrate.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FeedHold",
+        "displayName": "FeedHold",
+        "description": "Feed status (true in case of feed hold active, else false).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpBcsA",
+        "displayName": "PosTcpBcsA",
+        "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpBcsA",
+              "displayName": "PosTcpBcsA",
+              "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpBcsB",
+        "displayName": "PosTcpBcsB",
+        "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpBcsB",
+              "displayName": "PosTcpBcsB",
+              "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpBcsC",
+        "displayName": "PosTcpBcsC",
+        "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpBcsC",
+              "displayName": "PosTcpBcsC",
+              "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpBcsX",
+        "displayName": "PosTcpBcsX",
+        "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpBcsX",
+              "displayName": "PosTcpBcsX",
+              "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpBcsY",
+        "displayName": "PosTcpBcsY",
+        "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpBcsY",
+              "displayName": "PosTcpBcsY",
+              "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpBcsZ",
+        "displayName": "PosTcpBcsZ",
+        "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpBcsZ",
+              "displayName": "PosTcpBcsZ",
+              "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpWcsA",
+        "displayName": "PosTcpWcsA",
+        "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpWcsA",
+              "displayName": "PosTcpWcsA",
+              "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpWcsB",
+        "displayName": "PosTcpWcsB",
+        "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpWcsB",
+              "displayName": "PosTcpWcsB",
+              "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpWcsC",
+        "displayName": "PosTcpWcsC",
+        "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpWcsC",
+              "displayName": "PosTcpWcsC",
+              "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpWcsX",
+        "displayName": "PosTcpWcsX",
+        "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpWcsX",
+              "displayName": "PosTcpWcsX",
+              "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpWcsY",
+        "displayName": "PosTcpWcsY",
+        "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpWcsY",
+              "displayName": "PosTcpWcsY",
+              "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosTcpWcsZ",
+        "displayName": "PosTcpWcsZ",
+        "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosTcpWcsZ",
+              "displayName": "PosTcpWcsZ",
+              "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncChannelType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ToolId",
+        "displayName": "ToolId",
+        "description": "ID of active tool; returns zero if no tool is present.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
+        "name": "CncAxis",
+        "displayName": "<CncAxis>",
+        "description": "Optional place holder for CNC axis objects.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "target": "dtmi:opcua:CNC:CncAxisType"
+      },
+      {
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
+        "name": "CncSpindle",
+        "displayName": "<CncSpindle>",
+        "description": "Optional place holder for CNC spindle objects.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "target": "dtmi:opcua:CNC:CncSpindleType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncDriveType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CncDriveType",
+    "description": "Base component for CNC specific drive componentes (e.g. axis or spindle).",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:CNC:CncComponentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1003",
+    "telemetryTopic": "opcua/CNC/CncDriveType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActChannel",
+        "displayName": "ActChannel",
+        "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "RelativeMeasure" ],
+        "name": "ActLoad",
+        "displayName": "ActLoad",
+        "description": "Drive load actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "percent",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Power" ],
+        "name": "ActPower",
+        "displayName": "ActPower",
+        "description": "Drive power actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "watt",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Torque" ],
+        "name": "ActTorque",
+        "displayName": "ActTorque",
+        "description": "Drive torque actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "newtonMetre",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Torque" ],
+        "name": "CmdTorque",
+        "displayName": "CmdTorque",
+        "description": "Drive torque setpoint value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "newtonMetre",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsInactive",
+        "displayName": "IsInactive",
+        "description": "Drive inactive state (true in case of inactive drive, else false).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsVirtual",
+        "displayName": "IsVirtual",
+        "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "boolean"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncAxisType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CncAxisType",
+    "description": "CNC axis component.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:CNC:CncDriveType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1004",
+    "telemetryTopic": "opcua/CNC/CncAxisType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:CNC:CncAxisType:dataType:CncAxisStatus;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "CncAxisStatus",
+        "description": "Status of a CNC axis.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3004",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "InPosition",
+            "enumValue": 0
+          },
+          {
+            "name": "Moving",
+            "enumValue": 1
+          },
+          {
+            "name": "Parked",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:CNC:CncAxisType:dataType:CncPositionDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "CncPositionDataType",
+        "description": "Structure of position elements.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ActPos",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CmdPos",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "RemDist",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActStatus",
+        "displayName": "ActStatus",
+        "description": "Actual axis state.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "dtmi:opcua:CNC:CncAxisType:dataType:CncAxisStatus;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsReferenced",
+        "displayName": "IsReferenced",
+        "description": "Axis reference state (true in case of successfully refereneced axis, else false).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IsRotational",
+        "displayName": "IsRotational",
+        "description": "Axis type (true in case of rotational axis, in case of linear type or other false).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "boolean"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosDirect",
+        "displayName": "PosDirect",
+        "description": "Position actual value referring to axis' direct measurement system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosDirect",
+              "displayName": "PosDirect",
+              "description": "Position actual value referring to axis' direct measurement system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncAxisType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "PosIndirect",
+        "displayName": "PosIndirect",
+        "description": "Position actual value referring to axis' indirect measurement system.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "PosIndirect",
+              "displayName": "PosIndirect",
+              "description": "Position actual value referring to axis' indirect measurement system.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncAxisType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "Length" ],
+        "name": "ZeroOffset",
+        "displayName": "ZeroOffset",
+        "description": "Active axis zero offset.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "millimetre",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncSpindleType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CncSpindleType",
+    "description": "CNC spindle component.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:CNC:CncDriveType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1005",
+    "telemetryTopic": "opcua/CNC/CncSpindleType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:CNC:CncSpindleType:dataType:CncSpindleStatus;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "CncSpindleStatus",
+        "description": "Status of a CNC spindle.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3005",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Stopped",
+            "enumValue": 0
+          },
+          {
+            "name": "InTargetArea",
+            "enumValue": 1
+          },
+          {
+            "name": "Accelerating",
+            "enumValue": 2
+          },
+          {
+            "name": "Decelerating",
+            "enumValue": 3
+          },
+          {
+            "name": "Parked",
+            "enumValue": 4
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:CNC:CncSpindleType:dataType:CncSpindleTurnDirection;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "CncSpindleTurnDirection",
+        "description": "Turn direction of a CNC spindle.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3001",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "None",
+            "enumValue": 0
+          },
+          {
+            "name": "CW",
+            "enumValue": 1
+          },
+          {
+            "name": "CCW",
+            "enumValue": 2
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:CNC:CncSpindleType:dataType:CncPositionDataType;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "CncPositionDataType",
+        "description": "Structure of position elements.",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=3007",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ActPos",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "CmdPos",
+            "schema": "double"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "RemDist",
+            "schema": "double"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActGear",
+        "displayName": "ActGear",
+        "description": "Gear stage actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActOverride",
+        "displayName": "ActOverride",
+        "description": "Override actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
+        "name": "ActSpeed",
+        "displayName": "ActSpeed",
+        "description": "Speed actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "reciprocalMinute",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActStatus",
+        "displayName": "ActStatus",
+        "description": "Actual spindle state.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "dtmi:opcua:CNC:CncSpindleType:dataType:CncSpindleStatus;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActTurnDirection",
+        "displayName": "ActTurnDirection",
+        "description": "Turn direction actual value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "dtmi:opcua:CNC:CncSpindleType:dataType:CncSpindleTurnDirection;1"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "AnglePos",
+        "displayName": "AnglePos",
+        "description": "Spindle angular position values in case of interpolated (position controlled) spindle movement. Returns zeros in case of regular spindle operation (velocity controlled).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": {
+          "@type": [ "Object", "Detail" ],
+          "fields": [
+            {
+              "@type": [ "Field", "Subject", "Qualified", "Required" ],
+              "name": "AnglePos",
+              "displayName": "AnglePos",
+              "description": "Spindle angular position values in case of interpolated (position controlled) spindle movement. Returns zeros in case of regular spindle operation (velocity controlled).",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "dtmi:opcua:CNC:CncSpindleType:dataType:CncPositionDataType;1"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "ActPos",
+              "displayName": "ActPos",
+              "description": "Position current value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "CmdPos",
+              "displayName": "CmdPos",
+              "description": "Position setpoint value.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            },
+            {
+              "@type": [ "Field", "Qualified", "Required" ],
+              "name": "RemDist",
+              "displayName": "RemDist",
+              "description": "Remaining distance to go.",
+              "namespace": "http://opcfoundation.org/UA/CNC",
+              "schema": "double"
+            }
+          ]
+        }
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CmdGear",
+        "displayName": "CmdGear",
+        "description": "Gear stage setpoint value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "unsignedInteger"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "CmdOverride",
+        "displayName": "CmdOverride",
+        "description": "Override setpoint value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified", "ReciprocalTime" ],
+        "name": "CmdSpeed",
+        "displayName": "CmdSpeed",
+        "description": "Speed setpoint value.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "unit": "reciprocalMinute",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncInterfaceType;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/CNC",
+    "displayName": "CncInterfaceType",
+    "description": "Entry point to CNC data interface.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1007",
+    "commandTopic": "opcua/CNC/CncInterfaceType/{commandName}",
+    "telemetryTopic": "opcua/CNC/CncInterfaceType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "CncTypeName",
+        "displayName": "CncTypeName",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified" ],
+        "name": "Fix",
+        "displayName": "Fix",
+        "description": "Version of CNC interface considering changes in implementation (Bug Fix).",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "VendorName",
+        "displayName": "VendorName",
+        "description": "Name of CNC system vendor. Format and content may be chosen by vendor.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "VendorRevision",
+        "displayName": "VendorRevision",
+        "description": "Vendor revision of CNC interface. Format and content may be chosen by vendor.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "Version",
+        "displayName": "Version",
+        "description": "Version of CNC interface - corresponds to version of OPC UA companion standard.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "schema": "string",
+        "writable": true
+      },
+      {
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "CncAxisList",
+        "displayName": "CncAxisList",
+        "description": "List of CNC axis objects.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "target": "dtmi:opcua:CNC:CncAxisListType"
+      },
+      {
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "CncChannelList",
+        "displayName": "CncChannelList",
+        "description": "List of CNC channel objects.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "target": "dtmi:opcua:CNC:CncChannelListType"
+      },
+      {
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "CncSpindleList",
+        "displayName": "CncSpindleList",
+        "description": "List of CNC spindle objects.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "target": "dtmi:opcua:CNC:CncSpindleListType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:CNC:CncSpindleListType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CncSpindleListType",
+    "description": "List of CNC spindle objects.",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1009",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "HasComponent", "Qualified" ],
+        "name": "CncSpindle",
+        "displayName": "<CncSpindle>",
+        "description": "CNC spindle object.",
+        "namespace": "http://opcfoundation.org/UA/CNC",
+        "target": "dtmi:opcua:CNC:CncSpindleType"
+      }
+    ]
+  }
+]

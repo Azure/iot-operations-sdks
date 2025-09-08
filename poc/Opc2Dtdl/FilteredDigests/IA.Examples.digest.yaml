@@ -1,0 +1,85 @@
+SpecUri: http://opcfoundation.org/UA/IA/Examples/
+SpecVer: 1.01.0
+
+DataTypes:
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ IA:3003, IA:LevelDisplayMode ]
+  DisplayName: "LevelDisplayMode"
+  Description: "Contains the values used to indicate how a percentual value is displayed if the stacklight unit works in Levelmeter mode."
+  Enums:
+    Dimmed: 0
+    Blinking: 1
+    Other: 2
+- UADataType: [ IA:3004, IA:SignalColor ]
+  DisplayName: "SignalColor"
+  Description: "Holds the possible colour values for stacklight lamps."
+  Enums:
+    Off: 0
+    Red: 1
+    Green: 2
+    Blue: 3
+    Yellow: 4
+    Purple: 5
+    Cyan: 6
+    White: 7
+- UADataType: [ IA:3005, IA:SignalModeLight ]
+  DisplayName: "SignalModeLight"
+  Description: "Contains the values used to indicate in what way a lamp behaves when switched on."
+  Enums:
+    Continuous: 0
+    Blinking: 1
+    Flashing: 2
+    Other: 3
+- UADataType: [ IA:3002, IA:StacklightOperationMode ]
+  DisplayName: "StacklightOperationMode"
+  Description: "Contains the values used to indicate how a stacklight (as a whole unit) is used."
+  Enums:
+    Segmented: 0
+    Levelmeter: 1
+    Running_Light: 2
+    Other: 3
+

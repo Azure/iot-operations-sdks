@@ -1,0 +1,2413 @@
+SpecUri: http://opcfoundation.org/UA/IEC61850-7-4
+SpecVer: 2.0
+
+DataTypes:
+- UADataType: [ IEC61850-7-4:1, IEC61850-7-4:AdjustmentKind ]
+  DisplayName: "AdjustmentKind"
+  Enums:
+    Completed: 1
+    Cancelled: 2
+    New adjustments: 3
+    Under way: 4
+- UADataType: [ IEC61850-7-4:3, IEC61850-7-4:AutoReclosingKind ]
+  DisplayName: "AutoReclosingKind"
+  Enums:
+    Ready: 1
+    InProgress: 2
+    Successful: 3
+    WaitingForTrip: 4
+    TripFromProtection: 5
+    FaultDisappeared: 6
+    WaitToComplete: 7
+    CBclosed: 8
+    CycleUnsuccessful: 9
+    Unsuccessful: 10
+    Aborted: 11
+- UADataType: [ IEC61850-7-4:5, IEC61850-7-4:BehaviourModeKind ]
+  DisplayName: "BehaviourModeKind"
+  Enums:
+    on: 1
+    blocked: 2
+    test: 3
+    test/blocked: 4
+    off: 5
+- UADataType: [ IEC61850-7-4:7, IEC61850-7-4:BreakerOpCapabilityKind ]
+  DisplayName: "BreakerOpCapabilityKind"
+  Enums:
+    None: 1
+    Open: 2
+    Close-Open: 3
+    Open-Close-Open: 4
+    Close-Open-Close-Open: 5
+    Open-Close-Open-Close-Open: 6
+    more: 7
+- UADataType: [ IEC61850-7-4:9, IEC61850-7-4:CalcIntervalKind ]
+  DisplayName: "CalcIntervalKind"
+  Enums:
+    MS: 1
+    PER_CYCLE: 2
+    CYCLE: 3
+    DAY: 4
+    WEEK: 5
+    MONTH: 6
+    YEAR: 7
+    EXTERNAL: 8
+- UADataType: [ IEC61850-7-4:11, IEC61850-7-4:CalcMethodKind ]
+  DisplayName: "CalcMethodKind"
+  Enums:
+    UNSPECIFIED: 1
+    TRUE_RMS: 2
+    PEAK_FUNDAMENTAL: 3
+    RMS_FUNDAMENTAL: 4
+    MIN: 5
+    MAX: 6
+    AVG: 7
+    SDV: 8
+    PREDICTION: 9
+    RATE: 10
+- UADataType: [ IEC61850-7-4:13, IEC61850-7-4:CalcModeKind ]
+  DisplayName: "CalcModeKind"
+  Enums:
+    TOTAL: 1
+    PERIOD: 2
+    SLIDING: 3
+- UADataType: [ IEC61850-7-4:15, IEC61850-7-4:ClockSyncKind ]
+  DisplayName: "ClockSyncKind"
+  Enums:
+    ExternalAreaClock: 0
+    LocalAreaClock: 1
+    GlobalAreaClock: 2
+- UADataType: [ IEC61850-7-4:17, IEC61850-7-4:DirectionModeKind ]
+  DisplayName: "DirectionModeKind"
+  Enums:
+    NonDirectional: 1
+    Forward: 2
+    Reverse: 3
+- UADataType: [ IEC61850-7-4:19, IEC61850-7-4:FailureDetectionKind ]
+  DisplayName: "FailureDetectionKind"
+  Enums:
+    Current: 1
+    Breaker Status: 2
+    Both current and breaker status: 3
+    Other: 4
+- UADataType: [ IEC61850-7-4:21, IEC61850-7-4:FaultLoopKind ]
+  DisplayName: "FaultLoopKind"
+  Enums:
+    PhaseAtoGround: 1
+    PhaseBtoGround: 2
+    PhaseCtoGround: 3
+    PhaseAtoB: 4
+    PhaseBtoC: 5
+    PhaseCtoA: 6
+    Others: 7
+- UADataType: [ IEC61850-7-4:23, IEC61850-7-4:FilterFunctionKind ]
+  DisplayName: "FilterFunctionKind"
+  Enums:
+    Low pass: 1
+    High pass: 2
+    Bandpass: 3
+    Bandstop: 4
+    Deadband: 5
+- UADataType: [ IEC61850-7-4:25, IEC61850-7-4:HealthKind ]
+  DisplayName: "HealthKind"
+  Enums:
+    Ok: 1
+    Warning: 2
+    Alarm: 3
+- UADataType: [ IEC61850-7-4:27, IEC61850-7-4:LevelTriggerModeKind ]
+  DisplayName: "LevelTriggerModeKind"
+  Enums:
+    Positive or Rising: 1
+    Negative or Falling: 2
+    Both: 3
+    Other: 4
+- UADataType: [ IEC61850-7-4:29, IEC61850-7-4:LiveDeadModeKind ]
+  DisplayName: "LiveDeadModeKind"
+  Enums:
+    Dead Line, Dead Bus: 1
+    Live Line, Dead Bus: 2
+    Dead Line, Live Bus: 3
+    Dead Line, Dead Bus OR Live Line, Dead Bus: 4
+    Dead Line, Dead Bus OR Dead Line, Live Bus: 5
+    Live Line, Dead Bus OR Dead Line, Live Bus: 6
+    Dead Line, Dead Bus OR Live Line, Dead Bus OR Dead Line, Live Bus: 7
+- UADataType: [ IEC61850-7-4:31, IEC61850-7-4:PFSignKind ]
+  DisplayName: "PFSignKind"
+  Enums:
+    IEC: 1
+    EEI: 2
+- UADataType: [ IEC61850-7-4:33, IEC61850-7-4:PIDAlgorithmKind ]
+  DisplayName: "PIDAlgorithmKind"
+  Enums:
+    P: 1
+    I: 2
+    D: 3
+    PI: 4
+    PD: 5
+    ID: 6
+    PID: 7
+- UADataType: [ IEC61850-7-4:35, IEC61850-7-4:POWSwitchingCapabilityKind ]
+  DisplayName: "POWSwitchingCapabilityKind"
+  Enums:
+    None: 1
+    Close: 2
+    Open: 3
+    Close and Open: 4
+- UADataType: [ IEC61850-7-4:37, IEC61850-7-4:ParallelCoilModeKind ]
+  DisplayName: "ParallelCoilModeKind"
+  Enums:
+    Master/Slave: 1
+    Master/Slave with fixed slave position: 2
+    Master/Slave with variable slave position: 3
+    Parallel operation without communication: 4
+- UADataType: [ IEC61850-7-4:39, IEC61850-7-4:ParallelCtrlModeKind ]
+  DisplayName: "ParallelCtrlModeKind"
+  Enums:
+    Master: 1
+    Slave: 2
+    Independent: 3
+- UADataType: [ IEC61850-7-4:41, IEC61850-7-4:ParallelTransfModeKind ]
+  DisplayName: "ParallelTransfModeKind"
+  Enums:
+    No Mode predefined: 1
+    Master: 2
+    Follower: 3
+    Power Factor: 4
+    Negative Reactance: 5
+    Circulating Current: 6
+    Circulating Reactive Current (var balancing): 7
+    Circulating Reactive Current by equalizing power factor: 8
+- UADataType: [ IEC61850-7-4:43, IEC61850-7-4:PolarizingQuantityKind ]
+  DisplayName: "PolarizingQuantityKind"
+  Enums:
+    None: 1
+    Zero Sequence Current: 2
+    Zero Sequence Voltage: 3
+    Negative Sequence Voltage: 4
+    Phase to Phase Voltages: 5
+    Phase to Ground Voltages: 6
+    Positive sequence voltage: 7
+- UADataType: [ IEC61850-7-4:45, IEC61850-7-4:RecordingModeKind ]
+  DisplayName: "RecordingModeKind"
+  Enums:
+    Overwrite existing values: 1
+    Stop when full or saturated: 2
+- UADataType: [ IEC61850-7-4:47, IEC61850-7-4:RectifierControlModeKind ]
+  DisplayName: "RectifierControlModeKind"
+  Enums:
+    Current: 1
+    Voltage: 2
+    Active Power: 3
+- UADataType: [ IEC61850-7-4:49, IEC61850-7-4:ResetCurveKind ]
+  DisplayName: "ResetCurveKind"
+  Enums:
+    None: 1
+    Definite Time Delayed Reset: 2
+    Inverse Reset: 3
+- UADataType: [ IEC61850-7-4:51, IEC61850-7-4:RestraintModeKind ]
+  DisplayName: "RestraintModeKind"
+  Enums:
+    None: 1
+    Harmonic2: 2
+    Harmonic5: 3
+    Harmonic2and5: 4
+    WaveformAnalysis: 5
+    WaveformAnalysisAndHarmonic2: 6
+    Other: 7
+    WaveformAnalysisAndHarmonic5: 8
+    WaveformAnalysisAndHarmonic2AndHarmonic5: 9
+- UADataType: [ IEC61850-7-4:53, IEC61850-7-4:RetripModeKind ]
+  DisplayName: "RetripModeKind"
+  Enums:
+    Off: 1
+    Without Check: 2
+    With Current Check: 3
+    With Breaker Status Check: 4
+    With Current and Breaker Status Check: 5
+    Other Checks: 6
+- UADataType: [ IEC61850-7-4:55, IEC61850-7-4:RotatingMachineStateKind ]
+  DisplayName: "RotatingMachineStateKind"
+  Enums:
+    Stopped: 1
+    Stopping: 2
+    Started: 3
+    Starting: 4
+    Disabled: 5
+- UADataType: [ IEC61850-7-4:57, IEC61850-7-4:RotationalDirectionKind ]
+  DisplayName: "RotationalDirectionKind"
+  Enums:
+    Clockwise: 1
+    Counter-Clockwise: 2
+    Unknown: 3
+- UADataType: [ IEC61850-7-4:59, IEC61850-7-4:RotorThermalStateKind ]
+  DisplayName: "RotorThermalStateKind"
+  Enums:
+    Cold: 1
+    Warm: 2
+    Overload: 3
+- UADataType: [ IEC61850-7-4:61, IEC61850-7-4:STotalCalcMethodKind ]
+  DisplayName: "STotalCalcMethodKind"
+  Enums:
+    Vector: 1
+    Arithmetic: 2
+- UADataType: [ IEC61850-7-4:63, IEC61850-7-4:SetpointEndKind ]
+  DisplayName: "SetpointEndKind"
+  Enums:
+    Ended_normally: 1
+    Ended_with_overshoot: 2
+    Cancelled_measurement_was_deviating: 3
+    Cancelled_loss_of_communication_with_dispatch_centre: 4
+    Cancelled_loss_of_communication_with_local_area_network: 5
+    Cancelled_loss_of_communication_with_the_local_interface: 6
+    Cancelled_timeout: 7
+    Cancelled_voluntarily: 8
+    Cancelled_noisy_environments: 9
+    Cancelled_material_failure: 10
+    Cancelled_new_set-point_request: 11
+    Cancelled_improper_environment_(blockage): 12
+    Cancelled_stability_time_was_reached: 13
+    Cancelled_immobilisation_time_was_reached: 14
+    Cancelled_equipment_was_in_the_wrong_mode: 15
+    Unknown_causes: 16
+- UADataType: [ IEC61850-7-4:65, IEC61850-7-4:StageControlKind ]
+  DisplayName: "StageControlKind"
+  Enums:
+    Inactive: 1
+    Stage1: 2
+    Stage2: 3
+    Stage3: 4
+- UADataType: [ IEC61850-7-4:67, IEC61850-7-4:SwitchFunctionKind ]
+  DisplayName: "SwitchFunctionKind"
+  Enums:
+    Load Break: 1
+    Disconnector: 2
+    Earthing Switch: 3
+    High Speed Earthing Switch: 4
+- UADataType: [ IEC61850-7-4:69, IEC61850-7-4:SwitchingCapabilityKind ]
+  DisplayName: "SwitchingCapabilityKind"
+  Enums:
+    None: 1
+    Open: 2
+    Close: 3
+    Open and Close: 4
+- UADataType: [ IEC61850-7-4:71, IEC61850-7-4:SynchOperationModeKind ]
+  DisplayName: "SynchOperationModeKind"
+  Enums:
+    Automatic-synchronizing: 1
+    Automatic-paralleling: 2
+    Manual: 3
+    Test: 4
+- UADataType: [ IEC61850-7-4:73, IEC61850-7-4:TankFillKind ]
+  DisplayName: "TankFillKind"
+  Enums:
+    pressure only: 1
+    level only: 2
+    both pressure and level: 3
+- UADataType: [ IEC61850-7-4:75, IEC61850-7-4:TpcAppModeKind ]
+  DisplayName: "TpcAppModeKind"
+  Enums:
+    Unused: 1
+    Blocking: 2
+    Permissive: 3
+    Direct: 4
+    Unblocking: 5
+    Status: 6
+- UADataType: [ IEC61850-7-4:77, IEC61850-7-4:TriggerSourceKind ]
+  DisplayName: "TriggerSourceKind"
+  Enums:
+    Internal: 1
+    External: 2
+    Both: 3
+- UADataType: [ IEC61850-7-4:79, IEC61850-7-4:TripBehaviourKind ]
+  DisplayName: "TripBehaviourKind"
+  Enums:
+    Single Pole Tripping: 1
+    Undefined: 2
+    Three Pole Tripping: 3
+- UADataType: [ IEC61850-7-4:81, IEC61850-7-4:TripModeKind ]
+  DisplayName: "TripModeKind"
+  Enums:
+    3 phase tripping: 1
+    1 or 3 phase tripping: 2
+    specific: 3
+    1 phase tripping: 4
+- UADataType: [ IEC61850-7-4:83, IEC61850-7-4:TuningKind ]
+  DisplayName: "TuningKind"
+  Enums:
+    Not tuned: 1
+    Tuned: 2
+    Tuned but not compensated: 3
+    Umax: 4
+    Umax but not compensated: 5
+    Umax but not compensated due to U continous limitation: 6
+- UADataType: [ IEC61850-7-4:85, IEC61850-7-4:UnbalanceDetectionKind ]
+  DisplayName: "UnbalanceDetectionKind"
+  Enums:
+    Negative sequence: 1
+    Zero sequence: 2
+    Neg-pos sequence: 3
+    Zero-pos sequence: 4
+    Phase vector comparison: 5
+    Others: 6
+- UADataType: [ IEC61850-7-4:87, IEC61850-7-4:UnblockModeKind ]
+  DisplayName: "UnblockModeKind"
+  Enums:
+    Off: 1
+    Permanent: 2
+    Time window: 3
+- UADataType: [ IEC61850-7-4:89, IEC61850-7-4:VoltInterruptDetectionKind ]
+  DisplayName: "VoltInterruptDetectionKind"
+  Enums:
+    Voltage: 1
+    Voltage and Current: 2
+    Voltage and Normally Open breaker contact: 3
+    Voltage and Normally Closed breaker contact: 4
+    Voltage and Normally Open and Normally Closed breaker contacts: 5
+    Normally Open breaker contact: 6
+    Normally Closed breaker contact: 7
+    Both Normally Open and Normally Closed breaker contacts: 8
+- UADataType: [ IEC61850-7-4:91, IEC61850-7-4:WeakEndInfeedModeKind ]
+  DisplayName: "WeakEndInfeedModeKind"
+  Enums:
+    Off: 1
+    Operate: 2
+    Echo: 3
+    Echo and Operate: 4
+- UADataType: [ IEC61850-7-3:5, IEC61850-7-3:Timestamp ]
+  DisplayName: "Timestamp"
+  Fields:
+    SecondSinceEpoch: [ UInt32, 0 ]
+    FractionOfSecond: [ UInt32, 0 ]
+    TimeQuality: [ IEC61850-7-3:TimeQuality, 0 ]
+- UADataType: [ IEC61850-7-3:12, IEC61850-7-3:TimeQuality ]
+  DisplayName: "TimeQuality"
+  Fields:
+    LeapSecondsKnown: [ Boolean, 0 ]
+    ClockFailure: [ Boolean, 0 ]
+    ClockNotSynchronized: [ Boolean, 0 ]
+    TimeAccuracy: [ SByte, 0 ]
+- UADataType: [ IEC61850-7-3:17, IEC61850-7-3:Quality ]
+  DisplayName: "Quality"
+  Fields:
+    validity: [ IEC61850-7-3:ValidityKind, 0 ]
+    detailQual: [ IEC61850-7-3:DetailQual, 0 ]
+    source: [ IEC61850-7-3:SourceKind, 0 ]
+    test: [ Boolean, 0 ]
+    operatorBlocked: [ Boolean, 0 ]
+- UADataType: [ IEC61850-7-3:23, IEC61850-7-3:DetailQual ]
+  DisplayName: "DetailQual"
+  Fields:
+    overflow: [ Boolean, 0 ]
+    outOfRange: [ Boolean, 0 ]
+    badReference: [ Boolean, 0 ]
+    oscillatory: [ Boolean, 0 ]
+    failure: [ Boolean, 0 ]
+    oldData: [ Boolean, 0 ]
+    inconsistent: [ Boolean, 0 ]
+    inaccurate: [ Boolean, 0 ]
+- UADataType: [ IEC61850-7-3:29, IEC61850-7-3:TrgOps ]
+  DisplayName: "TrgOps"
+  Fields:
+    data-change: [ Boolean, 0 ]
+    quality-change: [ Boolean, 0 ]
+    data-update: [ Boolean, 0 ]
+    integrity: [ Boolean, 0 ]
+    general-interrogation: [ Boolean, 0 ]
+- UADataType: [ IEC61850-7-3:34, IEC61850-7-3:OptFlds ]
+  DisplayName: "OptFlds"
+  Fields:
+    sequence-number: [ Boolean, 0 ]
+    report-time-stamp: [ Boolean, 0 ]
+    reason-for-inclusion: [ Boolean, 0 ]
+    data-set-name: [ Boolean, 0 ]
+    data-reference: [ Boolean, 0 ]
+    buffer-overflow: [ Boolean, 0 ]
+    entryID: [ Boolean, 0 ]
+    conf-revision: [ Boolean, 0 ]
+    segmentation: [ Boolean, 0 ]
+- UADataType: [ IEC61850-7-3:39, IEC61850-7-3:SvOptFlds ]
+  DisplayName: "SvOptFlds"
+  Fields:
+    refresh-time: [ Boolean, 0 ]
+    reserved: [ Boolean, 0 ]
+    sample-rate: [ Boolean, 0 ]
+    data-set-name: [ Boolean, 0 ]
+    sample-mode: [ Boolean, 0 ]
+    synch-source-identity: [ Boolean, 0 ]
+- UADataType: [ IEC61850-7-3:44, IEC61850-7-3:Check ]
+  DisplayName: "Check"
+  Fields:
+    synchrocheck: [ Boolean, 0 ]
+    interlockCheck: [ Boolean, 0 ]
+- UADataType: [ IEC61850-7-3:49, IEC61850-7-3:StepControlKind ]
+  DisplayName: "StepControlKind"
+  Enums:
+    stop: 0
+    lower: 1
+    higher: 2
+    reserved: 3
+- UADataType: [ IEC61850-7-3:51, IEC61850-7-3:DpStatusKind ]
+  DisplayName: "DpStatusKind"
+  Enums:
+    intermediate-state: 0
+    off: 1
+    on: 2
+    bad-state: 3
+- UADataType: [ IEC61850-7-3:24, IEC61850-7-3:SourceKind ]
+  DisplayName: "SourceKind"
+  Enums:
+    process: 0
+    substituted: 1
+- UADataType: [ IEC61850-7-3:22, IEC61850-7-3:ValidityKind ]
+  DisplayName: "ValidityKind"
+  Enums:
+    good: 0
+    invalid: 1
+    reserved: 2
+    questionable: 3
+- UADataType: [ IEC61850-7-3:55, IEC61850-7-3:AddCauseKind ]
+  DisplayName: "AddCauseKind"
+  Enums:
+    Unknown: 0
+    Not-supported: 1
+    Blocked-by-switching-hierarchy: 2
+    Select-failed: 3
+    Invalid-position: 4
+    Position-reached: 5
+    Parameter-change-in-execution: 6
+    Step-limit: 7
+    Blocked-by-Mode: 8
+    Blocked-by-process: 9
+    Blocked-by-interlocking: 10
+    Blocked-by-synchrocheck: 11
+    Command-already-in-execution: 12
+    Blocked-by-health: 13
+    1-of-n-control: 14
+    Abortion-by-cancel: 15
+    Time-limit-over: 16
+    Abortion-by-trip: 17
+    Object-not-selected: 18
+    Object-already-selected: 19
+    No-access-authority: 20
+    Ended-with-overshoot: 21
+    Abortion-due-to-deviation: 22
+    Abortion-by-communication-loss: 23
+    Blocked-by-command: 24
+    None: 25
+    Inconsistent-parameters: 26
+    Locked-by-other-client: 27
+- UADataType: [ IEC61850-7-3:57, IEC61850-7-3:ServiceNameKind ]
+  DisplayName: "ServiceNameKind"
+  Enums:
+    Unknown: 0
+    Associate: 1
+    Abort: 2
+    Release: 3
+    GetServerDirectory: 4
+    GetLogicalDeviceDirectory: 5
+    GetAllDataValues: 6
+    GetDataValues: 7
+    SetDataValues: 8
+    GetDataDirectory: 9
+    GetDataDefinition: 10
+    GetDataSetValues: 11
+    SetDataSetValues: 12
+    CreateDataSet: 13
+    DeleteDataSet: 14
+    GetDataSetDirectory: 15
+    SelectActiveSG: 16
+    SelectEditSG: 17
+    SetEditSGValue: 18
+    ConfirmEditSGValues: 19
+    GetEditSGValue: 20
+    GetSGCBValues: 21
+    Report: 22
+    GetBRCBValues: 23
+    SetBRCBValues: 24
+    GetURCBValues: 25
+    SetURCBValues: 26
+    GetLCBValues: 27
+    SetLCBValues: 28
+    QueryLogByTime: 29
+    QueryLogAfter: 30
+    GetLogStatusValues: 31
+    SendGOOSEMessage: 32
+    GetGoCBValues: 33
+    SetGoCBValues: 34
+    GetGoReference: 35
+    GetGOOSEElementNumber: 36
+    SendMSVMessage: 37
+    GetMSVCBValues: 38
+    SetMSVCBValues: 39
+    SendUSVMessage: 40
+    GetUSVCBValues: 41
+    SetUSVCBValues: 42
+    Select: 43
+    SelectWithValue: 44
+    Cancel: 45
+    Operate: 46
+    CommandTermination: 47
+    TimeActivatedOperate: 48
+    GetFile: 49
+    SetFile: 50
+    DeleteFile: 51
+    GetFileAttributeValues: 52
+    TimeSynchronization: 53
+    InternalChange: 54
+    GetLogicalNodeDirectory: 55
+- UADataType: [ IEC61850-7-3:59, IEC61850-7-3:ServiceStatusKind ]
+  DisplayName: "ServiceStatusKind"
+  Enums:
+    no-error: 0
+    instance-not-available: 1
+    instance-in-use: 2
+    access-violation: 3
+    access-not-allowed-in-current-state: 4
+    parameter-value-inappropriate: 5
+    parameter-value-inconsistent: 6
+    class-not-supported: 7
+    instance-locked-by-other-client: 8
+    control-must-be-selected: 9
+    type-conflict: 10
+    failed-due-to-communications-constraint: 11
+    failed-due-to-server-constraint: 12
+- UADataType: [ IEC61850-7-3:61, IEC61850-7-3:OriginatorCategoryKind ]
+  DisplayName: "OriginatorCategoryKind"
+  Enums:
+    not-supported: 0
+    bay-control: 1
+    station-control: 2
+    remote-control: 3
+    automatic-bay: 4
+    automatic-station: 5
+    automatic-remote: 6
+    maintenance: 7
+    process: 8
+- UADataType: [ IEC61850-7-3:63, IEC61850-7-3:ControlServiceStatusKind ]
+  DisplayName: "ControlServiceStatusKind"
+  Enums:
+    Unknown: 0
+    Not-supported: 1
+    Blocked-by-switching-hierarchy: 2
+    Select-failed: 3
+    Invalid-position: 4
+    Position-reached: 5
+    Parameter-change-in-execution: 6
+    Step-limit: 7
+    Blocked-by-Mode: 8
+    Blocked-by-process: 9
+    Blocked-by-interlocking: 10
+    Blocked-by-synchrocheck: 11
+    Command-already-in-execution: 12
+    Blocked-by-health: 13
+    1-of-n-control: 14
+    Abortion-by-cancel: 15
+    Time-limit-over: 16
+    Abortion-by-trip: 17
+    Object-not-selected: 18
+    Object-already-selected: 19
+    No-access-authority: 20
+    Ended-with-overshoot: 21
+    Abortion-due-to-deviation: 22
+    Abortion-by-communication-loss: 23
+    Blocked-by-command: 24
+    None: 25
+    Inconsistent-parameters: 26
+    Locked-by-other-client: 27
+- UADataType: [ IEC61850-7-3:65, IEC61850-7-3:SamplingModeKind ]
+  DisplayName: "SamplingModeKind"
+  Enums:
+    SamplesPerPeriod: 0
+    SamplesPerSecond: 1
+    SecondsPerSample: 2
+- UADataType: [ IEC61850-7-3:69, IEC61850-7-3:AngleReferenceKind ]
+  DisplayName: "AngleReferenceKind"
+  Enums:
+    V: 0
+    A: 1
+    other: 2
+    Synchrophasor: 3
+- UADataType: [ IEC61850-7-3:71, IEC61850-7-3:CtlModelKind ]
+  DisplayName: "CtlModelKind"
+  Enums:
+    status-only: 0
+    direct-with-normal-security: 1
+    sbo-with-normal-security: 2
+    direct-with-enhanced-security: 3
+    sbo-with-enhanced-security: 4
+- UADataType: [ IEC61850-7-3:73, IEC61850-7-3:CurveCharKind ]
+  DisplayName: "CurveCharKind"
+  Enums:
+    ANSI Extremely Inverse: 1
+    ANSI Very Inverse: 2
+    ANSI Normal Inverse: 3
+    ANSI Moderate Inverse: 4
+    ANSI Definite Time: 5
+    Long-Time Extremely Inverse: 6
+    Long-Time Very Inverse: 7
+    Long-Time Inverse: 8
+    IEC Normal Inverse: 9
+    IEC Very Inverse: 10
+    IEC Inverse: 11
+    IEC Extremely Inverse: 12
+    IEC Short-Time Inverse: 13
+    IEC Long-Time Inverse: 14
+    IEC Definite Time: 15
+    Reserved: 16
+    Polynom 1: 17
+    Polynom 2: 18
+    Polynom 3: 19
+    Polynom 4: 20
+    Polynom 5: 21
+    Polynom 6: 22
+    Polynom 7: 23
+    Polynom 8: 24
+    Polynom 9: 25
+    Polynom 10: 26
+    Polynom 11: 27
+    Polynom 12: 28
+    Polynom 13: 29
+    Polynom 14: 30
+    Polynom 15: 31
+    Polynom 16: 32
+    Multiline 1: 33
+    Multiline 2: 34
+    Multiline 3: 35
+    Multiline 4: 36
+    Multiline 5: 37
+    Multiline 6: 38
+    Multiline 7: 39
+    Multiline 8: 40
+    Multiline 9: 41
+    Multiline 10: 42
+    Multiline 11: 43
+    Multiline 12: 44
+    Multiline 13: 45
+    Multiline 14: 46
+    Multiline 15: 47
+    Multiline 16: 48
+- UADataType: [ IEC61850-7-3:75, IEC61850-7-3:FaultDirectionKind ]
+  DisplayName: "FaultDirectionKind"
+  Enums:
+    unknown: 0
+    forward: 1
+    backward: 2
+    both: 3
+- UADataType: [ IEC61850-7-3:77, IEC61850-7-3:HvReferenceKind ]
+  DisplayName: "HvReferenceKind"
+  Enums:
+    fundamental: 0
+    rms: 1
+    absolute: 2
+- UADataType: [ IEC61850-7-3:79, IEC61850-7-3:MonthKind ]
+  DisplayName: "MonthKind"
+  Enums:
+    reserved: 0
+    January: 1
+    February: 2
+    March: 3
+    April: 4
+    May: 5
+    June: 6
+    July: 7
+    August: 8
+    September: 9
+    October: 10
+    November: 11
+    December: 12
+- UADataType: [ IEC61850-7-3:81, IEC61850-7-3:MultiplierKind ]
+  DisplayName: "MultiplierKind"
+  Enums:
+    y: -24
+    z: -21
+    a: -18
+    f: -15
+    p: -12
+    n: -9
+    µ: -6
+    m: -3
+    c: -2
+    d: -1
+    Q: 0
+    da: 1
+    h: 2
+    k: 3
+    M: 6
+    G: 9
+    T: 12
+    P: 15
+    E: 18
+    Z: 21
+    Y: 24
+- UADataType: [ IEC61850-7-3:83, IEC61850-7-3:OccurrenceKind ]
+  DisplayName: "OccurrenceKind"
+  Enums:
+    Time: 0
+    WeekDay: 1
+    WeekOfYear: 2
+    DayOfMonth: 3
+    DayOfYear: 4
+- UADataType: [ IEC61850-7-3:85, IEC61850-7-3:ControlOutputKind ]
+  DisplayName: "ControlOutputKind"
+  Enums:
+    pulse: 0
+    persistent: 1
+    persistent-feedback: 2
+- UADataType: [ IEC61850-7-3:87, IEC61850-7-3:PeriodKind ]
+  DisplayName: "PeriodKind"
+  Enums:
+    Hour: 0
+    Day: 1
+    Week: 2
+    Month: 3
+    Year: 4
+- UADataType: [ IEC61850-7-3:89, IEC61850-7-3:PhaseAngleReferenceKind ]
+  DisplayName: "PhaseAngleReferenceKind"
+  Enums:
+    Va: 0
+    Vb: 1
+    Vc: 2
+    Aa: 3
+    Ab: 4
+    Ac: 5
+    Vab: 6
+    Vbc: 7
+    Vca: 8
+    Vother: 9
+    Aother: 10
+    Synchrophasor: 11
+- UADataType: [ IEC61850-7-3:91, IEC61850-7-3:PhaseFaultDirectionKind ]
+  DisplayName: "PhaseFaultDirectionKind"
+  Enums:
+    unknown: 0
+    forward: 1
+    backward: 2
+- UADataType: [ IEC61850-7-3:93, IEC61850-7-3:PhaseReferenceKind ]
+  DisplayName: "PhaseReferenceKind"
+  Enums:
+    A: 0
+    B: 1
+    C: 2
+- UADataType: [ IEC61850-7-3:95, IEC61850-7-3:RangeKind ]
+  DisplayName: "RangeKind"
+  Enums:
+    normal: 0
+    high: 1
+    low: 2
+    high-high: 3
+    low-low: 4
+- UADataType: [ IEC61850-7-3:97, IEC61850-7-3:SIUnitKind ]
+  DisplayName: "SIUnitKind"
+  Enums:
+    Q: 1
+    m: 2
+    kg: 3
+    s: 4
+    A: 5
+    K: 6
+    mol: 7
+    cd: 8
+    deg: 9
+    rad: 10
+    sr: 11
+    Gy: 21
+    Bq: 22
+    °C: 23
+    Sv: 24
+    F: 25
+    C: 26
+    S: 27
+    H: 28
+    V: 29
+    ohm: 30
+    J: 31
+    N: 32
+    Hz: 33
+    lx: 34
+    Lm: 35
+    Wb: 36
+    T: 37
+    W: 38
+    Pa: 39
+    m²: 41
+    m³: 42
+    m/s: 43
+    m/s²: 44
+    m³/s: 45
+    m/m³: 46
+    M: 47
+    kg/m³: 48
+    m²/s: 49
+    W/m K: 50
+    J/K: 51
+    ppm: 52
+    1/s: 53
+    rad/s: 54
+    W/m²: 55
+    J/m²: 56
+    S/m: 57
+    K/s: 58
+    Pa/s: 59
+    J/kg K: 60
+    VA: 61
+    Watts: 62
+    VAr: 63
+    phi: 64
+    cos(phi): 65
+    Vs: 66
+    V²: 67
+    As: 68
+    A²: 69
+    A²t: 70
+    VAh: 71
+    Wh: 72
+    VArh: 73
+    V/Hz: 74
+    Hz/s: 75
+    char: 76
+    char/s: 77
+    kgm²: 78
+    dB: 79
+    J/Wh: 80
+    W/s: 81
+    l/s: 82
+    dBm: 83
+    h: 84
+    min: 85
+- UADataType: [ IEC61850-7-3:99, IEC61850-7-3:SboClassKind ]
+  DisplayName: "SboClassKind"
+  Enums:
+    operate-once: 0
+    operate-many: 1
+- UADataType: [ IEC61850-7-3:101, IEC61850-7-3:SequenceKind ]
+  DisplayName: "SequenceKind"
+  Enums:
+    pos-neg-zero: 0
+    dir-quad-zero: 1
+- UADataType: [ IEC61850-7-3:103, IEC61850-7-3:SeverityKind ]
+  DisplayName: "SeverityKind"
+  Enums:
+    unknown: 0
+    critical: 1
+    major: 2
+    minor: 3
+    warning: 4
+- UADataType: [ IEC61850-7-3:105, IEC61850-7-3:WeekdayKind ]
+  DisplayName: "WeekdayKind"
+  Enums:
+    reserved: 0
+    Monday: 1
+    Tuesday: 2
+    Wednesday: 3
+    Thursday: 4
+    Friday: 5
+    Saturday: 6
+    Sunday: 7
+- UADataType: [ IEC61850-7-3:107, IEC61850-7-3:ScaledValueConfig ]
+  DisplayName: "ScaledValueConfig"
+  Fields:
+    scaleFactor: [ Float, 0 ]
+    offset: [ Float, 0 ]
+- UADataType: [ IEC61850-7-3:112, IEC61850-7-3:RangeConfig ]
+  DisplayName: "RangeConfig"
+  Fields:
+    hhLim: [ IEC61850-7-3:AnalogueValue, 0 ]
+    hLim: [ IEC61850-7-3:AnalogueValue, 0 ]
+    lLim: [ IEC61850-7-3:AnalogueValue, 0 ]
+    llLim: [ IEC61850-7-3:AnalogueValue, 0 ]
+    min: [ IEC61850-7-3:AnalogueValue, 0 ]
+    max: [ IEC61850-7-3:AnalogueValue, 0 ]
+    limDb: [ UInt32, 0 ]
+- UADataType: [ IEC61850-7-3:118, IEC61850-7-3:ValWithTrans ]
+  DisplayName: "ValWithTrans"
+  Fields:
+    posVal: [ SByte, 0 ]
+    transInd: [ Boolean, 0 ]
+- UADataType: [ IEC61850-7-3:123, IEC61850-7-3:PulseConfig ]
+  DisplayName: "PulseConfig"
+  Fields:
+    cmdQual: [ IEC61850-7-3:ControlOutputKind, 0 ]
+    onDur: [ UInt32, 0 ]
+    offDur: [ UInt32, 0 ]
+    numPls: [ UInt32, 0 ]
+- UADataType: [ IEC61850-7-3:128, IEC61850-7-3:Originator ]
+  DisplayName: "Originator"
+  Fields:
+    orCat: [ IEC61850-7-3:OriginatorCategoryKind, 0 ]
+    orIdent: [ ByteString, 0 ]
+- UADataType: [ IEC61850-7-3:133, IEC61850-7-3:Unit ]
+  DisplayName: "Unit"
+  Fields:
+    SIUnit: [ IEC61850-7-3:SIUnitKind, 0 ]
+    multiplier: [ IEC61850-7-3:MultiplierKind, 0 ]
+- UADataType: [ IEC61850-7-3:138, IEC61850-7-3:Vector ]
+  DisplayName: "Vector"
+  Fields:
+    mag: [ IEC61850-7-3:AnalogueValue, 0 ]
+    ang: [ IEC61850-7-3:AnalogueValue, 0 ]
+- UADataType: [ IEC61850-7-3:143, IEC61850-7-3:Point ]
+  DisplayName: "Point"
+  Fields:
+    xVal: [ Float, 0 ]
+    yVal: [ Float, 0 ]
+    zVal: [ Float, 0 ]
+- UADataType: [ IEC61850-7-3:148, IEC61850-7-3:Cell ]
+  DisplayName: "Cell"
+  Fields:
+    xStart: [ Float, 0 ]
+    xEnd: [ Float, 0 ]
+    yStart: [ Float, 0 ]
+    yEnd: [ Float, 0 ]
+- UADataType: [ IEC61850-7-3:153, IEC61850-7-3:CalendarTime ]
+  DisplayName: "CalendarTime"
+  Fields:
+    occ: [ UInt16, 0 ]
+    occType: [ IEC61850-7-3:OccurrenceKind, 0 ]
+    occPer: [ IEC61850-7-3:PeriodKind, 0 ]
+    weekDay: [ IEC61850-7-3:WeekdayKind, 0 ]
+    month: [ IEC61850-7-3:MonthKind, 0 ]
+    day: [ Byte, 0 ]
+    hr: [ Byte, 0 ]
+    mn: [ Byte, 0 ]
+- UADataType: [ IEC61850-7-3:117, IEC61850-7-3:AnalogueValue ]
+  DisplayName: "AnalogueValue"
+  Fields:
+    i: [ Int32, 0 ]
+    f: [ Float, 0 ]
+- UADataType: [ IEC61850-7-3:162, IEC61850-7-3:AnalogueValueCtl ]
+  DisplayName: "AnalogueValueCtl"
+  Fields:
+    i: [ Int32, 0 ]
+    f: [ Float, 0 ]
+- UADataType: [ IEC61850-7-3:167, IEC61850-7-3:AnalogueValueCtlF ]
+  DisplayName: "AnalogueValueCtlF"
+  Fields:
+    f: [ Float, 0 ]
+- UADataType: [ IEC61850-7-3:172, IEC61850-7-3:AnalogueValueCtlInt ]
+  DisplayName: "AnalogueValueCtlInt"
+  Fields:
+    i: [ Int32, 0 ]
+
+DefinedTypes:
+
+  IEC61850-7-4:CommonLN:
+  - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+  - DisplayName: "CommonLN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:4, IEC61850-7-3:IEC61850LNodeBaseObjectType ]
+
+  IEC61850-7-4:ENSBehaviourModeKind:
+  - [ UAObjectType, IEC61850-7-4:98, IEC61850-7-4:ENSBehaviourModeKind ]
+  - DisplayName: "ENSBehaviourModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ENSHealthKind:
+  - [ UAObjectType, IEC61850-7-4:104, IEC61850-7-4:ENSHealthKind ]
+  - DisplayName: "ENSHealthKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ENCBehaviourModeKind:
+  - [ UAObjectType, IEC61850-7-4:113, IEC61850-7-4:ENCBehaviourModeKind ]
+  - DisplayName: "ENCBehaviourModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:618, IEC61850-7-3:ENC ]
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:116, IEC61850-7-4:Operate ]
+    - DisplayName: "Operate"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:117, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:BehaviourModeKind, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:118, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:119, IEC61850-7-4:SelectWithVal ]
+    - DisplayName: "SelectWithVal"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:120, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:BehaviourModeKind, 0 ]
+          operTm: [ IEC61850-7-3:Timestamp, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:121, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:122, IEC61850-7-4:TimeActivatedOperate ]
+    - DisplayName: "TimeActivatedOperate"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:123, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:BehaviourModeKind, 0 ]
+          operTm: [ IEC61850-7-3:Timestamp, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:124, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+
+  IEC61850-7-4:ENGCalcMethodKind:
+  - [ UAObjectType, IEC61850-7-4:148, IEC61850-7-4:ENGCalcMethodKind ]
+  - DisplayName: "ENGCalcMethodKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ENGCalcModeKind:
+  - [ UAObjectType, IEC61850-7-4:152, IEC61850-7-4:ENGCalcModeKind ]
+  - DisplayName: "ENGCalcModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ENGCalcIntervalKind:
+  - [ UAObjectType, IEC61850-7-4:156, IEC61850-7-4:ENGCalcIntervalKind ]
+  - DisplayName: "ENGCalcIntervalKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:LPHD:
+  - [ UAObjectType, IEC61850-7-4:173, IEC61850-7-4:LPHD ]
+  - DisplayName: "LPHD"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:4, IEC61850-7-3:IEC61850LNodeBaseObjectType ]
+
+  IEC61850-7-4:LLN0:
+  - [ UAObjectType, IEC61850-7-4:223, IEC61850-7-4:LLN0 ]
+  - DisplayName: "LLN0"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:LCCH:
+  - [ UAObjectType, IEC61850-7-4:255, IEC61850-7-4:LCCH ]
+  - DisplayName: "LCCH"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:LGOS:
+  - [ UAObjectType, IEC61850-7-4:290, IEC61850-7-4:LGOS ]
+  - DisplayName: "LGOS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:LSVS:
+  - [ UAObjectType, IEC61850-7-4:311, IEC61850-7-4:LSVS ]
+  - DisplayName: "LSVS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:LTIM:
+  - [ UAObjectType, IEC61850-7-4:329, IEC61850-7-4:LTIM ]
+  - DisplayName: "LTIM"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGWeekdayKind:
+  - [ UAObjectType, IEC61850-7-4:340, IEC61850-7-4:ENGWeekdayKind ]
+  - DisplayName: "ENGWeekdayKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:LTMS:
+  - [ UAObjectType, IEC61850-7-4:343, IEC61850-7-4:LTMS ]
+  - DisplayName: "LTMS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSClockSyncKind:
+  - [ UAObjectType, IEC61850-7-4:351, IEC61850-7-4:ENSClockSyncKind ]
+  - DisplayName: "ENSClockSyncKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:LTRK:
+  - [ UAObjectType, IEC61850-7-4:361, IEC61850-7-4:LTRK ]
+  - DisplayName: "LTRK"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:CTSBOOLEAN:
+  - [ UAObjectType, IEC61850-7-4:363, IEC61850-7-4:CTSBOOLEAN ]
+  - DisplayName: "CTSBOOLEAN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:1133, IEC61850-7-3:CTS ]
+
+  IEC61850-7-4:CTSINT32:
+  - [ UAObjectType, IEC61850-7-4:387, IEC61850-7-4:CTSINT32 ]
+  - DisplayName: "CTSINT32"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:1133, IEC61850-7-3:CTS ]
+
+  IEC61850-7-4:CTSAnalogueValueCtlF:
+  - [ UAObjectType, IEC61850-7-4:411, IEC61850-7-4:CTSAnalogueValueCtlF ]
+  - DisplayName: "CTSAnalogueValueCtlF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:1133, IEC61850-7-3:CTS ]
+
+  IEC61850-7-4:CTSAnalogueValueCtlInt:
+  - [ UAObjectType, IEC61850-7-4:424, IEC61850-7-4:CTSAnalogueValueCtlInt ]
+  - DisplayName: "CTSAnalogueValueCtlInt"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:1133, IEC61850-7-3:CTS ]
+
+  IEC61850-7-4:CTSTcmd:
+  - [ UAObjectType, IEC61850-7-4:437, IEC61850-7-4:CTSTcmd ]
+  - DisplayName: "CTSTcmd"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:1133, IEC61850-7-3:CTS ]
+
+  IEC61850-7-4:CTSINT8:
+  - [ UAObjectType, IEC61850-7-4:450, IEC61850-7-4:CTSINT8 ]
+  - DisplayName: "CTSINT8"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:1133, IEC61850-7-3:CTS ]
+
+  IEC61850-7-4:ANCR:
+  - [ UAObjectType, IEC61850-7-4:568, IEC61850-7-4:ANCR ]
+  - DisplayName: "ANCR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSTuningKind:
+  - [ UAObjectType, IEC61850-7-4:588, IEC61850-7-4:ENSTuningKind ]
+  - DisplayName: "ENSTuningKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ENGParallelCoilModeKind:
+  - [ UAObjectType, IEC61850-7-4:706, IEC61850-7-4:ENGParallelCoilModeKind ]
+  - DisplayName: "ENGParallelCoilModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ENGParallelCtrlModeKind:
+  - [ UAObjectType, IEC61850-7-4:710, IEC61850-7-4:ENGParallelCtrlModeKind ]
+  - DisplayName: "ENGParallelCtrlModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ARCO:
+  - [ UAObjectType, IEC61850-7-4:717, IEC61850-7-4:ARCO ]
+  - DisplayName: "ARCO"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ARIS:
+  - [ UAObjectType, IEC61850-7-4:771, IEC61850-7-4:ARIS ]
+  - DisplayName: "ARIS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ATCC:
+  - [ UAObjectType, IEC61850-7-4:830, IEC61850-7-4:ATCC ]
+  - DisplayName: "ATCC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGParallelTransfModeKind:
+  - [ UAObjectType, IEC61850-7-4:1000, IEC61850-7-4:ENGParallelTransfModeKind ]
+  - DisplayName: "ENGParallelTransfModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:AVCO:
+  - [ UAObjectType, IEC61850-7-4:1013, IEC61850-7-4:AVCO ]
+  - DisplayName: "AVCO"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:CALH:
+  - [ UAObjectType, IEC61850-7-4:1078, IEC61850-7-4:CALH ]
+  - DisplayName: "CALH"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:CCGR:
+  - [ UAObjectType, IEC61850-7-4:1091, IEC61850-7-4:CCGR ]
+  - DisplayName: "CCGR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENCStageControlKind:
+  - [ UAObjectType, IEC61850-7-4:1169, IEC61850-7-4:ENCStageControlKind ]
+  - DisplayName: "ENCStageControlKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:618, IEC61850-7-3:ENC ]
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:1172, IEC61850-7-4:Operate ]
+    - DisplayName: "Operate"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1173, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:StageControlKind, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1174, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:1175, IEC61850-7-4:SelectWithVal ]
+    - DisplayName: "SelectWithVal"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1176, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:StageControlKind, 0 ]
+          operTm: [ IEC61850-7-3:Timestamp, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1177, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:1178, IEC61850-7-4:TimeActivatedOperate ]
+    - DisplayName: "TimeActivatedOperate"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1179, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:StageControlKind, 0 ]
+          operTm: [ IEC61850-7-3:Timestamp, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1180, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+
+  IEC61850-7-4:CILO:
+  - [ UAObjectType, IEC61850-7-4:1225, IEC61850-7-4:CILO ]
+  - DisplayName: "CILO"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:CPOW:
+  - [ UAObjectType, IEC61850-7-4:1232, IEC61850-7-4:CPOW ]
+  - DisplayName: "CPOW"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:CSWI:
+  - [ UAObjectType, IEC61850-7-4:1283, IEC61850-7-4:CSWI ]
+  - DisplayName: "CSWI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:CSYN:
+  - [ UAObjectType, IEC61850-7-4:1361, IEC61850-7-4:CSYN ]
+  - DisplayName: "CSYN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSRotationalDirectionKind:
+  - [ UAObjectType, IEC61850-7-4:1396, IEC61850-7-4:ENSRotationalDirectionKind ]
+  - DisplayName: "ENSRotationalDirectionKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ENCSynchOperationModeKind:
+  - [ UAObjectType, IEC61850-7-4:1466, IEC61850-7-4:ENCSynchOperationModeKind ]
+  - DisplayName: "ENCSynchOperationModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:618, IEC61850-7-3:ENC ]
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:1469, IEC61850-7-4:Operate ]
+    - DisplayName: "Operate"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1470, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:SynchOperationModeKind, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1471, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:1472, IEC61850-7-4:SelectWithVal ]
+    - DisplayName: "SelectWithVal"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1473, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:SynchOperationModeKind, 0 ]
+          operTm: [ IEC61850-7-3:Timestamp, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1474, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+  - HasComponent:
+    - [ UAMethod, IEC61850-7-4:1475, IEC61850-7-4:TimeActivatedOperate ]
+    - DisplayName: "TimeActivatedOperate"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1476, IEC61850-7-4:InputArguments, Argument, -1, 0 ]
+      - Arguments:
+          ctlVal: [ IEC61850-7-4:SynchOperationModeKind, 0 ]
+          operTm: [ IEC61850-7-3:Timestamp, 0 ]
+          test: [ Boolean, 0 ]
+          synchroCheck: [ Boolean, 0 ]
+          interlockCheck: [ Boolean, 0 ]
+      - DisplayName: "InputArguments"
+    - HasProperty:
+      - [ UAVariable, IEC61850-7-4:1477, IEC61850-7-4:OutputArguments, Argument, -1, 0 ]
+      - Arguments:
+          addCause: [ IEC61850-7-3:AddCauseKind, 0 ]
+      - DisplayName: "OutputArguments"
+
+  IEC61850-7-4:ENGLiveDeadModeKind:
+  - [ UAObjectType, IEC61850-7-4:1517, IEC61850-7-4:ENGLiveDeadModeKind ]
+  - DisplayName: "ENGLiveDeadModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:FCNT:
+  - [ UAObjectType, IEC61850-7-4:1556, IEC61850-7-4:FCNT ]
+  - DisplayName: "FCNT"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:FCSD:
+  - [ UAObjectType, IEC61850-7-4:1567, IEC61850-7-4:FCSD ]
+  - DisplayName: "FCSD"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:FFIL:
+  - [ UAObjectType, IEC61850-7-4:1579, IEC61850-7-4:FFIL ]
+  - DisplayName: "FFIL"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGFilterFunctionKind:
+  - [ UAObjectType, IEC61850-7-4:1587, IEC61850-7-4:ENGFilterFunctionKind ]
+  - DisplayName: "ENGFilterFunctionKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:FLIM:
+  - [ UAObjectType, IEC61850-7-4:1608, IEC61850-7-4:FLIM ]
+  - DisplayName: "FLIM"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:FPID:
+  - [ UAObjectType, IEC61850-7-4:1622, IEC61850-7-4:FPID ]
+  - DisplayName: "FPID"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGPIDAlgorithmKind:
+  - [ UAObjectType, IEC61850-7-4:1639, IEC61850-7-4:ENGPIDAlgorithmKind ]
+  - DisplayName: "ENGPIDAlgorithmKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:FRMP:
+  - [ UAObjectType, IEC61850-7-4:1660, IEC61850-7-4:FRMP ]
+  - DisplayName: "FRMP"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSAdjustmentKind:
+  - [ UAObjectType, IEC61850-7-4:1662, IEC61850-7-4:ENSAdjustmentKind ]
+  - DisplayName: "ENSAdjustmentKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:FSPT:
+  - [ UAObjectType, IEC61850-7-4:1681, IEC61850-7-4:FSPT ]
+  - DisplayName: "FSPT"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSSetpointEndKind:
+  - [ UAObjectType, IEC61850-7-4:1701, IEC61850-7-4:ENSSetpointEndKind ]
+  - DisplayName: "ENSSetpointEndKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:FXOT:
+  - [ UAObjectType, IEC61850-7-4:1760, IEC61850-7-4:FXOT ]
+  - DisplayName: "FXOT"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:FXUT:
+  - [ UAObjectType, IEC61850-7-4:1778, IEC61850-7-4:FXUT ]
+  - DisplayName: "FXUT"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:GAPC:
+  - [ UAObjectType, IEC61850-7-4:1796, IEC61850-7-4:GAPC ]
+  - DisplayName: "GAPC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:GGIO:
+  - [ UAObjectType, IEC61850-7-4:1876, IEC61850-7-4:GGIO ]
+  - DisplayName: "GGIO"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:GLOG:
+  - [ UAObjectType, IEC61850-7-4:1962, IEC61850-7-4:GLOG ]
+  - DisplayName: "GLOG"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:GSAL:
+  - [ UAObjectType, IEC61850-7-4:1983, IEC61850-7-4:GSAL ]
+  - DisplayName: "GSAL"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:IARC:
+  - [ UAObjectType, IEC61850-7-4:2008, IEC61850-7-4:IARC ]
+  - DisplayName: "IARC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGRecordingModeKind:
+  - [ UAObjectType, IEC61850-7-4:2025, IEC61850-7-4:ENGRecordingModeKind ]
+  - DisplayName: "ENGRecordingModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:IHMI:
+  - [ UAObjectType, IEC61850-7-4:2030, IEC61850-7-4:IHMI ]
+  - DisplayName: "IHMI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ISAF:
+  - [ UAObjectType, IEC61850-7-4:2049, IEC61850-7-4:ISAF ]
+  - DisplayName: "ISAF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ITCI:
+  - [ UAObjectType, IEC61850-7-4:2074, IEC61850-7-4:ITCI ]
+  - DisplayName: "ITCI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ITMI:
+  - [ UAObjectType, IEC61850-7-4:2096, IEC61850-7-4:ITMI ]
+  - DisplayName: "ITMI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ITPC:
+  - [ UAObjectType, IEC61850-7-4:2102, IEC61850-7-4:ITPC ]
+  - DisplayName: "ITPC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGTpcAppModeKind:
+  - [ UAObjectType, IEC61850-7-4:2143, IEC61850-7-4:ENGTpcAppModeKind ]
+  - DisplayName: "ENGTpcAppModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:KFAN:
+  - [ UAObjectType, IEC61850-7-4:2162, IEC61850-7-4:KFAN ]
+  - DisplayName: "KFAN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:KFIL:
+  - [ UAObjectType, IEC61850-7-4:2212, IEC61850-7-4:KFIL ]
+  - DisplayName: "KFIL"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:KPMP:
+  - [ UAObjectType, IEC61850-7-4:2274, IEC61850-7-4:KPMP ]
+  - DisplayName: "KPMP"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:KTNK:
+  - [ UAObjectType, IEC61850-7-4:2324, IEC61850-7-4:KTNK ]
+  - DisplayName: "KTNK"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGTankFillKind:
+  - [ UAObjectType, IEC61850-7-4:2339, IEC61850-7-4:ENGTankFillKind ]
+  - DisplayName: "ENGTankFillKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:KVLV:
+  - [ UAObjectType, IEC61850-7-4:2342, IEC61850-7-4:KVLV ]
+  - DisplayName: "KVLV"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MENV:
+  - [ UAObjectType, IEC61850-7-4:2442, IEC61850-7-4:MENV ]
+  - DisplayName: "MENV"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MFLK:
+  - [ UAObjectType, IEC61850-7-4:2483, IEC61850-7-4:MFLK ]
+  - DisplayName: "MFLK"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MHAI:
+  - [ UAObjectType, IEC61850-7-4:2558, IEC61850-7-4:MHAI ]
+  - DisplayName: "MHAI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MHAN:
+  - [ UAObjectType, IEC61850-7-4:2650, IEC61850-7-4:MHAN ]
+  - DisplayName: "MHAN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MHYD:
+  - [ UAObjectType, IEC61850-7-4:2767, IEC61850-7-4:MHYD ]
+  - DisplayName: "MHYD"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MMDC:
+  - [ UAObjectType, IEC61850-7-4:2793, IEC61850-7-4:MMDC ]
+  - DisplayName: "MMDC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MMET:
+  - [ UAObjectType, IEC61850-7-4:2818, IEC61850-7-4:MMET ]
+  - DisplayName: "MMET"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MMTN:
+  - [ UAObjectType, IEC61850-7-4:2882, IEC61850-7-4:MMTN ]
+  - DisplayName: "MMTN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MMTR:
+  - [ UAObjectType, IEC61850-7-4:2911, IEC61850-7-4:MMTR ]
+  - DisplayName: "MMTR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MMXN:
+  - [ UAObjectType, IEC61850-7-4:2940, IEC61850-7-4:MMXN ]
+  - DisplayName: "MMXN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:MMXU:
+  - [ UAObjectType, IEC61850-7-4:2965, IEC61850-7-4:MMXU ]
+  - DisplayName: "MMXU"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGSTotalCalcMethodKind:
+  - [ UAObjectType, IEC61850-7-4:3063, IEC61850-7-4:ENGSTotalCalcMethodKind ]
+  - DisplayName: "ENGSTotalCalcMethodKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ENGPFSignKind:
+  - [ UAObjectType, IEC61850-7-4:3067, IEC61850-7-4:ENGPFSignKind ]
+  - DisplayName: "ENGPFSignKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:MSQI:
+  - [ UAObjectType, IEC61850-7-4:3070, IEC61850-7-4:MSQI ]
+  - DisplayName: "MSQI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PDIF:
+  - [ UAObjectType, IEC61850-7-4:3128, IEC61850-7-4:PDIF ]
+  - DisplayName: "PDIF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGRestraintModeKind:
+  - [ UAObjectType, IEC61850-7-4:3165, IEC61850-7-4:ENGRestraintModeKind ]
+  - DisplayName: "ENGRestraintModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:PDIR:
+  - [ UAObjectType, IEC61850-7-4:3180, IEC61850-7-4:PDIR ]
+  - DisplayName: "PDIR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PDIS:
+  - [ UAObjectType, IEC61850-7-4:3199, IEC61850-7-4:PDIS ]
+  - DisplayName: "PDIS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGDirectionModeKind:
+  - [ UAObjectType, IEC61850-7-4:3223, IEC61850-7-4:ENGDirectionModeKind ]
+  - DisplayName: "ENGDirectionModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:PDOP:
+  - [ UAObjectType, IEC61850-7-4:3262, IEC61850-7-4:PDOP ]
+  - DisplayName: "PDOP"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PDUP:
+  - [ UAObjectType, IEC61850-7-4:3287, IEC61850-7-4:PDUP ]
+  - DisplayName: "PDUP"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PFRC:
+  - [ UAObjectType, IEC61850-7-4:3312, IEC61850-7-4:PFRC ]
+  - DisplayName: "PFRC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PHAR:
+  - [ UAObjectType, IEC61850-7-4:3340, IEC61850-7-4:PHAR ]
+  - DisplayName: "PHAR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PHIZ:
+  - [ UAObjectType, IEC61850-7-4:3364, IEC61850-7-4:PHIZ ]
+  - DisplayName: "PHIZ"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PIOC:
+  - [ UAObjectType, IEC61850-7-4:3391, IEC61850-7-4:PIOC ]
+  - DisplayName: "PIOC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PMRI:
+  - [ UAObjectType, IEC61850-7-4:3410, IEC61850-7-4:PMRI ]
+  - DisplayName: "PMRI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PMSS:
+  - [ UAObjectType, IEC61850-7-4:3443, IEC61850-7-4:PMSS ]
+  - DisplayName: "PMSS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:POPF:
+  - [ UAObjectType, IEC61850-7-4:3468, IEC61850-7-4:POPF ]
+  - DisplayName: "POPF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PPAM:
+  - [ UAObjectType, IEC61850-7-4:3501, IEC61850-7-4:PPAM ]
+  - DisplayName: "PPAM"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PRTR:
+  - [ UAObjectType, IEC61850-7-4:3520, IEC61850-7-4:PRTR ]
+  - DisplayName: "PRTR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PSCH:
+  - [ UAObjectType, IEC61850-7-4:3539, IEC61850-7-4:PSCH ]
+  - DisplayName: "PSCH"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGUnblockModeKind:
+  - [ UAObjectType, IEC61850-7-4:3587, IEC61850-7-4:ENGUnblockModeKind ]
+  - DisplayName: "ENGUnblockModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ENGWeakEndInfeedModeKind:
+  - [ UAObjectType, IEC61850-7-4:3593, IEC61850-7-4:ENGWeakEndInfeedModeKind ]
+  - DisplayName: "ENGWeakEndInfeedModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:PSDE:
+  - [ UAObjectType, IEC61850-7-4:3598, IEC61850-7-4:PSDE ]
+  - DisplayName: "PSDE"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PTEF:
+  - [ UAObjectType, IEC61850-7-4:3634, IEC61850-7-4:PTEF ]
+  - DisplayName: "PTEF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PTHF:
+  - [ UAObjectType, IEC61850-7-4:3662, IEC61850-7-4:PTHF ]
+  - DisplayName: "PTHF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PTOC:
+  - [ UAObjectType, IEC61850-7-4:3681, IEC61850-7-4:PTOC ]
+  - DisplayName: "PTOC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGResetCurveKind:
+  - [ UAObjectType, IEC61850-7-4:3726, IEC61850-7-4:ENGResetCurveKind ]
+  - DisplayName: "ENGResetCurveKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:PTOF:
+  - [ UAObjectType, IEC61850-7-4:3733, IEC61850-7-4:PTOF ]
+  - DisplayName: "PTOF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PTOV:
+  - [ UAObjectType, IEC61850-7-4:3761, IEC61850-7-4:PTOV ]
+  - DisplayName: "PTOV"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PTRC:
+  - [ UAObjectType, IEC61850-7-4:3807, IEC61850-7-4:PTRC ]
+  - DisplayName: "PTRC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGTripModeKind:
+  - [ UAObjectType, IEC61850-7-4:3828, IEC61850-7-4:ENGTripModeKind ]
+  - DisplayName: "ENGTripModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:PTTR:
+  - [ UAObjectType, IEC61850-7-4:3833, IEC61850-7-4:PTTR ]
+  - DisplayName: "PTTR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PTUC:
+  - [ UAObjectType, IEC61850-7-4:3923, IEC61850-7-4:PTUC ]
+  - DisplayName: "PTUC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PTUF:
+  - [ UAObjectType, IEC61850-7-4:3973, IEC61850-7-4:PTUF ]
+  - DisplayName: "PTUF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PTUV:
+  - [ UAObjectType, IEC61850-7-4:4001, IEC61850-7-4:PTUV ]
+  - DisplayName: "PTUV"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PUPF:
+  - [ UAObjectType, IEC61850-7-4:4047, IEC61850-7-4:PUPF ]
+  - DisplayName: "PUPF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PVOC:
+  - [ UAObjectType, IEC61850-7-4:4080, IEC61850-7-4:PVOC ]
+  - DisplayName: "PVOC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PVPH:
+  - [ UAObjectType, IEC61850-7-4:4143, IEC61850-7-4:PVPH ]
+  - DisplayName: "PVPH"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:PZSU:
+  - [ UAObjectType, IEC61850-7-4:4191, IEC61850-7-4:PZSU ]
+  - DisplayName: "PZSU"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:QFVR:
+  - [ UAObjectType, IEC61850-7-4:4214, IEC61850-7-4:QFVR ]
+  - DisplayName: "QFVR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:QITR:
+  - [ UAObjectType, IEC61850-7-4:4254, IEC61850-7-4:QITR ]
+  - DisplayName: "QITR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:QIUB:
+  - [ UAObjectType, IEC61850-7-4:4286, IEC61850-7-4:QIUB ]
+  - DisplayName: "QIUB"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGUnbalanceDetectionKind:
+  - [ UAObjectType, IEC61850-7-4:4317, IEC61850-7-4:ENGUnbalanceDetectionKind ]
+  - DisplayName: "ENGUnbalanceDetectionKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:QVTR:
+  - [ UAObjectType, IEC61850-7-4:4322, IEC61850-7-4:QVTR ]
+  - DisplayName: "QVTR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:QVUB:
+  - [ UAObjectType, IEC61850-7-4:4354, IEC61850-7-4:QVUB ]
+  - DisplayName: "QVUB"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:QVVR:
+  - [ UAObjectType, IEC61850-7-4:4388, IEC61850-7-4:QVVR ]
+  - DisplayName: "QVVR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGVoltInterruptDetectionKind:
+  - [ UAObjectType, IEC61850-7-4:4434, IEC61850-7-4:ENGVoltInterruptDetectionKind ]
+  - DisplayName: "ENGVoltInterruptDetectionKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:RADR:
+  - [ UAObjectType, IEC61850-7-4:4437, IEC61850-7-4:RADR ]
+  - DisplayName: "RADR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGTriggerSourceKind:
+  - [ UAObjectType, IEC61850-7-4:4453, IEC61850-7-4:ENGTriggerSourceKind ]
+  - DisplayName: "ENGTriggerSourceKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ENGLevelTriggerModeKind:
+  - [ UAObjectType, IEC61850-7-4:4457, IEC61850-7-4:ENGLevelTriggerModeKind ]
+  - DisplayName: "ENGLevelTriggerModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:RBDR:
+  - [ UAObjectType, IEC61850-7-4:4470, IEC61850-7-4:RBDR ]
+  - DisplayName: "RBDR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:RBRF:
+  - [ UAObjectType, IEC61850-7-4:4495, IEC61850-7-4:RBRF ]
+  - DisplayName: "RBRF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGFailureDetectionKind:
+  - [ UAObjectType, IEC61850-7-4:4516, IEC61850-7-4:ENGFailureDetectionKind ]
+  - DisplayName: "ENGFailureDetectionKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ENGRetripModeKind:
+  - [ UAObjectType, IEC61850-7-4:4528, IEC61850-7-4:ENGRetripModeKind ]
+  - DisplayName: "ENGRetripModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:RDIR:
+  - [ UAObjectType, IEC61850-7-4:4531, IEC61850-7-4:RDIR ]
+  - DisplayName: "RDIR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGPolarizingQuantityKind:
+  - [ UAObjectType, IEC61850-7-4:4551, IEC61850-7-4:ENGPolarizingQuantityKind ]
+  - DisplayName: "ENGPolarizingQuantityKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:RDRE:
+  - [ UAObjectType, IEC61850-7-4:4556, IEC61850-7-4:RDRE ]
+  - DisplayName: "RDRE"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:RDRS:
+  - [ UAObjectType, IEC61850-7-4:4624, IEC61850-7-4:RDRS ]
+  - DisplayName: "RDRS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:RFLO:
+  - [ UAObjectType, IEC61850-7-4:4639, IEC61850-7-4:RFLO ]
+  - DisplayName: "RFLO"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSFaultLoopKind:
+  - [ UAObjectType, IEC61850-7-4:4641, IEC61850-7-4:ENSFaultLoopKind ]
+  - DisplayName: "ENSFaultLoopKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:RMXU:
+  - [ UAObjectType, IEC61850-7-4:4661, IEC61850-7-4:RMXU ]
+  - DisplayName: "RMXU"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:RPSB:
+  - [ UAObjectType, IEC61850-7-4:4675, IEC61850-7-4:RPSB ]
+  - DisplayName: "RPSB"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:RREC:
+  - [ UAObjectType, IEC61850-7-4:4715, IEC61850-7-4:RREC ]
+  - DisplayName: "RREC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSTripBehaviourKind:
+  - [ UAObjectType, IEC61850-7-4:4717, IEC61850-7-4:ENSTripBehaviourKind ]
+  - DisplayName: "ENSTripBehaviourKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ENSAutoReclosingKind:
+  - [ UAObjectType, IEC61850-7-4:4729, IEC61850-7-4:ENSAutoReclosingKind ]
+  - DisplayName: "ENSAutoReclosingKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:RSYN:
+  - [ UAObjectType, IEC61850-7-4:4752, IEC61850-7-4:RSYN ]
+  - DisplayName: "RSYN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SARC:
+  - [ UAObjectType, IEC61850-7-4:4806, IEC61850-7-4:SARC ]
+  - DisplayName: "SARC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SCBR:
+  - [ UAObjectType, IEC61850-7-4:4840, IEC61850-7-4:SCBR ]
+  - DisplayName: "SCBR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SIMG:
+  - [ UAObjectType, IEC61850-7-4:4940, IEC61850-7-4:SIMG ]
+  - DisplayName: "SIMG"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SIML:
+  - [ UAObjectType, IEC61850-7-4:4986, IEC61850-7-4:SIML ]
+  - DisplayName: "SIML"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SLTC:
+  - [ UAObjectType, IEC61850-7-4:5089, IEC61850-7-4:SLTC ]
+  - DisplayName: "SLTC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SOPM:
+  - [ UAObjectType, IEC61850-7-4:5120, IEC61850-7-4:SOPM ]
+  - DisplayName: "SOPM"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SPDC:
+  - [ UAObjectType, IEC61850-7-4:5184, IEC61850-7-4:SPDC ]
+  - DisplayName: "SPDC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SPTR:
+  - [ UAObjectType, IEC61850-7-4:5216, IEC61850-7-4:SPTR ]
+  - DisplayName: "SPTR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SSWI:
+  - [ UAObjectType, IEC61850-7-4:5256, IEC61850-7-4:SSWI ]
+  - DisplayName: "SSWI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:STMP:
+  - [ UAObjectType, IEC61850-7-4:5334, IEC61850-7-4:STMP ]
+  - DisplayName: "STMP"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:SVBR:
+  - [ UAObjectType, IEC61850-7-4:5357, IEC61850-7-4:SVBR ]
+  - DisplayName: "SVBR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TANG:
+  - [ UAObjectType, IEC61850-7-4:5387, IEC61850-7-4:TANG ]
+  - DisplayName: "TANG"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TAXD:
+  - [ UAObjectType, IEC61850-7-4:5398, IEC61850-7-4:TAXD ]
+  - DisplayName: "TAXD"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TCTR:
+  - [ UAObjectType, IEC61850-7-4:5409, IEC61850-7-4:TCTR ]
+  - DisplayName: "TCTR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TDST:
+  - [ UAObjectType, IEC61850-7-4:5439, IEC61850-7-4:TDST ]
+  - DisplayName: "TDST"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TFLW:
+  - [ UAObjectType, IEC61850-7-4:5450, IEC61850-7-4:TFLW ]
+  - DisplayName: "TFLW"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TFRQ:
+  - [ UAObjectType, IEC61850-7-4:5461, IEC61850-7-4:TFRQ ]
+  - DisplayName: "TFRQ"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TGSN:
+  - [ UAObjectType, IEC61850-7-4:5472, IEC61850-7-4:TGSN ]
+  - DisplayName: "TGSN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:THUM:
+  - [ UAObjectType, IEC61850-7-4:5483, IEC61850-7-4:THUM ]
+  - DisplayName: "THUM"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TLVL:
+  - [ UAObjectType, IEC61850-7-4:5494, IEC61850-7-4:TLVL ]
+  - DisplayName: "TLVL"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TMGF:
+  - [ UAObjectType, IEC61850-7-4:5505, IEC61850-7-4:TMGF ]
+  - DisplayName: "TMGF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TMVM:
+  - [ UAObjectType, IEC61850-7-4:5516, IEC61850-7-4:TMVM ]
+  - DisplayName: "TMVM"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TPOS:
+  - [ UAObjectType, IEC61850-7-4:5527, IEC61850-7-4:TPOS ]
+  - DisplayName: "TPOS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TPRS:
+  - [ UAObjectType, IEC61850-7-4:5538, IEC61850-7-4:TPRS ]
+  - DisplayName: "TPRS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TRTN:
+  - [ UAObjectType, IEC61850-7-4:5549, IEC61850-7-4:TRTN ]
+  - DisplayName: "TRTN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TSND:
+  - [ UAObjectType, IEC61850-7-4:5560, IEC61850-7-4:TSND ]
+  - DisplayName: "TSND"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TTMP:
+  - [ UAObjectType, IEC61850-7-4:5571, IEC61850-7-4:TTMP ]
+  - DisplayName: "TTMP"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TTNS:
+  - [ UAObjectType, IEC61850-7-4:5582, IEC61850-7-4:TTNS ]
+  - DisplayName: "TTNS"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TVBR:
+  - [ UAObjectType, IEC61850-7-4:5593, IEC61850-7-4:TVBR ]
+  - DisplayName: "TVBR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TVTR:
+  - [ UAObjectType, IEC61850-7-4:5604, IEC61850-7-4:TVTR ]
+  - DisplayName: "TVTR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:TWPH:
+  - [ UAObjectType, IEC61850-7-4:5637, IEC61850-7-4:TWPH ]
+  - DisplayName: "TWPH"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:XCBR:
+  - [ UAObjectType, IEC61850-7-4:5648, IEC61850-7-4:XCBR ]
+  - DisplayName: "XCBR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSBreakerOpCapabilityKind:
+  - [ UAObjectType, IEC61850-7-4:5664, IEC61850-7-4:ENSBreakerOpCapabilityKind ]
+  - DisplayName: "ENSBreakerOpCapabilityKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ENSPOWSwitchingCapabilityKind:
+  - [ UAObjectType, IEC61850-7-4:5670, IEC61850-7-4:ENSPOWSwitchingCapabilityKind ]
+  - DisplayName: "ENSPOWSwitchingCapabilityKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:XSWI:
+  - [ UAObjectType, IEC61850-7-4:5724, IEC61850-7-4:XSWI ]
+  - DisplayName: "XSWI"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSSwitchFunctionKind:
+  - [ UAObjectType, IEC61850-7-4:5740, IEC61850-7-4:ENSSwitchFunctionKind ]
+  - DisplayName: "ENSSwitchFunctionKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ENSSwitchingCapabilityKind:
+  - [ UAObjectType, IEC61850-7-4:5746, IEC61850-7-4:ENSSwitchingCapabilityKind ]
+  - DisplayName: "ENSSwitchingCapabilityKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:YEFN:
+  - [ UAObjectType, IEC61850-7-4:5794, IEC61850-7-4:YEFN ]
+  - DisplayName: "YEFN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:YLTC:
+  - [ UAObjectType, IEC61850-7-4:5866, IEC61850-7-4:YLTC ]
+  - DisplayName: "YLTC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:YPSH:
+  - [ UAObjectType, IEC61850-7-4:5925, IEC61850-7-4:YPSH ]
+  - DisplayName: "YPSH"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:YPTR:
+  - [ UAObjectType, IEC61850-7-4:5990, IEC61850-7-4:YPTR ]
+  - DisplayName: "YPTR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZAXN:
+  - [ UAObjectType, IEC61850-7-4:6042, IEC61850-7-4:ZAXN ]
+  - DisplayName: "ZAXN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZBAT:
+  - [ UAObjectType, IEC61850-7-4:6057, IEC61850-7-4:ZBAT ]
+  - DisplayName: "ZBAT"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZBSH:
+  - [ UAObjectType, IEC61850-7-4:6095, IEC61850-7-4:ZBSH ]
+  - DisplayName: "ZBSH"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZCAB:
+  - [ UAObjectType, IEC61850-7-4:6128, IEC61850-7-4:ZCAB ]
+  - DisplayName: "ZCAB"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZCAP:
+  - [ UAObjectType, IEC61850-7-4:6137, IEC61850-7-4:ZCAP ]
+  - DisplayName: "ZCAP"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZCON:
+  - [ UAObjectType, IEC61850-7-4:6163, IEC61850-7-4:ZCON ]
+  - DisplayName: "ZCON"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZGEN:
+  - [ UAObjectType, IEC61850-7-4:6176, IEC61850-7-4:ZGEN ]
+  - DisplayName: "ZGEN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSRotatingMachineStateKind:
+  - [ UAObjectType, IEC61850-7-4:6186, IEC61850-7-4:ENSRotatingMachineStateKind ]
+  - DisplayName: "ENSRotatingMachineStateKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ZGIL:
+  - [ UAObjectType, IEC61850-7-4:6267, IEC61850-7-4:ZGIL ]
+  - DisplayName: "ZGIL"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZLIN:
+  - [ UAObjectType, IEC61850-7-4:6276, IEC61850-7-4:ZLIN ]
+  - DisplayName: "ZLIN"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZMOT:
+  - [ UAObjectType, IEC61850-7-4:6311, IEC61850-7-4:ZMOT ]
+  - DisplayName: "ZMOT"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENSRotorThermalStateKind:
+  - [ UAObjectType, IEC61850-7-4:6324, IEC61850-7-4:ENSRotorThermalStateKind ]
+  - DisplayName: "ENSRotorThermalStateKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:217, IEC61850-7-3:ENS ]
+
+  IEC61850-7-4:ZREA:
+  - [ UAObjectType, IEC61850-7-4:6352, IEC61850-7-4:ZREA ]
+  - DisplayName: "ZREA"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZRES:
+  - [ UAObjectType, IEC61850-7-4:6369, IEC61850-7-4:ZRES ]
+  - DisplayName: "ZRES"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZRRC:
+  - [ UAObjectType, IEC61850-7-4:6378, IEC61850-7-4:ZRRC ]
+  - DisplayName: "ZRRC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZSAR:
+  - [ UAObjectType, IEC61850-7-4:6422, IEC61850-7-4:ZSAR ]
+  - DisplayName: "ZSAR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZSCR:
+  - [ UAObjectType, IEC61850-7-4:6434, IEC61850-7-4:ZSCR ]
+  - DisplayName: "ZSCR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ENGRectifierControlModeKind:
+  - [ UAObjectType, IEC61850-7-4:6447, IEC61850-7-4:ENGRectifierControlModeKind ]
+  - DisplayName: "ENGRectifierControlModeKind"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-3:834, IEC61850-7-3:ENG ]
+
+  IEC61850-7-4:ZSMC:
+  - [ UAObjectType, IEC61850-7-4:6475, IEC61850-7-4:ZSMC ]
+  - DisplayName: "ZSMC"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZTCF:
+  - [ UAObjectType, IEC61850-7-4:6555, IEC61850-7-4:ZTCF ]
+  - DisplayName: "ZTCF"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]
+
+  IEC61850-7-4:ZTCR:
+  - [ UAObjectType, IEC61850-7-4:6566, IEC61850-7-4:ZTCR ]
+  - DisplayName: "ZTCR"
+  - HasSubtype_reverse:
+    - [ UAObjectType, IEC61850-7-4:93, IEC61850-7-4:CommonLN, Abstract ]

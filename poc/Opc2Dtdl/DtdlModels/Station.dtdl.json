@@ -1,0 +1,224 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:Station:StationProductType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "StationProductType",
+    "description": "Product parameter",
+    "comment": "Model converted from OPC UA spec version 1.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Station/;i=1",
+    "telemetryTopic": "opcua/Station/StationProductType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ProductSerialNumber",
+        "displayName": "ProductSerialNumber",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NumberOfManufacturedProducts",
+        "displayName": "NumberOfManufacturedProducts",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "NumberOfDiscardedProducts",
+        "displayName": "NumberOfDiscardedProducts",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "unsignedLong"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:Station:TelemetryType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TelemetryType",
+    "description": "Base telemetry data",
+    "comment": "Model converted from OPC UA spec version 1.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Station/;i=20",
+    "telemetryTopic": "opcua/Station/TelemetryType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "OverallRunningTime",
+        "displayName": "OverallRunningTime",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "FaultyTime",
+        "displayName": "FaultyTime",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Status",
+        "displayName": "Status",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "integer"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "EnergyConsumption",
+        "displayName": "EnergyConsumption",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "Pressure",
+        "displayName": "Pressure",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "double"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "IdealCycleTime",
+        "displayName": "IdealCycleTime",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "unsignedLong"
+      },
+      {
+        "@type": [ "Telemetry", "Qualified" ],
+        "name": "ActualCycleTime",
+        "displayName": "ActualCycleTime",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "schema": "unsignedLong"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:Station:StationCommandsType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "StationCommandsType",
+    "description": "Station Commands",
+    "comment": "Model converted from OPC UA spec version 1.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Station/;i=49",
+    "commandTopic": "opcua/Station/StationCommandsType/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Execute",
+        "displayName": "Execute",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "SerialNumber",
+                "schema": "unsignedLong"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Reset",
+        "displayName": "Reset",
+        "namespace": "http://opcfoundation.org/UA/Station/"
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "OpenPressureReleaseValve",
+        "displayName": "OpenPressureReleaseValve",
+        "namespace": "http://opcfoundation.org/UA/Station/"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:Station:StationType;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/Station/",
+    "displayName": "StationType",
+    "description": "Station",
+    "comment": "Model converted from OPC UA spec version 1.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/Station/;i=257",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "StationProduct",
+        "displayName": "StationProduct",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "target": "dtmi:opcua:Station:StationProductType"
+      },
+      {
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "StationTelemetry",
+        "displayName": "StationTelemetry",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "target": "dtmi:opcua:Station:TelemetryType"
+      },
+      {
+        "@type": [ "Relationship", "HasCapability", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "StationCommands",
+        "displayName": "StationCommands",
+        "namespace": "http://opcfoundation.org/UA/Station/",
+        "target": "dtmi:opcua:Station:StationCommandsType"
+      }
+    ]
+  }
+]

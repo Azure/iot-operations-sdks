@@ -1,0 +1,4665 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "CommonLN",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850LNodeBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=93",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSBehaviourModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSBehaviourModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=98",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSHealthKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSHealthKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=104",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENCBehaviourModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENCBehaviourModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENC;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=113",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGCalcMethodKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGCalcMethodKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=148",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGCalcModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGCalcModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=152",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGCalcIntervalKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGCalcIntervalKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=156",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:LPHD;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "LPHD",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850LNodeBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=173",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:LLN0;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "LLN0",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=223",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:LCCH;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "LCCH",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=255",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:LGOS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "LGOS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=290",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:LSVS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "LSVS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=311",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:LTIM;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "LTIM",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=329",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGWeekdayKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGWeekdayKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=340",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:LTMS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "LTMS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=343",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSClockSyncKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSClockSyncKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=351",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:LTRK;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "LTRK",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=361",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CTSBOOLEAN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CTSBOOLEAN",
+    "extends": "dtmi:opcua:IEC61850_7_3:CTS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=363",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CTSINT32;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CTSINT32",
+    "extends": "dtmi:opcua:IEC61850_7_3:CTS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=387",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CTSAnalogueValueCtlF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CTSAnalogueValueCtlF",
+    "extends": "dtmi:opcua:IEC61850_7_3:CTS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=411",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CTSAnalogueValueCtlInt;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CTSAnalogueValueCtlInt",
+    "extends": "dtmi:opcua:IEC61850_7_3:CTS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=424",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CTSTcmd;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CTSTcmd",
+    "extends": "dtmi:opcua:IEC61850_7_3:CTS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=437",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CTSINT8;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CTSINT8",
+    "extends": "dtmi:opcua:IEC61850_7_3:CTS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=450",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ANCR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ANCR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=568",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSTuningKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSTuningKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=588",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGParallelCoilModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGParallelCoilModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=706",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGParallelCtrlModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGParallelCtrlModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=710",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ARCO;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ARCO",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=717",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ARIS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ARIS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=771",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ATCC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ATCC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=830",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGParallelTransfModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGParallelTransfModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1000",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:AVCO;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "AVCO",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1013",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CALH;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CALH",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1078",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CCGR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CCGR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1091",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENCStageControlKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENCStageControlKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENC;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1169",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CILO;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CILO",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1225",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CPOW;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CPOW",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1232",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CSWI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CSWI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1283",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:CSYN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "CSYN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1361",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSRotationalDirectionKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSRotationalDirectionKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1396",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENCSynchOperationModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENCSynchOperationModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENC;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1466",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGLiveDeadModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGLiveDeadModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1517",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FCNT;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FCNT",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1556",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FCSD;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FCSD",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1567",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FFIL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FFIL",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1579",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGFilterFunctionKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGFilterFunctionKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1587",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FLIM;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FLIM",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1608",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FPID;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FPID",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1622",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGPIDAlgorithmKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGPIDAlgorithmKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1639",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FRMP;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FRMP",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1660",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSAdjustmentKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSAdjustmentKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1662",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FSPT;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FSPT",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1681",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSSetpointEndKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSSetpointEndKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1701",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FXOT;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FXOT",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1760",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:FXUT;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "FXUT",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1778",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:GAPC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "GAPC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1796",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:GGIO;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "GGIO",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1876",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:GLOG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "GLOG",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1962",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:GSAL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "GSAL",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1983",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:IARC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "IARC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2008",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGRecordingModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGRecordingModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2025",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:IHMI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "IHMI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2030",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ISAF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ISAF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2049",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ITCI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ITCI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2074",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ITMI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ITMI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2096",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ITPC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ITPC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2102",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGTpcAppModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGTpcAppModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2143",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:KFAN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "KFAN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2162",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:KFIL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "KFIL",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2212",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:KPMP;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "KPMP",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2274",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:KTNK;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "KTNK",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2324",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGTankFillKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGTankFillKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2339",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:KVLV;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "KVLV",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2342",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MENV;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MENV",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2442",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MFLK;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MFLK",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2483",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MHAI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MHAI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2558",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MHAN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MHAN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2650",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MHYD;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MHYD",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2767",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MMDC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MMDC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2793",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MMET;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MMET",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2818",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MMTN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MMTN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2882",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MMTR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MMTR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2911",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MMXN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MMXN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2940",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MMXU;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MMXU",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2965",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGSTotalCalcMethodKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGSTotalCalcMethodKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3063",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGPFSignKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGPFSignKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3067",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:MSQI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "MSQI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3070",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PDIF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PDIF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3128",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGRestraintModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGRestraintModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3165",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PDIR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PDIR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3180",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PDIS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PDIS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3199",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGDirectionModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGDirectionModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3223",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PDOP;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PDOP",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3262",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PDUP;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PDUP",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3287",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PFRC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PFRC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3312",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PHAR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PHAR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3340",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PHIZ;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PHIZ",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3364",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PIOC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PIOC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3391",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PMRI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PMRI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3410",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PMSS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PMSS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3443",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:POPF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "POPF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3468",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PPAM;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PPAM",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3501",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PRTR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PRTR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3520",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PSCH;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PSCH",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3539",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGUnblockModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGUnblockModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3587",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGWeakEndInfeedModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGWeakEndInfeedModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3593",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PSDE;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PSDE",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3598",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTEF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTEF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3634",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTHF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTHF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3662",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTOC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTOC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3681",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGResetCurveKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGResetCurveKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3726",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTOF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTOF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3733",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTOV;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTOV",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3761",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTRC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTRC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3807",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGTripModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGTripModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3828",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTTR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTTR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3833",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTUC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTUC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3923",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTUF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTUF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3973",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PTUV;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PTUV",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4001",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PUPF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PUPF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4047",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PVOC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PVOC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4080",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PVPH;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PVPH",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4143",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:PZSU;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "PZSU",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4191",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:QFVR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "QFVR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4214",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:QITR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "QITR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4254",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:QIUB;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "QIUB",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4286",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGUnbalanceDetectionKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGUnbalanceDetectionKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4317",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:QVTR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "QVTR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4322",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:QVUB;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "QVUB",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4354",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:QVVR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "QVVR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4388",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGVoltInterruptDetectionKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGVoltInterruptDetectionKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4434",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RADR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RADR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4437",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGTriggerSourceKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGTriggerSourceKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4453",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGLevelTriggerModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGLevelTriggerModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4457",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RBDR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RBDR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4470",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RBRF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RBRF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4495",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGFailureDetectionKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGFailureDetectionKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4516",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGRetripModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGRetripModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4528",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RDIR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RDIR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4531",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGPolarizingQuantityKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGPolarizingQuantityKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4551",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RDRE;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RDRE",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4556",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RDRS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RDRS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4624",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RFLO;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RFLO",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4639",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSFaultLoopKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSFaultLoopKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4641",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RMXU;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RMXU",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4661",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RPSB;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RPSB",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4675",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RREC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RREC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4715",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSTripBehaviourKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSTripBehaviourKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4717",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSAutoReclosingKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSAutoReclosingKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4729",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:RSYN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "RSYN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4752",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SARC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SARC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4806",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SCBR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SCBR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4840",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SIMG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SIMG",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4940",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SIML;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SIML",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4986",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SLTC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SLTC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5089",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SOPM;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SOPM",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5120",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SPDC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SPDC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5184",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SPTR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SPTR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5216",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SSWI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SSWI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5256",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:STMP;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "STMP",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5334",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:SVBR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "SVBR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5357",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TANG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TANG",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5387",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TAXD;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TAXD",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5398",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TCTR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TCTR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5409",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TDST;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TDST",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5439",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TFLW;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TFLW",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5450",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TFRQ;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TFRQ",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5461",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TGSN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TGSN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5472",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:THUM;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "THUM",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5483",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TLVL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TLVL",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5494",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TMGF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TMGF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5505",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TMVM;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TMVM",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5516",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TPOS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TPOS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5527",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TPRS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TPRS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5538",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TRTN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TRTN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5549",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TSND;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TSND",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5560",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TTMP;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TTMP",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5571",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TTNS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TTNS",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5582",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TVBR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TVBR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5593",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TVTR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TVTR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5604",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:TWPH;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "TWPH",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5637",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:XCBR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "XCBR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5648",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSBreakerOpCapabilityKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSBreakerOpCapabilityKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5664",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSPOWSwitchingCapabilityKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSPOWSwitchingCapabilityKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5670",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:XSWI;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "XSWI",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5724",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSSwitchFunctionKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSSwitchFunctionKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5740",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSSwitchingCapabilityKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSSwitchingCapabilityKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5746",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:YEFN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "YEFN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5794",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:YLTC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "YLTC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5866",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:YPSH;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "YPSH",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5925",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:YPTR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "YPTR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5990",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZAXN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZAXN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6042",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZBAT;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZBAT",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6057",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZBSH;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZBSH",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6095",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZCAB;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZCAB",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6128",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZCAP;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZCAP",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6137",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZCON;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZCON",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6163",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZGEN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZGEN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6176",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSRotatingMachineStateKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSRotatingMachineStateKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6186",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZGIL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZGIL",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6267",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZLIN;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZLIN",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6276",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZMOT;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZMOT",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6311",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENSRotorThermalStateKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENSRotorThermalStateKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6324",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZREA;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZREA",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6352",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZRES;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZRES",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6369",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZRRC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZRRC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6378",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZSAR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZSAR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6422",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZSCR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZSCR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6434",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ENGRectifierControlModeKind;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ENGRectifierControlModeKind",
+    "extends": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6447",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZSMC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZSMC",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6475",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZTCF;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZTCF",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6555",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_4:ZTCR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "displayName": "ZTCR",
+    "extends": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6566",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

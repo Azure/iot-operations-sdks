@@ -1,0 +1,1416 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:IEC61850IEDBaseObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IEC61850IEDBaseObjectType",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=6",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:IEC61850ProcessBaseObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IEC61850ProcessBaseObjectType",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=7",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:LDeviceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LDeviceType",
+    "extends": "dtmi:opcua:IEC61850_6:IEC61850IEDBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=8",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:ServerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ServerType",
+    "extends": "dtmi:opcua:IEC61850_6:IEC61850IEDBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=10",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "LDevice",
+        "displayName": "<LDevice>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:LDeviceType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:AccessPointType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AccessPointType",
+    "extends": "dtmi:opcua:IEC61850_6:IEC61850IEDBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=13",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "Server",
+        "displayName": "Server",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:ServerType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:IEDType;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-6",
+    "displayName": "IEDType",
+    "extends": "dtmi:opcua:IEC61850_6:IEC61850IEDBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=18",
+    "commandTopic": "opcua/IEC61850_6/IEDType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/IEDType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "manufacturer",
+        "displayName": "manufacturer",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "type",
+        "displayName": "type",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "AccessPoint",
+        "displayName": "<AccessPoint>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:AccessPointType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:LNodeContainerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "LNodeContainerType",
+    "extends": "dtmi:opcua:IEC61850_6:IEC61850ProcessBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=39",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:PowerSystemResourceType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PowerSystemResourceType",
+    "extends": "dtmi:opcua:IEC61850_6:LNodeContainerType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=41",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:EquipmentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EquipmentType",
+    "extends": "dtmi:opcua:IEC61850_6:PowerSystemResourceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=42",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:GeneralEquipmentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "GeneralEquipmentType",
+    "extends": "dtmi:opcua:IEC61850_6:EquipmentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=43",
+    "commandTopic": "opcua/IEC61850_6/GeneralEquipmentType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/GeneralEquipmentType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_6:GeneralEquipmentType:dataType:GeneralEquipmentKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "GeneralEquipmentKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=22",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "AXN",
+            "enumValue": 0
+          },
+          {
+            "name": "BAT",
+            "enumValue": 1
+          },
+          {
+            "name": "MOT",
+            "enumValue": 2
+          },
+          {
+            "name": "FAN",
+            "enumValue": 3
+          },
+          {
+            "name": "FIL",
+            "enumValue": 4
+          },
+          {
+            "name": "PMP",
+            "enumValue": 5
+          },
+          {
+            "name": "VLV",
+            "enumValue": 6
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "type",
+        "displayName": "type",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "dtmi:opcua:IEC61850_6:GeneralEquipmentType:dataType:GeneralEquipmentKind;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:SubEquipmentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SubEquipmentType",
+    "extends": "dtmi:opcua:IEC61850_6:PowerSystemResourceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=45",
+    "commandTopic": "opcua/IEC61850_6/SubEquipmentType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/SubEquipmentType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_6:SubEquipmentType:dataType:PhaseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "PhaseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=30",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "A",
+            "enumValue": 0
+          },
+          {
+            "name": "B",
+            "enumValue": 1
+          },
+          {
+            "name": "C",
+            "enumValue": 2
+          },
+          {
+            "name": "N",
+            "enumValue": 3
+          },
+          {
+            "name": "all",
+            "enumValue": 4
+          },
+          {
+            "name": "none",
+            "enumValue": 5
+          },
+          {
+            "name": "AB",
+            "enumValue": 6
+          },
+          {
+            "name": "BC",
+            "enumValue": 7
+          },
+          {
+            "name": "CA",
+            "enumValue": 8
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "phase",
+        "displayName": "phase",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "dtmi:opcua:IEC61850_6:SubEquipmentType:dataType:PhaseKind;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:ConnectivityNodeType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConnectivityNodeType",
+    "extends": "dtmi:opcua:IEC61850_6:LNodeContainerType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=47",
+    "commandTopic": "opcua/IEC61850_6/ConnectivityNodeType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/ConnectivityNodeType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "pathName",
+        "displayName": "pathName",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:AbstractConductingEquipmentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "AbstractConductingEquipmentType",
+    "extends": "dtmi:opcua:IEC61850_6:EquipmentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=49",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "SubEquipment",
+        "displayName": "<SubEquipment>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:SubEquipmentType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:TapChangerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TapChangerType",
+    "extends": "dtmi:opcua:IEC61850_6:PowerSystemResourceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=54",
+    "commandTopic": "opcua/IEC61850_6/TapChangerType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/TapChangerType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "type",
+        "displayName": "type",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "string",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:TransformerWindingType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "TransformerWindingType",
+    "extends": "dtmi:opcua:IEC61850_6:AbstractConductingEquipmentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=56",
+    "commandTopic": "opcua/IEC61850_6/TransformerWindingType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/TransformerWindingType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_6:TransformerWindingType:dataType:TransformerWindingKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "TransformerWindingKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=28",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "PTW",
+            "enumValue": 0
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "type",
+        "displayName": "type",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "dtmi:opcua:IEC61850_6:TransformerWindingType:dataType:TransformerWindingKind;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "TapChanger",
+        "displayName": "TapChanger",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:TapChangerType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:PowerTransformerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "PowerTransformerType",
+    "extends": "dtmi:opcua:IEC61850_6:EquipmentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=59",
+    "commandTopic": "opcua/IEC61850_6/PowerTransformerType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/PowerTransformerType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_6:PowerTransformerType:dataType:PowerTransformerKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "PowerTransformerKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=26",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "PTR",
+            "enumValue": 0
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "type",
+        "displayName": "type",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "dtmi:opcua:IEC61850_6:PowerTransformerType:dataType:PowerTransformerKind;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "TransformerWinding",
+        "displayName": "<TransformerWinding>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:TransformerWindingType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:EquipmentContainerType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "EquipmentContainerType",
+    "extends": "dtmi:opcua:IEC61850_6:PowerSystemResourceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=63",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "GeneralEquipment",
+        "displayName": "<GeneralEquipment>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:GeneralEquipmentType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "PowerTransformer",
+        "displayName": "<PowerTransformer>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:PowerTransformerType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:ConductingEquipmentType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "ConductingEquipmentType",
+    "extends": "dtmi:opcua:IEC61850_6:AbstractConductingEquipmentType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=69",
+    "commandTopic": "opcua/IEC61850_6/ConductingEquipmentType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/ConductingEquipmentType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_6:ConductingEquipmentType:dataType:ConductingEquipmentKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "ConductingEquipmentKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=24",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "CBR",
+            "enumValue": 0
+          },
+          {
+            "name": "DIS",
+            "enumValue": 1
+          },
+          {
+            "name": "VTR",
+            "enumValue": 2
+          },
+          {
+            "name": "CTR",
+            "enumValue": 3
+          },
+          {
+            "name": "GEN",
+            "enumValue": 4
+          },
+          {
+            "name": "CAP",
+            "enumValue": 5
+          },
+          {
+            "name": "REA",
+            "enumValue": 6
+          },
+          {
+            "name": "CON",
+            "enumValue": 7
+          },
+          {
+            "name": "MOT",
+            "enumValue": 8
+          },
+          {
+            "name": "EFN",
+            "enumValue": 9
+          },
+          {
+            "name": "PSH",
+            "enumValue": 10
+          },
+          {
+            "name": "BAT",
+            "enumValue": 11
+          },
+          {
+            "name": "BSH",
+            "enumValue": 12
+          },
+          {
+            "name": "CAB",
+            "enumValue": 13
+          },
+          {
+            "name": "GIL",
+            "enumValue": 14
+          },
+          {
+            "name": "LIN",
+            "enumValue": 15
+          },
+          {
+            "name": "RRC",
+            "enumValue": 16
+          },
+          {
+            "name": "SAR",
+            "enumValue": 17
+          },
+          {
+            "name": "TCF",
+            "enumValue": 18
+          },
+          {
+            "name": "TCR",
+            "enumValue": 19
+          },
+          {
+            "name": "IFL",
+            "enumValue": 20
+          },
+          {
+            "name": "FAN",
+            "enumValue": 21
+          },
+          {
+            "name": "SCR",
+            "enumValue": 22
+          },
+          {
+            "name": "SMC",
+            "enumValue": 23
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "type",
+        "displayName": "type",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "dtmi:opcua:IEC61850_6:ConductingEquipmentType:dataType:ConductingEquipmentKind;1",
+        "writable": false
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:SubFunctionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "SubFunctionType",
+    "extends": "dtmi:opcua:IEC61850_6:PowerSystemResourceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=71",
+    "commandTopic": "opcua/IEC61850_6/SubFunctionType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/SubFunctionType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "type",
+        "displayName": "type",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "ConductingEquipement",
+        "displayName": "<ConductingEquipement>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:ConductingEquipmentType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "GeneralEquipment",
+        "displayName": "<GeneralEquipment>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:GeneralEquipmentType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:FunctionType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "FunctionType",
+    "extends": "dtmi:opcua:IEC61850_6:PowerSystemResourceType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=76",
+    "commandTopic": "opcua/IEC61850_6/FunctionType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/FunctionType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "type",
+        "displayName": "type",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "string",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "ConductingEquipement",
+        "displayName": "<ConductingEquipement>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:ConductingEquipmentType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "GeneralEquipment",
+        "displayName": "<GeneralEquipment>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:GeneralEquipmentType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "SubFunction",
+        "displayName": "<SubFunction>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:SubFunctionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:BayType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "BayType",
+    "extends": "dtmi:opcua:IEC61850_6:EquipmentContainerType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=82",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "ConductingEquipement",
+        "displayName": "<ConductingEquipement>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:ConductingEquipmentType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "ConnectivityNode",
+        "displayName": "<ConnectivityNode>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:ConnectivityNodeType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "Function",
+        "displayName": "<Function>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:FunctionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:VoltageLevelType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "VoltageLevelType",
+    "extends": "dtmi:opcua:IEC61850_6:EquipmentContainerType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=88",
+    "commandTopic": "opcua/IEC61850_6/VoltageLevelType/{commandName}",
+    "telemetryTopic": "opcua/IEC61850_6/VoltageLevelType/{telemetryName}/{senderId}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_6:VoltageLevelType:dataType:ValueWithUnit;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "ValueWithUnit",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=32",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "value",
+            "schema": "float"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "unit",
+            "schema": "dtmi:opcua:IEC61850_6:VoltageLevelType:dataType:Unit;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_6:VoltageLevelType:dataType:Unit;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Unit",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=133",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SIUnit",
+            "schema": "dtmi:opcua:IEC61850_6:VoltageLevelType:dataType:SIUnitKind;1"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "multiplier",
+            "schema": "dtmi:opcua:IEC61850_6:VoltageLevelType:dataType:MultiplierKind;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_6:VoltageLevelType:dataType:SIUnitKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "SIUnitKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=97",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Q",
+            "enumValue": 1
+          },
+          {
+            "name": "m",
+            "enumValue": 2
+          },
+          {
+            "name": "kg",
+            "enumValue": 3
+          },
+          {
+            "name": "s",
+            "enumValue": 4
+          },
+          {
+            "name": "A",
+            "enumValue": 5
+          },
+          {
+            "name": "K",
+            "enumValue": 6
+          },
+          {
+            "name": "mol",
+            "enumValue": 7
+          },
+          {
+            "name": "cd",
+            "enumValue": 8
+          },
+          {
+            "name": "deg",
+            "enumValue": 9
+          },
+          {
+            "name": "rad",
+            "enumValue": 10
+          },
+          {
+            "name": "sr",
+            "enumValue": 11
+          },
+          {
+            "name": "Gy",
+            "enumValue": 21
+          },
+          {
+            "name": "Bq",
+            "enumValue": 22
+          },
+          {
+            "name": "X_C",
+            "enumValue": 23
+          },
+          {
+            "name": "Sv",
+            "enumValue": 24
+          },
+          {
+            "name": "F",
+            "enumValue": 25
+          },
+          {
+            "name": "C",
+            "enumValue": 26
+          },
+          {
+            "name": "S",
+            "enumValue": 27
+          },
+          {
+            "name": "H",
+            "enumValue": 28
+          },
+          {
+            "name": "V",
+            "enumValue": 29
+          },
+          {
+            "name": "ohm",
+            "enumValue": 30
+          },
+          {
+            "name": "J",
+            "enumValue": 31
+          },
+          {
+            "name": "N",
+            "enumValue": 32
+          },
+          {
+            "name": "Hz",
+            "enumValue": 33
+          },
+          {
+            "name": "lx",
+            "enumValue": 34
+          },
+          {
+            "name": "Lm",
+            "enumValue": 35
+          },
+          {
+            "name": "Wb",
+            "enumValue": 36
+          },
+          {
+            "name": "T",
+            "enumValue": 37
+          },
+          {
+            "name": "W",
+            "enumValue": 38
+          },
+          {
+            "name": "Pa",
+            "enumValue": 39
+          },
+          {
+            "name": "m2",
+            "enumValue": 41
+          },
+          {
+            "name": "m3",
+            "enumValue": 42
+          },
+          {
+            "name": "m_s",
+            "enumValue": 43
+          },
+          {
+            "name": "m_s2",
+            "enumValue": 44
+          },
+          {
+            "name": "m3_s",
+            "enumValue": 45
+          },
+          {
+            "name": "m_m3",
+            "enumValue": 46
+          },
+          {
+            "name": "M",
+            "enumValue": 47
+          },
+          {
+            "name": "kg_m3",
+            "enumValue": 48
+          },
+          {
+            "name": "m2_s",
+            "enumValue": 49
+          },
+          {
+            "name": "W_m_K",
+            "enumValue": 50
+          },
+          {
+            "name": "J_K",
+            "enumValue": 51
+          },
+          {
+            "name": "ppm",
+            "enumValue": 52
+          },
+          {
+            "name": "X_1_s",
+            "enumValue": 53
+          },
+          {
+            "name": "rad_s",
+            "enumValue": 54
+          },
+          {
+            "name": "W_m2",
+            "enumValue": 55
+          },
+          {
+            "name": "J_m2",
+            "enumValue": 56
+          },
+          {
+            "name": "S_m",
+            "enumValue": 57
+          },
+          {
+            "name": "K_s",
+            "enumValue": 58
+          },
+          {
+            "name": "Pa_s",
+            "enumValue": 59
+          },
+          {
+            "name": "J_kg_K",
+            "enumValue": 60
+          },
+          {
+            "name": "VA",
+            "enumValue": 61
+          },
+          {
+            "name": "Watts",
+            "enumValue": 62
+          },
+          {
+            "name": "VAr",
+            "enumValue": 63
+          },
+          {
+            "name": "phi",
+            "enumValue": 64
+          },
+          {
+            "name": "cos_phi_X",
+            "enumValue": 65
+          },
+          {
+            "name": "Vs",
+            "enumValue": 66
+          },
+          {
+            "name": "V2",
+            "enumValue": 67
+          },
+          {
+            "name": "As",
+            "enumValue": 68
+          },
+          {
+            "name": "A2",
+            "enumValue": 69
+          },
+          {
+            "name": "A2t",
+            "enumValue": 70
+          },
+          {
+            "name": "VAh",
+            "enumValue": 71
+          },
+          {
+            "name": "Wh",
+            "enumValue": 72
+          },
+          {
+            "name": "VArh",
+            "enumValue": 73
+          },
+          {
+            "name": "V_Hz",
+            "enumValue": 74
+          },
+          {
+            "name": "Hz_s",
+            "enumValue": 75
+          },
+          {
+            "name": "char",
+            "enumValue": 76
+          },
+          {
+            "name": "char_s",
+            "enumValue": 77
+          },
+          {
+            "name": "kgm2",
+            "enumValue": 78
+          },
+          {
+            "name": "dB",
+            "enumValue": 79
+          },
+          {
+            "name": "J_Wh",
+            "enumValue": 80
+          },
+          {
+            "name": "W_s",
+            "enumValue": 81
+          },
+          {
+            "name": "l_s",
+            "enumValue": 82
+          },
+          {
+            "name": "dBm",
+            "enumValue": 83
+          },
+          {
+            "name": "h",
+            "enumValue": 84
+          },
+          {
+            "name": "min",
+            "enumValue": 85
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_6:VoltageLevelType:dataType:MultiplierKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "MultiplierKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=81",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "y",
+            "enumValue": -24
+          },
+          {
+            "name": "z",
+            "enumValue": -21
+          },
+          {
+            "name": "a",
+            "enumValue": -18
+          },
+          {
+            "name": "f",
+            "enumValue": -15
+          },
+          {
+            "name": "p",
+            "enumValue": -12
+          },
+          {
+            "name": "n",
+            "enumValue": -9
+          },
+          {
+            "name": "X_X",
+            "enumValue": -6
+          },
+          {
+            "name": "m",
+            "enumValue": -3
+          },
+          {
+            "name": "c",
+            "enumValue": -2
+          },
+          {
+            "name": "d",
+            "enumValue": -1
+          },
+          {
+            "name": "Q",
+            "enumValue": 0
+          },
+          {
+            "name": "da",
+            "enumValue": 1
+          },
+          {
+            "name": "h",
+            "enumValue": 2
+          },
+          {
+            "name": "k",
+            "enumValue": 3
+          },
+          {
+            "name": "M",
+            "enumValue": 6
+          },
+          {
+            "name": "G",
+            "enumValue": 9
+          },
+          {
+            "name": "T",
+            "enumValue": 12
+          },
+          {
+            "name": "P",
+            "enumValue": 15
+          },
+          {
+            "name": "E",
+            "enumValue": 18
+          },
+          {
+            "name": "Z",
+            "enumValue": 21
+          },
+          {
+            "name": "Y",
+            "enumValue": 24
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Property", "Qualified", "Required" ],
+        "name": "voltage",
+        "displayName": "voltage",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "schema": "dtmi:opcua:IEC61850_6:VoltageLevelType:dataType:ValueWithUnit;1",
+        "writable": false
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "Bay",
+        "displayName": "<Bay>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:BayType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "Function",
+        "displayName": "<Function>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:FunctionType"
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_6:SubstationType;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-6",
+    "displayName": "SubstationType",
+    "extends": "dtmi:opcua:IEC61850_6:EquipmentContainerType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=92",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "VoltageLevel",
+        "displayName": "<VoltageLevel>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:VoltageLevelType"
+      },
+      {
+        "@type": [ "Relationship", "Qualified" ],
+        "maxMultiplicity": 1,
+        "name": "Function",
+        "displayName": "<Function>",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-6",
+        "target": "dtmi:opcua:IEC61850_6:FunctionType"
+      }
+    ]
+  }
+]

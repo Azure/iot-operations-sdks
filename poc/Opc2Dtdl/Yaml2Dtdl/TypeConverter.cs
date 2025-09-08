@@ -160,17 +160,23 @@ namespace Yaml2Dtdl
 
         public static HashSet<string> BuiltInTypes { get => builtInTypeMap.Keys.ToHashSet(); }
 
-        public static string LegalizeName(string browseName) => (char.IsNumber(browseName[0]) ? "X_" : "") + Regex.Replace(browseName, "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant);
+        public static string LegalizeName(string browseName)
+        {
+            string body = Regex.Replace(string.Concat(browseName.Select(c => c == 0x00B2 ? '2' : c == 0x00B3 ? '3' : c)), "[^a-zA-Z0-9]+", "_", RegexOptions.CultureInvariant);
+            string head = char.IsNumber(body[0]) ? "X_" : body[0] == '_' ? "X" : "";
+            string tail = body[^1] == '_' ? "X" : "";
+            return $"{head}{body}{tail}";
+        }
 
         public static string StripAngles(string browseName) => browseName.Replace("<", string.Empty).Replace(">", string.Empty).Replace(".", string.Empty);
 
         public static string GetDataTypeDtmiFromBrowseName(string modelId, string browseName) => $"{modelId}:dataType:{LegalizeName(Dequalify(browseName))};1";
 
-        public static string GetModelId(OpcUaDefinedType definedType) => $"dtmi:opcua:{GetSpecName(definedType)}:{Dequalify(definedType.BrowseName)}".Replace('.', '_').Replace('-', '_');
+        public static string GetModelId(OpcUaDefinedType definedType) => $"dtmi:opcua:{LegalizeName(GetSpecName(definedType))}:{LegalizeName(Dequalify(definedType.BrowseName))}".Replace('.', '_').Replace('-', '_');
 
         public static string Dequalify(string browseName) => browseName.Substring(browseName.IndexOf(':') + 1);
 
-        public static string? GetSpecName(OpcUaDefinedType definedType) => GetSpecName(definedType.BrowseName) ?? GetSpecName(definedType.NodeId) ?? coreSpecName;
+        public static string GetSpecName(OpcUaDefinedType definedType) => GetSpecName(definedType.BrowseName) ?? GetSpecName(definedType.NodeId) ?? coreSpecName;
 
         public static string? GetSpecName(string nameOrId)
         {

@@ -1,0 +1,127 @@
+SpecUri: http://opcfoundation.org/UA/Station/
+SpecVer: 1.0
+
+DataTypes:
+
+DefinedTypes:
+
+  Station:StationProductType:
+  - [ UAObjectType, Station:1, Station:StationProductType ]
+  - DisplayName: "StationProductType"
+  - Description: "Product parameter"
+  - HasComponent:
+    - [ UAVariable, Station:2, Station:ProductSerialNumber, UInt64, 0, 0 ]
+    - DisplayName: "ProductSerialNumber"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Station:8, Station:NumberOfManufacturedProducts, UInt64, 0, 0 ]
+    - DisplayName: "NumberOfManufacturedProducts"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Station:14, Station:NumberOfDiscardedProducts, UInt64, 0, 0 ]
+    - DisplayName: "NumberOfDiscardedProducts"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  Station:TelemetryType:
+  - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - DisplayName: "TelemetryType"
+  - Description: "Base telemetry data"
+  - HasComponent:
+    - [ UAVariable, Station:21, Station:OverallRunningTime, UInt64, 0, 0 ]
+    - DisplayName: "OverallRunningTime"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Station:22, Station:FaultyTime, UInt64, 0, 0 ]
+    - DisplayName: "FaultyTime"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Station:359, Station:Status, Integer, 0, 0 ]
+    - DisplayName: "Status"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Station:29, Station:EnergyConsumption, Double, 0, 0 ]
+    - DisplayName: "EnergyConsumption"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Station:428, Station:Pressure, Double, 0, 0 ]
+    - DisplayName: "Pressure"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Station:35, Station:IdealCycleTime, UInt64, 0, 3 ]
+    - DisplayName: "IdealCycleTime"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Station:41, Station:ActualCycleTime, UInt64, 0, 0 ]
+    - DisplayName: "ActualCycleTime"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  Station:StationCommandsType:
+  - [ UAObjectType, Station:49, Station:StationCommandsType ]
+  - DisplayName: "StationCommandsType"
+  - Description: "Station Commands"
+  - HasComponent:
+    - [ UAMethod, Station:51, Station:Execute ]
+    - DisplayName: "Execute"
+    - HasProperty:
+      - [ UAVariable, Station:52, Station:InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SerialNumber: [ UInt64, 0 ]
+      - DisplayName: "InputArguments"
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Station:50, Station:Reset ]
+    - DisplayName: "Reset"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Station:431, Station:OpenPressureReleaseValve ]
+    - DisplayName: "OpenPressureReleaseValve"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  Station:StationType:
+  - [ UAObjectType, Station:257, Station:StationType ]
+  - DisplayName: "StationType"
+  - Description: "Station"
+  - HasComponent:
+    - [ UAObject, Station:258, Station:StationProduct ]
+    - DisplayName: "StationProduct"
+    - HasTypeDefinition:
+      - [ UAObjectType, Station:1, Station:StationProductType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Station:277, Station:StationTelemetry ]
+    - DisplayName: "StationTelemetry"
+    - HasTypeDefinition:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Station:304, Station:StationCommands ]
+    - DisplayName: "StationCommands"
+    - HasTypeDefinition:
+      - [ UAObjectType, Station:49, Station:StationCommandsType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

@@ -1,0 +1,955 @@
+SpecUri: http://opcfoundation.org/UA/CNC
+SpecVer: 1.0.0
+
+DataTypes:
+- UADataType: [ CNC:3004, CNC:CncAxisStatus ]
+  DisplayName: "CncAxisStatus"
+  Description: "Status of a CNC axis."
+  Enums:
+    InPosition: 0
+    Moving: 1
+    Parked: 2
+- UADataType: [ CNC:3002, CNC:CncChannelProgramStatus ]
+  DisplayName: "CncChannelProgramStatus"
+  Description: "Status of program execution within a channel."
+  Enums:
+    Stopped: 0
+    Running: 1
+    Waiting: 2
+    Interrupted: 3
+    Canceled: 4
+- UADataType: [ CNC:3003, CNC:CncChannelStatus ]
+  DisplayName: "CncChannelStatus"
+  Description: "Status of a CNC channel."
+  Enums:
+    Active: 0
+    Interrupted: 1
+    Reset: 2
+- UADataType: [ CNC:3006, CNC:CncOperationMode ]
+  DisplayName: "CncOperationMode"
+  Description: "Modes of operation."
+  Enums:
+    Manual: 0
+    MDA: 1
+    Automatic: 2
+- UADataType: [ CNC:3005, CNC:CncSpindleStatus ]
+  DisplayName: "CncSpindleStatus"
+  Description: "Status of a CNC spindle."
+  Enums:
+    Stopped: 0
+    InTargetArea: 1
+    Accelerating: 2
+    Decelerating: 3
+    Parked: 4
+- UADataType: [ CNC:3001, CNC:CncSpindleTurnDirection ]
+  DisplayName: "CncSpindleTurnDirection"
+  Description: "Turn direction of a CNC spindle."
+  Enums:
+    None: 0
+    CW: 1
+    CCW: 2
+- UADataType: [ CNC:3007, CNC:CncPositionDataType ]
+  DisplayName: "CncPositionDataType"
+  Description: "Structure of position elements."
+  Fields:
+    ActPos: [ Double, 0 ]
+    CmdPos: [ Double, 0 ]
+    RemDist: [ Double, 0 ]
+
+DefinedTypes:
+
+  CNC:CncMessageType:
+  - [ UAObjectType, CNC:1011, CNC:CncMessageType ]
+  - DisplayName: "CncMessageType"
+  - Description: "Event transmitting simple information messages."
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+
+  CNC:CncAlarmType:
+  - [ UAObjectType, CNC:1006, CNC:CncAlarmType ]
+  - DisplayName: "CncAlarmType"
+  - Description: "Event transmitting Alarms within a CNC system."
+  - HasProperty:
+    - [ UAVariable, CNC:6865, CNC:AlarmIdentifier, String, 0, 3 ]
+    - DisplayName: "AlarmIdentifier"
+    - Description: "Unique alarm number."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, CNC:6862, CNC:AuxParameters, String, 1, 3 ]
+    - DisplayName: "AuxParameters"
+    - Description: "Array of auxiliary parameter for additional alarm description."
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10523, DiscreteAlarmType ]
+  - HasProperty:
+    - [ UAVariable, CNC:6854, CNC:HelpSource, String, 0, 3 ]
+    - DisplayName: "HelpSource"
+    - Description: "Additional information to message giving information on how to solve problem that caused the alarm."
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CNC:CncAxisListType:
+  - [ UAObjectType, CNC:1008, CNC:CncAxisListType ]
+  - DisplayName: "CncAxisListType"
+  - Description: "List of CNC axis objects."
+  - HasComponent:
+    - [ UAObject, CNC:5019, CNC:<CncAxis> ]
+    - DisplayName: "<CncAxis>"
+    - Description: "CNC axis object."
+    - HasTypeDefinition:
+      - [ UAObjectType, CNC:1004, CNC:CncAxisType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  CNC:CncChannelListType:
+  - [ UAObjectType, CNC:1010, CNC:CncChannelListType ]
+  - DisplayName: "CncChannelListType"
+  - Description: "List of CNC channel objects."
+  - HasComponent:
+    - [ UAObject, CNC:5003, CNC:<CncChannel> ]
+    - DisplayName: "<CncChannel>"
+    - Description: "CNC channel object."
+    - HasTypeDefinition:
+      - [ UAObjectType, CNC:1002, CNC:CncChannelType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  CNC:CncComponentType:
+  - [ UAObjectType, CNC:1001, CNC:CncComponentType, Abstract ]
+  - DisplayName: "CncComponentType"
+  - Description: "Base component for soft- or hardware elements of a CNC system."
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  CNC:CncChannelType:
+  - [ UAObjectType, CNC:1002, CNC:CncChannelType ]
+  - DisplayName: "CncChannelType"
+  - Description: "CNC channel component."
+  - HasComponent:
+    - [ UAObject, CNC:5029, CNC:<CncAxis> ]
+    - DisplayName: "<CncAxis>"
+    - Description: "Optional place holder for CNC axis objects."
+    - HasTypeDefinition:
+      - [ UAObjectType, CNC:1004, CNC:CncAxisType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, CNC:5030, CNC:<CncSpindle> ]
+    - DisplayName: "<CncSpindle>"
+    - Description: "Optional place holder for CNC spindle objects."
+    - HasTypeDefinition:
+      - [ UAObjectType, CNC:1005, CNC:CncSpindleType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, CNC:6005, CNC:ActFeedrate, Double, 0, 3 ]
+    - DisplayName: "ActFeedrate"
+    - Description: "Feedrate actual value."
+    - HasProperty:
+      - [ UAVariable, CNC:6010, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 4732977
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6028, CNC:ActGFunctions, UInt32, 1, 3 ]
+    - DisplayName: "ActGFunctions"
+    - Description: "Array of active G functions; there can be several G functions active at a time (modal and non-modal G functions)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6026, CNC:ActJogIncrement, Double, 0, 3 ]
+    - DisplayName: "ActJogIncrement"
+    - Description: "Active JOG increment."
+    - HasProperty:
+      - [ UAVariable, CNC:6155, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 5066068
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6682, CNC:ActMainProgramFile, String, 0, 3 ]
+    - DisplayName: "ActMainProgramFile"
+    - Description: "Path of active CNC main program."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6694, CNC:ActMainProgramFileOffset, UInt32, 0, 3 ]
+    - DisplayName: "ActMainProgramFileOffset"
+    - Description: "File offset of active CNC main program file."
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CNC:6688, CNC:ActMainProgramLine, String, 0, 3 ]
+    - DisplayName: "ActMainProgramLine"
+    - Description: "Line number of active CNC main program."
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CNC:6031, CNC:ActMainProgramName, String, 0, 3 ]
+    - DisplayName: "ActMainProgramName"
+    - Description: "Name of active CNC main program."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6177, CNC:ActMFunctions, UInt32, 1, 3 ]
+    - DisplayName: "ActMFunctions"
+    - Description: "Array of active M functions: there can be several M functions active at a time (modal and non-modal M functions)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6029, CNC:ActModalOffsetFunction, UInt32, 0, 3 ]
+    - DisplayName: "ActModalOffsetFunction"
+    - Description: "Active zero offset function."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6055, CNC:ActOperationMode, CNC:CncOperationMode, 0, 3 ]
+    - DisplayName: "ActOperationMode"
+    - Description: "Channel's active mode of operation."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6001, CNC:ActOverride, Double, 0, 3 ]
+    - DisplayName: "ActOverride"
+    - Description: "Axis override actual value."
+    - HasProperty:
+      - [ UAVariable, CNC:6011, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6033, CNC:ActProgramBlock, String, 1, 3 ]
+    - DisplayName: "ActProgramBlock"
+    - Description: "Block of lines containing the previous, actual and subsequent lines of a CNC part program."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6034, CNC:ActProgramFile, String, 0, 3 ]
+    - DisplayName: "ActProgramFile"
+    - Description: "Path of active CNC program file (main or subprogram)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6032, CNC:ActProgramFileOffset, UInt32, 0, 3 ]
+    - DisplayName: "ActProgramFileOffset"
+    - Description: "File offset of active CNC program file (main or subprogram)."
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CNC:6047, CNC:ActProgramLine, String, 0, 3 ]
+    - DisplayName: "ActProgramLine"
+    - Description: "Line number of active CNC program (main or subprogram)."
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CNC:6030, CNC:ActProgramName, String, 0, 3 ]
+    - DisplayName: "ActProgramName"
+    - Description: "Name of active CNC program (main or subprogram)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6023, CNC:ActProgramStatus, CNC:CncChannelProgramStatus, 0, 3 ]
+    - DisplayName: "ActProgramStatus"
+    - Description: "Active channel program status"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6048, CNC:ActStatus, CNC:CncChannelStatus, 0, 3 ]
+    - DisplayName: "ActStatus"
+    - Description: "Active status of channel."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6049, CNC:BlockMode, Boolean, 0, 3 ]
+    - DisplayName: "BlockMode"
+    - Description: "Block mode status (true in case of block mode is active, else false)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6007, CNC:CmdFeedrate, Double, 0, 3 ]
+    - DisplayName: "CmdFeedrate"
+    - Description: "Feedrate setpoint value."
+    - HasProperty:
+      - [ UAVariable, CNC:6012, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 4732977
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6543, CNC:CmdOperationMode, CNC:CncOperationMode, 0, 3 ]
+    - DisplayName: "CmdOperationMode"
+    - Description: "Channel’s mode of operation setpoint value."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6003, CNC:CmdOverride, Double, 0, 3 ]
+    - DisplayName: "CmdOverride"
+    - Description: "Override setpoint value."
+    - HasProperty:
+      - [ UAVariable, CNC:6013, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CNC:1001, CNC:CncComponentType, Abstract ]
+  - HasComponent:
+    - [ UAVariable, CNC:6024, CNC:DryRunFeed, Double, 0, 3 ]
+    - DisplayName: "DryRunFeed"
+    - Description: "Test feedrate."
+    - HasProperty:
+      - [ UAVariable, CNC:6014, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 4732977
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6009, CNC:FeedHold, Boolean, 0, 3 ]
+    - DisplayName: "FeedHold"
+    - Description: "Feed status (true in case of feed hold active, else false)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, CNC:6016, CNC:Id, UInt32, 0, 3 ]
+    - DisplayName: "Id"
+    - Description: "Unique numeric channel identifier."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6037, CNC:PosTcpBcsA, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpBcsA"
+    - Description: "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6052, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6053, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6054, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6159, CNC:PosTcpBcsB, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpBcsB"
+    - Description: "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6162, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6163, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6164, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6166, CNC:PosTcpBcsC, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpBcsC"
+    - Description: "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6167, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6178, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6184, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6168, CNC:PosTcpBcsX, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpBcsX"
+    - Description: "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6170, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6192, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6193, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6172, CNC:PosTcpBcsY, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpBcsY"
+    - Description: "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6181, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6203, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6229, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6183, CNC:PosTcpBcsZ, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpBcsZ"
+    - Description: "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6188, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6230, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6231, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6175, CNC:PosTcpWcsA, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpWcsA"
+    - Description: "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6190, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6191, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6239, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6176, CNC:PosTcpWcsB, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpWcsB"
+    - Description: "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6198, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6199, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6240, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6201, CNC:PosTcpWcsC, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpWcsC"
+    - Description: "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6202, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6241, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6271, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6140, CNC:PosTcpWcsX, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpWcsX"
+    - Description: "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6160, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6171, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6209, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6173, CNC:PosTcpWcsY, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpWcsY"
+    - Description: "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6210, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6212, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6217, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6174, CNC:PosTcpWcsZ, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosTcpWcsZ"
+    - Description: "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    - HasComponent:
+      - [ UAVariable, CNC:6221, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6222, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6272, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6056, CNC:ToolId, UInt32, 0, 3 ]
+    - DisplayName: "ToolId"
+    - Description: "ID of active tool; returns zero if no tool is present."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  CNC:CncDriveType:
+  - [ UAObjectType, CNC:1003, CNC:CncDriveType, Abstract ]
+  - DisplayName: "CncDriveType"
+  - Description: "Base component for CNC specific drive componentes (e.g. axis or spindle)."
+  - HasComponent:
+    - [ UAVariable, CNC:6059, CNC:ActChannel, NodeId, 0, 3 ]
+    - DisplayName: "ActChannel"
+    - Description: "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6060, CNC:ActLoad, Double, 0, 3 ]
+    - DisplayName: "ActLoad"
+    - Description: "Drive load actual value."
+    - HasProperty:
+      - [ UAVariable, CNC:6015, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 20529
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6062, CNC:ActPower, Double, 0, 3 ]
+    - DisplayName: "ActPower"
+    - Description: "Drive power actual value."
+    - HasProperty:
+      - [ UAVariable, CNC:6018, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 5723220
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6064, CNC:ActTorque, Double, 0, 3 ]
+    - DisplayName: "ActTorque"
+    - Description: "Drive torque actual value."
+    - HasProperty:
+      - [ UAVariable, CNC:6021, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 20053
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6066, CNC:CmdTorque, Double, 0, 3 ]
+    - DisplayName: "CmdTorque"
+    - Description: "Drive torque setpoint value."
+    - HasProperty:
+      - [ UAVariable, CNC:6036, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 20053
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CNC:1001, CNC:CncComponentType, Abstract ]
+  - HasComponent:
+    - [ UAVariable, CNC:6200, CNC:IsInactive, Boolean, 0, 3 ]
+    - DisplayName: "IsInactive"
+    - Description: "Drive inactive state (true in case of inactive drive, else false)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6189, CNC:IsVirtual, Boolean, 0, 3 ]
+    - DisplayName: "IsVirtual"
+    - Description: "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  CNC:CncAxisType:
+  - [ UAObjectType, CNC:1004, CNC:CncAxisType ]
+  - DisplayName: "CncAxisType"
+  - Description: "CNC axis component."
+  - HasComponent:
+    - [ UAVariable, CNC:6102, CNC:ActStatus, CNC:CncAxisStatus, 0, 3 ]
+    - DisplayName: "ActStatus"
+    - Description: "Actual axis state."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CNC:1003, CNC:CncDriveType, Abstract ]
+  - HasComponent:
+    - [ UAVariable, CNC:6182, CNC:IsReferenced, Boolean, 0, 3 ]
+    - DisplayName: "IsReferenced"
+    - Description: "Axis reference state (true in case of successfully refereneced axis, else false)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6211, CNC:IsRotational, Boolean, 0, 3 ]
+    - DisplayName: "IsRotational"
+    - Description: "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6041, CNC:PosDirect, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosDirect"
+    - Description: "Position actual value referring to axis' direct measurement system."
+    - HasComponent:
+      - [ UAVariable, CNC:6088, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6089, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6228, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6039, CNC:PosIndirect, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "PosIndirect"
+    - Description: "Position actual value referring to axis' indirect measurement system."
+    - HasComponent:
+      - [ UAVariable, CNC:6086, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6087, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6218, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6100, CNC:ZeroOffset, Double, 0, 3 ]
+    - DisplayName: "ZeroOffset"
+    - Description: "Active axis zero offset."
+    - HasProperty:
+      - [ UAVariable, CNC:6154, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 5066068
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  CNC:CncSpindleType:
+  - [ UAObjectType, CNC:1005, CNC:CncSpindleType ]
+  - DisplayName: "CncSpindleType"
+  - Description: "CNC spindle component."
+  - HasComponent:
+    - [ UAVariable, CNC:6128, CNC:ActGear, UInt32, 0, 3 ]
+    - DisplayName: "ActGear"
+    - Description: "Gear stage actual value."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6700, CNC:ActOverride, Double, 0, 3 ]
+    - DisplayName: "ActOverride"
+    - Description: "Override actual value."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6120, CNC:ActSpeed, Double, 0, 3 ]
+    - DisplayName: "ActSpeed"
+    - Description: "Speed actual value."
+    - HasProperty:
+      - [ UAVariable, CNC:6161, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 4405556
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6135, CNC:ActStatus, CNC:CncSpindleStatus, 0, 3 ]
+    - DisplayName: "ActStatus"
+    - Description: "Actual spindle state."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6132, CNC:ActTurnDirection, CNC:CncSpindleTurnDirection, 0, 3 ]
+    - DisplayName: "ActTurnDirection"
+    - Description: "Turn direction actual value."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6072, CNC:AnglePos, CNC:CncPositionDataType, 0, 3 ]
+    - DisplayName: "AnglePos"
+    - Description: "Spindle angular position values in case of interpolated (position controlled) spindle movement. Returns zeros in case of regular spindle operation (velocity controlled)."
+    - HasComponent:
+      - [ UAVariable, CNC:6073, CNC:ActPos, Double, 0, 0 ]
+      - DisplayName: "ActPos"
+      - Description: "Position current value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6074, CNC:CmdPos, Double, 0, 0 ]
+      - DisplayName: "CmdPos"
+      - Description: "Position setpoint value."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, CNC:6085, CNC:RemDist, Double, 0, 0 ]
+      - DisplayName: "RemDist"
+      - Description: "Remaining distance to go."
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6130, CNC:CmdGear, UInt32, 0, 3 ]
+    - DisplayName: "CmdGear"
+    - Description: "Gear stage setpoint value."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6702, CNC:CmdOverride, Double, 0, 3 ]
+    - DisplayName: "CmdOverride"
+    - Description: "Override setpoint value."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CNC:6122, CNC:CmdSpeed, Double, 0, 3 ]
+    - DisplayName: "CmdSpeed"
+    - Description: "Speed setpoint value."
+    - HasProperty:
+      - [ UAVariable, CNC:6169, CNC:EngineeringUnits, EUInformation, 0, 0 ]
+      - DisplayName: "EngineeringUnits"
+      - UnitId: 4405556
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CNC:1003, CNC:CncDriveType, Abstract ]
+
+  CNC:CncInterfaceType:
+  - [ UAObjectType, CNC:1007, CNC:CncInterfaceType ]
+  - DisplayName: "CncInterfaceType"
+  - Description: "Entry point to CNC data interface."
+  - HasComponent:
+    - [ UAObject, CNC:5026, CNC:CncAxisList ]
+    - DisplayName: "CncAxisList"
+    - Description: "List of CNC axis objects."
+    - HasTypeDefinition:
+      - [ UAObjectType, CNC:1008, CNC:CncAxisListType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, CNC:5028, CNC:CncChannelList ]
+    - DisplayName: "CncChannelList"
+    - Description: "List of CNC channel objects."
+    - HasTypeDefinition:
+      - [ UAObjectType, CNC:1010, CNC:CncChannelListType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAObject, CNC:5027, CNC:CncSpindleList ]
+    - DisplayName: "CncSpindleList"
+    - Description: "List of CNC spindle objects."
+    - HasTypeDefinition:
+      - [ UAObjectType, CNC:1009, CNC:CncSpindleListType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, CNC:6092, CNC:CncTypeName, String, 0, 3 ]
+    - DisplayName: "CncTypeName"
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CNC:6618, CNC:Fix, String, 0, 3 ]
+    - DisplayName: "Fix"
+    - Description: "Version of CNC interface considering changes in implementation (Bug Fix)."
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, CNC:6620, CNC:VendorName, String, 0, 3 ]
+    - DisplayName: "VendorName"
+    - Description: "Name of CNC system vendor. Format and content may be chosen by vendor."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, CNC:6621, CNC:VendorRevision, String, 0, 3 ]
+    - DisplayName: "VendorRevision"
+    - Description: "Vendor revision of CNC interface. Format and content may be chosen by vendor."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, CNC:6616, CNC:Version, String, 0, 3 ]
+    - DisplayName: "Version"
+    - Description: "Version of CNC interface - corresponds to version of OPC UA companion standard."
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  CNC:CncSpindleListType:
+  - [ UAObjectType, CNC:1009, CNC:CncSpindleListType ]
+  - DisplayName: "CncSpindleListType"
+  - Description: "List of CNC spindle objects."
+  - HasComponent:
+    - [ UAObject, CNC:5002, CNC:<CncSpindle> ]
+    - DisplayName: "<CncSpindle>"
+    - Description: "CNC spindle object."
+    - HasTypeDefinition:
+      - [ UAObjectType, CNC:1005, CNC:CncSpindleType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

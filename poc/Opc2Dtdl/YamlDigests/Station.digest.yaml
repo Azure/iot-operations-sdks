@@ -1,0 +1,305 @@
+SpecUri: http://opcfoundation.org/UA/Station/
+SpecVer: 1.0
+
+DataTypes:
+
+DefinedTypes:
+
+  Station:StationProductType:
+  - [ UAObjectType, Station:1, Station:StationProductType ]
+  - DisplayName: "StationProductType"
+  - Description: "Product parameter"
+  - HasComponent:
+    - [ UAVariable, Station:2, Station:ProductSerialNumber, UInt64, 0, 0 ]
+    - DisplayName: "ProductSerialNumber"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:1, Station:StationProductType ]
+  - HasComponent:
+    - [ UAVariable, Station:8, Station:NumberOfManufacturedProducts, UInt64, 0, 0 ]
+    - DisplayName: "NumberOfManufacturedProducts"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:1, Station:StationProductType ]
+  - HasComponent:
+    - [ UAVariable, Station:14, Station:NumberOfDiscardedProducts, UInt64, 0, 0 ]
+    - DisplayName: "NumberOfDiscardedProducts"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:1, Station:StationProductType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  Station:TelemetryType:
+  - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - DisplayName: "TelemetryType"
+  - Description: "Base telemetry data"
+  - HasComponent:
+    - [ UAVariable, Station:21, Station:OverallRunningTime, UInt64, 0, 0 ]
+    - DisplayName: "OverallRunningTime"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - HasComponent:
+    - [ UAVariable, Station:22, Station:FaultyTime, UInt64, 0, 0 ]
+    - DisplayName: "FaultyTime"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - HasComponent:
+    - [ UAVariable, Station:359, Station:Status, Integer, 0, 0 ]
+    - DisplayName: "Status"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - HasComponent:
+    - [ UAVariable, Station:29, Station:EnergyConsumption, Double, 0, 0 ]
+    - DisplayName: "EnergyConsumption"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - HasComponent:
+    - [ UAVariable, Station:428, Station:Pressure, Double, 0, 0 ]
+    - DisplayName: "Pressure"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - HasComponent:
+    - [ UAVariable, Station:35, Station:IdealCycleTime, UInt64, 0, 3 ]
+    - DisplayName: "IdealCycleTime"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - HasComponent:
+    - [ UAVariable, Station:41, Station:ActualCycleTime, UInt64, 0, 0 ]
+    - DisplayName: "ActualCycleTime"
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  Station:StationCommandsType:
+  - [ UAObjectType, Station:49, Station:StationCommandsType ]
+  - DisplayName: "StationCommandsType"
+  - Description: "Station Commands"
+  - HasComponent:
+    - [ UAMethod, Station:51, Station:Execute ]
+    - DisplayName: "Execute"
+    - HasProperty:
+      - [ UAVariable, Station:52, Station:InputArguments, Argument, 1, 0 ]
+      - DisplayName: "InputArguments"
+      - Arguments:
+          SerialNumber: [ UInt64, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Station:51, Station:Execute ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:49, Station:StationCommandsType ]
+  - HasComponent:
+    - [ UAMethod, Station:50, Station:Reset ]
+    - DisplayName: "Reset"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:49, Station:StationCommandsType ]
+  - HasComponent:
+    - [ UAMethod, Station:431, Station:OpenPressureReleaseValve ]
+    - DisplayName: "OpenPressureReleaseValve"
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:49, Station:StationCommandsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  Station:StationType:
+  - [ UAObjectType, Station:257, Station:StationType ]
+  - DisplayName: "StationType"
+  - Description: "Station"
+  - HasComponent:
+    - [ UAObject, Station:258, Station:StationProduct ]
+    - DisplayName: "StationProduct"
+    - HasComponent:
+      - [ UAVariable, Station:259, Station:ProductSerialNumber, UInt64, 0, 0 ]
+      - DisplayName: "ProductSerialNumber"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:258, Station:StationProduct ]
+    - HasComponent:
+      - [ UAVariable, Station:265, Station:NumberOfManufacturedProducts, UInt64, 0, 0 ]
+      - DisplayName: "NumberOfManufacturedProducts"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:258, Station:StationProduct ]
+    - HasComponent:
+      - [ UAVariable, Station:271, Station:NumberOfDiscardedProducts, UInt64, 0, 0 ]
+      - DisplayName: "NumberOfDiscardedProducts"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:258, Station:StationProduct ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Station:1, Station:StationProductType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:257, Station:StationType ]
+  - HasComponent:
+    - [ UAObject, Station:277, Station:StationTelemetry ]
+    - DisplayName: "StationTelemetry"
+    - HasComponent:
+      - [ UAVariable, Station:278, Station:OverallRunningTime, UInt64, 0, 0 ]
+      - DisplayName: "OverallRunningTime"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:277, Station:StationTelemetry ]
+    - HasComponent:
+      - [ UAVariable, Station:279, Station:FaultyTime, UInt64, 0, 0 ]
+      - DisplayName: "FaultyTime"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:277, Station:StationTelemetry ]
+    - HasComponent:
+      - [ UAVariable, Station:365, Station:Status, Integer, 0, 0 ]
+      - DisplayName: "Status"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:277, Station:StationTelemetry ]
+    - HasComponent:
+      - [ UAVariable, Station:286, Station:EnergyConsumption, Double, 0, 0 ]
+      - DisplayName: "EnergyConsumption"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:277, Station:StationTelemetry ]
+    - HasComponent:
+      - [ UAVariable, Station:432, Station:Pressure, Double, 0, 0 ]
+      - DisplayName: "Pressure"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:277, Station:StationTelemetry ]
+    - HasComponent:
+      - [ UAVariable, Station:292, Station:IdealCycleTime, UInt64, 0, 3 ]
+      - DisplayName: "IdealCycleTime"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:277, Station:StationTelemetry ]
+    - HasComponent:
+      - [ UAVariable, Station:298, Station:ActualCycleTime, UInt64, 0, 0 ]
+      - DisplayName: "ActualCycleTime"
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:277, Station:StationTelemetry ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Station:20, Station:TelemetryType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:257, Station:StationType ]
+  - HasComponent:
+    - [ UAObject, Station:304, Station:StationCommands ]
+    - DisplayName: "StationCommands"
+    - HasComponent:
+      - [ UAMethod, Station:306, Station:Execute ]
+      - DisplayName: "Execute"
+      - HasProperty:
+        - [ UAVariable, Station:307, Station:InputArguments, Argument, 1, 0 ]
+        - DisplayName: "InputArguments"
+        - Arguments:
+            SerialNumber: [ UInt64, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Station:306, Station:Execute ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:304, Station:StationCommands ]
+    - HasComponent:
+      - [ UAMethod, Station:305, Station:Reset ]
+      - DisplayName: "Reset"
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:304, Station:StationCommands ]
+    - HasComponent:
+      - [ UAMethod, Station:433, Station:OpenPressureReleaseValve ]
+      - DisplayName: "OpenPressureReleaseValve"
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Station:304, Station:StationCommands ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Station:49, Station:StationCommandsType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Station:257, Station:StationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

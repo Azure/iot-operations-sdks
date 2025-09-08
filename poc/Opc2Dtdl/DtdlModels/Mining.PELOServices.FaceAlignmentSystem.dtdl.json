@@ -14,7 +14,7 @@
     "ontology": "http://opcfoundation.org/UA/Mining/PELOServices/FaceAlignmentSystem/",
     "displayName": "FaceAlignmentSystemType",
     "description": "The FaceAlignmentSystemType ObjectType describes a Face Alignment System (FAS) for longwall mining operations",
-    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 07/29/2025 00:06:32 UTC",
+    "comment": "Model converted from OPC UA spec version 1.0.0 by Azure Opc2Dtdl converter v0.1.0.0 at 09/08/2025 15:50:08 UTC",
     "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
     "typeRef": "nsu=http://opcfoundation.org/UA/Mining/PELOServices/FaceAlignmentSystem/;i=1002",
     "payloadFormat": "Json/ecma/404",

@@ -1,0 +1,95 @@
+SpecUri: http://CODESYS.com/SPV3/3S/IecVarAccess/
+SpecVer: unspecified
+
+DataTypes:
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
+  DisplayName: "DeviceHealthEnumeration"
+  Description: "This device functions normally."
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
+  DisplayName: "TransferResultErrorDataType"
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
+  DisplayName: "TransferResultDataDataType"
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
+  DisplayName: "ParameterResultDataType"
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
+  DisplayName: "SoftwareVersionFileType"
+  Description: "The currently used version of the software identified by the CurrentVersion Object."
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, DI:UpdateBehavior ]
+  DisplayName: "UpdateBehavior"
+  Description: "If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards."
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ 61131-3:3005, 61131-3:TIME ]
+  Bases:
+  - Int64
+- UADataType: [ 61131-3:3006, 61131-3:LTIME ]
+  Bases:
+  - Int64
+- UADataType: [ 61131-3:3007, 61131-3:DATE ]
+  Bases:
+  - DateTime
+- UADataType: [ 61131-3:3014, 61131-3:LDATE ]
+  Bases:
+  - Int64
+- UADataType: [ 61131-3:3008, 61131-3:TOD ]
+  Bases:
+  - UInt32
+- UADataType: [ 61131-3:3009, 61131-3:LTOD ]
+  Bases:
+  - Int64
+- UADataType: [ 61131-3:3010, 61131-3:DT ]
+  Bases:
+  - DateTime
+- UADataType: [ 61131-3:3015, 61131-3:LDT ]
+  Bases:
+  - Int64
+- UADataType: [ 61131-3:3013, 61131-3:STRING ]
+  Bases:
+  - String
+- UADataType: [ 61131-3:3011, 61131-3:CHAR ]
+  Bases:
+  - Byte
+- UADataType: [ 61131-3:3012, 61131-3:WCHAR ]
+  Bases:
+  - UInt16
+- UADataType: [ 61131-3:3001, 61131-3:BYTE ]
+  Bases:
+  - Byte
+- UADataType: [ 61131-3:3003, 61131-3:DWORD ]
+  Bases:
+  - UInt32
+- UADataType: [ 61131-3:3004, 61131-3:LWORD ]
+  Bases:
+  - UInt64
+- UADataType: [ 61131-3:3002, 61131-3:WORD ]
+  Bases:
+  - UInt16
+

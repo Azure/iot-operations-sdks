@@ -1,0 +1,4172 @@
+[
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IEC61850DOBaseObjectType",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=3",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:IEC61850LNodeBaseObjectType;1",
+    "@type": [ "Interface", "Mqtt", "Congruence" ],
+    "displayName": "IEC61850LNodeBaseObjectType",
+    "extends": "dtmi:opcua:OpcUaCore:BaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=4",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:SPS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "SPS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=177",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:DPS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "DPS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=190",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:INS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "INS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=203",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ENS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ENS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=217",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ACT;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ACT",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=230",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ACD;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ACD",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=246",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:SEC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "SEC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=263",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:BCR;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "BCR",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=273",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:HST;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "HST",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=289",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:VSS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "VSS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=307",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:MV;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "MV",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=315",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:CMV;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "CMV",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=336",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:SAV;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "SAV",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=362",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:WYE;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "WYE",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=374",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:DEL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "DEL",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=400",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:SEQ;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "SEQ",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=416",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:HMV;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "HMV",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=433",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:HWYE;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "HWYE",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=449",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:HDEL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "HDEL",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=481",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:SPC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "SPC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=504",
+    "commandTopic": "opcua/IEC61850_7_3/SPC/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:SPC:dataType:AddCauseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "AddCauseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=55",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "Not_supported",
+            "enumValue": 1
+          },
+          {
+            "name": "Blocked_by_switching_hierarchy",
+            "enumValue": 2
+          },
+          {
+            "name": "Select_failed",
+            "enumValue": 3
+          },
+          {
+            "name": "Invalid_position",
+            "enumValue": 4
+          },
+          {
+            "name": "Position_reached",
+            "enumValue": 5
+          },
+          {
+            "name": "Parameter_change_in_execution",
+            "enumValue": 6
+          },
+          {
+            "name": "Step_limit",
+            "enumValue": 7
+          },
+          {
+            "name": "Blocked_by_Mode",
+            "enumValue": 8
+          },
+          {
+            "name": "Blocked_by_process",
+            "enumValue": 9
+          },
+          {
+            "name": "Blocked_by_interlocking",
+            "enumValue": 10
+          },
+          {
+            "name": "Blocked_by_synchrocheck",
+            "enumValue": 11
+          },
+          {
+            "name": "Command_already_in_execution",
+            "enumValue": 12
+          },
+          {
+            "name": "Blocked_by_health",
+            "enumValue": 13
+          },
+          {
+            "name": "X_1_of_n_control",
+            "enumValue": 14
+          },
+          {
+            "name": "Abortion_by_cancel",
+            "enumValue": 15
+          },
+          {
+            "name": "Time_limit_over",
+            "enumValue": 16
+          },
+          {
+            "name": "Abortion_by_trip",
+            "enumValue": 17
+          },
+          {
+            "name": "Object_not_selected",
+            "enumValue": 18
+          },
+          {
+            "name": "Object_already_selected",
+            "enumValue": 19
+          },
+          {
+            "name": "No_access_authority",
+            "enumValue": 20
+          },
+          {
+            "name": "Ended_with_overshoot",
+            "enumValue": 21
+          },
+          {
+            "name": "Abortion_due_to_deviation",
+            "enumValue": 22
+          },
+          {
+            "name": "Abortion_by_communication_loss",
+            "enumValue": 23
+          },
+          {
+            "name": "Blocked_by_command",
+            "enumValue": 24
+          },
+          {
+            "name": "None",
+            "enumValue": 25
+          },
+          {
+            "name": "Inconsistent_parameters",
+            "enumValue": 26
+          },
+          {
+            "name": "Locked_by_other_client",
+            "enumValue": 27
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:SPC:dataType:Timestamp;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Timestamp",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=5",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SecondSinceEpoch",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FractionOfSecond",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeQuality",
+            "schema": "dtmi:opcua:IEC61850_7_3:SPC:dataType:TimeQuality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:SPC:dataType:TimeQuality;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeQuality",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=12",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LeapSecondsKnown",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockFailure",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockNotSynchronized",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeAccuracy",
+            "schema": "byte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operate",
+        "displayName": "Operate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:SPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Cancel",
+        "displayName": "Cancel",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:SPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Select",
+        "displayName": "Select",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:SPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SelectWithVal",
+        "displayName": "SelectWithVal",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:SPC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:SPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TimeActivatedOperate",
+        "displayName": "TimeActivatedOperate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:SPC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:SPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:DPC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "DPC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=541",
+    "commandTopic": "opcua/IEC61850_7_3/DPC/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:DPC:dataType:AddCauseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "AddCauseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=55",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "Not_supported",
+            "enumValue": 1
+          },
+          {
+            "name": "Blocked_by_switching_hierarchy",
+            "enumValue": 2
+          },
+          {
+            "name": "Select_failed",
+            "enumValue": 3
+          },
+          {
+            "name": "Invalid_position",
+            "enumValue": 4
+          },
+          {
+            "name": "Position_reached",
+            "enumValue": 5
+          },
+          {
+            "name": "Parameter_change_in_execution",
+            "enumValue": 6
+          },
+          {
+            "name": "Step_limit",
+            "enumValue": 7
+          },
+          {
+            "name": "Blocked_by_Mode",
+            "enumValue": 8
+          },
+          {
+            "name": "Blocked_by_process",
+            "enumValue": 9
+          },
+          {
+            "name": "Blocked_by_interlocking",
+            "enumValue": 10
+          },
+          {
+            "name": "Blocked_by_synchrocheck",
+            "enumValue": 11
+          },
+          {
+            "name": "Command_already_in_execution",
+            "enumValue": 12
+          },
+          {
+            "name": "Blocked_by_health",
+            "enumValue": 13
+          },
+          {
+            "name": "X_1_of_n_control",
+            "enumValue": 14
+          },
+          {
+            "name": "Abortion_by_cancel",
+            "enumValue": 15
+          },
+          {
+            "name": "Time_limit_over",
+            "enumValue": 16
+          },
+          {
+            "name": "Abortion_by_trip",
+            "enumValue": 17
+          },
+          {
+            "name": "Object_not_selected",
+            "enumValue": 18
+          },
+          {
+            "name": "Object_already_selected",
+            "enumValue": 19
+          },
+          {
+            "name": "No_access_authority",
+            "enumValue": 20
+          },
+          {
+            "name": "Ended_with_overshoot",
+            "enumValue": 21
+          },
+          {
+            "name": "Abortion_due_to_deviation",
+            "enumValue": 22
+          },
+          {
+            "name": "Abortion_by_communication_loss",
+            "enumValue": 23
+          },
+          {
+            "name": "Blocked_by_command",
+            "enumValue": 24
+          },
+          {
+            "name": "None",
+            "enumValue": 25
+          },
+          {
+            "name": "Inconsistent_parameters",
+            "enumValue": 26
+          },
+          {
+            "name": "Locked_by_other_client",
+            "enumValue": 27
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:DPC:dataType:Timestamp;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Timestamp",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=5",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SecondSinceEpoch",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FractionOfSecond",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeQuality",
+            "schema": "dtmi:opcua:IEC61850_7_3:DPC:dataType:TimeQuality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:DPC:dataType:TimeQuality;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeQuality",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=12",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LeapSecondsKnown",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockFailure",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockNotSynchronized",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeAccuracy",
+            "schema": "byte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operate",
+        "displayName": "Operate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:DPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Cancel",
+        "displayName": "Cancel",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:DPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Select",
+        "displayName": "Select",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:DPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SelectWithVal",
+        "displayName": "SelectWithVal",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:DPC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:DPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TimeActivatedOperate",
+        "displayName": "TimeActivatedOperate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:DPC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:DPC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:INC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "INC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=578",
+    "commandTopic": "opcua/IEC61850_7_3/INC/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:INC:dataType:AddCauseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "AddCauseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=55",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "Not_supported",
+            "enumValue": 1
+          },
+          {
+            "name": "Blocked_by_switching_hierarchy",
+            "enumValue": 2
+          },
+          {
+            "name": "Select_failed",
+            "enumValue": 3
+          },
+          {
+            "name": "Invalid_position",
+            "enumValue": 4
+          },
+          {
+            "name": "Position_reached",
+            "enumValue": 5
+          },
+          {
+            "name": "Parameter_change_in_execution",
+            "enumValue": 6
+          },
+          {
+            "name": "Step_limit",
+            "enumValue": 7
+          },
+          {
+            "name": "Blocked_by_Mode",
+            "enumValue": 8
+          },
+          {
+            "name": "Blocked_by_process",
+            "enumValue": 9
+          },
+          {
+            "name": "Blocked_by_interlocking",
+            "enumValue": 10
+          },
+          {
+            "name": "Blocked_by_synchrocheck",
+            "enumValue": 11
+          },
+          {
+            "name": "Command_already_in_execution",
+            "enumValue": 12
+          },
+          {
+            "name": "Blocked_by_health",
+            "enumValue": 13
+          },
+          {
+            "name": "X_1_of_n_control",
+            "enumValue": 14
+          },
+          {
+            "name": "Abortion_by_cancel",
+            "enumValue": 15
+          },
+          {
+            "name": "Time_limit_over",
+            "enumValue": 16
+          },
+          {
+            "name": "Abortion_by_trip",
+            "enumValue": 17
+          },
+          {
+            "name": "Object_not_selected",
+            "enumValue": 18
+          },
+          {
+            "name": "Object_already_selected",
+            "enumValue": 19
+          },
+          {
+            "name": "No_access_authority",
+            "enumValue": 20
+          },
+          {
+            "name": "Ended_with_overshoot",
+            "enumValue": 21
+          },
+          {
+            "name": "Abortion_due_to_deviation",
+            "enumValue": 22
+          },
+          {
+            "name": "Abortion_by_communication_loss",
+            "enumValue": 23
+          },
+          {
+            "name": "Blocked_by_command",
+            "enumValue": 24
+          },
+          {
+            "name": "None",
+            "enumValue": 25
+          },
+          {
+            "name": "Inconsistent_parameters",
+            "enumValue": 26
+          },
+          {
+            "name": "Locked_by_other_client",
+            "enumValue": 27
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:INC:dataType:Timestamp;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Timestamp",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=5",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SecondSinceEpoch",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FractionOfSecond",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeQuality",
+            "schema": "dtmi:opcua:IEC61850_7_3:INC:dataType:TimeQuality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:INC:dataType:TimeQuality;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeQuality",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=12",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LeapSecondsKnown",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockFailure",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockNotSynchronized",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeAccuracy",
+            "schema": "byte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operate",
+        "displayName": "Operate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:INC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Cancel",
+        "displayName": "Cancel",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:INC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Select",
+        "displayName": "Select",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:INC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SelectWithVal",
+        "displayName": "SelectWithVal",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:INC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:INC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TimeActivatedOperate",
+        "displayName": "TimeActivatedOperate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "integer"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:INC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:INC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ENC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ENC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=618",
+    "commandTopic": "opcua/IEC61850_7_3/ENC/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:ENC:dataType:AddCauseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "AddCauseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=55",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "Not_supported",
+            "enumValue": 1
+          },
+          {
+            "name": "Blocked_by_switching_hierarchy",
+            "enumValue": 2
+          },
+          {
+            "name": "Select_failed",
+            "enumValue": 3
+          },
+          {
+            "name": "Invalid_position",
+            "enumValue": 4
+          },
+          {
+            "name": "Position_reached",
+            "enumValue": 5
+          },
+          {
+            "name": "Parameter_change_in_execution",
+            "enumValue": 6
+          },
+          {
+            "name": "Step_limit",
+            "enumValue": 7
+          },
+          {
+            "name": "Blocked_by_Mode",
+            "enumValue": 8
+          },
+          {
+            "name": "Blocked_by_process",
+            "enumValue": 9
+          },
+          {
+            "name": "Blocked_by_interlocking",
+            "enumValue": 10
+          },
+          {
+            "name": "Blocked_by_synchrocheck",
+            "enumValue": 11
+          },
+          {
+            "name": "Command_already_in_execution",
+            "enumValue": 12
+          },
+          {
+            "name": "Blocked_by_health",
+            "enumValue": 13
+          },
+          {
+            "name": "X_1_of_n_control",
+            "enumValue": 14
+          },
+          {
+            "name": "Abortion_by_cancel",
+            "enumValue": 15
+          },
+          {
+            "name": "Time_limit_over",
+            "enumValue": 16
+          },
+          {
+            "name": "Abortion_by_trip",
+            "enumValue": 17
+          },
+          {
+            "name": "Object_not_selected",
+            "enumValue": 18
+          },
+          {
+            "name": "Object_already_selected",
+            "enumValue": 19
+          },
+          {
+            "name": "No_access_authority",
+            "enumValue": 20
+          },
+          {
+            "name": "Ended_with_overshoot",
+            "enumValue": 21
+          },
+          {
+            "name": "Abortion_due_to_deviation",
+            "enumValue": 22
+          },
+          {
+            "name": "Abortion_by_communication_loss",
+            "enumValue": 23
+          },
+          {
+            "name": "Blocked_by_command",
+            "enumValue": 24
+          },
+          {
+            "name": "None",
+            "enumValue": 25
+          },
+          {
+            "name": "Inconsistent_parameters",
+            "enumValue": 26
+          },
+          {
+            "name": "Locked_by_other_client",
+            "enumValue": 27
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:ENC:dataType:Timestamp;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Timestamp",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=5",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SecondSinceEpoch",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FractionOfSecond",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeQuality",
+            "schema": "dtmi:opcua:IEC61850_7_3:ENC:dataType:TimeQuality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:ENC:dataType:TimeQuality;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeQuality",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=12",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LeapSecondsKnown",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockFailure",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockNotSynchronized",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeAccuracy",
+            "schema": "byte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operate",
+        "displayName": "Operate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ENC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Cancel",
+        "displayName": "Cancel",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ENC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Select",
+        "displayName": "Select",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ENC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SelectWithVal",
+        "displayName": "SelectWithVal",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:ENC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ENC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TimeActivatedOperate",
+        "displayName": "TimeActivatedOperate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "string"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:ENC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ENC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:BSC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "BSC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=654",
+    "commandTopic": "opcua/IEC61850_7_3/BSC/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:BSC:dataType:StepControlKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "StepControlKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=49",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "stop",
+            "enumValue": 0
+          },
+          {
+            "name": "lower",
+            "enumValue": 1
+          },
+          {
+            "name": "higher",
+            "enumValue": 2
+          },
+          {
+            "name": "reserved",
+            "enumValue": 3
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:BSC:dataType:AddCauseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "AddCauseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=55",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "Not_supported",
+            "enumValue": 1
+          },
+          {
+            "name": "Blocked_by_switching_hierarchy",
+            "enumValue": 2
+          },
+          {
+            "name": "Select_failed",
+            "enumValue": 3
+          },
+          {
+            "name": "Invalid_position",
+            "enumValue": 4
+          },
+          {
+            "name": "Position_reached",
+            "enumValue": 5
+          },
+          {
+            "name": "Parameter_change_in_execution",
+            "enumValue": 6
+          },
+          {
+            "name": "Step_limit",
+            "enumValue": 7
+          },
+          {
+            "name": "Blocked_by_Mode",
+            "enumValue": 8
+          },
+          {
+            "name": "Blocked_by_process",
+            "enumValue": 9
+          },
+          {
+            "name": "Blocked_by_interlocking",
+            "enumValue": 10
+          },
+          {
+            "name": "Blocked_by_synchrocheck",
+            "enumValue": 11
+          },
+          {
+            "name": "Command_already_in_execution",
+            "enumValue": 12
+          },
+          {
+            "name": "Blocked_by_health",
+            "enumValue": 13
+          },
+          {
+            "name": "X_1_of_n_control",
+            "enumValue": 14
+          },
+          {
+            "name": "Abortion_by_cancel",
+            "enumValue": 15
+          },
+          {
+            "name": "Time_limit_over",
+            "enumValue": 16
+          },
+          {
+            "name": "Abortion_by_trip",
+            "enumValue": 17
+          },
+          {
+            "name": "Object_not_selected",
+            "enumValue": 18
+          },
+          {
+            "name": "Object_already_selected",
+            "enumValue": 19
+          },
+          {
+            "name": "No_access_authority",
+            "enumValue": 20
+          },
+          {
+            "name": "Ended_with_overshoot",
+            "enumValue": 21
+          },
+          {
+            "name": "Abortion_due_to_deviation",
+            "enumValue": 22
+          },
+          {
+            "name": "Abortion_by_communication_loss",
+            "enumValue": 23
+          },
+          {
+            "name": "Blocked_by_command",
+            "enumValue": 24
+          },
+          {
+            "name": "None",
+            "enumValue": 25
+          },
+          {
+            "name": "Inconsistent_parameters",
+            "enumValue": 26
+          },
+          {
+            "name": "Locked_by_other_client",
+            "enumValue": 27
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:BSC:dataType:Timestamp;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Timestamp",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=5",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SecondSinceEpoch",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FractionOfSecond",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeQuality",
+            "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:TimeQuality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:BSC:dataType:TimeQuality;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeQuality",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=12",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LeapSecondsKnown",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockFailure",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockNotSynchronized",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeAccuracy",
+            "schema": "byte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operate",
+        "displayName": "Operate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:StepControlKind;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Cancel",
+        "displayName": "Cancel",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Select",
+        "displayName": "Select",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SelectWithVal",
+        "displayName": "SelectWithVal",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:StepControlKind;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TimeActivatedOperate",
+        "displayName": "TimeActivatedOperate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:StepControlKind;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BSC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ISC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ISC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=693",
+    "commandTopic": "opcua/IEC61850_7_3/ISC/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:ISC:dataType:AddCauseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "AddCauseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=55",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "Not_supported",
+            "enumValue": 1
+          },
+          {
+            "name": "Blocked_by_switching_hierarchy",
+            "enumValue": 2
+          },
+          {
+            "name": "Select_failed",
+            "enumValue": 3
+          },
+          {
+            "name": "Invalid_position",
+            "enumValue": 4
+          },
+          {
+            "name": "Position_reached",
+            "enumValue": 5
+          },
+          {
+            "name": "Parameter_change_in_execution",
+            "enumValue": 6
+          },
+          {
+            "name": "Step_limit",
+            "enumValue": 7
+          },
+          {
+            "name": "Blocked_by_Mode",
+            "enumValue": 8
+          },
+          {
+            "name": "Blocked_by_process",
+            "enumValue": 9
+          },
+          {
+            "name": "Blocked_by_interlocking",
+            "enumValue": 10
+          },
+          {
+            "name": "Blocked_by_synchrocheck",
+            "enumValue": 11
+          },
+          {
+            "name": "Command_already_in_execution",
+            "enumValue": 12
+          },
+          {
+            "name": "Blocked_by_health",
+            "enumValue": 13
+          },
+          {
+            "name": "X_1_of_n_control",
+            "enumValue": 14
+          },
+          {
+            "name": "Abortion_by_cancel",
+            "enumValue": 15
+          },
+          {
+            "name": "Time_limit_over",
+            "enumValue": 16
+          },
+          {
+            "name": "Abortion_by_trip",
+            "enumValue": 17
+          },
+          {
+            "name": "Object_not_selected",
+            "enumValue": 18
+          },
+          {
+            "name": "Object_already_selected",
+            "enumValue": 19
+          },
+          {
+            "name": "No_access_authority",
+            "enumValue": 20
+          },
+          {
+            "name": "Ended_with_overshoot",
+            "enumValue": 21
+          },
+          {
+            "name": "Abortion_due_to_deviation",
+            "enumValue": 22
+          },
+          {
+            "name": "Abortion_by_communication_loss",
+            "enumValue": 23
+          },
+          {
+            "name": "Blocked_by_command",
+            "enumValue": 24
+          },
+          {
+            "name": "None",
+            "enumValue": 25
+          },
+          {
+            "name": "Inconsistent_parameters",
+            "enumValue": 26
+          },
+          {
+            "name": "Locked_by_other_client",
+            "enumValue": 27
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:ISC:dataType:Timestamp;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Timestamp",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=5",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SecondSinceEpoch",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FractionOfSecond",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeQuality",
+            "schema": "dtmi:opcua:IEC61850_7_3:ISC:dataType:TimeQuality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:ISC:dataType:TimeQuality;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeQuality",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=12",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LeapSecondsKnown",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockFailure",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockNotSynchronized",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeAccuracy",
+            "schema": "byte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operate",
+        "displayName": "Operate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "byte"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ISC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Cancel",
+        "displayName": "Cancel",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ISC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Select",
+        "displayName": "Select",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ISC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SelectWithVal",
+        "displayName": "SelectWithVal",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "byte"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:ISC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ISC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TimeActivatedOperate",
+        "displayName": "TimeActivatedOperate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "byte"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:ISC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:ISC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:APC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "APC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=731",
+    "commandTopic": "opcua/IEC61850_7_3/APC/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:APC:dataType:AnalogueValueCtl;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "AnalogueValueCtl",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=162",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "i",
+            "schema": "integer"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "f",
+            "schema": "float"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:APC:dataType:AddCauseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "AddCauseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=55",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "Not_supported",
+            "enumValue": 1
+          },
+          {
+            "name": "Blocked_by_switching_hierarchy",
+            "enumValue": 2
+          },
+          {
+            "name": "Select_failed",
+            "enumValue": 3
+          },
+          {
+            "name": "Invalid_position",
+            "enumValue": 4
+          },
+          {
+            "name": "Position_reached",
+            "enumValue": 5
+          },
+          {
+            "name": "Parameter_change_in_execution",
+            "enumValue": 6
+          },
+          {
+            "name": "Step_limit",
+            "enumValue": 7
+          },
+          {
+            "name": "Blocked_by_Mode",
+            "enumValue": 8
+          },
+          {
+            "name": "Blocked_by_process",
+            "enumValue": 9
+          },
+          {
+            "name": "Blocked_by_interlocking",
+            "enumValue": 10
+          },
+          {
+            "name": "Blocked_by_synchrocheck",
+            "enumValue": 11
+          },
+          {
+            "name": "Command_already_in_execution",
+            "enumValue": 12
+          },
+          {
+            "name": "Blocked_by_health",
+            "enumValue": 13
+          },
+          {
+            "name": "X_1_of_n_control",
+            "enumValue": 14
+          },
+          {
+            "name": "Abortion_by_cancel",
+            "enumValue": 15
+          },
+          {
+            "name": "Time_limit_over",
+            "enumValue": 16
+          },
+          {
+            "name": "Abortion_by_trip",
+            "enumValue": 17
+          },
+          {
+            "name": "Object_not_selected",
+            "enumValue": 18
+          },
+          {
+            "name": "Object_already_selected",
+            "enumValue": 19
+          },
+          {
+            "name": "No_access_authority",
+            "enumValue": 20
+          },
+          {
+            "name": "Ended_with_overshoot",
+            "enumValue": 21
+          },
+          {
+            "name": "Abortion_due_to_deviation",
+            "enumValue": 22
+          },
+          {
+            "name": "Abortion_by_communication_loss",
+            "enumValue": 23
+          },
+          {
+            "name": "Blocked_by_command",
+            "enumValue": 24
+          },
+          {
+            "name": "None",
+            "enumValue": 25
+          },
+          {
+            "name": "Inconsistent_parameters",
+            "enumValue": 26
+          },
+          {
+            "name": "Locked_by_other_client",
+            "enumValue": 27
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:APC:dataType:Timestamp;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Timestamp",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=5",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SecondSinceEpoch",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FractionOfSecond",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeQuality",
+            "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:TimeQuality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:APC:dataType:TimeQuality;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeQuality",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=12",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LeapSecondsKnown",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockFailure",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockNotSynchronized",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeAccuracy",
+            "schema": "byte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operate",
+        "displayName": "Operate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:AnalogueValueCtl;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Cancel",
+        "displayName": "Cancel",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Select",
+        "displayName": "Select",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SelectWithVal",
+        "displayName": "SelectWithVal",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:AnalogueValueCtl;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TimeActivatedOperate",
+        "displayName": "TimeActivatedOperate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:AnalogueValueCtl;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:APC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:BAC;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "BAC",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=773",
+    "commandTopic": "opcua/IEC61850_7_3/BAC/{commandName}",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:BAC:dataType:StepControlKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "StepControlKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=49",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "stop",
+            "enumValue": 0
+          },
+          {
+            "name": "lower",
+            "enumValue": 1
+          },
+          {
+            "name": "higher",
+            "enumValue": 2
+          },
+          {
+            "name": "reserved",
+            "enumValue": 3
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:BAC:dataType:AddCauseKind;1",
+        "@type": [ "Enum", "Congruence" ],
+        "displayName": "AddCauseKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=55",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "Unknown",
+            "enumValue": 0
+          },
+          {
+            "name": "Not_supported",
+            "enumValue": 1
+          },
+          {
+            "name": "Blocked_by_switching_hierarchy",
+            "enumValue": 2
+          },
+          {
+            "name": "Select_failed",
+            "enumValue": 3
+          },
+          {
+            "name": "Invalid_position",
+            "enumValue": 4
+          },
+          {
+            "name": "Position_reached",
+            "enumValue": 5
+          },
+          {
+            "name": "Parameter_change_in_execution",
+            "enumValue": 6
+          },
+          {
+            "name": "Step_limit",
+            "enumValue": 7
+          },
+          {
+            "name": "Blocked_by_Mode",
+            "enumValue": 8
+          },
+          {
+            "name": "Blocked_by_process",
+            "enumValue": 9
+          },
+          {
+            "name": "Blocked_by_interlocking",
+            "enumValue": 10
+          },
+          {
+            "name": "Blocked_by_synchrocheck",
+            "enumValue": 11
+          },
+          {
+            "name": "Command_already_in_execution",
+            "enumValue": 12
+          },
+          {
+            "name": "Blocked_by_health",
+            "enumValue": 13
+          },
+          {
+            "name": "X_1_of_n_control",
+            "enumValue": 14
+          },
+          {
+            "name": "Abortion_by_cancel",
+            "enumValue": 15
+          },
+          {
+            "name": "Time_limit_over",
+            "enumValue": 16
+          },
+          {
+            "name": "Abortion_by_trip",
+            "enumValue": 17
+          },
+          {
+            "name": "Object_not_selected",
+            "enumValue": 18
+          },
+          {
+            "name": "Object_already_selected",
+            "enumValue": 19
+          },
+          {
+            "name": "No_access_authority",
+            "enumValue": 20
+          },
+          {
+            "name": "Ended_with_overshoot",
+            "enumValue": 21
+          },
+          {
+            "name": "Abortion_due_to_deviation",
+            "enumValue": 22
+          },
+          {
+            "name": "Abortion_by_communication_loss",
+            "enumValue": 23
+          },
+          {
+            "name": "Blocked_by_command",
+            "enumValue": 24
+          },
+          {
+            "name": "None",
+            "enumValue": 25
+          },
+          {
+            "name": "Inconsistent_parameters",
+            "enumValue": 26
+          },
+          {
+            "name": "Locked_by_other_client",
+            "enumValue": 27
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:BAC:dataType:Timestamp;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "Timestamp",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=5",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "SecondSinceEpoch",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "FractionOfSecond",
+            "schema": "unsignedInteger"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeQuality",
+            "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:TimeQuality;1"
+          }
+        ]
+      },
+      {
+        "@id": "dtmi:opcua:IEC61850_7_3:BAC:dataType:TimeQuality;1",
+        "@type": [ "Object", "Congruence" ],
+        "displayName": "TimeQuality",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=12",
+        "fields": [
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "LeapSecondsKnown",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockFailure",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "ClockNotSynchronized",
+            "schema": "boolean"
+          },
+          {
+            "@type": [ "Field", "Required" ],
+            "name": "TimeAccuracy",
+            "schema": "byte"
+          }
+        ]
+      }
+    ],
+    "contents": [
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Operate",
+        "displayName": "Operate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:StepControlKind;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Cancel",
+        "displayName": "Cancel",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "Select",
+        "displayName": "Select",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "SelectWithVal",
+        "displayName": "SelectWithVal",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:StepControlKind;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "@type": [ "Command", "Qualified" ],
+        "name": "TimeActivatedOperate",
+        "displayName": "TimeActivatedOperate",
+        "namespace": "http://opcfoundation.org/UA/IEC61850-7-3",
+        "request": {
+          "@type": [ "CommandRequest", "Transparent" ],
+          "name": "input",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "ctlVal",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:StepControlKind;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "operTm",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:Timestamp;1"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "test",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "synchroCheck",
+                "schema": "boolean"
+              },
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "interlockCheck",
+                "schema": "boolean"
+              }
+            ]
+          }
+        },
+        "response": {
+          "@type": [ "CommandResponse", "Transparent" ],
+          "name": "output",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "@type": [ "Field", "Required" ],
+                "name": "addCause",
+                "schema": "dtmi:opcua:IEC61850_7_3:BAC:dataType:AddCauseKind;1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:SPG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "SPG",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=816",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ING;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ING",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=823",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ENG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ENG",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=834",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ORG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ORG",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=841",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:TSG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "TSG",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=854",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:CUG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "CUG",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=862",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:VSG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "VSG",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=869",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:ASG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "ASG",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=876",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:CURVE;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "CURVE",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=888",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:CSG;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "CSG",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=901",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:DPL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "DPL",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=920",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:LPL;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "LPL",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=941",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:CSD;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "CSD",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=954",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:CST;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "CST",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=971",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:BTS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "BTS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=981",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:UTS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "UTS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1005",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:LTS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "LTS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1026",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:OTS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "OTS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1047",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:GTS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "GTS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1064",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:MTS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "MTS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1080",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:NTS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "NTS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1098",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:STS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "STS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1117",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  },
+  {
+    "@context": [
+      "dtmi:dtdl:context;4#limitless",
+      "dtmi:dtdl:limits:aio;1",
+      "dtmi:iotoperations:context;4",
+      "dtmi:dtdl:extension:quantitativeTypes;3",
+      "dtmi:dtdl:extension:mqtt;3",
+      "dtmi:dtdl:extension:historization;2",
+      "dtmi:dtdl:extension:requirement;2"
+    ],
+    "@id": "dtmi:opcua:IEC61850_7_3:CTS;1",
+    "@type": [ "Interface", "Composite", "Mqtt", "Congruence" ],
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "displayName": "CTS",
+    "extends": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+    "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1133",
+    "payloadFormat": "Json/ecma/404",
+    "schemas": [
+    ],
+    "contents": [
+    ]
+  }
+]

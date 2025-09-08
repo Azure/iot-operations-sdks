@@ -1,7 +1,61 @@
 [
   {
+    "file": "61131-3.dtdl.json",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
+    "toolVersion": "0.1.0.0",
+    "ontology": "http://PLCopen.org/OpcUa/IEC61131-3/",
+    "events": [
+    ],
+    "composites": [
+      {
+        "modelId": "dtmi:opcua:X_61131_3:CtrlResourceType;1",
+        "specVersion": "1.02",
+        "displayName": "CtrlResourceType",
+        "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1002"
+      },
+      {
+        "modelId": "dtmi:opcua:X_61131_3:CtrlTaskType;1",
+        "specVersion": "1.02",
+        "displayName": "CtrlTaskType",
+        "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1006"
+      },
+      {
+        "modelId": "dtmi:opcua:X_61131_3:SFCType;1",
+        "specVersion": "1.02",
+        "displayName": "SFCType",
+        "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1007"
+      },
+      {
+        "modelId": "dtmi:opcua:X_61131_3:CtrlConfigurationType;1",
+        "specVersion": "1.02",
+        "displayName": "CtrlConfigurationType",
+        "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1001"
+      }
+    ],
+    "otherTypes": [
+      {
+        "modelId": "dtmi:opcua:X_61131_3:CtrlProgramOrganizationUnitType;1",
+        "specVersion": "1.02",
+        "displayName": "CtrlProgramOrganizationUnitType",
+        "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1003"
+      },
+      {
+        "modelId": "dtmi:opcua:X_61131_3:CtrlProgramType;1",
+        "specVersion": "1.02",
+        "displayName": "CtrlProgramType",
+        "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1004"
+      },
+      {
+        "modelId": "dtmi:opcua:X_61131_3:CtrlFunctionBlockType;1",
+        "specVersion": "1.02",
+        "displayName": "CtrlFunctionBlockType",
+        "typeRef": "nsu=http://PLCopen.org/OpcUa/IEC61131-3/;i=1005"
+      }
+    ]
+  },
+  {
     "file": "AdditiveManufacturing.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/AdditiveManufacturing/",
     "events": [
@@ -49,7 +103,7 @@
   },
   {
     "file": "ADI.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/ADI/",
     "events": [
@@ -241,7 +295,7 @@
   },
   {
     "file": "AMB.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/AMB/",
     "events": [
@@ -361,7 +415,7 @@
   },
   {
     "file": "AMLBaseTypes.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/AML/",
     "events": [
@@ -409,7 +463,7 @@
   },
   {
     "file": "AMLLibs.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/AMLLibs/",
     "events": [
@@ -985,7 +1039,7 @@
   },
   {
     "file": "AutoID.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/AutoID/",
     "events": [
@@ -1099,7 +1153,7 @@
   },
   {
     "file": "BACnet_V2.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/BACnet_V2/",
     "events": [
@@ -1585,7 +1639,7 @@
   },
   {
     "file": "CAS.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/CAS/",
     "events": [
@@ -1914,8 +1968,86 @@
     ]
   },
   {
+    "file": "CNC.dtdl.json",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
+    "toolVersion": "0.1.0.0",
+    "ontology": "http://opcfoundation.org/UA/CNC",
+    "events": [
+      {
+        "modelId": "dtmi:opcua:CNC:CncMessageType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncMessageType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1011"
+      },
+      {
+        "modelId": "dtmi:opcua:CNC:CncAlarmType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncAlarmType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1006"
+      }
+    ],
+    "composites": [
+      {
+        "modelId": "dtmi:opcua:CNC:CncInterfaceType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncInterfaceType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1007"
+      }
+    ],
+    "otherTypes": [
+      {
+        "modelId": "dtmi:opcua:CNC:CncAxisListType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncAxisListType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1008"
+      },
+      {
+        "modelId": "dtmi:opcua:CNC:CncChannelListType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncChannelListType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1010"
+      },
+      {
+        "modelId": "dtmi:opcua:CNC:CncComponentType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncComponentType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1001"
+      },
+      {
+        "modelId": "dtmi:opcua:CNC:CncChannelType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncChannelType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1002"
+      },
+      {
+        "modelId": "dtmi:opcua:CNC:CncDriveType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncDriveType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1003"
+      },
+      {
+        "modelId": "dtmi:opcua:CNC:CncAxisType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncAxisType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1004"
+      },
+      {
+        "modelId": "dtmi:opcua:CNC:CncSpindleType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncSpindleType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1005"
+      },
+      {
+        "modelId": "dtmi:opcua:CNC:CncSpindleListType;1",
+        "specVersion": "1.0.0",
+        "displayName": "CncSpindleListType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/CNC;i=1009"
+      }
+    ]
+  },
+  {
     "file": "CommercialKitchenEquipment.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
     "events": [
@@ -2137,7 +2269,7 @@
   },
   {
     "file": "CranesHoists.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/CranesHoists/",
     "events": [
@@ -2185,7 +2317,7 @@
   },
   {
     "file": "CSPPlusForMachine.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/CSPPlusForMachine/",
     "events": [
@@ -2203,7 +2335,7 @@
   },
   {
     "file": "CuttingTool.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/CuttingTool/",
     "events": [
@@ -2233,7 +2365,7 @@
   },
   {
     "file": "DEXPI.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/DEXPI/",
     "events": [
@@ -3319,7 +3451,7 @@
   },
   {
     "file": "DI.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/DI/",
     "events": [
@@ -3571,7 +3703,7 @@
   },
   {
     "file": "ECM.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/ECM/",
     "events": [
@@ -3661,7 +3793,7 @@
   },
   {
     "file": "FDI5.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://fdi-cooperation.com/OPCUA/FDI5/",
     "events": [
@@ -3697,7 +3829,7 @@
   },
   {
     "file": "FDI7.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://fdi-cooperation.com/OPCUA/FDI7/",
     "events": [
@@ -3913,7 +4045,7 @@
   },
   {
     "file": "FX.AC.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/FX/AC/",
     "events": [
@@ -4087,7 +4219,7 @@
   },
   {
     "file": "FX.CM.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/FX/CM/",
     "events": [
@@ -4219,7 +4351,7 @@
   },
   {
     "file": "FX.Data.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/FX/Data/",
     "events": [
@@ -4237,7 +4369,7 @@
   },
   {
     "file": "GDS.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/GDS/",
     "events": [
@@ -4327,7 +4459,7 @@
   },
   {
     "file": "Glass.Flat.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Glass/Flat/",
     "events": [
@@ -4555,7 +4687,7 @@
   },
   {
     "file": "Glass.Flat.v2.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Glass/Flat/v2/",
     "events": [
@@ -4597,7 +4729,7 @@
   },
   {
     "file": "GMS.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/GMS/",
     "events": [
@@ -4723,7 +4855,7 @@
   },
   {
     "file": "I4AAS.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/I4AAS/",
     "events": [
@@ -4927,7 +5059,7 @@
   },
   {
     "file": "IA.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/IA/",
     "events": [
@@ -5046,8 +5178,1766 @@
     ]
   },
   {
+    "file": "IEC61850-6.dtdl.json",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
+    "toolVersion": "0.1.0.0",
+    "ontology": "http://opcfoundation.org/UA/IEC61850-6",
+    "events": [
+    ],
+    "composites": [
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:IEDType;1",
+        "specVersion": "2.0",
+        "displayName": "IEDType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=18"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:SubstationType;1",
+        "specVersion": "2.0",
+        "displayName": "SubstationType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=92"
+      }
+    ],
+    "otherTypes": [
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:IEC61850IEDBaseObjectType;1",
+        "specVersion": "2.0",
+        "displayName": "IEC61850IEDBaseObjectType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=6"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:IEC61850ProcessBaseObjectType;1",
+        "specVersion": "2.0",
+        "displayName": "IEC61850ProcessBaseObjectType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=7"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:LDeviceType;1",
+        "specVersion": "2.0",
+        "displayName": "LDeviceType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=8"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:ServerType;1",
+        "specVersion": "2.0",
+        "displayName": "ServerType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=10"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:AccessPointType;1",
+        "specVersion": "2.0",
+        "displayName": "AccessPointType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=13"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:LNodeContainerType;1",
+        "specVersion": "2.0",
+        "displayName": "LNodeContainerType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=39"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:PowerSystemResourceType;1",
+        "specVersion": "2.0",
+        "displayName": "PowerSystemResourceType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=41"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:EquipmentType;1",
+        "specVersion": "2.0",
+        "displayName": "EquipmentType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=42"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:GeneralEquipmentType;1",
+        "specVersion": "2.0",
+        "displayName": "GeneralEquipmentType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=43"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:SubEquipmentType;1",
+        "specVersion": "2.0",
+        "displayName": "SubEquipmentType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=45"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:ConnectivityNodeType;1",
+        "specVersion": "2.0",
+        "displayName": "ConnectivityNodeType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=47"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:AbstractConductingEquipmentType;1",
+        "specVersion": "2.0",
+        "displayName": "AbstractConductingEquipmentType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=49"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:TapChangerType;1",
+        "specVersion": "2.0",
+        "displayName": "TapChangerType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=54"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:TransformerWindingType;1",
+        "specVersion": "2.0",
+        "displayName": "TransformerWindingType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=56"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:PowerTransformerType;1",
+        "specVersion": "2.0",
+        "displayName": "PowerTransformerType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=59"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:EquipmentContainerType;1",
+        "specVersion": "2.0",
+        "displayName": "EquipmentContainerType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=63"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:ConductingEquipmentType;1",
+        "specVersion": "2.0",
+        "displayName": "ConductingEquipmentType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=69"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:SubFunctionType;1",
+        "specVersion": "2.0",
+        "displayName": "SubFunctionType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=71"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:FunctionType;1",
+        "specVersion": "2.0",
+        "displayName": "FunctionType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=76"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:BayType;1",
+        "specVersion": "2.0",
+        "displayName": "BayType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=82"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_6:VoltageLevelType;1",
+        "specVersion": "2.0",
+        "displayName": "VoltageLevelType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-6;i=88"
+      }
+    ]
+  },
+  {
+    "file": "IEC61850-7-3.dtdl.json",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
+    "toolVersion": "0.1.0.0",
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-3",
+    "events": [
+    ],
+    "composites": [
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:SPS;1",
+        "specVersion": "2.0",
+        "displayName": "SPS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=177"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:DPS;1",
+        "specVersion": "2.0",
+        "displayName": "DPS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=190"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:INS;1",
+        "specVersion": "2.0",
+        "displayName": "INS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=203"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ENS;1",
+        "specVersion": "2.0",
+        "displayName": "ENS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=217"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ACT;1",
+        "specVersion": "2.0",
+        "displayName": "ACT",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=230"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ACD;1",
+        "specVersion": "2.0",
+        "displayName": "ACD",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=246"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:SEC;1",
+        "specVersion": "2.0",
+        "displayName": "SEC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=263"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:BCR;1",
+        "specVersion": "2.0",
+        "displayName": "BCR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=273"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:HST;1",
+        "specVersion": "2.0",
+        "displayName": "HST",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=289"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:VSS;1",
+        "specVersion": "2.0",
+        "displayName": "VSS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=307"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:MV;1",
+        "specVersion": "2.0",
+        "displayName": "MV",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=315"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:CMV;1",
+        "specVersion": "2.0",
+        "displayName": "CMV",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=336"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:SAV;1",
+        "specVersion": "2.0",
+        "displayName": "SAV",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=362"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:WYE;1",
+        "specVersion": "2.0",
+        "displayName": "WYE",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=374"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:DEL;1",
+        "specVersion": "2.0",
+        "displayName": "DEL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=400"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:SEQ;1",
+        "specVersion": "2.0",
+        "displayName": "SEQ",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=416"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:HMV;1",
+        "specVersion": "2.0",
+        "displayName": "HMV",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=433"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:HWYE;1",
+        "specVersion": "2.0",
+        "displayName": "HWYE",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=449"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:HDEL;1",
+        "specVersion": "2.0",
+        "displayName": "HDEL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=481"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:SPC;1",
+        "specVersion": "2.0",
+        "displayName": "SPC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=504"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:DPC;1",
+        "specVersion": "2.0",
+        "displayName": "DPC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=541"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:INC;1",
+        "specVersion": "2.0",
+        "displayName": "INC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=578"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ENC;1",
+        "specVersion": "2.0",
+        "displayName": "ENC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=618"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:BSC;1",
+        "specVersion": "2.0",
+        "displayName": "BSC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=654"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ISC;1",
+        "specVersion": "2.0",
+        "displayName": "ISC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=693"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:APC;1",
+        "specVersion": "2.0",
+        "displayName": "APC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=731"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:BAC;1",
+        "specVersion": "2.0",
+        "displayName": "BAC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=773"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:SPG;1",
+        "specVersion": "2.0",
+        "displayName": "SPG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=816"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ING;1",
+        "specVersion": "2.0",
+        "displayName": "ING",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=823"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ENG;1",
+        "specVersion": "2.0",
+        "displayName": "ENG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=834"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ORG;1",
+        "specVersion": "2.0",
+        "displayName": "ORG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=841"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:TSG;1",
+        "specVersion": "2.0",
+        "displayName": "TSG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=854"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:CUG;1",
+        "specVersion": "2.0",
+        "displayName": "CUG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=862"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:VSG;1",
+        "specVersion": "2.0",
+        "displayName": "VSG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=869"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:ASG;1",
+        "specVersion": "2.0",
+        "displayName": "ASG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=876"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:CURVE;1",
+        "specVersion": "2.0",
+        "displayName": "CURVE",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=888"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:CSG;1",
+        "specVersion": "2.0",
+        "displayName": "CSG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=901"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:DPL;1",
+        "specVersion": "2.0",
+        "displayName": "DPL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=920"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:LPL;1",
+        "specVersion": "2.0",
+        "displayName": "LPL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=941"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:CSD;1",
+        "specVersion": "2.0",
+        "displayName": "CSD",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=954"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:CST;1",
+        "specVersion": "2.0",
+        "displayName": "CST",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=971"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:BTS;1",
+        "specVersion": "2.0",
+        "displayName": "BTS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=981"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:UTS;1",
+        "specVersion": "2.0",
+        "displayName": "UTS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1005"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:LTS;1",
+        "specVersion": "2.0",
+        "displayName": "LTS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1026"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:OTS;1",
+        "specVersion": "2.0",
+        "displayName": "OTS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1047"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:GTS;1",
+        "specVersion": "2.0",
+        "displayName": "GTS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1064"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:MTS;1",
+        "specVersion": "2.0",
+        "displayName": "MTS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1080"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:NTS;1",
+        "specVersion": "2.0",
+        "displayName": "NTS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1098"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:STS;1",
+        "specVersion": "2.0",
+        "displayName": "STS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1117"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:CTS;1",
+        "specVersion": "2.0",
+        "displayName": "CTS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=1133"
+      }
+    ],
+    "otherTypes": [
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:IEC61850DOBaseObjectType;1",
+        "specVersion": "2.0",
+        "displayName": "IEC61850DOBaseObjectType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=3"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_3:IEC61850LNodeBaseObjectType;1",
+        "specVersion": "2.0",
+        "displayName": "IEC61850LNodeBaseObjectType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-3;i=4"
+      }
+    ]
+  },
+  {
+    "file": "IEC61850-7-4.dtdl.json",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
+    "toolVersion": "0.1.0.0",
+    "ontology": "http://opcfoundation.org/UA/IEC61850-7-4",
+    "events": [
+    ],
+    "composites": [
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSBehaviourModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSBehaviourModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=98"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSHealthKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSHealthKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=104"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENCBehaviourModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENCBehaviourModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=113"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGCalcMethodKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGCalcMethodKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=148"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGCalcModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGCalcModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=152"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGCalcIntervalKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGCalcIntervalKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=156"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:LPHD;1",
+        "specVersion": "2.0",
+        "displayName": "LPHD",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=173"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:LLN0;1",
+        "specVersion": "2.0",
+        "displayName": "LLN0",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=223"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:LCCH;1",
+        "specVersion": "2.0",
+        "displayName": "LCCH",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=255"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:LGOS;1",
+        "specVersion": "2.0",
+        "displayName": "LGOS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=290"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:LSVS;1",
+        "specVersion": "2.0",
+        "displayName": "LSVS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=311"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:LTIM;1",
+        "specVersion": "2.0",
+        "displayName": "LTIM",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=329"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGWeekdayKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGWeekdayKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=340"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:LTMS;1",
+        "specVersion": "2.0",
+        "displayName": "LTMS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=343"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSClockSyncKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSClockSyncKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=351"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:LTRK;1",
+        "specVersion": "2.0",
+        "displayName": "LTRK",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=361"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CTSBOOLEAN;1",
+        "specVersion": "2.0",
+        "displayName": "CTSBOOLEAN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=363"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CTSINT32;1",
+        "specVersion": "2.0",
+        "displayName": "CTSINT32",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=387"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CTSAnalogueValueCtlF;1",
+        "specVersion": "2.0",
+        "displayName": "CTSAnalogueValueCtlF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=411"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CTSAnalogueValueCtlInt;1",
+        "specVersion": "2.0",
+        "displayName": "CTSAnalogueValueCtlInt",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=424"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CTSTcmd;1",
+        "specVersion": "2.0",
+        "displayName": "CTSTcmd",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=437"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CTSINT8;1",
+        "specVersion": "2.0",
+        "displayName": "CTSINT8",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=450"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ANCR;1",
+        "specVersion": "2.0",
+        "displayName": "ANCR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=568"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSTuningKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSTuningKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=588"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGParallelCoilModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGParallelCoilModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=706"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGParallelCtrlModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGParallelCtrlModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=710"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ARCO;1",
+        "specVersion": "2.0",
+        "displayName": "ARCO",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=717"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ARIS;1",
+        "specVersion": "2.0",
+        "displayName": "ARIS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=771"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ATCC;1",
+        "specVersion": "2.0",
+        "displayName": "ATCC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=830"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGParallelTransfModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGParallelTransfModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1000"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:AVCO;1",
+        "specVersion": "2.0",
+        "displayName": "AVCO",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1013"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CALH;1",
+        "specVersion": "2.0",
+        "displayName": "CALH",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1078"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CCGR;1",
+        "specVersion": "2.0",
+        "displayName": "CCGR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1091"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENCStageControlKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENCStageControlKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1169"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CILO;1",
+        "specVersion": "2.0",
+        "displayName": "CILO",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1225"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CPOW;1",
+        "specVersion": "2.0",
+        "displayName": "CPOW",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1232"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CSWI;1",
+        "specVersion": "2.0",
+        "displayName": "CSWI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1283"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CSYN;1",
+        "specVersion": "2.0",
+        "displayName": "CSYN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1361"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSRotationalDirectionKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSRotationalDirectionKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1396"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENCSynchOperationModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENCSynchOperationModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1466"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGLiveDeadModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGLiveDeadModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1517"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FCNT;1",
+        "specVersion": "2.0",
+        "displayName": "FCNT",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1556"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FCSD;1",
+        "specVersion": "2.0",
+        "displayName": "FCSD",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1567"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FFIL;1",
+        "specVersion": "2.0",
+        "displayName": "FFIL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1579"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGFilterFunctionKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGFilterFunctionKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1587"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FLIM;1",
+        "specVersion": "2.0",
+        "displayName": "FLIM",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1608"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FPID;1",
+        "specVersion": "2.0",
+        "displayName": "FPID",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1622"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGPIDAlgorithmKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGPIDAlgorithmKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1639"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FRMP;1",
+        "specVersion": "2.0",
+        "displayName": "FRMP",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1660"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSAdjustmentKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSAdjustmentKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1662"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FSPT;1",
+        "specVersion": "2.0",
+        "displayName": "FSPT",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1681"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSSetpointEndKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSSetpointEndKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1701"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FXOT;1",
+        "specVersion": "2.0",
+        "displayName": "FXOT",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1760"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:FXUT;1",
+        "specVersion": "2.0",
+        "displayName": "FXUT",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1778"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:GAPC;1",
+        "specVersion": "2.0",
+        "displayName": "GAPC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1796"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:GGIO;1",
+        "specVersion": "2.0",
+        "displayName": "GGIO",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1876"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:GLOG;1",
+        "specVersion": "2.0",
+        "displayName": "GLOG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1962"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:GSAL;1",
+        "specVersion": "2.0",
+        "displayName": "GSAL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=1983"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:IARC;1",
+        "specVersion": "2.0",
+        "displayName": "IARC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2008"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGRecordingModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGRecordingModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2025"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:IHMI;1",
+        "specVersion": "2.0",
+        "displayName": "IHMI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2030"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ISAF;1",
+        "specVersion": "2.0",
+        "displayName": "ISAF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2049"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ITCI;1",
+        "specVersion": "2.0",
+        "displayName": "ITCI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2074"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ITMI;1",
+        "specVersion": "2.0",
+        "displayName": "ITMI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2096"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ITPC;1",
+        "specVersion": "2.0",
+        "displayName": "ITPC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2102"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGTpcAppModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGTpcAppModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2143"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:KFAN;1",
+        "specVersion": "2.0",
+        "displayName": "KFAN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2162"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:KFIL;1",
+        "specVersion": "2.0",
+        "displayName": "KFIL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2212"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:KPMP;1",
+        "specVersion": "2.0",
+        "displayName": "KPMP",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2274"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:KTNK;1",
+        "specVersion": "2.0",
+        "displayName": "KTNK",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2324"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGTankFillKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGTankFillKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2339"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:KVLV;1",
+        "specVersion": "2.0",
+        "displayName": "KVLV",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2342"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MENV;1",
+        "specVersion": "2.0",
+        "displayName": "MENV",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2442"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MFLK;1",
+        "specVersion": "2.0",
+        "displayName": "MFLK",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2483"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MHAI;1",
+        "specVersion": "2.0",
+        "displayName": "MHAI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2558"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MHAN;1",
+        "specVersion": "2.0",
+        "displayName": "MHAN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2650"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MHYD;1",
+        "specVersion": "2.0",
+        "displayName": "MHYD",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2767"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MMDC;1",
+        "specVersion": "2.0",
+        "displayName": "MMDC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2793"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MMET;1",
+        "specVersion": "2.0",
+        "displayName": "MMET",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2818"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MMTN;1",
+        "specVersion": "2.0",
+        "displayName": "MMTN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2882"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MMTR;1",
+        "specVersion": "2.0",
+        "displayName": "MMTR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2911"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MMXN;1",
+        "specVersion": "2.0",
+        "displayName": "MMXN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2940"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MMXU;1",
+        "specVersion": "2.0",
+        "displayName": "MMXU",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=2965"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGSTotalCalcMethodKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGSTotalCalcMethodKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3063"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGPFSignKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGPFSignKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3067"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:MSQI;1",
+        "specVersion": "2.0",
+        "displayName": "MSQI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3070"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PDIF;1",
+        "specVersion": "2.0",
+        "displayName": "PDIF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3128"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGRestraintModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGRestraintModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3165"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PDIR;1",
+        "specVersion": "2.0",
+        "displayName": "PDIR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3180"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PDIS;1",
+        "specVersion": "2.0",
+        "displayName": "PDIS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3199"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGDirectionModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGDirectionModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3223"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PDOP;1",
+        "specVersion": "2.0",
+        "displayName": "PDOP",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3262"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PDUP;1",
+        "specVersion": "2.0",
+        "displayName": "PDUP",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3287"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PFRC;1",
+        "specVersion": "2.0",
+        "displayName": "PFRC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3312"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PHAR;1",
+        "specVersion": "2.0",
+        "displayName": "PHAR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3340"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PHIZ;1",
+        "specVersion": "2.0",
+        "displayName": "PHIZ",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3364"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PIOC;1",
+        "specVersion": "2.0",
+        "displayName": "PIOC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3391"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PMRI;1",
+        "specVersion": "2.0",
+        "displayName": "PMRI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3410"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PMSS;1",
+        "specVersion": "2.0",
+        "displayName": "PMSS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3443"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:POPF;1",
+        "specVersion": "2.0",
+        "displayName": "POPF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3468"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PPAM;1",
+        "specVersion": "2.0",
+        "displayName": "PPAM",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3501"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PRTR;1",
+        "specVersion": "2.0",
+        "displayName": "PRTR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3520"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PSCH;1",
+        "specVersion": "2.0",
+        "displayName": "PSCH",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3539"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGUnblockModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGUnblockModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3587"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGWeakEndInfeedModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGWeakEndInfeedModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3593"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PSDE;1",
+        "specVersion": "2.0",
+        "displayName": "PSDE",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3598"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTEF;1",
+        "specVersion": "2.0",
+        "displayName": "PTEF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3634"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTHF;1",
+        "specVersion": "2.0",
+        "displayName": "PTHF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3662"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTOC;1",
+        "specVersion": "2.0",
+        "displayName": "PTOC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3681"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGResetCurveKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGResetCurveKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3726"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTOF;1",
+        "specVersion": "2.0",
+        "displayName": "PTOF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3733"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTOV;1",
+        "specVersion": "2.0",
+        "displayName": "PTOV",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3761"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTRC;1",
+        "specVersion": "2.0",
+        "displayName": "PTRC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3807"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGTripModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGTripModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3828"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTTR;1",
+        "specVersion": "2.0",
+        "displayName": "PTTR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3833"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTUC;1",
+        "specVersion": "2.0",
+        "displayName": "PTUC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3923"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTUF;1",
+        "specVersion": "2.0",
+        "displayName": "PTUF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=3973"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PTUV;1",
+        "specVersion": "2.0",
+        "displayName": "PTUV",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4001"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PUPF;1",
+        "specVersion": "2.0",
+        "displayName": "PUPF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4047"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PVOC;1",
+        "specVersion": "2.0",
+        "displayName": "PVOC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4080"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PVPH;1",
+        "specVersion": "2.0",
+        "displayName": "PVPH",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4143"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:PZSU;1",
+        "specVersion": "2.0",
+        "displayName": "PZSU",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4191"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:QFVR;1",
+        "specVersion": "2.0",
+        "displayName": "QFVR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4214"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:QITR;1",
+        "specVersion": "2.0",
+        "displayName": "QITR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4254"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:QIUB;1",
+        "specVersion": "2.0",
+        "displayName": "QIUB",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4286"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGUnbalanceDetectionKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGUnbalanceDetectionKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4317"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:QVTR;1",
+        "specVersion": "2.0",
+        "displayName": "QVTR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4322"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:QVUB;1",
+        "specVersion": "2.0",
+        "displayName": "QVUB",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4354"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:QVVR;1",
+        "specVersion": "2.0",
+        "displayName": "QVVR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4388"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGVoltInterruptDetectionKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGVoltInterruptDetectionKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4434"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RADR;1",
+        "specVersion": "2.0",
+        "displayName": "RADR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4437"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGTriggerSourceKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGTriggerSourceKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4453"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGLevelTriggerModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGLevelTriggerModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4457"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RBDR;1",
+        "specVersion": "2.0",
+        "displayName": "RBDR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4470"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RBRF;1",
+        "specVersion": "2.0",
+        "displayName": "RBRF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4495"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGFailureDetectionKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGFailureDetectionKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4516"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGRetripModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGRetripModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4528"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RDIR;1",
+        "specVersion": "2.0",
+        "displayName": "RDIR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4531"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGPolarizingQuantityKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGPolarizingQuantityKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4551"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RDRE;1",
+        "specVersion": "2.0",
+        "displayName": "RDRE",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4556"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RDRS;1",
+        "specVersion": "2.0",
+        "displayName": "RDRS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4624"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RFLO;1",
+        "specVersion": "2.0",
+        "displayName": "RFLO",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4639"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSFaultLoopKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSFaultLoopKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4641"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RMXU;1",
+        "specVersion": "2.0",
+        "displayName": "RMXU",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4661"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RPSB;1",
+        "specVersion": "2.0",
+        "displayName": "RPSB",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4675"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RREC;1",
+        "specVersion": "2.0",
+        "displayName": "RREC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4715"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSTripBehaviourKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSTripBehaviourKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4717"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSAutoReclosingKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSAutoReclosingKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4729"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:RSYN;1",
+        "specVersion": "2.0",
+        "displayName": "RSYN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4752"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SARC;1",
+        "specVersion": "2.0",
+        "displayName": "SARC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4806"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SCBR;1",
+        "specVersion": "2.0",
+        "displayName": "SCBR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4840"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SIMG;1",
+        "specVersion": "2.0",
+        "displayName": "SIMG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4940"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SIML;1",
+        "specVersion": "2.0",
+        "displayName": "SIML",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=4986"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SLTC;1",
+        "specVersion": "2.0",
+        "displayName": "SLTC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5089"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SOPM;1",
+        "specVersion": "2.0",
+        "displayName": "SOPM",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5120"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SPDC;1",
+        "specVersion": "2.0",
+        "displayName": "SPDC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5184"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SPTR;1",
+        "specVersion": "2.0",
+        "displayName": "SPTR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5216"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SSWI;1",
+        "specVersion": "2.0",
+        "displayName": "SSWI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5256"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:STMP;1",
+        "specVersion": "2.0",
+        "displayName": "STMP",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5334"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:SVBR;1",
+        "specVersion": "2.0",
+        "displayName": "SVBR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5357"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TANG;1",
+        "specVersion": "2.0",
+        "displayName": "TANG",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5387"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TAXD;1",
+        "specVersion": "2.0",
+        "displayName": "TAXD",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5398"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TCTR;1",
+        "specVersion": "2.0",
+        "displayName": "TCTR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5409"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TDST;1",
+        "specVersion": "2.0",
+        "displayName": "TDST",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5439"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TFLW;1",
+        "specVersion": "2.0",
+        "displayName": "TFLW",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5450"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TFRQ;1",
+        "specVersion": "2.0",
+        "displayName": "TFRQ",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5461"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TGSN;1",
+        "specVersion": "2.0",
+        "displayName": "TGSN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5472"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:THUM;1",
+        "specVersion": "2.0",
+        "displayName": "THUM",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5483"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TLVL;1",
+        "specVersion": "2.0",
+        "displayName": "TLVL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5494"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TMGF;1",
+        "specVersion": "2.0",
+        "displayName": "TMGF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5505"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TMVM;1",
+        "specVersion": "2.0",
+        "displayName": "TMVM",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5516"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TPOS;1",
+        "specVersion": "2.0",
+        "displayName": "TPOS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5527"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TPRS;1",
+        "specVersion": "2.0",
+        "displayName": "TPRS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5538"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TRTN;1",
+        "specVersion": "2.0",
+        "displayName": "TRTN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5549"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TSND;1",
+        "specVersion": "2.0",
+        "displayName": "TSND",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5560"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TTMP;1",
+        "specVersion": "2.0",
+        "displayName": "TTMP",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5571"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TTNS;1",
+        "specVersion": "2.0",
+        "displayName": "TTNS",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5582"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TVBR;1",
+        "specVersion": "2.0",
+        "displayName": "TVBR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5593"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TVTR;1",
+        "specVersion": "2.0",
+        "displayName": "TVTR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5604"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:TWPH;1",
+        "specVersion": "2.0",
+        "displayName": "TWPH",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5637"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:XCBR;1",
+        "specVersion": "2.0",
+        "displayName": "XCBR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5648"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSBreakerOpCapabilityKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSBreakerOpCapabilityKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5664"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSPOWSwitchingCapabilityKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSPOWSwitchingCapabilityKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5670"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:XSWI;1",
+        "specVersion": "2.0",
+        "displayName": "XSWI",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5724"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSSwitchFunctionKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSSwitchFunctionKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5740"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSSwitchingCapabilityKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSSwitchingCapabilityKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5746"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:YEFN;1",
+        "specVersion": "2.0",
+        "displayName": "YEFN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5794"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:YLTC;1",
+        "specVersion": "2.0",
+        "displayName": "YLTC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5866"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:YPSH;1",
+        "specVersion": "2.0",
+        "displayName": "YPSH",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5925"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:YPTR;1",
+        "specVersion": "2.0",
+        "displayName": "YPTR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=5990"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZAXN;1",
+        "specVersion": "2.0",
+        "displayName": "ZAXN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6042"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZBAT;1",
+        "specVersion": "2.0",
+        "displayName": "ZBAT",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6057"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZBSH;1",
+        "specVersion": "2.0",
+        "displayName": "ZBSH",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6095"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZCAB;1",
+        "specVersion": "2.0",
+        "displayName": "ZCAB",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6128"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZCAP;1",
+        "specVersion": "2.0",
+        "displayName": "ZCAP",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6137"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZCON;1",
+        "specVersion": "2.0",
+        "displayName": "ZCON",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6163"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZGEN;1",
+        "specVersion": "2.0",
+        "displayName": "ZGEN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6176"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSRotatingMachineStateKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSRotatingMachineStateKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6186"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZGIL;1",
+        "specVersion": "2.0",
+        "displayName": "ZGIL",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6267"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZLIN;1",
+        "specVersion": "2.0",
+        "displayName": "ZLIN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6276"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZMOT;1",
+        "specVersion": "2.0",
+        "displayName": "ZMOT",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6311"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENSRotorThermalStateKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENSRotorThermalStateKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6324"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZREA;1",
+        "specVersion": "2.0",
+        "displayName": "ZREA",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6352"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZRES;1",
+        "specVersion": "2.0",
+        "displayName": "ZRES",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6369"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZRRC;1",
+        "specVersion": "2.0",
+        "displayName": "ZRRC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6378"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZSAR;1",
+        "specVersion": "2.0",
+        "displayName": "ZSAR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6422"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZSCR;1",
+        "specVersion": "2.0",
+        "displayName": "ZSCR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6434"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ENGRectifierControlModeKind;1",
+        "specVersion": "2.0",
+        "displayName": "ENGRectifierControlModeKind",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6447"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZSMC;1",
+        "specVersion": "2.0",
+        "displayName": "ZSMC",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6475"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZTCF;1",
+        "specVersion": "2.0",
+        "displayName": "ZTCF",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6555"
+      },
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:ZTCR;1",
+        "specVersion": "2.0",
+        "displayName": "ZTCR",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=6566"
+      }
+    ],
+    "otherTypes": [
+      {
+        "modelId": "dtmi:opcua:IEC61850_7_4:CommonLN;1",
+        "specVersion": "2.0",
+        "displayName": "CommonLN",
+        "typeRef": "nsu=http://opcfoundation.org/UA/IEC61850-7-4;i=93"
+      }
+    ]
+  },
+  {
     "file": "IJT.Base.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/IJT/Base/",
     "events": [
@@ -5377,7 +7267,7 @@
   },
   {
     "file": "IJT.Tightening.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/IJT/Tightening/",
     "events": [
@@ -5395,7 +7285,7 @@
   },
   {
     "file": "IOLink.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/IOLink/",
     "events": [
@@ -5497,7 +7387,7 @@
   },
   {
     "file": "isa95-jobcontrol.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
     "events": [
@@ -5557,7 +7447,7 @@
   },
   {
     "file": "ISA95.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
     "events": [
@@ -5671,7 +7561,7 @@
   },
   {
     "file": "LADS.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/LADS/",
     "events": [
@@ -6001,7 +7891,7 @@
   },
   {
     "file": "LaserSystems.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/LaserSystems/",
     "events": [
@@ -6085,7 +7975,7 @@
   },
   {
     "file": "Machinery.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Machinery/",
     "events": [
@@ -6163,7 +8053,7 @@
   },
   {
     "file": "Machinery.Jobs.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Machinery/Jobs/",
     "events": [
@@ -6181,7 +8071,7 @@
   },
   {
     "file": "Machinery.ProcessValues.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
     "events": [
@@ -6205,7 +8095,7 @@
   },
   {
     "file": "Machinery.Result.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Machinery/Result/",
     "events": [
@@ -6235,7 +8125,7 @@
   },
   {
     "file": "Machinery_Example.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Machinery_Example/",
     "events": [
@@ -6259,7 +8149,7 @@
   },
   {
     "file": "MachineTool.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/MachineTool/",
     "events": [
@@ -6643,7 +8533,7 @@
   },
   {
     "file": "MachineVision.AMCM.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/MachineVision/AMCM/",
     "events": [
@@ -6895,7 +8785,7 @@
   },
   {
     "file": "MachineVision.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/MachineVision",
     "events": [
@@ -7117,7 +9007,7 @@
   },
   {
     "file": "MDIS.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/MDIS",
     "events": [
@@ -7243,7 +9133,7 @@
   },
   {
     "file": "MetalForming.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/MetalForming/",
     "events": [
@@ -7345,7 +9235,7 @@
   },
   {
     "file": "Mining.DevelopmentSupport.Dozer.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/DevelopmentSupport/Dozer/",
     "events": [
@@ -7363,7 +9253,7 @@
   },
   {
     "file": "Mining.DevelopmentSupport.RoofSupportSystem.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/DevelopmentSupport/RoofSupportSystem/",
     "events": [
@@ -7381,7 +9271,7 @@
   },
   {
     "file": "Mining.ExternalStandards.IREDES.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
     "events": [
@@ -7537,7 +9427,7 @@
   },
   {
     "file": "Mining.Extraction.ShearerLoader.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/Extraction/ShearerLoader/",
     "events": [
@@ -7561,7 +9451,7 @@
   },
   {
     "file": "Mining.General.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/General/",
     "events": [
@@ -7585,7 +9475,7 @@
   },
   {
     "file": "Mining.Loading.General.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/Loading/General/",
     "events": [
@@ -7603,7 +9493,7 @@
   },
   {
     "file": "Mining.Loading.HydraulicExcavator.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/Loading/HydraulicExcavator/",
     "events": [
@@ -7621,7 +9511,7 @@
   },
   {
     "file": "Mining.MineralProcessing.RockCrusher.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/MineralProcessing/RockCrusher/",
     "events": [
@@ -7645,7 +9535,7 @@
   },
   {
     "file": "Mining.PELOServices.FaceAlignmentSystem.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/PELOServices/FaceAlignmentSystem/",
     "events": [
@@ -7663,7 +9553,7 @@
   },
   {
     "file": "Mining.TransportDumping.ArmouredFaceConveyor.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/TransportDumping/ArmouredFaceConveyor/",
     "events": [
@@ -7681,7 +9571,7 @@
   },
   {
     "file": "Mining.TransportDumping.General.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/TransportDumping/General/",
     "events": [
@@ -7699,7 +9589,7 @@
   },
   {
     "file": "Mining.TransportDumping.RearDumpTruck.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Mining/TransportDumping/RearDumpTruck/",
     "events": [
@@ -7717,7 +9607,7 @@
   },
   {
     "file": "MTConnect.v2.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/MTConnect/v2/",
     "events": [
@@ -9151,7 +11041,7 @@
   },
   {
     "file": "Onboarding.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Onboarding/",
     "events": [
@@ -9193,7 +11083,7 @@
   },
   {
     "file": "OpcUaCore.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/",
     "events": [
@@ -10819,7 +12709,7 @@
   },
   {
     "file": "OPENSCS-SER.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/OPENSCS-SER/",
     "events": [
@@ -10855,7 +12745,7 @@
   },
   {
     "file": "PackML.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PackML/",
     "events": [
@@ -10903,7 +12793,7 @@
   },
   {
     "file": "PADIM.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PADIM/",
     "events": [
@@ -11257,7 +13147,7 @@
   },
   {
     "file": "PAEFS.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PAEFS/",
     "events": [
@@ -11509,7 +13399,7 @@
   },
   {
     "file": "PDRV.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PDRV/",
     "events": [
@@ -11617,7 +13507,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.Calender.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calender/",
     "events": [
@@ -11647,7 +13537,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.Calibrator.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calibrator/",
     "events": [
@@ -11677,7 +13567,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.Corrugator.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Corrugator/",
     "events": [
@@ -11695,7 +13585,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.Cutter.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
     "events": [
@@ -11731,7 +13621,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.Die.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Die/",
     "events": [
@@ -11749,7 +13639,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.Extruder.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
     "events": [
@@ -11785,7 +13675,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.ExtrusionLine.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
     "events": [
@@ -11857,7 +13747,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.Filter.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
     "events": [
@@ -11887,7 +13777,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.GeneralTypes.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
     "events": [
@@ -11953,7 +13843,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.HaulOff.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/HaulOff/",
     "events": [
@@ -11971,7 +13861,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.MeltPump.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/MeltPump/",
     "events": [
@@ -11989,7 +13879,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion.Pelletizer.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
     "events": [
@@ -12019,7 +13909,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.Calender.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calender/",
     "events": [
@@ -12049,7 +13939,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.Calibrator.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
     "events": [
@@ -12079,7 +13969,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.Corrugator.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Corrugator/",
     "events": [
@@ -12097,7 +13987,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.Cutter.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Cutter/",
     "events": [
@@ -12133,7 +14023,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.Die.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Die/",
     "events": [
@@ -12151,7 +14041,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.Extruder.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
     "events": [
@@ -12187,7 +14077,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.ExtrusionLine.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/ExtrusionLine/",
     "events": [
@@ -12259,7 +14149,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.Filter.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Filter/",
     "events": [
@@ -12289,7 +14179,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.GeneralTypes.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/GeneralTypes/",
     "events": [
@@ -12367,7 +14257,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.HaulOff.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/HaulOff/",
     "events": [
@@ -12385,7 +14275,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.MeltPump.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/MeltPump/",
     "events": [
@@ -12403,7 +14293,7 @@
   },
   {
     "file": "PlasticsRubber.Extrusion_v2.Pelletizer.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Pelletizer/",
     "events": [
@@ -12433,7 +14323,7 @@
   },
   {
     "file": "PlasticsRubber.GeneralTypes.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
     "events": [
@@ -12859,7 +14749,7 @@
   },
   {
     "file": "PlasticsRubber.HotRunner.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
     "events": [
@@ -12931,7 +14821,7 @@
   },
   {
     "file": "PlasticsRubber.IMM2MES.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
     "events": [
@@ -12967,7 +14857,7 @@
   },
   {
     "file": "PlasticsRubber.LDS.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
     "events": [
@@ -13021,7 +14911,7 @@
   },
   {
     "file": "PlasticsRubber.TCD.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
     "events": [
@@ -13099,7 +14989,7 @@
   },
   {
     "file": "PNEM.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PNEM/",
     "events": [
@@ -13183,7 +15073,7 @@
   },
   {
     "file": "PNENC.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PNENC/",
     "events": [
@@ -13267,7 +15157,7 @@
   },
   {
     "file": "PNGSDGM.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PNGSDGM/",
     "events": [
@@ -13315,7 +15205,7 @@
   },
   {
     "file": "PNRIO.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PNRIO/",
     "events": [
@@ -13447,7 +15337,7 @@
   },
   {
     "file": "POWERLINK.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/POWERLINK/",
     "events": [
@@ -13495,7 +15385,7 @@
   },
   {
     "file": "Powertrain.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Powertrain/",
     "events": [
@@ -14077,7 +15967,7 @@
   },
   {
     "file": "PROFINET.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/PROFINET/",
     "events": [
@@ -14293,7 +16183,7 @@
   },
   {
     "file": "Pumps.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Pumps/",
     "events": [
@@ -14611,7 +16501,7 @@
   },
   {
     "file": "Robotics.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Robotics/",
     "events": [
@@ -14713,7 +16603,7 @@
   },
   {
     "file": "RSL.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/RSL/",
     "events": [
@@ -14737,7 +16627,7 @@
   },
   {
     "file": "Safety.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Safety",
     "events": [
@@ -14785,7 +16675,7 @@
   },
   {
     "file": "Scales.V2.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Scales/V2/",
     "events": [
@@ -15127,7 +17017,7 @@
   },
   {
     "file": "Scheduler.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Scheduler/",
     "events": [
@@ -15151,7 +17041,7 @@
   },
   {
     "file": "sercos.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://sercos.org/UA/",
     "events": [
@@ -15210,8 +17100,44 @@
     ]
   },
   {
+    "file": "Station.dtdl.json",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
+    "toolVersion": "0.1.0.0",
+    "ontology": "http://opcfoundation.org/UA/Station/",
+    "events": [
+    ],
+    "composites": [
+      {
+        "modelId": "dtmi:opcua:Station:StationType;1",
+        "specVersion": "1.0",
+        "displayName": "StationType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Station/;i=257"
+      }
+    ],
+    "otherTypes": [
+      {
+        "modelId": "dtmi:opcua:Station:StationProductType;1",
+        "specVersion": "1.0",
+        "displayName": "StationProductType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Station/;i=1"
+      },
+      {
+        "modelId": "dtmi:opcua:Station:TelemetryType;1",
+        "specVersion": "1.0",
+        "displayName": "TelemetryType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Station/;i=20"
+      },
+      {
+        "modelId": "dtmi:opcua:Station:StationCommandsType;1",
+        "specVersion": "1.0",
+        "displayName": "StationCommandsType",
+        "typeRef": "nsu=http://opcfoundation.org/UA/Station/;i=49"
+      }
+    ]
+  },
+  {
     "file": "TMC.v2.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/TMC/v2/",
     "events": [
@@ -15733,7 +17659,7 @@
   },
   {
     "file": "TTD.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/TTD/",
     "events": [
@@ -15787,7 +17713,7 @@
   },
   {
     "file": "Weihenstephan.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Weihenstephan/",
     "events": [
@@ -15847,7 +17773,7 @@
   },
   {
     "file": "WireHarness.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/WireHarness/",
     "events": [
@@ -15901,7 +17827,7 @@
   },
   {
     "file": "Woodworking.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/Woodworking/",
     "events": [
@@ -15973,7 +17899,7 @@
   },
   {
     "file": "WoT-Con.dtdl.json",
-    "dateTime": "7/29/2025 12:06:32 AM UTC",
+    "dateTime": "9/8/2025 3:50:08 PM UTC",
     "toolVersion": "0.1.0.0",
     "ontology": "http://opcfoundation.org/UA/WoT-Con/",
     "events": [
