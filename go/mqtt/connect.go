@@ -21,7 +21,11 @@ func (c *SessionClient) RegisterConnectEventHandler(
 	handler ConnectEventHandler,
 ) func() {
 	return c.connectEventHandlers.AppendEntry(func(ce *ConnectEvent) {
-		defer catchHandlerPanic(c.log)
+		defer func() {
+			if e := recover(); e != nil {
+				c.log.Error(context.Background(), &HandlerPanicError{e})
+			}
+		}()
 		handler(ce)
 	})
 }
@@ -35,7 +39,11 @@ func (c *SessionClient) RegisterDisconnectEventHandler(
 	handler DisconnectEventHandler,
 ) func() {
 	return c.disconnectEventHandlers.AppendEntry(func(de *DisconnectEvent) {
-		defer catchHandlerPanic(c.log)
+		defer func() {
+			if e := recover(); e != nil {
+				c.log.Error(context.Background(), &HandlerPanicError{e})
+			}
+		}()
 		handler(de)
 	})
 }
@@ -46,7 +54,11 @@ func (c *SessionClient) RegisterFatalErrorHandler(
 	handler func(error),
 ) func() {
 	return c.fatalErrorHandlers.AppendEntry(func(err error) {
-		defer catchHandlerPanic(c.log)
+		defer func() {
+			if e := recover(); e != nil {
+				c.log.Error(context.Background(), &HandlerPanicError{e})
+			}
+		}()
 		handler(err)
 	})
 }

@@ -63,7 +63,11 @@ func (c *SessionClient) makeOnPublishReceived(
 func (c *SessionClient) RegisterMessageHandler(handler MessageHandler) func() {
 	ctx, cancel := context.WithCancel(context.Background())
 	done := c.messageHandlers.AppendEntry(func(msg *Message) {
-		defer catchHandlerPanic(c.log)
+		defer func() {
+			if e := recover(); e != nil {
+				c.log.Error(context.Background(), &HandlerPanicError{e})
+			}
+		}()
 		handler(ctx, msg)
 	})
 	return sync.OnceFunc(func() {

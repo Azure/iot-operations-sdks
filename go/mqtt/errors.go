@@ -2,12 +2,7 @@
 // Licensed under the MIT License.
 package mqtt
 
-import (
-	"context"
-	"fmt"
-
-	"github.com/Azure/iot-operations-sdks/go/mqtt/internal"
-)
+import "fmt"
 
 // ClientState indicates the current state of the session client.
 type ClientState byte
@@ -180,10 +175,4 @@ type HandlerPanicError struct {
 
 func (e *HandlerPanicError) Error() string {
 	return fmt.Sprintf("panic in user-provided handler: %v", e.panic)
-}
-
-func catchHandlerPanic(log internal.Logger) {
-	if e := recover(); e != nil {
-		log.Error(context.Background(), &HandlerPanicError{e})
-	}
 }
