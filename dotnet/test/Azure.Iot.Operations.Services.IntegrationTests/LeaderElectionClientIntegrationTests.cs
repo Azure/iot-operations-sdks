@@ -39,7 +39,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.NotNull(getCurrentLeaderResponse.CurrentLeader);
         Assert.Equal(candidateName, getCurrentLeaderResponse.CurrentLeader.GetString());
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -86,7 +86,7 @@ public class LeaderElectionClientIntegrationTests
                 return initialValue;
             });
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         Assert.NotNull(getResponse.Value);
         Assert.Equal(updatedValue, getResponse.Value);
@@ -111,7 +111,7 @@ public class LeaderElectionClientIntegrationTests
 
         Assert.True(campaignResponse.IsLeader);
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -159,7 +159,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.NotEqual(firstFencingToken, secondFencingToken);
         Assert.True(secondFencingToken.CompareTo(firstFencingToken) > 0);
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -195,7 +195,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.NotNull(leaderElectionClient.LastKnownCampaignResult.FencingToken);
         HybridLogicalClock firstFencingToken = leaderElectionClient.LastKnownCampaignResult.FencingToken;
 
-        StateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
+        IStateStoreSetResponse setResponse = await stateStoreClient.SetAsync(
             sharedResourceName,
             Guid.NewGuid().ToString(),
             new StateStoreSetRequestOptions()
@@ -440,7 +440,7 @@ public class LeaderElectionClientIntegrationTests
                 return updatedValue;
             });
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         Assert.NotNull(getResponse.Value);
         Assert.Equal(updatedValue, getResponse.Value);
@@ -484,7 +484,7 @@ public class LeaderElectionClientIntegrationTests
                 },
                 cancellationToken: cts.Token));
 
-        StateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
+        IStateStoreGetResponse getResponse = await stateStoreClient.GetAsync(sharedResourceName);
 
         // Because the call to CampaignAndUpdateValueAsync was never elected leader, the value
         // of the shared resource should still be equal to the initial value.

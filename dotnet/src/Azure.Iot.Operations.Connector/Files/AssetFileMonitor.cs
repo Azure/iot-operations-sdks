@@ -35,10 +35,10 @@ namespace Azure.Iot.Operations.Connector.Files
 
         private readonly IFilesMonitorFactory _filesMonitorFactory;
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public event EventHandler<AssetFileChangedEventArgs>? AssetFileChanged;
 
-        /// </inheritdoc>
+        /// <inheritdoc/>
         public event EventHandler<DeviceFileChangedEventArgs>? DeviceFileChanged;
 
         /// <summary>
