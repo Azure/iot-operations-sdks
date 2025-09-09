@@ -142,7 +142,7 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
                 // if the fencing token becomes out-of-date. For example, this thread may stall for a day, wake up,
                 // and try to alter a shared resource. By that point, another node will have acquired the lock and
                 // a newer fencing token will have been created.
-                StateStoreSetResponse setResponse = await _stateStoreClient.SetAsync(
+                IStateStoreSetResponse setResponse = await _stateStoreClient.SetAsync(
                     _sharedResourceKeyToUpdate,
                     new StateStoreValue(Guid.NewGuid().ToString()),
                     new StateStoreSetRequestOptions()
