@@ -29,7 +29,7 @@ func (c *SessionClient) makeOnPublishReceived(
 		var willAck sync.WaitGroup
 		for handler := range c.messageHandlers.All() {
 			willAck.Add(1)
-			handler(buildMessage(packet, sync.OnceFunc(willAck.Done)))
+			go handler(buildMessage(packet, sync.OnceFunc(willAck.Done)))
 		}
 
 		if packet.QoS > 0 {

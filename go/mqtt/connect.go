@@ -256,7 +256,7 @@ func (c *SessionClient) signalConnection(
 	)
 
 	for handler := range c.connectEventHandlers.All() {
-		handler(event)
+		go handler(event)
 	}
 }
 
@@ -280,7 +280,7 @@ func (c *SessionClient) signalDisconnection(
 	}
 
 	for handler := range c.disconnectEventHandlers.All() {
-		handler(event)
+		go handler(event)
 	}
 }
 
