@@ -20,7 +20,10 @@ import (
 func (c *SessionClient) RegisterConnectEventHandler(
 	handler ConnectEventHandler,
 ) func() {
-	return c.connectEventHandlers.AppendEntry(handler)
+	return c.connectEventHandlers.AppendEntry(func(ce *ConnectEvent) {
+		defer catchHandlerPanic(c.log)
+		handler(ce)
+	})
 }
 
 // RegisterDisconnectEventHandler registers a handler to a list of handlers that
@@ -31,7 +34,10 @@ func (c *SessionClient) RegisterConnectEventHandler(
 func (c *SessionClient) RegisterDisconnectEventHandler(
 	handler DisconnectEventHandler,
 ) func() {
-	return c.disconnectEventHandlers.AppendEntry(handler)
+	return c.disconnectEventHandlers.AppendEntry(func(de *DisconnectEvent) {
+		defer catchHandlerPanic(c.log)
+		handler(de)
+	})
 }
 
 // RegisterFatalErrorHandler registers a handler that is called in a goroutine
@@ -39,7 +45,10 @@ func (c *SessionClient) RegisterDisconnectEventHandler(
 func (c *SessionClient) RegisterFatalErrorHandler(
 	handler func(error),
 ) func() {
-	return c.fatalErrorHandlers.AppendEntry(handler)
+	return c.fatalErrorHandlers.AppendEntry(func(err error) {
+		defer catchHandlerPanic(c.log)
+		handler(err)
+	})
 }
 
 // Start the session client, spawning any necessary background goroutines. In
