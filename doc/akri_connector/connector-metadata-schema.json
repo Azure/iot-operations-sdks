@@ -83,7 +83,7 @@
         },
         "path": {
           "type": "string",
-          "description": "The default path that storage will use.  Values are allowed to contain deploy-time parameters like \"storage/{deviceName}/{inboundEndpointName}\". The supported parameter tokens are: {deviceName}, {inboundEndpointName}, {assetName}, {connectorClientId}, {namespace}, and {endpointType}."
+          "description": "The default path that storage will use. Values are allowed to contain deploy-time parameters like \"storage/{deviceName}/{inboundEndpointName}\". The supported parameter tokens are: {deviceName}, {inboundEndpointName}, {assetName}, {connectorClientId}, {namespace}, and {endpointType}."
         }
       },
       "additionalProperties": false,
