@@ -46,19 +46,17 @@
             }
           }
         },
-        "supportedModeling": {
-          "dataPoints" : { 
-            "limits" : { 
-              "minimum":0
+        "dataPoints" : { 
+          "limits" : { 
+            "minimum":0
+          },
+          "fields": {
+            "dataSource": {
+              "input": "optional",
+              "exampleValue": "some/http/path"
             },
-            "fields": {
-              "dataSource": {
-                "input": "optional",
-                "exampleValue": "some/http/path"
-              },
-              "typeRef": {
-                "input": "optional"
-              }
+            "typeRef": {
+              "input": "optional"
             }
           }
         }
