@@ -351,7 +351,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# if (this.telemServiceGroupId != null) { #>
         [ServiceGroupId("<#=this.telemServiceGroupId#>")]
 <# } #>
-        public abstract partial class Client<#=this.cmdEnvoyInfos.Any() ? " : IAsyncDisposable" : ""#>
+        public abstract partial class Client<#=this.cmdEnvoyInfos.Any() || this.propEnvoyInfos.Any() ? " : IAsyncDisposable" : ""#>
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
