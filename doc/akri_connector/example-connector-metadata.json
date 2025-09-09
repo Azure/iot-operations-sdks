@@ -1,5 +1,5 @@
 {
-  "aioConnectorMetadataSchemaVersion": "4.0-preview",
+  "aioConnectorMetadataSchemaVersion": "5.0-preview",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",
@@ -184,5 +184,7 @@
         }
       }
     }
-  ]
+  ],
+  "recommendedAllocationPolicy": "bucketized",
+  "recommendedReplicas": 1
 }
