@@ -1,5 +1,5 @@
 {
-  "aioConnectorMetadataSchemaVersion": "5.0-preview",
+  "aioConnectorMetadataSchemaVersion": "6.0-preview",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",
@@ -35,8 +35,107 @@
           "description": "The HTTP address to connect to"
         }
       },
-      "supportedModeling": {
-        "datasets" : {
+      "supportedAuthenticationTypes": ["usernamePassword", "x509", "anonymous"],
+      "datasets" : {
+        "limits": { 
+          "minimum": 0
+        },
+        "fields": {
+          "dataSource": {
+            "input": "required",
+            "exampleValue": "some/path"
+          },
+          "typeRef": {
+            "input": "unsupported"
+          }
+        },
+        "destinations": {
+          "supportedDestinations" : ["Mqtt", "BrokerStateStore"],
+          "defaultDestination" : {
+            "destination": "BrokerStateStore",
+            "key": "{deviceName}/{inboundEndpointName}/{assetName}/someDssKey"
+          }
+        },
+        "datasetConfigurationSchema" : {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "$id": "https://contoso.com/datasetConfig.schema.json",
+          "title": "Dataset Config Schema",
+          "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "SamplingInterval": {
+              "description": "How frequently to sample each dataset by default (in milliseconds)",
+              "type": "integer"
+            }
+          }
+        },
+        "dataPoints": {
+          "limits": { 
+            "minimum": 0
+          },
+          "dataSource": {
+            "input": "required",
+            "exampleValue": "some/path"
+          },
+          "typeRef": {
+            "input": "unsupported"
+          },
+          "dataPointConfigurationSchema" : {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/dataPointConfig.schema.json",
+            "title": "Datapoint Config Schema",
+            "description": "The JSON schema for both the default datapoint configuration field and all individual datapoint-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SamplingInterval": {
+                "description": "How frequently to sample each datapoint by default (in milliseconds)",
+                "type": "integer"
+              }
+            }
+          },
+          "alternativeTypeName": {
+            "singular": "tag",
+            "plural": "tags"
+          }
+        }
+      },
+      "events": {
+        "limits": { 
+          "minimum": 1
+        },
+        "fields": {
+          "eventNotifier": {
+            "input": "required",
+            "exampleValue": "some/path"
+          },
+          "typeRef": {
+            "input": "unsupported"
+          }
+        },
+        "destinations": {
+          "supportedDestinations" : ["Mqtt"],
+          "defaultDestination" : {
+            "destination": "Mqtt",
+            "topic": "{namespace}/{deviceName}/myDefaultPath",
+            "qos": 1,
+            "ttl": 10,
+            "retain": "never"
+          }
+        },
+        "eventConfigurationSchema" : {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "$id": "https://contoso.com/eventConfig.schema.json",
+          "title": "Event Config Schema",
+          "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "SomeEventsProperty": {
+              "description": "Some configuration that is relevant to events",
+              "type": "integer"
+            }
+          }
+        },
+        "dataPoints": {
           "limits": { 
             "minimum": 0
           },
@@ -44,91 +143,13 @@
             "dataSource": {
               "input": "required",
               "exampleValue": "some/path"
-            },
-            "typeRef": {
-              "input": "unsupported"
             }
           },
-          "destinations": {
-            "supportedDestinations" : ["Mqtt", "BrokerStateStore"],
-            "defaultDestination" : {
-              "destination": "BrokerStateStore",
-              "key": "someDssKey"
-            }
-          },
-          "datasetConfigurationSchema" : {
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "$id": "https://contoso.com/datasetConfig.schema.json",
-            "title": "Dataset Config Schema",
-            "description": "The JSON schema for both the default dataset configuration field and all individual dataset-specific configuration fields",
-            "type": "object",
-            "properties": {
-              "SamplingInterval": {
-                "description": "How frequently to sample each dataset by default (in milliseconds)",
-                "type": "integer"
-              }
-            }
-          },
-          "supportedModeling": {
-            "dataPoints": {
-              "limits": { 
-                "minimum": 0
-              },
-              "dataSource": {
-                "input": "required",
-                "exampleValue": "some/path"
-              },
-              "typeRef": {
-                "input": "unsupported"
-              },
-              "dataPointConfigurationSchema" : {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "https://contoso.com/dataPointConfig.schema.json",
-                "title": "Datapoint Config Schema",
-                "description": "The JSON schema for both the default datapoint configuration field and all individual datapoint-specific configuration fields",
-                "type": "object",
-                "properties": {
-                  "SamplingInterval": {
-                    "description": "How frequently to sample each datapoint by default (in milliseconds)",
-                    "type": "integer"
-                  }
-                }
-              },
-              "alternativeTypeName": {
-                "singular": "tag",
-                "plural": "tags"
-              }
-            }
-          }
-        },
-        "events": {
-          "limits": { 
-            "minimum": 0
-          },
-          "fields": {
-            "eventNotifier": {
-              "input": "required",
-              "exampleValue": "some/path"
-            },
-            "typeRef": {
-              "input": "unsupported"
-            }
-          },
-          "destinations": {
-            "supportedDestinations" : ["Mqtt"],
-            "defaultDestination" : {
-              "destination": "Mqtt",
-              "topic": "some/mqtt/path",
-              "qos": 1,
-              "ttl": 10,
-              "retain": "never"
-            }
-          },
-          "eventConfigurationSchema" : {
+          "dataPointConfigurationSchema" : {
             "$schema": "http://json-schema.org/draft-07/schema#",
             "$id": "https://contoso.com/eventConfig.schema.json",
-            "title": "Event Config Schema",
-            "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
+            "title": "Event Datapoint Config Schema",
+            "description": "The JSON schema for both the default event datapoint configuration field and all event-specific datapoint configuration fields",
             "type": "object",
             "properties": {
               "SomeEventsProperty": {
@@ -136,50 +157,24 @@
                 "type": "integer"
               }
             }
-          },
-          "supportedModeling":{
-            "dataPoints": {
-              "limits": { 
-                "minimum": 0
-              },
-              "fields": {
-                "dataSource": {
-                  "input": "required",
-                  "exampleValue": "some/path"
-                }
-              },
-              "dataPointConfigurationSchema" : {
-                "$schema": "http://json-schema.org/draft-07/schema#",
-                "$id": "https://contoso.com/eventConfig.schema.json",
-                "title": "Event Datapoint Config Schema",
-                "description": "The JSON schema for both the default event datapoint configuration field and all event-specific datapoint configuration fields",
-                "type": "object",
-                "properties": {
-                  "SomeEventsProperty": {
-                    "description": "Some configuration that is relevant to events",
-                    "type": "integer"
-                  }
-                }
-              }
-            }
+          }
+        }
+      },
+      "streams": {
+        "limits" : { 
+          "minimum": 0
+        },
+        "fields": {
+          "typeRef": {
+            "input": "required",
+            "exampleValue": "someTypeRef"
           }
         },
-        "streams": {
-          "limits" : { 
-            "minimum": 0
-          },
-          "fields": {
-            "typeRef": {
-              "input": "required",
-              "exampleValue": "someTypeRef"
-            }
-          },
-          "destinations": {
-            "supportedDestinations" : ["Mqtt", "Storage"],
-            "defaultDestination" : {
-              "destination": "Storage",
-              "path": "some/storage/path"
-            }
+        "destinations": {
+          "supportedDestinations" : ["Mqtt", "Storage"],
+          "defaultDestination" : {
+            "destination": "Storage",
+            "path": "{assetName}/some/storage/path"
           }
         }
       }
