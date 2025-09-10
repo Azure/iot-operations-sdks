@@ -61,6 +61,20 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         public string? ResponseTopicPattern { get; set; }
 
         /// <summary>
+        /// If true, this invoker will acknowledge the MQTT message associated with each streaming response as soon as it arrives.
+        /// If false, the user must call <see cref="ReceivedStreamingExtendedResponse{TResp}.AcknowledgeAsync"/> once they are done processing
+        /// each response message.
+        /// </summary>
+        /// <remarks>
+        /// Generally, delaying acknowledgement allows for re-delivery by the broker in cases where the invoker crashes or restarts unexpectedly.
+        /// However, MQTT acknowledgements must be delivered in order, so delaying these acknowledgements may affect the flow of acknowledgements
+        /// being sent by other processes using this same MQTT client. Additionally, the MQTT broker has a limit on the number of un-acknowledged messages
+        /// that are allowed to be in-flight at a single moment, so delaying too many acknowledgements may halt all further MQTT traffic on the underlying
+        /// MQTT client.
+        /// </remarks>
+        public bool AutomaticallyAcknowledgeResponses { get; set; } = true;
+
+        /// <summary>
         /// Invoke a streaming command on a particular streaming command executor
         /// </summary>
         /// <param name="requests">The stream of requests to send. This stream must contain at least one request.</param>
@@ -69,7 +83,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <param name="streamExchangeTimeout">The timeout between the beginning of the request stream and the end of both the request and response stream.</param>
         /// <param name="cancellationToken">Cancellation token. Signalling this will also make a single attempt to notify the executor of the cancellation.</param>
         /// <returns>The stream of responses.</returns>
-        public async Task<IStreamContext<StreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(
+        public async Task<IStreamContext<ReceivedStreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(
             IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
             RequestStreamMetadata? streamMetadata = null,
             Dictionary<string, string>? additionalTopicTokenMap = null,

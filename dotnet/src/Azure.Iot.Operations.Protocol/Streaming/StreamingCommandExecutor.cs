@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <remarks>
         /// The callback provides the stream of requests and requires the user to return one to many responses.
         /// </remarks>
-        public required Func<IStreamContext<StreamingExtendedRequest<TReq>>, RequestStreamMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+        public required Func<IStreamContext<ReceivedStreamingExtendedRequest<TReq>>, RequestStreamMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 
         public string ServiceGroupId { get; init; }
 
@@ -45,6 +45,20 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// Tokens replacement values can also be specified when starting the executor by specifying the additionalTopicToken map in <see cref="StartAsync(int?, Dictionary{string, string}?, CancellationToken)"/>.
         /// </remarks>
         public Dictionary<string, string> TopicTokenMap { get; protected set; }
+
+        /// <summary>
+        /// If true, this executor will acknowledge the MQTT message associated with each streaming request as soon as it arrives.
+        /// If false, the user must call <see cref="ReceivedStreamingExtendedRequest{TReq}.AcknowledgeAsync"/> once they are done processing
+        /// each request message.
+        /// </summary>
+        /// <remarks>
+        /// Generally, delaying acknowledgement allows for re-delivery by the broker in cases where the executor crashes or restarts unexpectedly.
+        /// However, MQTT acknowledgements must be delivered in order, so delaying these acknowledgements may affect the flow of acknowledgements
+        /// being sent by other processes using this same MQTT client. Additionally, the MQTT broker has a limit on the number of un-acknowledged messages
+        /// that are allowed to be in-flight at a single moment, so delaying too many acknowledgements may halt all further MQTT traffic on the underlying
+        /// MQTT client.
+        /// </remarks>
+        public bool AutomaticallyAcknowledgeRequests { get; set; } = true;
 
         public Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
         {

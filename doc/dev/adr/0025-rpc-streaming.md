@@ -177,7 +177,7 @@ Upon receiving an MQTT message in the response stream with the 'isLast' flag set
 
 If a streaming command invoker receives an MQTT message with the 'isLast' flag set but has not received any other messages in that response stream, the invoker should log an error, acknowledge the message, but otherwise ignore it. A stream of responses must have at least one entry.
 
-The streaming command invoker will acknowledge all messages it receives that match the correlation data of a known streaming command.
+By default, the streaming command invoker will acknowledge all request messages it receives as soon as they are given to the user. Users may opt into manual acknowledgements, though. Opting into manual acknowledgements allows the user time to "process" each response as necessary before forgoing re-delivery from the broker if the invoker crashes unexpectedly.
 
 The streaming command invoker will provide de-dupe caching of received responses to account for QoS 1 messages potentially being re-delivered. The streaming command invoker will de-dup using a the combination of the correlationId of the stream and the index of the message within that stream. The de-dup cache entries for a stream should be cleared once the stream has finished (gracefully or otherwise).
 
@@ -199,7 +199,7 @@ Upon receiving an MQTT message in the request stream with the 'isLast' flag set 
 
 If a streaming command executor receives an MQTT message with the 'isLast' flag set but has not received any other messages in that request stream, the executor should log an error, acknowledge the message, but otherwise ignore it. A stream of requests must have at least one entry.
 
-Unlike normal RPC, the stream command executor should acknowledge the MQTT message of a received stream request as soon as the user has been notified about it. We cannot defer acknowledging the stream request messages until after the full command has finished as streams may run indefinitely and we don't want to block other users of the MQTT client.
+By default, the streaming command executor will acknowledge all response messages it receives as soon as they are given to the user. Users may opt into manual acknowledgements, though. Opting into manual acknowledgements allows the user time to "process" each response as necessary before forgoing re-delivery from the broker if the executor crashes unexpectedly.
 
 Also unlike normal RPC, the streaming command executor will not provide any re-play cache support. This is because streams may grow indefinitely in length and size so re-playing a response stream isn't feasible.
 
