@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
             RequestStreamMetadata requestMetadata = new();
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(requestCount), executorMqttClient.ClientId!, requestMetadata);
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(requestCount), requestMetadata);
 
             List<StreamingExtendedResponse<string>> receivedResponses = new();
             await foreach (StreamingExtendedResponse<string> response in responseStreamContext.Entries)
@@ -135,7 +135,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), executorMqttClient.ClientId!);
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1));
 
             await foreach (var response in responseStreamContext.Entries)
             {
@@ -160,7 +160,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(), executorMqttClient.ClientId!);
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay());
 
             bool receivedCancellation = false;
             try
@@ -194,7 +194,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1), executorMqttClient.ClientId!);
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(1));
 
             bool receivedCancellation = false;
             try
@@ -235,7 +235,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             tcs1.TrySetResult(); // Don't need to delay the first message
 
-            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(tcs1, tcs2, tcs3), executorMqttClient.ClientId!, requestMetadata);
+            var responseStreamContext = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay(tcs1, tcs2, tcs3), requestMetadata);
 
             List<StreamingExtendedResponse<string>> receivedResponses = new();
             await foreach (StreamingExtendedResponse<string> response in responseStreamContext.Entries)
@@ -299,7 +299,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithYieldBreak(), executorMqttClient.ClientId!);
+            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithYieldBreak());
 
             await foreach (var response in stream.Entries)
             {
@@ -324,7 +324,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await using StringStreamingCommandInvoker invoker = new(new(), invokerMqttClient);
 
-            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(3), executorMqttClient.ClientId!);
+            var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStream(3));
 
             await foreach (var response in stream.Entries)
             {
