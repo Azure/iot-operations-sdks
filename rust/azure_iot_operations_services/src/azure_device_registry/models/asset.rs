@@ -48,7 +48,7 @@ pub struct Asset {
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
     /// Array of events that are part of the asset. Each event can have per-event configuration.
-    pub events: Vec<Event>, // if None on generated model, we can represent as empty vec
+    pub event_groups: Vec<EventGroup>, // if None on generated model, we can represent as empty vec
     /// Asset ID provided by the customer.
     pub external_asset_id: Option<String>,
     /// Revision number of the hardware.
@@ -175,7 +175,7 @@ pub struct DatasetDataPoint {
     /// Stringified JSON that contains connector-specific configuration for the data point.
     pub data_point_configuration: Option<String>,
     /// The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.
-    pub data_source: String,
+    pub data_source: Option<String>,
     /// The name of the data point.
     pub name: String,
     /// URI or type definition ID.
@@ -242,17 +242,32 @@ pub struct DeviceRef {
     pub endpoint_name: String,
 }
 
-/// Represents an event in an asset.
+/// Represents an event group in an asset.
+#[derive(Clone, Debug, PartialEq)]
+pub struct EventGroup {
+    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
+    pub events: Vec<Event>, // if None on generated model, we can represent as empty vec
+    /// Destinations for an event.
+    pub default_event_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    /// Stringified JSON that contains connector-specific configuration for the specific event.
+    pub event_group_configuration: Option<String>,
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
+    pub data_source: Option<String>,
+    /// The name of the event.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+}
+
+/// Represents an event in an event group.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Event {
-    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
-    pub data_points: Vec<EventDataPoint>, // if None on generated model, we can represent as empty vec
     /// Destinations for an event.
     pub destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the specific event.
     pub event_configuration: Option<String>,
     /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
-    pub event_notifier: String,
+    pub data_source: Option<String>,
     /// The name of the event.
     pub name: String,
     /// URI or type definition ID.
@@ -692,7 +707,7 @@ impl From<base_client_gen::Asset> for Asset {
             display_name: value.display_name,
             documentation_uri: value.documentation_uri,
             enabled: value.enabled,
-            events: value.events.option_vec_into().unwrap_or_default(),
+            event_groups: value.event_groups.option_vec_into().unwrap_or_default(),
             external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             last_transition_time: value.last_transition_time,
@@ -828,13 +843,28 @@ impl From<DeviceRef> for base_client_gen::AssetDeviceRef {
     }
 }
 
+impl From<base_client_gen::AssetEventGroupSchemaElementSchema> for EventGroup {
+    fn from(value: base_client_gen::AssetEventGroupSchemaElementSchema) -> Self {
+        EventGroup {
+            events: value.events.option_vec_into().unwrap_or_default(),
+            default_event_destinations: value
+                .default_event_destinations
+                .option_vec_into()
+                .unwrap_or_default(),
+            event_group_configuration: value.event_group_configuration,
+            data_source: value.data_source,
+            name: value.name,
+            type_ref: value.type_ref,
+        }
+    }
+}
+
 impl From<base_client_gen::AssetEventSchemaElementSchema> for Event {
     fn from(value: base_client_gen::AssetEventSchemaElementSchema) -> Self {
         Event {
-            data_points: value.data_points.option_vec_into().unwrap_or_default(),
             destinations: value.destinations.option_vec_into().unwrap_or_default(),
             event_configuration: value.event_configuration,
-            event_notifier: value.event_notifier,
+            data_source: value.data_source,
             name: value.name,
             type_ref: value.type_ref,
         }
