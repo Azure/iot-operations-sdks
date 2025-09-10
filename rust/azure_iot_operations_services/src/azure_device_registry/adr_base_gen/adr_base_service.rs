@@ -10,6 +10,7 @@ mod asset_dataset_event_stream_status;
 mod asset_dataset_schema_element_schema;
 mod asset_device_ref;
 mod asset_event_data_point_schema_element_schema;
+mod asset_event_group_schema_element_schema;
 mod asset_event_schema_element_schema;
 mod asset_management_group_action_schema_element_schema;
 mod asset_management_group_action_status_schema_element_schema;
@@ -143,6 +144,7 @@ pub mod client {
     pub use super::asset_dataset_schema_element_schema::*;
     pub use super::asset_device_ref::*;
     pub use super::asset_event_data_point_schema_element_schema::*;
+    pub use super::asset_event_group_schema_element_schema::*;
     pub use super::asset_event_schema_element_schema::*;
     pub use super::asset_management_group_action_schema_element_schema::*;
     pub use super::asset_management_group_action_status_schema_element_schema::*;

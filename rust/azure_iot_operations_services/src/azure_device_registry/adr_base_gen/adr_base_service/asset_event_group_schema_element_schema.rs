@@ -10,35 +10,35 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::asset_dataset_data_point_schema_element_schema::AssetDatasetDataPointSchemaElementSchema;
-use super::dataset_destination::DatasetDestination;
+use super::asset_event_schema_element_schema::AssetEventSchemaElementSchema;
+use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct AssetDatasetSchemaElementSchema {
-    /// The 'dataPoints' Field.
-    #[serde(rename = "dataPoints")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub data_points: Option<Vec<AssetDatasetDataPointSchemaElementSchema>>,
-
-    /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.
-    #[serde(rename = "datasetConfiguration")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub dataset_configuration: Option<String>,
-
-    /// Name of the data source within a dataset.
+pub struct AssetEventGroupSchemaElementSchema {
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_source: Option<String>,
 
-    /// Destinations for a dataset.
+    /// Destinations for an event.
+    #[serde(rename = "defaultEventDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub destinations: Option<Vec<DatasetDestination>>,
+    pub default_event_destinations: Option<Vec<EventStreamDestination>>,
 
-    /// Name of the dataset.
+    /// Stringified JSON that contains connector-specific configuration for the specific event.
+    #[serde(rename = "eventGroupConfiguration")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub event_group_configuration: Option<String>,
+
+    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub events: Option<Vec<AssetEventSchemaElementSchema>>,
+
+    /// The name of the event.
     pub name: String,
 
     /// URI or type definition ID.

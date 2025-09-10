@@ -10,33 +10,28 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::asset_event_data_point_schema_element_schema::AssetEventDataPointSchemaElementSchema;
 use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetEventSchemaElementSchema {
-    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
-    #[serde(rename = "dataPoints")]
+    /// The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.
+    #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub data_points: Option<Vec<AssetEventDataPointSchemaElementSchema>>,
+    pub data_source: Option<String>,
 
     /// Destinations for an event.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub destinations: Option<Vec<EventStreamDestination>>,
 
-    /// Stringified JSON that contains connector-specific configuration for the specific event.
+    /// Stringified JSON that contains connector-specific configuration for the data point.
     #[serde(rename = "eventConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub event_configuration: Option<String>,
 
-    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
-    #[serde(rename = "eventNotifier")]
-    pub event_notifier: String,
-
-    /// The name of the event.
+    /// The name of the data point.
     pub name: String,
 
     /// URI or type definition ID.

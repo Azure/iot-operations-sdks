@@ -1236,8 +1236,7 @@
                         },
                         {
                           "@type": [
-                            "Field",
-                            "Required"
+                            "Field"
                           ],
                           "name": "dataSource",
                           "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.",
@@ -1397,8 +1396,8 @@
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
-          "name": "events",
+          "@id": "dtmi:com:microsoft:akri:AssetEventGroup;1",
+          "name": "eventGroups",
           "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "schema": {
             "@type": "Array",
@@ -1407,8 +1406,8 @@
               "fields": [
                 {
                   "@type": "Field",
-                  "@id": "dtmi:com:microsoft:akri:AssetEventDataPoint;1",
-                  "name": "dataPoints",
+                  "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
+                  "name": "events",
                   "description": "Array of data points that are part of the event. Each data point can have per-data-point configuration.",
                   "schema": {
                     "@type": "Array",
@@ -1417,18 +1416,26 @@
                       "fields": [
                         {
                           "@type": "Field",
-                          "name": "dataPointConfiguration",
+                          "name": "eventConfiguration",
                           "description": "Stringified JSON that contains connector-specific configuration for the data point.",
                           "schema": "string"
                         },
                         {
                           "@type": [
-                            "Field",
-                            "Required"
+                            "Field"
                           ],
                           "name": "dataSource",
                           "description": "The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.",
                           "schema": "string"
+                        },
+                        {
+                          "@type": "Field",
+                          "name": "destinations",
+                          "description": "Destinations for an event.",
+                          "schema": {
+                            "@type": "Array",
+                            "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
+                          }
                         },
                         {
                           "@type": [
@@ -1438,6 +1445,12 @@
                           "name": "name",
                           "description": "The name of the data point.",
                           "schema": "string"
+                        },
+                        {
+                          "@type": "Field",
+                          "name": "typeRef",
+                          "description": "URI or type definition ID.",
+                          "schema": "string"
                         }
                       ]
                     }
@@ -1445,7 +1458,7 @@
                 },
                 {
                   "@type": "Field",
-                  "name": "destinations",
+                  "name": "defaultEventDestinations",
                   "description": "Destinations for an event.",
                   "schema": {
                     "@type": "Array",
@@ -1454,16 +1467,15 @@
                 },
                 {
                   "@type": "Field",
-                  "name": "eventConfiguration",
+                  "name": "eventGroupConfiguration",
                   "description": "Stringified JSON that contains connector-specific configuration for the specific event.",
                   "schema": "string"
                 },
                 {
                   "@type": [
-                    "Field",
-                    "Required"
+                    "Field"
                   ],
-                  "name": "eventNotifier",
+                  "name": "dataSource",
                   "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.",
                   "schema": "string"
                 },
