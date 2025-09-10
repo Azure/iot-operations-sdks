@@ -88,7 +88,6 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     /// Invoke a streaming command on a particular streaming command executor
     /// </summary>
     /// <param name="requests">The stream of requests to send. This stream must contain at least one request.</param>
-    /// <param name="executorId">The Id of the executor to send this request to.</param>
     /// <param name="streamMetadata">The metadata for the request stream as a whole.</param>
     /// <param name="additionalTopicTokenMap">Topic tokens to substitute in the request topic.</param>
     /// <param name="streamExchangeTimeout">The timeout between the beginning of the request stream and the end of both the request and response stream.</param>
@@ -96,7 +95,6 @@ public abstract class StreamingCommandInvoker<TReq, TResp>
     /// <returns>The stream of responses.</returns>
     public async Task<IStreamContext<StreamingExtendedResponse<TResp?>> InvokeStreamingCommandAsync(
       IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
-      string executorId,
       StreamRequestMetadata? streamRequestMetadata = null, 
       Dictionary<string, string>? additionalTopicTokenMap = null, 
       TimeSpan? commandTimeout = default, 
@@ -164,7 +162,8 @@ Once the user invokes a streaming command, the streaming command invoker will se
   - The same response topic
     - This response topic must be prefixed with 'clients/{mqtt client id of invoker}' like in vanilla RPC
   - The same correlation data
-  - A topic that includes an 'executorId' topic token (see vanilla RPC for details)
+  - The user property "$partition" set to a value of the client Id of the MQTT client sending this invocation
+    - This ensures that the broker always routes the messages in the stream to the same executor
   - The appropriate streaming metadata [see above](#streaming-user-property)
   - The serialized payload as provided by the user's request object
   - Any user-definied metadata as specified in the ```ExtendedStreamingRequest```
@@ -183,9 +182,7 @@ The command invoker will acknowledge all messages it receives that match the cor
 
 A streaming command executor should start by subscribing to the expected command topic
   - Even though the streaming command classes are separate from the existing RPC classes, they should also offer the same features around topic string pre/suffixing, custom topic token support, etc.
-  - The expected command topic _must_ include the 'executorId' topic token and its value must be set equal to the client Id of the executor's MQTT client
-    - By including the executorId in the expected request topic, we can guarantee that all messages in a request stream are delivered to the same executor
-    - Because streaming executors always have distinct expected request topics, there is no need to use/configure shared subscriptions
+  - The executor should use a shared subscription so that, if there are multiple executors, only one of them receives each stream
 
 Upon receiving a MQTT message that contains a streaming request, the streaming executor should notify the application layer that the first message in a request stream was received. Once the executor has notified the user that the first message in a request stream was received, the user should be able to provide a stream of responses. Upon receiving each response in that stream from the user, the executor will send an MQTT message for each streamed response with:
   - The same correlation data as the original request

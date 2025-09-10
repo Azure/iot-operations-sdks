@@ -31,8 +31,6 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// </remarks>
         public required Func<IStreamContext<StreamingExtendedRequest<TReq>>, RequestStreamMetadata, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 
-        public string ExecutorId { get; init; } // Must equal the client Id of the MQTT client running this executor. Unlike in vanilla RPC, this is not optional.
-
         public string ServiceGroupId { get; init; }
 
         public string RequestTopicPattern { get; init; }
