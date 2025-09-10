@@ -22,6 +22,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <summary>
         /// Cancel this RPC streaming call.
         /// </summary>
+        /// <param name="userData">The optional user properties to include in this cancellation request.</param>
         /// <param name="cancellationToken">Cancellation token for this cancellation request</param>
         /// <remarks>
         /// When called by the invoker, the executor will be notified about this cancellation and the executor will attempt
@@ -32,6 +33,10 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// stalls unexpectedly, the executor can call this method to notify the invoker to stop sending requests.
         /// Additionally, the invoker can call this method if its response stream has stalled unexpectedly.
         /// </remarks>
-        Task CancelAsync(CancellationToken cancellationToken = default);
+        Task CancelAsync(Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default);
+
+        //TODO how to pass these user properties to the executor when invoker cancels? Triggering cancellation token isn't sufficient
+
+        //TODO move cancellation token in here so that both invoker + executor can access it more seamlessly? Move func in here as well for same reason?
     }
 }
