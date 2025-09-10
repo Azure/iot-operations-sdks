@@ -167,6 +167,7 @@ Once the user invokes a streaming command, the streaming command invoker will se
   - The appropriate streaming metadata [see above](#streaming-user-property)
   - The serialized payload as provided by the user's request object
   - Any user-definied metadata as specified in the ```ExtendedStreamingRequest```
+  - QoS 1
 
 Once the stream of requests has started sending, the streaming command invoker should expect the stream of responses to arrive on the provided response topic with the provided correlation data and the streaming user property.
 
@@ -176,7 +177,9 @@ Upon receiving an MQTT message in the response stream with the 'isLast' flag set
 
 If a streaming command invoker receives an MQTT message with the 'isLast' flag set but has not received any other messages in that response stream, the invoker should log an error, acknowledge the message, but otherwise ignore it. A stream of responses must have at least one entry.
 
-The command invoker will acknowledge all messages it receives that match the correlation data of a known streaming command.
+The streaming command invoker will acknowledge all messages it receives that match the correlation data of a known streaming command.
+
+The streaming command invoker will provide de-dupe caching of received responses to account for QoS 1 messages potentially being re-delivered. The streaming command invoker will de-dup using a the combination of the correlationId of the stream and the index of the message within that stream. The de-dup cache entries for a stream should be cleared once the stream has finished (gracefully or otherwise).
 
 #### Executor side
 
@@ -190,6 +193,7 @@ Upon receiving a MQTT message that contains a streaming request, the streaming e
   - The appropriate streaming metadata [see above](#streaming-user-property)
   - The serialized payload as provided by the user's response object
   - Any user-definied metadata as specified in the ```ExtendedStreamingResponse```
+  - QoS 1
 
 Upon receiving an MQTT message in the request stream with the 'isLast' flag set in the '__stream' metadata, the streaming executor should notify the user that the stream of requests has ended. This particular message should not contain any payload or other user properties, so the message _should not_ be propagated to the user as if it were part of the request stream.
 
@@ -197,7 +201,9 @@ If a streaming command executor receives an MQTT message with the 'isLast' flag 
 
 Unlike normal RPC, the stream command executor should acknowledge the MQTT message of a received stream request as soon as the user has been notified about it. We cannot defer acknowledging the stream request messages until after the full command has finished as streams may run indefinitely and we don't want to block other users of the MQTT client.
 
-Also unlike normal RPC, the streaming command executor will not provide any cache support. This is because streams may grow indefinitely in length and size. 
+Also unlike normal RPC, the streaming command executor will not provide any re-play cache support. This is because streams may grow indefinitely in length and size so re-playing a response stream isn't feasible.
+
+The streaming command executor will provide de-dupe caching of received requests to account for QoS 1 messages potentially being re-delivered. The streaming command invoker will de-dup using a the combination of the correlationId of the stream and the index of the message within that stream. The de-dup cache entries for a stream should be cleared once the stream has finished (gracefully or otherwise).
 
 ### Timeout support
 
