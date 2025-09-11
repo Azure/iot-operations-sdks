@@ -1744,12 +1744,35 @@
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetEventStatus;1",
-          "name": "events",
-          "description": "Array of event statuses that describe the status of each event.",
+          "@id": "dtmi:com:microsoft:akri:AssetEventGroupStatus;1",
+          "name": "eventGroups",
+          "description": "Array of event group statuses that describe the status of each event group.",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+            "elementSchema": {
+              "@type": "Object",
+              "fields": [
+                {
+                  "@type": "Field",
+                  "@id": "dtmi:com:microsoft:akri:AssetEventStatus;1",
+                  "name": "events",
+                  "description": "Array of event statuses that describe the status of each event.",
+                  "schema": {
+                    "@type": "Array",
+                    "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
+                  }
+                },
+                {
+                  "@type": [
+                    "Field",
+                    "Required"
+                  ],
+                  "name": "name",
+                  "description": "The name of the eventGroup. Must be unique within the status.eventGroup array. This name is used to correlate between the spec and status event group information.",
+                  "schema": "string"
+                }
+              ]
+            }
           }
         },
         {
