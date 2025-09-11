@@ -448,7 +448,7 @@ pub struct AssetStatus {
     /// Array of dataset statuses that describe the status of each dataset.
     pub datasets: Option<Vec<DatasetEventStreamStatus>>,
     /// Array of event statuses that describe the status of each event.
-    pub events: Option<Vec<DatasetEventStreamStatus>>,
+    pub event_groups: Option<Vec<EventGroupStatus>>,
     /// Array of management group statuses that describe the status of each management group.
     pub management_groups: Option<Vec<ManagementGroupStatus>>,
     /// Array of stream statuses that describe the status of each stream.
@@ -466,6 +466,15 @@ pub struct DatasetEventStreamStatus {
     pub message_schema_reference: Option<MessageSchemaReference>,
     /// The last error that occurred while processing the dataset/event/stream.
     pub error: Option<ConfigError>,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+/// Represents the status for a management group
+pub struct EventGroupStatus {
+    /// Array of action statuses that describe the status of each action.
+    pub events: Option<Vec<DatasetEventStreamStatus>>,
+    /// The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.
+    pub name: String,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -506,7 +515,7 @@ impl From<AssetStatus> for base_client_gen::AssetStatus {
         base_client_gen::AssetStatus {
             config: value.config.map(Into::into),
             datasets: value.datasets.option_vec_into(),
-            events: value.events.option_vec_into(),
+            event_groups: value.event_groups.option_vec_into(),
             management_groups: value.management_groups.option_vec_into(),
             streams: value.streams.option_vec_into(),
         }
@@ -519,6 +528,15 @@ impl From<DatasetEventStreamStatus> for base_client_gen::AssetDatasetEventStream
             name: value.name,
             message_schema_reference: value.message_schema_reference.map(Into::into),
             error: value.error.map(Into::into),
+        }
+    }
+}
+
+impl From<EventGroupStatus> for base_client_gen::AssetEventGroupStatusSchemaElementSchema {
+    fn from(value: EventGroupStatus) -> Self {
+        base_client_gen::AssetEventGroupStatusSchemaElementSchema {
+            events: value.events.option_vec_into(),
+            name: value.name,
         }
     }
 }
@@ -626,9 +644,18 @@ impl From<base_client_gen::AssetStatus> for AssetStatus {
         AssetStatus {
             config: value.config.map(Into::into),
             datasets: value.datasets.option_vec_into(),
-            events: value.events.option_vec_into(),
+            event_groups: value.event_groups.option_vec_into(),
             management_groups: value.management_groups.option_vec_into(),
             streams: value.streams.option_vec_into(),
+        }
+    }
+}
+
+impl From<base_client_gen::AssetEventGroupStatusSchemaElementSchema> for EventGroupStatus {
+    fn from(value: base_client_gen::AssetEventGroupStatusSchemaElementSchema) -> Self {
+        EventGroupStatus {
+            events: value.events.option_vec_into(),
+            name: value.name,
         }
     }
 }
