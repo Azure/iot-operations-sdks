@@ -105,6 +105,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 }
             }
 
+
             public async ValueTask DisposeAsync()
             {
                 await this.createOrUpdateDiscoveredDeviceCommandExecutor.DisposeAsync().ConfigureAwait(false);
@@ -137,6 +138,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 this.mqttClient = mqttClient;
 
                 this.createOrUpdateDiscoveredDeviceCommandInvoker = new CreateOrUpdateDiscoveredDeviceCommandInvoker(applicationContext, mqttClient);
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)

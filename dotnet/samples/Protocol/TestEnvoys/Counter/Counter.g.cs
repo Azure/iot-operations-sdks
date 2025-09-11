@@ -154,6 +154,7 @@ namespace TestEnvoys.Counter
                 return new ExtendedResponse<EmptyJson> { ResponseMetadata = responseMetadata };
             }
 
+
             public async ValueTask DisposeAsync()
             {
                 await this.readCounterCommandExecutor.DisposeAsync().ConfigureAwait(false);
@@ -195,34 +196,17 @@ namespace TestEnvoys.Counter
                 this.mqttClient = mqttClient;
 
                 this.readCounterCommandInvoker = new ReadCounterCommandInvoker(applicationContext, mqttClient);
+                this.incrementCommandInvoker = new IncrementCommandInvoker(applicationContext, mqttClient);
+                this.resetCommandInvoker = new ResetCommandInvoker(applicationContext, mqttClient);
+                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.readCounterCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.incrementCommandInvoker = new IncrementCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.incrementCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.resetCommandInvoker = new ResetCommandInvoker(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.resetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
-                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
                         this.telemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }

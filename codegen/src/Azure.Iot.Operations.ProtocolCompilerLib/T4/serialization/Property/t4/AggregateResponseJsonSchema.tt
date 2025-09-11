@@ -1,0 +1,25 @@
+<#@ template language="C#" linePragmas="false" #>
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "<#=this.schema.GetTypeName(TargetLanguage.Independent)#>",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+<# if (this.includeValue) { #>
+    "<#=SchemaNames.AggregateReadRespValueField.GetFieldName(TargetLanguage.Independent)#>": {
+      "description": "Properties when operation succeeds.",
+<# if (this.setIndex) { #>
+      "index": 1,
+<# } #>
+      "$ref": "<#=SchemaNames.AggregatePropSchema.GetTypeName(TargetLanguage.Independent)#>.schema.json"
+    },
+<# } #>
+    "<#=SchemaNames.AggregateRespErrorField.GetFieldName(TargetLanguage.Independent)#>": {
+      "description": "Errors when operation fails.",
+<# if (this.setIndex) { #>
+      "index": 2,
+<# } #>
+      "$ref": "<#=this.errorSchema.GetTypeName(TargetLanguage.Independent)#>.schema.json"
+    }
+  }
+}

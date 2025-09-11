@@ -33,7 +33,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Azure.IoT.ModelsRepository" Version="1.0.0-preview.6" />
-		<PackageReference Include="DTDLParser" Version="1.2.13-preview-g8a42f2082f" />
+		<PackageReference Include="DTDLParser" Version="1.2.16-preview-gc368fb0828" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
 		<PackageReference Include="NuGet.Versioning" Version="6.13.2" />
 		<PackageReference Include="System.CodeDom" Version="9.0.3" />
@@ -70,6 +70,11 @@
 		  <LastGenOutput>DotNetResponseExtension.cs</LastGenOutput>
 		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
 		</None>
+		<None Update="T4\communication\dotnet\Error\t4\DotNetAggregateError.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>DotNetAggregateError.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
 		<None Update="T4\communication\dotnet\Error\t4\DotNetError.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
 		  <LastGenOutput>DotNetError.cs</LastGenOutput>
@@ -79,6 +84,16 @@
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>DotNetProject.cs</LastGenOutput>
 			<CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\dotnet\Property\t4\DotNetPropertyConsumer.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>DotNetPropertyConsumer.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\dotnet\Property\t4\DotNetPropertyMaintainer.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>DotNetPropertyMaintainer.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
 		</None>
 		<None Update="T4\communication\dotnet\Serialization\t4\DotNetSerialization.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -410,6 +425,21 @@
 		  <LastGenOutput>ResultAvroSchema.cs</LastGenOutput>
 		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
 		</None>
+		<None Update="T4\serialization\Property\t4\AggregateResponseJsonSchema.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>AggregateResponseJsonSchema.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
+		<None Update="T4\serialization\Property\t4\PropertyAvroSchema.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>PropertyAvroSchema.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
+		<None Update="T4\serialization\Property\t4\PropertyJsonSchema.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>PropertyJsonSchema.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
 		<None Update="T4\serialization\Telemetry\t4\TelemetryAvroSchema.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>TelemetryAvroSchema.cs</LastGenOutput>
@@ -467,6 +497,11 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>DotNetResponseExtension.tt</DependentUpon>
 		</Compile>
+		<Compile Update="T4\communication\dotnet\Error\t4\DotNetAggregateError.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>DotNetAggregateError.tt</DependentUpon>
+		</Compile>
 		<Compile Update="T4\communication\dotnet\Error\t4\DotNetError.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
@@ -476,6 +511,16 @@
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>DotNetProject.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\dotnet\Property\t4\DotNetPropertyConsumer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>DotNetPropertyConsumer.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\dotnet\Property\t4\DotNetPropertyMaintainer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>DotNetPropertyMaintainer.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\communication\dotnet\Serialization\t4\DotNetSerialization.cs">
 		  <DesignTime>True</DesignTime>
@@ -806,6 +851,21 @@
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>ResultAvroSchema.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\serialization\Property\t4\AggregateResponseJsonSchema.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>AggregateResponseJsonSchema.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\serialization\Property\t4\PropertyAvroSchema.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PropertyAvroSchema.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\serialization\Property\t4\PropertyJsonSchema.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PropertyJsonSchema.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\serialization\Telemetry\t4\TelemetryAvroSchema.cs">
 			<DesignTime>True</DesignTime>

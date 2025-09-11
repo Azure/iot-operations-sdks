@@ -27,6 +27,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
             Dictionary<string, string> schemaDict = new();
             schemaGenerator.GenerateTelemetrySchemas((schemaText, fileName, _) => { schemaDict[fileName] = schemaText; }, null);
+            schemaGenerator.GeneratePropertySchemas((schemaText, fileName, _) => { schemaDict[fileName] = schemaText; }, null);
             schemaGenerator.GenerateCommandSchemas((schemaText, fileName, _) => { schemaDict[fileName] = schemaText; }, null);
             schemaGenerator.GenerateObjects((schemaText, fileName, _) => { schemaDict[fileName] = schemaText; }, null);
             schemaGenerator.GenerateEnums((schemaText, fileName, _) => { schemaDict[fileName] = schemaText; }, null);
