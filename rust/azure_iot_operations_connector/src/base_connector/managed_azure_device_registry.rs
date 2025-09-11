@@ -1724,7 +1724,7 @@ impl DataOperationClient {
                     .schema_registry_client
                     .put(
                         message_schema.clone(),
-                        self.connector_context.default_timeout,
+                        std::time::Duration::from_secs(90),
                     )
                     .await
                     .map_err(|e| {
