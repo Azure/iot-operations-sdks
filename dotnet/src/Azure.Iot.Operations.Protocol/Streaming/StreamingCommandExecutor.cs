@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <remarks>
         /// The callback provides the stream of requests and requires the user to return one to many responses.
         /// </remarks>
-        public required Func<IStreamContext<ReceivedStreamingExtendedRequest<TReq>>, RequestStreamMetadata, Func<Dictionary<string, string>>, CancellationToken, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
+        public required Func<IStreamContext<ReceivedStreamingExtendedRequest<TReq>>, RequestStreamMetadata, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 
         public string ServiceGroupId { get; init; }
 
@@ -60,7 +60,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// </remarks>
         public bool AutomaticallyAcknowledgeRequests { get; set; } = true;
 
-        public Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
+        public Task StartAsync(CancellationToken cancellationToken = default)
         {
             // TODO: derive the expected request topic (like command executor does)
 

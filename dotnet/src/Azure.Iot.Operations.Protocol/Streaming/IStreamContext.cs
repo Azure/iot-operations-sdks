@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
     /// <summary>
     /// A stream of requests or responses that can be gracefully ended or canceled (with confirmation) at any time.
     /// </summary>
-    /// <typeparam name="T">The type of the payload of the request stream</typeparam>
+    /// <typeparam name="T">The type of the payload of the request/response stream</typeparam>
     public interface IStreamContext<T>
         where T : class
     {
@@ -20,14 +21,18 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         IAsyncEnumerable<T> Entries { get; set; }
 
         /// <summary>
-        /// Cancel this RPC streaming call.
+        /// Cancel this RPC streaming exchange.
         /// </summary>
-        /// <param name="userData">The optional user properties to include in this cancellation request.</param>
-        /// <param name="cancellationToken">Cancellation token for this cancellation request</param>
+        /// <param name="userData">
+        /// The optional user properties to include in this cancellation request. the receiving side of this cancellation request
+        /// will be given these properties alongside the notification that the streaming exchange has been canceled.
+        /// </param>
+        /// <param name="cancellationToken">Cancellation token to wait for confirmation from the receiving side that the cancellation succeeded.</param>
         /// <remarks>
         /// When called by the invoker, the executor will be notified about this cancellation and the executor will attempt
         /// to stop any user-defined handling of the streaming request. When called by the executor, the invoker will be notified
-        /// and will cease sending requests.
+        /// and will cease sending requests and will throw an <see cref="AkriMqttException"/> with <see cref="AkriMqttException.Kind"/>
+        /// of <see cref="AkriMqttErrorKind.Cancellation"/>.
         /// 
         /// This method may be called by the streaming invoker or executor at any time. For instance, if the request stream
         /// stalls unexpectedly, the executor can call this method to notify the invoker to stop sending requests.
@@ -35,8 +40,24 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// </remarks>
         Task CancelAsync(Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default);
 
-        //TODO how to pass these user properties to the executor when invoker cancels? Triggering cancellation token isn't sufficient
+        /// <summary>
+        /// The token that tracks if the streaming exchange has been cancelled or not.
+        /// </summary>
+        /// <remarks>
+        /// For instance, if the invoker side cancels the streaming exchange, the executor side callback's <see cref="IStreamContext{T}.CancellationToken"/>
+        /// will be triggered. If the executor side cancels the streaming exchange, the invoker side's returned <see cref="IStreamContext{T}.CancellationToken"/>
+        /// will be triggered.
+        /// </remarks>
+        CancellationToken CancellationToken { get; }
 
-        //TODO move cancellation token in here so that both invoker + executor can access it more seamlessly? Move func in here as well for same reason?
+        /// <summary>
+        /// Get the user properties associated with a cancellation request started with <see cref="CancelAsync(Dictionary{string, string}?, CancellationToken)"/>.
+        /// </summary>
+        /// <returns>The user properties associated with a cancellation request</returns>
+        /// <remarks>
+        /// If the stream has not been cancelled, this will return null. If the stream has been cancelled, but no user properties were
+        /// provided in that cancellation request, this will return null.
+        /// </remarks>
+        Dictionary<string, string>? GetCancellationRequestUserProperties();
     }
 }

@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <summary>
         /// User properties associated with this particular message
         /// </summary>
-        public Dictionary<string, string> UserData { get; } = new();
+        public Dictionary<string, string> UserData { get; init; } = new();
 
         /// <summary>
         /// The index of this message within the stream as a whole

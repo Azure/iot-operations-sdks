@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <summary>
         /// The response payload
         /// </summary>
-        public TResp Response { get; set; }
+        public TResp Payload { get; set; }
 
         /// <summary>
         /// The metadata specific to this message in the stream
@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
 
         public StreamingExtendedResponse(TResp response, StreamMessageMetadata? metadata = null)
         {
-            Response = response;
+            Payload = response;
             Metadata = metadata ?? new();
         }
     }

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
-using System.Runtime.CompilerServices;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.Streaming;
 
@@ -82,7 +81,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             Assert.Equal(expectedRequests.Count, receivedRequests.Count);
             for (int i = 0; i < expectedRequests.Count; i++)
             {
-                Assert.Equal(expectedRequests[i].Request, receivedRequests[i].Request);
+                Assert.Equal(expectedRequests[i].Payload, receivedRequests[i].Payload);
                 Assert.Equal(i, receivedRequests[i].Metadata!.Index);
             }
 
@@ -94,7 +93,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             Assert.Equal(receivedResponses.Count, sentResponses.Count);
             for (int i = 0; i < expectedRequests.Count; i++)
             {
-                Assert.Equal(sentResponses[i].Response, receivedResponses[i].Response);
+                Assert.Equal(sentResponses[i].Payload, receivedResponses[i].Payload);
                 Assert.Equal(i, receivedResponses[i].Metadata!.Index);
             }
         }
@@ -109,7 +108,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using EchoStringStreamingCommandExecutor executor =
                 new(new(), executorMqttClient)
                 {
-                    OnStreamingCommandReceived = SerialHandlerSingleResponse
+                    OnStreamingCommandReceived = SerialHandlerExpectsCancellationWhileStreamingRequests
                 };
 
             await executor.StartAsync();
@@ -118,7 +117,14 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             var stream = await invoker.InvokeStreamingCommandAsync(GetStringRequestStreamWithDelay());
 
-            await stream.CancelAsync();
+            Dictionary<string, string> cancellationCustomUserProperties = new()
+            {
+                { "someUserPropertyKey", "someUserPropertyValue"}
+            };
+
+            await stream.CancelAsync(cancellationCustomUserProperties);
+
+            //TODO assert the executor received cancellation + user properties
         }
 
         [Fact]
@@ -140,7 +146,12 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
 
             await foreach (var response in responseStreamContext.Entries)
             {
-                await responseStreamContext.CancelAsync();
+                Dictionary<string, string> cancellationCustomUserProperties = new()
+                {
+                    { "someUserPropertyKey", "someUserPropertyValue"}
+                };
+
+                await responseStreamContext.CancelAsync(cancellationCustomUserProperties);
                 break;
             }
         }
@@ -154,7 +165,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using EchoStringStreamingCommandExecutor executor =
                 new(new(), executorMqttClient)
                 {
-                    OnStreamingCommandReceived = SerialHandlerWithCancellationWhileStreamingRequests
+                    OnStreamingCommandReceived = SerialHandlerThatCancelsWhileStreamingRequests
                 };
 
             await executor.StartAsync();
@@ -174,6 +185,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             catch (AkriMqttException ame) when (ame.Kind is AkriMqttErrorKind.Cancellation)
             {
                 receivedCancellation = true;
+                Assert.True(responseStreamContext.CancellationToken.IsCancellationRequested); // TODO timing on exception thrown vs cancellation token triggered?
+                Dictionary<string, string>? cancellationRequestUserProperties = responseStreamContext.GetCancellationRequestUserProperties();
+                Assert.NotNull(cancellationRequestUserProperties);
+                Assert.NotEmpty(cancellationRequestUserProperties.Keys); //TODO actually validate the values match
             }
 
             Assert.True(receivedCancellation);
@@ -188,7 +203,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             await using EchoStringStreamingCommandExecutor executor =
                 new(new(), executorMqttClient)
                 {
-                    OnStreamingCommandReceived = SerialHandlerWithCancellationWhileStreamingResponses
+                    OnStreamingCommandReceived = SerialHandlerThatCancelsStreamingWhileStreamingResponses
                 };
 
             await executor.StartAsync();
@@ -208,6 +223,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             catch (AkriMqttException ame) when (ame.Kind is AkriMqttErrorKind.Cancellation)
             {
                 receivedCancellation = true;
+                Assert.True(responseStreamContext.CancellationToken.IsCancellationRequested); // TODO timing on exception thrown vs cancellation token triggered?
+                Dictionary<string, string>? cancellationRequestUserProperties = responseStreamContext.GetCancellationRequestUserProperties();
+                Assert.NotNull(cancellationRequestUserProperties);
+                Assert.NotEmpty(cancellationRequestUserProperties.Keys); //TODO actually validate the values match
             }
 
             Assert.True(receivedCancellation);
@@ -266,7 +285,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             Assert.Equal(receivedResponses.Count, receivedRequests.Count);
             for (int i = 0; i < receivedResponses.Count; i++)
             {
-                Assert.Equal(receivedResponses[i].Response, receivedRequests[i].Request);
+                Assert.Equal(receivedResponses[i].Payload, receivedRequests[i].Payload);
             }
         }
 
@@ -416,21 +435,40 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerSingleResponse(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata, Func<Dictionary<string, string>> _, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerSingleResponse(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
         {
-            await SaveReceivedRequests(stream, streamMetadata, false, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, false, stream.CancellationToken);
 
-            await foreach (var response in GetStringStreamContext(3).WithCancellation(cancellationToken))
+            await foreach (var response in GetStringStreamContext(3).WithCancellation(stream.CancellationToken))
             {
                 yield return response;
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponses(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata, Func<Dictionary<string, string>> _, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerExpectsCancellationWhileStreamingRequests(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
         {
-            await SaveReceivedRequests(stream, streamMetadata, false, cancellationToken);
+            try
+            {
+                await foreach (var request in stream.Entries.WithCancellation(stream.CancellationToken))
+                {
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // The stream was cancelled by the invoker while it streamed requests
+                Dictionary<string, string>? cancellationUserProperties = stream.GetCancellationRequestUserProperties();
 
-            await foreach (var response in GetStringStreamContext(3).WithCancellation(cancellationToken))
+                //TODO assert received user properties in the cancellation request
+            }
+
+            yield return new("should never be reached");
+        }
+
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponses(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
+        {
+            await SaveReceivedRequests(stream, streamMetadata, false, stream.CancellationToken);
+
+            await foreach (var response in GetStringStreamContext(3).WithCancellation(stream.CancellationToken))
             {
                 _sentResponses.TryAdd(streamMetadata.CorrelationId, new());
                 if (_sentResponses.TryGetValue(streamMetadata.CorrelationId, out var sentResponses))
@@ -442,11 +480,11 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponsesWithYieldBreakAfterFirstResponse(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata, Func<Dictionary<string, string>> _, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponsesWithYieldBreakAfterFirstResponse(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
         {
-            await SaveReceivedRequests(stream, streamMetadata, false, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, false, stream.CancellationToken);
 
-            await foreach (var response in GetStringStreamContext(3).WithCancellation(cancellationToken))
+            await foreach (var response in GetStringStreamContext(3).WithCancellation(stream.CancellationToken))
             {
                 _sentResponses.TryAdd(streamMetadata.CorrelationId, new());
                 if (_sentResponses.TryGetValue(streamMetadata.CorrelationId, out var sentResponses))
@@ -459,9 +497,9 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> ParallelHandlerEchoResponses(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata, Func<Dictionary<string, string>> _, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> ParallelHandlerEchoResponses(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
         {
-            await foreach (StreamingExtendedRequest<string> requestStreamEntry in stream.Entries.WithCancellation(cancellationToken))
+            await foreach (StreamingExtendedRequest<string> requestStreamEntry in stream.Entries.WithCancellation(stream.CancellationToken))
             {
                 // doesn't overwrite if the correlationId already exists in the dictionary
                 _receivedRequests.TryAdd(streamMetadata.CorrelationId, new());
@@ -471,31 +509,41 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                     requestsReceived.Add(requestStreamEntry);
                 }
 
-                yield return new(requestStreamEntry.Request);
+                yield return new(requestStreamEntry.Payload);
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponsesWithDelay(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata, Func<Dictionary<string, string>> _, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerMultipleResponsesWithDelay(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
         {
-            await SaveReceivedRequests(stream, streamMetadata, false, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, false, stream.CancellationToken);
 
-            await foreach (var response in GetStringStreamContext(3).WithCancellation(cancellationToken))
+            var asyncEnumeratorWithCancellation = GetStringRequestStreamWithDelay().WithCancellation(stream.CancellationToken).GetAsyncEnumerator();
+
+            bool readingRequestStream = true;
+            while (readingRequestStream)
             {
-                _sentResponses.TryAdd(streamMetadata.CorrelationId, new());
-                if (_sentResponses.TryGetValue(streamMetadata.CorrelationId, out var sentResponses))
+                StreamingExtendedRequest<string> request;
+                try
                 {
-                    sentResponses.Add(response);
+                    readingRequestStream = await asyncEnumeratorWithCancellation.MoveNextAsync();
+                    request = asyncEnumeratorWithCancellation.Current;
+                }
+                catch (OperationCanceledException)
+                {
+                    // The invoker side will cancel this stream of responses (via the provided cancellation token) since it takes too long
+
+                    Dictionary<string, string>? cancellationUserProperties = stream.GetCancellationRequestUserProperties();
+
+                    //TODO assert these match the user properties sent by the invoker
+
+                    yield break;
                 }
 
-                yield return response;
-
-                await Task.Delay(TimeSpan.FromHours(1), cancellationToken);
+                yield return new(request.Payload);
             }
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
-        private static async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellationWhileStreamingRequests(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata, Func<Dictionary<string, string>> _, [EnumeratorCancellation] CancellationToken cancellationToken)
-#pragma warning restore IDE0060 // Remove unused parameter
+        private static async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerThatCancelsWhileStreamingRequests(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
         {
             CancellationTokenSource requestTimeoutCancellationTokenSource = new CancellationTokenSource();
             requestTimeoutCancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(1));
@@ -518,29 +566,26 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                     yield break;
                 }
 
-                yield return new(request.Request);
+                yield return new(request.Payload);
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerWithCancellationWhileStreamingResponses(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata, Func<Dictionary<string, string>> _, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerThatCancelsStreamingWhileStreamingResponses(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
         {
-            await SaveReceivedRequests(stream, streamMetadata, false, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, false, stream.CancellationToken);
 
             CancellationTokenSource cts = new();
             cts.CancelAfter(TimeSpan.FromSeconds(1));
             for (int responseCount = 0; responseCount < 5; responseCount++)
             {
-                try
+                if (responseCount == 3)
                 {
-                    if (responseCount == 3)
+                    Dictionary<string, string> cancellationCustomUserProperties = new()
                     {
-                        // simulate one entry in the response stream taking too long and the executor deciding to cancel the stream because of it
-                        await Task.Delay(TimeSpan.FromHours(1), cancellationToken);
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-                    await stream.CancelAsync();
+                        { "someUserPropertyKey", "someUserPropertyValue"}
+                    };
+
+                    await stream.CancelAsync(cancellationCustomUserProperties);
                     yield break;
                 }
 
@@ -548,11 +593,11 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             }
         }
 
-        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerSingleResponseManualAcks(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata, Func<Dictionary<string, string>> _, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private async IAsyncEnumerable<StreamingExtendedResponse<string>> SerialHandlerSingleResponseManualAcks(IStreamContext<ReceivedStreamingExtendedRequest<string>> stream, RequestStreamMetadata streamMetadata)
         {
-            await SaveReceivedRequests(stream, streamMetadata, true, cancellationToken);
+            await SaveReceivedRequests(stream, streamMetadata, true, stream.CancellationToken);
 
-            await foreach (var response in GetStringStreamContext(3).WithCancellation(cancellationToken))
+            await foreach (var response in GetStringStreamContext(3).WithCancellation(stream.CancellationToken))
             {
                 yield return response;
             }
