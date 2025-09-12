@@ -135,7 +135,7 @@ impl DeviceEndpointClientCreationObservation {
                     .observe_device_update_notifications(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -157,7 +157,7 @@ impl DeviceEndpointClientCreationObservation {
                     .get_device(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Device Definition"))
@@ -186,7 +186,7 @@ impl DeviceEndpointClientCreationObservation {
                     .get_device_status(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Device Status"))
@@ -552,7 +552,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -575,7 +575,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Asset Definition"))
@@ -604,7 +604,7 @@ impl DeviceEndpointClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Get Asset Status"))
@@ -667,7 +667,7 @@ impl DeviceEndpointClient {
                         self.device_endpoint_ref.device_name.clone(),
                         self.device_endpoint_ref.inbound_endpoint_name.clone(),
                         adr_device_status.clone(),
-                        self.connector_context.default_timeout,
+                        self.connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, "Update Device Status"))
@@ -696,7 +696,7 @@ impl DeviceEndpointClient {
                     .unobserve_device_update_notifications(
                         device_endpoint_ref.device_name.clone(),
                         device_endpoint_ref.inbound_endpoint_name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -1436,7 +1436,7 @@ impl AssetClient {
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
                         adr_asset_status.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     .await
                     .map_err(|e| adr_error_into_retry_error(e, &format!("Update Asset Status for {log_identifier}")))
@@ -1460,7 +1460,7 @@ impl AssetClient {
                         asset_ref.device_name.clone(),
                         asset_ref.inbound_endpoint_name.clone(),
                         asset_ref.name.clone(),
-                        connector_context.default_timeout,
+                        connector_context.azure_device_registry_timeout,
                     )
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await
@@ -1724,7 +1724,7 @@ impl DataOperationClient {
                     .schema_registry_client
                     .put(
                         message_schema.clone(),
-                        self.connector_context.default_timeout,
+                        self.connector_context.schema_registry_timeout,
                     )
                     .await
                     .map_err(|e| {
