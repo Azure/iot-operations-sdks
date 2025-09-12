@@ -12,6 +12,14 @@ cd CommandRawSample/command_raw_gen
 cargo build
 cd ../..
 
+cd PropertySeparateSample/property_separate_gen
+cargo build
+cd ../..
+
+cd PropertyTogetherSample/property_together_gen
+cargo build
+cd ../..
+
 cd TelemetryAndCommandSample/telemetry_and_command_gen
 cargo build
 cd ../..

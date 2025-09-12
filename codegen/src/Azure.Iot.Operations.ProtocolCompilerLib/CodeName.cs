@@ -27,18 +27,23 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         {
         }
 
-        public CodeName(string baseName, string suffix1, string? suffix2 = null)
-            : this(Extend(baseName, suffix1, suffix2), DecomposeAndExtend(baseName, suffix1, suffix2))
+        public CodeName(string baseName, string suffix1, string? suffix2 = null, string? suffix3 = null)
+            : this(Extend(baseName, suffix1, suffix2, suffix3), DecomposeAndExtend(baseName, suffix1, suffix2, suffix3))
         {
         }
 
         public CodeName(CodeName baseName, string suffix1)
-            : this(Extend(baseName.AsGiven, suffix1, null), baseName.AsComponents.Append(suffix1))
+            : this(Extend(baseName.AsGiven, suffix1, null, null), baseName.AsComponents.Append(suffix1))
         {
         }
 
         public CodeName(CodeName baseName, string suffix1, string suffix2)
-            : this(Extend(baseName.AsGiven, suffix1, suffix2), baseName.AsComponents.Append(suffix1).Append(suffix2))
+            : this(Extend(baseName.AsGiven, suffix1, suffix2, null), baseName.AsComponents.Append(suffix1).Append(suffix2))
+        {
+        }
+
+        public CodeName(CodeName baseName, string suffix1, string suffix2, string suffix3)
+            : this(Extend(baseName.AsGiven, suffix1, suffix2, suffix3), baseName.AsComponents.Append(suffix1).Append(suffix2).Append(suffix3))
         {
         }
 
@@ -72,13 +77,13 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             return AsGiven.GetHashCode();
         }
 
-        public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, bool local = false) => language switch
+        public string GetTypeName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, bool local = false) => language switch
         {
-            TargetLanguage.Independent => AsPascal(suffix1, suffix2, suffix3),
-            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3)),
-            TargetLanguage.Go => Escape(language, local ? AsCamel(suffix1, suffix2, suffix3) : AsPascal(suffix1, suffix2, suffix3)),
-            TargetLanguage.Rust => Escape(language, AsPascal(suffix1, suffix2, suffix3)),
-            _ => AsPascal(suffix1, suffix2, suffix3),
+            TargetLanguage.Independent => AsPascal(suffix1, suffix2, suffix3, suffix4),
+            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, suffix4)),
+            TargetLanguage.Go => Escape(language, local ? AsCamel(suffix1, suffix2, suffix3, suffix4) : AsPascal(suffix1, suffix2, suffix3, suffix4)),
+            TargetLanguage.Rust => Escape(language, AsPascal(suffix1, suffix2, suffix3, suffix4)),
+            _ => AsPascal(suffix1, suffix2, suffix3, suffix4),
         };
 
         public string GetFieldName(TargetLanguage language) => language switch
@@ -92,25 +97,25 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         public string GetMethodName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null) => language switch
         {
-            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Go => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Rust => Escape(language, AsSnake(suffix1, suffix2, suffix3, prefix)),
+            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Go => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Rust => Escape(language, AsSnake(suffix1, suffix2, suffix3, prefix: prefix)),
             _ => throw new ArgumentOutOfRangeException(nameof(language)),
         };
 
         public string GetVariableName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null) => language switch
         {
-            TargetLanguage.CSharp => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Rust => Escape(language, AsSnake(suffix1, suffix2, suffix3, prefix)),
+            TargetLanguage.CSharp => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Rust => Escape(language, AsSnake(suffix1, suffix2, suffix3, prefix: prefix)),
             _ => throw new ArgumentOutOfRangeException(nameof(language)),
         };
 
         public string GetConstantName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null) => language switch
         {
-            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Rust => Escape(language, AsScreamingSnake(suffix1, suffix2, suffix3, prefix)),
+            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Rust => Escape(language, AsScreamingSnake(suffix1, suffix2, suffix3, prefix: prefix)),
             _ => throw new ArgumentOutOfRangeException(nameof(language)),
         };
 
@@ -140,62 +145,76 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         private string[] AsComponents => components;
 
-        private string AsLower(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null)
+        private string AsLower(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, string? prefix = null)
         {
-            return prefix ?? string.Empty + lowerName + suffix1 ?? string.Empty + suffix2 ?? string.Empty + suffix3 ?? string.Empty;
+            return prefix ?? string.Empty + lowerName + suffix1 ?? string.Empty + suffix2 ?? string.Empty + suffix3 ?? string.Empty + suffix4 ?? string.Empty;
         }
 
-        private string AsPascal(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null)
+        private string AsPascal(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, string? prefix = null)
         {
-            return GetCapitalized(prefix) + pascalName + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3);
+            return GetCapitalized(prefix) + pascalName + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3) + GetCapitalized(suffix4);
         }
 
-        private string AsCamel(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null)
+        private string AsCamel(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, string? prefix = null)
         {
             if (!string.IsNullOrEmpty(prefix))
             {
-                return prefix + pascalName + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3);
+                return prefix + pascalName + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3) + GetCapitalized(suffix4);
             }
             else if (!string.IsNullOrEmpty(givenName))
             {
-                return camelName + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3);
+                return camelName + GetCapitalized(suffix1) + GetCapitalized(suffix2) + GetCapitalized(suffix3) + GetCapitalized(suffix4);
             }
             else
             {
-                return suffix1 + GetCapitalized(suffix2) + GetCapitalized(suffix3);
+                return suffix1 + GetCapitalized(suffix2) + GetCapitalized(suffix3) + GetCapitalized(suffix4);
             }
         }
 
-        private string AsSnake(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null)
+        private string AsSnake(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, string? prefix = null)
         {
-            return GetSnakePrefix(prefix) + snakeName + GetSnakeSuffix(suffix1) + GetSnakeSuffix(suffix2) + GetSnakeSuffix(suffix3);
+            return GetSnakePrefix(prefix) + snakeName + GetSnakeSuffix(suffix1) + GetSnakeSuffix(suffix2) + GetSnakeSuffix(suffix3) + GetSnakeSuffix(suffix4);
         }
 
-        private string AsScreamingSnake(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null)
+        private string AsScreamingSnake(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, string? prefix = null)
         {
-            return AsSnake(suffix1, suffix2, suffix3, prefix).ToUpperInvariant();
+            return AsSnake(suffix1, suffix2, suffix3, suffix4, prefix: prefix).ToUpperInvariant();
         }
 
-        private static string Extend(string baseName, string suffix1, string? suffix2)
+        private static string Extend(string baseName, string suffix1, string? suffix2, string? suffix3)
         {
             bool snakeWise = baseName.Contains('_');
             StringBuilder givenName = new(baseName);
             givenName.Append(Extension(suffix1, snakeWise));
+
             if (suffix2 != null)
             {
                 givenName.Append(Extension(suffix2, snakeWise));
             }
+
+            if (suffix3 != null)
+            {
+                givenName.Append(Extension(suffix3, snakeWise));
+            }
+
             return givenName.ToString();
         }
 
-        private static List<string> DecomposeAndExtend(string baseName, string suffix1, string? suffix2)
+        private static List<string> DecomposeAndExtend(string baseName, string suffix1, string? suffix2, string? suffix3)
         {
             List<string> components = Decompose(baseName);
             components.Add(suffix1);
+
             if (suffix2 != null)
             {
                 components.Add(suffix2);
             }
+
+            if (suffix3 != null)
+            {
+                components.Add(suffix3);
+            }
+
             return components;
         }
 

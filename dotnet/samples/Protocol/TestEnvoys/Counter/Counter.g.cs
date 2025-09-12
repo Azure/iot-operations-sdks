@@ -154,7 +154,6 @@ namespace TestEnvoys.Counter
                 return new ExtendedResponse<EmptyJson> { ResponseMetadata = responseMetadata };
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.readCounterCommandExecutor.DisposeAsync().ConfigureAwait(false);

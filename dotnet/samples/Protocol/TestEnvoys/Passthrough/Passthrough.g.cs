@@ -92,7 +92,6 @@ namespace TestEnvoys.Passthrough
                 return new ExtendedResponse<byte[]> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.passCommandExecutor.DisposeAsync().ConfigureAwait(false);

@@ -251,7 +251,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
             }
 <# } #>
-
 <# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
 
             private async Task<ExtendedResponse<<#=propEnvoyInfo.ReadRespSchema.GetTypeName(TargetLanguage.CSharp)#>>> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "read")#>(ExtendedRequest<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>> req, CancellationToken cancellationToken)

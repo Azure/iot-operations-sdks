@@ -124,7 +124,6 @@ namespace TestEnvoys.Math
                 return new ExtendedResponse<GetRandomResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.isPrimeCommandExecutor.DisposeAsync().ConfigureAwait(false);

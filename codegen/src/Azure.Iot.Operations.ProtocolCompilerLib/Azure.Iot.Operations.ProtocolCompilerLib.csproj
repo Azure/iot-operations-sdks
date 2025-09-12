@@ -225,6 +225,11 @@
 		  <LastGenOutput>RustCommandInvokerHeaders.cs</LastGenOutput>
 		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
 		</None>
+		<None Update="T4\communication\rust\Error\t4\RustAggregateError.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>RustAggregateError.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
 		<None Update="T4\communication\rust\Error\t4\RustError.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
 		  <LastGenOutput>RustError.cs</LastGenOutput>
@@ -238,6 +243,16 @@
 		<None Update="T4\communication\rust\Project\t4\RustLib.tt">
 		  <Generator>TextTemplatingFilePreprocessor</Generator>
 		  <LastGenOutput>RustLib.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\rust\Property\t4\RustPropertyConsumer.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>RustPropertyConsumer.cs</LastGenOutput>
+		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
+		</None>
+		<None Update="T4\communication\rust\Property\t4\RustPropertyMaintainer.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>RustPropertyMaintainer.cs</LastGenOutput>
 		  <CustomToolNamespace>Azure.Iot.Operations.ProtocolCompilerLib</CustomToolNamespace>
 		</None>
 		<None Update="T4\communication\rust\Serialization\t4\RustSerialization.tt">
@@ -652,6 +667,11 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>RustCommandInvokerHeaders.tt</DependentUpon>
 		</Compile>
+		<Compile Update="T4\communication\rust\Error\t4\RustAggregateError.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RustAggregateError.tt</DependentUpon>
+		</Compile>
 		<Compile Update="T4\communication\rust\Error\t4\RustError.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
@@ -666,6 +686,16 @@
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>RustLib.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\rust\Property\t4\RustPropertyConsumer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RustPropertyConsumer.tt</DependentUpon>
+		</Compile>
+		<Compile Update="T4\communication\rust\Property\t4\RustPropertyMaintainer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RustPropertyMaintainer.tt</DependentUpon>
 		</Compile>
 		<Compile Update="T4\communication\rust\Serialization\t4\RustSerialization.cs">
 		  <DesignTime>True</DesignTime>

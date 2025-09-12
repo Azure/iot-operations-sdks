@@ -10,9 +10,9 @@
 
         public static CodeName AggregatePropWriteSchema = new CodeName(string.Empty, "property", "update");
 
-        public static CodeName AggregatePropReadRespSchema = new CodeName(AggregatePropSchema, "read", "response");
+        public static CodeName AggregatePropReadRespSchema = new CodeName(AggregatePropSchema, "read", "response", "schema");
 
-        public static CodeName AggregatePropWriteRespSchema = new CodeName(AggregatePropSchema, "write", "response");
+        public static CodeName AggregatePropWriteRespSchema = new CodeName(AggregatePropSchema, "write", "response", "schema");
 
         public static CodeName AggregatePropReadErrSchema = new CodeName(AggregatePropSchema, "read", "error");
 
@@ -28,9 +28,9 @@
 
         public static CodeName GetWritablePropSchema(string propName) => new CodeName(propName, "writable", "property");
 
-        public static CodeName GetPropReadRespSchema(string propName) => new CodeName(propName, "read", "response");
+        public static CodeName GetPropReadRespSchema(string propName) => new CodeName(propName, "read", "response", "schema");
 
-        public static CodeName GetPropWriteRespSchema(string propName) => new CodeName(propName, "write", "response");
+        public static CodeName GetPropWriteRespSchema(string propName) => new CodeName(propName, "write", "response", "schema");
 
         public static CodeName GetCmdReqSchema(string cmdName) => new CodeName(cmdName, "request", "payload");
 

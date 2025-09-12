@@ -84,7 +84,6 @@ namespace ReadCloudEvents.Oven
                 await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.telemetrySender.DisposeAsync().ConfigureAwait(false);

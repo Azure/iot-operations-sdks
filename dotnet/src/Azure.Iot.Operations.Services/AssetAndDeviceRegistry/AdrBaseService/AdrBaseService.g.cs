@@ -396,7 +396,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 }
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.getDeviceCommandExecutor.DisposeAsync().ConfigureAwait(false);

@@ -212,7 +212,6 @@ namespace TestEnvoys.Memmon
                 return new ExtendedResponse<GetRuntimeStatsResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.startTelemetryCommandExecutor.DisposeAsync().ConfigureAwait(false);

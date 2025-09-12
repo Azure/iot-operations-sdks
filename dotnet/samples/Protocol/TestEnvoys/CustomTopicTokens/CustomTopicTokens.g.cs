@@ -122,7 +122,6 @@ namespace TestEnvoys.CustomTopicTokens
                 return new ExtendedResponse<ReadCustomTopicTokenResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.readCustomTopicTokenCommandExecutor.DisposeAsync().ConfigureAwait(false);
