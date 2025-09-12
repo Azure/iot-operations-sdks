@@ -3,7 +3,7 @@ module github.com/Azure/iot-operations-sdks/go/samples/services/leasedlock
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.0
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.1
 	github.com/Azure/iot-operations-sdks/go/protocol v0.4.1
 	github.com/Azure/iot-operations-sdks/go/services v0.4.0
 	github.com/google/uuid v1.6.0

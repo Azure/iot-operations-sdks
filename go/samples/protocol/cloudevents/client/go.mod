@@ -3,7 +3,7 @@ module github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/clie
 go 1.24.0
 
 require (
-	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.0
+	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.1
 	github.com/Azure/iot-operations-sdks/go/protocol v0.4.1
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envoy v0.0.0
 	github.com/lmittmann/tint v1.0.7
