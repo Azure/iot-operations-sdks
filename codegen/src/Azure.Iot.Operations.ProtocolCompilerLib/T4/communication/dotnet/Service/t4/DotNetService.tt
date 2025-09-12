@@ -8,7 +8,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
     using System;
     using System.Collections.Generic;
     using System.Linq;
-<# if (this.cmdEnvoyInfos.Any() || this.telemEnvoyInfos.Any()) { #>
+<# if (this.cmdEnvoyInfos.Any() || this.propEnvoyInfos.Any() || this.telemEnvoyInfos.Any()) { #>
     using System.Threading;
 <# } #>
     using System.Threading.Tasks;
@@ -23,6 +23,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
 <# if (this.commandTopic != null) { #>
     [CommandTopic("<#=this.commandTopic#>")]
+<# } #>
+<# if (this.propertyTopic != null) { #>
+    [PropertyTopic("<#=this.propertyTopic#>")]
 <# } #>
 <# if (this.telemetryTopic != null) { #>
     [TelemetryTopic("<#=this.telemetryTopic#>")]
@@ -40,6 +43,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             private IMqttPubSubClient mqttClient;
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
             private readonly <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> <#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>;
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+            private readonly <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "maintainer")#>.<#=EnvoyNames.ReadResponderEnvoyName.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>;
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+            private readonly <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "maintainer")#>.<#=EnvoyNames.WriteResponderEnvoyName.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>;
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
             private readonly <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#> <#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>;
@@ -69,6 +78,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#> = new <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "executor")#>(applicationContext, mqttClient) { OnCommandReceived = <#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "int")#> };
 <# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#> = new <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "maintainer")#>.<#=EnvoyNames.ReadResponderEnvoyName.GetTypeName(TargetLanguage.CSharp)#>(applicationContext, mqttClient) { OnCommandReceived = <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "read")#> };
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#> = new <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "maintainer")#>.<#=EnvoyNames.WriteResponderEnvoyName.GetTypeName(TargetLanguage.CSharp)#>(applicationContext, mqttClient) { OnCommandReceived = <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "write")#> };
+<# } #>
+<# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                 this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#> = new <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "sender")#>(applicationContext, mqttClient);
 <# } #>
@@ -80,6 +95,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                         this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
 <# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                        this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                        this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# } #>
+<# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                         this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
 <# } #>
@@ -89,10 +110,24 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.TopicTokenMap.TryAdd("executorId", clientId);
 <# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.TopicTokenMap.TryAdd("maintainerId", clientId);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.TopicTokenMap.TryAdd("maintainerId", clientId);
+<# } #>
+<# } #>
             }
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
             public <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "executor")#> { get => this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>; }
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+
+            public <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "maintainer")#>.<#=EnvoyNames.ReadResponderEnvoyName.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetTypeName(TargetLanguage.CSharp, "read", "responder")#> { get => this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>; }
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+
+            public <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "maintainer")#>.<#=EnvoyNames.WriteResponderEnvoyName.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetTypeName(TargetLanguage.CSharp, "write", "responder")#> { get => this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>; }
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
 
@@ -105,6 +140,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             {
                 return <#=this.EmptyResp(cmdEnvoyInfo)#>;
             }
+<# } #>
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+
+            public abstract Task<ExtendedResponse<<#=propEnvoyInfo.PropSchema.GetTypeName(TargetLanguage.CSharp)#>>> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "async", prefix: "read")#>(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+
+            public abstract Task<CommandResponseMetadata?> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "async", prefix: "write")#>(<#=propEnvoyInfo.WriteReqSchema.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp)#>, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 <# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
@@ -133,7 +176,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 <# } #>
-<# if (this.cmdEnvoyInfos.Any()) { #>
+<# if (this.cmdEnvoyInfos.Any() || this.propEnvoyInfos.Any()) { #>
 
             /// <summary>
             /// Begin accepting command invocations for all command executors.
@@ -152,6 +195,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                     this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StartAsync(preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(cmdEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                    this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.StartAsync(preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(propEnvoyInfo) && propEnvoyInfo.WriteReqSchema == null ? ").ConfigureAwait(false);" : ","#>
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                    this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.StartAsync(preferredDispatchConcurrency, cancellationToken)<#=this.IsLast(propEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
+<# } #>
+<# } #>
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -159,6 +208,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 await Task.WhenAll(
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                     this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.StopAsync(cancellationToken)<#=this.IsLast(cmdEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                    this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.StopAsync(cancellationToken)<#=this.IsLast(propEnvoyInfo) && propEnvoyInfo.WriteReqSchema == null ? ").ConfigureAwait(false);" : ","#>
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                    this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.StopAsync(cancellationToken)<#=this.IsLast(propEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
+<# } #>
 <# } #>
             }
 <# } #>
@@ -169,7 +224,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# if (cmdEnvoyInfo.ErrorResultName != null) { #>
                 try
                 {
-                    <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
+                    <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "async")#>(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
 
                     return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>>
                     {
@@ -191,16 +246,81 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                     return extendedResponse;
                 }
 <# } else { #>
-                <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp)#>Async(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
+                <#=this.IntLValue(cmdEnvoyInfo)#>await this.<#=cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "async")#>(<#=this.ReqArgs(cmdEnvoyInfo, "req")#>, cancellationToken);
                 return new ExtendedResponse<<#=this.SchemaType(cmdEnvoyInfo.ResponseSchema)#>> { <#=this.IntRValue(cmdEnvoyInfo)#>};
 <# } #>
             }
+<# } #>
+
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+
+            private async Task<ExtendedResponse<<#=propEnvoyInfo.ReadRespSchema.GetTypeName(TargetLanguage.CSharp)#>>> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "read")#>(ExtendedRequest<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>> req, CancellationToken cancellationToken)
+            {
+<# if (propEnvoyInfo.ReadErrorName != null) { #>
+                try
+                {
+                    ExtendedResponse<<#=propEnvoyInfo.PropSchema.GetTypeName(TargetLanguage.CSharp)#>> extended = await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "async", prefix: "read")#>(req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<<#=propEnvoyInfo.ReadRespSchema.GetTypeName(TargetLanguage.CSharp)#>>
+                    {
+                        Response = new <#=propEnvoyInfo.ReadRespSchema.GetTypeName(TargetLanguage.CSharp)#> { <#=propEnvoyInfo.PropValueName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response<#=this.separateProperties ? $".{propEnvoyInfo.PropValueName.GetFieldName(TargetLanguage.CSharp)}" : ""#> },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (<#=propEnvoyInfo.ReadErrorSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> intEx)
+                {
+                    ExtendedResponse<<#=this.SchemaType(propEnvoyInfo.ReadRespSchema)#>> extendedResponse = ExtendedResponse<<#=this.SchemaType(propEnvoyInfo.ReadRespSchema)#>>.CreateFromResponse(new <#=this.SchemaType(propEnvoyInfo.ReadRespSchema)#> { <#=propEnvoyInfo.ReadErrorName.GetFieldName(TargetLanguage.CSharp)#> = intEx.<#=propEnvoyInfo.ReadErrorSchema.GetFieldName(TargetLanguage.CSharp)#> });
+                    return extendedResponse;
+                }
+<# } else { #>
+                return await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "async", prefix: "read")#>(req.RequestMetadata!, cancellationToken);
+<# } #>
+            }
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+
+            private async Task<ExtendedResponse<<#=(propEnvoyInfo.WriteRespSchema ?? this.serializerEmptyType).GetTypeName(TargetLanguage.CSharp)#>>> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "write")#>(ExtendedRequest<<#=propEnvoyInfo.WriteReqSchema.GetTypeName(TargetLanguage.CSharp)#>> req, CancellationToken cancellationToken)
+            {
+<# if (propEnvoyInfo.WriteRespSchema != null) { #>
+                try
+                {
+                    CommandResponseMetadata? respMetadata = await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "async", prefix: "write")#>(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<<#=propEnvoyInfo.WriteRespSchema.GetTypeName(TargetLanguage.CSharp)#>>
+                    {
+                        Response = new <#=propEnvoyInfo.WriteRespSchema.GetTypeName(TargetLanguage.CSharp)#>
+                        {
+                            <#=propEnvoyInfo.WriteErrorName.GetFieldName(TargetLanguage.CSharp)#> = null,
+                        },
+                        ResponseMetadata = respMetadata,
+                    };
+                }
+                catch (<#=propEnvoyInfo.WriteErrorSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> intEx)
+                {
+                    ExtendedResponse<<#=this.SchemaType(propEnvoyInfo.WriteRespSchema)#>> extendedResponse = ExtendedResponse<<#=this.SchemaType(propEnvoyInfo.WriteRespSchema)#>>.CreateFromResponse(new <#=this.SchemaType(propEnvoyInfo.WriteRespSchema)#> { <#=propEnvoyInfo.WriteErrorName.GetFieldName(TargetLanguage.CSharp)#> = intEx.<#=propEnvoyInfo.WriteErrorSchema.GetFieldName(TargetLanguage.CSharp)#> });
+                    return extendedResponse;
+                }
+<# } else { #>
+                CommandResponseMetadata? respMetadata = await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "async", prefix: "write")#>(req.Request!, req.RequestMetadata!, cancellationToken);
+                return new ExtendedResponse<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>>
+                {
+                    Response = new <#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>(),
+                    ResponseMetadata = respMetadata,
+                };
+<# } #>
+            }
+<# } #>
 <# } #>
 
             public async ValueTask DisposeAsync()
             {
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync().ConfigureAwait(false);
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.DisposeAsync().ConfigureAwait(false);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.DisposeAsync().ConfigureAwait(false); 
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                 await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.DisposeAsync().ConfigureAwait(false);
@@ -211,6 +331,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             {
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.DisposeAsync(disposing).ConfigureAwait(false); 
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                 await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.DisposeAsync(disposing).ConfigureAwait(false);
@@ -225,12 +351,18 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# if (this.telemServiceGroupId != null) { #>
         [ServiceGroupId("<#=this.telemServiceGroupId#>")]
 <# } #>
-        public abstract partial class Client<#=this.cmdEnvoyInfos.Any() ? " : IAsyncDisposable" : ""#>
+        public abstract partial class Client<#=this.cmdEnvoyInfos.Any() || this.propEnvoyInfos.Any() ? " : IAsyncDisposable" : ""#>
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
             private readonly <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> <#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>;
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+            private readonly <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "consumer")#>.<#=EnvoyNames.ReadRequesterEnvoyName.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#>;
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+            private readonly <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "consumer")#>.<#=EnvoyNames.WriteRequesterEnvoyName.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#>;
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
             private readonly <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#> <#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>;
@@ -252,28 +384,47 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#> = new <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#>(applicationContext, mqttClient);
-                if (topicTokenMap != null)
-                {
-                    foreach (string topicTokenKey in topicTokenMap.Keys)
-                    {
-                        this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                    }
-                }
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#> = new <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "consumer")#>.<#=EnvoyNames.ReadRequesterEnvoyName.GetTypeName(TargetLanguage.CSharp)#>(applicationContext, mqttClient);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#> = new <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "consumer")#>.<#=EnvoyNames.WriteRequesterEnvoyName.GetTypeName(TargetLanguage.CSharp)#>(applicationContext, mqttClient);
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                 this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#> = new <#=telemEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "telemetry", "receiver")#>(applicationContext, mqttClient) { OnTelemetryReceived = this.<#=this.TelemMethodName(telemEnvoyInfo, "receive")#> };
+<# } #>
+
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                        this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                        this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                        this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# } #>
+<# } #>
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                         this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+<# } #>
                     }
                 }
-<# } #>
             }
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
 
             public <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> <#=cmdEnvoyInfo.Name.GetTypeName(TargetLanguage.CSharp, "command", "invoker")#> { get => this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>; }
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+
+            public <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "consumer")#>.<#=EnvoyNames.ReadRequesterEnvoyName.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetTypeName(TargetLanguage.CSharp, "read", "requester")#> { get => this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#>; }
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+
+            public <#=(propEnvoyInfo.Name ?? new CodeName(string.Empty)).GetTypeName(TargetLanguage.CSharp, "property", "consumer")#>.<#=EnvoyNames.WriteRequesterEnvoyName.GetTypeName(TargetLanguage.CSharp)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetTypeName(TargetLanguage.CSharp, "write", "requester")#> { get => this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#>; }
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
 
@@ -329,8 +480,62 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 prefixedAdditionalTopicTokenMap["executorId"] = executorId;
 <# } #>
 
-                return new <#=this.CallAsyncType(cmdEnvoyInfo)#>(this.<#=this.IntMethod(cmdEnvoyInfo)#>(<#=cmdEnvoyInfo.RequestSchema != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp) #>, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new <#=this.CallAsyncType(cmdEnvoyInfo)#>(this.<#=this.IntMethod(cmdEnvoyInfo)#>(<#=cmdEnvoyInfo.RequestSchema != null ? $"request" : this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp)#>, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+
+            public <#=this.CallAsyncType(propEnvoyInfo)#> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "async", prefix: "read")#>(<#=this.MaintParam()#>CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before requesting to read property.");
+                }
+
+                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+
+                prefixedAdditionalTopicTokenMap["consumerClientId"] = clientId;
+<# if (this.doesPropertyTargetMaintainer) { #>
+                prefixedAdditionalTopicTokenMap["maintainerId"] = maintainerId;
+<# } #>
+
+                return new <#=this.CallAsyncType(propEnvoyInfo)#>(this.<#=this.IntReadMethod(propEnvoyInfo)#>(<#=this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp)#>, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+            }
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+
+            public RpcCallAsync<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "async", prefix: "write")#>(<#=this.MaintParam()#><#=propEnvoyInfo.WriteReqSchema.GetTypeName(TargetLanguage.CSharp)#> request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before requesting to write property.");
+                }
+
+                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+
+                prefixedAdditionalTopicTokenMap["consumerClientId"] = clientId;
+<# if (this.doesPropertyTargetMaintainer) { #>
+                prefixedAdditionalTopicTokenMap["maintainerId"] = maintainerId;
+<# } #>
+
+                return new RpcCallAsync<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>>(this.<#=this.IntWriteMethod(propEnvoyInfo)#>(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+            }
+<# } #>
 <# } #>
 <# if (this.telemEnvoyInfos.Any()) { #>
 
@@ -402,11 +607,74 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             }
 <# } #>
 <# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+<# if (propEnvoyInfo.ReadErrorName != null) { #>
+
+            private async Task<ExtendedResponse<<#=this.SchemaType(propEnvoyInfo.PropSchema)#>>> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "read")#>(<#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#> request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<<#=this.SchemaType(propEnvoyInfo.ReadRespSchema)#>> extended = await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#>.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+
+                if (extended.Response.<#=propEnvoyInfo.ReadErrorName.GetFieldName(TargetLanguage.CSharp)#> != null)
+                {
+                    <#=propEnvoyInfo.ReadErrorSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> <#=propEnvoyInfo.ReadErrorSchema.GetVariableName(TargetLanguage.CSharp, "exception")#> = new <#=propEnvoyInfo.ReadErrorSchema.GetTypeName(TargetLanguage.CSharp, "exception")#>(extended.Response.<#=propEnvoyInfo.ReadErrorName.GetFieldName(TargetLanguage.CSharp)#>);
+                    throw <#=propEnvoyInfo.ReadErrorSchema.GetVariableName(TargetLanguage.CSharp, "exception")#>;
+                }
+                else if (extended.Response.<#=propEnvoyInfo.PropValueName.GetFieldName(TargetLanguage.CSharp)#> == null)
+                {
+                    throw new AkriMqttException("Property read response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<<#=this.SchemaType(propEnvoyInfo.PropSchema)#>>
+                    {
+<# if (this.separateProperties) { #>
+                        Response = new <#=this.SchemaType(propEnvoyInfo.PropSchema)#> { <#=propEnvoyInfo.PropValueName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=propEnvoyInfo.PropValueName.GetFieldName(TargetLanguage.CSharp)#>.Value() },
+<# } else { #>
+                        Response = extended.Response.<#=propEnvoyInfo.PropValueName.GetFieldName(TargetLanguage.CSharp)#>,
+<# } #>
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+<# } #>
+<# if (propEnvoyInfo.WriteErrorName != null) { #>
+
+            private async Task<ExtendedResponse<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>>> <#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "write")#>(<#=propEnvoyInfo.WriteReqSchema.GetTypeName(TargetLanguage.CSharp)#> request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<<#=this.SchemaType(propEnvoyInfo.WriteRespSchema)#>> extended = await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#>.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+
+                if (extended.Response.<#=propEnvoyInfo.WriteErrorName.GetFieldName(TargetLanguage.CSharp)#> != null)
+                {
+                    <#=propEnvoyInfo.WriteErrorSchema.GetTypeName(TargetLanguage.CSharp, "exception")#> <#=propEnvoyInfo.WriteErrorSchema.GetVariableName(TargetLanguage.CSharp, "exception")#> = new <#=propEnvoyInfo.WriteErrorSchema.GetTypeName(TargetLanguage.CSharp, "exception")#>(extended.Response.<#=propEnvoyInfo.WriteErrorName.GetFieldName(TargetLanguage.CSharp)#>);
+                    throw <#=propEnvoyInfo.WriteErrorSchema.GetVariableName(TargetLanguage.CSharp, "exception")#>;
+                }
+                else
+                {
+                    return new ExtendedResponse<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp)#>>
+                    {
+                        Response = <#=this.serializerEmptyType.GetAllocator(TargetLanguage.CSharp)#>,
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+<# } #>
+<# } #>
 
             public async ValueTask DisposeAsync()
             {
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync().ConfigureAwait(false);
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#>.DisposeAsync().ConfigureAwait(false);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#>.DisposeAsync().ConfigureAwait(false); 
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                 await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.DisposeAsync().ConfigureAwait(false);
@@ -417,6 +685,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             {
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# } #>
+<# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# if (propEnvoyInfo.WriteReqSchema != null) { #>
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#>.DisposeAsync(disposing).ConfigureAwait(false); 
+<# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                 await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.DisposeAsync(disposing).ConfigureAwait(false);
@@ -445,13 +719,23 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 
     private string CallAsyncType(CommandEnvoyInfo cmdEnvoyInfo) => $"RpcCallAsync<{this.SchemaType(cmdEnvoyInfo.NormalResultSchema ?? cmdEnvoyInfo.ResponseSchema)}>";
 
+    private string CallAsyncType(PropertyEnvoyInfo propEnvoyInfo) => $"RpcCallAsync<{this.SchemaType(propEnvoyInfo.PropSchema)}>";
+
     private string IntMethod(CommandEnvoyInfo cmdEnvoyInfo) => cmdEnvoyInfo.ErrorResultName != null ? cmdEnvoyInfo.Name.GetMethodName(TargetLanguage.CSharp, "int") : $"{cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")}.InvokeCommandAsync";
+
+    private string IntReadMethod(PropertyEnvoyInfo propEnvoyInfo) => propEnvoyInfo.ReadErrorName != null ? (propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "read") : $"{(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")}.InvokeCommandAsync";
+
+    private string IntWriteMethod(PropertyEnvoyInfo propEnvoyInfo) => propEnvoyInfo.WriteErrorName != null ? (propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetMethodName(TargetLanguage.CSharp, "int", prefix: "write") : $"{(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")}.InvokeCommandAsync";
 
     private string SchemaType(ITypeName schema) => schema?.GetTypeName(TargetLanguage.CSharp) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.CSharp);
 
     private string ExecParam() => this.doesCommandTargetExecutor ? "string executorId, " : "";
 
-    private bool IsLast(CommandEnvoyInfo cmdEnvoyInfo) => cmdEnvoyInfo.Name.AsGiven == this.cmdEnvoyInfos.Last().Name.AsGiven;
+    private string MaintParam() => this.doesPropertyTargetMaintainer ? "string maintainerId, " : "";
+
+    private bool IsLast(CommandEnvoyInfo cmdEnvoyInfo) => cmdEnvoyInfo.Name.AsGiven == this.cmdEnvoyInfos.Last().Name.AsGiven && !this.propEnvoyInfos.Any();
+
+    private bool IsLast(PropertyEnvoyInfo propEnvoyInfo) => propEnvoyInfo.Name == null || propEnvoyInfo.Name.AsGiven == this.propEnvoyInfos.Last().Name.AsGiven;
 
     private bool IsLast(TelemetryEnvoyInfo telemEnvoyInfo) => telemEnvoyInfo.Name.AsGiven == this.telemEnvoyInfos.Last().Name.AsGiven;
 

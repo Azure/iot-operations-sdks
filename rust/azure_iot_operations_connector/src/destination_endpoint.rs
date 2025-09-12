@@ -170,7 +170,7 @@ impl Forwarder {
                     .set(
                         key.clone().into(),
                         data.payload,
-                        self.connector_context.default_timeout,
+                        self.connector_context.state_store_timeout,
                         None,
                         state_store::SetOptions {
                             expires: None, // TODO: expiry?

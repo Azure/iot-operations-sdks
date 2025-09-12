@@ -27,8 +27,12 @@ pub(crate) struct ConnectorContext {
     connector_artifacts: ConnectorArtifacts,
     /// Debounce duration for filemount operations for the connector
     debounce_duration: Duration,
-    /// Default timeout for connector operations
-    pub(crate) default_timeout: Duration,
+    /// Timeout for Azure Device Registry operations
+    pub(crate) azure_device_registry_timeout: Duration,
+    /// Timeout for Schema Registry operations
+    pub(crate) schema_registry_timeout: Duration,
+    /// Timeout for State Store operations
+    pub(crate) state_store_timeout: Duration,
     /// Clients used to perform connector operations
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
     pub(crate) state_store_client: Arc<state_store::Client<SessionManagedClient>>,
@@ -40,7 +44,12 @@ impl std::fmt::Debug for ConnectorContext {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ConnectorContext")
             .field("debounce_duration", &self.debounce_duration)
-            .field("default_timeout", &self.default_timeout)
+            .field(
+                "azure_device_registry_timeout",
+                &self.azure_device_registry_timeout,
+            )
+            .field("schema_registry_timeout", &self.schema_registry_timeout)
+            .field("state_store_timeout", &self.state_store_timeout)
             .finish()
     }
 }
@@ -100,9 +109,15 @@ impl BaseConnector {
 
         Ok(Self {
             connector_context: Arc::new(ConnectorContext {
-                // TODO: validate these timeouts here once they come from somewhere
-                debounce_duration: Duration::from_secs(5), // TODO: come from somewhere
-                default_timeout: Duration::from_secs(10),  // TODO: come from somewhere
+                // TODO: These timeouts should come from somewhere, specifically, probably the artifacts.
+                // These will need to be configured by the connector deployer, not the connector author,
+                // so exposing them through API is not the correct solution.
+                debounce_duration: Duration::from_secs(5),
+                azure_device_registry_timeout: Duration::from_secs(10),
+                // NOTE (2025-09-12): Schema Registry has an issue with scale causing throttling,
+                // so this value has been set very high. This is probably not ideal.
+                schema_registry_timeout: Duration::from_secs(90),
+                state_store_timeout: Duration::from_secs(10),
                 application_context,
                 managed_client: session.create_managed_client(),
                 connector_artifacts,
