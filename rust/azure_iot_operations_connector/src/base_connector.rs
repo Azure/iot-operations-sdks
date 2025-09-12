@@ -114,7 +114,7 @@ impl BaseConnector {
                 // so exposing them through API is not the correct solution.
                 debounce_duration: Duration::from_secs(5),
                 azure_device_registry_timeout: Duration::from_secs(10),
-                // NOTE (09/12/2025): Schema Registry has an issue with scale causing throttling,
+                // NOTE (2025-09-12): Schema Registry has an issue with scale causing throttling,
                 // so this value has been set very high. This is probably not ideal.
                 schema_registry_timeout: Duration::from_secs(90),
                 state_store_timeout: Duration::from_secs(10),
