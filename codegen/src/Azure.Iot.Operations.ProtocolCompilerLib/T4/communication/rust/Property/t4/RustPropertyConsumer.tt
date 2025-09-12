@@ -92,7 +92,7 @@ impl <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "request", "b
 
 <# if (this.doesPropertyTargetMaintainer) { #>
     /// Target maintainer ID
-    pub fn maintainer_id(&mut self, executor_id: &str) -> &mut Self {
+    pub fn maintainer_id(&mut self, maintainer_id: &str) -> &mut Self {
         self.topic_tokens
             .insert("maintainerId".to_string(), maintainer_id.to_string());
         self.set_maintainer_id = true;
