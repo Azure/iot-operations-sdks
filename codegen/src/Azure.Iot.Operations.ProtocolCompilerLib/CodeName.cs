@@ -97,25 +97,25 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         public string GetMethodName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null) => language switch
         {
-            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Go => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Rust => Escape(language, AsSnake(suffix1, suffix2, suffix3, prefix)),
+            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Go => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Rust => Escape(language, AsSnake(suffix1, suffix2, suffix3, prefix: prefix)),
             _ => throw new ArgumentOutOfRangeException(nameof(language)),
         };
 
         public string GetVariableName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null) => language switch
         {
-            TargetLanguage.CSharp => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Rust => Escape(language, AsSnake(suffix1, suffix2, suffix3, prefix)),
+            TargetLanguage.CSharp => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Rust => Escape(language, AsSnake(suffix1, suffix2, suffix3, prefix: prefix)),
             _ => throw new ArgumentOutOfRangeException(nameof(language)),
         };
 
         public string GetConstantName(TargetLanguage language, string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? prefix = null) => language switch
         {
-            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix)),
-            TargetLanguage.Rust => Escape(language, AsScreamingSnake(suffix1, suffix2, suffix3, prefix)),
+            TargetLanguage.CSharp => Escape(language, AsPascal(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Go => Escape(language, AsCamel(suffix1, suffix2, suffix3, prefix: prefix)),
+            TargetLanguage.Rust => Escape(language, AsScreamingSnake(suffix1, suffix2, suffix3, prefix: prefix)),
             _ => throw new ArgumentOutOfRangeException(nameof(language)),
         };
 
@@ -178,7 +178,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
         private string AsScreamingSnake(string? suffix1 = null, string? suffix2 = null, string? suffix3 = null, string? suffix4 = null, string? prefix = null)
         {
-            return AsSnake(suffix1, suffix2, suffix3, suffix4, prefix).ToUpperInvariant();
+            return AsSnake(suffix1, suffix2, suffix3, suffix4, prefix: prefix).ToUpperInvariant();
         }
 
         private static string Extend(string baseName, string suffix1, string? suffix2, string? suffix3)
