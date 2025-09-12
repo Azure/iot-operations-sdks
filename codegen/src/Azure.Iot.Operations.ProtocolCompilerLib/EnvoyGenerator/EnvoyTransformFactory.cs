@@ -70,9 +70,10 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     throw new Exception($"Model {modelId} has at least one writable Property content but {DtdlMqttExtensionValues.GetStandardTerm(DtdlMqttExtensionValues.PropTopicPropertyFormat)} does not contain {MqttTopicTokens.PropertyAction} token");
                 }
 
+                bool doesPropertyTargetMaintainer = DoesTopicReferToMaintainer(propertyTopic);
                 foreach (JsonElement propEl in propsElt.EnumerateArray())
                 {
-                    foreach (ITemplateTransform templateTransform in GetPropertyTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, propEl, propEnvoyInfos, workingPath, generateClient, generateServer))
+                    foreach (ITemplateTransform templateTransform in GetPropertyTransforms(language, projectName, genNamespace, modelId, serviceName, genFormat, propEl, propEnvoyInfos, workingPath, generateClient, generateServer, doesPropertyTargetMaintainer, separateProperties))
                     {
                         yield return templateTransform;
                     }
@@ -235,7 +236,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             telemEnvoyInfos.Add(new TelemetryEnvoyInfo(telemetryName, schemaType));
         }
 
-        private static IEnumerable<ITemplateTransform> GetPropertyTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, JsonElement propElt, List<PropertyEnvoyInfo> propEnvoyInfos, string? workingPath, bool generateClient, bool generateServer)
+        private static IEnumerable<ITemplateTransform> GetPropertyTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, JsonElement propElt, List<PropertyEnvoyInfo> propEnvoyInfos, string? workingPath, bool generateClient, bool generateServer, bool doesPropertyTargetMaintainer, bool separateProperties)
         {
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             string serializerClassName = formatSerializers[genFormat].ClassName;
@@ -243,29 +244,31 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
             CodeName? propertyName = propElt.TryGetProperty(AnnexFileProperties.PropName, out JsonElement nameElt) ? new CodeName(nameElt.GetString()!) : null;
             CodeName propSchema = new CodeName(propElt.GetProperty(AnnexFileProperties.PropSchema).GetString()!);
-            CodeName readResponseSchema = new CodeName(propElt.GetProperty(AnnexFileProperties.PropReadRespSchema).GetString()!);
+            CodeName readRespSchema = new CodeName(propElt.GetProperty(AnnexFileProperties.PropReadRespSchema).GetString()!);
             CodeName? readRespNamespace = propElt.TryGetProperty(AnnexFileProperties.PropReadRespNamespace, out JsonElement readRespNamespaceElt) ? new(readRespNamespaceElt.GetString()!) : null;
-            CodeName? writeRequestSchema = propElt.TryGetProperty(AnnexFileProperties.PropWriteReqSchema, out JsonElement writeRequestSchemaElt) ? new(writeRequestSchemaElt.GetString()!) : null;
+            CodeName? writeReqSchema = propElt.TryGetProperty(AnnexFileProperties.PropWriteReqSchema, out JsonElement writeRequestSchemaElt) ? new(writeRequestSchemaElt.GetString()!) : null;
             CodeName? writeReqNamespace = propElt.TryGetProperty(AnnexFileProperties.PropWriteReqNamespace, out JsonElement writeReqNamespaceElt) ? new(writeReqNamespaceElt.GetString()!) : null;
-            CodeName? writeResponseSchema = propElt.TryGetProperty(AnnexFileProperties.PropWriteRespSchema, out JsonElement writeResponseSchemaElt) ? new(writeResponseSchemaElt.GetString()!) : null;
+            CodeName? writeRespSchema = propElt.TryGetProperty(AnnexFileProperties.PropWriteRespSchema, out JsonElement writeResponseSchemaElt) ? new(writeResponseSchemaElt.GetString()!) : null;
             CodeName? writeRespNamespace = propElt.TryGetProperty(AnnexFileProperties.PropWriteRespNamespace, out JsonElement writeRespNamespaceElt) ? new(writeRespNamespaceElt.GetString()!) : null;
             CodeName? propValueName = propElt.TryGetProperty(AnnexFileProperties.PropValueName, out JsonElement propValueNameElt) ? new(propValueNameElt.GetString()!) : null;
             CodeName? readErrorName = propElt.TryGetProperty(AnnexFileProperties.PropReadErrorName, out JsonElement readErrorNameElt) ? new(readErrorNameElt.GetString()!) : null;
             CodeName? readErrorSchema = propElt.TryGetProperty(AnnexFileProperties.PropReadErrorSchema, out JsonElement readErrorSchemaElt) ? new(readErrorSchemaElt.GetString()!) : null;
+            CodeName? readErrorNamespace = propElt.TryGetProperty(AnnexFileProperties.PropReadErrorNamespace, out JsonElement readErrorNamespaceElt) ? new(readErrorNamespaceElt.GetString()!) : null;
             CodeName? writeErrorName = propElt.TryGetProperty(AnnexFileProperties.PropWriteErrorName, out JsonElement writeErrorNameElt) ? new(writeErrorNameElt.GetString()!) : null;
             CodeName? writeErrorSchema = propElt.TryGetProperty(AnnexFileProperties.PropWriteErrorSchema, out JsonElement writeErrorSchemaElt) ? new(writeErrorSchemaElt.GetString()!) : null;
+            CodeName? writeErrorNamespace = propElt.TryGetProperty(AnnexFileProperties.PropWriteErrorNamespace, out JsonElement writeErrorNamespaceElt) ? new(writeErrorNamespaceElt.GetString()!) : null;
 
             switch (language)
             {
                 case "csharp":
                     if (generateServer)
                     {
-                        yield return new DotNetPropertyMaintainer(propertyName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, readResponseSchema, readRespNamespace, writeRequestSchema, writeReqNamespace, writeResponseSchema, writeRespNamespace);
+                        yield return new DotNetPropertyMaintainer(propertyName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, readRespSchema, readRespNamespace, writeReqSchema, writeReqNamespace, writeRespSchema, writeRespNamespace);
                     }
 
                     if (generateClient)
                     {
-                        yield return new DotNetPropertyConsumer(propertyName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, readResponseSchema, readRespNamespace, writeRequestSchema, writeReqNamespace, writeResponseSchema, writeRespNamespace);
+                        yield return new DotNetPropertyConsumer(propertyName, projectName, genNamespace, modelId, serviceName, serializerSubNamespace, serializerClassName, serializerEmptyType, readRespSchema, readRespNamespace, writeReqSchema, writeReqNamespace, writeRespSchema, writeRespNamespace);
                     }
 
                     break;
@@ -276,6 +279,43 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 case "python":
                     break;
                 case "rust":
+                    if (generateServer)
+                    {
+                        yield return new RustPropertyMaintainer(propertyName, propSchema, genNamespace, serializerEmptyType, readRespSchema, readRespNamespace, writeReqSchema, writeReqNamespace, writeRespSchema, writeRespNamespace, propValueName, readErrorName, readErrorSchema, readErrorNamespace, writeErrorName, writeErrorSchema, writeErrorNamespace, doesPropertyTargetMaintainer, separateProperties);
+                    }
+
+                    if (generateClient)
+                    {
+                        yield return new RustPropertyConsumer(propertyName, propSchema, genNamespace, serializerEmptyType, readRespSchema, readRespNamespace, writeReqSchema, writeReqNamespace, writeRespSchema, writeRespNamespace, propValueName, readErrorName, readErrorSchema, readErrorNamespace, writeErrorName, writeErrorSchema, writeErrorNamespace, doesPropertyTargetMaintainer, separateProperties);
+                    }
+
+                    yield return new RustSerialization(genNamespace, genFormat, propSchema, workingPath);
+
+                    if (!readRespSchema.Equals(propSchema))
+                    {
+                        yield return new RustSerialization(readRespNamespace ?? genNamespace, genFormat, readRespSchema, workingPath);
+                    }
+
+                    if (writeReqSchema != null && !writeReqSchema.Equals(readRespSchema) && !writeReqSchema.Equals(propSchema))
+                    {
+                        yield return new RustSerialization(writeReqNamespace ?? genNamespace, genFormat, writeReqSchema, workingPath);
+                    }
+
+                    if (writeRespSchema != null)
+                    {
+                        yield return new RustSerialization(writeRespNamespace ?? genNamespace, genFormat, writeRespSchema, workingPath);
+                    }
+
+                    if (readErrorSchema != null)
+                    {
+                        yield return new RustSerialization(readErrorNamespace ?? genNamespace, genFormat, readErrorSchema, workingPath);
+                    }
+
+                    if (writeErrorSchema != null && !writeErrorSchema.Equals(readErrorSchema))
+                    {
+                        yield return new RustSerialization(writeErrorNamespace ?? genNamespace, genFormat, writeErrorSchema, workingPath);
+                    }
+
                     break;
                 case "c":
                     break;
@@ -283,7 +323,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     throw GetLanguageNotRecognizedException(language);
             }
 
-            propEnvoyInfos.Add(new PropertyEnvoyInfo(propertyName, propSchema, readResponseSchema, writeRequestSchema, writeResponseSchema, propValueName, readErrorName, readErrorSchema, writeErrorName, writeErrorSchema));
+            propEnvoyInfos.Add(new PropertyEnvoyInfo(propertyName, propSchema, readRespSchema, writeReqSchema, writeRespSchema, propValueName, readErrorName, readErrorSchema, writeErrorName, writeErrorSchema));
         }
 
         private static IEnumerable<ITemplateTransform> GetCommandTransforms(string language, string projectName, CodeName genNamespace, string modelId, CodeName serviceName, string genFormat, string? commandTopic, JsonElement cmdElt, List<CommandEnvoyInfo> cmdEnvoyInfos, string? normalizedVersionSuffix, string? workingPath, bool generateClient, bool generateServer, bool useSharedSubscription)
@@ -508,6 +548,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 case "python":
                     break;
                 case "rust":
+                    yield return new RustAggregateError(schemaName, schemaNamespace, innerNameSchemas);
                     break;
                 case "c":
                     break;
@@ -520,7 +561,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         {
             bool doesCommandTargetExecutor = DoesTopicReferToExecutor(commandTopic);
             bool doesCommandTargetService = DoesTopicReferToService(commandTopic);
-            bool doesPropertyTargetMaintainer = DoesTopicReferToMaintainer(commandTopic);
+            bool doesPropertyTargetMaintainer = DoesTopicReferToMaintainer(propertyTopic);
             bool doesTelemetryTargetService = DoesTopicReferToService(telemetryTopic);
             string serializerSubNamespace = formatSerializers[genFormat].SubNamespace;
             EmptyTypeName serializerEmptyType = formatSerializers[genFormat].EmptyType;
@@ -540,7 +581,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     yield return new PythonService(genNamespace, modelId, serviceName, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, cmdEnvoyInfos, telemEnvoyInfos, doesCommandTargetExecutor, doesCommandTargetService, doesTelemetryTargetService);
                     break;
                 case "rust":
-                    yield return new RustService(genNamespace, modelId, commandTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, generateClient, generateServer, genRoot);
+                    yield return new RustService(genNamespace, modelId, commandTopic, propertyTopic, telemetryTopic, cmdServiceGroupId, telemServiceGroupId, generateClient, generateServer, genRoot);
                     if (sharedPrefix != null)
                     {
                         yield return new RustShared(sharedPrefix, genRoot);

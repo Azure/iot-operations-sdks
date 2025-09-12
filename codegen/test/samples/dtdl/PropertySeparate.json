@@ -34,7 +34,7 @@
           {
             "@type": [ "Field", "ReadError" ],
             "name": "propError",
-            "schema": "dtmi:test:PropertySeparate:Error;1"
+            "schema": "dtmi:test:PropertySeparate:PropertyError;1"
           }
         ]
       }
@@ -54,7 +54,7 @@
           {
             "@type": [ "Field", "ReadError", "WriteError" ],
             "name": "propError",
-            "schema": "dtmi:test:PropertySeparate:Error;1"
+            "schema": "dtmi:test:PropertySeparate:PropertyError;1"
           }
         ]
       }
@@ -100,7 +100,7 @@
           {
             "@type": [ "Field", "ReadError" ],
             "name": "propReadError",
-            "schema": "dtmi:test:PropertySeparate:Error;1"
+            "schema": "dtmi:test:PropertySeparate:PropertyError;1"
           },
           {
             "@type": [ "Field", "WriteError" ],
@@ -113,7 +113,7 @@
   ],
   "schemas": [
     {
-      "@id": "dtmi:test:PropertySeparate:Error;1",
+      "@id": "dtmi:test:PropertySeparate:PropertyError;1",
       "@type": [ "Object", "Error" ],
       "description": "The requested property read/write could not be completed.",
       "fields": [

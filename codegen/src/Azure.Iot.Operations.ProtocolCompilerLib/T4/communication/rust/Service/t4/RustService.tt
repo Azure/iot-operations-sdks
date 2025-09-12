@@ -19,6 +19,9 @@ pub const MODEL_ID: &str = "<#=this.modelId#>";
 <# if (this.commandTopic != null) { #>
 pub const REQUEST_TOPIC_PATTERN: &str = "<#=this.commandTopic#>";
 <# } #>
+<# if (this.propertyTopic != null) { #>
+pub const PROPERTY_TOPIC_PATTERN: &str = "<#=this.propertyTopic#>";
+<# } #>
 <# if (this.telemetryTopic != null) { #>
 pub const TELEMETRY_TOPIC_PATTERN: &str = "<#=this.telemetryTopic#>";
 <# } #>
@@ -31,7 +34,7 @@ pub const TELEMETRY_SERVICE_GROUP_ID: &str = "<#=this.telemServiceGroupId#>";
 <# if (this.generateClient) { #>
 
 pub mod client {
-<# foreach (string module in this.modules) { if (!module.EndsWith("_executor") && !module.EndsWith("_sender") && !module.EndsWith("_serialization") && !module.EndsWith("_headers")) { #>
+<# foreach (string module in this.modules) { if (!module.EndsWith("_executor") && !module.EndsWith("_maintainer") && !module.EndsWith("_sender") && !module.EndsWith("_serialization") && !module.EndsWith("_headers")) { #>
     pub use super::<#=module#>::*;
 <# } } #>
 }
@@ -39,7 +42,7 @@ pub mod client {
 <# if (this.generateServer) { #>
 
 pub mod service {
-<# foreach (string module in this.modules) { if (!module.EndsWith("_invoker") && !module.EndsWith("_receiver") && !module.EndsWith("_serialization") && !module.EndsWith("_headers")) { #>
+<# foreach (string module in this.modules) { if (!module.EndsWith("_invoker") && !module.EndsWith("_consumer") && !module.EndsWith("_receiver") && !module.EndsWith("_serialization") && !module.EndsWith("_headers")) { #>
     pub use super::<#=module#>::*;
 <# } } #>
 }

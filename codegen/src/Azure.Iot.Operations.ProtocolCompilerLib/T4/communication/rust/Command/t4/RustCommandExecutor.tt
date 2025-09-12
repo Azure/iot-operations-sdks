@@ -76,7 +76,6 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")
         Ok(self)
     }
 
-<# } #>
 <# if (this.errorResultName != null) { #>
     pub fn error(&mut self, error: <#=this.errorResultSchema.GetTypeName(TargetLanguage.Rust)#>) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#> {
@@ -86,6 +85,7 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")
         Ok(self)
     }
 
+<# } #>
 <# } #>
     /// Builds a new `<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#>`
     ///
