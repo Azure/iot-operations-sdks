@@ -270,13 +270,14 @@ public interface IStreamContext<T>
     /// <summary>
     /// Cancel this received RPC streaming request.
     /// </summary>
+    /// <param name="userProperties">The optional user properties to include</param>
     /// <param name="cancellationToken">Cancellation token for this cancellation request</param>
     /// <remarks>
     /// This method may be called by the streaming executor at any time. For instance, if the request stream
     /// stalls unexpectedly, the executor can call this method to notify the invoker to stop sending requests.
     /// Additionally, the executor can call this method if its response stream has stalled unexpectedly.
     /// </remarks>
-    Task CancelAsync(CancellationToken cancellationToken = default);
+    Task CancelAsync(Dictionary<string, string>? userProperties = null, CancellationToken cancellationToken = default);
 }
 ```
 
