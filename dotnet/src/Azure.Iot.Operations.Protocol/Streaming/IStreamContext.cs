@@ -41,12 +41,15 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         Task CancelAsync(Dictionary<string, string>? userData = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// The token that tracks if the streaming exchange has been cancelled or not.
+        /// The token that tracks if the streaming exchange has been cancelled by the other party and/or timed out.
         /// </summary>
         /// <remarks>
         /// For instance, if the invoker side cancels the streaming exchange, the executor side callback's <see cref="IStreamContext{T}.CancellationToken"/>
         /// will be triggered. If the executor side cancels the streaming exchange, the invoker side's returned <see cref="IStreamContext{T}.CancellationToken"/>
         /// will be triggered.
+        ///
+        /// To see if this was triggered because the stream exchange was cancelled, see <see cref="IsCanceled"/>. To see if it was triggered because
+        /// the stream exchange timed out, see <see cref="HasTimedOut"/>.
         /// </remarks>
         CancellationToken CancellationToken { get; }
 
@@ -59,5 +62,15 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// provided in that cancellation request, this will return null.
         /// </remarks>
         Dictionary<string, string>? GetCancellationRequestUserProperties();
+
+        /// <summary>
+        /// True if this stream exchange has timed out. If a stream has timed out, <see cref="CancellationToken"/> will trigger as well.
+        /// </summary>
+        bool HasTimedOut { get; internal set; }
+
+        /// <summary>
+        /// True if this stream exchange has been canceled by the other party. If a stream has been cancelled, <see cref="CancellationToken"/> will trigger as well.
+        /// </summary>
+        bool IsCanceled { get; internal set; }
     }
 }
