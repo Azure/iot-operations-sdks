@@ -214,7 +214,9 @@ We need to provide timeout support for our streaming APIs to avoid scenarios suc
 
 #### Decision
 
-We will allow configuration on the invoker's side of a timeout for the RPC as a whole.
+We will allow configuration on the invoker's side of a timeout for the RPC as a whole and a timeout of each message in the request and/or response stream.
+
+##### RPC level timeout
 
 To enable this, each message in the request stream will include a value in the ```<rpc timeout milliseconds>``` portion of the ```__stream``` user property. This header should be sent in all request stream messages in case the first N request messages are lost due to timeout or otherwise.
 
@@ -227,6 +229,11 @@ Any request stream or response stream messages that are received by the executor
 If the request stream omits the timeout value in the ```__stream``` user property, the invoker and executor should treat the RPC as not having a timeout.
 
 This design does make the invoker start the countdown sooner than the executor, but the time difference is negligible in most circumstances.
+
+##### Message level timeout
+
+We will allow users to set the message expiry interval of each message in a request/response stream. By default, though, we will set each message expiry interval equal to the RPC level timeout value.
+
 
 #### Alternative timeout designs considered
 

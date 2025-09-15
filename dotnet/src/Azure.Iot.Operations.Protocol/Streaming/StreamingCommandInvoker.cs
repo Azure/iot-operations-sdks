@@ -81,13 +81,16 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// <param name="streamMetadata">The metadata for the request stream as a whole.</param>
         /// <param name="additionalTopicTokenMap">Topic tokens to substitute in the request topic.</param>
         /// <param name="streamExchangeTimeout">The timeout between the beginning of the request stream and the end of both the request and response stream.</param>
-        /// <param name="cancellationToken">Cancellation token. Signalling this will also make a single attempt to notify the executor of the cancellation.</param>
+        /// <param name="cancellationToken">
+        /// Cancellation token. Signalling this will also make a single attempt to notify the executor of the cancellation. To make multiple attempts to cancel and/or
+        /// check that this cancellation succeeded, use <see cref="IStreamContext{T}.CancelAsync(Dictionary{string, string}?, CancellationToken)"/> instead.
+        /// </param>
         /// <returns>The stream of responses.</returns>
         public async Task<IStreamContext<ReceivedStreamingExtendedResponse<TResp>>> InvokeStreamingCommandAsync(
             IAsyncEnumerable<StreamingExtendedRequest<TReq>> requests,
             RequestStreamMetadata? streamMetadata = null,
             Dictionary<string, string>? additionalTopicTokenMap = null,
-            TimeSpan? streamExchangeTimeout = default,
+            TimeSpan? streamExchangeTimeout = null,
             CancellationToken cancellationToken = default)
         {
             // TODO: Derive the request topic (like commandInvoker does)
