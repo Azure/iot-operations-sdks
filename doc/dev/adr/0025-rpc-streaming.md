@@ -252,6 +252,8 @@ To avoid scenarios where long-running streaming requests/responses are no longer
 
 Since sending a cancellation request may fail (message expiry on broker side), the SDK API design should allow for the user to repeatedly call "cancel" and should return successfully once the other party has responded appropriately. 
 
+Additionally, cancellation requests may include user properties. This allows users to provide additional context on why the cancellation is happening.
+
 #### .NET API design
 
 The proposed cancellation support would come from the return type on the invoker side and the provided type on the executor side:
