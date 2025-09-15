@@ -85,6 +85,40 @@ impl Forwarder {
         )
     }
 
+    // /// Creates a new [`Forwarder`] from an event/stream definition's Destinations
+    // /// and default destinations, if present on the asset
+    // ///
+    // /// # Errors
+    // /// [`AdrConfigError`] if there are any issues processing
+    // /// the destination from the definitions. This can be used to report the error
+    // /// to the ADR service on the event/stream's status
+    // pub(crate) fn new_event_forwarder(
+    //     event_destinations: &[adr_models::EventStreamDestination],
+    //     inbound_endpoint_name: &str,
+    //     asset_default_destinations: &[Arc<Destination>],
+    //     event_group_default_destinations: &[Arc<Destination>],
+    //     connector_context: Arc<ConnectorContext>,
+    // ) -> Result<Self, AdrConfigError> {
+    //     // Figure out which default destinations to use
+    //     // if the event group has default destinations defined, use them, otherwise use the default asset event destinations
+    //     let default_destinations = if !event_group_default_destinations.is_empty() {
+    //         event_group_default_destinations
+    //     } else {
+    //         asset_default_destinations
+    //     };
+
+    //     // Use internal new fn with event/stream destinations
+    //     Self::new_data_operation_forwarder(
+    //         Destination::new_event_stream_destinations(
+    //             event_destinations,
+    //             inbound_endpoint_name,
+    //             &connector_context,
+    //         )?,
+    //         default_destinations,
+    //         connector_context,
+    //     )
+    // }
+
     /// Creates a new [`Forwarder`] from an event/stream definition's Destinations
     /// and default destinations, if present on the asset
     ///
