@@ -61,23 +61,32 @@ pub enum DataOperationKind {
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum DataOperationName {
     /// Dataset
-    Dataset { name: String },
+    Dataset {
+        /// The name of the dataset
+        name: String,
+    },
     /// Event
     Event {
+        /// The name of the event
         name: String,
+        /// The name of the event's parent event group
         event_group_name: String,
     },
     /// Stream
-    Stream { name: String },
+    Stream {
+        /// The name of the stream
+        name: String,
+    },
 }
 
 impl DataOperationName {
     /// Get the name of the `DataOperation`
+    #[must_use]
     pub fn name(&self) -> &str {
         match self {
-            DataOperationName::Dataset { name } => name,
-            DataOperationName::Event { name, .. } => name,
-            DataOperationName::Stream { name } => name,
+            DataOperationName::Stream { name }
+            | DataOperationName::Event { name, .. }
+            | DataOperationName::Dataset { name } => name,
         }
     }
 }
