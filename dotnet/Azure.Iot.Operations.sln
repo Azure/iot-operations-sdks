@@ -89,6 +89,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Connec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingTelemetryConnectorTemplate", "templates\PollingTelemetryConnector\PollingTelemetryConnectorTemplate.csproj", "{698D0245-18C6-37E9-08F6-E8EADCBA0880}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Streaming", "Streaming", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamingCommandServer", "samples\StreamingCommandServer\StreamingCommandServer.csproj", "{928950FD-EE17-4CA4-8D57-4463013A8DA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamingCommandClient", "samples\StreamingCommandClient\StreamingCommandClient.csproj", "{295DA043-5461-4CBB-BF86-EEBC8E1687D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -227,6 +233,14 @@ Global
 		{698D0245-18C6-37E9-08F6-E8EADCBA0880}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{698D0245-18C6-37E9-08F6-E8EADCBA0880}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{698D0245-18C6-37E9-08F6-E8EADCBA0880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{928950FD-EE17-4CA4-8D57-4463013A8DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{928950FD-EE17-4CA4-8D57-4463013A8DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{928950FD-EE17-4CA4-8D57-4463013A8DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{928950FD-EE17-4CA4-8D57-4463013A8DA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{295DA043-5461-4CBB-BF86-EEBC8E1687D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{295DA043-5461-4CBB-BF86-EEBC8E1687D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{295DA043-5461-4CBB-BF86-EEBC8E1687D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{295DA043-5461-4CBB-BF86-EEBC8E1687D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -270,6 +284,9 @@ Global
 		{4992415C-ABB2-2284-D6CD-8FE01910092F} = {4DDB0B28-1830-4B6F-8A10-FB37874D4D57}
 		{C527ECCE-FBE1-4FBC-9987-F94BACC904F2} = {CE9A7664-594B-43EB-AA48-606B88411FC9}
 		{698D0245-18C6-37E9-08F6-E8EADCBA0880} = {4636D1F8-ACA6-4138-8EC0-1FF71CAF3A3B}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
+		{928950FD-EE17-4CA4-8D57-4463013A8DA8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{295DA043-5461-4CBB-BF86-EEBC8E1687D9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}
