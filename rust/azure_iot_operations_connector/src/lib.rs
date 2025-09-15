@@ -57,11 +57,36 @@ pub enum DataOperationKind {
     Stream,
 }
 
+/// Represents the kind of a `DataOperation`
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub enum DataOperationName {
+    /// Dataset
+    Dataset { name: String },
+    /// Event
+    Event {
+        name: String,
+        event_group_name: String,
+    },
+    /// Stream
+    Stream { name: String },
+}
+
+impl DataOperationName {
+    /// Get the name of the `DataOperation`
+    pub fn name(&self) -> &str {
+        match self {
+            DataOperationName::Dataset { name } => name,
+            DataOperationName::Event { name, .. } => name,
+            DataOperationName::Stream { name } => name,
+        }
+    }
+}
+
 /// Represents a `DataOperation` (Dataset, Event, or Stream) associated with a specific device, endpoint, and asset.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct DataOperationRef {
     /// The name of the `DataOperation`
-    pub data_operation_name: String,
+    pub data_operation_name: DataOperationName,
     /// The kind of the `DataOperation`
     pub data_operation_kind: DataOperationKind,
     /// The name of the asset
