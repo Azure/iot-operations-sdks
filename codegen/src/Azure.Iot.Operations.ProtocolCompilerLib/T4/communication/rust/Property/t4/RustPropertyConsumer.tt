@@ -199,7 +199,11 @@ impl <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "request", "
 }
 <# } #>
 
+<# if (!this.propertyName.IsEmpty) { #>
 /// Read requester for `<#=this.propertyName.AsGiven#>`
+<# } else { #>
+/// Read requester for a Property collection
+<# } #>
 pub struct <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "requester")#><C>(
     rpc_command::Invoker<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>, <#=this.readRespSchema.GetTypeName(TargetLanguage.Rust)#>, C>,
 )
@@ -326,7 +330,11 @@ where
 }
 <# if (this.writeReqSchema != null) { #>
 
+<# if (!this.propertyName.IsEmpty) { #>
 /// Write requester for `<#=this.propertyName.AsGiven#>`
+<# } else { #>
+/// Write requester for a Property collection
+<# } #>
 pub struct <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "requester")#><C>(
     rpc_command::Invoker<<#=this.writeReqSchema.GetTypeName(TargetLanguage.Rust)#>, <#=((ITypeName)this.writeRespSchema ?? this.serializerEmptyType).GetTypeName(TargetLanguage.Rust)#>, C>,
 )

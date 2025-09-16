@@ -21,6 +21,10 @@ impl fmt::Display for <#=this.schemaName.GetTypeName(TargetLanguage.Rust)#> {
         }
 <# } #>
 
+        // Error display message depends on how many specific errors are reported within the aggregate error.
+        // If there are none, the aggregate error must have been caused by one or more non-reportable errors.
+        // If there is exactly one, it has already been displayed.
+        // If there are two or more, only the first reported error has been displayed, so indicate how many more there are.
         match err_count{
             0 => write!(f, "No reportable property errors."),
             1 => Ok(()),

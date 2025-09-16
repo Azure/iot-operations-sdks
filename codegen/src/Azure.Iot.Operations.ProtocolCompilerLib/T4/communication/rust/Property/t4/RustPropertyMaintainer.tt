@@ -128,7 +128,11 @@ impl <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "response", 
 }
 <# } #>
 
+<# if (!this.propertyName.IsEmpty) { #>
 /// Read responder for `<#=this.propertyName.AsGiven#>`
+<# } else { #>
+/// Read responder for a Property collection
+<# } #>
 pub struct <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "read", "responder")#><C>(
     rpc_command::Executor<<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>, <#=this.readRespSchema.GetTypeName(TargetLanguage.Rust)#>, C>,
 )
@@ -197,7 +201,11 @@ where
 }
 <# if (this.writeReqSchema != null) { #>
 
+<# if (!this.propertyName.IsEmpty) { #>
 /// Write responder for `<#=this.propertyName.AsGiven#>`
+<# } else { #>
+/// Write responder for a Property collection
+<# } #>
 pub struct <#=this.propertyName.GetTypeName(TargetLanguage.Rust, "write", "responder")#><C>(
     rpc_command::Executor<<#=this.writeReqSchema.GetTypeName(TargetLanguage.Rust)#>, <#=((ITypeName)this.writeRespSchema ?? this.serializerEmptyType).GetTypeName(TargetLanguage.Rust)#>, C>,
 )
