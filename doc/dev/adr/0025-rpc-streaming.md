@@ -173,9 +173,7 @@ Once the stream of requests has started sending, the streaming command invoker s
 
 Once the user-supplied stream of request messages has ended, the streaming command invoker should send one final message to the same topic/with the same correlation data with no payload and with the 'isLast' flag set in the '__stream' metadata bundle.  
 
-Upon receiving an MQTT message in the response stream with the 'isLast' flag set in the '__stream' metadata, the streaming command invoker should notify the user that the stream of responses has ended. This particular message should not contain any payload or other user properties, so the message _should not_ be propagated to the user as if it were part of the response stream.
-
-If a streaming command invoker receives an MQTT message with the 'isLast' flag set but has not received any other messages in that response stream, the invoker should log an error, acknowledge the message, but otherwise ignore it. A stream of responses must have at least one entry.
+Upon receiving an MQTT message in the response stream with the 'isLast' flag set in the '__stream' metadata, the streaming command invoker should notify the user that the stream of responses has ended. This particular message should not contain any payload or other user properties, so the message _should not_ be propagated to the user as if it were part of the response stream. [See here for more details on why this ```isLast``` flag is an independent message](#islast-message-being-its-own-message).
 
 By default, the streaming command invoker will acknowledge all request messages it receives as soon as they are given to the user. Users may opt into manual acknowledgements, though. Opting into manual acknowledgements allows the user time to "process" each response as necessary before forgoing re-delivery from the broker if the invoker crashes unexpectedly.
 
@@ -195,7 +193,7 @@ Upon receiving a MQTT message that contains a streaming request, the streaming e
   - Any user-definied metadata as specified in the ```ExtendedStreamingResponse```
   - QoS 1
 
-Upon receiving an MQTT message in the request stream with the 'isLast' flag set in the '__stream' metadata, the streaming executor should notify the user that the stream of requests has ended. This particular message should not contain any payload or other user properties, so the message _should not_ be propagated to the user as if it were part of the request stream.
+Upon receiving an MQTT message in the request stream with the 'isLast' flag set in the '__stream' metadata, the streaming executor should notify the user that the stream of requests has ended. This particular message should not contain any payload or other user properties, so the message _should not_ be propagated to the user as if it were part of the request stream. [See here for more details on why this ```isLast``` flag is an independent message](#islast-message-being-its-own-message).
 
 If a streaming command executor receives an MQTT message with the 'isLast' flag set but has not received any other messages in that request stream, the executor should log an error, acknowledge the message, but otherwise ignore it. A stream of requests must have at least one entry.
 
@@ -314,7 +312,7 @@ public interface IStreamContext<T>
 }
 ```
 
-With this design, we can cancel a stream from either side at any time. For detailed examples, see the integration tests written [here](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/StreamingIntegrationTests.cs).
+With this design, we can cancel a stream from either side at any time and check for received user properties on any received cancellation requests. For detailed examples, see the integration tests written [here](../../../dotnet/test/Azure.Iot.Operations.Protocol.IntegrationTests/StreamingIntegrationTests.cs).
 
 ### Protocol layer details
 
@@ -384,3 +382,17 @@ By maintaining RPC streaming as a separate communication pattern from normal RPC
      - Executor receives a streaming command but the user did not set the streaming command handler callback (which must be optional since not every command executor has streaming commands)
    - API design is messy because a command invoker/executor should not expose streaming command APIs if they have no streaming commands
    - Caching behavior of normal RPC doesn't fit well with streamed RPCs which may grow indefinitely large
+
+
+## Appendix
+
+### IsLast message being its own message
+
+There are three possible approaches to marking the final message in a stream that have been considered. Below are the approaches and the reasons why that approach doesn't work
+
+- Require the ```isLast``` flag to be set on a message that carries a fully-fledged stream message (i.e. has a user-provided payload and/or user properties)
+  - We must support ending streams at an arbitrary time even if a fully-fledged stream message can't be sent and this approach doesn't allow for that
+- Allow the ```isLast``` flag to be set on either a fully-fledged stream message or as a standalone message with no user payload and no user properties
+  - This approach does not allow the receiving end to distinguish between "The stream is over" and "This is the final message in the stream" in cases where the user may provide no payload or user properties on streamed messages.
+
+Because the two above approaches either don't support our requirements or have ambiguities in corner cases, we should require the ```isLast``` flag be set on a standalone message with no uesr payload and no user properties.
