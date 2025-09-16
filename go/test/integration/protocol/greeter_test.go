@@ -26,7 +26,7 @@ func TestSayHello(t *testing.T) {
 
 	encReq := protocol.JSON[envoy.HelloRequest]{}
 	encRes := protocol.JSON[envoy.HelloResponse]{}
-	topic := "prefix/{ex:token}/suffix"
+	topic := "say-hello/{ex:token}/suffix"
 
 	executor, err := protocol.NewCommandExecutor(
 		app, server, encReq, encRes, topic,
@@ -88,7 +88,7 @@ func TestSayHelloWithDelay(t *testing.T) {
 	defer listeners.Close()
 	encReq := protocol.JSON[envoy.HelloWithDelayRequest]{}
 	encRes := protocol.JSON[envoy.HelloResponse]{}
-	topic := "prefix/{ex:token}/suffix"
+	topic := "say-hello-with-delay/{ex:token}/suffix"
 	executor, err := protocol.NewCommandExecutor(
 		app, server, encReq, encRes, topic,
 		func(
@@ -163,7 +163,7 @@ func TestSayHelloWithDelayZeroThrows(t *testing.T) {
 
 	encReq := protocol.JSON[envoy.HelloWithDelayRequest]{}
 	encRes := protocol.JSON[envoy.HelloResponse]{}
-	topic := "prefix/{ex:token}/suffix"
+	topic := "say-hello-with-delay-zero-throws/{ex:token}/suffix"
 
 	executor, err := protocol.NewCommandExecutor(
 		app,

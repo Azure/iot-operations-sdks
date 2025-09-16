@@ -22,7 +22,7 @@ func TestCommand(t *testing.T) {
 	defer listeners.Close()
 
 	enc := protocol.JSON[string]{}
-	topic := "prefix/{ex:token}/suffix"
+	topic := "command/{ex:token}/suffix"
 	value := "test"
 
 	executor, err := protocol.NewCommandExecutor(
@@ -80,7 +80,7 @@ func TestCommandError(t *testing.T) {
 
 	req := protocol.Empty{}
 	res := protocol.JSON[string]{}
-	topic := "topic"
+	topic := "command-error"
 
 	executor, err := protocol.NewCommandExecutor(
 		app, server, req, res, topic,
@@ -119,7 +119,7 @@ func TestCommandManualError(t *testing.T) {
 
 	req := protocol.Empty{}
 	res := protocol.JSON[string]{}
-	topic := "topic"
+	topic := "command-manual-error"
 
 	executor, err := protocol.NewCommandExecutor(
 		app, server, req, res, topic,

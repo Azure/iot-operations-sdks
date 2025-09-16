@@ -4,10 +4,12 @@ package services
 
 import (
 	"context"
+	"sync"
 	"testing"
 	"time"
 
 	"github.com/Azure/iot-operations-sdks/go/mqtt"
+	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/services/statestore"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
@@ -239,4 +241,72 @@ func TestStateStoreEmptyKey(t *testing.T) {
 
 	_, err := test.client.Set(ctx, "", "")
 	require.ErrorIs(t, err, statestore.ErrArgument)
+}
+
+func TestStateStoreFromExecutor(t *testing.T) {
+	ctx := context.Background()
+	test := newStateStoreTest(ctx, t)
+	defer test.done()
+
+	client, err := mqtt.NewSessionClient(
+		mqtt.RandomClientID(),
+		mqtt.TCPConnection("localhost", 1883),
+	)
+	require.NoError(t, err)
+	require.NoError(t, client.Start())
+	defer func() { _ = client.Stop() }()
+
+	var listeners protocol.Listeners
+	defer listeners.Close()
+
+	enc := protocol.JSON[string]{}
+	topic := "state-store-from-executor"
+
+	invoker, err := protocol.NewCommandInvoker(
+		app, client, enc, enc, topic,
+	)
+	require.NoError(t, err)
+	listeners = append(listeners, invoker)
+
+	// Execute a concurrent request, and ensure it comes in before the DSS SET.
+	wait := sync.RWMutex{}
+	concurrent := sync.OnceFunc(func() {
+		wait.Lock()
+		go func() {
+			wait.Unlock()
+			_, _ = invoker.Invoke(ctx, uuid.NewString())
+		}()
+	})
+
+	// Must use the same MQTT client as the DSS client, to match expected usage.
+	executor, err := protocol.NewCommandExecutor(
+		app, test.mqtt, enc, enc, topic,
+		func(
+			_ context.Context,
+			cr *protocol.CommandRequest[string],
+		) (*protocol.CommandResponse[string], error) {
+			concurrent()
+
+			wait.RLock()
+			defer wait.RUnlock()
+
+			value := uuid.NewString()
+			set, err := test.client.Set(ctx, cr.Payload, value)
+			require.NoError(t, err)
+			require.Equal(t, true, set.Value)
+			return protocol.Respond(value)
+		},
+		protocol.WithConcurrency(1),
+	)
+	require.NoError(t, err)
+	listeners = append(listeners, executor)
+
+	err = listeners.Start(ctx)
+	require.NoError(t, err)
+
+	res, err := invoker.Invoke(ctx, test.key)
+	require.NoError(t, err)
+
+	test.get(ctx, t, res.Payload)
+	test.del(ctx, t, 1)
 }

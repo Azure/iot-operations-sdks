@@ -18,7 +18,7 @@ func TestTelemetry(t *testing.T) {
 	defer done()
 
 	enc := protocol.Custom{}
-	topic := "prefix/{token}/suffix"
+	topic := "telemetry/{token}/suffix"
 	value := protocol.Data{
 		Payload:     []byte("value"),
 		ContentType: "custom/type",
@@ -61,6 +61,6 @@ func TestTelemetry(t *testing.T) {
 	cloudEvent, err := protocol.CloudEventFromTelemetry(res)
 	require.NoError(t, err)
 	require.Equal(t, "https://contoso.com", cloudEvent.Source.String())
-	require.Equal(t, "prefix/test/suffix", cloudEvent.Subject)
+	require.Equal(t, "telemetry/test/suffix", cloudEvent.Subject)
 	require.Equal(t, value.ContentType, cloudEvent.DataContentType)
 }
