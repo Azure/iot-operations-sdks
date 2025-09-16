@@ -15,15 +15,6 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         where TResp : class
     {
         /// <summary>
-        /// The timeout for all commands received by this executor.
-        /// </summary>
-        /// <remarks>
-        /// Note that a command invoker may also send a per-invocation timeout. When this happens, a command will timeout if it exceeds either
-        /// of these timeout values.
-        /// </remarks>
-        public TimeSpan ExecutionTimeout { get; set; }
-
-        /// <summary>
         /// A streaming command was invoked
         /// </summary>
         /// <remarks>
@@ -31,11 +22,7 @@ namespace Azure.Iot.Operations.Protocol.Streaming
         /// </remarks>
         public required Func<IStreamContext<ReceivedStreamingExtendedRequest<TReq>>, RequestStreamMetadata, IAsyncEnumerable<StreamingExtendedResponse<TResp>>> OnStreamingCommandReceived { get; set; }
 
-        public string ServiceGroupId { get; init; }
-
         public string RequestTopicPattern { get; init; }
-
-        public string? TopicNamespace { get; set; }
 
         /// <summary>
         /// The topic token replacement map that this executor will use by default. Generally, this will include the token values
