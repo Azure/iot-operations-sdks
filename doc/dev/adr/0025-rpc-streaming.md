@@ -232,7 +232,7 @@ This design does make the invoker start the countdown sooner than the executor, 
 
 We will allow users to set the message expiry interval of each message in a request/response stream. By default, though, we will set each message expiry interval equal to the RPC level timeout value.
 
-The message expiry interval will not be checked on the receiving side, though. It is for use at the MQTT broker only.
+Both the invoker and executor stream messages _must_ include a message expiry interval. The receiving end will use this value as the de-dup cache length for each cached message. Vanilla RPC has the same requirement as explained [here](../../reference/command-timeouts.md#input-values).
 
 #### Alternative timeout designs considered
 
