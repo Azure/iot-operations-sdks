@@ -1083,23 +1083,7 @@ pub struct AssetClient {
             watch::Sender<DataOperationUpdateNotification>,
         ),
     >,
-    // /// hashmap of current event group names to their current event hashmap with each current event definition and a sender to send event updates
-    // #[getter(skip)]
-    // event_group_hashmap: HashMap<
-    //     String, // eg name
-    //     (
-    //         adr_models::EventGroup, // eg definition
-    //         watch::Sender<String>, // eg update sender
-
-    //         HashMap< // hashmap of events and their definitions/update senders
-    //         String,
-    //         (
-    //             adr_models::Event,
-    //             watch::Sender<DataOperationUpdateNotification>,
-    //         ),
-    //     >),
-    // >,
-    /// hashmap of current event names to their current definition and a sender to send event updates
+    /// hashmap of current event names and their event group, current definition and a sender to send event updates
     #[getter(skip)]
     event_hashmap: HashMap<
         (String, String),
@@ -1254,41 +1238,15 @@ impl AssetClient {
         updated_asset_event_groups: &[adr_models::EventGroup],
         updates: &mut AssetDataOperationUpdates,
     ) {
-        // remove any deleted event groups (removes all events in the group too)
-        // track whether the asset default event destination has changed
-        // track whether the event group default event destination has changed
-        // for each event group, check if the existing event group needs an update or if a new one needs to be created
-
-        // existing
-        // definition changed - if eg fields changed, triggers eg update. if only events have changed, doesn't
-
-        // new
-        // creates new events & eventGroup?
-
-        // remove the event groups that are no longer present in the new asset definition.
-        // This triggers deletion notifications since this drops the update sender(s).
-        // event_group_hashmap.retain(|event_group_name, _| {
-        //     updated_asset_event_groups
-        //         .iter()
-        //         .any(|event_group| event_group.name == *event_group_name)
-        // });
-
         let mut updated_asset_events = Vec::new();
         for event_group in updated_asset_event_groups {
             // for each event in the event group
             for event in &event_group.events {
                 updated_asset_events.push((event_group.clone(), event.clone()).into());
-                // temp_event_hashmap.insert(
-                //     (event_group.name.clone(), event.name.clone()),
-                //     (
-                //         EventGroupSpecification::from(event_group.clone()),
-                //         watch::channel(DataOperationUpdateNotification::Deleted).0, // dummy sender, will be replaced if it already exists
-                //     ),
-                // );
             }
         }
 
-        // for each event group
+        // for each event group?
         self.handle_data_operation_kind_updates(
             DataOperationKind::Event,
             event_hashmap,
@@ -1357,6 +1315,7 @@ impl AssetClient {
             }
         };
 
+        let mut default_event_group_destinations = HashMap::new();
         let default_destinations_result = match data_operation_kind {
             DataOperationKind::Dataset => {
                 destination_endpoint::Destination::new_dataset_destinations(
@@ -1366,6 +1325,36 @@ impl AssetClient {
                 )
             }
             DataOperationKind::Event => {
+                for event_group in &updated_asset.event_groups {
+                    let default_event_group_destinations_updated = event_group.default_event_destinations
+                        != *self.specification.read().unwrap().event_groups.iter().find(|eg| eg.name == event_group.name).map_or(&vec![], |eg| &eg.default_event_destinations);
+                    let eg_default_destinations = match destination_endpoint::Destination::new_event_stream_destinations(
+                        &event_group.default_event_destinations,
+                        &self.asset_ref.inbound_endpoint_name,
+                        &self.connector_context,
+                    ) {
+                        Ok(res) => res.into_iter().map(Arc::new).collect(),
+                        Err(e) => {
+                            log::error!(
+                                "Invalid default event destination for Asset {:?} Event Group {}: {e:?}",
+                                self.asset_ref, event_group.name
+                            );
+                            // TODO: figure out where to report this error - on all events? Don't report? Tbd
+                            // Decision: report on the event if it would be used. Need a way to communicate this error down to there
+                            // // Add this to the status to be reported to ADR
+                            // updates.new_status.config = Some(azure_device_registry::ConfigStatus {
+                            //     version: updated_asset.version,
+                            //     error: Some(e),
+                            //     last_transition_time: Some(chrono::Utc::now()),
+                            // });
+                            // updates.status_updated = true;
+                            // set this to an empty vec instead of skipping parsing the rest of the asset because if all
+                            // events have a destination specified, this might not cause the asset to be unusable
+                            vec![]
+                        },
+                    };
+                    default_event_group_destinations.insert(event_group.name.clone(), (default_event_group_destinations_updated, eg_default_destinations));
+                }
                 // TODO: pass in either the event group default destination or the asset default destination based on whether the event group has a default or not
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_events_destinations,
@@ -1410,10 +1399,41 @@ impl AssetClient {
             if let Some((data_operation, data_operation_update_tx)) =
                 data_operation_hashmap.get_mut(received_data_operation.name())
             {
+                // Here we have the specific data_operation, and we can check what default destination to use (and also modify default_data_operation_destination_updated)
+                // let mut this_default_data_operation_destination_updated = default_data_operation_destination_updated;
+                let mut this_default_data_operation_destinations = &default_data_operation_destinations;
+                // let this_data_operation_updated;
+                // let (this_default_data_operation_destination_updated, this_default_data_operation_destinations) = 
+                if let DataOperationDefinition::Event(ref received_event_group) = data_operation_definition {
+                    // this_data_operation_updated = event_group
+                    if let Some((default_destination_updated, default_destinations)) = default_event_group_destinations.get(&received_event_group.name) {
+                        // if either default destination has changed, we need to update
+                        // this_default_data_operation_destination_updated = default_data_operation_destination_updated || *default_destination_updated;
+                        // if the event group has a default destination, use that instead of the asset default
+                        if !default_destinations.is_empty() {
+                            this_default_data_operation_destinations = default_destinations;
+                        }
+                        // let this_default_data_operation_destinations = if !default_destinations.is_empty() {
+                        //     default_destinations
+                        // } else {&default_data_operation_destinations};
+                        // (this_default_data_operation_destination_updated, this_default_data_operation_destinations)
+                    } 
+                    // else {
+                    //     (default_data_operation_destination_updated, &default_data_operation_destinations)
+                    // }
+                } 
+                // else {
+                //     this_data_operation_updated = received_data_operation != data_operation;
+                // }
+                // else {
+                //     (default_data_operation_destination_updated, &default_data_operation_destinations)
+                // };
                 // if the default destination has changed, update all data operations. TODO: might be able to track whether a data operation uses a default to reduce updates needed here
                 // otherwise, only send an update if the data operation definition has changed
                 if default_data_operation_destination_updated
-                    || received_data_operation != data_operation
+                    || received_data_operation != data_operation // checks whether the event group default event destination changed or not, as well as other non-other-event EG fields
+                // if this_default_data_operation_destination_updated || this_data_operation_updated
+                    // || received_data_operation != data_operation
                 {
                     // we need to make sure we have the updated definition for comparing next time
                     *data_operation = received_data_operation.clone();
@@ -1423,12 +1443,10 @@ impl AssetClient {
                         data_operation_update_tx.clone(),
                         (
                             data_operation_definition,
-                            default_data_operation_destinations.clone(),
+                            this_default_data_operation_destinations.clone(),
                             self.release_data_operation_notifications_tx.subscribe(),
                         ),
                     ));
-                } else {
-                    // TODO: copy over the existing data operation status for a new status report? (other bug)
                 }
             }
             // it needs to be created
@@ -2150,10 +2168,10 @@ impl DataOperationClient {
                     connector_context.clone(),
                 )
             }
-            DataOperationDefinition::Event(ref updated_event_group) => {
+            DataOperationDefinition::Event(ref event_group) => {
                 kind = DataOperationKind::Event;
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
-                    &updated_event_group.event.destinations,
+                    &event_group.event.destinations,
                     &asset_ref.inbound_endpoint_name,
                     default_destinations,
                     connector_context.clone(),
@@ -3206,6 +3224,7 @@ pub struct AssetSpecification {
     pub documentation_uri: Option<String>,
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
+    pub event_groups: Vec<adr_models::EventGroup>, // if None, we can represent as empty vec
     /// Asset id provided by the customer.
     pub external_asset_id: Option<String>,
     /// Revision number of the hardware.
@@ -3250,6 +3269,7 @@ impl From<adr_models::Asset> for AssetSpecification {
             display_name: value.display_name,
             documentation_uri: value.documentation_uri,
             enabled: value.enabled,
+            event_groups: value.event_groups,
             external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             last_transition_time: value.last_transition_time,
@@ -3291,6 +3311,20 @@ impl EventGroupSpecification {
     }
 }
 
+impl From<(adr_models::EventGroup, adr_models::Event)> for EventGroupSpecification {
+    fn from(val: (adr_models::EventGroup, adr_models::Event)) -> Self {
+        EventGroupSpecification {
+            name_tuple: (val.0.name.clone(), val.1.name.clone()),
+            event: val.1,
+            default_event_destinations: val.0.default_event_destinations,
+            event_group_configuration: val.0.event_group_configuration,
+            data_source: val.0.data_source,
+            name: val.0.name,
+            type_ref: val.0.type_ref,
+        }
+    }
+}
+
 /// Holds the `DataOperation`'s definition, regardless of the type
 #[derive(Debug, Clone)]
 pub enum DataOperationDefinition {
@@ -3303,16 +3337,6 @@ pub enum DataOperationDefinition {
 }
 
 impl DataOperationDefinition {
-    // /// Returns the name of the data operation
-    // #[must_use]
-    // pub fn name(&self) -> &str {
-    //     match self {
-    //         DataOperationDefinition::Dataset(dataset) => &dataset.name,
-    //         DataOperationDefinition::Event(event_group) => &event_group.event.name,
-    //         DataOperationDefinition::Stream(stream) => &stream.name,
-    //     }
-    // }
-
     /// Returns the [`DataOperationName`] of the data operation
     #[must_use]
     pub fn name(&self) -> DataOperationName {
@@ -3348,11 +3372,7 @@ trait DataOperation {
     fn data_operation_name(&self) -> DataOperationName;
     fn into_data_operation_definition(self) -> DataOperationDefinition;
 }
-// impl Into<DataOperationDefinition> for adr_models::Dataset {
-//     fn into(self) -> DataOperationDefinition {
-//         DataOperationDefinition::Dataset(self)
-//     }
-// }
+
 impl DataOperation for adr_models::Dataset {
     type Name = String;
     fn name(&self) -> &Self::Name {
@@ -3367,35 +3387,10 @@ impl DataOperation for adr_models::Dataset {
         DataOperationDefinition::Dataset(self)
     }
 }
-// impl Into<DataOperationDefinition> for (adr_models::EventGroup, adr_models::Event) {
-//     fn into(self) -> DataOperationDefinition {
-//         DataOperationDefinition::Event(EventGroupSpecification {
-//             event: self.1,
-//             default_event_destinations: self.0.default_event_destinations,
-//             event_group_configuration: self.0.event_group_configuration,
-//             data_source: self.0.data_source,
-//             name: self.0.name,
-//             type_ref: self.0.type_ref,
-//         })
-//     }
-// }
-impl From<(adr_models::EventGroup, adr_models::Event)> for EventGroupSpecification {
-    fn from(val: (adr_models::EventGroup, adr_models::Event)) -> Self {
-        EventGroupSpecification {
-            name_tuple: (val.0.name.clone(), val.1.name.clone()),
-            event: val.1,
-            default_event_destinations: val.0.default_event_destinations,
-            event_group_configuration: val.0.event_group_configuration,
-            data_source: val.0.data_source,
-            name: val.0.name,
-            type_ref: val.0.type_ref,
-        }
-    }
-}
+
 impl DataOperation for EventGroupSpecification {
     type Name = (String, String);
     fn name(&self) -> &Self::Name {
-        // &(self.name.clone(), self.event.name.clone())
         self.names()
     }
 
@@ -3409,31 +3404,7 @@ impl DataOperation for EventGroupSpecification {
         DataOperationDefinition::Event(self)
     }
 }
-// impl DataOperation for (adr_models::EventGroup, adr_models::Event) {
-//     type Name = (String, String);
-//     fn name(&self) -> Self::Name {
-//         (self.0.name.clone(), self.1.name.clone())
-//     }
 
-//     fn data_operation_name(&self) -> DataOperationName {
-//         DataOperationName::Event { name: self.1.name.clone(), event_group_name: self.0.name.clone(), }
-//     }
-//     fn into_data_operation_definition(self) -> DataOperationDefinition {
-//         DataOperationDefinition::Event(EventGroupSpecification {
-//             event: self.1,
-//             default_event_destinations: self.0.default_event_destinations,
-//             event_group_configuration: self.0.event_group_configuration,
-//             data_source: self.0.data_source,
-//             name: self.0.name,
-//             type_ref: self.0.type_ref,
-//         })
-//     }
-// }
-// impl Into<DataOperationDefinition> for adr_models::Stream {
-//     fn into(self) -> DataOperationDefinition {
-//         DataOperationDefinition::Stream(self)
-//     }
-// }
 impl DataOperation for adr_models::Stream {
     type Name = String;
     fn name(&self) -> &Self::Name {
