@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://json.schemastore.org/aio-connector-metadata-7.0-preview.json",
   "type": "object",
-  "title": "JSON schema for Azure IoT Operations Connector Metadata 6.0-preview",
+  "title": "JSON schema for Azure IoT Operations Connector Metadata 7.0-preview",
   "description": "Schema that defines how to write a connector metadata document when writing connectors for Azure IoT Operations solutions",
   "definitions": {
     "modelLimits": {
@@ -452,7 +452,7 @@
                 },
                 "alternativeTypeName": {
                   "$ref": "#/definitions/alternativeTypeName",
-                  "description": "The alternative name to the type \"eventsGroups\" within an asset"
+                  "description": "The alternative name to the type \"eventGroups\" within an asset"
                 },
                 "eventGroupConfigurationSchema": {
                   "$ref": "http://json-schema.org/draft-07/schema#",
