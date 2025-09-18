@@ -1297,7 +1297,6 @@ impl AssetClient {
                         .default_datasets_destinations
             }
             DataOperationKind::Event => {
-                // TODO: check event group default destination too
                 updated_asset.default_events_destinations
                     != self
                         .specification
@@ -1315,7 +1314,6 @@ impl AssetClient {
             }
         };
 
-        let mut default_event_group_destinations = HashMap::new();
         let default_destinations_result = match data_operation_kind {
             DataOperationKind::Dataset => {
                 destination_endpoint::Destination::new_dataset_destinations(
@@ -1325,37 +1323,10 @@ impl AssetClient {
                 )
             }
             DataOperationKind::Event => {
-                for event_group in &updated_asset.event_groups {
-                    let default_event_group_destinations_updated = event_group.default_event_destinations
-                        != *self.specification.read().unwrap().event_groups.iter().find(|eg| eg.name == event_group.name).map_or(&vec![], |eg| &eg.default_event_destinations);
-                    let eg_default_destinations = match destination_endpoint::Destination::new_event_stream_destinations(
-                        &event_group.default_event_destinations,
-                        &self.asset_ref.inbound_endpoint_name,
-                        &self.connector_context,
-                    ) {
-                        Ok(res) => res.into_iter().map(Arc::new).collect(),
-                        Err(e) => {
-                            log::error!(
-                                "Invalid default event destination for Asset {:?} Event Group {}: {e:?}",
-                                self.asset_ref, event_group.name
-                            );
-                            // TODO: figure out where to report this error - on all events? Don't report? Tbd
-                            // Decision: report on the event if it would be used. Need a way to communicate this error down to there
-                            // // Add this to the status to be reported to ADR
-                            // updates.new_status.config = Some(azure_device_registry::ConfigStatus {
-                            //     version: updated_asset.version,
-                            //     error: Some(e),
-                            //     last_transition_time: Some(chrono::Utc::now()),
-                            // });
-                            // updates.status_updated = true;
-                            // set this to an empty vec instead of skipping parsing the rest of the asset because if all
-                            // events have a destination specified, this might not cause the asset to be unusable
-                            vec![]
-                        },
-                    };
-                    default_event_group_destinations.insert(event_group.name.clone(), (default_event_group_destinations_updated, eg_default_destinations));
-                }
-                // TODO: pass in either the event group default destination or the asset default destination based on whether the event group has a default or not
+                // TODO: To support default destinations on the event group in the future,
+                // we can create a hashmap of eventGroups to their default destinations here.
+                // However, any failures need to be reported only on an event that would actually
+                // use that bad configuration
                 destination_endpoint::Destination::new_event_stream_destinations(
                     &updated_asset.default_events_destinations,
                     &self.asset_ref.inbound_endpoint_name,
@@ -1399,41 +1370,17 @@ impl AssetClient {
             if let Some((data_operation, data_operation_update_tx)) =
                 data_operation_hashmap.get_mut(received_data_operation.name())
             {
-                // Here we have the specific data_operation, and we can check what default destination to use (and also modify default_data_operation_destination_updated)
-                // let mut this_default_data_operation_destination_updated = default_data_operation_destination_updated;
-                let mut this_default_data_operation_destinations = &default_data_operation_destinations;
-                // let this_data_operation_updated;
-                // let (this_default_data_operation_destination_updated, this_default_data_operation_destinations) = 
-                if let DataOperationDefinition::Event(ref received_event_group) = data_operation_definition {
-                    // this_data_operation_updated = event_group
-                    if let Some((default_destination_updated, default_destinations)) = default_event_group_destinations.get(&received_event_group.name) {
-                        // if either default destination has changed, we need to update
-                        // this_default_data_operation_destination_updated = default_data_operation_destination_updated || *default_destination_updated;
-                        // if the event group has a default destination, use that instead of the asset default
-                        if !default_destinations.is_empty() {
-                            this_default_data_operation_destinations = default_destinations;
-                        }
-                        // let this_default_data_operation_destinations = if !default_destinations.is_empty() {
-                        //     default_destinations
-                        // } else {&default_data_operation_destinations};
-                        // (this_default_data_operation_destination_updated, this_default_data_operation_destinations)
-                    } 
-                    // else {
-                    //     (default_data_operation_destination_updated, &default_data_operation_destinations)
-                    // }
-                } 
-                // else {
-                //     this_data_operation_updated = received_data_operation != data_operation;
-                // }
-                // else {
-                //     (default_data_operation_destination_updated, &default_data_operation_destinations)
-                // };
+                // TODO: To support default destinations on the event group in the future,
+                // we can check the previous event group default destinations hashmap here
+                // and overwrite the asset event default destination if it's present before
+                // sending the update.
+                // To support splitting updates for the eventGroup as a separate notification
+                // from updates on an event, that logic would need to be added here as well.
+
                 // if the default destination has changed, update all data operations. TODO: might be able to track whether a data operation uses a default to reduce updates needed here
                 // otherwise, only send an update if the data operation definition has changed
                 if default_data_operation_destination_updated
-                    || received_data_operation != data_operation // checks whether the event group default event destination changed or not, as well as other non-other-event EG fields
-                // if this_default_data_operation_destination_updated || this_data_operation_updated
-                    // || received_data_operation != data_operation
+                    || received_data_operation != data_operation
                 {
                     // we need to make sure we have the updated definition for comparing next time
                     *data_operation = received_data_operation.clone();
@@ -1443,7 +1390,7 @@ impl AssetClient {
                         data_operation_update_tx.clone(),
                         (
                             data_operation_definition,
-                            this_default_data_operation_destinations.clone(),
+                            default_data_operation_destinations.clone(),
                             self.release_data_operation_notifications_tx.subscribe(),
                         ),
                     ));
@@ -1451,6 +1398,9 @@ impl AssetClient {
             }
             // it needs to be created
             else {
+                // TODO: To support default destinations on the event group in the future,
+                // here we also need to determine whether to pass in the asset or eventGroup
+                // default event destination
                 let (data_operation_update_watcher_tx, data_operation_update_watcher_rx) =
                     watch::channel((
                         data_operation_definition.clone(),
@@ -3224,7 +3174,6 @@ pub struct AssetSpecification {
     pub documentation_uri: Option<String>,
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
-    pub event_groups: Vec<adr_models::EventGroup>, // if None, we can represent as empty vec
     /// Asset id provided by the customer.
     pub external_asset_id: Option<String>,
     /// Revision number of the hardware.
@@ -3269,7 +3218,6 @@ impl From<adr_models::Asset> for AssetSpecification {
             display_name: value.display_name,
             documentation_uri: value.documentation_uri,
             enabled: value.enabled,
-            event_groups: value.event_groups,
             external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             last_transition_time: value.last_transition_time,
