@@ -135,7 +135,6 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry
                 }
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.putCommandExecutor.DisposeAsync().ConfigureAwait(false);

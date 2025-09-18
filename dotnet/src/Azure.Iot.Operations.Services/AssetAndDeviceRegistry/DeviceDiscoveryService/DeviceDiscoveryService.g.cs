@@ -105,7 +105,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
                 }
             }
 
-
             public async ValueTask DisposeAsync()
             {
                 await this.createOrUpdateDiscoveredDeviceCommandExecutor.DisposeAsync().ConfigureAwait(false);
