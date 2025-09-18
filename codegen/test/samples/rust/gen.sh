@@ -11,6 +11,12 @@ $gen --modelFile ../dtdl/CommandComplexSchemas.json --outDir ./CommandComplexSch
 [[ -d ./CommandRawSample ]] && rm -r ./CommandRawSample
 $gen --modelFile ../dtdl/CommandRaw.json --outDir ./CommandRawSample/command_raw_gen --lang rust --sdkPath ../../../../rust
 
+[[ -d ./PropertySeparateSample ]] && rm -r ./PropertySeparateSample
+$gen --modelFile ../dtdl/PropertySeparate.json --outDir ./PropertySeparateSample/property_separate_gen --lang rust --sdkPath ../../../../rust
+
+[[ -d ./PropertyTogetherSample ]] && rm -r ./PropertyTogetherSample
+$gen --modelFile ../dtdl/PropertyTogether.json --outDir ./PropertyTogetherSample/property_together_gen --lang rust --sdkPath ../../../../rust
+
 [[ -d ./TelemetryAndCommandSample ]] && rm -r ./TelemetryAndCommandSample
 $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommandSample/telemetry_and_command_gen --lang rust --sdkPath ../../../../rust
 
