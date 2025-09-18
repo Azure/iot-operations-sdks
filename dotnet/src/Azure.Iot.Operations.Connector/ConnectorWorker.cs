@@ -103,9 +103,9 @@ namespace Azure.Iot.Operations.Connector
                     mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
                     readMqttConnectionSettings = true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    //_logger.LogWarning("Failed to read the file mount for MQTT connection settings. Will try again: {}", ex.Message);
+                    _logger.LogWarning("Failed to read the file mount for MQTT connection settings. Will try again: {}", ex.Message);
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
 
                     if (++currentRetryCount >= maxRetryCount)
@@ -115,11 +115,11 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            //_logger.LogInformation("Connecting to MQTT broker");
+            _logger.LogInformation("Connecting to MQTT broker");
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings!, cancellationToken);
 
-            //_logger.LogInformation($"Successfully connected to MQTT broker");
+            _logger.LogInformation($"Successfully connected to MQTT broker");
 
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -136,7 +136,7 @@ namespace Azure.Iot.Operations.Connector
                     {
                         string leadershipPositionId = _leaderElectionConfiguration.LeadershipPositionId;
 
-                        //_logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
+                        _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
                         _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings!.ClientId)
                         {
@@ -153,23 +153,23 @@ namespace Azure.Iot.Operations.Connector
                             isLeader = args.NewLeader != null && args.NewLeader.GetString().Equals(mqttConnectionSettings.ClientId);
                             if (isLeader)
                             {
-                                //_logger.LogInformation("Received notification that this pod is the leader");
+                                _logger.LogInformation("Received notification that this pod is the leader");
                             }
                             else
                             {
-                                //_logger.LogInformation("Received notification that this pod is not the leader");
+                                _logger.LogInformation("Received notification that this pod is not the leader");
                                 leadershipPositionRevokedOrUserCancelledCancellationToken.Cancel();
                             }
 
                             return Task.CompletedTask;
                         };
 
-                        //_logger.LogInformation("This pod is waiting to be elected leader.");
+                        _logger.LogInformation("This pod is waiting to be elected leader.");
                         // Waits until elected leader
                         await _leaderElectionClient.CampaignAsync(_leaderElectionConfiguration.LeadershipPositionTermLength, null, null, cancellationToken);
 
                         isLeader = true;
-                        //_logger.LogInformation("This pod was elected leader.");
+                        _logger.LogInformation("This pod was elected leader.");
                     }
                 }
 
@@ -190,14 +190,14 @@ namespace Azure.Iot.Operations.Connector
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        //_logger.LogInformation("Connector app was cancelled. Shutting down now.");
+                        _logger.LogInformation("Connector app was cancelled. Shutting down now.");
 
                         // Don't propagate the user-provided cancellation token since it has already been cancelled.
                         await _adrClient.UnobserveAllAsync(CancellationToken.None);
                     }
                     else if (linkedToken.IsCancellationRequested)
                     {
-                        //_logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
+                        _logger.LogInformation("Connector is no longer leader. Restarting to campaign for the leadership position.");
                         await _adrClient.UnobserveAllAsync(cancellationToken);
                     }
                 }
@@ -207,7 +207,7 @@ namespace Azure.Iot.Operations.Connector
 
                 List<Task> tasksToAwait = new();
 
-                //_logger.LogInformation("Stopping all tasks that run while an asset is available");
+                _logger.LogInformation("Stopping all tasks that run while an asset is available");
                 foreach (UserTaskContext userTaskContext in _assetTasks.Values.ToList())
                 {
                     // Cancel all tasks that run while an asset is available
@@ -217,7 +217,7 @@ namespace Azure.Iot.Operations.Connector
                     tasksToAwait.Add(userTaskContext.UserTask);
                 }
 
-                //_logger.LogInformation("Stopping all tasks that run while a device is available");
+                _logger.LogInformation("Stopping all tasks that run while a device is available");
                 foreach (UserTaskContext userTaskContext in _deviceTasks.Values.ToList())
                 {
                     // Cancel all tasks that run while a device is available
@@ -227,18 +227,18 @@ namespace Azure.Iot.Operations.Connector
                     tasksToAwait.Add(userTaskContext.UserTask);
                 }
 
-                //_logger.LogInformation("Waiting for all user-defined tasks to complete");
+                _logger.LogInformation("Waiting for all user-defined tasks to complete");
                 try
                 {
                     await Task.WhenAll(tasksToAwait);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    //_logger.LogError(e, "Encountered an error while waiting for all the user-defined tasks to complete");
+                    _logger.LogError(e, "Encountered an error while waiting for all the user-defined tasks to complete");
                 }
             }
 
-            //_logger.LogInformation("Shutting down connector...");
+            _logger.LogInformation("Shutting down connector...");
 
             _leaderElectionClient?.DisposeAsync();
             await _mqttClient.DisconnectAsync(null, CancellationToken.None);
@@ -268,15 +268,15 @@ namespace Azure.Iot.Operations.Connector
                 }
                 else
                 {
-                    //_logger.LogError("Cannot construct cloud event headers for dataset because its inbound endpoint name is not a valid Uri or Uri reference");
+                    _logger.LogError("Cannot construct cloud event headers for dataset because its inbound endpoint name is not a valid Uri or Uri reference");
                 }
             }
 
-            //_logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             if (dataset.Destinations == null)
             {
-                //_logger.LogError("Cannot forward sampled dataset because it has no configured destinations");
+                _logger.LogError("Cannot forward sampled dataset because it has no configured destinations");
                 return;
             }
 
@@ -322,11 +322,11 @@ namespace Azure.Iot.Operations.Connector
                     {
                         // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
                         // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                        //_logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
+                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
                     }
                     else
                     {
-                        //_logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+                        _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
                     }
                 }
                 else if (destination.Target == DatasetTarget.BrokerStateStore)
@@ -339,11 +339,11 @@ namespace Azure.Iot.Operations.Connector
 
                     if (response.Success)
                     {
-                        //_logger.LogInformation($"Message was accepted by the state store in key {stateStoreKey}");
+                        _logger.LogInformation($"Message was accepted by the state store in key {stateStoreKey}");
                     }
                     else
                     {
-                        //_logger.LogError($"Message was not accepted by the state store");
+                        _logger.LogError($"Message was not accepted by the state store");
                     }
                 }
                 else if (destination.Target == DatasetTarget.Storage)
@@ -368,11 +368,11 @@ namespace Azure.Iot.Operations.Connector
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            //_logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker.");
+            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker.");
 
             if (assetEvent.Destinations == null)
             {
-                //_logger.LogError("Cannot forward received event because it has no configured destinations");
+                _logger.LogError("Cannot forward received event because it has no configured destinations");
                 return;
             }
 
@@ -385,7 +385,7 @@ namespace Azure.Iot.Operations.Connector
                 }
                 else
                 {
-                    //_logger.LogError("Cannot construct cloud event headers for event because its inbound endpoint name is not a valid Uri or Uri reference.");
+                    _logger.LogError("Cannot construct cloud event headers for event because its inbound endpoint name is not a valid Uri or Uri reference.");
                 }
             }
 
@@ -425,11 +425,11 @@ namespace Azure.Iot.Operations.Connector
                     {
                         // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
                         // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                        //_logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
+                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
                     }
                     else
                     {
-                        //_logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
+                        _logger.LogInformation($"Received unsuccessful PUBACK from MQTT broker: {puback.ReasonCode} with reason {puback.ReasonString}");
                     }
                 }
                 else if (destination.Target == EventStreamTarget.Storage)
@@ -514,9 +514,9 @@ namespace Azure.Iot.Operations.Connector
                     {
                         await userTaskContext.UserTask;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        //_logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}", args.DeviceName, args.InboundEndpointName);
+                        _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}", args.DeviceName, args.InboundEndpointName);
                     }
                 }
             }
@@ -584,7 +584,7 @@ namespace Azure.Iot.Operations.Connector
 
             if (asset.Datasets == null)
             {
-                //_logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
+                _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
             }
             else
             {
@@ -596,7 +596,7 @@ namespace Azure.Iot.Operations.Connector
                     {
                         try
                         {
-                            //_logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                            _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                             var registeredDatasetMessageSchema = await schemaRegistryClient.PutAsync(
                                 datasetMessageSchema.SchemaContent,
@@ -605,25 +605,25 @@ namespace Azure.Iot.Operations.Connector
                                 datasetMessageSchema.Version ?? "1",
                                 datasetMessageSchema.Tags);
 
-                            //_logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+                            _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
                             _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", registeredDatasetMessageSchema);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            //_logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
+                            _logger.LogError($"Failed to register message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
                         }
                     }
                     else
                     {
-                        //_logger.LogInformation($"No message schema will be registered for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                        _logger.LogInformation($"No message schema will be registered for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                     }
                 }
             }
 
             if (asset.Events == null)
             {
-                //_logger.LogInformation($"Asset with name {assetName} has no events to listen for");
+                _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
             }
             else
             {
@@ -635,7 +635,7 @@ namespace Azure.Iot.Operations.Connector
                     {
                         try
                         {
-                            //_logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                            _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                             await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
                             var registeredEventSchema = await schemaRegistryClient.PutAsync(
                                 eventMessageSchema.SchemaContent,
@@ -644,18 +644,18 @@ namespace Azure.Iot.Operations.Connector
                                 eventMessageSchema.Version ?? "1",
                                 eventMessageSchema.Tags);
 
-                            //_logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
+                            _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
                             _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{assetEvent.Name}", registeredEventSchema);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            //_logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
+                            _logger.LogError($"Failed to register message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}. Error: {ex.Message}");
                         }
                     }
                     else
                     {
-                        //_logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
+                        _logger.LogInformation($"No message schema will be registered for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
                     }
                 }
             }
@@ -697,9 +697,9 @@ namespace Azure.Iot.Operations.Connector
                     {
                         await userTaskContext.UserTask;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        //_logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
+                        _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
                     }
                 }
             }
