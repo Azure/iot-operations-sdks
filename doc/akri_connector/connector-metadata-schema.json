@@ -608,7 +608,8 @@
                   "type": "object",
                   "description": "Describes if this connector expects these fields to be provided in the management group definition when deploying the connector. Also describes the expected shape of these values if they are supported.",
                   "properties": {
-                    "typeRef": { "$ref": "#/definitions/fieldNecessity" }
+                    "typeRef": { "$ref": "#/definitions/fieldNecessity" },
+                    "dataSource": { "$ref": "#/definitions/fieldNecessity" }
                   },
                   "required": ["typeRef"],
                   "additionalProperties": false
