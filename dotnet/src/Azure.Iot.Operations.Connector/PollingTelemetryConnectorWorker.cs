@@ -44,7 +44,7 @@ namespace Azure.Iot.Operations.Connector
 
                 TimeSpan samplingInterval = await datasetSampler.GetSamplingIntervalAsync(dataset);
 
-                _logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
+                //_logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
 
                 var datasetSamplingTimer = new Timer(async (state) =>
                 {
@@ -53,15 +53,15 @@ namespace Azure.Iot.Operations.Connector
                         byte[] sampledData = await datasetSampler.SampleDatasetAsync(dataset);
                         await ForwardSampledDatasetAsync(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName, dataset, sampledData);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        _logger.LogError(e, "Failed to sample the dataset");
+                        //_logger.LogError(e, "Failed to sample the dataset");
                     }
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
 
                 if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimer))
                 {
-                    _logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
+                    //_logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
                 }
             }
 
@@ -71,7 +71,7 @@ namespace Azure.Iot.Operations.Connector
             // Stop sampling all datasets in this asset now that the asset is unavailable
             foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
-                _logger.LogInformation("Dataset with name {0} in asset with name {1} will no longer be periodically sampled", dataset.Name, args.AssetName);
+                //_logger.LogInformation("Dataset with name {0} in asset with name {1} will no longer be periodically sampled", dataset.Name, args.AssetName);
                 _assetsSamplingTimers[args.AssetName][dataset.Name].Dispose();
             }
         }

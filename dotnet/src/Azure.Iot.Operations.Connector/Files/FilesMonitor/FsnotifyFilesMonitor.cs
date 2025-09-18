@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Diagnostics;
+
 namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
 {
     /// <summary>
@@ -63,6 +65,8 @@ namespace Azure.Iot.Operations.Connector.Files.FilesMonitor
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
             OnFileChanged?.Invoke(sender, new(e.FullPath, e.ChangeType));
+            Trace.TraceInformation("File changed: {0}, {1}", e.Name, e.ChangeType);
+            Console.WriteLine($"File changed: {e.Name}, {e.ChangeType}");
         }
     }
 }
