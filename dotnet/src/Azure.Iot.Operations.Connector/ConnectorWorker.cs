@@ -103,7 +103,7 @@ namespace Azure.Iot.Operations.Connector
                     mqttConnectionSettings = ConnectorFileMountSettings.FromFileMount();
                     readMqttConnectionSettings = true;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //_logger.LogWarning("Failed to read the file mount for MQTT connection settings. Will try again: {}", ex.Message);
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -232,7 +232,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     await Task.WhenAll(tasksToAwait);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //_logger.LogError(e, "Encountered an error while waiting for all the user-defined tasks to complete");
                 }
