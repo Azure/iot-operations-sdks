@@ -104,22 +104,12 @@
           "minimum": 1
         },
         "fields": {
-          "eventNotifier": {
+          "dataSource": {
             "input": "required",
             "exampleValue": "some/path"
           },
           "typeRef": {
             "input": "unsupported"
-          }
-        },
-        "destinations": {
-          "supportedDestinations" : ["Mqtt"],
-          "defaultDestination" : {
-            "destination": "Mqtt",
-            "topic": "{namespace}/{deviceName}/myDefaultPath",
-            "qos": 1,
-            "ttl": 10,
-            "retain": "never"
           }
         },
         "eventGroupConfigurationSchema" : {
@@ -136,6 +126,16 @@
           }
         },
         "events": {
+          "destinations": {
+            "supportedDestinations" : ["Mqtt"],
+            "defaultDestination" : {
+              "destination": "Mqtt",
+              "topic": "{namespace}/{deviceName}/myDefaultPath",
+              "qos": 1,
+              "ttl": 10,
+              "retain": "never"
+            }
+          },
           "limits": { 
             "minimum": 0
           },
