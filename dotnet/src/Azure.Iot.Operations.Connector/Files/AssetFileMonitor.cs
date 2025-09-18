@@ -51,7 +51,7 @@ namespace Azure.Iot.Operations.Connector.Files
         /// </param>
         public AssetFileMonitor(IFilesMonitorFactory? filesMonitorFactory = null)
         {
-            _filesMonitorFactory = filesMonitorFactory ?? new FsnotifyFilesMonitorFactory();
+            _filesMonitorFactory = filesMonitorFactory ?? new PollingFilesMonitorFactory();
             _adrResourcesNameMountPath = Environment.GetEnvironmentVariable(AdrResourcesNameMountPathEnvVar) ?? throw new InvalidOperationException($"Missing {AdrResourcesNameMountPathEnvVar} environment variable");
             _deviceEndpointTlsTrustBundleCertMountPath = Environment.GetEnvironmentVariable(DeviceEndpointTlsTrustBundleCertMountPathEnvVar);
             _deviceEndpointCredentialsMountPath = Environment.GetEnvironmentVariable(DeviceEndpointCredentialsMountPathEnvVar);
