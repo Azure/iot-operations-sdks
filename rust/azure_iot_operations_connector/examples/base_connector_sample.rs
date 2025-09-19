@@ -262,10 +262,7 @@ async fn run_asset(asset_log_identifier: String, mut asset_client: AssetClient) 
                 log::info!(
                     "{data_operation_log_identifier} Data Operation Created: {data_operation_client:?}"
                 );
-                if let DataOperationKind::Dataset = data_operation_client
-                    .data_operation_ref()
-                    .data_operation_kind
-                {
+                if let DataOperationKind::Dataset = data_operation_client.kind() {
                     tokio::task::spawn(run_dataset(
                         data_operation_log_identifier,
                         data_operation_client,
@@ -416,9 +413,7 @@ async fn handle_unsupported_data_operation(
     log_identifier: String,
     mut data_operation_client: DataOperationClient,
 ) {
-    let data_operation_kind = data_operation_client
-        .data_operation_ref()
-        .data_operation_kind;
+    let data_operation_kind = data_operation_client.kind();
     log::warn!(
         "{log_identifier} Data Operation kind {data_operation_kind:?} not supported for this connector"
     );

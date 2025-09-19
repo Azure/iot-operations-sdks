@@ -99,8 +99,6 @@ impl Display for DataOperationName {
 pub struct DataOperationRef {
     /// The name of the `DataOperation`
     pub data_operation_name: DataOperationName,
-    /// The kind of the `DataOperation`
-    pub data_operation_kind: DataOperationKind,
     /// The name of the asset
     pub asset_name: String,
     /// The name of the device

@@ -1086,7 +1086,7 @@ pub struct AssetClient {
     /// hashmap of current event/event group names to their current definitions and a sender to send event updates
     #[getter(skip)]
     event_hashmap: HashMap<
-        (String, String),
+        (String, String), // (EventGroup name, Event name)
         (
             EventSpecification,
             watch::Sender<DataOperationUpdateNotification>,
@@ -1163,7 +1163,6 @@ impl AssetClient {
             // asset_client.dataset_hashmap will be empty, so all datasets will be treated as new (as it should be).
             // Note that I could use vec::new() for temp_dataset_hashmap, but for extra safety, I'll clone the asset's dataset hashmap instead
             asset_client.handle_data_operation_kind_updates(
-                DataOperationKind::Dataset,
                 &mut temp_dataset_hashmap,
                 &asset,
                 &asset.datasets,
@@ -1182,7 +1181,6 @@ impl AssetClient {
 
             let mut temp_stream_hashmap = asset_client.stream_hashmap.clone();
             asset_client.handle_data_operation_kind_updates(
-                DataOperationKind::Stream,
                 &mut temp_stream_hashmap,
                 &asset,
                 &asset.streams,
@@ -1247,7 +1245,6 @@ impl AssetClient {
         }
 
         self.handle_data_operation_kind_updates(
-            DataOperationKind::Event,
             event_hashmap,
             updated_asset,
             &updated_asset_events,
@@ -1268,9 +1265,8 @@ impl AssetClient {
     /// Removes any deleted Data Operations from the `data_operation_hashmap` that can be applied after the update task can't be cancelled
     fn handle_data_operation_kind_updates<T: Clone + DataOperation + PartialEq>(
         &self,
-        data_operation_kind: DataOperationKind,
         data_operation_hashmap: &mut HashMap<
-            T::Name,
+            T::HashName,
             (T, watch::Sender<DataOperationUpdateNotification>),
         >,
         updated_asset: &Asset,
@@ -1282,10 +1278,10 @@ impl AssetClient {
         data_operation_hashmap.retain(|data_operation_name, _| {
             updated_asset_data_operations
                 .iter()
-                .any(|data_operation| data_operation.name() == data_operation_name)
+                .any(|data_operation| data_operation.hash_name() == data_operation_name)
         });
         // Get the new default data operation destinations and track whether they're different or not from the current one
-        let default_data_operation_destination_updated = match data_operation_kind {
+        let default_data_operation_destination_updated = match T::kind() {
             DataOperationKind::Dataset => {
                 updated_asset.default_datasets_destinations
                     != self
@@ -1312,7 +1308,7 @@ impl AssetClient {
             }
         };
 
-        let default_destinations_result = match data_operation_kind {
+        let default_destinations_result = match T::kind() {
             DataOperationKind::Dataset => {
                 destination_endpoint::Destination::new_dataset_destinations(
                     &updated_asset.default_datasets_destinations,
@@ -1363,7 +1359,7 @@ impl AssetClient {
         for received_data_operation in updated_asset_data_operations {
             // it already exists
             if let Some((data_operation, data_operation_update_tx)) =
-                data_operation_hashmap.get_mut(received_data_operation.name())
+                data_operation_hashmap.get_mut(received_data_operation.hash_name())
             {
                 // TODO: To support default destinations on the event group in the future,
                 // we can check the previous event group default destinations hashmap here
@@ -1418,7 +1414,7 @@ impl AssetClient {
                     Ok(new_data_operation_client) => {
                         // insert the data operation client into the hashmap so we can handle updates
                         data_operation_hashmap.insert(
-                            received_data_operation.name().clone(),
+                            received_data_operation.hash_name().clone(),
                             (
                                 received_data_operation.clone(),
                                 data_operation_update_watcher_tx,
@@ -1514,7 +1510,6 @@ impl AssetClient {
         // make changes to copies of the data operation hashmaps so that this function is cancel safe
         let mut temp_dataset_hashmap = self.dataset_hashmap.clone();
         self.handle_data_operation_kind_updates(
-            DataOperationKind::Dataset,
             &mut temp_dataset_hashmap,
             &updated_asset,
             &updated_asset.datasets,
@@ -1529,7 +1524,6 @@ impl AssetClient {
         );
         let mut temp_stream_hashmap = self.stream_hashmap.clone();
         self.handle_data_operation_kind_updates(
-            DataOperationKind::Stream,
             &mut temp_stream_hashmap,
             &updated_asset,
             &updated_asset.streams,
@@ -2104,10 +2098,8 @@ impl DataOperationClient {
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new data_operation
-        let kind;
         let forwarder = match definition {
             DataOperationDefinition::Dataset(ref dataset) => {
-                kind = DataOperationKind::Dataset;
                 destination_endpoint::Forwarder::new_dataset_forwarder(
                     &dataset.destinations,
                     &asset_ref.inbound_endpoint_name,
@@ -2116,7 +2108,6 @@ impl DataOperationClient {
                 )
             }
             DataOperationDefinition::Event(ref event) => {
-                kind = DataOperationKind::Event;
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &event.destinations,
                     &asset_ref.inbound_endpoint_name,
@@ -2125,7 +2116,6 @@ impl DataOperationClient {
                 )
             }
             DataOperationDefinition::Stream(ref stream) => {
-                kind = DataOperationKind::Stream;
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
                     &stream.destinations,
                     &asset_ref.inbound_endpoint_name,
@@ -2137,7 +2127,6 @@ impl DataOperationClient {
         Ok(Self {
             data_operation_ref: DataOperationRef {
                 data_operation_name: definition.name(),
-                data_operation_kind: kind,
                 asset_name: asset_ref.name.clone(),
                 device_name: asset_ref.device_name.clone(),
                 inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
@@ -2152,6 +2141,12 @@ impl DataOperationClient {
             data_operation_update_watcher_rx,
             connector_context,
         })
+    }
+
+    /// Returns the kind of data operation this client represents
+    #[must_use]
+    pub fn kind(&self) -> DataOperationKind {
+        self.definition.kind()
     }
 
     /// Used to conditionally report the message schema of a data operation as an existing schema reference
@@ -3250,7 +3245,7 @@ pub struct EventSpecification {
 }
 
 impl EventSpecification {
-    pub(crate) fn names(&self) -> &(String, String) {
+    pub(crate) fn hash_name(&self) -> &(String, String) {
         &self.name_tuple
     }
 }
@@ -3318,6 +3313,16 @@ impl DataOperationDefinition {
             },
         }
     }
+
+    /// Returns the [`DataOperationKind`] of the data operation definition
+    #[must_use]
+    pub fn kind(&self) -> DataOperationKind {
+        match self {
+            DataOperationDefinition::Dataset(_) => DataOperationKind::Dataset,
+            DataOperationDefinition::Event(_) => DataOperationKind::Event,
+            DataOperationDefinition::Stream(_) => DataOperationKind::Stream,
+        }
+    }
 }
 
 /// A trait for handling different types of data operations generically.
@@ -3332,8 +3337,9 @@ impl DataOperationDefinition {
 /// to define their own behavior while still conforming to a common interface.
 trait DataOperation: Into<DataOperationDefinition> {
     // trait DataOperation: Into<DataOperationDefinition> {
-    type Name: PartialEq + Eq + Hash + Clone + std::fmt::Debug;
-    fn name(&self) -> &Self::Name; // hash_name?
+    type HashName: PartialEq + Eq + Hash + Clone + std::fmt::Debug;
+    fn kind() -> DataOperationKind;
+    fn hash_name(&self) -> &Self::HashName;
     fn data_operation_name(&self) -> DataOperationName;
 }
 
@@ -3343,8 +3349,11 @@ impl From<adr_models::Dataset> for DataOperationDefinition {
     }
 }
 impl DataOperation for adr_models::Dataset {
-    type Name = String;
-    fn name(&self) -> &Self::Name {
+    type HashName = String;
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Dataset
+    }
+    fn hash_name(&self) -> &Self::HashName {
         &self.name
     }
     fn data_operation_name(&self) -> DataOperationName {
@@ -3361,9 +3370,12 @@ impl From<EventSpecification> for DataOperationDefinition {
 }
 
 impl DataOperation for EventSpecification {
-    type Name = (String, String);
-    fn name(&self) -> &Self::Name {
-        self.names()
+    type HashName = (String, String);
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Event
+    }
+    fn hash_name(&self) -> &Self::HashName {
+        self.hash_name()
     }
 
     fn data_operation_name(&self) -> DataOperationName {
@@ -3380,8 +3392,11 @@ impl From<adr_models::Stream> for DataOperationDefinition {
     }
 }
 impl DataOperation for adr_models::Stream {
-    type Name = String;
-    fn name(&self) -> &Self::Name {
+    type HashName = String;
+    fn kind() -> DataOperationKind {
+        DataOperationKind::Stream
+    }
+    fn hash_name(&self) -> &Self::HashName {
         &self.name
     }
     fn data_operation_name(&self) -> DataOperationName {
