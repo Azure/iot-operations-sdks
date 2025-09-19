@@ -5,6 +5,8 @@
 
 #![warn(missing_docs)]
 
+use std::fmt::Display;
+
 use azure_iot_operations_protocol::common::hybrid_logical_clock::HybridLogicalClock;
 use azure_iot_operations_services::{
     azure_device_registry,
@@ -79,14 +81,15 @@ pub enum DataOperationName {
     },
 }
 
-impl DataOperationName {
-    /// Get the name of the `DataOperation`
-    #[must_use]
-    pub fn name(&self) -> &str {
+impl Display for DataOperationName {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            DataOperationName::Stream { name }
-            | DataOperationName::Event { name, .. }
-            | DataOperationName::Dataset { name } => name,
+            DataOperationName::Dataset { name } => write!(f, "Dataset: {name}"),
+            DataOperationName::Event {
+                name,
+                event_group_name,
+            } => write!(f, "Event: {event_group_name}::{name}"),
+            DataOperationName::Stream { name } => write!(f, "Stream: {name}"),
         }
     }
 }

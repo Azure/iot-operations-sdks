@@ -1083,12 +1083,12 @@ pub struct AssetClient {
             watch::Sender<DataOperationUpdateNotification>,
         ),
     >,
-    /// hashmap of current event names and their event group, current definition and a sender to send event updates
+    /// hashmap of current event/event group names to their current definitions and a sender to send event updates
     #[getter(skip)]
     event_hashmap: HashMap<
         (String, String),
         (
-            EventGroupSpecification,
+            EventSpecification,
             watch::Sender<DataOperationUpdateNotification>,
         ),
     >,
@@ -1230,7 +1230,7 @@ impl AssetClient {
         event_hashmap: &mut HashMap<
             (String, String), // (eg name, event name)
             (
-                EventGroupSpecification,
+                EventSpecification,
                 watch::Sender<DataOperationUpdateNotification>,
             ),
         >,
@@ -1246,7 +1246,6 @@ impl AssetClient {
             }
         }
 
-        // for each event group?
         self.handle_data_operation_kind_updates(
             DataOperationKind::Event,
             event_hashmap,
@@ -1275,7 +1274,6 @@ impl AssetClient {
             (T, watch::Sender<DataOperationUpdateNotification>),
         >,
         updated_asset: &Asset,
-        // event group
         updated_asset_data_operations: &[T],
         updates: &mut AssetDataOperationUpdates,
     ) {
@@ -1363,9 +1361,6 @@ impl AssetClient {
 
         // For all received data operations, check if the existing data operation needs an update or if a new one needs to be created
         for received_data_operation in updated_asset_data_operations {
-            let data_operation_definition = received_data_operation
-                .clone()
-                .into_data_operation_definition();
             // it already exists
             if let Some((data_operation, data_operation_update_tx)) =
                 data_operation_hashmap.get_mut(received_data_operation.name())
@@ -1389,7 +1384,7 @@ impl AssetClient {
                     updates.data_operation_updates.push((
                         data_operation_update_tx.clone(),
                         (
-                            data_operation_definition,
+                            received_data_operation.clone().into(),
                             default_data_operation_destinations.clone(),
                             self.release_data_operation_notifications_tx.subscribe(),
                         ),
@@ -1401,6 +1396,8 @@ impl AssetClient {
                 // TODO: To support default destinations on the event group in the future,
                 // here we also need to determine whether to pass in the asset or eventGroup
                 // default event destination
+
+                let data_operation_definition = received_data_operation.clone().into();
                 let (data_operation_update_watcher_tx, data_operation_update_watcher_rx) =
                     watch::channel((
                         data_operation_definition.clone(),
@@ -1578,7 +1575,7 @@ impl AssetClient {
             let _ = data_operation_update_tx.send(data_operation_update_notification).inspect_err(|tokio::sync::watch::error::SendError((e_data_operation_definition, _,_))| {
                 // TODO: should this trigger the DataOperationClient create flow, or is this just indicative of an application bug?
                 log::warn!(
-                    "Update received for data operation {:?} on asset {:?}, but DataOperationClient has been dropped",
+                    "Update received for data operation {} on asset {:?}, but DataOperationClient has been dropped",
                     e_data_operation_definition.name(),
                     self.asset_ref
                 );
@@ -2118,10 +2115,10 @@ impl DataOperationClient {
                     connector_context.clone(),
                 )
             }
-            DataOperationDefinition::Event(ref event_group) => {
+            DataOperationDefinition::Event(ref event) => {
                 kind = DataOperationKind::Event;
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
-                    &event_group.event.destinations,
+                    &event.destinations,
                     &asset_ref.inbound_endpoint_name,
                     default_destinations,
                     connector_context.clone(),
@@ -2658,9 +2655,9 @@ impl DataOperationClient {
                     self.connector_context.clone(),
                 )
             }
-            DataOperationDefinition::Event(ref updated_event_group) => {
+            DataOperationDefinition::Event(ref updated_event) => {
                 destination_endpoint::Forwarder::new_event_stream_forwarder(
-                    &updated_event_group.event.destinations,
+                    &updated_event.destinations,
                     &self.asset_ref.inbound_endpoint_name,
                     &default_destinations,
                     self.connector_context.clone(),
@@ -3236,13 +3233,54 @@ impl From<adr_models::Asset> for AssetSpecification {
 
 /// Represents the specification of an Event and its Event Group in the Azure Device Registry service.
 #[derive(Debug, Clone, PartialEq)]
-pub struct EventGroupSpecification {
-    /// Array of data points that are part of the event. Each data point can have per-data-point configuration.
-    pub event: adr_models::Event,
-    // has to trigger event update, but I'll think about if we can not do that
+pub struct EventSpecification {
     /// Destinations for an event.
-    pub default_event_destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the specific event.
+    pub event_configuration: Option<String>,
+    /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
+    pub data_source: Option<String>,
+    /// The name of the event.
+    pub name: String,
+    /// URI or type definition ID.
+    pub type_ref: Option<String>,
+    /// The Event Group this event belongs to.
+    pub event_group: EventGroupSpecification,
+    name_tuple: (String, String),
+}
+
+impl EventSpecification {
+    pub(crate) fn names(&self) -> &(String, String) {
+        &self.name_tuple
+    }
+}
+
+impl From<(adr_models::EventGroup, adr_models::Event)> for EventSpecification {
+    fn from(val: (adr_models::EventGroup, adr_models::Event)) -> Self {
+        EventSpecification {
+            name_tuple: (val.0.name.clone(), val.1.name.clone()),
+            destinations: val.1.destinations,
+            event_configuration: val.1.event_configuration,
+            data_source: val.1.data_source,
+            name: val.1.name,
+            type_ref: val.1.type_ref,
+            event_group: EventGroupSpecification {
+                default_event_destinations: val.0.default_event_destinations,
+                event_group_configuration: val.0.event_group_configuration,
+                data_source: val.0.data_source,
+                name: val.0.name,
+                type_ref: val.0.type_ref,
+            },
+        }
+    }
+}
+
+/// Represents the specification of an Event and its Event Group in the Azure Device Registry service.
+#[derive(Debug, Clone, PartialEq)]
+pub struct EventGroupSpecification {
+    /// Default destinations for an event on this Event Group.
+    pub default_event_destinations: Vec<adr_models::EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    /// Stringified JSON that contains connector-specific configuration for the specific event group.
     pub event_group_configuration: Option<String>,
     /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.
     pub data_source: Option<String>,
@@ -3250,27 +3288,6 @@ pub struct EventGroupSpecification {
     pub name: String,
     /// URI or type definition ID.
     pub type_ref: Option<String>,
-    name_tuple: (String, String),
-}
-
-impl EventGroupSpecification {
-    pub(crate) fn names(&self) -> &(String, String) {
-        &self.name_tuple
-    }
-}
-
-impl From<(adr_models::EventGroup, adr_models::Event)> for EventGroupSpecification {
-    fn from(val: (adr_models::EventGroup, adr_models::Event)) -> Self {
-        EventGroupSpecification {
-            name_tuple: (val.0.name.clone(), val.1.name.clone()),
-            event: val.1,
-            default_event_destinations: val.0.default_event_destinations,
-            event_group_configuration: val.0.event_group_configuration,
-            data_source: val.0.data_source,
-            name: val.0.name,
-            type_ref: val.0.type_ref,
-        }
-    }
 }
 
 /// Holds the `DataOperation`'s definition, regardless of the type
@@ -3279,7 +3296,7 @@ pub enum DataOperationDefinition {
     /// Dataset definition
     Dataset(adr_models::Dataset),
     /// Event definition
-    Event(EventGroupSpecification),
+    Event(EventSpecification),
     /// Stream definition
     Stream(adr_models::Stream),
 }
@@ -3292,9 +3309,9 @@ impl DataOperationDefinition {
             DataOperationDefinition::Dataset(dataset) => DataOperationName::Dataset {
                 name: dataset.name.clone(),
             },
-            DataOperationDefinition::Event(event_group) => DataOperationName::Event {
-                name: event_group.event.name.clone(),
-                event_group_name: event_group.name.clone(),
+            DataOperationDefinition::Event(event) => DataOperationName::Event {
+                name: event.name.clone(),
+                event_group_name: event.event_group.name.clone(),
             },
             DataOperationDefinition::Stream(stream) => DataOperationName::Stream {
                 name: stream.name.clone(),
@@ -3313,14 +3330,18 @@ impl DataOperationDefinition {
 /// Unlike directly implementing methods on the `DataOperationDefinition` enum,
 /// this trait allows individual data operation types (e.g., `Dataset`, `Event`, `Stream`)
 /// to define their own behavior while still conforming to a common interface.
-trait DataOperation {
+trait DataOperation: Into<DataOperationDefinition> {
     // trait DataOperation: Into<DataOperationDefinition> {
     type Name: PartialEq + Eq + Hash + Clone + std::fmt::Debug;
     fn name(&self) -> &Self::Name; // hash_name?
     fn data_operation_name(&self) -> DataOperationName;
-    fn into_data_operation_definition(self) -> DataOperationDefinition;
 }
 
+impl From<adr_models::Dataset> for DataOperationDefinition {
+    fn from(val: adr_models::Dataset) -> Self {
+        DataOperationDefinition::Dataset(val)
+    }
+}
 impl DataOperation for adr_models::Dataset {
     type Name = String;
     fn name(&self) -> &Self::Name {
@@ -3331,12 +3352,15 @@ impl DataOperation for adr_models::Dataset {
             name: self.name.clone(),
         }
     }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Dataset(self)
+}
+
+impl From<EventSpecification> for DataOperationDefinition {
+    fn from(val: EventSpecification) -> Self {
+        DataOperationDefinition::Event(val)
     }
 }
 
-impl DataOperation for EventGroupSpecification {
+impl DataOperation for EventSpecification {
     type Name = (String, String);
     fn name(&self) -> &Self::Name {
         self.names()
@@ -3344,15 +3368,17 @@ impl DataOperation for EventGroupSpecification {
 
     fn data_operation_name(&self) -> DataOperationName {
         DataOperationName::Event {
-            name: self.event.name.clone(),
-            event_group_name: self.name.clone(),
+            name: self.name.clone(),
+            event_group_name: self.event_group.name.clone(),
         }
-    }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Event(self)
     }
 }
 
+impl From<adr_models::Stream> for DataOperationDefinition {
+    fn from(val: adr_models::Stream) -> Self {
+        DataOperationDefinition::Stream(val)
+    }
+}
 impl DataOperation for adr_models::Stream {
     type Name = String;
     fn name(&self) -> &Self::Name {
@@ -3362,9 +3388,6 @@ impl DataOperation for adr_models::Stream {
         DataOperationName::Stream {
             name: self.name.clone(),
         }
-    }
-    fn into_data_operation_definition(self) -> DataOperationDefinition {
-        DataOperationDefinition::Stream(self)
     }
 }
 
