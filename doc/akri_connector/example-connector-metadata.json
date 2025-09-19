@@ -26,6 +26,7 @@
   "inboundEndpoints": [
     {
       "endpointType": "Microsoft.Http",
+      "description": "An HTTP endpoint",
       "version": "2.0",
       "fields": {
         "address": {

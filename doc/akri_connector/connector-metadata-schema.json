@@ -358,6 +358,10 @@
         {
           "type": "object",
           "properties": {
+            "description": {
+              "description": "A human readable description of this inbound endpoint",
+              "type": "string"
+            },
             "endpointType": {
               "description": "Type of connection endpoint. Formatted as ABC.XYZ. For example, 'Microsoft.Media'",
               "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+",
