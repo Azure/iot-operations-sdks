@@ -360,8 +360,9 @@ Any received MQTT messages pertaining to a command that was already canceled sho
   - The broker should hold all published responses for as long as the invoker's session lives and send them upon reconnection
   - If the invoker's session is lost, then the RPC will timeout
 - Executor side isn't connected when invoker sends first request
-  - Invoker will receive a "no matching subscribers" puback
+  - Depending on broker behavior, invoker will receive a "no matching subscribers" puback
     - Seems like a scenario we would want to retry?
+  - If the broker returns a successful puback, then the invoker side will eventually time out
 - Executor side disconnects unexpectedly while receiving requests
   - Broker should hold all published requests for as long as the executor's session lives and send them upon reconnection
   - If the executor's session is lost, the RPC will timeout
