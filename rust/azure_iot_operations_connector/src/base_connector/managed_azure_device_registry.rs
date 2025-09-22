@@ -2853,8 +2853,17 @@ impl DeviceSpecification {
             adr_models::Authentication::Anonymous => Authentication::Anonymous,
             adr_models::Authentication::Certificate {
                 certificate_secret_name,
+                intermediate_certificates_secret_name,
+                key_secret_name,
             } => Authentication::Certificate {
                 certificate_path: device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is Certificate").as_path().join(certificate_secret_name),
+                intermediate_certificates_path: intermediate_certificates_secret_name.map(|intermediate_cert_secret_name| {
+                    device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is Certificate").as_path().join(intermediate_cert_secret_name)
+                }),
+                key_path: key_secret_name.map(|key_secret_name| {
+                    device_endpoint_credentials_mount_path.expect("device_endpoint_credentials_mount_path must be present if Authentication is Certificate").as_path().join(key_secret_name)
+                }),
+
             },
             adr_models::Authentication::UsernamePassword {
                 password_secret_name,
@@ -2930,8 +2939,12 @@ pub enum Authentication {
     Anonymous,
     /// Represents authentication using a certificate.
     Certificate {
-        /// The 'certificateSecretName' Field.
+        /// The path to a file containing containing the client certificate in PEM format.
         certificate_path: PathBuf, // different from adr
+        /// The path to a file containing the combined intermediate certificates in PEM format (if any).
+        intermediate_certificates_path: Option<PathBuf>, // different from adr
+        /// The path to a file containing the private key in PEM or DER format.
+        key_path: Option<PathBuf>, // different from adr
     },
     /// Represents authentication using a username and password.
     UsernamePassword {
