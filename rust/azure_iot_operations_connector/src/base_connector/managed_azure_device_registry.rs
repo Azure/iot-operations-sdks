@@ -2941,10 +2941,10 @@ pub enum Authentication {
     Certificate {
         /// The path to a file containing containing the client certificate in PEM format.
         certificate_path: PathBuf, // different from adr
-        /// The path to a file containing the private key in PEM or DER format.
-        key_path: Option<PathBuf>, // different from adr
         /// The path to a file containing the combined intermediate certificates in PEM format (if any).
         intermediate_certificates_path: Option<PathBuf>, // different from adr
+        /// The path to a file containing the private key in PEM or DER format.
+        key_path: Option<PathBuf>, // different from adr
     },
     /// Represents authentication using a username and password.
     UsernamePassword {
