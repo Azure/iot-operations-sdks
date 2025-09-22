@@ -826,6 +826,18 @@
                                       "name": "certificateSecretName",
                                       "description": "The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).",
                                       "schema": "string"
+                                    },
+                                    {
+                                      "@type": "Field",
+                                      "name": "intermediateCertificatesSecretName",
+                                      "description": "A reference to the secret containing the combined intermediate certificates in PEM format.",
+                                      "schema": "string"
+                                    },
+                                    {
+                                      "@type": "Field",
+                                      "name": "keySecretName",
+                                      "description": "A reference to the secret containing the certificate private key in PEM or DER format.",
+                                      "schema": "string"
                                     }
                                   ]
                                 }
@@ -1217,7 +1229,7 @@
         },
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetEventGroup;1",
+          "@id": "dtmi:com:microsoft:akri:AssetEventGroups;1",
           "name": "eventGroups",
           "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "schema": {
