@@ -151,7 +151,6 @@ fn process_arguments() -> CommandLineArguments {
         )
         .get_matches();
 
-
     let broker_port = matches.get_one::<String>("broker_port").unwrap().to_owned();
     let broker_addr = matches.get_one::<String>("broker_addr").unwrap().to_owned();
 
