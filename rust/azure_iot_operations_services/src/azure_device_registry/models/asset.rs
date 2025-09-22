@@ -946,27 +946,6 @@ impl From<EventStreamDestination> for base_client_gen::EventStreamDestination {
     }
 }
 
-// impl From<base_client_gen::AssetEventDataPointSchemaElementSchema> for EventDataPoint {
-//     fn from(value: base_client_gen::AssetEventDataPointSchemaElementSchema) -> Self {
-//         EventDataPoint {
-//             data_point_configuration: value.data_point_configuration,
-//             data_source: value.data_source,
-//             name: value.name,
-//         }
-//     }
-// }
-
-// impl From<DiscoveredEventDataPoint> for base_client_gen::DiscoveredAssetEventDataPoint {
-//     fn from(value: DiscoveredEventDataPoint) -> Self {
-//         base_client_gen::DiscoveredAssetEventDataPoint {
-//             data_point_configuration: value.data_point_configuration,
-//             data_source: value.data_source,
-//             last_updated_on: value.last_updated_on,
-//             name: value.name,
-//         }
-//     }
-// }
-
 impl From<base_client_gen::AssetManagementGroupSchemaElementSchema> for ManagementGroup {
     fn from(value: base_client_gen::AssetManagementGroupSchemaElementSchema) -> Self {
         ManagementGroup {
